@@ -73,7 +73,7 @@ const HomeOneBanner = () => {
                       <p className="fw-5">godina iskustva</p>
                     </div>
                     <div className="single">
-                      <h5 className="fw-7">100+</h5>
+                      <h5 className="fw-7">30+</h5>
                       <p className="fw-5">projekata</p>
                     </div>
                   </div>
