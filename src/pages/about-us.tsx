@@ -7,7 +7,7 @@ import CtaTwo from "@/components/containers/service-details/CtaTwo";
 const AboutUs = () => {
   return (
     <Layout header={2} footer={1} video={0}>
-      <CmnBanner title="O anma" navigation="O nama" />
+      <CmnBanner title="O nama" navigation="O nama" />
       
       <Agency />
 
