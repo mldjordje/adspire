@@ -12,26 +12,24 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(400).json({ message: 'Sva polja su obavezna' });
   }
 
-const transporter = nodemailer.createTransport({
-  host: "mail.adspire.rs",  // ili localhost ako host dopušta
-  port: 465,                 // SSL port
-  secure: true,              // true za 465
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS,
-  },
-  tls: {
-    rejectUnauthorized: false, // ako je self-signed cert
-  },
-});
-
-
+  const transporter = nodemailer.createTransport({
+    host: process.env.SMTP_HOST,
+    port: Number(process.env.SMTP_PORT),
+    secure: true, // za 465
+    auth: {
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASS,
+    },
+    tls: {
+      rejectUnauthorized: false, // ako je self-signed cert
+    },
+  });
 
   try {
     await transporter.sendMail({
-      from: `"${name}" <djordje@adspire.rs>"`,
+      from: `"${name}" <${process.env.SMTP_USER}>`,
       replyTo: email,
-      to: 'djordje@adspire.rs',
+      to: process.env.SMTP_USER,
       subject: subject || 'Kontakt poruka sa sajta',
       html: `
         <p><strong>Ime:</strong> ${name}</p>
@@ -44,8 +42,7 @@ const transporter = nodemailer.createTransport({
 
     return res.status(200).json({ message: 'Poruka uspešno poslata.' });
   } catch (error) {
-  console.error("SMTP Error full:", error); // ovo loguje ceo objekat
-  return res.status(500).json({ message: 'Greška pri slanju poruke.', error: error });
-}
-
+    console.error("SMTP Error:", error);
+    return res.status(500).json({ message: 'Greška pri slanju poruke.' });
+  }
 }
