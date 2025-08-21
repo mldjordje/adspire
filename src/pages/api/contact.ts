@@ -42,6 +42,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     return res.status(200).json({ message: 'Poruka uspešno poslata.' });
   } catch (error) {
-    return res.status(500).json({ message: 'Greška pri slanju poruke.', error });
-  }
+  console.error("SMTP Error full:", error); // ovo loguje ceo objekat
+  return res.status(500).json({ message: 'Greška pri slanju poruke.', error: error });
+}
+
 }
