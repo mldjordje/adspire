@@ -12,18 +12,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(400).json({ message: 'Sva polja su obavezna' });
   }
 
- const transporter = nodemailer.createTransport({
+const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
-  port: Number(process.env.SMTP_PORT),
-  secure: true, // za port 465
+  port: 587,      // promeni sa 465 na 587
+  secure: false,  // false za TLS na 587
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS,
   },
   tls: {
-    rejectUnauthorized: false, // ovo omogućava self-signed cert
+    rejectUnauthorized: false, // ako je self-signed
   },
 });
+
 
   try {
     await transporter.sendMail({
