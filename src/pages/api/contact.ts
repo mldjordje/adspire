@@ -13,17 +13,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
 const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,
-  port: 587,      // promeni sa 465 na 587
-  secure: false,  // false za TLS na 587
+  host: "mail.adspire.rs",  // ili localhost ako host dopušta
+  port: 465,                 // SSL port
+  secure: true,              // true za 465
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS,
   },
   tls: {
-    rejectUnauthorized: false, // ako je self-signed
+    rejectUnauthorized: false, // ako je self-signed cert
   },
 });
+
 
 
   try {
