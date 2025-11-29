@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import App, { AppProps, AppContext } from "next/app";
+import { AppProps } from "next/app";
 import { appWithTranslation } from "next-i18next";
 import nextI18NextConfig from "../../next-i18next.config.js";
 
@@ -22,23 +22,5 @@ function MyApp({ Component, pageProps }: AppProps) {
     </Suspense>
   );
 }
-
-MyApp.getInitialProps = async (appContext: AppContext) => {
-  const appProps = await App.getInitialProps(appContext);
-  const locale = appContext.ctx.locale || appContext.router?.locale || "sr";
-
-  const { serverSideTranslations } = await import(
-    "next-i18next/serverSideTranslations"
-  );
-  const translations = await serverSideTranslations(locale, ["common"], nextI18NextConfig);
-
-  return {
-    ...appProps,
-    pageProps: {
-      ...appProps.pageProps,
-      ...translations,
-    },
-  };
-};
 
 export default appWithTranslation(MyApp, nextI18NextConfig);
