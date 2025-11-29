@@ -67,6 +67,10 @@ const Layout = ({
   const ogImage = `${siteUrl}/images/banner/banner-one-thumb.png`;
   const ogLocale = router.locale === "en" ? "en_US" : "sr_RS";
 
+  const metaTitle = t("meta.title") as string;
+  const metaKeywords = t("meta.keywords") as string;
+  const metaDescription = t("meta.description") as string;
+
   const classMappings: Record<string, string> = {
     "/index-light": "home-light",
     "/index-two-light": "home-two-light",
@@ -186,20 +190,20 @@ const Layout = ({
           href="/images/favicon.png"
           type="image/x-icon"
         />
-        <title>{t("meta.title")}</title>
-        <meta name="keywords" content={t("meta.keywords")} />
-        <meta name="description" content={t("meta.description")} />
+        <title>{metaTitle}</title>
+        <meta name="keywords" content={metaKeywords} />
+        <meta name="description" content={metaDescription} />
         <link rel="canonical" href={canonicalUrl} />
         <meta property="og:locale" content={ogLocale} />
-        <meta property="og:title" content={t("meta.title")} />
-        <meta property="og:description" content={t("meta.description")} />
+        <meta property="og:title" content={metaTitle} />
+        <meta property="og:description" content={metaDescription} />
         <meta property="og:url" content={canonicalUrl} />
         <meta property="og:site_name" content="Adspire" />
         <meta property="og:image" content={ogImage} />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={t("meta.title")} />
-        <meta name="twitter:description" content={t("meta.description")} />
+        <meta name="twitter:title" content={metaTitle} />
+        <meta name="twitter:description" content={metaDescription} />
         <meta name="twitter:image" content={ogImage} />
       </Head>
 
