@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useTranslation } from "next-i18next";
 import logo from "public/images/logo.png";
+import LocaleSwitcher from "./LocaleSwitcher";
 
 interface HeaderProps {
   openNav: boolean;
@@ -9,23 +11,16 @@ interface HeaderProps {
 }
 
 const Offcanvas = ({ openNav, setOpenNav }: HeaderProps) => {
+  const { t } = useTranslation("common");
   const [openSubMenu, setOpenSubMenu] = useState<string | null>(null);
   const [openNestedMenu, setOpenNestedMenu] = useState<string | null>(null);
 
   const handleSubmenu = (submenu: string) => {
-    if (submenu === openSubMenu) {
-      setOpenSubMenu(null);
-    } else {
-      setOpenSubMenu(submenu);
-    }
+    setOpenSubMenu(submenu === openSubMenu ? null : submenu);
   };
 
   const handleNestedmenu = (nestmenu: string) => {
-    if (nestmenu === openNestedMenu) {
-      setOpenNestedMenu(null);
-    } else {
-      setOpenNestedMenu(nestmenu);
-    }
+    setOpenNestedMenu(nestmenu === openNestedMenu ? null : nestmenu);
   };
 
   const isNestedMenuOpen = (nestmenu: string) => {
@@ -44,7 +39,6 @@ const Offcanvas = ({ openNav, setOpenNav }: HeaderProps) => {
     return submenu === openSubMenu ? " navbar__item-active" : " ";
   };
 
-  // window resize
   useEffect(() => {
     const handleResizeHeader = (): void => {
       setOpenNav(false);
@@ -56,7 +50,7 @@ const Offcanvas = ({ openNav, setOpenNav }: HeaderProps) => {
     return () => {
       window.removeEventListener("resize", handleResizeHeader);
     };
-  }, []);
+  }, [setOpenNav]);
 
   const closeNav = () => {
     setOpenNav(false);
@@ -66,7 +60,9 @@ const Offcanvas = ({ openNav, setOpenNav }: HeaderProps) => {
   return (
     <div className="offcanvas-nav">
       <div
-        className={"offcanvas-menu" + (openNav ? " show-offcanvas-menu" : " ")}
+        className={`offcanvas-menu${
+          openNav ? " show-offcanvas-menu" : " "
+        }`}
       >
         <nav className="offcanvas-menu__wrapper" data-lenis-prevent>
           <div className="offcanvas-menu__header nav-fade">
@@ -75,6 +71,7 @@ const Offcanvas = ({ openNav, setOpenNav }: HeaderProps) => {
                 <Image src={logo} alt="Image" title="Image" priority />
               </Link>
             </div>
+            <LocaleSwitcher className="ms-auto me-3" />
             <button
               aria-label="close offcanvas menu"
               className="close-offcanvas-menu"
@@ -87,33 +84,32 @@ const Offcanvas = ({ openNav, setOpenNav }: HeaderProps) => {
             <div className="navbar__menu">
               <ul>
                 <li className="navbar__item nav-fade">
-                  <Link href="/">Početna</Link>
+                  <Link href="/">{t("nav.home")}</Link>
                 </li>
                 <li className="navbar__item nav-fade">
-                  <Link href="/about-us">O nama</Link>
+                  <Link href="/about-us">{t("nav.about")}</Link>
                 </li>
                 <li className="navbar__item nav-fade">
-                  <Link href="/our-services">Usluge</Link>
+                  <Link href="/our-services">{t("nav.services")}</Link>
                 </li>
                 <li className="navbar__item nav-fade">
-                  <Link href="our-projects">Projects</Link>
+                  <Link href="/our-projects">{t("nav.projects")}</Link>
                 </li>
 
                 <li className="navbar__item nav-fade">
-                  <Link href="/contact-us">Kontakt</Link>
+                  <Link href="/contact-us">{t("nav.contact")}</Link>
                 </li>
               </ul>
             </div>
           </div>
           <div className="offcanvas-menu__options nav-fade">
             <div className="offcanvas__mobile-options d-flex">
-              <Link href="contact-us" className="btn btn--secondary">
-                Kontaktiraj nas
+              <Link href="/contact-us" className="btn btn--secondary">
+                {t("nav.cta")}
               </Link>
             </div>
           </div>
           <div className="offcanvas-menu__social social nav-fade">
-            
             <Link
               href="https://www.instagram.com/adspire.rs"
               target="_blank"

@@ -1,9 +1,10 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import Head from "next/head";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import VanillaTilt from "vanilla-tilt";
 import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
 import Header from "./header/Header";
 import HeaderTwo from "./header/HeaderTwo";
 import HeaderThree from "./header/HeaderThree";
@@ -36,7 +37,6 @@ const Layout = ({
   handleMouseLeaveTitle,
   video,
 }: LayoutProps) => {
-
   // tilt effect
   useEffect(() => {
     const tiltElements = document.querySelectorAll(".topy-tilt");
@@ -58,6 +58,14 @@ const Layout = ({
   };
 
   const router = useRouter();
+  const { t } = useTranslation("common");
+
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://adspire.rs";
+  const cleanPath =
+    (router?.asPath?.split("#")[0]?.split("?")[0] as string) || "/";
+  const canonicalUrl = cleanPath === "/" ? siteUrl : `${siteUrl}${cleanPath}`;
+  const ogImage = `${siteUrl}/images/banner/banner-one-thumb.png`;
+  const ogLocale = router.locale === "en" ? "en_US" : "sr_RS";
 
   const classMappings: Record<string, string> = {
     "/index-light": "home-light",
@@ -69,9 +77,7 @@ const Layout = ({
 
   const classNameForCurrentPath = classMappings[router.pathname] || "";
 
-  let additionalClasses = " ";
-
-  const combinedClasses = `${additionalClasses} my-app`;
+  const combinedClasses = ` my-app`;
 
   const combinedClassName = `${combinedClasses}${
     openNav ? " body-active" : ""
@@ -180,17 +186,21 @@ const Layout = ({
           href="/images/favicon.png"
           type="image/x-icon"
         />
-        <title>
-          Adspire | Izrada sajtova, web aplikacija i digitalni marketing
-        </title>
-        <meta
-          name="keywords"
-          content="izrada sajtova, web aplikacije, digitalni marketing, SEO, vođenje profila, Adspire Niš"
-        />
-        <meta
-          name="description"
-          content="Adspire je digitalna agencija specijalizovana za izradu sajtova, web aplikacija i vođenje društvenih mreža. Pomažemo brendovima da rastu online."
-        />
+        <title>{t("meta.title")}</title>
+        <meta name="keywords" content={t("meta.keywords")} />
+        <meta name="description" content={t("meta.description")} />
+        <link rel="canonical" href={canonicalUrl} />
+        <meta property="og:locale" content={ogLocale} />
+        <meta property="og:title" content={t("meta.title")} />
+        <meta property="og:description" content={t("meta.description")} />
+        <meta property="og:url" content={canonicalUrl} />
+        <meta property="og:site_name" content="Adspire" />
+        <meta property="og:image" content={ogImage} />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={t("meta.title")} />
+        <meta name="twitter:description" content={t("meta.description")} />
+        <meta name="twitter:image" content={ogImage} />
       </Head>
 
       <div className={combinedClassName}>

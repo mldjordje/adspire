@@ -1,5 +1,8 @@
 import React, { Suspense } from "react";
-import type { AppProps } from "next/app";
+import App, { AppProps, AppContext } from "next/app";
+import { appWithTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import nextI18NextConfig from "../../next-i18next.config.js";
 
 // bootstrap
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -13,10 +16,31 @@ import "public/icons/glyphter/css/xpovio.css";
 // main scss
 import "@/styles/main.scss";
 
-export default function App({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <Component {...pageProps} />
     </Suspense>
   );
 }
+
+MyApp.getInitialProps = async (appContext: AppContext) => {
+  const appProps = await App.getInitialProps(appContext);
+  const locale = appContext.ctx.locale || appContext.router?.locale || "sr";
+
+  const translations = await serverSideTranslations(
+    locale,
+    ["common"],
+    nextI18NextConfig
+  );
+
+  return {
+    ...appProps,
+    pageProps: {
+      ...appProps.pageProps,
+      ...translations,
+    },
+  };
+};
+
+export default appWithTranslation(MyApp, nextI18NextConfig);

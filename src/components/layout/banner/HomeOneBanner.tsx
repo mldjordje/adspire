@@ -1,24 +1,26 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+import { useTranslation } from "next-i18next";
 import banneronethumb from "public/images/banner/banner-one-thumb.png";
 import star from "public/images/star.png";
-import videoframe from "public/images/video-frame.png";
 import YoutubeEmbed from "@/components/youtube/YoutubeEmbed";
 
 gsap.registerPlugin(ScrollTrigger);
+
 const HomeOneBanner = () => {
   const [videoActive, setVideoActive] = useState(false);
+  const { t } = useTranslation("common");
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const device_width = window.innerWidth;
+      const deviceWidth = window.innerWidth;
 
       if (
         document.querySelectorAll(".g-ban-one").length > 0 &&
-        device_width > 576
+        deviceWidth > 576
       ) {
         const tl = gsap.timeline({
           scrollTrigger: {
@@ -53,28 +55,23 @@ const HomeOneBanner = () => {
             <div className="col-12">
               <div className="banner__content">
                 <h1 className="text-uppercase text-start fw-9 mb-0 title-anim">
-                  Mi smo
-                  <span className="text-stroke"> Adspire</span>
+                  {t("hero.titlePrefix")}
+                  <span className="text-stroke"> {t("hero.titleHighlight")}</span>
                   <span className="interval">
-                    <i className="icon-arrow-top-right"></i> Digitalna Agencija
+                    <i className="icon-arrow-top-right"></i>{" "}
+                    {t("hero.titleSuffix")}
                   </span>
                 </h1>
                 <div className="banner__content-inner">
-                  <p>
-                    Bavimo se izradom modernih web sajtova i web aplikacija,
-                    vođenjem društvenih mreža i kreiranjem sadržaja koji
-                    privlači pažnju i gradi prepoznatljivost vašeg brenda. Naš
-                    cilj je da pomognemo klijentima da kroz digitalne kanale
-                    ostvare konkretne rezultate.
-                  </p>
+                  <p>{t("hero.body")}</p>
                   <div className="cta section__content-cta">
                     <div className="single">
-                      <h5 className="fw-7">2+</h5>
-                      <p className="fw-5">godina iskustva</p>
+                      <h5 className="fw-7">{t("hero.metrics.years")}</h5>
+                      <p className="fw-5">{t("hero.metrics.yearsLabel")}</p>
                     </div>
                     <div className="single">
-                      <h5 className="fw-7">30+</h5>
-                      <p className="fw-5">projekata</p>
+                      <h5 className="fw-7">{t("hero.metrics.projects")}</h5>
+                      <p className="fw-5">{t("hero.metrics.projectsLabel")}</p>
                     </div>
                   </div>
                 </div>
@@ -89,10 +86,8 @@ const HomeOneBanner = () => {
         />
         <Image src={star} alt="Image" className="star" />
         <div className="banner-left-text banner-social-text d-none d-md-flex">
-          <Link href="mailto:djordje@adspire.rs">
-            mail : djordje@adspire.rs
-          </Link>
-          <Link href="tel:0601491491">pozovi : 060 149 149 1</Link>
+          <Link href="mailto:djordje@adspire.rs">{t("hero.ctaMail")}</Link>
+          <Link href="tel:0601491491">{t("hero.ctaPhone")}</Link>
         </div>
 
         <div className="banner-right-text banner-social-text d-none d-md-flex">
@@ -116,7 +111,7 @@ const HomeOneBanner = () => {
         </div>
       </section>
       <div
-        className={(videoActive ? " video-zoom-in" : " ") + " video-backdrop"}
+        className={`${videoActive ? " video-zoom-in" : " "} video-backdrop`}
         onClick={() => setVideoActive(false)}
       >
         <div className="video-inner">

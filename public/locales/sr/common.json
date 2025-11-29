@@ -1,0 +1,29 @@
+{
+  "meta": {
+    "title": "Adspire | Izrada sajtova, web aplikacija i digitalni marketing",
+    "description": "Adspire je digitalna agencija specijalizovana za izradu sajtova, web aplikacija i vođenje društvenih mreža. Pomažemo brendovima da rastu online.",
+    "keywords": "izrada sajtova, web aplikacije, digitalni marketing, SEO, vođenje profila, Adspire Niš"
+  },
+  "nav": {
+    "home": "Početna",
+    "about": "O nama",
+    "services": "Usluge",
+    "projects": "Projekti",
+    "contact": "Kontakt",
+    "cta": "Kontaktiraj nas"
+  },
+  "hero": {
+    "titlePrefix": "Mi smo",
+    "titleHighlight": "Adspire",
+    "titleSuffix": "Digitalna agencija",
+    "body": "Bavimo se izradom modernih web sajtova i web aplikacija, vođenjem društvenih mreža i kreiranjem sadržaja koji privlači pažnju i gradi prepoznatljivost vašeg brenda. Naš cilj je da pomognemo klijentima da kroz digitalne kanale ostvare konkretne rezultate.",
+    "metrics": {
+      "years": "2+",
+      "yearsLabel": "godina iskustva",
+      "projects": "30+",
+      "projectsLabel": "projekata"
+    },
+    "ctaMail": "mail : djordje@adspire.rs",
+    "ctaPhone": "pozovi : 060 149 149 1"
+  }
+}

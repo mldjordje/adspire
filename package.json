@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "sitemap": "next-sitemap"
   },
   "dependencies": {
     "@types/node": "20.5.7",
@@ -17,10 +18,14 @@
     "eslint": "8.48.0",
     "eslint-config-next": "13.4.19",
     "gsap": "^3.12.2",
+    "i18next": "^22.5.1",
     "next": "13.4.19",
+    "next-i18next": "^13.2.2",
+    "next-sitemap": "^4.2.3",
     "nodemailer": "^7.0.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-i18next": "^12.3.1",
     "sass": "^1.66.1",
     "sharp": "^0.32.5",
     "split-type": "^0.3.3",
