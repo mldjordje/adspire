@@ -13,3 +13,5 @@ const OurPortfolio = () => {
 };
 
 export default OurPortfolio;
+
+export { getCommonStaticProps as getStaticProps } from "@/lib/getCommonStaticProps";

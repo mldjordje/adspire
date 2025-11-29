@@ -29,3 +29,5 @@ const HomeThree = () => {
 };
 
 export default HomeThree;
+
+export { getCommonStaticProps as getStaticProps } from "@/lib/getCommonStaticProps";

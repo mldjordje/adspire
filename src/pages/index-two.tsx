@@ -29,3 +29,5 @@ const HomeTwo = () => {
 };
 
 export default HomeTwo;
+
+export { getCommonStaticProps as getStaticProps } from "@/lib/getCommonStaticProps";

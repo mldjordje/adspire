@@ -17,3 +17,5 @@ const HomeFour = () => {
 };
 
 export default HomeFour;
+
+export { getCommonStaticProps as getStaticProps } from "@/lib/getCommonStaticProps";

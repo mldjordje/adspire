@@ -13,3 +13,5 @@ const HomeFiveLight = () => {
 };
 
 export default HomeFiveLight;
+
+export { getCommonStaticProps as getStaticProps } from "@/lib/getCommonStaticProps";

@@ -24,3 +24,5 @@ const OurServices = () => {
 };
 
 export default OurServices;
+
+export { getCommonStaticProps as getStaticProps } from "@/lib/getCommonStaticProps";

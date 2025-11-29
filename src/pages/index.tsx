@@ -21,3 +21,5 @@ const Home = () => {
 };
 
 export default Home;
+
+export { getCommonStaticProps as getStaticProps } from "@/lib/getCommonStaticProps";

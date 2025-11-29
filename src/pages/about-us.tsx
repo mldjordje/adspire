@@ -18,3 +18,5 @@ const AboutUs = () => {
 };
 
 export default AboutUs;
+
+export { getCommonStaticProps as getStaticProps } from "@/lib/getCommonStaticProps";

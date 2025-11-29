@@ -17,3 +17,5 @@ const ServiceDetails = () => {
 };
 
 export default ServiceDetails;
+
+export { getCommonStaticProps as getStaticProps } from "@/lib/getCommonStaticProps";

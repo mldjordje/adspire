@@ -13,3 +13,5 @@ const BlogPage = () => {
 };
 
 export default BlogPage;
+
+export { getCommonStaticProps as getStaticProps } from "@/lib/getCommonStaticProps";

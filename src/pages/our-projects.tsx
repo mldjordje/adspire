@@ -18,3 +18,5 @@ const OurProjects = () => {
 };
 
 export default OurProjects;
+
+export { getCommonStaticProps as getStaticProps } from "@/lib/getCommonStaticProps";

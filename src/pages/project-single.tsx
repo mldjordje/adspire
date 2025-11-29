@@ -20,3 +20,5 @@ const ProjectDetails = () => {
 };
 
 export default ProjectDetails;
+
+export { getCommonStaticProps as getStaticProps } from "@/lib/getCommonStaticProps";

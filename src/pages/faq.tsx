@@ -13,3 +13,5 @@ const FaqPage = () => {
 };
 
 export default FaqPage;
+
+export { getCommonStaticProps as getStaticProps } from "@/lib/getCommonStaticProps";

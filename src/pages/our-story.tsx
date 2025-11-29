@@ -19,3 +19,5 @@ const OurStory = () => {
 };
 
 export default OurStory;
+
+export { getCommonStaticProps as getStaticProps } from "@/lib/getCommonStaticProps";

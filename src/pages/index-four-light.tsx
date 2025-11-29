@@ -17,3 +17,5 @@ const HomeFourLight = () => {
 };
 
 export default HomeFourLight;
+
+export { getCommonStaticProps as getStaticProps } from "@/lib/getCommonStaticProps";

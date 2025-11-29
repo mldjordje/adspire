@@ -13,3 +13,5 @@ const OurTeams = () => {
 };
 
 export default OurTeams;
+
+export { getCommonStaticProps as getStaticProps } from "@/lib/getCommonStaticProps";

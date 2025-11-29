@@ -13,3 +13,5 @@ const HomeFive = () => {
 };
 
 export default HomeFive;
+
+export { getCommonStaticProps as getStaticProps } from "@/lib/getCommonStaticProps";

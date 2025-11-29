@@ -25,3 +25,5 @@ const HomeLight = () => {
 };
 
 export default HomeLight;
+
+export { getCommonStaticProps as getStaticProps } from "@/lib/getCommonStaticProps";

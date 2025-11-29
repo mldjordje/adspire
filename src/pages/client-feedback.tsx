@@ -13,3 +13,5 @@ const ClientFeedback = () => {
 };
 
 export default ClientFeedback;
+
+export { getCommonStaticProps as getStaticProps } from "@/lib/getCommonStaticProps";

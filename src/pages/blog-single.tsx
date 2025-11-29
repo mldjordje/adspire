@@ -13,3 +13,5 @@ const BlogSingle = () => {
 };
 
 export default BlogSingle;
+
+export { getCommonStaticProps as getStaticProps } from "@/lib/getCommonStaticProps";

@@ -20,3 +20,5 @@ const ContactUs = () => {
 };
 
 export default ContactUs;
+
+export { getCommonStaticProps as getStaticProps } from "@/lib/getCommonStaticProps";
