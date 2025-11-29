@@ -123,7 +123,7 @@ const ContactMain = () => {
                           <input
                             type="text"
                             name="contact-name"
-                            placeholder={t("contact.name")}
+                            placeholder={t("contact.name") as string}
                             required
                           />
                         </div>
@@ -131,32 +131,34 @@ const ContactMain = () => {
                           <input
                             type="email"
                             name="contact-email"
-                            placeholder={t("contact.email")}
+                            placeholder={t("contact.email") as string}
                             required
                           />
                         </div>
                       </div>
                       <div className="group-input drt">
                         <select name="subject" className="subject" required>
-                          <option value="">{t("contact.subjectOptions.placeholder")}</option>
+                          <option value="">
+                            {t("contact.subjectOptions.placeholder") as string}
+                          </option>
                           <option value="project">
-                            {t("contact.subjectOptions.project")}
+                            {t("contact.subjectOptions.project") as string}
                           </option>
                           <option value="service">
-                            {t("contact.subjectOptions.service")}
+                            {t("contact.subjectOptions.service") as string}
                           </option>
                           <option value="budget">
-                            {t("contact.subjectOptions.budget")}
+                            {t("contact.subjectOptions.budget") as string}
                           </option>
                           <option value="support">
-                            {t("contact.subjectOptions.support")}
+                            {t("contact.subjectOptions.support") as string}
                           </option>
                         </select>
                       </div>
                       <div className="group-input">
                         <textarea
                           name="contact-message"
-                          placeholder={t("contact.message")}
+                          placeholder={t("contact.message") as string}
                           required
                         ></textarea>
                       </div>
