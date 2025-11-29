@@ -1,20 +1,23 @@
 import React from "react";
+import { useTranslation } from "next-i18next";
 import Layout from "@/components/layout/Layout";
 import CmnBanner from "@/components/layout/banner/CmnBanner";
 import ServiceMain from "@/components/containers/ServiceMain";
-
 import UxProcessTwo from "@/components/containers/service-details/UxProcessTwo";
-
 import CtaTwo from "@/components/containers/service-details/CtaTwo";
 
 const OurServices = () => {
+  const { t } = useTranslation("common");
+
   return (
     <Layout header={4} footer={5} video={0}>
-      <CmnBanner title="Naše usluge" navigation="Naše usluge" />
+      <CmnBanner
+        title={t("services.pageTitle")}
+        navigation={t("services.pageNav")}
+        subtitle={t("banner.servicesSubtitle")}
+      />
       <ServiceMain />
-
       <UxProcessTwo />
-
       <CtaTwo />
     </Layout>
   );

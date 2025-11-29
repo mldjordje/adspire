@@ -1,12 +1,15 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useTranslation } from "next-i18next";
 import phone from "public/images/phone.png";
 import mail from "public/images/mail.png";
 import location from "public/images/location.png";
 import time from "public/images/time.png";
 
 const ContactMain = () => {
+  const { t } = useTranslation("common");
+
   return (
     <section className="section contact-m fade-wrapper">
       <div className="container">
@@ -17,7 +20,7 @@ const ContactMain = () => {
                 <Image src={phone} alt="Phone" />
               </div>
               <div className="content">
-                <h4>Telefon</h4>
+                <h4>{t("contact.phone")}</h4>
                 <p>
                   <Link href="tel:0601491491">060 1491491</Link>
                 </p>
@@ -30,7 +33,7 @@ const ContactMain = () => {
                 <Image src={mail} alt="Email" />
               </div>
               <div className="content">
-                <h4>Email</h4>
+                <h4>{t("contact.email")}</h4>
                 <p>
                   <Link href="mailto:djordje@adspire.rs">
                     djordje@adspire.rs
@@ -45,7 +48,7 @@ const ContactMain = () => {
                 <Image src={location} alt="Location" />
               </div>
               <div className="content">
-                <h4>Adresa</h4>
+                <h4>{t("contact.address")}</h4>
                 <p>
                   <Link
                     href="https://www.google.com/maps?q=Dimitrija+Leka+66"
@@ -63,8 +66,8 @@ const ContactMain = () => {
                 <Image src={time} alt="Radno vreme" />
               </div>
               <div className="content">
-                <h4>Radno vreme</h4>
-                <p>Uvek dostupni</p>
+                <h4>{t("contact.workingHours")}</h4>
+                <p>{t("contact.alwaysAvailable")}</p>
               </div>
             </div>
           </div>
@@ -84,12 +87,13 @@ const ContactMain = () => {
                       allowFullScreen
                       loading="lazy"
                       referrerPolicy="no-referrer-when-downgrade"
+                      title="Adspire map"
                     ></iframe>
                   </div>
                 </div>
                 <div className="col-12 col-lg-6">
                   <div className="contact-main__form fade-top">
-                    <h3>Pošaljite Poruku</h3>
+                    <h3>{t("contact.sendMessage")}</h3>
                     <form
                       onSubmit={async (e) => {
                         e.preventDefault();
@@ -119,7 +123,7 @@ const ContactMain = () => {
                           <input
                             type="text"
                             name="contact-name"
-                            placeholder="Ime"
+                            placeholder={t("contact.name")}
                             required
                           />
                         </div>
@@ -127,30 +131,38 @@ const ContactMain = () => {
                           <input
                             type="email"
                             name="contact-email"
-                            placeholder="Email"
+                            placeholder={t("contact.email")}
                             required
                           />
                         </div>
                       </div>
                       <div className="group-input drt">
                         <select name="subject" className="subject" required>
-                          <option value="">Tema</option>
-                          <option value="Nalog">Nalog</option>
-                          <option value="Usluga">Usluga</option>
-                          <option value="Cena">Cena</option>
-                          <option value="Podrška">Podrška</option>
+                          <option value="">{t("contact.subjectOptions.placeholder")}</option>
+                          <option value="project">
+                            {t("contact.subjectOptions.project")}
+                          </option>
+                          <option value="service">
+                            {t("contact.subjectOptions.service")}
+                          </option>
+                          <option value="budget">
+                            {t("contact.subjectOptions.budget")}
+                          </option>
+                          <option value="support">
+                            {t("contact.subjectOptions.support")}
+                          </option>
                         </select>
                       </div>
                       <div className="group-input">
                         <textarea
                           name="contact-message"
-                          placeholder="Poruka"
+                          placeholder={t("contact.message")}
                           required
                         ></textarea>
                       </div>
                       <div className="form-cta justify-content-start">
                         <button type="submit" className="btn btn--primary">
-                          Pošalji poruku
+                          {t("contact.submit")}
                         </button>
                       </div>
                     </form>

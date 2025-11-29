@@ -25,5 +25,113 @@
     },
     "ctaMail": "mail : djordje@adspire.rs",
     "ctaPhone": "pozovi : 060 149 149 1"
+  },
+  "banner": {
+    "home": "Početna",
+    "about": "O nama",
+    "services": "Usluge",
+    "projects": "Projekti",
+    "contact": "Kontakt",
+    "servicesSubtitle": "Adspire je digitalna agencija iz Niša specijalizovana za izradu web sajtova, web aplikacija i vođenje društvenih mreža. Spajamo strategiju, dizajn i tehnologiju da brendovi rastu online."
+  },
+  "services": {
+    "pageTitle": "Naše usluge",
+    "pageNav": "Usluge",
+    "intro": "Kompletna digitalna podrška – od strategije i dizajna, preko razvoja i optimizacije, do marketinga i kontinuiranog rasta.",
+    "items": [
+      {
+        "title": "Web dizajn i razvoj",
+        "summary": "Brzi, responsivni sajtovi i web aplikacije u Next.js tehnologiji.",
+        "bullets": [
+          "UX/UI dizajn po meri brenda",
+          "Next.js / React razvoj i integracije",
+          "Core Web Vitals performanse i pristupačnost"
+        ]
+      },
+      {
+        "title": "E-commerce",
+        "summary": "Prodajni sajtovi fokusirani na konverzije i iskustvo kupaca.",
+        "bullets": [
+          "Custom shop ili Shopify/Headless",
+          "Plaćanja, dostava, ERP/CRM konekcije",
+          "Napredna filtracija i optimizacija checkout-a"
+        ]
+      },
+      {
+        "title": "SEO i sadržaj",
+        "summary": "Vidljivost, saobraćaj i autoritet kroz tehnički SEO i sadržaj.",
+        "bullets": [
+          "Tehnički SEO, brzina i schema",
+          "On-page optimizacija i istraživanje ključnih reči",
+          "Plan i produkcija sadržaja"
+        ]
+      },
+      {
+        "title": "Performance marketing",
+        "summary": "Kampanje koje donose meren rezultat – Google & Meta oglasi.",
+        "bullets": [
+          "Google Ads (Search, Display, Performance Max)",
+          "Meta Ads i retargeting",
+          "Praćenje konverzija i A/B testiranje"
+        ]
+      },
+      {
+        "title": "Brending i identitet",
+        "summary": "Prepoznatljiv vizuelni identitet i poruke koje nose brend.",
+        "bullets": [
+          "Logo i sistem identiteta",
+          "Brand voice i messaging",
+          "Brend vodič i asseti za digital"
+        ]
+      },
+      {
+        "title": "Društvene mreže i sadržaj",
+        "summary": "Strategija, produkcija i UGC za angažovane zajednice.",
+        "bullets": [
+          "Planiranje kalendara i copy",
+          "Foto/video/UGC produkcija",
+          "Community menadžment i reporting"
+        ]
+      },
+      {
+        "title": "Održavanje i podrška",
+        "summary": "Stalna briga o stabilnosti, sigurnosti i novim funkcijama.",
+        "bullets": [
+          "Ažuriranja, backup i sigurnost",
+          "Monitoring performansi i brzine",
+          "Razvoj novih funkcionalnosti"
+        ]
+      },
+      {
+        "title": "Analitika i CRO",
+        "summary": "Merenje, uvidi i konverzione optimizacije.",
+        "bullets": [
+          "GA4 i Tag Manager postavka",
+          "Dashboardi i izveštaji",
+          "Eksperimenti za povećanje konverzija"
+        ]
+      }
+    ]
+  },
+  "contact": {
+    "pageTitle": "Kontakt",
+    "pageNav": "Kontakt",
+    "sendMessage": "Pošaljite poruku",
+    "name": "Ime i prezime",
+    "email": "Email",
+    "subject": "Tema",
+    "message": "Poruka",
+    "submit": "Pošalji poruku",
+    "address": "Adresa",
+    "phone": "Telefon",
+    "workingHours": "Radno vreme",
+    "alwaysAvailable": "Uvek dostupni",
+    "subjectOptions": {
+      "placeholder": "Tema",
+      "project": "Novi projekat",
+      "service": "Usluga",
+      "budget": "Budžet",
+      "support": "Podrška"
+    }
   }
 }
