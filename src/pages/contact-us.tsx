@@ -10,9 +10,9 @@ const ContactUs = () => {
   return (
     <Layout header={2} footer={5} video={0}>
       <CmnBanner
-        title={t("contact.pageTitle")}
-        navigation={t("contact.pageNav")}
-        subtitle={t("banner.servicesSubtitle")}
+        title={t("contact.pageTitle") as string}
+        navigation={t("contact.pageNav") as string}
+        subtitle={t("banner.servicesSubtitle") as string}
       />
       <ContactMain />
     </Layout>

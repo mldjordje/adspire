@@ -12,9 +12,9 @@ const OurServices = () => {
   return (
     <Layout header={4} footer={5} video={0}>
       <CmnBanner
-        title={t("services.pageTitle")}
-        navigation={t("services.pageNav")}
-        subtitle={t("banner.servicesSubtitle")}
+        title={t("services.pageTitle") as string}
+        navigation={t("services.pageNav") as string}
+        subtitle={t("banner.servicesSubtitle") as string}
       />
       <ServiceMain />
       <UxProcessTwo />
