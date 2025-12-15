@@ -6,14 +6,15 @@ const nextConfig = {
   i18n,
   async rewrites() {
     return [
-      {
-        source: "/kopex",
-        destination: "/kopex/index.html",
-      },
-      {
-        source: "/kopex/",
-        destination: "/kopex/index.html",
-      },
+      // Serve Kopex static site without locale prefix
+      { source: "/kopex", destination: "/kopex/index.html", locale: false },
+      { source: "/kopex/", destination: "/kopex/index.html", locale: false },
+      { source: "/kopex/:path*", destination: "/kopex/:path*", locale: false },
+
+      // Support locale-prefixed URLs (e.g. /en/kopex) by stripping locale
+      { source: "/:locale/kopex", destination: "/kopex/index.html", locale: false },
+      { source: "/:locale/kopex/", destination: "/kopex/index.html", locale: false },
+      { source: "/:locale/kopex/:path*", destination: "/kopex/:path*", locale: false },
     ];
   },
 };
