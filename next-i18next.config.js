@@ -3,7 +3,7 @@ const nextI18NextConfig = {
   i18n: {
     defaultLocale: "sr",
     locales: ["sr", "en"],
-    localeDetection: true,
+    localeDetection: false,
   },
   fallbackLng: "sr",
   reloadOnPrerender: process.env.NODE_ENV === "development",
