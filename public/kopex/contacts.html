@@ -26,6 +26,19 @@
 
     <!-- Favicon -->
     <link rel="icon" href="img/favicon.png" sizes="32x32">
+
+    <script>
+        (function () {
+            try {
+                var saved = localStorage.getItem('kopex-theme');
+                if (saved === 'light') {
+                    document.documentElement.classList.add('light-theme');
+                }
+            } catch (e) {
+                /* ignore */
+            }
+        })();
+    </script>
 </head>
 
 <body>
@@ -63,22 +76,31 @@
                     </li>
                     </ul>
                     </nav>
-                    </div>
-                    <!-- Header Button -->
-                    <div class="bringer-header-rp">
-                        <a href="contacts.html" class="bringer-button">Kontaktirajte nas</a>
-                    </div>
-                    </div>
-                    <!-- Mobile Header -->
-                    <div class="bringer-mobile-header-inner">
-                        <a href="./" class="bringer-logo">
-                            <img src="img/logo.png" alt="KOPEX MIN-LIV" width="120" height="40">
-                        </a>
-                        <a href="#" class="bringer-mobile-menu-toggler">
-                            <i class="bringer-menu-toggler-icon">
-                                <span></span>
-                                <span></span>
-                                <span></span>
+        </div>
+        <!-- Header Button -->
+        <div class="bringer-header-rp">
+            <div class="bringer-header-actions">
+                <button class="theme-toggle" type="button" aria-label="Promeni temu" data-theme-toggle>
+                    <span class="theme-toggle__icon" aria-hidden="true"></span>
+                    <span class="theme-toggle__text">Tema</span>
+                </button>
+                <a href="contacts.html" class="bringer-button">Kontaktirajte nas</a>
+            </div>
+        </div>
+    </div>
+    <!-- Mobile Header -->
+    <div class="bringer-mobile-header-inner">
+        <a href="./" class="bringer-logo">
+            <img src="img/logo.png" alt="KOPEX MIN-LIV" width="120" height="40">
+        </a>
+        <button class="theme-toggle" type="button" aria-label="Promeni temu" data-theme-toggle>
+            <span class="theme-toggle__icon" aria-hidden="true"></span>
+        </button>
+        <a href="#" class="bringer-mobile-menu-toggler">
+            <i class="bringer-menu-toggler-icon">
+                <span></span>
+                <span></span>
+                <span></span>
                             </i>
                         </a>
                     </div>

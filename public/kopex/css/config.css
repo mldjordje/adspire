@@ -75,6 +75,33 @@
     --bringer-c-menu-active: var(--bringer-s-heading);
 }
 
+/* Light theme overrides */
+:root.light-theme,
+body.light-theme {
+    --bringer-s-body-bg: #f6f8fb;
+    --bringer-s-nav: #ffffffdd;
+    --bringer-s-container-bg: #ffffff;
+    --bringer-s-container-frosted: #ffffffea;
+    --bringer-s-heading: #0f172a;
+    --bringer-s-heading-fade: #0f172aa6;
+    --bringer-s-text: #1f2a3d;
+    --bringer-s-accent: #3f6ee9;
+    --bringer-button-hover-bg: #2f59c8;
+    --bringer-s-text-accent: #1d4ed8;
+    --bringer-s-accented-text: #ffffff;
+    --bringer-s-border: #0f172a1a;
+    --bringer-s-border-accent: #3f6ee980;
+    --bringer-s-border-mute: #0f172a12;
+    --bringer-s-border-highlight: #0f172a2e;
+    --bringer-s-backlight: #1d4ed811;
+    --bringer-s-box-shadow: #0b0f1a1a;
+    --bringer-s-cursor-light: var(--bringer-s-backlight);
+    --bringer-c-border-gradient: linear-gradient(to left, transparent, var(--bringer-s-border), transparent);
+    --bringer-c-menu: #1f2a3d;
+    --bringer-c-menu-hover: #0f172a;
+    --bringer-c-menu-active: #0f172a;
+}
+
 /* ==========
    TYPOGRAPHY
 ============= */

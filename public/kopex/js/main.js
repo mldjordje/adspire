@@ -53,6 +53,54 @@ jQuery(function ($) {
         // Put your custom JS code here
     }
 
+    // --- THEME TOGGLE --- //
+    function ThemeToggle() {
+        const toggles = document.querySelectorAll('[data-theme-toggle]');
+        if (!toggles.length) {
+            return;
+        }
+
+        const root = document.documentElement;
+        const body = document.body;
+        const applyTheme = (mode) => {
+            const isLight = mode === 'light';
+            body.classList.toggle('light-theme', isLight);
+            root.classList.toggle('light-theme', isLight);
+        };
+
+        try {
+            const savedTheme = localStorage.getItem('kopex-theme');
+            if (savedTheme === 'light') {
+                applyTheme('light');
+            }
+        } catch (e) {
+            /* ignore */
+        }
+
+        const syncButtons = () => {
+            const isLight = body.classList.contains('light-theme');
+            toggles.forEach((btn) => {
+                btn.setAttribute('aria-pressed', isLight ? 'true' : 'false');
+                btn.classList.toggle('is-active', isLight);
+            });
+        };
+        syncButtons();
+
+        toggles.forEach((btn) => {
+            btn.addEventListener('click', function (e) {
+                e.preventDefault();
+                const isLight = !body.classList.contains('light-theme');
+                applyTheme(isLight ? 'light' : 'dark');
+                syncButtons();
+                try {
+                    localStorage.setItem('kopex-theme', isLight ? 'light' : 'dark');
+                } catch (err) {
+                    /* ignore */
+                }
+            });
+        });
+    }
+
     // --- RIGHT CLICK PROTECTION //
     function RightClickProtection( selector ) {
         if ( jQuery(selector).length ) {
@@ -1286,6 +1334,7 @@ jQuery(function ($) {
         
         // Custom Features
         CustomFunction();
+        ThemeToggle();
 
         // Loading and Unloading Animation
         setTimeout(function() {
