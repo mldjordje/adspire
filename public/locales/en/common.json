@@ -58,6 +58,15 @@
         ]
       },
       {
+        "title": "Booking systems",
+        "summary": "Online scheduling tailored for service businesses.",
+        "bullets": [
+          "Client self-booking and confirmations",
+          "Admin calendar, services, and staff management",
+          "Notifications, reminders, and no-show control"
+        ]
+      },
+      {
         "title": "SEO & content",
         "summary": "Visibility, traffic, and authority via technical SEO and content.",
         "bullets": [

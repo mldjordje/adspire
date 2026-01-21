@@ -11,20 +11,20 @@ const ServiceDetailsBanner = () => {
         <div className="row gaper align-items-center">
           <div className="col-12 col-lg-5 col-xl-7">
             <div className="text-center text-lg-start">
-              <h2 className="title title-anim">Ux Design</h2>
+              <h2 className="title title-anim">Booking sistemi</h2>
               <nav aria-label="breadcrumb">
                 <ol className="breadcrumb">
                   <li className="breadcrumb-item">
                     <Link href="/">
                       <i className="fa-solid fa-house"></i>
-                      Home
+                      Pocetna
                     </Link>
                   </li>
                   <li className="breadcrumb-item">
-                    <Link href="our-services">Our Services</Link>
+                    <Link href="our-services">Usluge</Link>
                   </li>
                   <li className="breadcrumb-item active" aria-current="page">
-                    Ux Design
+                    Booking sistemi
                   </li>
                 </ol>
               </nav>

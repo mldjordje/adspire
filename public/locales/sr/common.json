@@ -58,6 +58,15 @@
         ]
       },
       {
+        "title": "Booking sistemi",
+        "summary": "Online zakazivanje prilagođeno za sve vrste biznisa.",
+        "bullets": [
+          "Samostalno zakazivanje i potvrde termina",
+          "Admin kalendar, usluge i tim",
+          "Notifikacije, podsetnici i kontrola no-show"
+        ]
+      },
+      {
         "title": "SEO i sadržaj",
         "summary": "Vidljivost, saobraćaj i autoritet kroz tehnički SEO i sadržaj.",
         "bullets": [
