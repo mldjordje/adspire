@@ -3,6 +3,7 @@ import { useTranslation } from "next-i18next";
 import Layout from "@/components/layout/Layout";
 import CmnBanner from "@/components/layout/banner/CmnBanner";
 import ServiceMain from "@/components/containers/ServiceMain";
+import LocationServiceLinks from "@/components/containers/LocationServiceLinks";
 import UxProcessTwo from "@/components/containers/service-details/UxProcessTwo";
 import CtaTwo from "@/components/containers/service-details/CtaTwo";
 
@@ -17,6 +18,7 @@ const OurServices = () => {
         subtitle={t("banner.servicesSubtitle") as string}
       />
       <ServiceMain />
+      <LocationServiceLinks />
       <UxProcessTwo />
       <CtaTwo />
     </Layout>
