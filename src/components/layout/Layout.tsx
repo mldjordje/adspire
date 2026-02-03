@@ -19,6 +19,7 @@ import VideoModal from "./VideoModal";
 import ScrollProgressBtn from "./ScrollProgressBtn";
 import CustomCursor from "./CustomCursor";
 import SplitType from "split-type";
+import toJsonLdList from "@/lib/structuredData";
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -66,6 +67,11 @@ const Layout = ({
   const canonicalUrl = cleanPath === "/" ? siteUrl : `${siteUrl}${cleanPath}`;
   const ogImage = `${siteUrl}/images/banner/banner-one-thumb.png`;
   const ogLocale = router.locale === "en" ? "en_US" : "sr_RS";
+  const structuredData = toJsonLdList({
+    siteUrl,
+    canonicalUrl,
+    locale: router.locale || "sr",
+  });
 
   const metaTitle = t("meta.title") as string;
   const metaKeywords = t("meta.keywords") as string;
@@ -194,6 +200,11 @@ const Layout = ({
         <meta name="keywords" content={metaKeywords} />
         <meta name="description" content={metaDescription} />
         <link rel="canonical" href={canonicalUrl} />
+        <link rel="alternate" type="text/plain" href="/llms.txt" />
+        <meta name="geo.region" content="RS" />
+        <meta name="geo.placename" content="Nis" />
+        <meta name="geo.position" content="43.3091683;21.8642094" />
+        <meta name="ICBM" content="43.3091683, 21.8642094" />
         <meta property="og:locale" content={ogLocale} />
         <meta property="og:title" content={metaTitle} />
         <meta property="og:description" content={metaDescription} />
@@ -205,6 +216,13 @@ const Layout = ({
         <meta name="twitter:title" content={metaTitle} />
         <meta name="twitter:description" content={metaDescription} />
         <meta name="twitter:image" content={ogImage} />
+        {structuredData.map((item, index) => (
+          <script
+            key={`jsonld-${index}`}
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(item) }}
+          />
+        ))}
       </Head>
 
       <div className={combinedClassName}>

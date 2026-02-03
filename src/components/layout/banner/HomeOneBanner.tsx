@@ -64,6 +64,14 @@ const HomeOneBanner = () => {
                 </h1>
                 <div className="banner__content-inner">
                   <p>{t("hero.body")}</p>
+                  <div className="section__content-cta">
+                    <Link href="tel:0601491491" className="btn btn--primary">
+                      {t("hero.ctaPrimary")}
+                    </Link>
+                    <Link href="#contact" className="btn btn--secondary">
+                      {t("hero.ctaSecondary")}
+                    </Link>
+                  </div>
                   <div className="cta section__content-cta">
                     <div className="single">
                       <h5 className="fw-7">{t("hero.metrics.years")}</h5>
