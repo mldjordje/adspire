@@ -105,6 +105,19 @@ const HomeOffer = () => {
                   <i className="fa-solid fa-arrow-right"></i>
                 </span>
                 <h2>
+                  <Link href="/web-pozivnice-za-veselja">
+                    Web pozivnice za veselja
+                    <i className="fa-sharp fa-solid fa-arrow-up-right"></i>
+                  </Link>
+                </h2>
+              </div>
+
+              <div className="offer__cta-single fade-top">
+                <span className="sub-title">
+                  07
+                  <i className="fa-solid fa-arrow-right"></i>
+                </span>
+                <h2>
                   <Link href="service-single">
                     Booking sistemi
                     <i className="fa-sharp fa-solid fa-arrow-up-right"></i>

@@ -65,8 +65,28 @@ const Layout = ({
   const cleanPath =
     (router?.asPath?.split("#")[0]?.split("?")[0] as string) || "/";
   const canonicalUrl = cleanPath === "/" ? siteUrl : `${siteUrl}${cleanPath}`;
+  const locales = router.locales || ["sr", "en"];
+  const defaultLocale = router.defaultLocale || "sr";
+  const localePrefixPattern = new RegExp(
+    `^/(?:${locales.join("|")})(?=/|$)`,
+    "i"
+  );
+  const pathWithoutLocale = cleanPath.replace(localePrefixPattern, "") || "/";
+  const getLocalizedHref = (locale: string) => {
+    const localePrefix = locale === defaultLocale ? "" : `/${locale}`;
+    const suffix = pathWithoutLocale === "/" ? "" : pathWithoutLocale;
+    return `${siteUrl}${localePrefix}${suffix}`;
+  };
+  const hreflangLinks = locales.map((locale) => ({
+    locale,
+    href: getLocalizedHref(locale),
+  }));
+  const xDefaultHref = getLocalizedHref(defaultLocale);
   const ogImage = `${siteUrl}/images/banner/banner-one-thumb.png`;
   const ogLocale = router.locale === "en" ? "en_US" : "sr_RS";
+  const ogLocaleAlternates = locales
+    .filter((locale) => locale !== (router.locale || defaultLocale))
+    .map((locale) => (locale === "en" ? "en_US" : "sr_RS"));
   const structuredData = toJsonLdList({
     siteUrl,
     canonicalUrl,
@@ -196,26 +216,54 @@ const Layout = ({
           href="/images/favicon.png"
           type="image/x-icon"
         />
-        <title>{metaTitle}</title>
-        <meta name="keywords" content={metaKeywords} />
-        <meta name="description" content={metaDescription} />
-        <link rel="canonical" href={canonicalUrl} />
+        <title key="title">{metaTitle}</title>
+        <meta key="keywords" name="keywords" content={metaKeywords} />
+        <meta key="description" name="description" content={metaDescription} />
+        <meta
+          key="robots"
+          name="robots"
+          content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1"
+        />
+        <meta
+          key="googlebot"
+          name="googlebot"
+          content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1"
+        />
+        <link key="canonical" rel="canonical" href={canonicalUrl} />
+        {hreflangLinks.map(({ locale, href }) => (
+          <link
+            key={`alt-${locale}`}
+            rel="alternate"
+            hrefLang={locale}
+            href={href}
+          />
+        ))}
+        <link key="alt-x-default" rel="alternate" hrefLang="x-default" href={xDefaultHref} />
         <link rel="alternate" type="text/plain" href="/llms.txt" />
+        <link rel="alternate" type="text/plain" href="/llms-full.txt" />
         <meta name="geo.region" content="RS" />
         <meta name="geo.placename" content="Nis" />
         <meta name="geo.position" content="43.3091683;21.8642094" />
         <meta name="ICBM" content="43.3091683, 21.8642094" />
-        <meta property="og:locale" content={ogLocale} />
-        <meta property="og:title" content={metaTitle} />
-        <meta property="og:description" content={metaDescription} />
-        <meta property="og:url" content={canonicalUrl} />
-        <meta property="og:site_name" content="Adspire" />
-        <meta property="og:image" content={ogImage} />
-        <meta property="og:type" content="website" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={metaTitle} />
-        <meta name="twitter:description" content={metaDescription} />
-        <meta name="twitter:image" content={ogImage} />
+        <meta key="og-locale" property="og:locale" content={ogLocale} />
+        {ogLocaleAlternates.map((locale) => (
+          <meta
+            key={`og-locale-alt-${locale}`}
+            property="og:locale:alternate"
+            content={locale}
+          />
+        ))}
+        <meta key="og-title" property="og:title" content={metaTitle} />
+        <meta key="og-description" property="og:description" content={metaDescription} />
+        <meta key="og-url" property="og:url" content={canonicalUrl} />
+        <meta key="og-site-name" property="og:site_name" content="Adspire" />
+        <meta key="og-image" property="og:image" content={ogImage} />
+        <meta key="og-image-alt" property="og:image:alt" content={metaTitle} />
+        <meta key="og-type" property="og:type" content="website" />
+        <meta key="twitter-card" name="twitter:card" content="summary_large_image" />
+        <meta key="twitter-title" name="twitter:title" content={metaTitle} />
+        <meta key="twitter-description" name="twitter:description" content={metaDescription} />
+        <meta key="twitter-image" name="twitter:image" content={ogImage} />
         {structuredData.map((item, index) => (
           <script
             key={`jsonld-${index}`}

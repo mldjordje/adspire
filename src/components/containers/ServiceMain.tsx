@@ -1,10 +1,13 @@
 import React from "react";
+import Link from "next/link";
 import { useTranslation } from "next-i18next";
 
 type ServiceItem = {
   title: string;
   summary: string;
   bullets: string[];
+  cta?: string;
+  href?: string;
 };
 
 const ServiceMain = () => {
@@ -38,6 +41,13 @@ const ServiceMain = () => {
                     <li key={bullet}>{bullet}</li>
                   ))}
                 </ul>
+                {service.cta && service.href ? (
+                  <div className="mt-4">
+                    <Link href={service.href} className="btn btn--secondary">
+                      {service.cta}
+                    </Link>
+                  </div>
+                ) : null}
               </div>
             </div>
           ))}

@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://adspire.rs
+
+# Sitemaps
+Sitemap: https://adspire.rs/sitemap.xml
