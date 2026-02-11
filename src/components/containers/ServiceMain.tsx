@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useTranslation } from "next-i18next";
 
 type ServiceItem = {
+  slug?: string;
   title: string;
   summary: string;
   bullets: string[];
@@ -28,7 +29,7 @@ const ServiceMain = () => {
         </div>
         <div className="row gaper">
           {items.map((service, idx) => (
-            <div className="col-12 col-md-6 col-xl-3" key={service.title}>
+            <div className="col-12 col-md-6 col-xl-3" key={service.slug || service.title}>
               <div className="service-card topy-tilt fade-top">
                 <div className="service-card__head d-flex align-items-center justify-content-between">
                   <span className="sub-title">0{idx + 1}</span>

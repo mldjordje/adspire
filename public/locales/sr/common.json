@@ -1,4 +1,4 @@
-﻿{
+{
   "meta": {
     "title": "Adspire | Izrada sajtova, web aplikacija i digitalni marketing",
     "description": "Adspire je digitalna agencija iz Niša za izradu sajtova, web aplikacija, web shopova, booking sistema i web pozivnica za veselja. Radimo za klijente u Nišu i celoj Srbiji.",
@@ -48,7 +48,10 @@
           "UX/UI dizajn po meri brenda",
           "Next.js / React razvoj i integracije",
           "Core Web Vitals performanse i pristupačnost"
-        ]
+        ],
+        "slug": "web-dizajn-i-razvoj",
+        "href": "/usluge/web-dizajn-i-razvoj",
+        "cta": "Detalji usluge"
       },
       {
         "title": "E-commerce",
@@ -57,7 +60,10 @@
           "Custom shop ili Shopify/Headless",
           "Plaćanja, dostava, ERP/CRM konekcije",
           "Napredna filtracija i optimizacija checkout-a"
-        ]
+        ],
+        "slug": "e-commerce",
+        "href": "/usluge/e-commerce",
+        "cta": "Detalji usluge"
       },
       {
         "title": "Booking sistemi",
@@ -66,7 +72,10 @@
           "Samostalno zakazivanje i potvrde termina",
           "Admin kalendar, usluge i tim",
           "Notifikacije, podsetnici i kontrola no-show"
-        ]
+        ],
+        "slug": "booking-sistemi",
+        "href": "/usluge/booking-sistemi",
+        "cta": "Detalji usluge"
       },
       {
         "title": "Web pozivnice za veselja",
@@ -76,8 +85,9 @@
           "RSVP pregled: ko dolazi, ko ne dolazi i broj gostiju u realnom vremenu",
           "Brze izmene datuma, lokacije, mape i dodatnih informacija"
         ],
-        "cta": "Pogledaj primer pozivnice",
-        "href": "/web-pozivnice-za-veselja"
+        "cta": "Detalji usluge",
+        "href": "/usluge/web-pozivnice-za-veselja",
+        "slug": "web-pozivnice-za-veselja"
       },
       {
         "title": "SEO i sadržaj",
@@ -86,7 +96,10 @@
           "Tehnički SEO, brzina i schema",
           "On-page optimizacija i istraživanje ključnih reči",
           "Plan i produkcija sadržaja"
-        ]
+        ],
+        "slug": "seo-i-sadrzaj",
+        "href": "/usluge/seo-i-sadrzaj",
+        "cta": "Detalji usluge"
       },
       {
         "title": "Performance marketing",
@@ -95,7 +108,10 @@
           "Google Ads (Search, Display, Performance Max)",
           "Meta Ads i retargeting",
           "Praćenje konverzija i A/B testiranje"
-        ]
+        ],
+        "slug": "performance-marketing",
+        "href": "/usluge/performance-marketing",
+        "cta": "Detalji usluge"
       },
       {
         "title": "Brending i identitet",
@@ -104,7 +120,10 @@
           "Logo i sistem identiteta",
           "Brand voice i messaging",
           "Brend vodič i asseti za digital"
-        ]
+        ],
+        "slug": "brending-i-identitet",
+        "href": "/usluge/brending-i-identitet",
+        "cta": "Detalji usluge"
       },
       {
         "title": "Društvene mreže i sadržaj",
@@ -113,7 +132,10 @@
           "Planiranje kalendara i copy",
           "Foto/video/UGC produkcija",
           "Community menadžment i reporting"
-        ]
+        ],
+        "slug": "drustvene-mreze-i-sadrzaj",
+        "href": "/usluge/drustvene-mreze-i-sadrzaj",
+        "cta": "Detalji usluge"
       },
       {
         "title": "Održavanje i podrška",
@@ -122,7 +144,10 @@
           "Ažuriranja, backup i sigurnost",
           "Monitoring performansi i brzine",
           "Razvoj novih funkcionalnosti"
-        ]
+        ],
+        "slug": "odrzavanje-i-podrska",
+        "href": "/usluge/odrzavanje-i-podrska",
+        "cta": "Detalji usluge"
       },
       {
         "title": "Analitika i CRO",
@@ -131,7 +156,10 @@
           "GA4 i Tag Manager postavka",
           "Dashboardi i izveštaji",
           "Eksperimenti za povećanje konverzija"
-        ]
+        ],
+        "slug": "analitika-i-cro",
+        "href": "/usluge/analitika-i-cro",
+        "cta": "Detalji usluge"
       }
     ]
   },

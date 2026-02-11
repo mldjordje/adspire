@@ -68,27 +68,41 @@ const toJsonLdList = (input: StructuredDataInput) => {
 
   const services = isEnglish
     ? [
-        "Website development",
-        "Web applications",
+        "Web design & development",
         "E-commerce",
         "Booking systems",
         "Web invitations for events",
-        "Presentation sites",
-        "SEO",
-        "Digital marketing",
-        "Maintenance",
+        "SEO & content",
+        "Performance marketing",
+        "Branding & identity",
+        "Social media & content",
+        "Maintenance & support",
+        "Analytics & CRO",
       ]
     : [
-        "Web sajtovi",
-        "Web aplikacije",
-        "Web shopovi",
+        "Web dizajn i razvoj",
+        "E-commerce",
         "Booking sistemi",
         "Web pozivnice za veselja",
-        "Prezentacije",
-        "SEO",
-        "Digitalni marketing",
-        "Odrzavanje",
+        "SEO i sadrzaj",
+        "Performance marketing",
+        "Brending i identitet",
+        "Drustvene mreze i sadrzaj",
+        "Odrzavanje i podrska",
+        "Analitika i CRO",
       ];
+  const serviceSlugs = [
+    "web-dizajn-i-razvoj",
+    "e-commerce",
+    "booking-sistemi",
+    "web-pozivnice-za-veselja",
+    "seo-i-sadrzaj",
+    "performance-marketing",
+    "brending-i-identitet",
+    "drustvene-mreze-i-sadrzaj",
+    "odrzavanje-i-podrska",
+    "analitika-i-cro",
+  ];
 
   const faq = [
     {
@@ -99,8 +113,8 @@ const toJsonLdList = (input: StructuredDataInput) => {
       acceptedAnswer: {
         "@type": "Answer",
         text: isEnglish
-          ? "Websites, web applications, e-commerce, booking systems, web invitations for events, presentation sites, SEO, and digital marketing."
-          : "Izrada web sajtova, web aplikacija, web shopova, booking sistema, web pozivnica za veselja, prezentacija, SEO i digitalni marketing.",
+          ? "Web design, e-commerce, booking systems, web invitations, SEO, performance marketing, branding, social media, maintenance, and analytics."
+          : "Web dizajn i razvoj, e-commerce, booking sistemi, web pozivnice, SEO, performance marketing, brending, drustvene mreze, odrzavanje i analitika.",
       },
     },
     {
@@ -113,6 +127,18 @@ const toJsonLdList = (input: StructuredDataInput) => {
         text: isEnglish
           ? "Yes. ADSPIRE creates custom web invitation pages with RSVP tracking, location map, and easy sharing."
           : "Da. ADSPIRE izradjuje personalizovane web pozivnice sa RSVP potvrdama, mapom lokacije i lakim deljenjem.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: isEnglish
+        ? "Do you have dedicated pages for each service?"
+        : "Da li svaka usluga ima posebnu stranicu?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: isEnglish
+          ? "Yes. Each service has a dedicated URL under /usluge/ with SEO and AI-ready information."
+          : "Da. Svaka usluga ima posebnu URL stranicu pod /usluge/ sa SEO i AI optimizovanim sadrzajem.",
       },
     },
     {
@@ -197,11 +223,12 @@ const toJsonLdList = (input: StructuredDataInput) => {
       hasOfferCatalog: {
         "@type": "OfferCatalog",
         name: isEnglish ? "Digital services" : "Digitalne usluge",
-        itemListElement: services.map((service) => ({
+        itemListElement: services.map((service, index) => ({
           "@type": "Offer",
           itemOffered: {
             "@type": "Service",
             name: service,
+            url: `${siteUrl}/usluge/${serviceSlugs[index]}`,
           },
         })),
       },

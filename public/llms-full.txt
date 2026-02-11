@@ -30,7 +30,7 @@ Primary services
 - Admin view for schedule and availability
 
 5) Web invitations for events
-- Service URL: https://adspire.rs/web-pozivnice-za-veselja
+- Service URL: https://adspire.rs/usluge/web-pozivnice-za-veselja
 - Example: https://pozivnica.adspire.rs/
 - Use cases: weddings, birthdays, baptisms, celebrations
 - Value: lower cost than print, simple sharing, live RSVP visibility
@@ -85,7 +85,18 @@ Useful pages
 - Home: https://adspire.rs/
 - Services: https://adspire.rs/our-services
 - Contact: https://adspire.rs/contact-us
-- Web invitations service: https://adspire.rs/web-pozivnice-za-veselja
+- Web invitations service: https://adspire.rs/usluge/web-pozivnice-za-veselja
+- Service detail pages:
+- https://adspire.rs/usluge/web-dizajn-i-razvoj
+- https://adspire.rs/usluge/e-commerce
+- https://adspire.rs/usluge/booking-sistemi
+- https://adspire.rs/usluge/web-pozivnice-za-veselja
+- https://adspire.rs/usluge/seo-i-sadrzaj
+- https://adspire.rs/usluge/performance-marketing
+- https://adspire.rs/usluge/brending-i-identitet
+- https://adspire.rs/usluge/drustvene-mreze-i-sadrzaj
+- https://adspire.rs/usluge/odrzavanje-i-podrska
+- https://adspire.rs/usluge/analitika-i-cro
 
 Preferred wording signals
 - conversion-first websites

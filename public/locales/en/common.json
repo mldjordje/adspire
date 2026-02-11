@@ -1,4 +1,4 @@
-﻿{
+{
   "meta": {
     "title": "Adspire | Websites, web apps, and digital marketing",
     "description": "Adspire is a Nis-based digital agency for websites, web apps, e-commerce, booking systems, and web invitations for weddings and birthdays. We serve clients across Nis and Serbia.",
@@ -48,7 +48,10 @@
           "UX/UI design tailored to your brand",
           "Next.js / React development and integrations",
           "Core Web Vitals performance and accessibility"
-        ]
+        ],
+        "slug": "web-dizajn-i-razvoj",
+        "href": "/usluge/web-dizajn-i-razvoj",
+        "cta": "Service details"
       },
       {
         "title": "E-commerce",
@@ -57,7 +60,10 @@
           "Custom shop or Shopify/Headless",
           "Payments, shipping, ERP/CRM integrations",
           "Advanced filtering and optimized checkout"
-        ]
+        ],
+        "slug": "e-commerce",
+        "href": "/usluge/e-commerce",
+        "cta": "Service details"
       },
       {
         "title": "Booking systems",
@@ -66,7 +72,10 @@
           "Client self-booking and confirmations",
           "Admin calendar, services, and staff management",
           "Notifications, reminders, and no-show control"
-        ]
+        ],
+        "slug": "booking-sistemi",
+        "href": "/usluge/booking-sistemi",
+        "cta": "Service details"
       },
       {
         "title": "Web invitations for events",
@@ -76,8 +85,9 @@
           "Live RSVP tracking: who is coming, who is not, and total guest count",
           "Instant updates for date, location, map, and event details"
         ],
-        "cta": "View invitation example",
-        "href": "/web-pozivnice-za-veselja"
+        "cta": "Service details",
+        "href": "/usluge/web-pozivnice-za-veselja",
+        "slug": "web-pozivnice-za-veselja"
       },
       {
         "title": "SEO & content",
@@ -86,7 +96,10 @@
           "Technical SEO, speed, and schema",
           "On-page optimization and keyword research",
           "Content planning and production"
-        ]
+        ],
+        "slug": "seo-i-sadrzaj",
+        "href": "/usluge/seo-i-sadrzaj",
+        "cta": "Service details"
       },
       {
         "title": "Performance marketing",
@@ -95,7 +108,10 @@
           "Google Ads (Search, Display, Performance Max)",
           "Meta Ads and retargeting",
           "Conversion tracking and A/B testing"
-        ]
+        ],
+        "slug": "performance-marketing",
+        "href": "/usluge/performance-marketing",
+        "cta": "Service details"
       },
       {
         "title": "Branding & identity",
@@ -104,7 +120,10 @@
           "Logo and identity system",
           "Brand voice and messaging",
           "Brand guide and digital assets"
-        ]
+        ],
+        "slug": "brending-i-identitet",
+        "href": "/usluge/brending-i-identitet",
+        "cta": "Service details"
       },
       {
         "title": "Social media & content",
@@ -113,7 +132,10 @@
           "Calendar planning and copy",
           "Photo/video/UGC production",
           "Community management and reporting"
-        ]
+        ],
+        "slug": "drustvene-mreze-i-sadrzaj",
+        "href": "/usluge/drustvene-mreze-i-sadrzaj",
+        "cta": "Service details"
       },
       {
         "title": "Maintenance & support",
@@ -122,7 +144,10 @@
           "Updates, backups, and security",
           "Performance and speed monitoring",
           "New feature development"
-        ]
+        ],
+        "slug": "odrzavanje-i-podrska",
+        "href": "/usluge/odrzavanje-i-podrska",
+        "cta": "Service details"
       },
       {
         "title": "Analytics & CRO",
@@ -131,7 +156,10 @@
           "GA4 and Tag Manager setup",
           "Dashboards and reporting",
           "Experiments to lift conversions"
-        ]
+        ],
+        "slug": "analitika-i-cro",
+        "href": "/usluge/analitika-i-cro",
+        "cta": "Service details"
       }
     ]
   },

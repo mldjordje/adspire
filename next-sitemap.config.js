@@ -3,7 +3,15 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://adspire.rs";
 module.exports = {
   siteUrl,
   generateRobotsTxt: true,
-  exclude: ["/api/*", "/404", "/500", "/server-sitemap.xml", "/en", "/en/*"],
+  exclude: [
+    "/api/*",
+    "/404",
+    "/500",
+    "/server-sitemap.xml",
+    "/en",
+    "/en/*",
+    "/web-pozivnice-za-veselja",
+  ],
   sitemapSize: 5000,
   changefreq: "weekly",
   priority: 0.7,
