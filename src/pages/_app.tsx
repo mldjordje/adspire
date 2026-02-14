@@ -1,6 +1,7 @@
 import React, { Suspense } from "react";
 import { AppProps } from "next/app";
 import { appWithTranslation } from "next-i18next";
+import { Analytics } from "@vercel/analytics/next";
 import nextI18NextConfig from "../../next-i18next.config.js";
 
 // bootstrap
@@ -19,6 +20,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <Component {...pageProps} />
+      <Analytics />
     </Suspense>
   );
 }
