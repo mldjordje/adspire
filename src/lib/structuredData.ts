@@ -49,8 +49,8 @@ const toJsonLdList = (input: StructuredDataInput) => {
 
   const name = "ADSPIRE";
   const description = isEnglish
-    ? "Digital agency in Nis, Serbia for websites, web apps, e-commerce, booking systems, web invitations for events, and presentation sites."
-    : "Digitalna agencija iz Nisa za izradu web sajtova, web aplikacija, web shopova, booking sistema, web pozivnica za veselja i prezentacija.";
+    ? "Digital agency in Nis, Serbia for advanced web applications, scalable database-backed systems, websites, e-commerce, booking platforms, and growth."
+    : "Digitalna agencija iz Nisa za napredne web aplikacije, skalabilne sisteme sa bazama podataka, web sajtove, e-commerce i booking platforme.";
 
   const address = {
     "@type": "PostalAddress",
@@ -69,6 +69,8 @@ const toJsonLdList = (input: StructuredDataInput) => {
   const services = isEnglish
     ? [
         "Web design & development",
+        "Advanced web applications",
+        "Large database architecture",
         "E-commerce",
         "Booking systems",
         "Web invitations for events",
@@ -81,6 +83,8 @@ const toJsonLdList = (input: StructuredDataInput) => {
       ]
     : [
         "Web dizajn i razvoj",
+        "Napredne web aplikacije",
+        "Arhitektura velikih baza podataka",
         "E-commerce",
         "Booking sistemi",
         "Web pozivnice za veselja",
@@ -114,8 +118,22 @@ const toJsonLdList = (input: StructuredDataInput) => {
         "@type": "Answer",
         text: isEnglish
           ? "Web design, e-commerce, booking systems, web invitations, SEO, performance marketing, branding, social media, maintenance, and analytics."
-          : "Web dizajn i razvoj, e-commerce, booking sistemi, web pozivnice, SEO, performance marketing, brending, drustvene mreze, odrzavanje i analitika.",
+          : "Napredne web aplikacije, e-commerce, booking sistemi, web pozivnice, SEO, performance marketing, brending, drustvene mreze, odrzavanje i analitika.",
       },
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      name: isEnglish ? "Advanced Web Applications" : "Napredne web aplikacije",
+      applicationCategory: "BusinessApplication",
+      operatingSystem: "Web",
+      provider: {
+        "@id": `${siteUrl}/#organization`,
+      },
+      description: isEnglish
+        ? "Custom web applications with scalable data architecture, secure APIs, role-based access, and performance monitoring."
+        : "Custom web aplikacije sa skalabilnom data arhitekturom, bezbednim API slojem, role-based pristupom i monitoringom performansi.",
+      url: `${siteUrl}/usluge/web-dizajn-i-razvoj`,
     },
     {
       "@type": "Question",

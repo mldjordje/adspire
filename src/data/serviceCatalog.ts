@@ -12,14 +12,14 @@ export type ServiceCatalogEntry = {
 export const serviceCatalog: ServiceCatalogEntry[] = [
   {
     slug: "web-dizajn-i-razvoj",
-    keywordSr: "izrada sajtova Nis, web dizajn, next js razvoj",
-    keywordEn: "web design nis, next js development, conversion website",
+    keywordSr: "napredne web aplikacije, velike baze podataka, next js razvoj",
+    keywordEn: "advanced web application development, large database architecture, next js",
     aiSummarySr:
-      "Izrada brzih web sajtova i aplikacija sa fokusom na konverzije, SEO i rast biznisa.",
+      "Razvoj naprednih web aplikacija i brzih sajtova sa skalabilnom arhitekturom, velikim bazama podataka i API integracijama.",
     aiSummaryEn:
-      "Fast website and web app delivery focused on conversion, SEO, and business growth.",
-    searchPhrasesSr: ["izrada sajtova nis", "next js razvoj", "seo sajt"],
-    searchPhrasesEn: ["web design nis", "next js agency", "seo website"],
+      "Advanced web application and website delivery with scalable architecture, large database design, and API integrations.",
+    searchPhrasesSr: ["napredne web aplikacije", "velike baze podataka", "next js razvoj"],
+    searchPhrasesEn: ["advanced web app development", "large database web app", "next js agency"],
   },
   {
     slug: "e-commerce",
