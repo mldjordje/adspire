@@ -171,10 +171,14 @@ const toJsonLdList = (input: StructuredDataInput) => {
     {
       "@context": "https://schema.org",
       "@type": "WebSite",
+      "@id": `${siteUrl}/#website`,
       name,
       url: siteUrl,
       inLanguage: isEnglish ? "en" : "sr",
       description,
+      publisher: {
+        "@id": `${siteUrl}/#organization`,
+      },
       potentialAction: {
         "@type": "SearchAction",
         target: `${siteUrl}/our-services?query={search_term_string}`,
@@ -184,14 +188,16 @@ const toJsonLdList = (input: StructuredDataInput) => {
     {
       "@context": "https://schema.org",
       "@type": "WebPage",
+      "@id": `${canonicalUrl}#webpage`,
       name: pageName,
       url: canonicalUrl,
       inLanguage: isEnglish ? "en" : "sr",
       description,
+      about: {
+        "@id": `${siteUrl}/#organization`,
+      },
       isPartOf: {
-        "@type": "WebSite",
-        name,
-        url: siteUrl,
+        "@id": `${siteUrl}/#website`,
       },
     },
     ...(routeSegments.length
@@ -206,16 +212,27 @@ const toJsonLdList = (input: StructuredDataInput) => {
     {
       "@context": "https://schema.org",
       "@type": ["LocalBusiness", "ProfessionalService", "Organization"],
+      "@id": `${siteUrl}/#organization`,
       name,
       url: siteUrl,
       image: `${siteUrl}/images/banner/banner-one-thumb.png`,
       description,
       address,
       geo,
+      contactPoint: [
+        {
+          "@type": "ContactPoint",
+          telephone: "+381601491491",
+          contactType: "customer support",
+          areaServed: "RS",
+          availableLanguage: ["sr", "en"],
+        },
+      ],
       areaServed: ["Nis", "Srbija"],
       telephone: "0601491491",
       email: "djordje@adspire.rs",
       availableLanguage: ["sr", "en"],
+      priceRange: "$$",
       slogan: isEnglish
         ? "Websites and web apps that convert."
         : "Web sajtovi i web aplikacije koje konvertuju.",
@@ -238,8 +255,7 @@ const toJsonLdList = (input: StructuredDataInput) => {
       "@type": "Service",
       name: isEnglish ? "Web development services" : "Usluge izrade sajtova",
       provider: {
-        "@type": "Organization",
-        name,
+        "@id": `${siteUrl}/#organization`,
       },
       areaServed: ["Nis", "Srbija"],
       serviceType: services,

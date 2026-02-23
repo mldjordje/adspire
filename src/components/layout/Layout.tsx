@@ -219,6 +219,9 @@ const Layout = ({
         <title key="title">{metaTitle}</title>
         <meta key="keywords" name="keywords" content={metaKeywords} />
         <meta key="description" name="description" content={metaDescription} />
+        <meta name="author" content="Adspire" />
+        <meta name="format-detection" content="telephone=no,address=no,email=no" />
+        <meta name="theme-color" content="#ffffff" />
         <meta
           key="robots"
           name="robots"
@@ -258,6 +261,8 @@ const Layout = ({
         <meta key="og-url" property="og:url" content={canonicalUrl} />
         <meta key="og-site-name" property="og:site_name" content="Adspire" />
         <meta key="og-image" property="og:image" content={ogImage} />
+        <meta key="og-image-width" property="og:image:width" content="1200" />
+        <meta key="og-image-height" property="og:image:height" content="630" />
         <meta key="og-image-alt" property="og:image:alt" content={metaTitle} />
         <meta key="og-type" property="og:type" content="website" />
         <meta key="twitter-card" name="twitter:card" content="summary_large_image" />
