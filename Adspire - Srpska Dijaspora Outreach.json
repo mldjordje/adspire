@@ -1,0 +1,469 @@
+{
+  "name": "Adspire - Srpska Dijaspora Outreach",
+  "nodes": [
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\nconst cfg = $('Konfiguracija1').first().json;\nconst SHEETS_URL = cfg.SHEETS_URL;\n\nfunction toInt(value, fallback) {\n  const parsed = Number(value);\n  if (!Number.isFinite(parsed)) return fallback;\n  return Math.max(1, Math.floor(parsed));\n}\n\nconst batchSize = toInt(cfg.SHEETS_BATCH_SIZE, 40);\n\nconst rows = items.map((item) => {\n  const d = item.json;\n  return {\n    Firma: (d.businessName || '').substring(0, 200),\n    Website: (d.websiteDisplay || d.websiteUrl || 'NEMA SAJT').substring(0, 250),\n    Adresa: (d.address || '').substring(0, 300),\n    Telefon: d.phone || 'NEMA BROJ',\n    Email: '',\n    'PageSpeed Mobile': d.mobileScoreStr || 'N/A',\n    Problemi: (d.websiteIssuesStr || '').substring(0, 500),\n    'Email Poslan': '',\n    'LinkedIn Poruka': '',\n    'Call Skript': '',\n    Status: 'Novi lead',\n    'Follow-up 1': '',\n    'Follow-up 2': '',\n    Napomene: [\n      d.targetSegment ? ('Nisa: ' + d.targetSegment) : '',\n      d.marketCity && d.marketCountry ? ('Market: ' + d.marketCity + ', ' + d.marketCountry) : '',\n      d.balkanScore !== undefined ? ('Balkan score: ' + d.balkanScore) : ''\n    ].filter(Boolean).join(' | ')\n  };\n});\n\nconst batches = [];\nfor (let i = 0; i < rows.length; i += batchSize) {\n  batches.push(rows.slice(i, i + batchSize));\n}\n\nconst totalBatches = batches.length;\n\nreturn batches.map((chunk, idx) => ({\n  json: {\n    sheetsUrl: SHEETS_URL,\n    batchIndex: idx + 1,\n    batchTotal: totalBatches,\n    batchRows: chunk.length,\n    sheetsBody: JSON.stringify({\n      action: 'appendBatch',\n      rows: chunk\n    })\n  }\n}));"
+      },
+      "id": "1ed2b49c-79a9-42c4-981d-d1b0a9114359",
+      "name": "Pripremi Sheets Body",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3664,
+        1664
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks",
+              "triggerAtHour": 9
+            }
+          ]
+        }
+      },
+      "id": "365c6436-7cfb-4f2e-a95d-1dc0b7c5f0ea",
+      "name": "Svaki Ponedeljak 09:",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        928,
+        1664
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "cfg-001",
+              "name": "GOOGLE_API_KEY",
+              "value": "AIzaSyBAJieZ0pC2hhsZFto7m_jkoa9udr2LYnQ",
+              "type": "string"
+            },
+            {
+              "id": "cfg-002",
+              "name": "SHEETS_URL",
+              "value": "https://script.google.com/macros/s/AKfycbz8JoiNkgVXnj_PQERv9hr91K9_gyNPnkygW99Fjek5U2k7SVHUtBPjouOvtVeg82jaqw/exec",
+              "type": "string"
+            },
+            {
+              "id": "cfg-003",
+              "name": "NUM_CITIES",
+              "value": 10,
+              "type": "number"
+            },
+            {
+              "id": "cfg-004",
+              "name": "QUERIES_PER_CITY",
+              "value": 10,
+              "type": "number"
+            },
+            {
+              "id": "cfg-005",
+              "name": "MAX_LEADS_PER_RUN",
+              "value": 220,
+              "type": "number"
+            },
+            {
+              "id": "cfg-006",
+              "name": "MIN_BALKAN_SCORE",
+              "value": 2,
+              "type": "number"
+            },
+            {
+              "id": "cfg-007",
+              "name": "KEEP_LEADS_WITHOUT_WEBSITE",
+              "value": false,
+              "type": "boolean"
+            },
+            {
+              "id": "cfg-008",
+              "name": "SHEETS_BATCH_SIZE",
+              "value": 40,
+              "type": "number"
+            },
+            {
+              "id": "cfg-009",
+              "name": "MIN_REVIEW_COUNT",
+              "value": 8,
+              "type": "number"
+            },
+            {
+              "id": "cfg-010",
+              "name": "MIN_RATING",
+              "value": 3.8,
+              "type": "number"
+            },
+            {
+              "id": "cfg-011",
+              "name": "MAX_LEADS_PER_CITY_SEGMENT",
+              "value": 12,
+              "type": "number"
+            },
+            {
+              "id": "cfg-012",
+              "name": "ENABLE_PAGESPEED",
+              "value": false,
+              "type": "boolean"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "83bdb1b5-77c6-41d9-b00c-dd5786aff4f3",
+      "name": "Konfiguracija1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1168,
+        1664
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const config = $('Konfiguracija1').first().json;\n\nfunction toInt(value, fallback) {\n  const parsed = Number(value);\n  if (!Number.isFinite(parsed)) return fallback;\n  return Math.max(1, Math.floor(parsed));\n}\n\nfunction pickRandom(arr, count) {\n  const clone = [...arr];\n  for (let i = clone.length - 1; i > 0; i -= 1) {\n    const j = Math.floor(Math.random() * (i + 1));\n    [clone[i], clone[j]] = [clone[j], clone[i]];\n  }\n  return clone.slice(0, count);\n}\n\nfunction randomFrom(arr) {\n  return arr[Math.floor(Math.random() * arr.length)];\n}\n\nconst wealthyCities = [\n  { city: 'Zurich', country: 'Switzerland' },\n  { city: 'Geneva', country: 'Switzerland' },\n  { city: 'Basel', country: 'Switzerland' },\n  { city: 'Zug', country: 'Switzerland' },\n  { city: 'Munich', country: 'Germany' },\n  { city: 'Frankfurt', country: 'Germany' },\n  { city: 'Stuttgart', country: 'Germany' },\n  { city: 'Dusseldorf', country: 'Germany' },\n  { city: 'Hamburg', country: 'Germany' },\n  { city: 'Berlin', country: 'Germany' },\n  { city: 'Vienna', country: 'Austria' },\n  { city: 'Salzburg', country: 'Austria' },\n  { city: 'London', country: 'United Kingdom' },\n  { city: 'Manchester', country: 'United Kingdom' },\n  { city: 'Chicago', country: 'USA' },\n  { city: 'New York', country: 'USA' },\n  { city: 'Miami', country: 'USA' },\n  { city: 'Toronto', country: 'Canada' },\n  { city: 'Vancouver', country: 'Canada' },\n  { city: 'Sydney', country: 'Australia' },\n  { city: 'Melbourne', country: 'Australia' },\n  { city: 'Dubai', country: 'UAE' }\n];\n\nconst markets = [\n  {\n    segment: 'Construction',\n    terms: [\n      'construction company',\n      'general contractor',\n      'renovation company',\n      'roofing contractor',\n      'electrical contractor',\n      'plumbing contractor',\n      'Bauunternehmen',\n      'Baufirma',\n      'Sanierung Firma'\n    ]\n  },\n  {\n    segment: 'Real Estate',\n    terms: [\n      'real estate agency',\n      'real estate broker',\n      'property management',\n      'commercial real estate',\n      'Hausverwaltung',\n      'Immobilienmakler',\n      'Immobilienverwaltung'\n    ]\n  },\n  {\n    segment: 'Beauty Clinic',\n    terms: [\n      'beauty clinic',\n      'medical spa',\n      'skin clinic',\n      'laser clinic',\n      'aesthetic clinic',\n      'Kosmetikstudio',\n      'beauty salon'\n    ]\n  },\n  {\n    segment: 'Aesthetic Medicine',\n    terms: [\n      'aesthetic medicine clinic',\n      'botox clinic',\n      'dermatology aesthetic clinic',\n      'plastic surgery clinic',\n      'aesthetic doctor',\n      'aesthetische medizin',\n      'medizinische kosmetik'\n    ]\n  }\n];\n\nconst diasporaSignals = [\n  'serbian',\n  'croatian',\n  'bosnian',\n  'montenegrin',\n  'balkan',\n  'ex yu',\n  'jugoslav',\n  'srpski',\n  'hrvatski',\n  'bosanski'\n];\n\nconst surnameHints = [\n  'Jovic', 'Petrovic', 'Nikolic', 'Markovic', 'Ilic', 'Kovacevic', 'Stankovic', 'Popovic', 'Vukovic',\n  'Radovic', 'Savic', 'Jankovic', 'Djukic', 'Simic', 'Tomic', 'Milic', 'Ristic', 'Pavlovic',\n  'Stojanovic', 'Filipovic', 'Lazic', 'Stefanovic', 'Matic', 'Peric', 'Knezevic', 'Krstic', 'Horvat',\n  'Kovac', 'Hadzic', 'Selimovic', 'Martinovic', 'Berisha', 'Krasniqi', 'Hoxha', 'Gashi', 'Ahmeti'\n];\n\nfunction buildQuery(term, city, country, mode) {\n  const base = `${term} ${city} ${country}`;\n  if (mode === 'diaspora') {\n    return `${base} ${randomFrom(diasporaSignals)}`;\n  }\n  if (mode === 'surname') {\n    return `${term} ${randomFrom(surnameHints)} ${city} ${country}`;\n  }\n  return base;\n}\n\nconst numCities = toInt(config.NUM_CITIES, 10);\nconst queriesPerCity = toInt(config.QUERIES_PER_CITY, 10);\nconst selectedCities = pickRandom(wealthyCities, Math.min(numCities, wealthyCities.length));\nconst flattenedMarkets = markets.flatMap((m) => m.terms.map((term) => ({ segment: m.segment, term })));\n\nconst rawQueries = [];\n\nfor (const city of selectedCities) {\n  const cityQueries = [];\n\n  for (const market of markets) {\n    const term = randomFrom(market.terms);\n\n    cityQueries.push({\n      searchQuery: buildQuery(term, city.city, city.country, 'base'),\n      targetSegment: market.segment,\n      marketCity: city.city,\n      marketCountry: city.country,\n      queryIntent: 'base',\n      usedSurnameHint: false,\n      usedDiasporaSignal: false,\n      GOOGLE_API_KEY: config.GOOGLE_API_KEY\n    });\n\n    if (Math.random() < 0.85) {\n      cityQueries.push({\n        searchQuery: buildQuery(term, city.city, city.country, 'diaspora'),\n        targetSegment: market.segment,\n        marketCity: city.city,\n        marketCountry: city.country,\n        queryIntent: 'diaspora',\n        usedSurnameHint: false,\n        usedDiasporaSignal: true,\n        GOOGLE_API_KEY: config.GOOGLE_API_KEY\n      });\n    }\n  }\n\n  while (cityQueries.length < queriesPerCity) {\n    const item = randomFrom(flattenedMarkets);\n    const roll = Math.random();\n    const mode = roll > 0.92 ? 'surname' : (roll > 0.65 ? 'diaspora' : 'base');\n\n    cityQueries.push({\n      searchQuery: buildQuery(item.term, city.city, city.country, mode),\n      targetSegment: item.segment,\n      marketCity: city.city,\n      marketCountry: city.country,\n      queryIntent: mode,\n      usedSurnameHint: mode === 'surname',\n      usedDiasporaSignal: mode === 'diaspora',\n      GOOGLE_API_KEY: config.GOOGLE_API_KEY\n    });\n  }\n\n  rawQueries.push(...cityQueries.slice(0, queriesPerCity));\n}\n\nconst uniqueQueries = Array.from(\n  new Map(rawQueries.map((q) => [q.searchQuery.toLowerCase(), q])).values()\n);\n\nreturn uniqueQueries.map((q) => ({ json: q }));"
+      },
+      "id": "2a1606f2-daea-4586-a61c-d135465075ae",
+      "name": "Generisi Pretrage1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1408,
+        1664
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://maps.googleapis.com/maps/api/place/textsearch/json",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "query",
+              "value": "={{ $json.searchQuery }}"
+            },
+            {
+              "name": "key",
+              "value": "={{ $json.GOOGLE_API_KEY }}"
+            },
+            {
+              "name": "language",
+              "value": "en"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 15000
+        }
+      },
+      "id": "25e6c8be-086d-4fce-a4aa-7f8fa7c1063c",
+      "name": "Google Maps Pretraga1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1648,
+        1664
+      ],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const config = $('Konfiguracija1').first().json;\nconst allItems = $input.all();\nconst queryItems = $('Generisi Pretrage1').all();\n\nfunction toInt(value, fallback, min = 1) {\n  const parsed = Number(value);\n  if (!Number.isFinite(parsed)) return fallback;\n  return Math.max(min, Math.floor(parsed));\n}\n\nfunction toNum(value, fallback) {\n  const parsed = Number(value);\n  return Number.isFinite(parsed) ? parsed : fallback;\n}\n\nfunction normalize(text) {\n  return String(text || '')\n    .normalize('NFKD')\n    .replace(/[\\u0300-\\u036f]/g, '')\n    .replace(/_/g, ' ')\n    .toLowerCase();\n}\n\nfunction containsAny(text, keywords) {\n  return keywords.some((k) => text.includes(k));\n}\n\nfunction detectSegmentFromText(text) {\n  const segments = [\n    {\n      name: 'Construction',\n      keys: ['construction', 'contractor', 'bau', 'renovation', 'roofing', 'plumbing', 'electrical', 'sanierung', 'builder']\n    },\n    {\n      name: 'Real Estate',\n      keys: ['real estate', 'estate agency', 'estate agent', 'property management', 'immobilien', 'hausverwaltung', 'broker']\n    },\n    {\n      name: 'Beauty Clinic',\n      keys: ['beauty clinic', 'medical spa', 'skin clinic', 'laser clinic', 'kosmetikstudio', 'beauty salon', 'kosmetik']\n    },\n    {\n      name: 'Aesthetic Medicine',\n      keys: ['aesthetic medicine', 'botox', 'dermatology', 'plastic surgery', 'aesthetische', 'medizinische kosmetik']\n    }\n  ];\n\n  for (const segment of segments) {\n    if (containsAny(text, segment.keys)) return segment.name;\n  }\n\n  return null;\n}\n\nfunction detectSegmentFromTypes(typesArr) {\n  const types = (typesArr || []).map((t) => normalize(t));\n\n  if (types.some((t) => ['general contractor', 'roofing contractor', 'electrician', 'plumber'].includes(t))) {\n    return 'Construction';\n  }\n\n  if (types.some((t) => ['real estate agency', 'real estate consultant', 'property management company'].includes(t))) {\n    return 'Real Estate';\n  }\n\n  if (types.some((t) => ['beauty salon', 'spa', 'hair care'].includes(t))) {\n    return 'Beauty Clinic';\n  }\n\n  if (types.some((t) => ['doctor', 'health', 'hospital'].includes(t))) {\n    return 'Aesthetic Medicine';\n  }\n\n  return null;\n}\n\nconst excludeKeywords = [\n  'restaurant', 'restoran', 'cafe', 'kafana', 'bar', 'pizza', 'burger',\n  'bakery', 'hotel', 'hostel', 'night club', 'pub', 'school', 'kindergarten', 'university'\n];\n\nconst balkanSignals = [\n  'serb', 'srp', 'croat', 'hrvat', 'bosn', 'balkan', 'jugoslav', 'ex yu', 'montenegr', 'makedon', 'alban'\n];\n\nconst surnameHints = [\n  'jovic', 'petrovic', 'nikolic', 'markovic', 'ilic', 'kovacevic', 'stankovic', 'popovic', 'vukovic',\n  'radovic', 'savic', 'jankovic', 'djukic', 'simic', 'tomic', 'milic', 'ristic', 'pavlovic',\n  'stojanovic', 'filipovic', 'lazic', 'stefanovic', 'matic', 'peric', 'knezevic', 'krstic', 'horvat',\n  'kovac', 'hadzic', 'selimovic', 'martinovic', 'berisha', 'krasniqi', 'hoxha', 'gashi', 'ahmeti'\n];\n\nconst minScore = toInt(config.MIN_BALKAN_SCORE, 2, 1);\nconst maxLeads = toInt(config.MAX_LEADS_PER_RUN, 220, 1);\nconst minReviewCount = toInt(config.MIN_REVIEW_COUNT, 8, 0);\nconst minRating = toNum(config.MIN_RATING, 3.8);\nconst maxPerCitySegment = toInt(config.MAX_LEADS_PER_CITY_SEGMENT, 12, 1);\n\nconst dedupe = new Map();\n\nfor (let i = 0; i < allItems.length; i += 1) {\n  const item = allItems[i].json || {};\n  const queryMeta = queryItems[i] ? (queryItems[i].json || {}) : {};\n  const queryText = normalize(queryMeta.searchQuery || '');\n  const results = Array.isArray(item.results) ? item.results : [];\n\n  if (item.status && !['OK', 'ZERO_RESULTS'].includes(String(item.status))) {\n    continue;\n  }\n\n  for (const place of results) {\n    if (!place.place_id) continue;\n\n    const businessName = place.name || '';\n    const address = place.formatted_address || '';\n    const businessTypesArr = Array.isArray(place.types) ? place.types : [];\n    const rating = Number(place.rating || 0);\n    const reviewCount = Number(place.user_ratings_total || 0);\n\n    if (reviewCount > 0 && reviewCount < minReviewCount) continue;\n    if (rating > 0 && rating < minRating) continue;\n\n    const allText = normalize([businessName, address, businessTypesArr.join(' ')].join(' '));\n    if (containsAny(allText, excludeKeywords)) continue;\n\n    const segmentByText = detectSegmentFromText(allText);\n    const segmentByTypes = detectSegmentFromTypes(businessTypesArr);\n    const querySegment = queryMeta.targetSegment || '';\n\n    const targetSegment = segmentByText || segmentByTypes || '';\n    if (!targetSegment) continue;\n    if (querySegment && targetSegment !== querySegment) continue;\n\n    let balkanScore = 0;\n\n    if (queryMeta.queryIntent === 'surname') balkanScore += 2;\n    if (queryMeta.queryIntent === 'diaspora') balkanScore += 1;\n\n    if (containsAny(queryText, balkanSignals) || containsAny(queryText, surnameHints)) balkanScore += 1;\n    if (containsAny(allText, balkanSignals)) balkanScore += 2;\n\n    const nameOnly = normalize(businessName);\n    if (containsAny(nameOnly, surnameHints)) balkanScore += 2;\n\n    if (/\\b[a-z]{3,}(ovic|evic|ic|vich|ski|ska)\\b/.test(nameOnly)) {\n      balkanScore += 2;\n    }\n\n    if (reviewCount >= 80) balkanScore += 1;\n    if (rating >= 4.6) balkanScore += 1;\n\n    const candidate = {\n      businessName,\n      address,\n      placeId: place.place_id,\n      rating: rating || null,\n      reviewCount,\n      businessTypes: businessTypesArr.join(', '),\n      targetSegment,\n      balkanScore,\n      marketCity: queryMeta.marketCity || '',\n      marketCountry: queryMeta.marketCountry || '',\n      searchQuery: queryMeta.searchQuery || '',\n      queryIntent: queryMeta.queryIntent || 'base',\n      GOOGLE_API_KEY: config.GOOGLE_API_KEY\n    };\n\n    const prev = dedupe.get(candidate.placeId);\n    if (!prev) {\n      dedupe.set(candidate.placeId, candidate);\n      continue;\n    }\n\n    const better =\n      candidate.balkanScore > prev.balkanScore ||\n      (candidate.balkanScore === prev.balkanScore && candidate.reviewCount > prev.reviewCount) ||\n      (candidate.balkanScore === prev.balkanScore && candidate.reviewCount === prev.reviewCount && (candidate.rating || 0) > (prev.rating || 0));\n\n    if (better) {\n      dedupe.set(candidate.placeId, candidate);\n    }\n  }\n}\n\nconst sorted = Array.from(dedupe.values())\n  .sort((a, b) =>\n    (b.balkanScore - a.balkanScore) ||\n    (b.reviewCount - a.reviewCount) ||\n    ((b.rating || 0) - (a.rating || 0))\n  );\n\nconst strict = sorted.filter((x) => x.balkanScore >= minScore);\nconst relaxed = sorted.filter((x) => x.balkanScore >= Math.max(1, minScore - 1));\nconst selectedPool = strict.length > 0 ? strict : (relaxed.length > 0 ? relaxed : sorted.filter((x) => x.balkanScore >= 1));\n\nconst counters = new Map();\nconst diversified = [];\n\nfor (const lead of selectedPool) {\n  const key = `${lead.marketCity}__${lead.targetSegment}`;\n  const count = counters.get(key) || 0;\n  if (count >= maxPerCitySegment) continue;\n\n  counters.set(key, count + 1);\n  diversified.push(lead);\n\n  if (diversified.length >= maxLeads) break;\n}\n\nif (diversified.length === 0) {\n  return [{ json: { DEBUG: true, message: 'Nema leadova: Google vratio 0 ili je filter prejak.' } }];\n}\n\nreturn diversified.map((lead) => ({ json: lead }));"
+      },
+      "id": "876b822e-ae8f-4539-99ee-fb0f4edb6d3c",
+      "name": "Parsiraj Rezultate1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1888,
+        1664
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://maps.googleapis.com/maps/api/place/details/json",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "place_id",
+              "value": "={{ $json.placeId }}"
+            },
+            {
+              "name": "key",
+              "value": "={{ $json.GOOGLE_API_KEY }}"
+            },
+            {
+              "name": "fields",
+              "value": "name,formatted_phone_number,international_phone_number,website,formatted_address,place_id"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          },
+          "timeout": 15000
+        }
+      },
+      "id": "27e5be1e-bae3-4c97-ba71-8bf35c2006ed",
+      "name": "Place Details1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        2096,
+        1664
+      ],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const placeDetailsItems = $input.all();\nconst originalLeads = $('Parsiraj Rezultate1').all();\nconst config = $('Konfiguracija1').first().json;\n\nfunction normalize(text) {\n  return String(text || '')\n    .normalize('NFKD')\n    .replace(/[\\u0300-\\u036f]/g, '')\n    .replace(/_/g, ' ')\n    .toLowerCase();\n}\n\nfunction containsAny(text, keywords) {\n  return keywords.some((k) => text.includes(k));\n}\n\nfunction getHost(url) {\n  try {\n    return new URL(url).hostname.toLowerCase();\n  } catch {\n    return '';\n  }\n}\n\nconst balkanSignals = [\n  'serb', 'srp', 'croat', 'hrvat', 'bosn', 'balkan', 'jugoslav', 'ex yu', 'montenegr', 'makedon', 'alban'\n];\n\nconst surnameHints = [\n  'jovic', 'petrovic', 'nikolic', 'markovic', 'ilic', 'kovacevic', 'stankovic', 'popovic', 'vukovic',\n  'radovic', 'savic', 'jankovic', 'djukic', 'simic', 'tomic', 'milic', 'ristic', 'pavlovic',\n  'stojanovic', 'filipovic', 'lazic', 'stefanovic', 'matic', 'peric', 'knezevic', 'krstic', 'horvat',\n  'kovac', 'hadzic', 'selimovic', 'martinovic', 'berisha', 'krasniqi', 'hoxha', 'gashi', 'ahmeti'\n];\n\nconst socialHosts = [\n  'facebook.com', 'm.facebook.com', 'instagram.com', 'linkedin.com',\n  'tiktok.com', 'youtube.com', 'x.com', 'twitter.com'\n];\n\nconst balkanTlds = ['.rs', '.hr', '.ba', '.me', '.mk', '.si', '.al'];\n\nconst keepNoWebsite = Boolean(config.KEEP_LEADS_WITHOUT_WEBSITE ?? true);\n\nconst leadByPlaceId = new Map();\nfor (const item of originalLeads) {\n  const lead = item.json;\n  if (lead?.placeId) {\n    leadByPlaceId.set(lead.placeId, lead);\n  }\n}\n\nconst results = [];\n\nfor (let i = 0; i < placeDetailsItems.length; i += 1) {\n  const details = placeDetailsItems[i].json?.result || {};\n  const placeId = details.place_id || '';\n  const lead = leadByPlaceId.get(placeId) || (originalLeads[i] ? originalLeads[i].json : {});\n\n  if (lead.DEBUG) continue;\n\n  const businessName = details.name || lead.businessName || '';\n  const address = details.formatted_address || lead.address || '';\n\n  if (!businessName) continue;\n\n  let websiteUrl = details.website || lead.websiteUrl || null;\n  let websiteHost = websiteUrl ? getHost(websiteUrl) : '';\n\n  const isSocialWebsite = websiteHost\n    ? socialHosts.some((host) => websiteHost === host || websiteHost.endsWith(`.${host}`))\n    : false;\n\n  if (isSocialWebsite) {\n    websiteUrl = null;\n    websiteHost = '';\n  }\n\n  const hasWebsite = !!websiteUrl;\n  if (!hasWebsite && !keepNoWebsite) continue;\n\n  let balkanScore = Number(lead.balkanScore || 0);\n  const mergedText = normalize([businessName, address, websiteUrl || ''].join(' '));\n\n  if (containsAny(mergedText, balkanSignals)) balkanScore += 2;\n  if (containsAny(normalize(businessName), surnameHints)) balkanScore += 2;\n  if (/\\b[a-z]{3,}(ovic|evic|ic|vich|ski|ska)\\b/.test(normalize(businessName))) balkanScore += 2;\n\n  if (websiteHost && balkanTlds.some((tld) => websiteHost.endsWith(tld))) {\n    balkanScore += 2;\n  }\n\n  if (balkanScore < 1) continue;\n\n  results.push({\n    json: {\n      businessName,\n      address,\n      placeId: lead.placeId || placeId,\n      rating: lead.rating || null,\n      reviewCount: lead.reviewCount || 0,\n      businessTypes: lead.businessTypes || '',\n      targetSegment: lead.targetSegment || '',\n      marketCity: lead.marketCity || '',\n      marketCountry: lead.marketCountry || '',\n      balkanScore,\n      phone: details.international_phone_number || details.formatted_phone_number || null,\n      websiteUrl,\n      websiteHost,\n      websiteDisplay: hasWebsite ? websiteUrl : 'NEMA SAJT',\n      hasWebsite,\n      GOOGLE_API_KEY: config.GOOGLE_API_KEY\n    }\n  });\n}\n\nreturn results.length > 0\n  ? results\n  : [{ json: { DEBUG: true, message: 'Nema leadova posle Place Details (proveri Places API key).' } }];"
+      },
+      "id": "6702f24f-e877-4843-9c5c-6dc501f612bc",
+      "name": "Spoji Detalje1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2304,
+        1664
+      ]
+    },
+    {
+      "parameters": {
+        "url": "={{ $('Konfiguracija1').first().json.ENABLE_PAGESPEED ? 'https://www.googleapis.com/pagespeedonline/v5/runPagespeed' : 'https://www.googleapis.com/generate_204' }}",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "url",
+              "value": "={{ $json.websiteUrl || 'https://example.com' }}"
+            },
+            {
+              "name": "strategy",
+              "value": "mobile"
+            },
+            {
+              "name": "key",
+              "value": "={{ $('Konfiguracija1').first().json.ENABLE_PAGESPEED ? $json.GOOGLE_API_KEY : '' }}"
+            },
+            {
+              "name": "category",
+              "value": "performance"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          },
+          "timeout": 30000
+        }
+      },
+      "id": "3e8776ff-e2f1-4ae2-a61c-e9a922d933ad",
+      "name": "PageSpeed Analiza1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2512,
+        1664
+      ],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const config = $('Konfiguracija1').first().json;\nconst pageSpeedEnabled = Boolean(config.ENABLE_PAGESPEED ?? false);\n\nconst psItems = $input.all();\nconst leadItems = $('Spoji Detalje1').all();\nconst results = [];\n\nfor (let i = 0; i < psItems.length; i += 1) {\n  const psData = psItems[i].json || {};\n  const lead = leadItems[i] ? leadItems[i].json : {};\n\n  if (lead.DEBUG) continue;\n\n  const issues = [];\n  const hasWebsite = !!lead.hasWebsite;\n  const pageSpeedError = psData?.error?.message || '';\n\n  let mobileScoreNum = null;\n\n  if (hasWebsite) {\n    const scoreRaw = psData?.lighthouseResult?.categories?.performance?.score;\n    if (typeof scoreRaw === 'number') {\n      mobileScoreNum = Math.round(scoreRaw * 100);\n    }\n\n    if (mobileScoreNum !== null) {\n      if (mobileScoreNum < 40) issues.push('Very slow mobile site');\n      else if (mobileScoreNum < 60) issues.push('Slow mobile site');\n      else if (mobileScoreNum < 75) issues.push('Average mobile speed');\n    } else if (!pageSpeedEnabled) {\n      issues.push('PageSpeed disabled in config');\n    } else if (pageSpeedError) {\n      const msg = String(pageSpeedError).toLowerCase();\n      if (msg.includes('disabled') || msg.includes('accessnotconfigured') || msg.includes('not been used')) {\n        issues.push('PageSpeed API is not enabled');\n      } else if (msg.includes('quota') || msg.includes('rate') || msg.includes('limit')) {\n        issues.push('PageSpeed quota limit');\n      } else {\n        issues.push('PageSpeed unavailable');\n      }\n    } else {\n      issues.push('PageSpeed unavailable');\n    }\n\n    const audits = psData?.lighthouseResult?.audits || {};\n    if (audits['uses-optimized-images']?.score < 0.5) issues.push('Images not optimized');\n    if (audits['unused-css-rules']?.score < 0.5) issues.push('Unused CSS slows site');\n    if (audits['render-blocking-resources']?.score < 0.5) issues.push('Render-blocking resources');\n\n    if (lead.websiteUrl && lead.websiteUrl.startsWith('http://')) {\n      issues.push('No SSL (http)');\n    }\n\n    if (issues.length === 0) issues.push('Website can still be improved');\n  } else {\n    issues.push('NEMA SAJT');\n  }\n\n  const mobileScoreStr = hasWebsite\n    ? (mobileScoreNum !== null ? String(mobileScoreNum) : 'N/A')\n    : 'N/A (nema sajt)';\n\n  results.push({\n    json: {\n      businessName: lead.businessName || '',\n      address: lead.address || '',\n      phone: lead.phone || null,\n      websiteUrl: lead.websiteUrl || null,\n      websiteHost: lead.websiteHost || '',\n      websiteDisplay: lead.websiteDisplay || (lead.websiteUrl || 'NEMA SAJT'),\n      hasWebsite,\n      targetSegment: lead.targetSegment || '',\n      marketCity: lead.marketCity || '',\n      marketCountry: lead.marketCountry || '',\n      rating: lead.rating || null,\n      reviewCount: lead.reviewCount || 0,\n      businessTypes: lead.businessTypes || '',\n      balkanScore: lead.balkanScore || 0,\n      mobileScore: mobileScoreNum,\n      mobileScoreStr,\n      websiteIssues: issues,\n      websiteIssuesStr: issues.join(' | '),\n      mainIssue: issues[0] || (hasWebsite ? 'Website optimization' : 'NEMA SAJT')\n    }\n  });\n}\n\nreturn results;"
+      },
+      "id": "838a67a1-ec46-46d7-861f-4f9573a73b2e",
+      "name": "Analiziraj Probleme1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2704,
+        1664
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $json.sheetsUrl }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "raw",
+        "rawContentType": "application/json",
+        "body": "={{ $json.sheetsBody }}",
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          },
+          "timeout": 30000
+        }
+      },
+      "id": "8f3a0042-c191-4bab-8b96-1f56ba831e59",
+      "name": "Sheets - Loguj Lead1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        3904,
+        1664
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Pripremi Sheets Body": {
+      "main": [
+        [
+          {
+            "node": "Sheets - Loguj Lead1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Svaki Ponedeljak 09:": {
+      "main": [
+        [
+          {
+            "node": "Konfiguracija1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Konfiguracija1": {
+      "main": [
+        [
+          {
+            "node": "Generisi Pretrage1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Maps Pretraga1": {
+      "main": [
+        [
+          {
+            "node": "Parsiraj Rezultate1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parsiraj Rezultate1": {
+      "main": [
+        [
+          {
+            "node": "Place Details1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Place Details1": {
+      "main": [
+        [
+          {
+            "node": "Spoji Detalje1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Spoji Detalje1": {
+      "main": [
+        [
+          {
+            "node": "PageSpeed Analiza1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "PageSpeed Analiza1": {
+      "main": [
+        [
+          {
+            "node": "Analiziraj Probleme1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analiziraj Probleme1": {
+      "main": [
+        [
+          {
+            "node": "Pripremi Sheets Body",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generisi Pretrage1": {
+      "main": [
+        [
+          {
+            "node": "Google Maps Pretraga1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "af53ca4b-0962-46ac-a562-27bf8bcf38d8",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "3fb093965e0532695da06fc86cdc01eb6fb7921bd54afc7a647bc997da34274a"
+  },
+  "id": "ZK9GOakVw8o9floD",
+  "tags": [
+    {
+      "updatedAt": "2026-02-25T00:23:58.785Z",
+      "createdAt": "2026-02-25T00:23:58.785Z",
+      "id": "G05WqfCOLGYAoUJ8",
+      "name": "dijaspora"
+    },
+    {
+      "updatedAt": "2026-02-25T00:23:58.780Z",
+      "createdAt": "2026-02-25T00:23:58.780Z",
+      "id": "feB31s752aXobug7",
+      "name": "outreach"
+    }
+  ]
+}
