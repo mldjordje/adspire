@@ -51,10 +51,10 @@ export function HeroDesignerSection({
                 loop
                 muted
                 playsInline
-                poster={RAYO_V10_ASSET_MAP.menu.promoPoster}
+                poster={RAYO_V10_ASSET_MAP.heroDesigner.poster}
                 aria-label={locale === "en" ? "Adspire project reel" : "Adspire pregled projekata"}
               >
-                <source type="video/mp4" src={RAYO_V10_ASSET_MAP.menu.promoVideo} />
+                <source type="video/mp4" src={RAYO_V10_ASSET_MAP.heroDesigner.video} />
               </video>
             </div>
           </div>

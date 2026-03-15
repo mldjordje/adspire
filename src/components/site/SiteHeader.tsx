@@ -2,9 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
-import gsap from "gsap";
-import { Flip } from "gsap/dist/Flip";
+import { useEffect, useState } from "react";
 import { LocaleSwitcher } from "@/components/site/LocaleSwitcher";
 import { useTheme } from "@/components/site/ThemeProvider";
 import { withLocalePrefix } from "@/lib/locale";
@@ -33,126 +31,71 @@ type MenuGroup = {
 
 function PlusIcon() {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" version="1.1" viewBox="0 0 20 20" aria-hidden>
+    <svg viewBox="0 0 20 20" aria-hidden>
       <path d="M19.6,9.6h-3.9c-.4,0-1.8-.2-1.8-.2-.6,0-1.1-.2-1.6-.6-.5-.3-.9-.8-1.2-1.2-.3-.4-.4-.9-.5-1.4,0,0,0-1.1-.2-1.5V.4c0-.2-.2-.4-.4-.4s-.4.2-.4.4v4.4c0,.4-.2,1.5-.2,1.5,0,.5-.2,1-.5,1.4-.3.5-.7.9-1.2,1.2s-1,.5-1.6.6c0,0-1.2,0-1.7.2H.4c-.2,0-.4.2-.4.4s.2.4.4.4h4.1c.4,0,1.7.2,1.7.2.6,0,1.1.2,1.6.6.4.3.8.7,1.1,1.1.3.5.5,1,.6,1.6,0,0,0,1.3.2,1.7v4.1c0,.2.2.4.4.4s.4-.2.4-.4v-4.1c0-.4.2-1.7.2-1.7,0-.6.2-1.1.6-1.6.3-.4.7-.8,1.1-1.1.5-.3,1-.5,1.6-.6,0,0,1.3,0,1.8-.2h3.9c.2,0,.4-.2.4-.4s-.2-.4-.4-.4h0Z" />
     </svg>
   );
 }
 
+function ThemeIcon({ theme }: { theme: "dark" | "light" }) {
+  if (theme === "dark") {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden>
+        <path
+          fill="currentColor"
+          d="M14.53 3.51a1 1 0 0 0-1.22 1.3 7 7 0 0 1-8.45 8.45 1 1 0 0 0-1.3 1.22A9 9 0 1 0 14.53 3.51Z"
+        />
+      </svg>
+    );
+  }
+
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden>
+      <path
+        fill="currentColor"
+        d="M12 18a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0v-2a1 1 0 0 1 1-1Zm0-15a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0V4a1 1 0 0 1 1-1Zm8 8a1 1 0 0 1 0 2h-2a1 1 0 1 1 0-2h2ZM6 12a1 1 0 0 1-1 1H3a1 1 0 1 1 0-2h2a1 1 0 0 1 1 1Zm10.95 5.54a1 1 0 0 1 1.41 1.41l-1.41 1.42a1 1 0 0 1-1.42-1.42l1.42-1.41ZM8.46 7.05a1 1 0 1 1-1.41 1.41L5.63 7.05a1 1 0 1 1 1.42-1.42l1.41 1.42Zm8.49 1.41a1 1 0 0 1-1.42-1.41l1.42-1.42a1 1 0 0 1 1.41 1.42l-1.41 1.41ZM8.46 16.95l-1.41 1.41a1 1 0 0 1-1.42-1.41l1.42-1.42a1 1 0 1 1 1.41 1.42ZM12 8a4 4 0 1 1 0 8a4 4 0 0 1 0-8Z"
+      />
+    </svg>
+  );
+}
+
 export function SiteHeader({ locale, nav }: HeaderProps) {
-  const defaultGroup = "agency";
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [openGroup, setOpenGroup] = useState<string | null>(defaultGroup);
-  const { theme, toggleTheme } = useTheme();
   const pathname = usePathname();
-  const wrapRef = useRef<HTMLDivElement | null>(null);
-  const menuTlRef = useRef<gsap.core.Timeline | null>(null);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [openGroup, setOpenGroup] = useState<string | null>("main");
+  const { theme, toggleTheme } = useTheme();
 
   const groups: MenuGroup[] = [
     {
-      key: "agency",
-      label: locale === "en" ? "Agency" : "Agencija",
+      key: "main",
+      label: locale === "en" ? "Main" : "Glavno",
       items: [
         { href: "/", label: nav.home },
         { href: "/about-us", label: nav.about },
+        { href: "/our-services", label: nav.services },
         { href: "/our-projects", label: nav.projects },
       ],
     },
     {
-      key: "solutions",
-      label: locale === "en" ? "Solutions" : "Resenja",
+      key: "explore",
+      label: locale === "en" ? "Explore" : "Istrazi",
       items: [
-        { href: "/our-services", label: nav.services },
         { href: "/portfolio", label: nav.portfolio },
-        { href: "/contact-us", label: nav.contact },
-      ],
-    },
-    {
-      key: "insights",
-      label: locale === "en" ? "Insights" : "Uvidi",
-      items: [
         { href: "/blog", label: nav.blog },
         { href: "/faq", label: nav.faq },
+        { href: "/contact-us", label: nav.contact },
       ],
     },
   ];
 
   useEffect(() => {
-    if (!wrapRef.current) {
-      return;
-    }
+    document.body.classList.toggle("mxd-menu-open", menuOpen);
+    return () => document.body.classList.remove("mxd-menu-open");
+  }, [menuOpen]);
 
-    gsap.registerPlugin(Flip);
-
-    const root = wrapRef.current;
-    const hamburgerEl = root.querySelector<HTMLElement>(".mxd-nav__hamburger");
-    const navLineEls = root.querySelectorAll<HTMLElement>(".hamburger__line");
-    const menuContainEl = root.querySelector<HTMLElement>(".mxd-menu__contain");
-    const flipItemEl = root.querySelector<HTMLElement>(".hamburger__base");
-    const menuWrapEl = root.querySelector<HTMLElement>(".mxd-menu__wrapper");
-    const menuBaseEl = root.querySelector<HTMLElement>(".mxd-menu__base");
-    const menuItemEls = root.querySelectorAll<HTMLElement>(".main-menu__item");
-    const videoEl = root.querySelector<HTMLElement>(".menu-promo__video");
-    const fadeInEls = root.querySelectorAll<HTMLElement>(".menu-fade-in");
-
-    if (!hamburgerEl || navLineEls.length < 2 || !menuContainEl || !flipItemEl || !menuWrapEl || !menuBaseEl) {
-      return;
-    }
-
-    const flip = (forwards: boolean) => {
-      const state = Flip.getState(flipItemEl);
-      if (forwards) {
-        menuContainEl.appendChild(flipItemEl);
-      } else {
-        hamburgerEl.appendChild(flipItemEl);
-      }
-      Flip.from(state, { ease: "power4.inOut", duration: 0.8 });
-    };
-
-    const tl = gsap.timeline({ paused: true });
-    tl.set(menuWrapEl, { display: "flex" })
-      .from(menuBaseEl, {
-        opacity: 0,
-        duration: 0.6,
-        ease: "none",
-        onStart: () => flip(true),
-      })
-      .to(navLineEls[0], { y: 5, duration: 0.16 }, "<")
-      .to(navLineEls[1], { y: -5, duration: 0.16 }, "<")
-      .to(navLineEls[0], { rotate: 45, duration: 0.16 }, 0.2)
-      .to(navLineEls[1], { rotate: -45, duration: 0.16 }, 0.2)
-      .add("fade-in-up")
-      .from(
-        menuItemEls,
-        {
-          opacity: 0,
-          yPercent: 50,
-          duration: 0.2,
-          stagger: { amount: 0.2 },
-          onReverseComplete: () => {
-            flip(false);
-          },
-        },
-        "fade-in-up"
-      )
-      .from(
-        videoEl,
-        {
-          opacity: 0,
-          yPercent: 20,
-          duration: 0.2,
-        },
-        "fade-in-up"
-      )
-      .from(fadeInEls, { opacity: 0, duration: 0.3 });
-
-    menuTlRef.current = tl;
-
-    return () => {
-      menuTlRef.current = null;
-      tl.kill();
-    };
-  }, []);
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [pathname]);
 
   useEffect(() => {
     const onEscape = (event: KeyboardEvent) => {
@@ -161,37 +104,13 @@ export function SiteHeader({ locale, nav }: HeaderProps) {
       }
     };
 
-    const onUnload = () => setMenuOpen(false);
-
-    if (menuOpen) {
-      document.body.classList.add("mxd-menu-open");
-      menuTlRef.current?.play();
-    } else {
-      document.body.classList.remove("mxd-menu-open");
-      menuTlRef.current?.reverse();
-    }
-
     window.addEventListener("keydown", onEscape);
-    window.addEventListener("beforeunload", onUnload);
-
-    return () => {
-      window.removeEventListener("keydown", onEscape);
-      window.removeEventListener("beforeunload", onUnload);
-    };
-  }, [menuOpen]);
+    return () => window.removeEventListener("keydown", onEscape);
+  }, []);
 
   const closeMenu = () => {
     setMenuOpen(false);
-    setOpenGroup(defaultGroup);
-  };
-
-  const toggleMenu = () => {
-    setMenuOpen((current) => {
-      if (!current) {
-        setOpenGroup(defaultGroup);
-      }
-      return !current;
-    });
+    setOpenGroup("main");
   };
 
   const isActiveLink = (href: string) => {
@@ -201,12 +120,12 @@ export function SiteHeader({ locale, nav }: HeaderProps) {
 
   return (
     <>
-      <div className="mxd-nav__wrap" ref={wrapRef}>
-        <nav className="mxd-nav__contain" data-lenis-prevent="">
+      <div className="mxd-nav__wrap" data-lenis-prevent="">
+        <nav className="mxd-nav__contain">
           <button
             type="button"
-            className={`mxd-nav__hamburger ${menuOpen ? "is-active nav-open" : ""}`}
-            onClick={toggleMenu}
+            className={`mxd-nav__hamburger ${menuOpen ? "is-active" : ""}`}
+            onClick={() => setMenuOpen((current) => !current)}
             aria-expanded={menuOpen}
             aria-label={locale === "en" ? "Toggle menu" : "Otvori meni"}
           >
@@ -223,8 +142,8 @@ export function SiteHeader({ locale, nav }: HeaderProps) {
               <div className="mxd-menu__left">
                 <p className="mxd-menu__caption menu-fade-in">
                   {locale === "en"
-                    ? "Web systems, SEO foundations and growth workflows for ambitious businesses."
-                    : "Web sistemi, SEO osnova i growth workflow za biznise koji zele jasan rezultat."}
+                    ? "Adspire Digital Agency. Websites, systems, SEO and growth delivery."
+                    : "Adspire Digital Agency. Sajtovi, sistemi, SEO i growth isporuka."}
                 </p>
                 <div className="main-menu">
                   <nav className="main-menu__content">
@@ -234,7 +153,7 @@ export function SiteHeader({ locale, nav }: HeaderProps) {
                           <button
                             type="button"
                             className="main-menu__toggle"
-                            onClick={() => setOpenGroup((prev) => (prev === group.key ? null : group.key))}
+                            onClick={() => setOpenGroup((current) => (current === group.key ? null : group.key))}
                           >
                             <span className="main-menu__link btn btn-anim">
                               <span className="btn-caption">{group.label}</span>
@@ -252,11 +171,6 @@ export function SiteHeader({ locale, nav }: HeaderProps) {
                           </ul>
                         </li>
                       ))}
-                      <li className="main-menu__item">
-                        <Link className="main-menu__link btn btn-anim" href={withLocalePrefix(locale, "/contact-us")} locale={false} onClick={closeMenu}>
-                          <span className="btn-caption">{nav.contact}</span>
-                        </Link>
-                      </li>
                     </ul>
                   </nav>
                 </div>
@@ -267,8 +181,8 @@ export function SiteHeader({ locale, nav }: HeaderProps) {
                   <div className="menu-promo__content">
                     <p className="menu-promo__caption menu-fade-in">
                       {locale === "en"
-                        ? "From discovery to launch, Adspire combines design, development, automation and measurement in one delivery loop."
-                        : "Od discovery faze do lansiranja, Adspire spaja dizajn, development, automatizaciju i merenje u jednom sistemu isporuke."}
+                        ? "One team for design, development, automation and measurable growth."
+                        : "Jedan tim za dizajn, development, automatizaciju i merljiv rast."}
                     </p>
                     <div className="menu-promo__video">
                       <video
@@ -289,7 +203,7 @@ export function SiteHeader({ locale, nav }: HeaderProps) {
               </div>
 
               <div className="mxd-menu__data menu-fade-in">
-                <p className="t-xsmall">{locale === "en" ? "Based in Nis, Serbia" : "Baza u Nisu, Srbija"}</p>
+                <p className="t-xsmall">{locale === "en" ? "Nis, Serbia" : "Nis, Srbija"}</p>
                 <p className="t-xsmall">{new Date().getFullYear()}</p>
               </div>
             </div>
@@ -318,8 +232,11 @@ export function SiteHeader({ locale, nav }: HeaderProps) {
             onClick={toggleTheme}
             aria-label={locale === "en" ? "Light and dark mode" : "Svetla i tamna tema"}
             aria-checked={theme === "dark"}
-          />
-          <Link href={withLocalePrefix(locale, "/contact-us")} locale={false} className="mxd-contact-chip" aria-label={nav.contact}>
+          >
+            <ThemeIcon theme={theme} />
+          </button>
+          <Link href={withLocalePrefix(locale, "/contact-us")} locale={false} className="mxd-contact-cta" aria-label={nav.contact}>
+            <span className="mxd-contact-cta__label">{nav.contact}</span>
             <svg viewBox="0 0 24 24" aria-hidden>
               <path fill="currentColor" d="M14.5 5h4.5v4.5a1 1 0 11-2 0V8.41l-8.8 8.8a1 1 0 11-1.4-1.42l8.79-8.79H14.5a1 1 0 110-2z" />
             </svg>
