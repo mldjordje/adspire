@@ -2,7 +2,6 @@ import React from "react";
 import type { Metadata } from "next";
 import Providers from "./providers";
 import "@/app/globals.css";
-import "@/app/(site)/landing-rayo-v10.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://adspire.rs"),
@@ -16,7 +15,7 @@ type RootLayoutProps = {
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="sr" data-theme="dark">
+    <html lang="sr" data-theme="dark" color-scheme="dark">
       <body>
         <Providers>{children}</Providers>
       </body>

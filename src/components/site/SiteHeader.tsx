@@ -38,25 +38,7 @@ function PlusIcon() {
 }
 
 function ThemeIcon({ theme }: { theme: "dark" | "light" }) {
-  if (theme === "dark") {
-    return (
-      <svg viewBox="0 0 24 24" aria-hidden>
-        <path
-          fill="currentColor"
-          d="M14.53 3.51a1 1 0 0 0-1.22 1.3 7 7 0 0 1-8.45 8.45 1 1 0 0 0-1.3 1.22A9 9 0 1 0 14.53 3.51Z"
-        />
-      </svg>
-    );
-  }
-
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden>
-      <path
-        fill="currentColor"
-        d="M12 18a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0v-2a1 1 0 0 1 1-1Zm0-15a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0V4a1 1 0 0 1 1-1Zm8 8a1 1 0 0 1 0 2h-2a1 1 0 1 1 0-2h2ZM6 12a1 1 0 0 1-1 1H3a1 1 0 1 1 0-2h2a1 1 0 0 1 1 1Zm10.95 5.54a1 1 0 0 1 1.41 1.41l-1.41 1.42a1 1 0 0 1-1.42-1.42l1.42-1.41ZM8.46 7.05a1 1 0 1 1-1.41 1.41L5.63 7.05a1 1 0 1 1 1.42-1.42l1.41 1.42Zm8.49 1.41a1 1 0 0 1-1.42-1.41l1.42-1.42a1 1 0 0 1 1.41 1.42l-1.41 1.41ZM8.46 16.95l-1.41 1.41a1 1 0 0 1-1.42-1.41l1.42-1.42a1 1 0 1 1 1.41 1.42ZM12 8a4 4 0 1 1 0 8a4 4 0 0 1 0-8Z"
-      />
-    </svg>
-  );
+  return <i className={theme === "dark" ? "ph-bold ph-sun" : "ph-bold ph-moon-stars"} aria-hidden />;
 }
 
 export function SiteHeader({ locale, nav }: HeaderProps) {
@@ -212,9 +194,12 @@ export function SiteHeader({ locale, nav }: HeaderProps) {
       </div>
 
       <header id="header" className={`mxd-header ${menuOpen ? "menu-is-visible" : ""}`}>
-        <div className="mxd-header__logo">
+        <div className="mxd-header__logo loading__fade">
           <Link href={withLocalePrefix(locale, "/")} locale={false} className="mxd-logo" aria-label="Adspire home">
-            <span className="mxd-logo__badge">A</span>
+            <svg className="mxd-logo__image mxd-logo__image--adspire" viewBox="0 0 56 56" aria-hidden>
+              <circle cx="28" cy="28" r="28" />
+              <text x="28" y="34" textAnchor="middle">A</text>
+            </svg>
             <span className="mxd-logo__text">
               adspire
               <br />
@@ -223,7 +208,7 @@ export function SiteHeader({ locale, nav }: HeaderProps) {
           </Link>
         </div>
 
-        <div className="mxd-header__controls">
+        <div className="mxd-header__controls loading__fade">
           <button
             id="color-switcher"
             className="mxd-color-switcher"
@@ -235,11 +220,14 @@ export function SiteHeader({ locale, nav }: HeaderProps) {
           >
             <ThemeIcon theme={theme} />
           </button>
-          <Link href={withLocalePrefix(locale, "/contact-us")} locale={false} className="mxd-contact-cta" aria-label={nav.contact}>
-            <span className="mxd-contact-cta__label">{nav.contact}</span>
-            <svg viewBox="0 0 24 24" aria-hidden>
-              <path fill="currentColor" d="M14.5 5h4.5v4.5a1 1 0 11-2 0V8.41l-8.8 8.8a1 1 0 11-1.4-1.42l8.79-8.79H14.5a1 1 0 110-2z" />
-            </svg>
+          <Link
+            href={withLocalePrefix(locale, "/contact-us")}
+            locale={false}
+            className="btn btn-anim btn-default btn-mobile-icon btn-outline slide-right-up"
+            aria-label={nav.contact}
+          >
+            <span className="btn-caption">{nav.contact}</span>
+            <i className="ph-bold ph-arrow-up-right" aria-hidden />
           </Link>
         </div>
       </header>

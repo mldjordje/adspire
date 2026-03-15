@@ -131,7 +131,7 @@ export function HeroMainSection({
               </video>
               <div className="mxd-hero-01__video-btn">
                 <a href="#services" className="btn btn-round btn-round-medium btn-accent slide-right anim-no-delay" aria-label={locale === "en" ? "Explore services" : "Pogledaj usluge"}>
-                  <span className="mxd-hero-01__video-play" />
+                  <i className="ph-fill ph-play" aria-hidden />
                 </a>
               </div>
             </div>

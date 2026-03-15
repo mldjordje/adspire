@@ -31,6 +31,7 @@ function applyTheme(theme: ThemeName) {
 
   const root = document.documentElement;
   root.dataset.theme = theme;
+  root.setAttribute("color-scheme", theme);
   root.style.colorScheme = theme;
 }
 

@@ -1,3 +1,4 @@
+import "@/app/(site)/landing-rayo-v10.css";
 import { SiteShell } from "@/components/site/SiteShell";
 import { getSiteContent } from "@/content/site";
 import { normalizeLocale } from "@/lib/locale";
