@@ -1,16 +1,48 @@
-/** @type {import('next').NextConfig} */
-const { i18n } = require("./next-i18next.config");
+const path = require("path");
 
+/** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  i18n,
+  turbopack: {
+    resolveAlias: {
+      public: path.join(__dirname, "public"),
+    },
+  },
+  webpack: (config) => {
+    config.resolve = config.resolve || {};
+    config.resolve.alias = config.resolve.alias || {};
+    config.resolve.alias.public = path.join(__dirname, "public");
+    return config;
+  },
   async redirects() {
-    return [
+    const localeRedirects = (source, destination) => [
       {
-        source: "/web-pozivnice-za-veselja",
-        destination: "/usluge/web-pozivnice-za-veselja",
+        source,
+        destination,
         permanent: true,
       },
+      {
+        source: `/:locale${source}`,
+        destination: `/:locale${destination}`,
+        permanent: true,
+      },
+    ];
+
+    return [
+      ...localeRedirects("/web-pozivnice-za-veselja", "/usluge/web-pozivnice-za-veselja"),
+      ...localeRedirects("/our-story", "/about-us"),
+      ...localeRedirects("/our-teams", "/team-single"),
+      ...localeRedirects("/client-feedback", "/about-us"),
+      ...localeRedirects("/service-single", "/our-services"),
+      ...localeRedirects("/index-light", "/"),
+      ...localeRedirects("/index-two", "/"),
+      ...localeRedirects("/index-two-light", "/"),
+      ...localeRedirects("/index-three", "/"),
+      ...localeRedirects("/index-three-light", "/"),
+      ...localeRedirects("/index-four", "/"),
+      ...localeRedirects("/index-four-light", "/"),
+      ...localeRedirects("/index-five", "/"),
+      ...localeRedirects("/index-five-light", "/"),
     ];
   },
   async rewrites() {

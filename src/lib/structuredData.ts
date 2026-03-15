@@ -1,24 +1,58 @@
+import { stripLocalePrefix, withLocalePrefix } from "@/lib/locale";
+
 type StructuredDataInput = {
   siteUrl: string;
   canonicalUrl: string;
   locale: string;
 };
 
-const toJsonLdList = (input: StructuredDataInput) => {
-  const { siteUrl, canonicalUrl, locale } = input;
-  const isEnglish = locale === "en";
-  const canonicalPath = canonicalUrl.replace(siteUrl, "") || "/";
+const routeNameMap: Record<string, { en: string; sr: string }> = {
+  "our-services": { en: "Services", sr: "Usluge" },
+  "our-projects": { en: "Projects", sr: "Projekti" },
+  "contact-us": { en: "Contact", sr: "Kontakt" },
+  "about-us": { en: "About us", sr: "O nama" },
+  "booking-za-salone-bez-sistema": {
+    en: "Salon booking systems",
+    sr: "Booking za salone bez sistema",
+  },
+  "web-pozivnice-za-veselja": {
+    en: "Web invitations for events",
+    sr: "Web pozivnice za veselja",
+  },
+  "performance-marketing": {
+    en: "Performance marketing",
+    sr: "Performance marketing",
+  },
+  "brending-i-identitet": {
+    en: "Branding and identity",
+    sr: "Brending i identitet",
+  },
+  "drustvene-mreze-i-sadrzaj": {
+    en: "Social media and content",
+    sr: "Drustvene mreze i sadrzaj",
+  },
+  "odrzavanje-i-podrska": {
+    en: "Maintenance and support",
+    sr: "Odrzavanje i podrska",
+  },
+  "analitika-i-cro": {
+    en: "Analytics and CRO",
+    sr: "Analitika i CRO",
+  },
+};
+
+function absoluteUrl(siteUrl: string, path: string) {
+  return path === "/" ? siteUrl : `${siteUrl}${path}`;
+}
+
+const toJsonLdList = ({ siteUrl, canonicalUrl, locale }: StructuredDataInput) => {
+  const localeCode = locale === "en" ? "en" : "sr";
+  const isEnglish = localeCode === "en";
+  const rawCanonicalPath = canonicalUrl.replace(siteUrl, "") || "/";
+  const canonicalPath = stripLocalePrefix(rawCanonicalPath);
+  const localizedCanonicalPath = withLocalePrefix(localeCode, canonicalPath);
+  const canonicalFullUrl = absoluteUrl(siteUrl, localizedCanonicalPath);
   const routeSegments = canonicalPath.split("/").filter(Boolean);
-  const routeNameMap: Record<string, { en: string; sr: string }> = {
-    "our-services": { en: "Services", sr: "Usluge" },
-    "our-projects": { en: "Projects", sr: "Projekti" },
-    "contact-us": { en: "Contact", sr: "Kontakt" },
-    "about-us": { en: "About us", sr: "O nama" },
-    "web-pozivnice-za-veselja": {
-      en: "Web invitations for events",
-      sr: "Web pozivnice za veselja",
-    },
-  };
   const fallbackLabel = (segment: string) =>
     decodeURIComponent(segment).replace(/-/g, " ");
   const getSegmentLabel = (segment: string) => {
@@ -37,76 +71,59 @@ const toJsonLdList = (input: StructuredDataInput) => {
       "@type": "ListItem",
       position: 1,
       name: homeLabel,
-      item: siteUrl,
+      item: absoluteUrl(siteUrl, withLocalePrefix(localeCode, "/")),
     },
-    ...routeSegments.map((segment, index) => ({
-      "@type": "ListItem",
-      position: index + 2,
-      name: getSegmentLabel(segment),
-      item: `${siteUrl}/${routeSegments.slice(0, index + 1).join("/")}`,
-    })),
+    ...routeSegments.map((segment, index) => {
+      const path = `/${routeSegments.slice(0, index + 1).join("/")}`;
+      return {
+        "@type": "ListItem",
+        position: index + 2,
+        name: getSegmentLabel(segment),
+        item: absoluteUrl(siteUrl, withLocalePrefix(localeCode, path)),
+      };
+    }),
   ];
 
-  const name = "ADSPIRE";
   const description = isEnglish
-    ? "Digital agency in Nis, Serbia for advanced web applications, scalable database-backed systems, websites, e-commerce, booking platforms, and growth."
-    : "Digitalna agencija iz Nisa za napredne web aplikacije, skalabilne sisteme sa bazama podataka, web sajtove, e-commerce i booking platforme.";
-
-  const address = {
-    "@type": "PostalAddress",
-    streetAddress: "DIMITRIJA LEKA 66",
-    addressLocality: "Nis",
-    addressRegion: "Nis (Palilula)",
-    postalCode: "18000",
-    addressCountry: "RS",
-  };
-  const geo = {
-    "@type": "GeoCoordinates",
-    latitude: 43.3091683,
-    longitude: 21.8642094,
-  };
-
-  const services = isEnglish
+    ? "Digital agency in Nis, Serbia for advanced web applications, websites, booking systems, SEO, automation and measurable growth."
+    : "Digitalna agencija iz Nisa za napredne web aplikacije, sajtove, booking sisteme, SEO, automatizaciju i merljiv rast.";
+  const serviceItems = isEnglish
     ? [
-        "Web design & development",
-        "Advanced web applications",
-        "Large database architecture",
-        "E-commerce",
-        "Booking systems",
-        "Web invitations for events",
-        "SEO & content",
-        "Performance marketing",
-        "Branding & identity",
-        "Social media & content",
-        "Maintenance & support",
-        "Analytics & CRO",
+        { name: "Web design & development", slug: "web-dizajn-i-razvoj" },
+        { name: "Advanced web applications", slug: "web-dizajn-i-razvoj" },
+        { name: "E-commerce", slug: "e-commerce" },
+        { name: "Booking systems", slug: "booking-sistemi" },
+        {
+          name: "Booking systems for salons without existing software",
+          slug: "booking-za-salone-bez-sistema",
+        },
+        { name: "Web invitations for events", slug: "web-pozivnice-za-veselja" },
+        { name: "SEO & content", slug: "seo-i-sadrzaj" },
+        { name: "Performance marketing", slug: "performance-marketing" },
+        { name: "Branding & identity", slug: "brending-i-identitet" },
+        { name: "Social media & content", slug: "drustvene-mreze-i-sadrzaj" },
+        { name: "Maintenance & support", slug: "odrzavanje-i-podrska" },
+        { name: "Analytics & CRO", slug: "analitika-i-cro" },
       ]
     : [
-        "Web dizajn i razvoj",
-        "Napredne web aplikacije",
-        "Arhitektura velikih baza podataka",
-        "E-commerce",
-        "Booking sistemi",
-        "Web pozivnice za veselja",
-        "SEO i sadrzaj",
-        "Performance marketing",
-        "Brending i identitet",
-        "Drustvene mreze i sadrzaj",
-        "Odrzavanje i podrska",
-        "Analitika i CRO",
+        { name: "Web dizajn i razvoj", slug: "web-dizajn-i-razvoj" },
+        { name: "Napredne web aplikacije", slug: "web-dizajn-i-razvoj" },
+        { name: "E-commerce", slug: "e-commerce" },
+        { name: "Booking sistemi", slug: "booking-sistemi" },
+        {
+          name: "Booking sistemi za salone bez postojeceg sistema",
+          slug: "booking-za-salone-bez-sistema",
+        },
+        { name: "Web pozivnice za veselja", slug: "web-pozivnice-za-veselja" },
+        { name: "SEO i sadrzaj", slug: "seo-i-sadrzaj" },
+        { name: "Performance marketing", slug: "performance-marketing" },
+        { name: "Brending i identitet", slug: "brending-i-identitet" },
+        { name: "Drustvene mreze i sadrzaj", slug: "drustvene-mreze-i-sadrzaj" },
+        { name: "Odrzavanje i podrska", slug: "odrzavanje-i-podrska" },
+        { name: "Analitika i CRO", slug: "analitika-i-cro" },
       ];
-  const serviceSlugs = [
-    "web-dizajn-i-razvoj",
-    "e-commerce",
-    "booking-sistemi",
-    "web-pozivnice-za-veselja",
-    "seo-i-sadrzaj",
-    "performance-marketing",
-    "brending-i-identitet",
-    "drustvene-mreze-i-sadrzaj",
-    "odrzavanje-i-podrska",
-    "analitika-i-cro",
-  ];
+  const services = serviceItems.map((service) => service.name);
+  const searchPath = withLocalePrefix(localeCode, "/our-services");
 
   const faq = [
     {
@@ -117,23 +134,9 @@ const toJsonLdList = (input: StructuredDataInput) => {
       acceptedAnswer: {
         "@type": "Answer",
         text: isEnglish
-          ? "Web design, e-commerce, booking systems, web invitations, SEO, performance marketing, branding, social media, maintenance, and analytics."
-          : "Napredne web aplikacije, e-commerce, booking sistemi, web pozivnice, SEO, performance marketing, brending, drustvene mreze, odrzavanje i analitika.",
+          ? "ADSPIRE builds websites, web applications, booking systems, e-commerce, SEO systems, paid campaigns and conversion optimization."
+          : "ADSPIRE radi sajtove, web aplikacije, booking sisteme, e-commerce, SEO sisteme, placene kampanje i optimizaciju konverzija.",
       },
-    },
-    {
-      "@context": "https://schema.org",
-      "@type": "SoftwareApplication",
-      name: isEnglish ? "Advanced Web Applications" : "Napredne web aplikacije",
-      applicationCategory: "BusinessApplication",
-      operatingSystem: "Web",
-      provider: {
-        "@id": `${siteUrl}/#organization`,
-      },
-      description: isEnglish
-        ? "Custom web applications with scalable data architecture, secure APIs, role-based access, and performance monitoring."
-        : "Custom web aplikacije sa skalabilnom data arhitekturom, bezbednim API slojem, role-based pristupom i monitoringom performansi.",
-      url: `${siteUrl}/usluge/web-dizajn-i-razvoj`,
     },
     {
       "@type": "Question",
@@ -143,32 +146,8 @@ const toJsonLdList = (input: StructuredDataInput) => {
       acceptedAnswer: {
         "@type": "Answer",
         text: isEnglish
-          ? "Yes. ADSPIRE creates custom web invitation pages with RSVP tracking, location map, and easy sharing."
+          ? "Yes. ADSPIRE creates custom web invitation pages with RSVP tracking, location map and easy sharing."
           : "Da. ADSPIRE izradjuje personalizovane web pozivnice sa RSVP potvrdama, mapom lokacije i lakim deljenjem.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: isEnglish
-        ? "Do you have dedicated pages for each service?"
-        : "Da li svaka usluga ima posebnu stranicu?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: isEnglish
-          ? "Yes. Each service has a dedicated URL under /usluge/ with SEO and AI-ready information."
-          : "Da. Svaka usluga ima posebnu URL stranicu pod /usluge/ sa SEO i AI optimizovanim sadrzajem.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: isEnglish
-        ? "Where is ADSPIRE located?"
-        : "Gde se nalazi ADSPIRE?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: isEnglish
-          ? "DIMITRIJA LEKA 66, 18000 Nis (Palilula), Serbia."
-          : "DIMITRIJA LEKA 66, 18000 Nis (Palilula), Srbija.",
       },
     },
     {
@@ -179,8 +158,8 @@ const toJsonLdList = (input: StructuredDataInput) => {
       acceptedAnswer: {
         "@type": "Answer",
         text: isEnglish
-          ? "Call 0601491491 or email djordje@adspire.rs."
-          : "Pozovite 0601491491 ili pisite na djordje@adspire.rs.",
+          ? "Call +381601491491 or email djordje@adspire.rs."
+          : "Pozovite +381601491491 ili pisite na djordje@adspire.rs.",
       },
     },
   ];
@@ -190,7 +169,7 @@ const toJsonLdList = (input: StructuredDataInput) => {
       "@context": "https://schema.org",
       "@type": "WebSite",
       "@id": `${siteUrl}/#website`,
-      name,
+      name: "ADSPIRE",
       url: siteUrl,
       inLanguage: isEnglish ? "en" : "sr",
       description,
@@ -199,16 +178,16 @@ const toJsonLdList = (input: StructuredDataInput) => {
       },
       potentialAction: {
         "@type": "SearchAction",
-        target: `${siteUrl}/our-services?query={search_term_string}`,
+        target: `${absoluteUrl(siteUrl, searchPath)}?query={search_term_string}`,
         "query-input": "required name=search_term_string",
       },
     },
     {
       "@context": "https://schema.org",
       "@type": "WebPage",
-      "@id": `${canonicalUrl}#webpage`,
+      "@id": `${canonicalFullUrl}#webpage`,
       name: pageName,
-      url: canonicalUrl,
+      url: canonicalFullUrl,
       inLanguage: isEnglish ? "en" : "sr",
       description,
       about: {
@@ -231,12 +210,23 @@ const toJsonLdList = (input: StructuredDataInput) => {
       "@context": "https://schema.org",
       "@type": ["LocalBusiness", "ProfessionalService", "Organization"],
       "@id": `${siteUrl}/#organization`,
-      name,
+      name: "ADSPIRE",
       url: siteUrl,
       image: `${siteUrl}/images/banner/banner-one-thumb.png`,
       description,
-      address,
-      geo,
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "DIMITRIJA LEKA 66",
+        addressLocality: "Nis",
+        addressRegion: "Nis (Palilula)",
+        postalCode: "18000",
+        addressCountry: "RS",
+      },
+      geo: {
+        "@type": "GeoCoordinates",
+        latitude: 43.3091683,
+        longitude: 21.8642094,
+      },
       contactPoint: [
         {
           "@type": "ContactPoint",
@@ -246,24 +236,24 @@ const toJsonLdList = (input: StructuredDataInput) => {
           availableLanguage: ["sr", "en"],
         },
       ],
-      areaServed: ["Nis", "Srbija"],
-      telephone: "0601491491",
+      areaServed: isEnglish ? ["Nis", "Serbia"] : ["Nis", "Srbija"],
+      telephone: "+381601491491",
       email: "djordje@adspire.rs",
       availableLanguage: ["sr", "en"],
       priceRange: "$$",
       slogan: isEnglish
-        ? "Websites and web apps that convert."
-        : "Web sajtovi i web aplikacije koje konvertuju.",
+        ? "Web systems that convert and scale."
+        : "Web sistemi koji konvertuju i skaliraju.",
       knowsAbout: services,
       hasOfferCatalog: {
         "@type": "OfferCatalog",
         name: isEnglish ? "Digital services" : "Digitalne usluge",
-        itemListElement: services.map((service, index) => ({
+        itemListElement: serviceItems.map((service) => ({
           "@type": "Offer",
           itemOffered: {
             "@type": "Service",
-            name: service,
-            url: `${siteUrl}/usluge/${serviceSlugs[index]}`,
+            name: service.name,
+            url: absoluteUrl(siteUrl, withLocalePrefix(localeCode, `/usluge/${service.slug}`)),
           },
         })),
       },
@@ -275,10 +265,10 @@ const toJsonLdList = (input: StructuredDataInput) => {
       provider: {
         "@id": `${siteUrl}/#organization`,
       },
-      areaServed: ["Nis", "Srbija"],
+      areaServed: isEnglish ? ["Nis", "Serbia"] : ["Nis", "Srbija"],
       serviceType: services,
-      url: canonicalUrl,
-      mainEntityOfPage: canonicalUrl,
+      url: canonicalFullUrl,
+      mainEntityOfPage: canonicalFullUrl,
     },
     {
       "@context": "https://schema.org",

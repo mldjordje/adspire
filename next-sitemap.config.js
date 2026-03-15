@@ -9,9 +9,12 @@ module.exports = {
     "/404",
     "/500",
     "/server-sitemap.xml",
-    "/en",
-    "/en/*",
+    "/sr",
+    "/sr/*",
     "/web-pozivnice-za-veselja",
+    "/our-story",
+    "/our-teams",
+    "/client-feedback",
     "/index-two",
     "/index-two-light",
     "/index-three",
@@ -40,7 +43,8 @@ module.exports = {
   transform: async (config, path) => {
     const cleanPath = path.split("?")[0].split("#")[0];
     const isHome = cleanPath === "/";
-    const isServicePage = cleanPath.startsWith("/usluge/");
+    const isServicePage =
+      cleanPath.startsWith("/usluge/") || cleanPath.startsWith("/en/usluge/");
 
     return {
       loc: cleanPath,
