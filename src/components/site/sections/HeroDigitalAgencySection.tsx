@@ -38,6 +38,8 @@ export function HeroDigitalAgencySection({
     locale === "en"
       ? "Explore delivery * Explore delivery * Explore delivery * "
       : "Pogledaj isporuku * Pogledaj isporuku * Pogledaj isporuku * ";
+  const marqueeText =
+    locale === "en" ? "the power of imagination" : "snaga dobre ideje";
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -123,13 +125,12 @@ export function HeroDigitalAgencySection({
       <div className="mxd-hero-02 mxd-pinned-fullscreen">
         <div className="mxd-pinned-fullscreen__static hero-02-fade-out-scroll loading-wrap">
           <div className="hero-02-static__tl-trigger" />
-
           <div className="mxd-hero-02-static__top hero-02-static-anim-el">
             <div className="mxd-container fullwidth-container grid-container">
               <div className="container-fluid p-0">
                 <div className="row g-0">
                   <div className="col-12 col-xl-6 mxd-grid-item no-margin">
-                    <div className="hero-02-static__caption">
+                    <div className="hero-02-static__caption loading__item">
                       <p className="t-large t-medium t-120 t-bright">{title}</p>
                       <p className="t-large t-medium t-120 t-muted">{body}</p>
                     </div>
@@ -141,16 +142,16 @@ export function HeroDigitalAgencySection({
 
           <div className="mxd-hero-02-static__center">
             <div className="mxd-hero-02-marquee">
-              <div className="mxd-hero-02-marquee__image">
+              <div className="mxd-hero-02-marquee__image loading__item">
                 <img className="mxd-move" src={RAYO_V10_ASSET_MAP.heroDigital.centerObject} alt={title} />
               </div>
 
-              <div className="mxd-hero-02-marquee__line">
+              <div className="mxd-hero-02-marquee__line loading__item">
                 <div className="marquee marquee-left--gsap">
                   <div className="marquee__toleft">
                     {Array.from({ length: 6 }, (_, index) => (
                       <div className="marquee__item one-line item-regular text" key={`delivery-${index}`}>
-                        <p className="marquee__text">{title}</p>
+                        <p className="marquee__text">{marqueeText}</p>
                         <div className="marquee__image">
                           <StarMark />
                         </div>
@@ -167,7 +168,7 @@ export function HeroDigitalAgencySection({
               <div className="container-fluid p-0">
                 <div className="row g-0">
                   <div className="col-12 col-md-6 col-xl-4 mxd-grid-item no-margin">
-                    <div className="mxd-paragraph__lists">
+                    <div className="mxd-paragraph__lists loading__fade">
                       <div className="container-fluid p-0">
                         <div className="row g-0">
                           <div className="col-6 col-xl-5">
@@ -197,7 +198,7 @@ export function HeroDigitalAgencySection({
             </div>
           </div>
 
-          <div className="mxd-hero-02-static__btn hero-02-static-anim-el">
+          <div className="mxd-hero-02-static__btn hero-02-static-anim-el loading__fade">
             <a href="#projects" className="btn-rotating btn-rotating-160" aria-label={locale === "en" ? "Explore projects" : "Pogledaj projekte"}>
               <svg viewBox="0 0 160 160" className="btn-rotating__text mxd-rotate" data-value="360" aria-hidden>
                 <defs>
@@ -217,34 +218,90 @@ export function HeroDigitalAgencySection({
             <div className="mxd-hero-02-scroll__images">
               <div className="mxd-hero-02-images__row mxd-hero-02-images__row-01">
                 <a className="mxd-hero-02-image__portrait portrait-01" href="#projects">
-                  <div className="mxd-hero-02-image__inner type-01 anim-uni-in-up"><img src={scrollImages[0]} alt="" /></div>
+                  <div className="mxd-hero-02-image__inner type-01 anim-uni-in-up">
+                    <img src={scrollImages[0]} alt="" />
+                    <div className="mxd-preview-hover">
+                      <i className="mxd-preview-hover__icon icon-small">
+                        <img src="/rayo/img/icons/icon-eye.svg" alt="" />
+                      </i>
+                    </div>
+                  </div>
                 </a>
                 <a className="mxd-hero-02-image__landscape landscape-01" href="#projects">
-                  <div className="mxd-hero-02-image__inner type-03 anim-uni-in-up"><img src={scrollImages[1]} alt="" /></div>
+                  <div className="mxd-hero-02-image__inner type-03 anim-uni-in-up">
+                    <img src={scrollImages[1]} alt="" />
+                    <div className="mxd-preview-hover">
+                      <i className="mxd-preview-hover__icon icon-small">
+                        <img src="/rayo/img/icons/icon-eye.svg" alt="" />
+                      </i>
+                    </div>
+                  </div>
                 </a>
                 <a className="mxd-hero-02-image__portrait portrait-02" href="#projects">
-                  <div className="mxd-hero-02-image__inner type-01 anim-uni-in-up"><img src={scrollImages[2]} alt="" /></div>
+                  <div className="mxd-hero-02-image__inner type-01 anim-uni-in-up">
+                    <img src={scrollImages[2]} alt="" />
+                    <div className="mxd-preview-hover">
+                      <i className="mxd-preview-hover__icon icon-small">
+                        <img src="/rayo/img/icons/icon-eye.svg" alt="" />
+                      </i>
+                    </div>
+                  </div>
                 </a>
               </div>
 
               <div className="mxd-hero-02-images__row mxd-hero-02-images__row-02">
                 <a className="mxd-hero-02-image__landscape landscape-02" href="#projects">
-                  <div className="mxd-hero-02-image__inner type-03 anim-uni-in-up"><img src={scrollImages[3]} alt="" /></div>
+                  <div className="mxd-hero-02-image__inner type-03 anim-uni-in-up">
+                    <img src={scrollImages[3]} alt="" />
+                    <div className="mxd-preview-hover">
+                      <i className="mxd-preview-hover__icon icon-small">
+                        <img src="/rayo/img/icons/icon-eye.svg" alt="" />
+                      </i>
+                    </div>
+                  </div>
                 </a>
                 <a className="mxd-hero-02-image__portrait portrait-xl portrait-03" href="#projects">
-                  <div className="mxd-hero-02-image__inner type-02 anim-uni-in-up"><img src={scrollImages[4]} alt="" /></div>
+                  <div className="mxd-hero-02-image__inner type-02 anim-uni-in-up">
+                    <img src={scrollImages[4]} alt="" />
+                    <div className="mxd-preview-hover">
+                      <i className="mxd-preview-hover__icon icon-small">
+                        <img src="/rayo/img/icons/icon-eye.svg" alt="" />
+                      </i>
+                    </div>
+                  </div>
                 </a>
               </div>
 
               <div className="mxd-hero-02-images__row mxd-hero-02-images__row-03">
                 <a className="mxd-hero-02-image__portrait portrait-04" href="#projects">
-                  <div className="mxd-hero-02-image__inner type-01 anim-uni-in-up"><img src={scrollImages[5]} alt="" /></div>
+                  <div className="mxd-hero-02-image__inner type-01 anim-uni-in-up">
+                    <img src={scrollImages[5]} alt="" />
+                    <div className="mxd-preview-hover">
+                      <i className="mxd-preview-hover__icon icon-small">
+                        <img src="/rayo/img/icons/icon-eye.svg" alt="" />
+                      </i>
+                    </div>
+                  </div>
                 </a>
                 <a className="mxd-hero-02-image__landscape landscape-03" href="#projects">
-                  <div className="mxd-hero-02-image__inner type-03 anim-uni-in-up"><img src={scrollImages[6]} alt="" /></div>
+                  <div className="mxd-hero-02-image__inner type-03 anim-uni-in-up">
+                    <img src={scrollImages[6]} alt="" />
+                    <div className="mxd-preview-hover">
+                      <i className="mxd-preview-hover__icon icon-small">
+                        <img src="/rayo/img/icons/icon-eye.svg" alt="" />
+                      </i>
+                    </div>
+                  </div>
                 </a>
                 <a className="mxd-hero-02-image__portrait portrait-05" href="#projects">
-                  <div className="mxd-hero-02-image__inner type-01 anim-uni-in-up"><img src={scrollImages[7]} alt="" /></div>
+                  <div className="mxd-hero-02-image__inner type-01 anim-uni-in-up">
+                    <img src={scrollImages[7]} alt="" />
+                    <div className="mxd-preview-hover">
+                      <i className="mxd-preview-hover__icon icon-small">
+                        <img src="/rayo/img/icons/icon-eye.svg" alt="" />
+                      </i>
+                    </div>
+                  </div>
                 </a>
               </div>
             </div>

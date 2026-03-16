@@ -78,9 +78,7 @@ export function HeroMainSection({
               <h1 className="hero-01-title">
                 <span className="hero-01-title__row loading__item">
                   <em className="hero-01-title__item">{line1}</em>
-                  <em className="hero-01-title__item title-item-transparent">
-                    {locale === "en" ? "digital" : "digital"}
-                  </em>
+                  <em className="hero-01-title__item title-item-transparent">tech</em>
                 </span>
                 <span className="hero-01-title__row loading__item">
                   <em className="hero-01-title__item title-item-image">
@@ -128,9 +126,15 @@ export function HeroMainSection({
             <div className="mxd-hero-01__video-wrap loading__item">
               <video className="mxd-hero-01__video" preload="auto" autoPlay loop muted playsInline poster={img3}>
                 <source type="video/mp4" src={videoSrc} />
+                <source type="video/webm" src="/rayo/video/540x310_video.webm" />
+                <source type="video/ogv" src="/rayo/video/540x310_video.ogv" />
               </video>
               <div className="mxd-hero-01__video-btn">
-                <a href="#services" className="btn btn-round btn-round-medium btn-accent slide-right anim-no-delay" aria-label={locale === "en" ? "Explore services" : "Pogledaj usluge"}>
+                <a
+                  href="#services"
+                  className="btn btn-round btn-round-medium btn-accent slide-right anim-no-delay"
+                  aria-label={locale === "en" ? "Explore services" : "Pogledaj usluge"}
+                >
                   <i className="ph-fill ph-play" aria-hidden />
                 </a>
               </div>

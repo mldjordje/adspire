@@ -103,10 +103,10 @@ export function SiteHeader({ locale, nav }: HeaderProps) {
   return (
     <>
       <div className="mxd-nav__wrap" data-lenis-prevent="">
-        <nav className="mxd-nav__contain">
+        <div className="mxd-nav__contain loading__fade">
           <button
             type="button"
-            className={`mxd-nav__hamburger ${menuOpen ? "is-active" : ""}`}
+            className={`mxd-nav__hamburger ${menuOpen ? "nav-open" : ""}`}
             onClick={() => setMenuOpen((current) => !current)}
             aria-expanded={menuOpen}
             aria-label={locale === "en" ? "Toggle menu" : "Otvori meni"}
@@ -115,10 +115,15 @@ export function SiteHeader({ locale, nav }: HeaderProps) {
             <span className="hamburger__line" />
             <span className="hamburger__line" />
           </button>
-        </nav>
+        </div>
 
-        <div className={`mxd-menu__wrapper ${menuOpen ? "is-open" : ""}`} aria-hidden={!menuOpen}>
-          <button type="button" className="mxd-menu__base" onClick={closeMenu} aria-label={locale === "en" ? "Close menu" : "Zatvori meni"} />
+        <div className="mxd-menu__wrapper" aria-hidden={!menuOpen} style={{ display: menuOpen ? "flex" : "none" }}>
+          <button
+            type="button"
+            className="mxd-menu__base"
+            onClick={closeMenu}
+            aria-label={locale === "en" ? "Close menu" : "Zatvori meni"}
+          />
           <div className="mxd-menu__contain">
             <div className="mxd-menu__inner">
               <div className="mxd-menu__left">
@@ -196,10 +201,7 @@ export function SiteHeader({ locale, nav }: HeaderProps) {
       <header id="header" className={`mxd-header ${menuOpen ? "menu-is-visible" : ""}`}>
         <div className="mxd-header__logo loading__fade">
           <Link href={withLocalePrefix(locale, "/")} locale={false} className="mxd-logo" aria-label="Adspire home">
-            <svg className="mxd-logo__image mxd-logo__image--adspire" viewBox="0 0 56 56" aria-hidden>
-              <circle cx="28" cy="28" r="28" />
-              <text x="28" y="34" textAnchor="middle">A</text>
-            </svg>
+            <img className="mxd-logo__image mxd-logo__image--adspire" src="/rayo/img/favicon/icon.svg" alt="Adspire" />
             <span className="mxd-logo__text">
               adspire
               <br />

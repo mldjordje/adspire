@@ -26,6 +26,7 @@ export function HeroFreelancerSection({
 }: HeroFreelancerSectionProps) {
   const leftTags = tags.filter((_, index) => index % 2 === 0);
   const rightTags = tags.filter((_, index) => index % 2 === 1);
+  const headlineTags = tags.slice(0, 3);
   const rotatingText =
     locale === "en"
       ? "Start project * Start project * Start project * "
@@ -41,8 +42,10 @@ export function HeroFreelancerSection({
           <div className="mxd-hero-06__top">
             <div className="mxd-hero-06__content">
               <div className="mxd-hero-06__video">
-                <video className="video" preload="auto" autoPlay loop muted playsInline>
+                <video className="video" preload="auto" autoPlay loop muted playsInline poster="/rayo/img/demo/02_card-img.webp">
                   <source type="video/mp4" src={RAYO_V10_ASSET_MAP.heroFreelancer.video} />
+                  <source type="video/webm" src="/rayo/video/1920x1080_video.webm" />
+                  <source type="video/ogv" src="/rayo/video/1920x1080_video.ogv" />
                 </video>
                 <div className="hero-06-video__cover" />
               </div>
@@ -52,7 +55,7 @@ export function HeroFreelancerSection({
                   <div className="mxd-paragraph__lists">
                     <div className="container-fluid p-0">
                       <div className="row g-0">
-                        <div className="col-6 col-lg-4 col-xl-2">
+                        <div className="col-6 col-lg-4 col-xl-2 loading__item">
                           <ul>
                             {leftTags.map((tag) => (
                               <li key={`left-${tag}`}>
@@ -61,7 +64,7 @@ export function HeroFreelancerSection({
                             ))}
                           </ul>
                         </div>
-                        <div className="col-6 col-lg-4 col-xl-2">
+                        <div className="col-6 col-lg-4 col-xl-2 loading__item">
                           <ul>
                             {rightTags.map((tag) => (
                               <li key={`right-${tag}`}>
@@ -77,9 +80,9 @@ export function HeroFreelancerSection({
 
                 <div className="mxd-hero-06__headline">
                   <div className="hero-06-headline__descr">
-                    <p>{body}</p>
+                    <p className="loading__item">{body}</p>
                     <div className="hero-06-headline__btn">
-                      <a href="#services" className="btn-rotating btn-rotating-blur-outline ver-04 permanent-desktop">
+                      <a href="#services" className="btn-rotating btn-rotating-blur-outline ver-04 permanent-desktop loading__item">
                         <svg viewBox="0 0 160 160" className="btn-rotating__text animate-rotation" data-value="360" aria-hidden>
                           <defs>
                             <path id="textPathDownloadCV" d="M149.7,80c0,38.5-31.2,69.7-69.7,69.7S10.3,118.5,10.3,80S41.5,10.3,80,10.3S149.7,41.5,149.7,80z" />
@@ -95,15 +98,17 @@ export function HeroFreelancerSection({
 
                   <div className="hero-06-headline__content">
                     <h2 className="hero-06-headline__title">{title}</h2>
-                    <div className="mxd-hero-06__marquee">
+                    <div className="mxd-hero-06__marquee loading__item">
                       <div className="marquee marquee-right--gsap permanent-desktop">
                         <div className="marquee__toright">
-                          {Array.from({ length: 4 }, (_, index) => (
+                          {Array.from({ length: 2 }, (_, index) => (
                             <div className="marquee__item one-line item-regular text" key={`hero6-marquee-${index}`}>
-                              {tags.map((tag) => (
+                              {headlineTags.map((tag) => (
                                 <span key={`${index}-${tag}`} style={{ display: "inline-flex", alignItems: "center" }}>
                                   <p className="marquee__text">{tag}</p>
-                                  <div className="marquee__image"><Star /></div>
+                                  <div className="marquee__image">
+                                    <Star />
+                                  </div>
                                 </span>
                               ))}
                             </div>
@@ -117,7 +122,7 @@ export function HeroFreelancerSection({
             </div>
           </div>
 
-          <div className="mxd-hero-06__bottom">
+          <div className="mxd-hero-06__bottom loading__fade">
             <div className="mxd-hero-06__mark">
               <div className="mxd-hero__mark">
                 <span className="mark-icon" />
@@ -127,6 +132,7 @@ export function HeroFreelancerSection({
             <div className="mxd-hero-06__more">
               <a className="btn btn-line-medium btn-anim btn-anim-medium slide-down" href="#projects">
                 <span className="btn-caption">{scrollText}</span>
+                <i className="ph-bold ph-arrow-elbow-right-down" aria-hidden />
               </a>
             </div>
           </div>

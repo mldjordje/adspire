@@ -15,7 +15,9 @@ export function SiteShell({ locale, content, children }: SiteShellProps) {
     <div className="mxd-site-shell">
       <SiteStructuredData locale={locale} />
       <SiteHeader locale={locale} nav={content.nav} />
-      <main className="mxd-main">{children}</main>
+      <main id="mxd-page-content" className="mxd-page-content">
+        {children}
+      </main>
       <SiteFooter locale={locale} footer={content.footer} />
     </div>
   );
