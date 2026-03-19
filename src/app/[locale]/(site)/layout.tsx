@@ -1,5 +1,4 @@
-import "@/app/(site)/landing-rayo-v10.css";
-import { SiteShell } from "@/components/site/SiteShell";
+import { UnderConstructionPage } from "@/components/site/UnderConstructionPage";
 import { getSiteContent } from "@/content/site";
 import { normalizeLocale } from "@/lib/locale";
 
@@ -13,9 +12,7 @@ export default async function SiteLayout({ children, params }: SiteLayoutProps) 
   const locale = normalizeLocale(localeParam);
   const content = getSiteContent(locale);
 
-  return (
-    <SiteShell locale={locale} content={content}>
-      {children}
-    </SiteShell>
-  );
+  void children;
+
+  return <UnderConstructionPage locale={locale} contact={content.contact} />;
 }

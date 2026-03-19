@@ -1,10 +1,11 @@
-import "@/app/(site)/landing-rayo-v10.css";
-import { SiteShell } from "@/components/site/SiteShell";
+import { UnderConstructionPage } from "@/components/site/UnderConstructionPage";
 import { getSiteContent } from "@/content/site";
 
 export default function DefaultSiteLayout({ children }: { children: React.ReactNode }) {
   const locale = "sr" as const;
   const content = getSiteContent(locale);
 
-  return <SiteShell locale={locale} content={content}>{children}</SiteShell>;
+  void children;
+
+  return <UnderConstructionPage locale={locale} contact={content.contact} />;
 }
