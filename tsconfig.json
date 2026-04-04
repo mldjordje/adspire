@@ -39,6 +39,9 @@
     ".next/dev/types/**/*.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "azurio-digital-agency-and-personal-portfolio-html-template",
+    "new template",
+    "admin"
   ]
 }

@@ -1,9 +1,3 @@
-export type ServiceCatalogExampleLink = {
-  href: string;
-  labelSr: string;
-  labelEn: string;
-};
-
 export type ServiceCatalogEntry = {
   slug: string;
   keywordSr: string;
@@ -13,20 +7,19 @@ export type ServiceCatalogEntry = {
   searchPhrasesSr: string[];
   searchPhrasesEn: string[];
   secondaryHref?: string;
-  secondaryCtas?: ServiceCatalogExampleLink[];
 };
 
 export const serviceCatalog: ServiceCatalogEntry[] = [
   {
     slug: "web-dizajn-i-razvoj",
-    keywordSr: "napredne web aplikacije, velike baze podataka, next js razvoj",
-    keywordEn: "advanced web application development, large database architecture, next js",
+    keywordSr: "izrada sajtova Nis, web dizajn, next js razvoj",
+    keywordEn: "web design nis, next js development, conversion website",
     aiSummarySr:
-      "Razvoj naprednih web aplikacija i brzih sajtova sa skalabilnom arhitekturom, velikim bazama podataka i API integracijama.",
+      "Izrada brzih web sajtova i aplikacija sa fokusom na konverzije, SEO i rast biznisa.",
     aiSummaryEn:
-      "Advanced web application and website delivery with scalable architecture, large database design, and API integrations.",
-    searchPhrasesSr: ["napredne web aplikacije", "velike baze podataka", "next js razvoj"],
-    searchPhrasesEn: ["advanced web app development", "large database web app", "next js agency"],
+      "Fast website and web app delivery focused on conversion, SEO, and business growth.",
+    searchPhrasesSr: ["izrada sajtova nis", "next js razvoj", "seo sajt"],
+    searchPhrasesEn: ["web design nis", "next js agency", "seo website"],
   },
   {
     slug: "e-commerce",
@@ -49,51 +42,18 @@ export const serviceCatalog: ServiceCatalogEntry[] = [
       "Online booking flows that reduce no-shows and simplify appointment operations.",
     searchPhrasesSr: ["online zakazivanje", "booking sistem", "zakazivanje termina"],
     searchPhrasesEn: ["appointment booking", "reservation system", "booking website"],
-    secondaryCtas: [
-      {
-        href: "https://doctorbarber.rs/",
-        labelSr: "Primer: Doctor Barber (1 frizer)",
-        labelEn: "Example: Doctor Barber (single barber)",
-      },
-      {
-        href: "https://frizerskisalonsrdjan.com/",
-        labelSr: "Primer: Srdjan (vlasnik, tim, vise lokala)",
-        labelEn: "Example: Srdjan (owner, team, multi-location)",
-      },
-    ],
+    secondaryHref: "https://prevozkop.rs",
   },
   {
     slug: "booking-za-salone-bez-sistema",
-    keywordSr:
-      "booking sistem za frizerski salon, online zakazivanje bez postojeceg sistema, salon bez booking sistema",
-    keywordEn:
-      "hair salon booking system setup, migrate from no booking system, appointment software for salons",
+    keywordSr: "online zakazivanje za salone, booking za salone, salon softver",
+    keywordEn: "salon booking setup, online appointment system for salons",
     aiSummarySr:
-      "Brzo uvodimo booking sistem za salone koji trenutno rade bez online zakazivanja i bez centralnog rasporeda.",
+      "Postavljanje booking sistema za salone koji danas rade preko poziva, poruka i manuelnih rasporeda.",
     aiSummaryEn:
-      "Rapid booking setup for salons that currently run without online appointments and centralized scheduling.",
-    searchPhrasesSr: [
-      "frizerski salon bez booking sistema",
-      "online zakazivanje za salon",
-      "booking sistem za frizere",
-    ],
-    searchPhrasesEn: [
-      "salon without booking software",
-      "hair salon online booking",
-      "single barber booking system",
-    ],
-    secondaryCtas: [
-      {
-        href: "https://doctorbarber.rs/",
-        labelSr: "Primer: Doctor Barber (1 frizer)",
-        labelEn: "Example: Doctor Barber (single barber)",
-      },
-      {
-        href: "https://frizerskisalonsrdjan.com/",
-        labelSr: "Primer: Srdjan (vlasnik, tim, vise lokala)",
-        labelEn: "Example: Srdjan (owner, team, multi-location)",
-      },
-    ],
+      "Booking setup for salons that still rely on phone calls, DMs and manual scheduling.",
+    searchPhrasesSr: ["booking za salone", "online zakazivanje salon", "softver za salon"],
+    searchPhrasesEn: ["salon booking system", "beauty salon scheduling", "appointment software salon"],
   },
   {
     slug: "web-pozivnice-za-veselja",
@@ -105,13 +65,7 @@ export const serviceCatalog: ServiceCatalogEntry[] = [
       "Digital invitation websites for events with RSVP tracking and instant sharing.",
     searchPhrasesSr: ["web pozivnica za svadbu", "digitalna pozivnica", "pozivnica sa rsvp"],
     searchPhrasesEn: ["web wedding invitation", "digital invitation website", "rsvp invitation"],
-    secondaryCtas: [
-      {
-        href: "https://pozivnica.adspire.rs/",
-        labelSr: "Pogledaj primer pozivnice",
-        labelEn: "View invitation example",
-      },
-    ],
+    secondaryHref: "https://pozivnica.adspire.rs/",
   },
   {
     slug: "seo-i-sadrzaj",

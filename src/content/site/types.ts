@@ -1,3 +1,18 @@
+export type ActionLink = {
+  label: string;
+  href: string;
+};
+
+export type NavItem = {
+  label: string;
+  href: string;
+};
+
+export type MetricItem = {
+  value: string;
+  label: string;
+};
+
 export type ServiceItem = {
   slug: string;
   title: string;
@@ -7,26 +22,19 @@ export type ServiceItem = {
   cta: string;
 };
 
-export type PortfolioItem = {
+export type ProjectItem = {
   name: string;
   category: string;
   image: string;
   url: string;
-};
-
-export type CtaBlock = {
-  kicker: string;
-  title: string;
-  body: string;
-  primaryLabel: string;
-  primaryHref: string;
-  secondaryLabel: string;
-  secondaryHref: string;
+  summary: string;
+  outcome: string;
 };
 
 export type TestimonialItem = {
   name: string;
   role: string;
+  company?: string;
   quote: string;
 };
 
@@ -35,108 +43,210 @@ export type FaqItem = {
   a: string;
 };
 
+export type CtaBlock = {
+  kicker: string;
+  title: string;
+  body: string;
+  primary: ActionLink;
+  secondary?: ActionLink;
+};
+
+export type PageHero = {
+  eyebrow: string;
+  title: string;
+  description: string;
+  primary?: ActionLink;
+  secondary?: ActionLink;
+};
+
+export type BlogPost = {
+  slug: string;
+  title: string;
+  excerpt: string;
+  category: string;
+  date: string;
+  image: string;
+  href: string;
+};
+
+export type ArticleSection = {
+  title: string;
+  paragraphs: string[];
+};
+
+export type ContactFormLabels = {
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+  submit: string;
+  subjectOptions: {
+    project: string;
+    service: string;
+    budget: string;
+    support: string;
+  };
+  success: string;
+  error: string;
+  sending: string;
+};
+
 export type LocalizedPageContent = {
   localeLabel: string;
-  nav: {
-    home: string;
-    about: string;
-    services: string;
-    projects: string;
-    contact: string;
-    blog: string;
-    faq: string;
-    portfolio: string;
+  siteTitle: string;
+  siteDescription: string;
+  nav: NavItem[];
+  headerCta: ActionLink;
+  home: {
+    heroStack: {
+      intro: {
+        eyebrow: string;
+        title: string;
+        description: string;
+        badges: string[];
+        primary: ActionLink;
+        secondary: ActionLink;
+        gallery: Array<{
+          image: string;
+          alt: string;
+          href: string;
+        }>;
+      };
+      capability: {
+        eyebrow: string;
+        title: string;
+        description: string;
+        tags: string[];
+        stats: MetricItem[];
+        primary: ActionLink;
+        secondary: ActionLink;
+        video: string;
+        poster: string;
+      };
+      showcase: {
+        eyebrow: string;
+        title: string;
+        description: string;
+        primary: ActionLink;
+        secondary: ActionLink;
+        slides: Array<{
+          title: string;
+          description: string;
+          image: string;
+          href: string;
+        }>;
+      };
+    };
+    servicesSection: {
+      eyebrow: string;
+      title: string;
+      description: string;
+      items: ServiceItem[];
+    };
+    projectsSection: {
+      eyebrow: string;
+      title: string;
+      description: string;
+      items: ProjectItem[];
+    };
+    testimonialsSection: {
+      eyebrow: string;
+      title: string;
+      description: string;
+      items: TestimonialItem[];
+    };
+    faqSection: {
+      eyebrow: string;
+      title: string;
+      description: string;
+      items: FaqItem[];
+    };
+    ctaSection: CtaBlock;
   };
-  hero: {
-    line1: string;
-    line2: string;
-    body: string;
+  aboutPage: {
+    hero: PageHero;
+    manifesto: string;
+    storyTitle: string;
+    storyParagraphs: string[];
+    metrics: MetricItem[];
+    team: {
+      title: string;
+      subtitle: string;
+      leadName: string;
+      leadRole: string;
+      leadBio: string;
+      bullets: string[];
+    };
+    cta: CtaBlock;
   };
-  digitalHero: {
-    title: string;
-    body: string;
-    bullets: string[];
-  };
-  freelancerHero: {
-    title: string;
-    body: string;
-    tags: string[];
-  };
-  designerHero: {
-    title: string;
-    status: string;
-    body: string;
-  };
-  services: {
-    pageTitle: string;
-    pageSubtitle: string;
+  servicesPage: {
+    hero: PageHero;
+    introTitle: string;
+    introBody: string;
+    process: string[];
     items: ServiceItem[];
+    cta: CtaBlock;
   };
-  portfolio: {
-    pageTitle: string;
-    pageSubtitle: string;
-    items: PortfolioItem[];
+  projectsPage: {
+    hero: PageHero;
+    introTitle: string;
+    introBody: string;
+    items: ProjectItem[];
+    cta: CtaBlock;
   };
-  cta: CtaBlock;
-  testimonials: {
-    title: string;
-    subtitle: string;
-    items: TestimonialItem[];
+  projectPage: {
+    hero: PageHero;
+    client: string;
+    website: string;
+    overview: string;
+    challenge: string;
+    solution: string;
+    outcomes: string[];
+    services: string[];
+    metrics: MetricItem[];
+    testimonial: TestimonialItem;
+    gallery: string[];
+    liveLabel: string;
   };
-  faq: {
-    title: string;
-    subtitle: string;
-    items: FaqItem[];
-  };
-  contact: {
-    title: string;
-    subtitle: string;
+  contactPage: {
+    hero: PageHero;
+    introTitle: string;
+    introBody: string;
     phone: string;
     email: string;
     address: string;
-    form: {
-      name: string;
-      email: string;
-      subject: string;
-      message: string;
-      submit: string;
-      subjectOptions: {
-        project: string;
-        service: string;
-        budget: string;
-        support: string;
-      };
-      success: string;
-      error: string;
-      sending: string;
-    };
+    officeHours: string[];
+    form: ContactFormLabels;
   };
-  article: {
-    title: string;
-    subtitle: string;
-    bodyTitle: string;
-    body: string;
+  faqPage: {
+    hero: PageHero;
+    introTitle: string;
+    introBody: string;
+    items: FaqItem[];
+    cta: CtaBlock;
+  };
+  blogPage: {
+    hero: PageHero;
+    featured: BlogPost;
+    posts: BlogPost[];
+    cta: CtaBlock;
+  };
+  articlePage: {
+    hero: PageHero;
+    post: BlogPost;
+    intro: string;
+    sections: ArticleSection[];
     principles: string[];
-  };
-  team: {
-    title: string;
-    subtitle: string;
-    leadName: string;
-    leadRole: string;
-    leadBio: string;
-    bullets: string[];
-  };
-  project: {
-    title: string;
-    subtitle: string;
-    bodyTitle: string;
-    body: string;
-    bullets: string[];
-    liveLabel: string;
+    cta: CtaBlock;
   };
   footer: {
     tagline: string;
-    cta: string;
+    cta: ActionLink;
     copyright: string;
+    contactItems: Array<{
+      label: string;
+      value: string;
+      href?: string;
+    }>;
   };
 };
