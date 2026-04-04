@@ -4,160 +4,170 @@ const services: ServiceItem[] = [
   {
     title: "Web prezentacije",
     summary:
-      "Moderne, brze i SEO optimizovane web sajtove prilagođene konverzijama — od korporativnih sajtova do landing stranica i višejezičkih platformi.",
+      "U Adspire timu iz Niša gradimo moderne, brze i SEO optimizovane sajtove — od korporativnih prezentacija do landing stranica i višejezičkih platformi, uz merljive konverzije.",
     bullets: [
       "Next.js, React, TypeScript, Tailwind CSS",
       "SEO, blog, CMS, analytics i conversion tracking",
       "PWA, Core Web Vitals, cloud (Vercel / custom server)",
     ],
     slug: "web-prezentacije",
-    href: "/our-services",
+    href: "/our-services/web-prezentacije",
     cta: "Detalji usluge",
   },
   {
     title: "E-commerce i web shop sistemi",
     summary:
-      "Klasične i headless e-commerce platforme sa admin panelom, plaćanjem, lagerm i automatizacijom.",
+      "Adspire projektuje klasične i headless e-commerce platforme: admin, plaćanja, zalihe, pretplate i automatizacija — od MVP prodavnice do ozbiljnog shop sistema.",
     bullets: [
       "Custom shop, headless, subscription, digitalni proizvodi",
       "Kartična plaćanja, loyalty, kuponi, CRM integracija",
       "AI preporuke, email marketing, mobilna optimizacija",
     ],
     slug: "e-commerce-web-shop",
-    href: "/our-services",
+    href: "/our-services/e-commerce-web-shop",
     cta: "Detalji usluge",
   },
   {
     title: "Mobilne aplikacije (PWA + native)",
     summary:
-      "PWA koje se instaliraju bez App Store procesa i native aplikacije (Flutter / React Native) za iOS i Android.",
+      "Kod nas PWA brzo stiže do korisnika bez čekanja store odobrenja; native (Flutter / React Native) za iOS i Android kada trebaju plaćanja, GPS i puni pristup uređaju.",
     bullets: [
       "PWA: booking, loyalty, meniji, push, offline režim",
       "Native: plaćanja, GPS, QR/barcode, chat, App Store / Play",
       "Booking, loyalty, e-commerce, CRM i SaaS mobilni proizvodi",
     ],
     slug: "mobilne-aplikacije",
-    href: "/our-services",
+    href: "/our-services/mobilne-aplikacije",
     cta: "Detalji usluge",
   },
   {
     title: "CMS sistemi",
-    summary: "Custom sistemi za upravljanje sadržajem bez tehničkog znanja.",
+    summary:
+      "Pravimo CMS i admin panele po meri vašeg tima — bez forsiranja generičkih rešenja kada proces zahteva poseban tok.",
     bullets: [
       "Admin panel, blog, galerija, korisnici",
       "Role-based pristup (admin, editor, user)",
       "Dashboard i jasna struktura sadržaja",
     ],
     slug: "cms-sistemi",
-    href: "/our-services",
+    href: "/our-services/cms-sistemi",
     cta: "Detalji usluge",
   },
   {
     title: "Interne poslovne aplikacije",
-    summary: "Digitalizacija i automatizacija poslovanja — CRM, termini, task manager i mini ERP.",
+    summary:
+      "Digitalizacija operativa u Adspire pristupu: CRM, termini, task manager i mini ERP povezani sa vašim stvarnim procesom, ne sa šablonom sa polica.",
     bullets: [
       "CRM, zaposleni, termini, prodaja, QR članarine",
       "Fakturisanje, izveštaji, API integracije",
       "Interni dashboard za vlasnike",
     ],
     slug: "interne-poslovne-aplikacije",
-    href: "/our-services",
+    href: "/our-services/interne-poslovne-aplikacije",
     cta: "Detalji usluge",
   },
   {
     title: "AI integracije i automatizacija",
-    summary: "Veštačka inteligencija u prodaji, podršci, sadržaju i operativi.",
+    summary:
+      "Uvodimo AI i automatizaciju (uključujući n8n tokove) tamo gde smanjuju ručni rad — prodaja, podrška, sadržaj i interni alarmi.",
     bullets: [
       "AI chatbot, support, zakazivanje, ponude, blog, SEO",
       "Voice agent, CRM asistent, lead scoring",
       "Marketing funnel, email, n8n workflow automatizacija",
     ],
     slug: "ai-integracije-automatizacija",
-    href: "/our-services",
+    href: "/our-services/ai-integracije-automatizacija",
     cta: "Detalji usluge",
   },
   {
     title: "Business intelligence i analitika",
-    summary: "Sistemi za analizu poslovnih podataka i jasne odluke.",
+    summary:
+      "Gradimo dashboard-e i izveštaje koji se vezuju za vaše izvore istine — da vlasnici i timovi vide KPI, a ne samo skrinšotove iz alata.",
     bullets: [
       "Custom dashboard, KPI, grafici prodaje",
       "CRM analitika, heatmap, ponašanje korisnika",
       "Automatizovani mesečni izveštaji",
     ],
     slug: "business-intelligence-analitika",
-    href: "/our-services",
+    href: "/our-services/business-intelligence-analitika",
     cta: "Detalji usluge",
   },
   {
     title: "SEO i digitalni marketing",
-    summary: "Tehnička i AI optimizacija za rast uz merljive kampanje.",
+    summary:
+      "Adspire spaja tehnički SEO (uključujući performanse Next.js stacka) sa kampanjama i CRO — merljivo, iterativno.",
     bullets: [
       "Tehnički i on-page SEO, analiza konkurencije",
       "Google Ads, Meta Ads, conversion tracking, remarketing",
       "Core Web Vitals, CRO, A/B testiranje",
     ],
     slug: "seo-digitalni-marketing",
-    href: "/our-services",
+    href: "/our-services/seo-digitalni-marketing",
     cta: "Detalji usluge",
   },
   {
     title: "Cyber security i GDPR",
-    summary: "Sigurnost podataka i usklađenost sa zahtevima privatnosti.",
+    summary:
+      "Pomažemo da sajt, forme i skladištenje podataka prate razuman nivo bezbednosti i očekivanja oko privatnosti (GDPR, pristanak, backup).",
     bullets: [
       "Security audit, GDPR setup, cookie consent",
       "Backup, disaster recovery, monitoring",
       "Enkripcija podataka",
     ],
     slug: "cyber-security-gdpr",
-    href: "/our-services",
+    href: "/our-services/cyber-security-gdpr",
     cta: "Detalji usluge",
   },
   {
     title: "Hosting i infrastruktura",
-    summary: "Postavljanje i održavanje cloud i server infrastrukture.",
+    summary:
+      "Postavljamo i dokumentujemo produkciju: cloud ili custom server, SSL, mail, domen i rezervne kopije — da znate šta gde živi.",
     bullets: [
       "Cloud i custom server deployment",
       "Email server, domen, SSL",
       "Backup i cloud storage",
     ],
     slug: "hosting-infrastruktura",
-    href: "/our-services",
+    href: "/our-services/hosting-infrastruktura",
     cta: "Detalji usluge",
   },
   {
     title: "SaaS razvoj",
-    summary: "Softver kao usluga — od MVP-a do skalabilnog proizvoda.",
+    summary:
+      "Od MVP-a do proizvoda sa pretplatom: Adspire gradi autentikaciju, naplatu, admin i korisnički deo kao jednu celinu.",
     bullets: [
       "Booking, CRM, subscription i white-label SaaS",
       "Industrijski SaaS sistemi",
       "Monetizacija digitalnog proizvoda za klijenta",
     ],
     slug: "saas-razvoj",
-    href: "/our-services",
+    href: "/our-services/saas-razvoj",
     cta: "Detalji usluge",
   },
   {
     title: "Industrijska rešenja",
-    summary: "Specijalizovane platforme po vertikali.",
+    summary:
+      "Vertikalni softver za klinike, teretane, restorane, građevinu, advokate i druge niše — zakazivanje, katalozi i operativa u jednom sistemu.",
     bullets: [
       "Klinike, teretane, restorani, građevina, fabrike",
       "Advokati, auto saloni, agencije, nekretnine",
       "Prilagođeni tokovi zakazivanja, kataloga i operativa",
     ],
     slug: "industrijska-resenja",
-    href: "/our-services",
+    href: "/our-services/industrijska-resenja",
     cta: "Detalji usluge",
   },
   {
     title: "Interaktivne web tehnologije",
-    summary: "3D, virtual showroom i napredne prezentacije proizvoda i brenda.",
+    summary:
+      "3D, virtual showroom i 360° kada brend treba iskustvo, ne samo statičnu stranicu — uz pažnju na performanse i mobilni prikaz.",
     bullets: [
       "3D web prezentacije, virtual showroom",
       "360° prikaz proizvoda",
       "Interaktivne prezentacije i napredne animacije",
     ],
     slug: "interaktivne-web-tehnologije",
-    href: "/our-services",
+    href: "/our-services/interaktivne-web-tehnologije",
     cta: "Detalji usluge",
   },
 ];
@@ -264,7 +274,7 @@ const blogPosts = [
 
 export const srContent: LocalizedPageContent = {
   localeLabel: "SR",
-  siteTitle: "Adspire",
+  siteTitle: "Adspire Digital",
   siteDescription:
     "Adspire Digital iz Niša — web platforme, e-commerce, PWA i native aplikacije, poslovni sistemi, AI automatizacija, SaaS i hosting. Kontakt: djordje@adspire.rs, +381 60 149 149 1.",
   nav: [
@@ -286,7 +296,7 @@ export const srContent: LocalizedPageContent = {
         eyebrow: "Agency mix / Hero 01",
         title: "Web sistemi koji rastu sa biznisom",
         description:
-          "Dizajniramo, razvijamo i optimizujemo sajtove, aplikacije i prodajne tokove koji pretvaraju saobracaj u upite, rezervacije i prihod.",
+          "Adspire Digital iz Niša dizajnira, razvija i optimizuje sajtove, aplikacije i prodajne tokove koji pretvaraju saobraćaj u upite, rezervacije i prihod.",
         badges: ["Next.js", "SEO", "Booking sistemi", "Automatizacija"],
         primary: {
           label: "Pokreni projekat",
@@ -323,7 +333,7 @@ export const srContent: LocalizedPageContent = {
         eyebrow: "Agency mix / Hero 02",
         title: "Jedan proizvodni tok za dizajn, razvoj i rast",
         description:
-          "Strategija, UI/UX, development, SEO i automatizacija rade kao jedan sistem. Bez prebacivanja odgovornosti izmedju timova i bez uskih grla kada projekat krene da raste.",
+          "Kod nas strategija, UI/UX, development, SEO i automatizacija rade kao jedan sistem — bez prebacivanja odgovornosti između timova i bez uskih grla kada projekat krene da raste.",
         tags: ["Strategija", "UI/UX", "Development", "SEO", "Analytics", "CRO"],
         stats: [
           { value: "3 sloja", label: "Strategija, proizvod i growth u istom toku" },
@@ -345,7 +355,7 @@ export const srContent: LocalizedPageContent = {
         eyebrow: "Agency mix / Hero 03",
         title: "Partner za ozbiljne web isporuke",
         description:
-          "Ulazimo od discovery faze do produkcije, sa jasnim scope-om, realnim roadmap-om i fokusom na rezultat posle lansiranja. Ovaj blok vodi direktno u radove i konkretne primere.",
+          "Adspire ulazi od discovery faze do produkcije, sa jasnim opsegom, realnim roadmap-om i fokusom na rezultat posle lansiranja. Ispod su konkretni primeri radova.",
         primary: {
           label: "Odabrani projekti",
           href: "/our-projects",
@@ -509,9 +519,9 @@ export const srContent: LocalizedPageContent = {
   servicesPage: {
     hero: {
       eyebrow: "Usluge",
-      title: "Kompletan pregled usluga i tehnoloških rešenja",
+      title: "Adspire Digital — šta radimo i kako to isporučujemo",
       description:
-        "Od web prezentacija i e-commercea, preko PWA i native mobilnih aplikacija, CMS-a i internih poslovnih sistema, do AI integracija, BI-ja, SEO-a, bezbednosti, hostinga, SaaS-a i industrijskih rešenja.",
+        "Iz Niša pokrivamo ceo spektar: web prezentacije i e-commerce, PWA i native mobilne aplikacije, CMS i interne poslovne sisteme, AI i automatizaciju, BI, SEO, bezbednost, hosting, SaaS i industrijska rešenja. Svaka usluga ima svoju stranicu sa detaljima.",
       primary: {
         label: "Kontakt",
         href: "/contact-us",
@@ -523,7 +533,7 @@ export const srContent: LocalizedPageContent = {
     },
     introTitle: "Jedan partner za ceo digitalni proizvod",
     introBody:
-      "Možemo preuzeti ceo životni ciklus — od ideje i arhitekture, preko dizajna i razvoja, do deploy-a, održavanja i automatizacije. Biramo obim prema vašim prioritetima i budžetu.",
+      "Adspire može preuzeti ceo životni ciklus — od ideje i arhitekture, preko dizajna i razvoja, do deploy-a, održavanja i automatizacije. Biramo obim prema vašim prioritetima i budžetu; kontakt: djordje@adspire.rs.",
     process: [
       "Definisemo poslovni cilj, scope i merilo uspeha.",
       "Mapiramo korisnicki tok, CTA logiku i prioritete.",

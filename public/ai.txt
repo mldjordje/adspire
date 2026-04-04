@@ -1,0 +1,10 @@
+# Adspire Digital — AI / crawler hints
+
+Contact: djordje@adspire.rs | +381 60 149 149 1 | Niš, Srbija
+Official site: https://adspire.rs
+
+Structured company + service URLs for LLMs (preferred):
+https://adspire.rs/llms.txt
+
+Sitemap:
+https://adspire.rs/sitemap.xml
