@@ -59,6 +59,10 @@ function normalizeTemplateRouteFromRelativePath(relativePath) {
 }
 
 function collectTemplatePublicRoutes(rootDir, currentDir = rootDir, routes = new Set()) {
+  if (!fs.existsSync(rootDir)) {
+    return [];
+  }
+
   for (const entry of fs.readdirSync(currentDir, { withFileTypes: true })) {
     const absolutePath = path.join(currentDir, entry.name);
     const relativePath = path.relative(rootDir, absolutePath).replace(/\\/g, "/");
