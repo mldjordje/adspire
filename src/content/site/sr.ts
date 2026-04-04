@@ -2,136 +2,161 @@ import type { LocalizedPageContent, ProjectItem, ServiceItem } from "@/content/s
 
 const services: ServiceItem[] = [
   {
-    title: "Web dizajn i razvoj",
+    title: "Web prezentacije",
     summary:
-      "Skalabilni sajtovi i napredne web aplikacije u Next.js tehnologiji za ozbiljne poslovne procese.",
+      "Moderne, brze i SEO optimizovane web sajtove prilagođene konverzijama — od korporativnih sajtova do landing stranica i višejezičkih platformi.",
     bullets: [
-      "Arhitektura za velike kolicine podataka i performanse",
-      "React frontend i robustan backend API sloj",
-      "ERP, CRM i payment integracije",
+      "Next.js, React, TypeScript, Tailwind CSS",
+      "SEO, blog, CMS, analytics i conversion tracking",
+      "PWA, Core Web Vitals, cloud (Vercel / custom server)",
     ],
-    slug: "web-dizajn-i-razvoj",
+    slug: "web-prezentacije",
     href: "/our-services",
     cta: "Detalji usluge",
   },
   {
-    title: "E-commerce",
-    summary: "Prodajni sajtovi fokusirani na konverzije i iskustvo kupaca.",
-    bullets: [
-      "Custom shop ili Shopify/Headless",
-      "Placanja i dostava",
-      "Optimizovan checkout",
-    ],
-    slug: "e-commerce",
-    href: "/our-services",
-    cta: "Detalji usluge",
-  },
-  {
-    title: "Booking sistemi",
-    summary: "Online zakazivanje prilagodjeno za usluzne biznise.",
-    bullets: [
-      "Samostalno zakazivanje i potvrde",
-      "Admin kalendar, usluge i tim",
-      "Podsetnici i kontrola no-show",
-    ],
-    slug: "booking-sistemi",
-    href: "/our-services",
-    cta: "Detalji usluge",
-  },
-  {
-    title: "Booking za salone bez sistema",
-    summary: "Uvodjenje online zakazivanja za salone bez postojeceg softvera.",
-    bullets: [
-      "Prelazak sa poziva i DM poruka na centralni kalendar",
-      "Varijante za jedan salon ili vise lokala",
-      "Primeri vec rade u produkciji",
-    ],
-    slug: "booking-za-salone-bez-sistema",
-    href: "/our-services",
-    cta: "Detalji usluge",
-  },
-  {
-    title: "Web pozivnice za veselja",
-    summary: "Digitalne pozivnice sa RSVP pregledom u realnom vremenu.",
-    bullets: [
-      "Nizi trosak od stampe",
-      "RSVP pregled gostiju",
-      "Brze izmene i instant deljenje",
-    ],
-    slug: "web-pozivnice-za-veselja",
-    href: "/our-services",
-    cta: "Detalji usluge",
-  },
-  {
-    title: "SEO i sadrzaj",
-    summary: "Tehnicki SEO i content strategija za stabilan organski rast.",
-    bullets: [
-      "Tehnicki SEO i brzina",
-      "On-page optimizacija",
-      "Plan i produkcija sadrzaja",
-    ],
-    slug: "seo-i-sadrzaj",
-    href: "/our-services",
-    cta: "Detalji usluge",
-  },
-  {
-    title: "Performance marketing",
-    summary: "Google i Meta kampanje povezane sa pravim merenjem leadova i prodaje.",
-    bullets: [
-      "Postavka pracenja konverzija i publika",
-      "Optimizacija troska po leadu i prodaji",
-      "Jasan reporting za rast budzeta",
-    ],
-    slug: "performance-marketing",
-    href: "/our-services",
-    cta: "Detalji usluge",
-  },
-  {
-    title: "Brending i identitet",
-    summary: "Vizuelni identitet i komunikacija koji stvaraju prepoznatljivost i poverenje.",
-    bullets: [
-      "Pozicioniranje i brand poruka",
-      "Logo, paleta, tipografija i smernice",
-      "Sistem koji radi kroz web i kampanje",
-    ],
-    slug: "brending-i-identitet",
-    href: "/our-services",
-    cta: "Detalji usluge",
-  },
-  {
-    title: "Drustvene mreze i sadrzaj",
+    title: "E-commerce i web shop sistemi",
     summary:
-      "Planiranje i produkcija sadrzaja za kanale koji treba da donesu rezultat, ne samo objave.",
+      "Klasične i headless e-commerce platforme sa admin panelom, plaćanjem, lagerm i automatizacijom.",
     bullets: [
-      "Plan objava i content stubovi",
-      "UGC, short-form i prodajni kreativi",
-      "Uskladjivanje sa lead i ad sistemom",
+      "Custom shop, headless, subscription, digitalni proizvodi",
+      "Kartična plaćanja, loyalty, kuponi, CRM integracija",
+      "AI preporuke, email marketing, mobilna optimizacija",
     ],
-    slug: "drustvene-mreze-i-sadrzaj",
+    slug: "e-commerce-web-shop",
     href: "/our-services",
     cta: "Detalji usluge",
   },
   {
-    title: "Odrzavanje i podrska",
-    summary: "Tehnicka podrska posle lansiranja da sajt ostane brz, siguran i stabilan.",
+    title: "Mobilne aplikacije (PWA + native)",
+    summary:
+      "PWA koje se instaliraju bez App Store procesa i native aplikacije (Flutter / React Native) za iOS i Android.",
     bullets: [
-      "Bezbednosna i sistemska azuriranja",
-      "Monitoring performansi i ispravke",
-      "Iterativna poboljsanja bez haosa",
+      "PWA: booking, loyalty, meniji, push, offline režim",
+      "Native: plaćanja, GPS, QR/barcode, chat, App Store / Play",
+      "Booking, loyalty, e-commerce, CRM i SaaS mobilni proizvodi",
     ],
-    slug: "odrzavanje-i-podrska",
+    slug: "mobilne-aplikacije",
     href: "/our-services",
     cta: "Detalji usluge",
   },
   {
-    title: "Analitika i CRO",
-    summary: "GA4, Tag Manager i optimizacija konverzija za odluke zasnovane na podacima.",
+    title: "CMS sistemi",
+    summary: "Custom sistemi za upravljanje sadržajem bez tehničkog znanja.",
     bullets: [
-      "Precizno merenje izvora i leadova",
-      "Funnel analiza i otkrivanje gubitaka",
-      "Testovi i izmene koje dizu konverziju",
+      "Admin panel, blog, galerija, korisnici",
+      "Role-based pristup (admin, editor, user)",
+      "Dashboard i jasna struktura sadržaja",
     ],
-    slug: "analitika-i-cro",
+    slug: "cms-sistemi",
+    href: "/our-services",
+    cta: "Detalji usluge",
+  },
+  {
+    title: "Interne poslovne aplikacije",
+    summary: "Digitalizacija i automatizacija poslovanja — CRM, termini, task manager i mini ERP.",
+    bullets: [
+      "CRM, zaposleni, termini, prodaja, QR članarine",
+      "Fakturisanje, izveštaji, API integracije",
+      "Interni dashboard za vlasnike",
+    ],
+    slug: "interne-poslovne-aplikacije",
+    href: "/our-services",
+    cta: "Detalji usluge",
+  },
+  {
+    title: "AI integracije i automatizacija",
+    summary: "Veštačka inteligencija u prodaji, podršci, sadržaju i operativi.",
+    bullets: [
+      "AI chatbot, support, zakazivanje, ponude, blog, SEO",
+      "Voice agent, CRM asistent, lead scoring",
+      "Marketing funnel, email, n8n workflow automatizacija",
+    ],
+    slug: "ai-integracije-automatizacija",
+    href: "/our-services",
+    cta: "Detalji usluge",
+  },
+  {
+    title: "Business intelligence i analitika",
+    summary: "Sistemi za analizu poslovnih podataka i jasne odluke.",
+    bullets: [
+      "Custom dashboard, KPI, grafici prodaje",
+      "CRM analitika, heatmap, ponašanje korisnika",
+      "Automatizovani mesečni izveštaji",
+    ],
+    slug: "business-intelligence-analitika",
+    href: "/our-services",
+    cta: "Detalji usluge",
+  },
+  {
+    title: "SEO i digitalni marketing",
+    summary: "Tehnička i AI optimizacija za rast uz merljive kampanje.",
+    bullets: [
+      "Tehnički i on-page SEO, analiza konkurencije",
+      "Google Ads, Meta Ads, conversion tracking, remarketing",
+      "Core Web Vitals, CRO, A/B testiranje",
+    ],
+    slug: "seo-digitalni-marketing",
+    href: "/our-services",
+    cta: "Detalji usluge",
+  },
+  {
+    title: "Cyber security i GDPR",
+    summary: "Sigurnost podataka i usklađenost sa zahtevima privatnosti.",
+    bullets: [
+      "Security audit, GDPR setup, cookie consent",
+      "Backup, disaster recovery, monitoring",
+      "Enkripcija podataka",
+    ],
+    slug: "cyber-security-gdpr",
+    href: "/our-services",
+    cta: "Detalji usluge",
+  },
+  {
+    title: "Hosting i infrastruktura",
+    summary: "Postavljanje i održavanje cloud i server infrastrukture.",
+    bullets: [
+      "Cloud i custom server deployment",
+      "Email server, domen, SSL",
+      "Backup i cloud storage",
+    ],
+    slug: "hosting-infrastruktura",
+    href: "/our-services",
+    cta: "Detalji usluge",
+  },
+  {
+    title: "SaaS razvoj",
+    summary: "Softver kao usluga — od MVP-a do skalabilnog proizvoda.",
+    bullets: [
+      "Booking, CRM, subscription i white-label SaaS",
+      "Industrijski SaaS sistemi",
+      "Monetizacija digitalnog proizvoda za klijenta",
+    ],
+    slug: "saas-razvoj",
+    href: "/our-services",
+    cta: "Detalji usluge",
+  },
+  {
+    title: "Industrijska rešenja",
+    summary: "Specijalizovane platforme po vertikali.",
+    bullets: [
+      "Klinike, teretane, restorani, građevina, fabrike",
+      "Advokati, auto saloni, agencije, nekretnine",
+      "Prilagođeni tokovi zakazivanja, kataloga i operativa",
+    ],
+    slug: "industrijska-resenja",
+    href: "/our-services",
+    cta: "Detalji usluge",
+  },
+  {
+    title: "Interaktivne web tehnologije",
+    summary: "3D, virtual showroom i napredne prezentacije proizvoda i brenda.",
+    bullets: [
+      "3D web prezentacije, virtual showroom",
+      "360° prikaz proizvoda",
+      "Interaktivne prezentacije i napredne animacije",
+    ],
+    slug: "interaktivne-web-tehnologije",
     href: "/our-services",
     cta: "Detalji usluge",
   },
@@ -241,7 +266,7 @@ export const srContent: LocalizedPageContent = {
   localeLabel: "SR",
   siteTitle: "Adspire",
   siteDescription:
-    "Adspire razvija sajtove, booking sisteme i growth tokove za biznise koji zele ozbiljan digitalni sistem.",
+    "Adspire Digital iz Niša — web platforme, e-commerce, PWA i native aplikacije, poslovni sistemi, AI automatizacija, SaaS i hosting. Kontakt: djordje@adspire.rs, +381 60 149 149 1.",
   nav: [
     { label: "Pocetna", href: "/" },
     { label: "O nama", href: "/about-us" },
@@ -352,10 +377,10 @@ export const srContent: LocalizedPageContent = {
       },
     },
     servicesSection: {
-      eyebrow: "Capabilities",
-      title: "Usluge slozene kao sistem, ne kao spisak taskova",
+      eyebrow: "Usluge",
+      title: "Kompletan spektar digitalnih i tehnoloških rešenja",
       description:
-        "Posle hero bloka prelazimo na capability deo. Fokus nam je da svaki sloj sajta ima poslovnu funkciju i da moze da se meri.",
+        "Od web prezentacija i e-commercea, preko PWA i native aplikacija, do internih sistema, AI automatizacije, SaaS-a i infrastrukture — sve na jednom mestu.",
       items: services.slice(0, 6),
     },
     projectsSection: {
@@ -428,10 +453,10 @@ export const srContent: LocalizedPageContent = {
   },
   aboutPage: {
     hero: {
-      eyebrow: "About us",
-      title: "Timska isporuka bez handoff haosa",
+      eyebrow: "O nama",
+      title: "Adspire Digital — razvojni i tehnološki partner",
       description:
-        "Model rada u kome strategija, dizajn i development dele isti cilj: da digitalni sistem donese merljiv rezultat posle lansiranja.",
+        "Specijalizovani smo za moderne web platforme, mobilne aplikacije, poslovne sisteme i AI automatizaciju. Gradimo skalabilna, brza i dugoročno održiva rešenja za digitalizaciju i rast na domaćem i internacionalnom tržištu.",
       primary: {
         label: "Zakazi razgovor",
         href: "/contact-us",
@@ -442,17 +467,17 @@ export const srContent: LocalizedPageContent = {
       },
     },
     manifesto:
-      "Adspire nije studio koji samo isporuci dizajn i nestane. Ulazimo tamo gde treba spojiti positioning, UX, development i growth tok u jednu smislenu celinu.",
-    storyTitle: "Kako radimo",
+      "Radimo kao white-label development partner, tehnički partner za agencije, podugovarač na kompleksnim projektima, dugoročni maintenance partner i SaaS razvojni tim.",
+    storyTitle: "Kako saradjujemo",
     storyParagraphs: [
-      "Svaki projekat pocinje merljivim poslovnim ciljem. Zatim mapiramo korisnicki tok, definisemo ogranicenja i gradimo sprintove oko onoga sto najbrze pomera upite, rezervacije ili prodaju.",
-      "Ne gradimo sajt kao izolovan artefakt, nego kao deo prodajnog i operativnog sistema. Zato se rano bavimo SEO osnovom, analitikom, CTA logikom i onim sto timu ostaje posle go-live.",
-      "Kada projekat krene da raste, najbitnije je da nema improvizacije. Scope, prioriteti i sledeci koraci moraju da budu jasni i timu i klijentu.",
+      "Svaki projekat počinje jasnim poslovnim ciljem i kontekstom. Mapiramo tok korisnika, ograničenja budžeta i rokova, pa gradimo roadmap koji donosi vrednost što pre.",
+      "Ne isporučujemo samo „sajt“ — gradimo deo prodajnog, operativnog ili produktnog sistema. SEO, analitika, bezbednost i mogućnost širenja su deo osnovne arhitekture, ne naknadni dodatak.",
+      "Dugoročno ostajemo uz klijenta kroz održavanje, nadogradnje i automatizaciju — tako digitalni proizvod ostaje stabilan dok biznis raste.",
     ],
     metrics: [
-      { value: "Discovery", label: "Ulazimo od briefa i scope definicije" },
-      { value: "Build", label: "Dizajn i development vode ka jednoj isporuci" },
-      { value: "Growth", label: "SEO, tracking i optimizacija ostaju aktivni i posle lansiranja" },
+      { value: "Partnerstvo", label: "White-label, agencijski partner, podugovarač ili SaaS tim — po potrebi" },
+      { value: "Isporuka", label: "Web, mobilno, interni sistemi, AI i infrastruktura u jednom toku" },
+      { value: "Rast", label: "SEO, marketing, BI i automatizacija za merljiv napredak posle lansiranja" },
     ],
     team: {
       title: "Vodeci fokus",
@@ -460,7 +485,7 @@ export const srContent: LocalizedPageContent = {
       leadName: "Djordje",
       leadRole: "Strategija, prodaja i rast",
       leadBio:
-        "Vodi discovery, scope, prioritetizaciju i growth sisteme kako bi ceo projekat ostao usmeren na merljiv ishod, a ne samo na isporuku dizajna.",
+        "Vodi komunikaciju sa klijentima, definisanje obima i prioriteta, kao i usklađivanje development i growth aktivnosti oko merljivog ishoda.",
       bullets: [
         "Discovery radionice i KPI uskladjivanje",
         "Scope, funnel i planiranje konverzija",
@@ -483,10 +508,10 @@ export const srContent: LocalizedPageContent = {
   },
   servicesPage: {
     hero: {
-      eyebrow: "Services",
-      title: "Kompletna digitalna isporuka od planiranja do merenja rezultata",
+      eyebrow: "Usluge",
+      title: "Kompletan pregled usluga i tehnoloških rešenja",
       description:
-        "Nase usluge nisu raspakovane u nepovezane taskove. Svaka ima jasno mesto u sistemu koji treba da donese rezultat.",
+        "Od web prezentacija i e-commercea, preko PWA i native mobilnih aplikacija, CMS-a i internih poslovnih sistema, do AI integracija, BI-ja, SEO-a, bezbednosti, hostinga, SaaS-a i industrijskih rešenja.",
       primary: {
         label: "Kontakt",
         href: "/contact-us",
@@ -496,9 +521,9 @@ export const srContent: LocalizedPageContent = {
         href: "/our-projects",
       },
     },
-    introTitle: "Kako slagemo usluge",
+    introTitle: "Jedan partner za ceo digitalni proizvod",
     introBody:
-      "Kada je potrebno, radimo discovery, zatim UX i dizajn, pa development i growth postavku. Kada nije potrebno sve, biramo slojeve koji najbrze pomeraju rezultat.",
+      "Možemo preuzeti ceo životni ciklus — od ideje i arhitekture, preko dizajna i razvoja, do deploy-a, održavanja i automatizacije. Biramo obim prema vašim prioritetima i budžetu.",
     process: [
       "Definisemo poslovni cilj, scope i merilo uspeha.",
       "Mapiramo korisnicki tok, CTA logiku i prioritete.",
@@ -749,7 +774,8 @@ export const srContent: LocalizedPageContent = {
     },
   },
   footer: {
-    tagline: "Gradimo digitalne sisteme koji pretvaraju paznju u prihod.",
+    tagline:
+      "Adspire Digital pruža kompletna digitalna rešenja od weba i mobilnih aplikacija do AI automatizacije i SaaS razvoja.",
     cta: {
       label: "Kontaktiraj nas",
       href: "/contact-us",

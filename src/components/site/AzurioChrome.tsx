@@ -4,6 +4,12 @@ import { defaultLocale } from "@/lib/site-config";
 
 const content = getSiteContent(defaultLocale);
 
+/** Iste slike kao u Azurio HTML loaderu (`img/loa_01.webp` … `loa_07.webp` → `public/azurio/img/`). */
+const LOADER_IMAGE_PATHS = Array.from({ length: 7 }, (_, index) => {
+  const n = String(index + 1).padStart(2, "0");
+  return `/azurio/img/loa_${n}.webp`;
+});
+
 type AzurioChromeProps = {
   children: ReactNode;
 };
@@ -14,16 +20,12 @@ export function AzurioChrome({ children }: AzurioChromeProps) {
       <div className="mxd-page-transition" />
       <div className="mxd-loader">
         <div className="mxd-loader__top">
-          <span>Adspire Agency</span>
+          <span>Adspire Digital</span>
         </div>
         <div className="mxd-loader__images">
-          <img src="/images/portfolio/one.png" alt="Adspire preview" />
-          <img src="/images/portfolio/two.png" alt="Adspire preview" />
-          <img src="/images/portfolio/three.png" alt="Adspire preview" />
-          <img src="/images/portfolio/four.png" alt="Adspire preview" />
-          <img src="/images/portfolio/five.png" alt="Adspire preview" />
-          <img src="/images/portfolio/six.png" alt="Adspire preview" />
-          <img src="/images/booking/booking-form.png" alt="Adspire preview" />
+          {LOADER_IMAGE_PATHS.map((src) => (
+            <img key={src} src={src} alt="" />
+          ))}
         </div>
         <div className="mxd-loader__bottom">
           <div className="mxd-loader__count">
@@ -70,7 +72,9 @@ export function AzurioChrome({ children }: AzurioChromeProps) {
               <div className="mxd-menu__inner">
                 <div className="mxd-menu__shadow shadow-top" />
                 <div className="mxd-menu__caption">
-                  <p>Digitalni sistemi, sajtovi i growth tokovi gradjeni za realnu poslovnu upotrebu.</p>
+                  <p>
+                    Razvojni i tehnološki partner iz Niša — web, mobilne aplikacije, poslovni sistemi i AI automatizacija.
+                  </p>
                 </div>
 
                 <div className="mxd-menu__left">
@@ -87,7 +91,7 @@ export function AzurioChrome({ children }: AzurioChromeProps) {
                           </div>
                           <ul className="submenu">
                             <li className="submenu__item active">
-                              <a href="/">Adspire Landing</a>
+                              <a href="/">Početna</a>
                             </li>
                           </ul>
                           <div className="main-menu__divider divider-bottom" />
@@ -215,7 +219,7 @@ export function AzurioChrome({ children }: AzurioChromeProps) {
                 <div className="mxd-menu__shadow" />
                 <div className="mxd-menu__data">
                   <div className="menu-data__left">
-                    <p className="menu-data__text">Adspire x Next.js x Azurio</p>
+                    <p className="menu-data__text">Adspire Digital · Niš · Next.js</p>
                   </div>
                   <div className="menu-data__right">
                     <p className="menu-data__text">Copyright Adspire</p>

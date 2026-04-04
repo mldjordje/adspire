@@ -8,7 +8,8 @@ export const metadata: Metadata = {
     default: "Adspire",
     template: "%s | Adspire",
   },
-  description: "Adspire x Azurio template port",
+  description:
+    "Adspire Digital iz Niša — web platforme, mobilne aplikacije, poslovni sistemi, e-commerce, PWA, AI automatizacija i SaaS razvoj.",
 };
 
 type RootLayoutProps = {
@@ -17,7 +18,7 @@ type RootLayoutProps = {
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="en" dir="ltr">
+    <html lang="sr" dir="ltr">
       <head>
         <link rel="icon" href="/images/favicon.png" type="image/png" />
         <link rel="apple-touch-icon" href="/images/favicon.png" />

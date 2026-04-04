@@ -6,17 +6,19 @@ import { defaultLocale } from "@/lib/site-config";
 const content = getSiteContent(defaultLocale);
 
 const SERVICE_IMAGE_MAP: Record<string, string> = {
-  "web-dizajn-i-razvoj": "/images/portfolio/one.png",
-  "e-commerce": "/images/portfolio/five.png",
-  "booking-sistemi": "/images/booking/booking-form.png",
-  "booking-za-salone-bez-sistema": "/images/booking/booking-admin-calendar.png",
-  "web-pozivnice-za-veselja": "/images/projects/d-one.png",
-  "seo-i-sadrzaj": "/images/portfolio/three.png",
-  "performance-marketing": "/images/portfolio/six.png",
-  "brending-i-identitet": "/images/portfolio/four.png",
-  "drustvene-mreze-i-sadrzaj": "/images/blog/five.png",
-  "odrzavanje-i-podrska": "/images/portfolio/nine.png",
-  "analitika-i-cro": "/images/projects/one.png",
+  "web-prezentacije": "/images/portfolio/one.png",
+  "e-commerce-web-shop": "/images/portfolio/five.png",
+  "mobilne-aplikacije": "/images/booking/booking-form.png",
+  "cms-sistemi": "/images/portfolio/two.png",
+  "interne-poslovne-aplikacije": "/images/portfolio/six.png",
+  "ai-integracije-automatizacija": "/images/portfolio/three.png",
+  "business-intelligence-analitika": "/images/projects/one.png",
+  "seo-digitalni-marketing": "/images/portfolio/four.png",
+  "cyber-security-gdpr": "/images/portfolio/nine.png",
+  "hosting-infrastruktura": "/images/blog/three.png",
+  "saas-razvoj": "/images/portfolio/one.png",
+  "industrijska-resenja": "/images/booking/booking-admin-calendar.png",
+  "interaktivne-web-tehnologije": "/images/projects/d-one.png",
 };
 
 function escapeHtml(value: string) {
@@ -977,6 +979,338 @@ function renderServiceNext(service: ServiceItem) {
       <!-- Section - Next Project Link End -->`;
 }
 
+function applyGlobalBrandReplacements(html: string) {
+  let s = html;
+  s = s.replace(/hello@azurio\.com/gi, "djordje@adspire.rs");
+  s = s.replace(/example@example\.com/gi, "djordje@adspire.rs");
+  s = s.replace(/\+1 212-708-9400/g, "+381 60 149 149 1");
+  s = s.replace(/tel:\+12127089400/gi, "tel:+381601491491");
+  s = s.replace(/@azurioagency/gi, "adspire.rs");
+  s = s.replace(/\bAzurio Agency\b/g, "Adspire Digital");
+  s = s.replace(/Copyright Azurio\. All rights reserved/gi, "Copyright Adspire. Sva prava zadržana");
+  s = s.replace(/\bCopyright Azurio\b/g, "Copyright Adspire");
+  s = s.replace(
+    /Working with Azurio team was <span>an absolute pleasure!<\/span>/g,
+    "Saradnja sa Adspire timom je bila <span>profesionalna i prijatna iskustvo!</span>",
+  );
+  s = s.replace(
+    /<p class="mxd-testimonials-card__descr">Azurio team took the time to understand\s*our business needs <span>and translated them into a beautifully designed,\s*user-friendly website\.<\/span><\/p>/g,
+    '<p class="mxd-testimonials-card__descr">Adspire tim je razumeo naše poslovne potrebe <span>i pretvorio ih u jasan, brz i upotrebljiv sajt.</span></p>',
+  );
+  s = s.replace(
+    /The Azurio team nailed it! They understood our vision <span>and delivered a sleek, intuitive site that our clients love\.<\/span>/g,
+    "Adspire tim je pogodio suštinu: <span>jasna struktura, brza isporuka i sistem koji klijenti zaista koriste.</span>",
+  );
+  s = s.replace(
+    /We are a creative web agency specializing in innovative design and cutting-edge development\.\s*<span>We help businesses stand out and thrive in the modern landscape\.<\/span>/g,
+    "Adspire Digital je razvojni i tehnološki partner za web platforme, mobilne aplikacije, poslovne sisteme i AI automatizaciju. <span>Fokusirani smo na skalabilna, brza i dugoročno održiva rešenja.</span>",
+  );
+  s = s.replace(/<h1 class="medium permanent">Design, tech & some magic<\/h1>/g, '<h1 class="medium permanent">Web, mobilni i AI sistemi</h1>');
+  s = s.replace(
+    /<div class="mxd-hero-02__outro">\s*<p>Ready for the game changing project\?<\/p>\s*<\/div>/g,
+    '<div class="mxd-hero-02__outro"><p>Spremni za projekat koji menja pravila?</p></div>',
+  );
+  s = s.replace(/<span class="loading-chars">Azurio<\/span>/g, '<span class="loading-chars">Adspire</span>');
+  s = s.replace(/\bAzurio\b/g, "Adspire");
+  s = s.replace(/Scroll to explore/g, "Nastavi skrolovanje");
+  s = s.replace(/Let's Chat/g, "Javi se");
+  s = s.replace(/Read Post/g, "Pročitaj");
+  s = s.replace(/View Work/g, "Pogledaj rad");
+  s = s.replace(/View Works/g, "Usluge");
+  return s;
+}
+
+function finalizeMain(html: string) {
+  return applyGlobalBrandReplacements(html);
+}
+
+function renderAboutPageHero() {
+  const hero = content.aboutPage.hero;
+  const tags = ["Niš", "Web", "Mobilno", "AI", "SaaS", "Cloud"];
+
+  return `<!-- Section - Inner Headline v06 Start -->
+      <div class="mxd-section blur-section">
+        <div class="mxd-container grid-l-container">
+          <div class="mxd-block loading-wrap">
+            <div class="inner-headline margin-bottom-grid">
+              <div class="container-fluid p-0">
+                <div class="row g-0">
+                  <div class="col-12 mxd-grid-item">
+                    <div class="inner-headline__breadcrumbs loading-fade">
+                      <div class="breadcrumbs__nav">
+                        <span><a href="/"><span class="mxd-scramble">Početna</span></a></span>
+                        <span class="current-item">O nama</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="inner-headline__content has-medium-title">
+                      <div class="container-fluid p-0">
+                        <div class="row g-0">
+                          <div class="col-12 col-xl-8 mxd-grid-item">
+                            <div class="inner-headline__title">
+                              <h1 class="medium loading-split">${escapeHtml(hero.title)}</h1>
+                            </div>
+                            <div class="inner-headline__caption split-caption-title pre-grid">
+                              <div class="mxd-grid-item">
+                                <p class="t-bold t-large loading-split">${escapeHtml(hero.description)}</p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-12 col-xl-4 mxd-grid-item">
+                            <div class="inner-headline__tags align-end-desktop tags-medium-title">
+                              ${tags
+                                .map((tag) => `<span class="tag tag-m meta-tag mxd-scramble loading-item">${escapeHtml(tag)}</span>`)
+                                .join("")}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Section - Inner Headline v06 End -->`;
+}
+
+function renderAboutProcessSection() {
+  const m = content.aboutPage.metrics;
+  const p = content.aboutPage.storyParagraphs;
+
+  return `<!-- Section - Process Start -->
+      <div id="process" class="mxd-section blur-section padding-top-manifest-m padding-bottom-tag-m-desktop">
+        <div class="mxd-container grid-l-container">
+          <div class="mxd-block">
+            <div class="mxd-section-manifest pre-points">
+              <div class="container-fluid p-0">
+                <div class="row g-0">
+                  <div class="col-12 mxd-grid-item">
+                    <div class="mxd-section-manifest__wrap wrap-text-m">
+                      <div class="mxd-section-manifest__text manifest-text-m">
+                        <a class="manifest manifest-m mxd-split-lines active-cursor-accent" data-cursor-text="Usluge" href="/our-services">
+                          ${escapeHtml(content.aboutPage.manifesto)}
+                          <span>${escapeHtml(p[0] ?? "")}</span>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mxd-block">
+            <div class="mxd-process-points">
+              <div class="container-fluid p-0">
+                <div class="row g-0">
+                  <div class="col-12 col-xl-4 mxd-process-points__item mxd-grid-item">
+                    <div class="mxd-process-points__divider top anim-uni-clip-in"></div>
+                    <div class="mxd-process-points__title anim-uni-in-up">
+                      <div class="mxd-process-points__icon"><i class="ph ph-crosshair"></i></div>
+                      <p>${escapeHtml(m[0]?.value ?? "")}</p>
+                    </div>
+                    <div class="mxd-process-points__descr">
+                      <p class="t-medium mxd-split-lines">${escapeHtml(m[0]?.label ?? "")}</p>
+                    </div>
+                    <div class="mxd-process-points__time anim-uni-in-up">
+                      <span class="tag tag-m meta-time">Model saradnje</span>
+                    </div>
+                  </div>
+                  <div class="col-12 col-xl-4 mxd-process-points__item mxd-grid-item">
+                    <div class="mxd-process-points__divider top anim-uni-clip-in"></div>
+                    <div class="mxd-process-points__title anim-uni-in-up">
+                      <div class="mxd-process-points__icon"><i class="ph ph-bezier-curve"></i></div>
+                      <p>${escapeHtml(m[1]?.value ?? "")}</p>
+                    </div>
+                    <div class="mxd-process-points__descr">
+                      <p class="t-medium mxd-split-lines">${escapeHtml(m[1]?.label ?? "")}</p>
+                    </div>
+                    <div class="mxd-process-points__time anim-uni-in-up">
+                      <span class="tag tag-m meta-time">Tehnologije</span>
+                    </div>
+                  </div>
+                  <div class="col-12 col-xl-4 mxd-process-points__item mxd-grid-item">
+                    <div class="mxd-process-points__divider top anim-uni-clip-in"></div>
+                    <div class="mxd-process-points__title anim-uni-in-up">
+                      <div class="mxd-process-points__icon"><i class="ph ph-codesandbox-logo"></i></div>
+                      <p>${escapeHtml(m[2]?.value ?? "")}</p>
+                    </div>
+                    <div class="mxd-process-points__descr">
+                      <p class="t-medium mxd-split-lines">${escapeHtml(m[2]?.label ?? "")}</p>
+                    </div>
+                    <div class="mxd-process-points__time anim-uni-in-up">
+                      <span class="tag tag-m meta-time">Posle lansiranja</span>
+                    </div>
+                    <div class="mxd-process-points__divider bottom anim-uni-clip-in"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Section - Process End -->`;
+}
+
+function renderFaqAccordionItem(question: string, answer: string) {
+  return `<!-- accordion single item -->
+                              <div class="mxd-accordion__item">
+                                <div class="mxd-accordion__divider anim-uni-in-up"></div>
+                                <div class="mxd-accordion__title anim-uni-in-up">
+                                  <p>${escapeHtml(question)}</p>
+                                  <div class="mxd-accordion__arrow">
+                                    <i class="mxd-accordion__close">
+                                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" version="1.1" viewBox="0 0 18 18">
+                                        <path d="M3.6,0v3.6H0V0h3.6ZM18,18v-3.6h-3.6v3.6h3.6ZM14.4,7.2v-3.6h-3.6v3.6h-3.6v-3.6h-3.6v3.6h3.6v3.6h3.6v3.6h3.6v-3.6h-3.6v-3.6h3.6ZM18,0h-3.6v3.6h3.6V0ZM0,18h3.6v-3.6H0v3.6ZM3.6,14.4h3.6v-3.6h-3.6v3.6Z"/>
+                                      </svg>
+                                    </i>
+                                    <i class="mxd-accordion__plus">
+                                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" version="1.1" viewBox="0 0 18 18">
+                                        <path d="M18,7.2v3.6h-7.2v7.2h-3.6v-7.2H0v-3.6h7.2V0h3.6v7.2h7.2Z"/>
+                                      </svg>
+                                    </i>
+                                  </div>
+                                </div>
+                                <div class="mxd-accordion__content">
+                                  <p class="t-medium mxd-accordion__text">${escapeHtml(answer)}</p>
+                                </div>
+                                <div class="mxd-accordion__divider anim-uni-in-up"></div>
+                              </div>`;
+}
+
+function renderFaqPageSection() {
+  const page = content.faqPage;
+  const accordion = page.items.map((item) => renderFaqAccordionItem(item.q, item.a)).join("\n");
+
+  return `<!-- Section - Inner Headline v04 Start -->
+      <div class="mxd-section blur-section padding-bottom-default">
+        <div class="mxd-container grid-l-container">
+          <div class="mxd-block loading-wrap">
+            <div class="inner-headline">
+              <div class="container-fluid p-0">
+                <div class="row g-0">
+                  <div class="col-12 mxd-grid-item">
+                    <div class="inner-headline__breadcrumbs loading-fade">
+                      <div class="breadcrumbs__nav">
+                        <span><a href="/"><span class="mxd-scramble">Početna</span></a></span>
+                        <span class="current-item">FAQ</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="inner-headline__content has-medium-title">
+                      <div class="container-fluid p-0">
+                        <div class="row g-0">
+                          <div class="col-12 col-xl-6 mxd-grid-item">
+                            <div class="inner-headline__title pre-subtitle-medium">
+                              <h1 class="medium loading-split">${escapeHtml(page.hero.title)}</h1>
+                            </div>
+                            <div class="inner-headline__subtitle">
+                              <p class="loading-split">Proces, rokovi i saradnja — <span>sve na jednom mestu.</span></p>
+                            </div>
+                          </div>
+                          <div class="col-12 col-xl-6 mxd-grid-item">
+                            <div class="inner-headline__caption split-caption pre-grid">
+                              <p class="t-bold t-large loading-split">${escapeHtml(page.hero.description)}</p>
+                            </div>
+                            <div class="mxd-accordion loading-fade">
+                              ${accordion}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Section - Inner Headline v04 End -->`;
+}
+
+function renderBlogStandardHeadline() {
+  const page = content.blogPage;
+  const tags = ["Next.js", "AI", "SEO", "SaaS", "Mobilno", "E-commerce", "Automatizacija", "BI"];
+
+  return `<!-- Section - Inner Headline v01 Start -->
+      <div class="mxd-section blur-section">
+        <div class="mxd-container grid-l-container">
+          <div class="mxd-block loading-wrap">
+            <div class="inner-headline margin-bottom-subtitle">
+              <div class="container-fluid p-0">
+                <div class="row g-0">
+                  <div class="col-12 mxd-grid-item">
+                    <div class="inner-headline__breadcrumbs loading-fade">
+                      <div class="breadcrumbs__nav">
+                        <span><a href="/"><span class="mxd-scramble">Početna</span></a></span>
+                        <span class="current-item">Blog</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="inner-headline__content has-large-title">
+                      <div class="container-fluid p-0">
+                        <div class="row g-0">
+                          <div class="col-12 col-xl-8 mxd-grid-item">
+                            <div class="inner-headline__title pre-subtitle-large loading-item">
+                              <h1 class="large">${escapeHtml(page.hero.title)}</h1>
+                            </div>
+                            <div class="inner-headline__subtitle loading-item">
+                              <p>${escapeHtml(page.hero.description)}</p>
+                            </div>
+                          </div>
+                          <div class="col-12 col-xl-4 mxd-grid-item">
+                            <div class="inner-headline__tags align-end-desktop tags-large-subtitle">
+                              ${tags
+                                .map(
+                                  (tag) =>
+                                    `<a class="loading-item" href="/our-services"><span class="tag tag-m meta-tag mxd-scramble">${escapeHtml(tag)}</span></a>`,
+                                )
+                                .join("")}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Section - Inner Headline v01 End -->`;
+}
+
+function renderBlogArticleHeadBlock() {
+  const post = content.articlePage.post;
+  const hero = content.articlePage.hero;
+
+  return `<!-- Article Headline Start -->
+                <div class="mxd-article__headline">
+                  <div class="mxd-article__tags loading-item">
+                    <a href="/blog">
+                      <span class="tag tag-m meta-tag comma-tag mxd-scramble">${escapeHtml(post.category)}</span>
+                    </a>
+                  </div>
+                  <div class="mxd-article__title">
+                    <h2 class="small loading-split">${escapeHtml(hero.title)}</h2>
+                  </div>
+                  <div class="mxd-article__meta loading-item">
+                    <div class="mxd-article__data">
+                      <span class="tag tag-m meta-tag slash-tag">${escapeHtml(post.date)}</span>
+                      <span class="tag tag-m meta-tag">Adspire</span>
+                    </div>
+                  </div>
+                </div>
+                <!-- Article Headline End -->`;
+}
+
 export function findServiceBySlug(slug: string) {
   return content.servicesPage.items.find((item) => item.slug === slug) ?? null;
 }
@@ -996,17 +1330,17 @@ export function transformTemplateMain(fileName: string, mainInner: string) {
         /<p class="t-bold t-large mxd-split-lines">[\s\S]*?<\/p>/i,
         `<p class="t-bold t-large mxd-split-lines">${escapeHtml(content.servicesPage.introBody)}</p>`,
       );
-      return next;
+      return finalizeMain(next);
     }
     case "contact.html": {
       let next = replaceSection(mainInner, "Section - Inner Headline v05", renderContactHero());
       next = replaceSection(next, "Section - Section Title & Text Block", renderContactInfoSection());
-      return next;
+      return finalizeMain(next);
     }
     case "works-grid-sticky.html": {
       let next = replaceSection(mainInner, "Section - Inner Headline v01", renderProjectsHero());
       next = replaceSection(next, "Section - Projects Grid Sticky Showcase", renderProjectsShowcase());
-      return next;
+      return finalizeMain(next);
     }
     case "project-details.html": {
       let next = replaceSection(mainInner, "Section - Inner Headline v07", renderProjectHero());
@@ -1049,10 +1383,51 @@ export function transformTemplateMain(fileName: string, mainInner: string) {
         renderProjectFeedback(),
       );
       next = replaceSection(next, "Section - Next Project Link", renderNextProject());
-      return next;
+      return finalizeMain(next);
+    }
+    case "about-us.html": {
+      let next = replaceSection(mainInner, "Section - Inner Headline v06", renderAboutPageHero());
+      next = replaceSection(next, "Section - Process", renderAboutProcessSection());
+      return finalizeMain(next);
+    }
+    case "faq.html": {
+      let next = replaceSection(mainInner, "Section - Inner Headline v04", renderFaqPageSection());
+      return finalizeMain(next);
+    }
+    case "blog-standard.html": {
+      let next = replaceSection(mainInner, "Section - Inner Headline v01", renderBlogStandardHeadline());
+      return finalizeMain(next);
+    }
+    case "blog-article.html": {
+      let next = replaceSection(mainInner, "Article Headline", renderBlogArticleHeadBlock());
+      next = next.replace(
+        /<p class="mxd-article__excerpt">[\s\S]*?<\/p>/,
+        `<p class="mxd-article__excerpt">${escapeHtml(content.articlePage.intro)}</p>`,
+      );
+      return finalizeMain(next);
+    }
+    case "index-branding-studio.html": {
+      let next = mainInner.replace(
+        /<div class="mxd-hero-01__data-contact">\s*<ul>[\s\S]*?<\/ul>\s*<\/div>/,
+        `<div class="mxd-hero-01__data-contact">
+                  <ul>
+                    <li class="loading-item">
+                      <a class="tag tag-s-mobile mxd-scramble" href="tel:+381601491491">+381 60 149 149 1</a>
+                    </li>
+                    <li class="loading-item">
+                      <a class="tag tag-s-mobile mxd-scramble" href="https://adspire.rs" target="_blank">adspire.rs</a>
+                    </li>
+                    <li class="loading-item">
+                      <a class="tag tag-s-mobile mxd-scramble" href="mailto:djordje@adspire.rs">djordje@adspire.rs</a>
+                    </li>
+                  </ul>
+                </div>`,
+      );
+      next = next.replace(/<span class="btn-caption mxd-scramble">New Case<\/span>/g, '<span class="btn-caption mxd-scramble">Projekat</span>');
+      return finalizeMain(next);
     }
     default:
-      return mainInner;
+      return finalizeMain(mainInner);
   }
 }
 
