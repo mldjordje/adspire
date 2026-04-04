@@ -1020,8 +1020,136 @@ function applyGlobalBrandReplacements(html: string) {
   return s;
 }
 
+/** Uklanja demo sadržaj šablona (NFT, Midjourney, …) i prevodi ostatak u srpski ton za Adspire. */
+function applyTemplateDemoLocalizations(html: string) {
+  let s = html;
+
+  const literalPairs: Array<[string, string]> = [
+    ["IU/UX", "UI/UX"],
+    ["Midjourney", "Next.js"],
+    ["NFT project branding", "Korporativna web platforma"],
+    ["Interactive app concept", "Mobilna i PWA rešenja"],
+    ["Editorial illustrations set", "AI automatizacija i sadržaj"],
+    ["Creative studio template", "Interni poslovni sistem"],
+    ["Editorial Midjourney", "Digitalni proizvodi i AI"],
+    ["illustrations set", "modularni digitalni proizvod"],
+    ["Know More", "Više o projektu"],
+    ["Say Hello", "Kontakt"],
+    ["Project Page", "Stranica projekta"],
+    ["Amazing experience!", "Odlična saradnja!"],
+    ["Our new website truly reflects our brand.", "Novi sajt tačno odražava naš brend i ponudu."],
+    ["Azurio Template Example Image", "Adspire projekat"],
+    ["Azurio Template Sample Image", "Adspire vizuel"],
+    ["Azurio Template Image Example", "Adspire"],
+    ["Azurio Template Cursor Trail Image", "Adspire"],
+    ["Web3", "Web platforme"],
+    ["web3", "web"],
+  ];
+  for (const [from, to] of literalPairs) {
+    s = s.split(from).join(to);
+  }
+
+  const marqueePairs: Array<[string, string]> = [
+    ['text-with-gliph">Design/', 'text-with-gliph">Web/'],
+    ['text-with-gliph">Development/', 'text-with-gliph">Razvoj/'],
+    ['text-with-gliph">Branding/', 'text-with-gliph">Sistemi/'],
+    ['text-with-gliph">eCommerce/', 'text-with-gliph">Shop/'],
+    ['text-with-gliph">Marketing/', 'text-with-gliph">Rast/'],
+  ];
+  for (const [from, to] of marqueePairs) {
+    s = s.split(from).join(to);
+  }
+
+  const heroTagPairs: Array<[string, string]> = [
+    ['tag-s-mobile tag-permanent mxd-scramble">Innovations</span>', 'tag-s-mobile tag-permanent mxd-scramble">Next.js</span>'],
+    ['tag-s-mobile tag-permanent mxd-scramble">Excellence</span>', 'tag-s-mobile tag-permanent mxd-scramble">React</span>'],
+    ['tag-s-mobile tag-permanent mxd-scramble">Experience</span>', 'tag-s-mobile tag-permanent mxd-scramble">TypeScript</span>'],
+    ['tag-s-mobile tag-permanent mxd-scramble">Competence</span>', 'tag-s-mobile tag-permanent mxd-scramble">Cloud</span>'],
+    ['tag-s-mobile tag-permanent mxd-scramble">Passion</span>', 'tag-s-mobile tag-permanent mxd-scramble">AI</span>'],
+    ['tag-s-mobile tag-permanent mxd-scramble">App design</span>', 'tag-s-mobile tag-permanent mxd-scramble">Mobilno</span>'],
+    ['tag-s-mobile tag-permanent mxd-scramble">Development</span>', 'tag-s-mobile tag-permanent mxd-scramble">Razvoj</span>'],
+    ['tag-s-mobile tag-permanent mxd-scramble">Branding</span>', 'tag-s-mobile tag-permanent mxd-scramble">Sistemi</span>'],
+    ['tag-s-mobile tag-permanent mxd-scramble">Motion</span>', 'tag-s-mobile tag-permanent mxd-scramble">Animacije</span>'],
+  ];
+  for (const [from, to] of heroTagPairs) {
+    s = s.split(from).join(to);
+  }
+
+  const tagTriplet: Array<[string, string]> = [
+    ['tag-permanent mxd-scramble">Design</span>', 'tag-permanent mxd-scramble">Web</span>'],
+    ['tag-permanent mxd-scramble">Illustrations</span>', 'tag-permanent mxd-scramble">Mobilno</span>'],
+    ['tag-permanent mxd-scramble">Packaging</span>', 'tag-permanent mxd-scramble">AI</span>'],
+    ['tag-permanent mxd-scramble">marketing</span>', 'tag-permanent mxd-scramble">SaaS</span>'],
+  ];
+  for (const [from, to] of tagTriplet) {
+    s = s.split(from).join(to);
+  }
+
+  s = s.replace(
+    /<p class="mxd-testimonials-card__descr">The team's attention to detail, creativity,\s*and technical expertise exceeded our expectations\. <span>We've received so much\s*positive feedback from our customers already\.<\/span><\/p>/g,
+    '<p class="mxd-testimonials-card__descr">Pažnja na detalje, jasna komunikacija i tehnička isporuka bili su iznad očekivanja. <span>Već imamo pozitivne reakcije klijenata na novi digitalni nastup.</span></p>',
+  );
+
+  s = s.replace(
+    /<p class="mxd-testimonials-card__name">John Lemon<\/p>/g,
+    '<p class="mxd-testimonials-card__name">Klijent</p>',
+  );
+  s = s.replace(
+    /<p class="mxd-testimonials-card__name">Ashley Cherry<\/p>/g,
+    '<p class="mxd-testimonials-card__name">Klijent</p>',
+  );
+  s = s.replace(
+    /<p class="mxd-testimonials-card__name">Lea Tomato<\/p>/g,
+    '<p class="mxd-testimonials-card__name">Klijent</p>',
+  );
+  s = s.replace(
+    /<p class="mxd-testimonials-card__name">Patrick Pineapple<\/p>/g,
+    '<p class="mxd-testimonials-card__name">Klijent</p>',
+  );
+  s = s.replace(
+    /<p class="mxd-testimonials-card__name">Mary Cucumber<\/p>/g,
+    '<p class="mxd-testimonials-card__name">Klijent</p>',
+  );
+  s = s.replace(
+    /<p class="mxd-testimonials-card__position">Brand manager in\s*<a class="mxd-scramble" href="#">Instant design<\/a>\s*<\/p>/g,
+    '<p class="mxd-testimonials-card__position">Marketing menadžer, B2B</p>',
+  );
+  s = s.replace(
+    /<p class="mxd-testimonials-card__position">SEO in\s*<a class="mxd-scramble" href="#">Eye Candy<\/a>\s*<\/p>/g,
+    '<p class="mxd-testimonials-card__position">Vlasnik, lokalni brend</p>',
+  );
+  s = s.replace(
+    /<p class="mxd-testimonials-card__position">Senior designer in\s*<a class="mxd-scramble" href="#">The Way<\/a>\s*<\/p>/g,
+    '<p class="mxd-testimonials-card__position">Operativa, uslužni biznis</p>',
+  );
+  s = s.replace(
+    /<p class="mxd-testimonials-card__position">SEO in\s*<a class="mxd-scramble" href="#">Instant design<\/a>\s*<\/p>/g,
+    '<p class="mxd-testimonials-card__position">Vlasnik firme, Niš</p>',
+  );
+  s = s.replace(
+    /<p class="mxd-testimonials-card__position">Brand manager in\s*<a class="mxd-scramble" href="#">Hyper<\/a>\s*<\/p>/g,
+    '<p class="mxd-testimonials-card__position">Marketing, lokalni brend</p>',
+  );
+
+  s = s.replace(/<span class="mxd-scramble">Home<\/span>/g, '<span class="mxd-scramble">Početna</span>');
+  s = s.replace(/<span class="mxd-scramble">Behance<\/span>/g, '<span class="mxd-scramble">Projekti</span>');
+  s = s.replace(/<span class="mxd-scramble">Dribbble<\/span>/g, '<span class="mxd-scramble">Usluge</span>');
+  s = s.replace(/<span class="mxd-scramble">Github<\/span>/g, '<span class="mxd-scramble">Blog</span>');
+  s = s.replace(/<span class="mxd-scramble">Codepen<\/span>/g, '<span class="mxd-scramble">Kontakt</span>');
+  s = s.replace(
+    /<span class="mxd-scramble">Figma Community<\/span>/g,
+    '<span class="mxd-scramble">adspire.rs</span>',
+  );
+
+  s = s.replace(/<span class="current-item">Insights/g, '<span class="current-item">Blog');
+  s = s.replace(/<h1 class="large">Journal/g, '<h1 class="large">Blog');
+  s = s.replace(/5min read/g, "5 min čitanja");
+
+  return s;
+}
+
 function finalizeMain(html: string) {
-  return applyGlobalBrandReplacements(html);
+  return applyTemplateDemoLocalizations(applyGlobalBrandReplacements(html));
 }
 
 function renderAboutPageHero() {

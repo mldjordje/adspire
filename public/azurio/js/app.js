@@ -3188,9 +3188,6 @@ mxdFlipArrowOnScroll();
 // Color Switch Start
 // --------------------------------------------- //
 function mxdColorSwitcher() {
-  const themeBtn = document.querySelector('#color-switcher');
-  if (!themeBtn) return;
-
   function mxdSafeLocalGet(key) {
     try {
       return localStorage.getItem(key);
@@ -3208,44 +3205,37 @@ function mxdColorSwitcher() {
   }
   function getCurrentTheme(){
     let theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    // localStorage.getItem('template.theme') ? theme = localStorage.getItem('template.theme') : null;
     const storedTheme = mxdSafeLocalGet('template.theme');
     if (storedTheme) theme = storedTheme;
     return theme;
   }
   function loadTheme(theme){
-    const root = document.querySelector(':root');
+    const root = document.documentElement;
+    root.setAttribute('color-scheme', `${theme}`);
+    const themeBtn = document.querySelector('#color-switcher');
+    if (!themeBtn) return;
     if(theme === "light"){
-      // Use commented line if you want to use Phosphor icon instead of custom
-      // themeBtn.innerHTML = `<span class="switcher-text mxd-scramble">Night</span>
-      //       <i class="ph-bold ph-moon-stars"></i>`;
-      themeBtn.innerHTML = `<span class="switcher-text mxd-scramble">Night</span>
+      themeBtn.innerHTML = `<span class="switcher-text mxd-scramble">Noć</span>
             <span class="switcher-icon night">
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" version="1.1" viewBox="0 0 18 18">
                 <path d="M7.7,0h7.7v2.6h-2.6v2.6h-2.6v7.7h2.6v2.6h2.6v2.6h-7.7v-2.6h-2.6v-2.6h-2.6v-7.7h2.6v-2.6h2.6V0Z"/>
               </svg>
             </span>`;
     } else {
-      // Use commented line if you want to use Phosphor icon instead of custom
-      // themeBtn.innerHTML = `<span class="switcher-text mxd-scramble">Day</span>
-      //       <i class="ph-bold ph-sun-horizon"></i>`;
-      themeBtn.innerHTML = `<span class="switcher-text mxd-scramble">Day</span>
+      themeBtn.innerHTML = `<span class="switcher-text mxd-scramble">Dan</span>
             <span class="switcher-icon">
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" version="1.1" viewBox="0 0 18 18">
                 <path d="M8,0h2v2h-2V0ZM2,2h2v2h-2v-2ZM14,2h2v2h-2v-2ZM6,4h6v2h2v6h-2v2h-6v-2h-2v-6h2v-2ZM0,8h2v2H0v-2ZM16,8h2v2h-2v-2ZM2,14h2v2h-2v-2ZM14,14h2v2h-2v-2ZM8,16h2v2h-2v-2Z"/>
               </svg>
             </span>`;
     }
-    root.setAttribute('color-scheme', `${theme}`);
-  };
-  themeBtn.addEventListener('click', () => {
+  }
+  document.addEventListener('click', function mxdThemeSwitchClick(e) {
+    const themeBtn = e.target.closest('#color-switcher');
+    if (!themeBtn) return;
+    e.preventDefault();
     let theme = getCurrentTheme();
-    if(theme === 'dark'){
-      theme = 'light';
-    } else {
-      theme = 'dark';
-    }
-    // localStorage.setItem('template.theme', `${theme}`);
+    theme = theme === 'dark' ? 'light' : 'dark';
     mxdSafeLocalSet('template.theme', theme);
     loadTheme(theme);
   });

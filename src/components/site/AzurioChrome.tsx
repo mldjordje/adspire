@@ -252,9 +252,11 @@ export function AzurioChrome({ children }: AzurioChromeProps) {
             className="btn mxd-color-switcher"
             type="button"
             role="switch"
-            aria-label="light/dark mode"
+            aria-label="Svetla ili tamna tema"
             aria-checked="true"
-          />
+          >
+            {/* Sadržaj puni mxdColorSwitcher u app.js (Dan/Noć + ikone) */}
+          </button>
         </div>
       </header>
 

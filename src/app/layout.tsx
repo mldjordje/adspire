@@ -32,6 +32,11 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <script
           dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('template.theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('color-scheme',t);}catch(e){}})();`,
+          }}
+        />
+        <script
+          dangerouslySetInnerHTML={{
             __html: `
               window.setTimeout(function () {
                 if (!document.documentElement.classList.contains('mxd-loader-complete')) {
