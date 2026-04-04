@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
+import { Analytics } from "@vercel/analytics/next";
 import "@/app/globals.css";
 import { JsonLd } from "@/components/site/JsonLd";
 import { organizationJsonLd, webSiteJsonLd } from "@/lib/seo/jsonld";
@@ -89,6 +90,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         {children}
         <Script src="/azurio/js/libs.min.js" strategy="afterInteractive" />
         <Script src="/azurio/js/app.js" strategy="afterInteractive" />
+        <Analytics />
       </body>
     </html>
   );
