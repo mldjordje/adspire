@@ -1,7 +1,21 @@
 const fs = require("fs");
 const path = require("path");
 
-const TEMPLATE_LIGHT_ROOT = path.join(__dirname, "NEW TEMPLATE", "HTML");
+function resolveExistingPath(...segmentsOptions) {
+  for (const segments of segmentsOptions) {
+    const candidate = path.join(__dirname, ...segments);
+    if (fs.existsSync(candidate)) {
+      return candidate;
+    }
+  }
+
+  return path.join(__dirname, ...segmentsOptions[0]);
+}
+
+const TEMPLATE_LIGHT_ROOT = resolveExistingPath(
+  ["new template", "HTML"],
+  ["NEW TEMPLATE", "HTML"]
+);
 const TEMPLATE_EXCLUDED_PREFIXES = [
   "wp-content",
   "wp-includes",
