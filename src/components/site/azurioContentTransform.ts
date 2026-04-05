@@ -1101,26 +1101,26 @@ function applyGlobalBrandReplacements(html: string) {
   s = s.replace(/View Work/g, "Pogledaj rad");
   s = s.replace(/View Works/g, "Usluge");
 
-  // Početna (kompozit): hero naslovi iz index-creative-agency / index-design-studio / index-software-development-company
+  // Početna (kompozit): hero naslovi iz index-creative-agency / index-design-studio / index-software-development-company (kratko — da stane u layout)
   s = s.replace(
     /<h1 class="loading-split">\s*Unlock\s*<small>your brand's personality<\/small>\s*<\/h1>/gi,
-    "<h1 class=\"loading-split\">Sajtovi i digitalni sistemi<small>koji rade u praksi — od Niša, za Srbiju i region</small></h1>",
+    "<h1 class=\"loading-split\">Adspire<small>web · aplikacije · Niš</small></h1>",
   );
   s = s.replace(
     /<h1 class="medium permanent loading-split">The power<br>of imagination<\/h1>/gi,
-    "<h1 class=\"medium permanent loading-split\">Strategija, dizajn<br>i development u jednom timu</h1>",
+    "<h1 class=\"medium permanent loading-split\">Dizajn<br>i development</h1>",
   );
   s = s.replace(
     /<h1 class="permanent loading-split">Innovative software development company<\/h1>/gi,
-    "<h1 class=\"permanent loading-split\">Razvojni partner za web, mobilne aplikacije i poslovni softver</h1>",
+    "<h1 class=\"permanent loading-split\">Web i mobilni razvoj</h1>",
   );
   s = s.replace(
     /<p class="t-bold t-permanent loading-split">We are a creative design studio specializing in <span>innovative design and cutting-edge development<\/span><\/p>/gi,
-    "<p class=\"t-bold t-permanent loading-split\">Adspire Digital: <span>Next.js/React, PWA i native aplikacije, e-commerce, interni CRM i AI automatizacija</span> — kompletan ciklus od ideje do produkcije i održavanja.</p>",
+    "<p class=\"t-bold t-permanent loading-split\">Next.js, PWA i native — <span>od sajta do poslovnog softvera.</span></p>",
   );
   s = s.replace(
     /<p class="hero-05-dataline__caption loading-item">Creative Development Agency<\/p>/gi,
-    "<p class=\"hero-05-dataline__caption loading-item\">Web agencija i razvojni studio · Niš</p>",
+    "<p class=\"hero-05-dataline__caption loading-item\">Razvojni studio · Niš</p>",
   );
 
   return s;
