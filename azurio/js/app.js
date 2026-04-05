@@ -3038,7 +3038,9 @@ $(function() {
   var Accordion = function(el, multiple) {
     this.el = el || {};
     this.multiple = multiple || false;
-    var links = this.el.find('.main-menu__toggle');
+    var links = this.el.find('.main-menu__toggle').filter(function () {
+      return $(this).next('.submenu').length > 0;
+    });
     links.on('click', {el: this.el, multiple: this.multiple}, this.dropdown)
   }
   Accordion.prototype.dropdown = function(e) {

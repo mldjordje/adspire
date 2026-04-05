@@ -3,6 +3,7 @@ import { getSiteContent } from "@/content/site";
 import { defaultLocale } from "@/lib/site-config";
 
 const content = getSiteContent(defaultLocale);
+const menuServiceItems = content.servicesPage.items;
 
 /** Iste slike kao u Azurio HTML loaderu (`img/loa_01.webp` … `loa_07.webp` → `public/azurio/img/`). */
 const LOADER_IMAGE_PATHS = Array.from({ length: 7 }, (_, index) => {
@@ -61,9 +62,10 @@ export function AzurioChrome({ children }: AzurioChromeProps) {
 
             <div className="mxd-menu__media">
               <div className="menu-media__wrapper">
-                <video preload="auto" autoPlay muted loop playsInline poster="/images/banner/video-bg.png">
-                  <source type="video/mp4" src="/azurio/video/900x1280.mp4" />
-                  <source type="video/webm" src="/azurio/video/900x1280.webm" />
+                {/* Isti izvor kao hero video u „The power of imagination” (index-design-studio → mxd-hero-06), portrait */}
+                <video preload="auto" autoPlay muted loop playsInline poster="/azurio/video/720x1280_hero-06.webp">
+                  <source type="video/mp4" src="/azurio/video/720x1280_hero-06.mp4" />
+                  <source type="video/webm" src="/azurio/video/720x1280_hero-06.webm" />
                 </video>
               </div>
             </div>
@@ -84,39 +86,45 @@ export function AzurioChrome({ children }: AzurioChromeProps) {
                         <li className="main-menu__item">
                           <div className="main-menu__divider divider-top" />
                           <div className="main-menu__toggle">
-                            <p className="main-menu__link">
+                            <a className="main-menu__link" href="/">
                               <span className="main-menu__number">/ 01</span>
-                              <span className="main-menu__caption">Pocetna</span>
-                            </p>
+                              <span className="main-menu__caption">Početna</span>
+                            </a>
                           </div>
-                          <ul className="submenu">
-                            <li className="submenu__item active">
-                              <a href="/">Početna</a>
-                            </li>
-                          </ul>
                           <div className="main-menu__divider divider-bottom" />
                         </li>
                         <li className="main-menu__item">
                           <div className="main-menu__toggle">
                             <p className="main-menu__link">
                               <span className="main-menu__number">/ 02</span>
-                              <span className="main-menu__caption">Projekti</span>
+                              <span className="main-menu__caption">Usluge</span>
                             </p>
                           </div>
                           <ul className="submenu">
                             <li className="submenu__item">
-                              <a href="/our-projects">Svi projekti</a>
+                              <a href="/our-services">Pregled svih usluga</a>
                             </li>
-                            <li className="submenu__item">
-                              <a href="/project-single">Detalj projekta</a>
-                            </li>
+                            {menuServiceItems.map((item) => (
+                              <li key={item.slug} className="submenu__item">
+                                <a href={item.href}>{item.title}</a>
+                              </li>
+                            ))}
                           </ul>
                           <div className="main-menu__divider divider-bottom" />
                         </li>
                         <li className="main-menu__item">
                           <div className="main-menu__toggle">
-                            <p className="main-menu__link">
+                            <a className="main-menu__link" href="/our-projects">
                               <span className="main-menu__number">/ 03</span>
+                              <span className="main-menu__caption">Projekti</span>
+                            </a>
+                          </div>
+                          <div className="main-menu__divider divider-bottom" />
+                        </li>
+                        <li className="main-menu__item">
+                          <div className="main-menu__toggle">
+                            <p className="main-menu__link">
+                              <span className="main-menu__number">/ 04</span>
                               <span className="main-menu__caption">Stranice</span>
                             </p>
                           </div>
@@ -125,35 +133,27 @@ export function AzurioChrome({ children }: AzurioChromeProps) {
                               <a href="/about-us">O nama</a>
                             </li>
                             <li className="submenu__item">
-                              <a href="/our-services">Usluge</a>
+                              <a href="/faq">FAQ</a>
                             </li>
                             <li className="submenu__item">
-                              <a href="/faq">FAQ</a>
+                              <a href="/izrada-sajta-i-aplikacija-nis">Izrada u Nišu</a>
                             </li>
                           </ul>
                           <div className="main-menu__divider divider-bottom" />
                         </li>
                         <li className="main-menu__item">
                           <div className="main-menu__toggle">
-                            <p className="main-menu__link">
-                              <span className="main-menu__number">/ 04</span>
-                              <span className="main-menu__caption">Sadrzaj</span>
-                            </p>
+                            <a className="main-menu__link" href="/blog">
+                              <span className="main-menu__number">/ 05</span>
+                              <span className="main-menu__caption">Blog</span>
+                            </a>
                           </div>
-                          <ul className="submenu">
-                            <li className="submenu__item">
-                              <a href="/blog">Blog</a>
-                            </li>
-                            <li className="submenu__item">
-                              <a href="/blog-single">Detalj teksta</a>
-                            </li>
-                          </ul>
                           <div className="main-menu__divider divider-bottom" />
                         </li>
                         <li className="main-menu__item">
                           <div className="main-menu__toggle">
                             <a className="main-menu__link" href="/contact-us">
-                              <span className="main-menu__number">/ 05</span>
+                              <span className="main-menu__number">/ 06</span>
                               <span className="main-menu__caption">Kontakt</span>
                             </a>
                           </div>
