@@ -56,6 +56,7 @@ module.exports = {
       "/blog",
       "/our-projects",
       "/our-services",
+      "/izrada-sajta-i-aplikacija-nis",
     ].includes(cleanPath);
 
     let priority = config.priority;

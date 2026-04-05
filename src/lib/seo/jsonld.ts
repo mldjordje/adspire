@@ -57,6 +57,21 @@ export function webSiteJsonLd() {
   };
 }
 
+export function webPageAboutOrganizationJsonLd(path: string, title: string, description: string) {
+  const url = `${base()}${path.startsWith("/") ? path : `/${path}`}`;
+  return {
+    "@type": "WebPage",
+    "@id": `${url}#webpage`,
+    url,
+    name: title,
+    description,
+    isPartOf: { "@id": `${base()}/#website` },
+    about: { "@id": `${base()}/#organization` },
+    primaryImageOfPage: { "@type": "ImageObject", url: `${base()}/images/logo.png` },
+    inLanguage: "sr-RS",
+  };
+}
+
 export function breadcrumbJsonLd(items: { name: string; path: string }[]) {
   return {
     "@context": "https://schema.org",

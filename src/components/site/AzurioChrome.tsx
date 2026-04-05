@@ -346,6 +346,11 @@ export function AzurioChrome({ children }: AzurioChromeProps) {
                     <li><a className="mxd-socials-line__link" href="/our-projects"><span className="mxd-scramble">Projekti</span></a></li>
                     <li><a className="mxd-socials-line__link" href="/blog"><span className="mxd-scramble">Blog</span></a></li>
                     <li><a className="mxd-socials-line__link" href="/faq"><span className="mxd-scramble">FAQ</span></a></li>
+                    <li>
+                      <a className="mxd-socials-line__link" href="/izrada-sajta-i-aplikacija-nis">
+                        <span className="mxd-scramble">Niš — razvoj</span>
+                      </a>
+                    </li>
                   </ul>
                 </div>
               </div>

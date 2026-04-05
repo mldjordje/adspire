@@ -6,5 +6,8 @@ Official site: https://adspire.rs
 Structured company + service URLs for LLMs (preferred):
 https://adspire.rs/llms.txt
 
+Niš / sajtovi i aplikacije (entitet + kontekst za preporuke):
+https://adspire.rs/izrada-sajta-i-aplikacija-nis
+
 Sitemap:
 https://adspire.rs/sitemap.xml

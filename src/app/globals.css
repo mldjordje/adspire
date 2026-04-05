@@ -97,3 +97,80 @@ html.mxd-fallback-visible .loading-chars .char {
   display: inline-flex;
   align-items: center;
 }
+
+/* Javna SEO / entitet stranica (npr. Niš + usluge) */
+.adspire-entity-page {
+  position: relative;
+  z-index: 2;
+  padding-bottom: 4rem;
+}
+
+.adspire-entity-page__header h1 {
+  font-size: clamp(1.75rem, 4vw, 2.35rem);
+  line-height: 1.15;
+  margin: 0.35rem 0 1rem;
+  letter-spacing: -0.02em;
+}
+
+.adspire-entity-page__kicker {
+  margin: 0;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  opacity: 0.65;
+}
+
+.adspire-entity-page__lead,
+.adspire-entity-page__section p {
+  margin: 0 0 1rem;
+  line-height: 1.65;
+  max-width: 40rem;
+  opacity: 0.92;
+}
+
+.adspire-entity-page__section {
+  margin-top: 2.25rem;
+}
+
+.adspire-entity-page__section h2 {
+  font-size: 1.05rem;
+  margin: 0 0 0.75rem;
+  letter-spacing: -0.01em;
+}
+
+.adspire-entity-page__section ul {
+  margin: 0;
+  padding-left: 1.25rem;
+  max-width: 42rem;
+  line-height: 1.6;
+}
+
+.adspire-entity-page__section li {
+  margin-bottom: 0.4rem;
+}
+
+.adspire-entity-page__more {
+  margin-top: 1rem;
+}
+
+.adspire-entity-page__cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 1.5rem;
+  margin-top: 2.5rem;
+  align-items: center;
+}
+
+.adspire-entity-page__cta-primary,
+.adspire-entity-page__cta-secondary {
+  display: inline-block;
+  padding: 0.65rem 1.25rem;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  border: 1px solid currentColor;
+  opacity: 0.95;
+}
+
+.adspire-entity-page__cta-primary {
+  font-weight: 600;
+}
