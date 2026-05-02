@@ -7,7 +7,7 @@ import {
 } from "@/components/site/azurioContentTransform";
 import { JsonLd } from "@/components/site/JsonLd";
 import { findServiceCatalogEntry, serviceSlugs } from "@/data/serviceCatalog";
-import { breadcrumbJsonLd, serviceJsonLd } from "@/lib/seo/jsonld";
+import { breadcrumbJsonLd, faqPageJsonLd, serviceJsonLd } from "@/lib/seo/jsonld";
 import { getSiteUrl } from "@/lib/seo/site";
 
 type ServiceDetailPageProps = {
@@ -74,18 +74,23 @@ export default async function ServiceDetailPage({ params }: ServiceDetailPagePro
     notFound();
   }
 
+  const base = getSiteUrl();
+  const servicePageUrl = `${base}/our-services/${slug}`;
+  const jsonLdData = [
+    serviceJsonLd(catalog, service.title),
+    breadcrumbJsonLd([
+      { name: "Početna", path: "/" },
+      { name: "Usluge", path: "/our-services" },
+      { name: service.title, path: `/our-services/${slug}` },
+    ]),
+    ...(catalog.faqSr && catalog.faqSr.length > 0
+      ? [faqPageJsonLd(catalog.faqSr, servicePageUrl)]
+      : []),
+  ];
+
   return (
     <AzurioChrome>
-      <JsonLd
-        data={[
-          serviceJsonLd(catalog, service.title),
-          breadcrumbJsonLd([
-            { name: "Početna", path: "/" },
-            { name: "Usluge", path: "/our-services" },
-            { name: service.title, path: `/our-services/${slug}` },
-          ]),
-        ]}
-      />
+      <JsonLd data={jsonLdData} />
       <div className="azurio-template-root" dangerouslySetInnerHTML={{ __html: html }} />
     </AzurioChrome>
   );

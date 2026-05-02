@@ -1545,6 +1545,38 @@ function renderBlogArticleHeadBlock() {
                 <!-- Article Headline End -->`;
 }
 
+function renderServiceFaqSection(faqItems: { q: string; a: string }[], serviceTitle: string) {
+  const accordion = faqItems.map((item) => renderFaqAccordionItem(item.q, item.a)).join("\n");
+
+  return `<!-- Section - Service FAQ Start -->
+      <div class="mxd-section blur-section padding-top-subtitle padding-bottom-default">
+        <div class="mxd-container grid-l-container">
+          <div class="mxd-block loading-wrap">
+            <div class="inner-headline">
+              <div class="container-fluid p-0">
+                <div class="row g-0">
+                  <div class="col-12 col-xl-6 mxd-grid-item">
+                    <div class="inner-headline__title pre-subtitle-medium">
+                      <h2 class="medium loading-split">Cesta pitanja</h2>
+                    </div>
+                    <div class="inner-headline__subtitle">
+                      <p class="loading-split">Sve sto treba da znate o usluzi <span>${escapeHtml(serviceTitle)}</span>.</p>
+                    </div>
+                  </div>
+                  <div class="col-12 col-xl-6 mxd-grid-item">
+                    <div class="mxd-accordion loading-fade">
+                      ${accordion}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Section - Service FAQ End -->`;
+}
+
 export function findServiceBySlug(slug: string) {
   return content.servicesPage.items.find((item) => item.slug === slug) ?? null;
 }
@@ -1676,6 +1708,8 @@ export function buildServiceDetailMainHtml(slug: string) {
     return null;
   }
 
+  const catalog = findServiceCatalogEntry(slug);
+
   const template = `<!-- Section - Inner Headline v07 Start --><!-- Section - Inner Headline v07 End -->
       <!-- Section - Split List v01 Start --><!-- Section - Split List v01 End -->
       <!-- Section - Images Grid Simple Start --><!-- Section - Images Grid Simple End -->
@@ -1683,6 +1717,7 @@ export function buildServiceDetailMainHtml(slug: string) {
       <!-- Section - Images Grid Simple Start --><!-- Section - Images Grid Simple End -->
       <!-- Section - Split List v02 Start --><!-- Section - Split List v02 End -->
       <!-- Section - Client Feedback Start --><!-- Section - Client Feedback End -->
+      <!-- Section - Service FAQ Start --><!-- Section - Service FAQ End -->
       <!-- Section - Next Project Link Start --><!-- Section - Next Project Link End -->`;
 
   let next = replaceSection(template, "Section - Inner Headline v07", renderServiceDetailHero(service));
@@ -1694,7 +1729,8 @@ export function buildServiceDetailMainHtml(slug: string) {
     renderServiceDetailSplit(
       service,
       "Izazov",
-      `Najcesci problem kod usluge "${service.title}" je sto biznisu treba rezultat bez improvizacije, a postojeci digitalni sloj obicno nema jasan funnel, prioritet ili metriku uspeha.`,
+      catalog?.challengeSr ??
+        `Najcesci problem kod usluge "${service.title}" je sto biznisu treba rezultat bez improvizacije, a postojeci digitalni sloj obicno nema jasan funnel, prioritet ili metriku uspeha.`,
       "Sta isporucujemo",
     ),
     0,
@@ -1706,12 +1742,21 @@ export function buildServiceDetailMainHtml(slug: string) {
     renderServiceDetailSplit(
       service,
       "Pristup",
-      `Ulazimo od cilja, konteksta i obima, pa tek onda gradimo strukturu, dizajn i implementaciju. Na taj nacin ${service.title.toLowerCase()} nije izolovan task nego deo sireg sistema rasta.`,
+      catalog?.approachSr ??
+        `Ulazimo od cilja, konteksta i obima, pa tek onda gradimo strukturu, dizajn i implementaciju. Na taj nacin ${service.title.toLowerCase()} nije izolovan task nego deo sireg sistema rasta.`,
       "Search i content fokus",
     ),
     1,
   );
   next = replaceSection(next, "Section - Client Feedback", renderServiceFeedback(service));
+  if (catalog?.faqSr && catalog.faqSr.length > 0) {
+    next = replaceSection(next, "Section - Service FAQ", renderServiceFaqSection(catalog.faqSr, service.title));
+  } else {
+    next = next.replace(
+      /<!-- Section - Service FAQ Start --><!-- Section - Service FAQ End -->/,
+      "",
+    );
+  }
   next = replaceSection(next, "Section - Next Project Link", renderServiceNext(service));
   return next;
 }
