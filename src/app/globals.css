@@ -348,6 +348,9 @@ html.mxd-fallback-visible .loading-chars .char {
   width: 100%;
   height: 100%;
   z-index: 0;
+  /* Never capture touch/pointer events — scroll must pass through */
+  pointer-events: none;
+  touch-action: none;
 }
 
 /* Keep the template cover overlay transparent so the R3F scene shows */

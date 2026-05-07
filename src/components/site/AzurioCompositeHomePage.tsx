@@ -156,28 +156,52 @@ function prepareFreelancerHero(heroHtml: string): string {
 
 const ADSPIRE_SERVICES = [
   {
-    title: "Web razvoj & aplikacije",
-    tags: ["Next.js", "React", "E-Commerce", "Web aplikacije"],
+    title: "Web prezentacije & sajtovi",
+    tags: ["Next.js", "React", "WordPress", "Brz & SEO-ready"],
     href: "/usluge",
-    scene: "web-dev",
+    scene: "web-prezentacije",
   },
   {
-    title: "Branding & vizualni identitet",
-    tags: ["Logo dizajn", "Vizualni identitet", "Brand guidelines", "Strategija"],
+    title: "E-commerce & web shop sistemi",
+    tags: ["Online prodavnica", "Plaćanje", "Katalog", "Analitika"],
     href: "/usluge",
-    scene: "branding",
+    scene: "ecommerce",
+  },
+  {
+    title: "Mobilne aplikacije",
+    tags: ["PWA", "React Native", "iOS & Android", "Push notifikacije"],
+    href: "/usluge",
+    scene: "mobile-app",
+  },
+  {
+    title: "CMS sistemi & upravljanje sadržajem",
+    tags: ["Headless CMS", "Sanity", "Strapi", "Lako ažuriranje"],
+    href: "/usluge",
+    scene: "cms",
+  },
+  {
+    title: "AI integracije & automatizacija",
+    tags: ["ChatGPT API", "Workflow automatizacija", "Chatboti", "ML modeli"],
+    href: "/usluge",
+    scene: "ai",
+  },
+  {
+    title: "SEO & digitalni marketing",
+    tags: ["Google Ads", "SEO optimizacija", "Social media", "Lokalni SEO Niš"],
+    href: "/usluge",
+    scene: "seo",
+  },
+  {
+    title: "Cyber security & GDPR",
+    tags: ["Penetration testing", "GDPR usklađenost", "SSL & firewall", "Audit"],
+    href: "/usluge",
+    scene: "security",
   },
   {
     title: "UI/UX & web dizajn",
-    tags: ["UI dizajn", "Figma", "Prototipovi", "Animacije"],
+    tags: ["Figma dizajn", "Prototipovi", "Animacije", "Korisničko iskustvo"],
     href: "/usluge",
     scene: "uiux",
-  },
-  {
-    title: "Digitalni marketing & SEO",
-    tags: ["SEO optimizacija", "Google Ads", "Social media", "Lokalni SEO Niš"],
-    href: "/usluge",
-    scene: "seo",
   },
 ] as const;
 
@@ -197,8 +221,44 @@ function buildR3FImageHtml(scene: string, coverClass: string): string {
 }
 
 /**
+ * Transforms one raw card HTML chunk into an Adspire service card.
+ */
+function applyServiceToCard(
+  card: string,
+  svc: (typeof ADSPIRE_SERVICES)[number],
+): string {
+  let c = card.replace(
+    /<div class="card__tags">[\s\S]*?<\/div>/,
+    `<div class="card__tags">\n                        ${buildTagsHtml(svc.tags)}\n                      </div>`,
+  );
+
+  c = c.replace(/href="project-details\.html"/g, `href="${svc.href}"`);
+
+  c = c.replace(
+    `<span class="btn-caption mxd-scramble">Know More</span>`,
+    `<span class="btn-caption mxd-scramble">Saznaj više</span>`,
+  );
+
+  c = c.replace(
+    /<p class="permanent">[^<]*<\/p>/,
+    `<p class="permanent">${svc.title}</p>`,
+  );
+
+  // Replace image area with Three.js canvas
+  const coverMatch = c.match(/<div class="(card__cover[^"]*)">/);
+  const coverClass = coverMatch ? coverMatch[1] : "card__cover";
+  c = c.replace(
+    /<div class="card__image">[\s\S]*?<\/div>\s*<\/div>/,
+    buildR3FImageHtml(svc.scene, coverClass),
+  );
+
+  return c;
+}
+
+/**
  * Transforms the "Section - Progects Stack" from branding-studio into
- * Adspire's services showcase. Every card gets a Three.js canvas background.
+ * Adspire's services showcase. Supports more services than the template has
+ * cards by cloning the last template card for extra services.
  */
 function prepareServicesStack(sectionHtml: string): string {
   // Update marquee text to reflect services
@@ -210,43 +270,27 @@ function prepareServicesStack(sectionHtml: string): string {
     .replace(/Marketing\//g, "Marketing\/");
 
   const parts = html.split("<!-- single card -->");
-  if (parts.length < 5) return html;
+  // parts[0] = section wrapper open
+  // parts[1..N-1] = card chunks
+  // parts[N] = section wrapper close
+  const templateCardCount = parts.length - 2; // exclude prefix + suffix
+  if (templateCardCount < 1) return html;
 
-  const transformed = parts.map((part, i) => {
-    const idx = i - 1;
-    if (idx < 0 || idx >= ADSPIRE_SERVICES.length) return part;
+  const prefix = parts[0];
+  const suffix = parts[parts.length - 1];
+  const templateCards = parts.slice(1, parts.length - 1);
+  const lastTemplate = templateCards[templateCards.length - 1];
 
-    const svc = ADSPIRE_SERVICES[idx];
-
-    let card = part.replace(
-      /<div class="card__tags">[\s\S]*?<\/div>/,
-      `<div class="card__tags">\n                        ${buildTagsHtml(svc.tags)}\n                      </div>`,
-    );
-
-    card = card.replace(/href="project-details\.html"/g, `href="${svc.href}"`);
-
-    card = card.replace(
-      `<span class="btn-caption mxd-scramble">Know More</span>`,
-      `<span class="btn-caption mxd-scramble">Saznaj više</span>`,
-    );
-
-    card = card.replace(
-      /<p class="permanent">[^<]*<\/p>/,
-      `<p class="permanent">${svc.title}</p>`,
-    );
-
-    // Replace image area with Three.js canvas for every card
-    const coverMatch = card.match(/<div class="(card__cover[^"]*)">/);
-    const coverClass = coverMatch ? coverMatch[1] : "card__cover";
-    card = card.replace(
-      /<div class="card__image">[\s\S]*?<\/div>\s*<\/div>/,
-      buildR3FImageHtml(svc.scene, coverClass),
-    );
-
-    return card;
+  const serviceCards = ADSPIRE_SERVICES.map((svc, idx) => {
+    const template = templateCards[idx] ?? lastTemplate;
+    return applyServiceToCard(template, svc);
   });
 
-  return transformed.join("<!-- single card -->");
+  return (
+    prefix +
+    serviceCards.join("<!-- single card -->") +
+    suffix
+  );
 }
 
 // ─── Page assembly ────────────────────────────────────────────────────────────
