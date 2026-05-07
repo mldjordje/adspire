@@ -381,14 +381,12 @@ html.mxd-fallback-visible .loading-chars .char {
 /*
  * ── Mobile: scroll-safe Spline scenes ───────────────────────────────────────
  *
- * pointer-events: none = scroll radi normalno, scene se vide i auto-animiraju.
- * Scenes se učitavaju lazily (IntersectionObserver u komponenti) pa nema
- * začepljenog page loada.
+ * Podrazumevano: pointer-events: none → scroll radi normalno.
+ * "Drži za rotaciju" dugme privremeno uključuje pointer-events dok se drži.
  */
 @media (hover: none) {
   .mxd-hero-01__spline-bg spline-viewer,
-  .mxd-hero-09__spline-bg spline-viewer,
-  .card__spline-bg spline-viewer {
+  .mxd-hero-09__spline-bg spline-viewer {
     pointer-events: none;
     touch-action: auto;
   }
@@ -396,6 +394,22 @@ html.mxd-fallback-visible .loading-chars .char {
   .mxd-hero-05__spline-bg iframe {
     pointer-events: none;
     touch-action: auto;
+  }
+
+  /* Vaporwave u kartici: sakriti Spline na mobilnom, prikazati CSS animaciju */
+  .card__spline-bg {
+    display: none !important;
+  }
+
+  .card__image--spline {
+    background: linear-gradient(135deg, #0d0015, #1a0030, #0a0020, #120025);
+    background-size: 400% 400%;
+    animation: vaporwave-pulse 8s ease infinite;
+  }
+
+  /* Sakriti badge cover jer nema Spline watermark-a na mobilnom */
+  .card__image--spline::after {
+    display: none !important;
   }
 
   .mxd-hero-01__wrap,
@@ -412,5 +426,57 @@ html.mxd-fallback-visible .loading-chars .char {
 
   .mxd-hero-05 {
     min-height: 80svh;
+  }
+}
+
+@keyframes vaporwave-pulse {
+  0%   { background-position: 0% 50%;   }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%;   }
+}
+
+/* ── "Drži za rotaciju" dugme (samo na touch uređajima) ─────────────────────── */
+
+.spline-interact-btn {
+  display: none; /* vidljivo samo u @media (hover: none) ispod */
+}
+
+@media (hover: none) {
+  .spline-interact-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    position: absolute;
+    bottom: 1.25rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 200;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: rgba(255, 255, 255, 0.85);
+    padding: 0.45rem 1rem;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    cursor: pointer;
+    touch-action: none;
+    user-select: none;
+    pointer-events: auto;
+    transition: background 0.15s, border-color 0.15s;
+  }
+
+  .spline-interact-btn.is-active {
+    background: rgba(255, 255, 255, 0.28);
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+
+  .spline-interact-btn svg {
+    width: 14px;
+    height: 14px;
+    opacity: 0.8;
+    flex-shrink: 0;
   }
 }
