@@ -68,7 +68,7 @@
 function mxdInit() {
   document.documentElement.classList.add("mxd-runtime-started");
 
-  const lenis = new Lenis();
+  const lenis = new Lenis({ smoothTouch: false });
   lenis.on('scroll', ScrollTrigger.update);
   gsap.ticker.add((time) => {
     lenis.raf(time * 1000)
