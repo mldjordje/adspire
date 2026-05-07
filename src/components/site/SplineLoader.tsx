@@ -132,7 +132,8 @@ export function SplineLoader() {
           }
 
           setupLazyLoad();
-          setupInteractButtons();
+          // Delay button setup so dangerouslySetInnerHTML DOM is fully painted
+          setTimeout(setupInteractButtons, 300);
           [0, 500, 1500, 3000, 6000].forEach(function (d) { setTimeout(hideWatermark, d); });
         })();
       `}</Script>

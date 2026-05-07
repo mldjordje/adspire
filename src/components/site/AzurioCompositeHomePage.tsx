@@ -1,5 +1,6 @@
 import { AzurioChrome } from "@/components/site/AzurioChrome";
 import { SplineLoader } from "@/components/site/SplineLoader";
+import { ServicesR3F } from "@/components/site/ServicesR3F";
 import {
   injectAfterBlur,
   loadTemplateSectionRange,
@@ -158,90 +159,89 @@ const ADSPIRE_SERVICES = [
     title: "Web razvoj & aplikacije",
     tags: ["Next.js", "React", "E-Commerce", "Web aplikacije"],
     href: "/usluge",
-    spline: true,
+    scene: "web-dev",
   },
   {
     title: "Branding & vizualni identitet",
     tags: ["Logo dizajn", "Vizualni identitet", "Brand guidelines", "Strategija"],
     href: "/usluge",
-    spline: false,
+    scene: "branding",
   },
   {
     title: "UI/UX & web dizajn",
     tags: ["UI dizajn", "Figma", "Prototipovi", "Animacije"],
     href: "/usluge",
-    spline: false,
+    scene: "uiux",
   },
   {
     title: "Digitalni marketing & SEO",
     tags: ["SEO optimizacija", "Google Ads", "Social media", "Lokalni SEO Niš"],
     href: "/usluge",
-    spline: false,
+    scene: "seo",
   },
 ] as const;
 
 function buildTagsHtml(tags: readonly string[]): string {
   return tags
-    .map(
-      (t) =>
-        `<span class="tag tag-m tag-permanent mxd-scramble">${t}</span>`,
-    )
+    .map((t) => `<span class="tag tag-m tag-permanent mxd-scramble">${t}</span>`)
     .join("\n                        ");
+}
+
+function buildR3FImageHtml(scene: string, coverClass: string): string {
+  return (
+    `<div class="card__image card__image--r3f">` +
+    `<canvas class="card-r3f-canvas" data-scene="${scene}"></canvas>` +
+    `<div class="${coverClass}"></div>` +
+    `</div>`
+  );
 }
 
 /**
  * Transforms the "Section - Progects Stack" from branding-studio into
- * Adspire's services showcase, keeping the mxd-stack-cards layout intact.
- *
- * Card 1 gets the Spline vaporwave viewer instead of the placeholder image.
+ * Adspire's services showcase. Every card gets a Three.js canvas background.
  */
 function prepareServicesStack(sectionHtml: string): string {
-  const parts = sectionHtml.split("<!-- single card -->");
-  // parts[0] = outer wrapper open, parts[1..4] = 4 cards, parts[5] = wrapper close
-  if (parts.length < 5) return sectionHtml;
+  // Update marquee text to reflect services
+  let html = sectionHtml
+    .replace(/Design\//g, "Web\/")
+    .replace(/Development\//g, "Branding\/")
+    .replace(/Branding\//g, "UI\/UX\/")
+    .replace(/eCommerce\//g, "SEO\/")
+    .replace(/Marketing\//g, "Marketing\/");
+
+  const parts = html.split("<!-- single card -->");
+  if (parts.length < 5) return html;
 
   const transformed = parts.map((part, i) => {
-    const idx = i - 1; // 0-based card index
+    const idx = i - 1;
     if (idx < 0 || idx >= ADSPIRE_SERVICES.length) return part;
 
     const svc = ADSPIRE_SERVICES[idx];
 
-    // Replace the four tags
     let card = part.replace(
       /<div class="card__tags">[\s\S]*?<\/div>/,
       `<div class="card__tags">\n                        ${buildTagsHtml(svc.tags)}\n                      </div>`,
     );
 
-    // Update all hrefs from template links to /usluge
     card = card.replace(/href="project-details\.html"/g, `href="${svc.href}"`);
 
-    // Localize button caption
     card = card.replace(
       `<span class="btn-caption mxd-scramble">Know More</span>`,
       `<span class="btn-caption mxd-scramble">Saznaj više</span>`,
     );
 
-    // Replace the card title text
     card = card.replace(
       /<p class="permanent">[^<]*<\/p>/,
       `<p class="permanent">${svc.title}</p>`,
     );
 
-    // Card 1: swap the image div for a Spline vaporwave viewer
-    if (svc.spline) {
-      // Detect if the original cover has an extra class (e.g. cover-darken)
-      const coverMatch = card.match(/<div class="(card__cover[^"]*)">/);
-      const coverClass = coverMatch ? coverMatch[1] : "card__cover";
-      card = card.replace(
-        /<div class="card__image">[\s\S]*?<\/div>\s*<\/div>/,
-        `<div class="card__image card__image--spline">` +
-          `<div class="card__spline-bg">` +
-          `<spline-viewer url="${SPLINE_VAPORWAVE_URL}" background="transparent"></spline-viewer>` +
-          `</div>` +
-          `<div class="${coverClass}"></div>` +
-          `</div>`,
-      );
-    }
+    // Replace image area with Three.js canvas for every card
+    const coverMatch = card.match(/<div class="(card__cover[^"]*)">/);
+    const coverClass = coverMatch ? coverMatch[1] : "card__cover";
+    card = card.replace(
+      /<div class="card__image">[\s\S]*?<\/div>\s*<\/div>/,
+      buildR3FImageHtml(svc.scene, coverClass),
+    );
 
     return card;
   });
@@ -304,6 +304,7 @@ export function AzurioCompositeHomePage() {
   return (
     <>
       <SplineLoader />
+      <ServicesR3F />
 
       <AzurioChrome>
         <div

@@ -334,46 +334,24 @@ html.mxd-fallback-visible .loading-chars .char {
   pointer-events: auto;
 }
 
-/* ── Spline vaporwave in services stack (card 1 — mxd-stack-cards) ──────────── */
+/* ── Three.js R3F canvas in services stack cards ────────────────────────────── */
 
-.card__image--spline {
+.card__image--r3f {
   position: relative;
   overflow: hidden;
 }
 
-.card__spline-bg {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-}
-
-.card__spline-bg spline-viewer {
+.card-r3f-canvas {
   display: block;
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  pointer-events: auto;
-  touch-action: none;
+  z-index: 0;
 }
 
-/* Badge cover for the vaporwave card */
-.card__image--spline::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  width: 230px;
-  height: 52px;
-  background: #060608;
-  z-index: 9999;
-  pointer-events: none;
-}
-
-/* ── Vaporwave card cover — transparent so the scene shows clearly ───────────── */
-
-/* The template's card__cover darkens the image; on the Spline card keep it invisible */
-.card__image--spline .card__cover {
+/* Keep the template cover overlay transparent so the R3F scene shows */
+.card__image--r3f .card__cover {
   opacity: 0 !important;
   background: transparent !important;
 }
@@ -396,22 +374,6 @@ html.mxd-fallback-visible .loading-chars .char {
     touch-action: auto;
   }
 
-  /* Vaporwave u kartici: sakriti Spline na mobilnom, prikazati CSS animaciju */
-  .card__spline-bg {
-    display: none !important;
-  }
-
-  .card__image--spline {
-    background: linear-gradient(135deg, #0d0015, #1a0030, #0a0020, #120025);
-    background-size: 400% 400%;
-    animation: vaporwave-pulse 8s ease infinite;
-  }
-
-  /* Sakriti badge cover jer nema Spline watermark-a na mobilnom */
-  .card__image--spline::after {
-    display: none !important;
-  }
-
   .mxd-hero-01__wrap,
   .mxd-hero-09__wrap,
   .mxd-hero-05__wrap {
@@ -429,10 +391,28 @@ html.mxd-fallback-visible .loading-chars .char {
   }
 }
 
-@keyframes vaporwave-pulse {
-  0%   { background-position: 0% 50%;   }
-  50%  { background-position: 100% 50%; }
-  100% { background-position: 0% 50%;   }
+/* ── Hero-09 responsiveness (druga sekcija — "Digitalna agencija...") ───────── */
+
+@media (max-width: 767px) {
+  .mxd-hero-09 .loading-chars {
+    font-size: clamp(1.6rem, 7vw, 2.8rem) !important;
+    line-height: 1.15 !important;
+  }
+
+  .mxd-hero-09__top {
+    padding-top: 5rem !important;
+  }
+
+  .mxd-hero-09__cta-group {
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .mxd-hero-09__cta-group .btn {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
 }
 
 /* ── "Drži za rotaciju" dugme (samo na touch uređajima) ─────────────────────── */
