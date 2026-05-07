@@ -174,3 +174,248 @@ html.mxd-fallback-visible .loading-chars .char {
 .adspire-entity-page__cta-primary {
   font-weight: 600;
 }
+
+/* ── Spline robot in branding-studio hero (mxd-hero-01) ─────────────────────── */
+
+.mxd-hero-01 {
+  background-color: #060608 !important;
+  background-image: none !important;
+}
+
+.mxd-hero-01__spline-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+/* Badge cover — hides "Built with Spline" watermark */
+.mxd-hero-01__spline-bg::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 230px;
+  height: 52px;
+  background: #060608;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.mxd-hero-01__spline-bg spline-viewer {
+  display: block;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: auto;
+  touch-action: none;
+}
+
+/* Cover overlay: dark tint only — must NOT intercept pointer events */
+.mxd-hero-01__cover {
+  background-color: rgba(0, 0, 0, 0.28) !important;
+  pointer-events: none !important;
+}
+
+/* Wrap: pass events through to Spline in empty areas */
+.mxd-hero-01__wrap {
+  pointer-events: none;
+}
+
+.mxd-hero-01__wrap a,
+.mxd-hero-01__wrap button,
+.mxd-hero-01__wrap [role="button"] {
+  pointer-events: auto;
+}
+
+/* ── Spline glass scene in freelancer-portfolio hero (mxd-hero-09) ──────────── */
+
+.mxd-hero-09 {
+  background-color: #060608 !important;
+  background-image: none !important;
+}
+
+.mxd-hero-09__spline-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.mxd-hero-09__spline-bg spline-viewer {
+  display: block;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: auto;
+  touch-action: none;
+}
+
+.mxd-hero-09__spline-bg::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 230px;
+  height: 52px;
+  background: #060608;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+/* CTA button group injected into hero-09 */
+.mxd-hero-09__cta-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+  margin-top: 1.5rem;
+}
+
+.mxd-hero-09__cover {
+  pointer-events: none !important;
+}
+
+.mxd-hero-09__wrap {
+  pointer-events: none;
+}
+
+.mxd-hero-09__wrap a,
+.mxd-hero-09__wrap button,
+.mxd-hero-09__wrap [role="button"] {
+  pointer-events: auto;
+}
+
+/* ── Spline chips iframe in creative-agency hero (mxd-hero-05) ──────────────── */
+
+.mxd-hero-05 {
+  position: relative !important;
+  overflow: hidden !important;
+  min-height: 100svh;
+}
+
+.mxd-hero-05__spline-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: auto;
+}
+
+.mxd-hero-05__spline-bg::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 230px;
+  height: 52px;
+  background: #000;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.mxd-hero-05__spline-bg iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: none;
+  touch-action: none;
+}
+
+.mxd-hero-05__wrap {
+  position: relative;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.mxd-hero-05__wrap a,
+.mxd-hero-05__wrap button,
+.mxd-hero-05__wrap [role="button"] {
+  pointer-events: auto;
+}
+
+/* ── Spline vaporwave in services stack (card 1 — mxd-stack-cards) ──────────── */
+
+.card__image--spline {
+  position: relative;
+  overflow: hidden;
+}
+
+.card__spline-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.card__spline-bg spline-viewer {
+  display: block;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: auto;
+  touch-action: none;
+}
+
+/* Badge cover for the vaporwave card */
+.card__image--spline::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 230px;
+  height: 52px;
+  background: #060608;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+/*
+ * ── Mobile fixes for all Spline scenes ──────────────────────────────────────
+ *
+ * On touch devices spline-viewer / iframe consume ALL touch events including
+ * vertical swipes, which prevents scrolling. Disable pointer-events on mobile
+ * so scenes auto-animate as visual backgrounds and the user can scroll freely.
+ */
+@media (hover: none) {
+  /* Robot hero */
+  .mxd-hero-01__spline-bg spline-viewer {
+    pointer-events: none;
+    touch-action: auto;
+  }
+
+  /* Glass hero */
+  .mxd-hero-09__spline-bg spline-viewer {
+    pointer-events: none;
+    touch-action: auto;
+  }
+
+  /* Chips iframe */
+  .mxd-hero-05__spline-bg iframe {
+    pointer-events: none;
+    touch-action: auto;
+  }
+
+  /* Vaporwave services card */
+  .card__spline-bg spline-viewer {
+    pointer-events: none;
+    touch-action: auto;
+  }
+
+  .mxd-hero-01__wrap,
+  .mxd-hero-09__wrap,
+  .mxd-hero-05__wrap {
+    pointer-events: none;
+  }
+
+  .mxd-hero-01__wrap a,  .mxd-hero-01__wrap button,
+  .mxd-hero-09__wrap a,  .mxd-hero-09__wrap button,
+  .mxd-hero-05__wrap a,  .mxd-hero-05__wrap button {
+    pointer-events: auto;
+  }
+
+  /* Tighten the chips hero height on mobile */
+  .mxd-hero-05 {
+    min-height: 80svh;
+  }
+}
