@@ -379,51 +379,38 @@ html.mxd-fallback-visible .loading-chars .char {
 }
 
 /*
- * ── Mobile: deaktivirati sve Spline scene ────────────────────────────────────
+ * ── Mobile: scroll-safe Spline scenes ───────────────────────────────────────
  *
- * Na mobilnim uređajima 3-4 Spline scene odjednom blokira scroll i usporava
- * uređaj. Na touch uređajima prikazujemo statične gradient pozadine umesto
- * 3D scena — sajt je brz i vizualno čist, 3D ostaje samo na desktopu.
+ * pointer-events: none = scroll radi normalno, scene se vide i auto-animiraju.
+ * Scenes se učitavaju lazily (IntersectionObserver u komponenti) pa nema
+ * začepljenog page loada.
  */
 @media (hover: none) {
-  /* Sakriti sve Spline scene i chips iframe na mobilnom */
-  spline-viewer,
+  .mxd-hero-01__spline-bg spline-viewer,
+  .mxd-hero-09__spline-bg spline-viewer,
+  .card__spline-bg spline-viewer {
+    pointer-events: none;
+    touch-action: auto;
+  }
+
   .mxd-hero-05__spline-bg iframe {
-    display: none !important;
+    pointer-events: none;
+    touch-action: auto;
   }
 
-  /* Robot hero — tamna pozadina sa suptilnim gradientom */
-  .mxd-hero-01 {
-    background: radial-gradient(ellipse at 60% 40%, #1a1a2e 0%, #060608 70%) !important;
-  }
-
-  /* Glass hero — tamna pozadina sa plavičastim tonom */
-  .mxd-hero-09 {
-    background: radial-gradient(ellipse at 40% 60%, #0d1117 0%, #060608 70%) !important;
-  }
-
-  /* Chips hero — crna pozadina */
-  .mxd-hero-05 {
-    background: #060608 !important;
-    min-height: 80svh;
-  }
-
-  /* Vaporwave services card — tamna pozadina sa ljubičastim tonom */
-  .card__image--spline {
-    background: radial-gradient(ellipse at 50% 50%, #1a0a2e 0%, #060608 70%) !important;
-  }
-
-  /* Poništiti badge cover ::after jer nema Spline watermark-a */
-  .mxd-hero-01__spline-bg::after,
-  .mxd-hero-09__spline-bg::after,
-  .card__image--spline::after {
-    display: none !important;
-  }
-
-  /* Resetovati pointer events na wrap elementima */
   .mxd-hero-01__wrap,
   .mxd-hero-09__wrap,
   .mxd-hero-05__wrap {
+    pointer-events: none;
+  }
+
+  .mxd-hero-01__wrap a,  .mxd-hero-01__wrap button,
+  .mxd-hero-09__wrap a,  .mxd-hero-09__wrap button,
+  .mxd-hero-05__wrap a,  .mxd-hero-05__wrap button {
     pointer-events: auto;
+  }
+
+  .mxd-hero-05 {
+    min-height: 80svh;
   }
 }
