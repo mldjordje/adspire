@@ -348,10 +348,22 @@ html.mxd-fallback-visible .loading-chars .char {
   width: 100%;
   height: 100%;
   z-index: 0;
-  /* Rendering is blitted here from the shared offscreen renderer */
   pointer-events: none;
   touch-action: none;
 }
+
+/* CSS gradient fallback shown while Three.js scene loads (and on very old devices) */
+.card__image--r3f {
+  background: #050510;
+}
+.card-r3f-canvas[data-scene="web-prezentacije"] { background: radial-gradient(ellipse at 40% 60%, #0a1aff22, #050510); }
+.card-r3f-canvas[data-scene="ecommerce"]        { background: radial-gradient(ellipse at 60% 40%, #00ffaa18, #050510); }
+.card-r3f-canvas[data-scene="mobile-app"]       { background: radial-gradient(ellipse at 50% 50%, #3355ff20, #050510); }
+.card-r3f-canvas[data-scene="cms"]              { background: radial-gradient(ellipse at 40% 60%, #00ff9918, #050510); }
+.card-r3f-canvas[data-scene="ai"]               { background: radial-gradient(ellipse at 60% 40%, #aa22ff20, #050510); }
+.card-r3f-canvas[data-scene="seo"]              { background: radial-gradient(ellipse at 50% 70%, #00ff6618, #050510); }
+.card-r3f-canvas[data-scene="security"]         { background: radial-gradient(ellipse at 40% 40%, #ff222218, #050510); }
+.card-r3f-canvas[data-scene="uiux"]             { background: radial-gradient(ellipse at 60% 60%, #0088ff20, #050510); }
 
 /* Keep the template cover overlay transparent so the R3F scene shows */
 .card__image--r3f .card__cover {
