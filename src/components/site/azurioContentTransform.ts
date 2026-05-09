@@ -1,6 +1,7 @@
 import { getSiteContent } from "@/content/site";
 import type { MetricItem, ProjectItem, ServiceItem } from "@/content/site/types";
 import { findServiceCatalogEntry } from "@/data/serviceCatalog";
+import type { ServiceCatalogEntry } from "@/data/serviceCatalog";
 import { defaultLocale } from "@/lib/site-config";
 
 const content = getSiteContent(defaultLocale);
@@ -1669,6 +1670,51 @@ export function transformTemplateMain(fileName: string, mainInner: string) {
   }
 }
 
+function renderServiceFaq(catalog: ServiceCatalogEntry): string {
+  if (!catalog.faqItems?.length) return "";
+
+  const items = catalog.faqItems
+    .map(
+      (item, i) =>
+        `          <div class="mxd-block anim-uni-in-up">
+            <div class="mxd-faq__item">
+              <div class="mxd-faq__question">
+                <span class="mxd-faq__q-text t-bold">${escapeHtml(item.q)}</span>
+              </div>
+              <div class="mxd-faq__answer">
+                <p>${escapeHtml(item.a)}</p>
+              </div>
+            </div>
+          </div>`,
+    )
+    .join("\n");
+
+  return `<!-- Section - FAQ Start -->
+      <div class="mxd-section blur-section padding-top-subtitle-mobile padding-bottom-default">
+        <div class="mxd-container grid-l-container">
+          <div class="mxd-block">
+            <div class="mxd-section-title pre-grid">
+              <div class="container-fluid p-0">
+                <div class="row g-0">
+                  <div class="col-12 mxd-grid-item">
+                    <div class="mxd-section-title__title">
+                      <h2 class="reveal-type">Često postavljena pitanja</h2>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mxd-block">
+            <div class="mxd-faq">
+${items}
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Section - FAQ End -->`;
+}
+
 export function buildServiceDetailMainHtml(slug: string) {
   const service = findServiceBySlug(slug);
 
@@ -1713,5 +1759,14 @@ export function buildServiceDetailMainHtml(slug: string) {
   );
   next = replaceSection(next, "Section - Client Feedback", renderServiceFeedback(service));
   next = replaceSection(next, "Section - Next Project Link", renderServiceNext(service));
+
+  const catalog = findServiceCatalogEntry(slug);
+  if (catalog) {
+    next = next.replace(
+      "<!-- Section - Next Project Link Start --><!-- Section - Next Project Link End -->",
+      renderServiceFaq(catalog) + "\n      <!-- Section - Next Project Link Start --><!-- Section - Next Project Link End -->",
+    );
+  }
+
   return next;
 }

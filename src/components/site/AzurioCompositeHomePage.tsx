@@ -211,13 +211,19 @@ function buildTagsHtml(tags: readonly string[]): string {
     .join("\n                        ");
 }
 
-function buildR3FImageHtml(scene: string, coverClass: string): string {
-  return (
-    `<div class="card__image card__image--r3f">` +
-    `<canvas class="card-r3f-canvas" data-scene="${scene}"></canvas>` +
-    `<div class="${coverClass}"></div>` +
-    `</div>`
-  );
+/**
+ * Canvas sits OUTSIDE .card__wrapper so GSAP's clip-path on .card__image
+ * never hides it. It's position:absolute;inset:0 relative to the card root
+ * (.mxd-stack-cards__card has position:relative).
+ *
+ * .card__image--r3f-ghost is a transparent placeholder so mxdProjectsStack()
+ * still finds a .card__image element for its clip animation (it just clips air).
+ */
+function buildR3FCardHtml(scene: string, coverClass: string): { canvas: string; ghost: string } {
+  const canvas = `<canvas class="card-r3f-canvas" data-scene="${scene}"></canvas>`;
+  // Ghost keeps GSAP happy — it animates this div's clip-path, not the canvas
+  const ghost = `<div class="card__image card__image--r3f-ghost"><div class="${coverClass}"></div></div>`;
+  return { canvas, ghost };
 }
 
 /**
@@ -244,12 +250,22 @@ function applyServiceToCard(
     `<p class="permanent">${svc.title}</p>`,
   );
 
-  // Replace image area with Three.js canvas
+  // Build canvas + ghost placeholder
   const coverMatch = c.match(/<div class="(card__cover[^"]*)">/);
   const coverClass = coverMatch ? coverMatch[1] : "card__cover";
+  const { canvas, ghost } = buildR3FCardHtml(svc.scene, coverClass);
+
+  // Replace the original .card__image block with the ghost placeholder
   c = c.replace(
     /<div class="card__image">[\s\S]*?<\/div>\s*<\/div>/,
-    buildR3FImageHtml(svc.scene, coverClass),
+    ghost,
+  );
+
+  // Inject canvas BEFORE .card__wrapper so it is a direct child of the card
+  // and is NOT clipped by GSAP's clip-path on .card__image
+  c = c.replace(
+    `<div class="card__wrapper">`,
+    `${canvas}\n<div class="card__wrapper">`,
   );
 
   return c;
