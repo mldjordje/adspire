@@ -298,18 +298,13 @@ function prepareServicesStack(sectionHtml: string): string {
 const BASE_HOME_FILE = "index-digital-agency.html";
 
 const COMPOSITE_BLOCKS = [
-  // 1. Robot hero (branding-studio)
+  // 1. Robot hero (branding-studio) — główny hero z robotem 3D
   prepareBrandingHero(loadTemplateHeroSection("index-branding-studio.html")),
-  // 2. Glass Spline hero + CTA — directly below robot
+  // 2. Glass Spline hero + CTA — "Digitalna agencija..." + dugmad
   prepareFreelancerHero(
     loadTemplateHeroSection("index-freelancer-portfolio.html"),
   ),
-  loadTemplateSectionRange(
-    "index-creative-agency.html",
-    "Section - CTA with Marquee",
-    "Section - CTA with Marquee",
-  ),
-  // 3. Services showcase (mxd-stack-cards with Adspire services)
+  // 3. Services showcase — 8 usluga sa Three.js animacijama
   prepareServicesStack(
     loadTemplateSectionRange(
       "index-branding-studio.html",
@@ -317,17 +312,9 @@ const COMPOSITE_BLOCKS = [
       "Section - Progects Stack",
     ),
   ),
-  prepareCreativeAgencyHero(
-    loadTemplateHeroSection("index-creative-agency.html"),
-  ),
-  loadTemplateSectionRange(
-    "index-creative-agency.html",
-    "Section - Projects Grid x2 Showcase",
-    "Section - Projects Grid x2 Showcase",
-  ),
-  loadTemplateHeroSection("index-design-studio.html"),
-  loadTemplateHeroSection("index-software-development-company.html"),
-  loadTemplateHeroSection("index-web-studio.html"),
+  // NOTE: Sve ostale sekcije (Creative Agency hero, Projects Grid,
+  // Design Studio hero, Software Dev hero, Web Studio hero) su uklonjene —
+  // višestruki hero blokovi konfuze korisnike i smanjuju konverziju.
 ];
 
 function buildCompositeHomeHtml() {

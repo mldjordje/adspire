@@ -349,7 +349,7 @@ html.mxd-fallback-visible .loading-chars .char {
   height: 100%;
   z-index: 0;
   pointer-events: none;
-  touch-action: none;
+  touch-action: pan-y;
 }
 
 /* CSS gradient fallback shown while Three.js scene loads (and on very old devices) */
@@ -403,6 +403,11 @@ html.mxd-fallback-visible .loading-chars .char {
 
   .mxd-hero-05 {
     min-height: 80svh;
+  }
+
+  /* Prevent browser pull-to-refresh from triggering during stacked service cards */
+  .mxd-stack-services {
+    overscroll-behavior: none;
   }
 }
 
