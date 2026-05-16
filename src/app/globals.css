@@ -390,7 +390,7 @@ html.mxd-fallback-visible .loading-chars .char {
 }
 
 .mxd-stack-cards__card .card__marquees {
-  z-index: 1;
+  display: none;
 }
 
 /*
@@ -430,6 +430,12 @@ html.mxd-fallback-visible .loading-chars .char {
   /* Prevent browser pull-to-refresh from triggering during stacked service cards */
   .mxd-stack-services {
     overscroll-behavior: none;
+  }
+
+  /* Enable touch interaction on 3D canvases — pan-y allows vertical scroll */
+  .card-r3f-canvas {
+    pointer-events: auto;
+    touch-action: pan-y;
   }
 }
 

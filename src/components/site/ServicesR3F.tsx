@@ -67,6 +67,39 @@ function sno(t: number, f1 = 1, f2 = 2.1, f3 = 3.7, a3 = 0.25) {
   return Math.sin(t * f1) + Math.sin(t * f2) * 0.5 + Math.sin(t * f3) * a3;
 }
 
+// ─── Touch rotation helper (mobile interactivity) ────────────────────────────
+
+function makeTouchRotate(canvas: HTMLCanvasElement) {
+  let rx = 0;
+  let ry = 0;
+  let lastX = 0;
+  let lastY = 0;
+
+  const onStart = (e: TouchEvent) => {
+    lastX = e.touches[0].clientX;
+    lastY = e.touches[0].clientY;
+  };
+  const onMove = (e: TouchEvent) => {
+    if (e.touches.length !== 1) return;
+    rx += (e.touches[0].clientX - lastX) * 0.008;
+    ry += (e.touches[0].clientY - lastY) * 0.005;
+    lastX = e.touches[0].clientX;
+    lastY = e.touches[0].clientY;
+  };
+
+  canvas.addEventListener("touchstart", onStart, { passive: true });
+  canvas.addEventListener("touchmove",  onMove,  { passive: true });
+
+  return {
+    get rx() { return rx; },
+    get ry() { return ry; },
+    dispose() {
+      canvas.removeEventListener("touchstart", onStart);
+      canvas.removeEventListener("touchmove",  onMove);
+    },
+  };
+}
+
 // ─── Scene definitions ────────────────────────────────────────────────────────
 
 const SCENES: Record<string, SceneFactory> = {
@@ -152,8 +185,12 @@ const SCENES: Record<string, SceneFactory> = {
     let mx = 0, my = 0;
     const onMouse = (e: MouseEvent) => { mx = (e.clientX / window.innerWidth - 0.5) * 0.5; my = (e.clientY / window.innerHeight - 0.5) * 0.35; };
     if (!isMobile) window.addEventListener("mousemove", onMouse);
+    const touch = isMobile ? makeTouchRotate(canvas) : null;
 
     return stopLoop(renderer, scene, camera, (t) => {
+      const tmx = touch ? touch.rx : mx;
+      const tmy = touch ? touch.ry : my;
+
       orb.rotation.y = t * 0.08;
       eqRing.rotation.y = t * 0.2;
       eqRing.rotation.x = sno(t, 0.25, 0.5, 0.9, 0.15) * 0.08;
@@ -163,7 +200,6 @@ const SCENES: Record<string, SceneFactory> = {
 
       shardData.forEach((s, i) => {
         s.theta += s.speed;
-        // Organic radial breathe with two frequencies
         const wave = 1 + 0.12 * Math.sin(t * s.f1 + s.phase) + 0.06 * Math.cos(t * s.f2 + s.phase * 1.3);
         const r = s.r * wave;
         dummy.position.set(
@@ -178,15 +214,15 @@ const SCENES: Record<string, SceneFactory> = {
       shardMesh.instanceMatrix.needsUpdate = true;
       dustPts.rotation.y = t * 0.018;
 
-      camera.position.x += (mx * 0.6 - camera.position.x) * 0.04;
-      camera.position.y += (-my * 0.6 - camera.position.y) * 0.04;
+      camera.position.x += (tmx * 0.6 - camera.position.x) * 0.04;
+      camera.position.y += (-tmy * 0.6 - camera.position.y) * 0.04;
       camera.lookAt(0, 0, 0);
     }, () => {
-      window.removeEventListener("mousemove", onMouse); stopResize();
+      window.removeEventListener("mousemove", onMouse); touch?.dispose(); stopResize();
       orbGeo.dispose(); orbMat.dispose(); fGeo.dispose();
       eqGeo.dispose(); eqMat.dispose();
       shardGeo.dispose(); shardMat.dispose(); dustGeo.dispose();
-    });
+    }, isMobile);
   },
 
   // ── E-commerce — luxury gem crystal with Fresnel + precision orbits ─────────
@@ -260,8 +296,12 @@ const SCENES: Record<string, SceneFactory> = {
     let mx = 0, my = 0;
     const onMouse = (e: MouseEvent) => { mx = (e.clientX / window.innerWidth - 0.5) * 0.5; my = -(e.clientY / window.innerHeight - 0.5) * 0.35; };
     if (!isMobile) window.addEventListener("mousemove", onMouse);
+    const touch = isMobile ? makeTouchRotate(canvas) : null;
 
     return stopLoop(renderer, scene, camera, (t) => {
+      const tmx = touch ? touch.rx : mx;
+      const tmy = touch ? touch.ry : my;
+
       gem.rotation.y = t * 0.22;
       gem.rotation.x = t * 0.1 + sno(t, 0.3, 0.6, 1.1, 0.1) * 0.06;
       const pulse = 1 + 0.06 * sno(t, 1.5, 2.8, 4.3, 0.15);
@@ -289,16 +329,16 @@ const SCENES: Record<string, SceneFactory> = {
       microInst.instanceMatrix.needsUpdate = true;
       sparkPts.rotation.y = t * 0.012;
 
-      camera.position.x += (mx - camera.position.x) * 0.04;
-      camera.position.y += (my - camera.position.y) * 0.04;
+      camera.position.x += (tmx - camera.position.x) * 0.04;
+      camera.position.y += (tmy - camera.position.y) * 0.04;
       camera.lookAt(0, 0, 0);
     }, () => {
-      window.removeEventListener("mousemove", onMouse); stopResize();
+      window.removeEventListener("mousemove", onMouse); touch?.dispose(); stopResize();
       gemGeo.dispose(); gemMat.dispose(); gemFGeo.dispose();
       igGeo.dispose(); igMat.dispose(); bgGeo.dispose(); bgMat.dispose();
       ring1Geo.dispose(); ring1Mat.dispose(); ring2Geo.dispose(); ring2Mat.dispose();
       microGeo.dispose(); microMat.dispose(); sparkGeo.dispose();
-    });
+    }, isMobile);
   },
 
   // ── Mobilne aplikacije — glass phone with live holographic UI + signals ───────
@@ -375,10 +415,14 @@ const SCENES: Record<string, SceneFactory> = {
     let mx = 0, my = 0;
     const onMouse = (e: MouseEvent) => { mx = (e.clientX / window.innerWidth - 0.5) * 0.7; my = -(e.clientY / window.innerHeight - 0.5) * 0.5; };
     if (!isMobile) window.addEventListener("mousemove", onMouse);
+    const touch = isMobile ? makeTouchRotate(canvas) : null;
 
     return stopLoop(renderer, scene, camera, (t) => {
-      body.rotation.y = mx * 0.8 + sno(t, 0.28, 0.55, 0.9, 0.1) * 0.08;
-      body.rotation.x = my * 0.5 + sno(t, 0.22, 0.41, 0.7, 0.08) * 0.04;
+      const tmx = touch ? touch.rx : mx;
+      const tmy = touch ? touch.ry : my;
+
+      body.rotation.y = tmx * 0.8 + sno(t, 0.28, 0.55, 0.9, 0.1) * 0.08;
+      body.rotation.x = tmy * 0.5 + sno(t, 0.22, 0.41, 0.7, 0.08) * 0.04;
       screen.rotation.copy(body.rotation);
       barGroup.rotation.copy(body.rotation);
       scrMat.opacity = 0.42 + 0.15 * sno(t, 1.5, 2.9, 4.3, 0.2);
@@ -393,13 +437,13 @@ const SCENES: Record<string, SceneFactory> = {
         mat.opacity = Math.pow(1 - p, 1.5) * 0.65;
       });
 
-      camera.position.x += (mx * 0.3 - camera.position.x) * 0.05;
+      camera.position.x += (tmx * 0.3 - camera.position.x) * 0.05;
       camera.lookAt(0, 0, 0);
     }, () => {
-      window.removeEventListener("mousemove", onMouse); stopResize();
+      window.removeEventListener("mousemove", onMouse); touch?.dispose(); stopResize();
       bodyGeo.dispose(); bodyMat.dispose(); bodyFGeo.dispose();
       scrGeo.dispose(); scrMat.dispose(); dotGeo.dispose();
-    });
+    }, isMobile);
   },
 
   // ── CMS — double helix DNA with electric glow + Fresnel nodes ────────────────
@@ -466,8 +510,12 @@ const SCENES: Record<string, SceneFactory> = {
     let mx = 0, my = 0;
     const onMouse = (e: MouseEvent) => { mx = (e.clientX / window.innerWidth - 0.5) * 0.5; my = -(e.clientY / window.innerHeight - 0.5) * 0.3; };
     if (!isMobile) window.addEventListener("mousemove", onMouse);
+    const touch = isMobile ? makeTouchRotate(canvas) : null;
 
     return stopLoop(renderer, scene, camera, (t) => {
+      const tmx = touch ? touch.rx : mx;
+      const tmy = touch ? touch.ry : my;
+
       matA.emissiveIntensity = 2.5 + 0.9 * sno(t, 1.0, 1.9, 3.1, 0.2);
       matB.emissiveIntensity = 2.5 + 0.9 * sno(t + 1.2, 1.0, 1.9, 3.1, 0.2);
       rungMat.opacity = 0.28 + 0.14 * Math.abs(Math.sin(t * 0.7));
@@ -500,14 +548,14 @@ const SCENES: Record<string, SceneFactory> = {
       glowB.instanceMatrix.needsUpdate   = true;
       rungs.instanceMatrix.needsUpdate   = true;
 
-      scene.rotation.y = t * 0.16 + mx * 0.5;
-      scene.rotation.x = my * 0.22 + sno(t, 0.2, 0.38, 0.6, 0.08) * 0.04;
+      scene.rotation.y = t * 0.16 + tmx * 0.5;
+      scene.rotation.x = tmy * 0.22 + sno(t, 0.2, 0.38, 0.6, 0.08) * 0.04;
     }, () => {
-      window.removeEventListener("mousemove", onMouse); stopResize();
+      window.removeEventListener("mousemove", onMouse); touch?.dispose(); stopResize();
       nodeGeoA.dispose(); matA.dispose(); nodeGeoB.dispose(); matB.dispose();
       glowGeoA.dispose(); glowGeoB.dispose();
       rungGeo.dispose(); rungMat.dispose(); axGeo.dispose(); ptGeo.dispose();
-    });
+    }, isMobile);
   },
 
   // ── AI — holographic neural network with flowing signals + Fresnel nodes ─────
@@ -591,8 +639,12 @@ const SCENES: Record<string, SceneFactory> = {
     let mx = 0, my = 0;
     const onMouse = (e: MouseEvent) => { mx = (e.clientX / window.innerWidth - 0.5) * 0.4; my = -(e.clientY / window.innerHeight - 0.5) * 0.3; };
     if (!isMobile) window.addEventListener("mousemove", onMouse);
+    const touch = isMobile ? makeTouchRotate(canvas) : null;
 
     return stopLoop(renderer, scene, camera, (t) => {
+      const tmx = touch ? touch.rx : mx;
+      const tmy = touch ? touch.ry : my;
+
       nodeMat.emissiveIntensity = 2.4 + 0.9 * sno(t, 0.9, 1.7, 2.8, 0.18);
       for (let i = 0; i < totalNodes; i++) {
         const s = 0.72 + 0.45 * Math.abs(sno(t, 1.1, 2.0, 3.3, 0.2) * 0.33 + Math.sin(t * 1.1 + i * 0.6));
@@ -618,13 +670,13 @@ const SCENES: Record<string, SceneFactory> = {
       }
       posAttr.needsUpdate = true;
 
-      scene.rotation.y = mx * 0.5 + sno(t, 0.15, 0.28, 0.47, 0.1) * 0.08;
-      scene.rotation.x = my * 0.3;
+      scene.rotation.y = tmx * 0.5 + sno(t, 0.15, 0.28, 0.47, 0.1) * 0.08;
+      scene.rotation.x = tmy * 0.3;
     }, () => {
-      window.removeEventListener("mousemove", onMouse); stopResize();
+      window.removeEventListener("mousemove", onMouse); touch?.dispose(); stopResize();
       nodeGeo.dispose(); nodeMat.dispose(); fGeo.dispose();
       connGeo.dispose(); flowGeo.dispose(); dustGeo.dispose();
-    });
+    }, isMobile);
   },
 
   // ── SEO — neon radar dish with sweep + animated data columns ─────────────────
@@ -695,6 +747,7 @@ const SCENES: Record<string, SceneFactory> = {
     dustGeo.setAttribute("position", new THREE.BufferAttribute(dustPos, 3));
     scene.add(new THREE.Points(dustGeo, new THREE.PointsMaterial({ color: 0x86efac, size: 0.014, sizeAttenuation: true, transparent: true, opacity: 0.38, blending: THREE.AdditiveBlending, depthWrite: false })));
 
+    const touch = isMobile ? makeTouchRotate(canvas) : null;
     let sweepAngle = 0;
     return stopLoop(renderer, scene, camera, (t) => {
       sweepAngle += 0.026;
@@ -721,11 +774,13 @@ const SCENES: Record<string, SceneFactory> = {
         mesh.scale.y = Math.max(0.05, h); mesh.position.y = h * 0.5 - 0.5;
         mat.emissiveIntensity = 1.5 + 0.8 * Math.sin(t * 1.3 + i * 0.45);
       });
+
+      if (touch) scene.rotation.y = touch.rx * 0.5;
     }, () => {
-      stopResize();
+      touch?.dispose(); stopResize();
       sweepGeo.dispose(); sweepMat.dispose(); edgeGeo.dispose(); edgeMat.dispose();
       blipGeo.dispose(); blipMat.dispose(); barGeo.dispose(); chGeo.dispose(); dustGeo.dispose();
-    });
+    }, isMobile);
   },
 
   // ── Cyber security — torusknot core + wireframe shields + Fresnel ────────────
@@ -781,8 +836,12 @@ const SCENES: Record<string, SceneFactory> = {
     let mx = 0, my = 0;
     const onMouse = (e: MouseEvent) => { mx = (e.clientX / window.innerWidth - 0.5) * 0.5; my = -(e.clientY / window.innerHeight - 0.5) * 0.4; };
     if (!isMobile) window.addEventListener("mousemove", onMouse);
+    const touch = isMobile ? makeTouchRotate(canvas) : null;
 
     return stopLoop(renderer, scene, camera, (t) => {
+      const tmx = touch ? touch.rx : mx;
+      const tmy = touch ? touch.ry : my;
+
       knot.rotation.x = t * 0.52;
       knot.rotation.y = t * 0.68;
       knotMat.emissiveIntensity = 1.9 + 0.8 * sno(t, 2.2, 3.8, 5.1, 0.2);
@@ -796,13 +855,13 @@ const SCENES: Record<string, SceneFactory> = {
       scanRing.position.y  = sno(t, 1.1, 1.8, 2.7, 0.15) * 1.0;
       scanMat.opacity = 0.5 + 0.38 * Math.abs(Math.cos(t * 1.3));
 
-      scene.rotation.y = mx * 0.5;
-      scene.rotation.x = my * 0.3;
+      scene.rotation.y = tmx * 0.5;
+      scene.rotation.x = tmy * 0.3;
     }, () => {
-      window.removeEventListener("mousemove", onMouse); stopResize();
+      window.removeEventListener("mousemove", onMouse); touch?.dispose(); stopResize();
       knotGeo.dispose(); knotMat.dispose(); kFGeo.dispose(); kGlowGeo.dispose(); kGlowMat.dispose();
       scanGeo.dispose(); scanMat.dispose(); ptGeo.dispose();
-    });
+    }, isMobile);
   },
 
   // ── UI/UX — morphing holographic crystal + orbiting design panels ────────────
@@ -867,8 +926,12 @@ const SCENES: Record<string, SceneFactory> = {
     let mx = 0, my = 0;
     const onMouse = (e: MouseEvent) => { mx = (e.clientX / window.innerWidth - 0.5) * 0.4; my = -(e.clientY / window.innerHeight - 0.5) * 0.3; };
     if (!isMobile) window.addEventListener("mousemove", onMouse);
+    const touch = isMobile ? makeTouchRotate(canvas) : null;
 
     return stopLoop(renderer, scene, camera, (t) => {
+      const tmx = touch ? touch.rx : mx;
+      const tmy = touch ? touch.ry : my;
+
       // Organic vertex morph
       if (!isMobile) {
         for (let i = 0; i < posAttr.count; i++) {
@@ -891,8 +954,8 @@ const SCENES: Record<string, SceneFactory> = {
       bloomMat.opacity = 0.06 + 0.04 * Math.sin(t * 1.35);
       pl1.color.setHSL(hue, 0.82, 0.5);
 
-      morphMesh.rotation.y = t * 0.17 + mx * 0.4;
-      morphMesh.rotation.x = t * 0.09 + my * 0.26;
+      morphMesh.rotation.y = t * 0.17 + tmx * 0.4;
+      morphMesh.rotation.x = t * 0.09 + tmy * 0.26;
 
       cardAngles.forEach((_, i) => {
         cardAngles[i] += (0.2 + i * 0.05) * 0.013;
@@ -907,22 +970,22 @@ const SCENES: Record<string, SceneFactory> = {
       cardInst.instanceMatrix.needsUpdate = true;
       cgInst.instanceMatrix.needsUpdate   = true;
     }, () => {
-      window.removeEventListener("mousemove", onMouse); stopResize();
+      window.removeEventListener("mousemove", onMouse); touch?.dispose(); stopResize();
       morphGeo.dispose(); morphMat.dispose(); morphFGeo.dispose();
       wireGeo.dispose(); wireMat.dispose();
       bloomGeo.dispose(); bloomMat.dispose();
       cardGeo.dispose(); cardMat.dispose(); cgGeo.dispose();
       dustGeo.dispose();
-    });
+    }, isMobile);
   },
 };
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 function makeRenderer(THREE: typeof ThreeTypes, canvas: HTMLCanvasElement, isMobile: boolean, camZ = 3) {
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: !isMobile, alpha: true });
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: !isMobile, alpha: false });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1 : 1.5));
-  renderer.setClearColor(0x000000, 0);
+  renderer.setClearColor(0x05080f, 1);
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.12;
 
@@ -952,21 +1015,26 @@ function stopLoop(
   camera:   ThreeTypes.PerspectiveCamera,
   tick:     (t: number) => void,
   extraDispose: () => void,
+  isMobile = false,
 ): () => void {
-  let raf    = 0;
-  let t      = 0;
-  let active = true;
+  let raf      = 0;
+  let t        = 0;
+  let active   = true;
+  let lastTime = 0;
+  const minFrameMs = isMobile ? 1000 / 30 : 0;
 
   const io = new IntersectionObserver(([e]) => { active = e.isIntersecting; }, { threshold: 0 });
   io.observe(renderer.domElement);
 
-  (function animate() {
+  (function animate(now: number) {
     raf = requestAnimationFrame(animate);
     if (!active) return;
+    if (minFrameMs > 0 && now - lastTime < minFrameMs) return;
+    lastTime = now;
     t += 0.016;
     tick(t);
     renderer.render(scene, camera);
-  })();
+  })(0);
 
   return () => {
     cancelAnimationFrame(raf);
