@@ -271,6 +271,33 @@ function applyServiceToCard(
   return c;
 }
 
+function splitCardChunk(chunk: string): { card: string; suffix: string } | null {
+  const cardStart = chunk.indexOf(`<div class="mxd-stack-cards__card">`);
+  if (cardStart === -1) return null;
+
+  let pos = cardStart + `<div class="mxd-stack-cards__card">`.length;
+  let depth = 1;
+
+  while (pos < chunk.length && depth > 0) {
+    const nextOpen = chunk.indexOf("<div", pos);
+    const nextClose = chunk.indexOf("</div>", pos);
+    if (nextClose === -1) return null;
+
+    if (nextOpen !== -1 && nextOpen < nextClose) {
+      depth++;
+      pos = nextOpen + 4;
+    } else {
+      depth--;
+      pos = nextClose + 6;
+    }
+  }
+
+  return {
+    card: chunk.slice(0, pos),
+    suffix: chunk.slice(pos),
+  };
+}
+
 /**
  * Transforms the "Section - Progects Stack" from branding-studio into
  * Adspire's services showcase. Supports more services than the template has
@@ -286,16 +313,16 @@ function prepareServicesStack(sectionHtml: string): string {
     .replace(/Marketing\//g, "Marketing\/");
 
   const parts = html.split("<!-- single card -->");
-  // parts[0] = section wrapper open
-  // parts[1..N-1] = card chunks
-  // parts[N] = section wrapper close
-  const templateCardCount = parts.length - 2; // exclude prefix + suffix
-  if (templateCardCount < 1) return html;
-
   const prefix = parts[0];
-  const suffix = parts[parts.length - 1];
-  const templateCards = parts.slice(1, parts.length - 1);
+  const cardChunks = parts.slice(1).map(splitCardChunk).filter(Boolean) as Array<{
+    card: string;
+    suffix: string;
+  }>;
+  if (!cardChunks.length) return html;
+
+  const templateCards = cardChunks.map((chunk) => chunk.card);
   const lastTemplate = templateCards[templateCards.length - 1];
+  const suffix = cardChunks[cardChunks.length - 1].suffix;
 
   const serviceCards = ADSPIRE_SERVICES.map((svc, idx) => {
     const template = templateCards[idx] ?? lastTemplate;

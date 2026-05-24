@@ -220,6 +220,102 @@ function makeWebPresentationShader(
   };
 }
 
+function makeEcommerceShader(
+  THREE: typeof ThreeTypes,
+  canvas: HTMLCanvasElement,
+  isMobile: boolean,
+): () => void {
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: !isMobile, alpha: false });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1 : 1.5));
+  renderer.setClearColor(0x000000, 1);
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.Camera();
+  camera.position.z = 1;
+
+  const uniforms = {
+    time: { value: 1.0 },
+    resolution: { value: new THREE.Vector2(1, 1) },
+  };
+
+  const geometry = new THREE.PlaneGeometry(2, 2);
+  const material = new THREE.ShaderMaterial({
+    uniforms,
+    vertexShader: /* glsl */ `
+      void main() {
+        gl_Position = vec4(position, 1.0);
+      }
+    `,
+    fragmentShader: /* glsl */ `
+      #define TWO_PI 6.2831853072
+      #define PI 3.14159265359
+
+      precision highp float;
+      uniform vec2 resolution;
+      uniform float time;
+
+      void main(void) {
+        vec2 uv = (gl_FragCoord.xy * 2.0 - resolution.xy) / min(resolution.x, resolution.y);
+        float t = time * 0.05;
+        float lineWidth = 0.00115;
+
+        vec3 color = vec3(0.0);
+        for (int j = 0; j < 3; j++) {
+          for (int i = 0; i < 5; i++) {
+            color[j] += lineWidth * float(i * i) /
+              abs(fract(t - 0.01 * float(j) + float(i) * 0.01) * 5.0 - length(uv) + mod(uv.x + uv.y, 0.2));
+          }
+        }
+
+        color = 1.0 - exp(-color * 1.1);
+        color *= 0.74 + 0.22 * smoothstep(1.35, 0.0, length(uv));
+        gl_FragColor = vec4(color, 1.0);
+      }
+    `,
+  });
+
+  const mesh = new THREE.Mesh(geometry, material);
+  scene.add(mesh);
+
+  const setSize = () => {
+    const width = canvas.clientWidth || 400;
+    const height = canvas.clientHeight || 300;
+    renderer.setSize(width, height, false);
+    uniforms.resolution.value.set(renderer.domElement.width, renderer.domElement.height);
+  };
+
+  const ro = new ResizeObserver(setSize);
+  ro.observe(canvas);
+  setSize();
+
+  let raf = 0;
+  let active = true;
+  let lastTime = 0;
+  const minFrameMs = isMobile ? 1000 / 30 : 0;
+  const io = new IntersectionObserver(([entry]) => { active = entry.isIntersecting; }, { threshold: 0 });
+  io.observe(canvas);
+
+  const animate = (now: number) => {
+    raf = requestAnimationFrame(animate);
+    if (!active) return;
+    if (minFrameMs > 0 && now - lastTime < minFrameMs) return;
+    lastTime = now;
+    uniforms.time.value += isMobile ? 0.035 : 0.05;
+    renderer.render(scene, camera);
+  };
+  raf = requestAnimationFrame(animate);
+
+  return () => {
+    cancelAnimationFrame(raf);
+    io.disconnect();
+    ro.disconnect();
+    scene.remove(mesh);
+    geometry.dispose();
+    material.dispose();
+    renderer.dispose();
+  };
+}
+
 const SCENES: Record<string, SceneFactory> = {
 
   // ── Web prezentacije — liquid chrome orb with flowing data streams ─────────
@@ -347,6 +443,8 @@ const SCENES: Record<string, SceneFactory> = {
 
   // ── E-commerce — luxury gem crystal with Fresnel + precision orbits ─────────
   "ecommerce": (THREE, canvas, isMobile) => {
+    return makeEcommerceShader(THREE, canvas, isMobile);
+
     const { renderer, scene, camera, stopResize } = makeRenderer(THREE, canvas, isMobile, 3.8);
     scene.fog = new THREE.FogExp2(0x020906, 0.052);
     scene.add(new THREE.AmbientLight(0x0a1a10, 1.5));

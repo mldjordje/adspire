@@ -1745,8 +1745,8 @@ function mxdProjectsStack() {
     }
 
     updateClip(0);
-    gsap.set(cardImg, { scale: 0.9 });
-    gsap.set(cardCover, { opacity: 0 });
+    if (cardImg) gsap.set(cardImg, { scale: 0.9 });
+    if (cardCover) gsap.set(cardCover, { opacity: 0 });
 
     // animate in the texts
     function animateContentIn(titleLines, description) {
@@ -1785,10 +1785,12 @@ function mxdProjectsStack() {
         updateClip(lastProgress);
         const innerImgScale = 0.9 + progress * 0.1;
         const innerCoverOpacity = 0 + progress * 1;
-        gsap.set(cardImg, { scale: innerImgScale });
-        gsap.set(cardCover, { opacity: innerCoverOpacity });
+        if (cardImg) gsap.set(cardImg, { scale: innerImgScale });
+        if (cardCover) gsap.set(cardCover, { opacity: innerCoverOpacity });
 
-        if (innerCoverOpacity >= 0.4 && innerCoverOpacity <= 0.75) {
+        if (!marquee) {
+          // Canvas-backed cards do not keep the template marquee node visible.
+        } else if (innerCoverOpacity >= 0.4 && innerCoverOpacity <= 0.75) {
           const fadeProgress = (innerCoverOpacity - 0.4) / (0.75 - 0.4);
           gsap.set(marquee, { opacity: 1 - fadeProgress });
         } else if (innerCoverOpacity < 0.4) {
@@ -1850,7 +1852,7 @@ function mxdProjectsStack() {
     cards.forEach((card, index) => {
       if (index > 0) {
         const cardImg = card.querySelector(".card__image img");
-        const imgContainer = card.querySelector(".card__image");
+        if (!cardImg) return;
         ScrollTrigger.create({
           trigger: card,
           start: "top bottom",
