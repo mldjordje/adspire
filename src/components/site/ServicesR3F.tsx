@@ -102,10 +102,130 @@ function makeTouchRotate(canvas: HTMLCanvasElement) {
 
 // ─── Scene definitions ────────────────────────────────────────────────────────
 
+function makeWebPresentationShader(
+  THREE: typeof ThreeTypes,
+  canvas: HTMLCanvasElement,
+  isMobile: boolean,
+): () => void {
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: false });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1 : 1.5));
+  renderer.setClearColor(0x000000, 1);
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+
+  const uniforms = {
+    resolution: { value: new THREE.Vector2(1, 1) },
+    time: { value: 0.0 },
+    xScale: { value: isMobile ? 1.45 : 1.18 },
+    yScale: { value: isMobile ? 0.38 : 0.46 },
+    distortion: { value: isMobile ? 0.055 : 0.07 },
+  };
+
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute(
+    "position",
+    new THREE.BufferAttribute(
+      new Float32Array([
+        -1.0, -1.0, 0.0,
+         1.0, -1.0, 0.0,
+        -1.0,  1.0, 0.0,
+         1.0, -1.0, 0.0,
+        -1.0,  1.0, 0.0,
+         1.0,  1.0, 0.0,
+      ]),
+      3,
+    ),
+  );
+
+  const material = new THREE.RawShaderMaterial({
+    vertexShader: /* glsl */ `
+      attribute vec3 position;
+      void main() {
+        gl_Position = vec4(position, 1.0);
+      }
+    `,
+    fragmentShader: /* glsl */ `
+      precision highp float;
+      uniform vec2 resolution;
+      uniform float time;
+      uniform float xScale;
+      uniform float yScale;
+      uniform float distortion;
+
+      void main() {
+        vec2 p = (gl_FragCoord.xy * 2.0 - resolution) / min(resolution.x, resolution.y);
+
+        float d = length(p) * distortion;
+
+        float rx = p.x * (1.0 + d);
+        float gx = p.x;
+        float bx = p.x * (1.0 - d);
+
+        float r = 0.018 / abs(p.y + sin((rx + time) * xScale) * yScale);
+        float g = 0.018 / abs(p.y + sin((gx + time) * xScale) * yScale);
+        float b = 0.018 / abs(p.y + sin((bx + time) * xScale) * yScale);
+
+        vec3 color = vec3(r, g, b);
+        color = 1.0 - exp(-color * 0.8);
+        color *= 0.56 + 0.28 * smoothstep(1.45, 0.05, length(p));
+        gl_FragColor = vec4(color, 1.0);
+      }
+    `,
+    uniforms,
+    side: THREE.DoubleSide,
+  });
+
+  const mesh = new THREE.Mesh(geometry, material);
+  scene.add(mesh);
+
+  const setSize = () => {
+    const width = canvas.clientWidth || 400;
+    const height = canvas.clientHeight || 300;
+    renderer.setSize(width, height, false);
+    const bufferSize = new THREE.Vector2();
+    renderer.getDrawingBufferSize(bufferSize);
+    uniforms.resolution.value.copy(bufferSize);
+  };
+
+  const ro = new ResizeObserver(setSize);
+  ro.observe(canvas);
+  setSize();
+
+  let raf = 0;
+  let active = true;
+  let lastTime = 0;
+  const minFrameMs = isMobile ? 1000 / 30 : 0;
+  const io = new IntersectionObserver(([entry]) => { active = entry.isIntersecting; }, { threshold: 0 });
+  io.observe(canvas);
+
+  const animate = (now: number) => {
+    raf = requestAnimationFrame(animate);
+    if (!active) return;
+    if (minFrameMs > 0 && now - lastTime < minFrameMs) return;
+    lastTime = now;
+    uniforms.time.value += isMobile ? 0.008 : 0.01;
+    renderer.render(scene, camera);
+  };
+  raf = requestAnimationFrame(animate);
+
+  return () => {
+    cancelAnimationFrame(raf);
+    io.disconnect();
+    ro.disconnect();
+    scene.remove(mesh);
+    geometry.dispose();
+    material.dispose();
+    renderer.dispose();
+  };
+}
+
 const SCENES: Record<string, SceneFactory> = {
 
   // ── Web prezentacije — liquid chrome orb with flowing data streams ─────────
   "web-prezentacije": (THREE, canvas, isMobile) => {
+    return makeWebPresentationShader(THREE, canvas, isMobile);
+
     const { renderer, scene, camera, stopResize } = makeRenderer(THREE, canvas, isMobile, 3.5);
     scene.fog = new THREE.FogExp2(0x010614, 0.055);
     scene.add(new THREE.AmbientLight(0x0a1f50, 1.2));

@@ -355,7 +355,7 @@ html.mxd-fallback-visible .loading-chars .char {
 }
 
 /* Per-scene gradient fallback visible before WebGL initialises */
-.card-r3f-canvas[data-scene="web-prezentacije"] { background: radial-gradient(ellipse at 50% 60%, #1a3aff18, #05080f); }
+.card-r3f-canvas[data-scene="web-prezentacije"] { background: #000; }
 .card-r3f-canvas[data-scene="ecommerce"]        { background: radial-gradient(ellipse at 50% 50%, #00cc8818, #05080f); }
 .card-r3f-canvas[data-scene="mobile-app"]       { background: radial-gradient(ellipse at 50% 50%, #4455ff18, #05080f); }
 .card-r3f-canvas[data-scene="cms"]              { background: radial-gradient(ellipse at 50% 50%, #06b6d415, #05080f); }
