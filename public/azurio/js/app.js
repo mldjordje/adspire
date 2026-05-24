@@ -102,6 +102,7 @@ function mxdInit() {
   mxdHeroTyped();
   // features
   mxdBlur();
+  mxdAdspireServicesStack();
   mxdProjectsStack();
   mxdServicesStack();
   mxdLandingStack();
@@ -1700,7 +1701,7 @@ function mxdStats() {
 // Showcase - Projects Stacking Cards Demo Start
 // --------------------------------------------- //
 function mxdProjectsStack() {
-  const containers = document.querySelectorAll(".mxd-stack-cards");
+  const containers = document.querySelectorAll(".mxd-stack-cards:not(.adspire-services-stack)");
   if (!containers.length) return;
 
   containers.forEach((stackContainer) => {
@@ -1881,6 +1882,192 @@ function mxdProjectsStack() {
 }
 // --------------------------------------------- //
 // Showcase - Projects Stacking Cards Demo End
+// --------------------------------------------- //
+
+// --------------------------------------------- //
+// Showcase - Adspire Services Premium Stack Start
+// --------------------------------------------- //
+function mxdAdspireServicesStack() {
+  const stack = document.querySelector(".adspire-services-stack");
+  if (!stack) return;
+
+  const cards = gsap.utils.toArray(stack.querySelectorAll(".mxd-stack-cards__card"));
+  if (!cards.length) return;
+
+  stack.classList.add("is-premium-stack");
+
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const progress = document.createElement("div");
+  progress.className = "adspire-services-progress";
+  progress.innerHTML = `
+    <span class="adspire-services-progress__current">01</span>
+    <span class="adspire-services-progress__track"><i class="adspire-services-progress__bar"></i></span>
+    <span class="adspire-services-progress__total">${String(cards.length).padStart(2, "0")}</span>
+  `;
+  stack.appendChild(progress);
+
+  const serviceCopy = cards.map((card) => ({
+    title: card.dataset.serviceTitle || card.querySelector(".card__title")?.innerText?.trim() || "",
+    tags: (card.dataset.serviceTags || "")
+      .split("|")
+      .map((tag) => tag.trim())
+      .filter(Boolean).length
+      ? (card.dataset.serviceTags || "").split("|").map((tag) => tag.trim()).filter(Boolean)
+      : Array.from(card.querySelectorAll(".card__tags span, .card__tags p"))
+      .map((tag) => tag.innerText.trim())
+      .filter(Boolean),
+    href: card.dataset.serviceHref || card.querySelector("a")?.getAttribute("href") || "#0",
+  }));
+  const copyPanel = document.createElement("div");
+  copyPanel.className = "adspire-services-copy";
+  copyPanel.innerHTML = `
+    <div class="adspire-services-copy__tags"></div>
+    <h3 class="adspire-services-copy__title"></h3>
+    <a class="adspire-services-copy__link" href="#0">Saznaj vise</a>
+  `;
+  stack.appendChild(copyPanel);
+
+  const progressCurrent = progress.querySelector(".adspire-services-progress__current");
+  const progressBar = progress.querySelector(".adspire-services-progress__bar");
+  const copyTags = copyPanel.querySelector(".adspire-services-copy__tags");
+  const copyTitle = copyPanel.querySelector(".adspire-services-copy__title");
+  const copyLink = copyPanel.querySelector(".adspire-services-copy__link");
+
+  const contentTargets = cards.map((card) => [
+    card.querySelector(".card__tags"),
+    card.querySelector(".card__title"),
+    card.querySelector(".card__descr"),
+    card.querySelector(".card__btn"),
+  ].filter(Boolean));
+
+  function setActive(index) {
+    cards.forEach((card, cardIndex) => {
+      const isActive = cardIndex === index;
+      const isNear = Math.abs(cardIndex - index) <= 1;
+      card.classList.toggle("is-service-active", isActive);
+      card.classList.toggle("is-service-near", isNear);
+      card.style.pointerEvents = isActive ? "auto" : "none";
+      gsap.to(contentTargets[cardIndex], {
+        autoAlpha: isActive ? 1 : 0,
+        y: isActive ? 0 : 24,
+        duration: 0.24,
+        overwrite: "auto",
+      });
+    });
+    const copy = serviceCopy[index];
+    if (copyTags) {
+      copyTags.replaceChildren(...copy.tags.map((tag) => {
+        const item = document.createElement("span");
+        item.textContent = tag;
+        return item;
+      }));
+    }
+    if (copyTitle) copyTitle.textContent = copy.title;
+    if (copyLink) copyLink.setAttribute("href", copy.href);
+    gsap.fromTo(copyPanel, { autoAlpha: 0, y: 18 }, { autoAlpha: 1, y: 0, duration: 0.28, overwrite: "auto" });
+    if (progressCurrent) progressCurrent.textContent = String(index + 1).padStart(2, "0");
+    window.dispatchEvent(new CustomEvent("adspire-services-active-change", { detail: { index } }));
+  }
+
+  gsap.set(cards, {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    width: "100%",
+    height: "100svh",
+    marginTop: 0,
+    autoAlpha: 0,
+    yPercent: 12,
+    scale: 1.04,
+    clipPath: "inset(10% 4% 10% 4%)",
+    zIndex: (i) => i + 1,
+    force3D: true,
+  });
+  gsap.set(cards[0], {
+    autoAlpha: 1,
+    yPercent: 0,
+    scale: 1,
+    clipPath: "inset(0% 0% 0% 0%)",
+  });
+  contentTargets.forEach((targets, index) => {
+    gsap.set(targets, { autoAlpha: index === 0 ? 1 : 0, y: index === 0 ? 0 : 28 });
+  });
+  gsap.set(progressBar, { scaleX: 0, transformOrigin: "left center" });
+  setActive(0);
+
+  if (reduceMotion) return;
+
+  let activeIndex = 0;
+  const timeline = gsap.timeline({
+    defaults: { ease: "power3.out" },
+    scrollTrigger: {
+      trigger: stack,
+      start: "top top",
+      end: () => "+=" + Math.max(cards.length - 1, 1) * window.innerHeight * 0.92,
+      scrub: 0.85,
+      pin: true,
+      pinSpacing: true,
+      anticipatePin: 1,
+      invalidateOnRefresh: true,
+      onUpdate: (self) => {
+        if (progressBar) gsap.set(progressBar, { scaleX: self.progress });
+        const nextIndex = Math.min(cards.length - 1, Math.round(self.progress * (cards.length - 1)));
+        if (nextIndex !== activeIndex) {
+          activeIndex = nextIndex;
+          setActive(activeIndex);
+        }
+      },
+      onRefresh: () => setActive(activeIndex),
+    },
+  });
+
+  cards.forEach((card, index) => {
+    if (index === 0) return;
+    const previous = cards[index - 1];
+    const previousContent = contentTargets[index - 1];
+    const content = contentTargets[index];
+    const at = index - 1;
+
+    timeline
+      .to(previousContent, {
+        autoAlpha: 0,
+        y: -26,
+        duration: 0.28,
+        stagger: 0.025,
+      }, at)
+      .to(previous, {
+        autoAlpha: 0.38,
+        yPercent: -7,
+        scale: 0.94,
+        filter: "blur(4px)",
+        duration: 0.72,
+      }, at)
+      .fromTo(card, {
+        autoAlpha: 0,
+        yPercent: 16,
+        scale: 1.06,
+        clipPath: "inset(12% 7% 12% 7%)",
+        filter: "blur(7px)",
+      }, {
+        autoAlpha: 1,
+        yPercent: 0,
+        scale: 1,
+        clipPath: "inset(0% 0% 0% 0%)",
+        filter: "blur(0px)",
+        duration: 0.82,
+      }, at + 0.06)
+      .to(content, {
+        autoAlpha: 1,
+        y: 0,
+        duration: 0.42,
+        stagger: 0.04,
+      }, at + 0.28);
+  });
+}
+// --------------------------------------------- //
+// Showcase - Adspire Services Premium Stack End
 // --------------------------------------------- //
 
 // --------------------------------------------- //

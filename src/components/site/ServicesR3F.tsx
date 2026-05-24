@@ -108,7 +108,7 @@ function makeWebPresentationShader(
   isMobile: boolean,
 ): () => void {
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: false });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1 : 1.5));
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1 : 1.25));
   renderer.setClearColor(0x000000, 1);
 
   const scene = new THREE.Scene();
@@ -226,7 +226,7 @@ function makeEcommerceShader(
   isMobile: boolean,
 ): () => void {
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: !isMobile, alpha: false });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1 : 1.5));
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1 : 1.25));
   renderer.setClearColor(0x000000, 1);
 
   const scene = new THREE.Scene();
@@ -1202,7 +1202,7 @@ const SCENES: Record<string, SceneFactory> = {
 
 function makeRenderer(THREE: typeof ThreeTypes, canvas: HTMLCanvasElement, isMobile: boolean, camZ = 3) {
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: !isMobile, alpha: false });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1 : 1.5));
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1 : 1.25));
   renderer.setClearColor(0x05080f, 1);
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.12;
@@ -1299,11 +1299,33 @@ export function ServicesR3F() {
       active.set(canvas, { dispose: entry.dispose, timer });
     }
 
+    function isPremiumAllowed(canvas: HTMLCanvasElement) {
+      const stack = canvas.closest(".adspire-services-stack");
+      if (!stack?.classList.contains("is-premium-stack")) return true;
+      const card = canvas.closest(".mxd-stack-cards__card");
+      return Boolean(card?.classList.contains("is-service-active") || card?.classList.contains("is-service-near"));
+    }
+
+    function isInViewport(canvas: HTMLCanvasElement) {
+      const rect = canvas.getBoundingClientRect();
+      const margin = isMobile ? 150 : 300;
+      return rect.bottom >= -margin && rect.top <= window.innerHeight + margin;
+    }
+
+    function syncPremiumCanvases() {
+      if (!THREE) return;
+      const canvases = Array.from(document.querySelectorAll<HTMLCanvasElement>(".adspire-services-stack .card-r3f-canvas"));
+      canvases.forEach((canvas) => {
+        if (isPremiumAllowed(canvas) && isInViewport(canvas)) create(canvas);
+        else scheduleDispose(canvas);
+      });
+    }
+
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => {
           const canvas = e.target as HTMLCanvasElement;
-          if (e.isIntersecting) create(canvas);
+          if (e.isIntersecting && isPremiumAllowed(canvas)) create(canvas);
           else scheduleDispose(canvas);
         });
       },
@@ -1314,11 +1336,14 @@ export function ServicesR3F() {
       THREE = await import("three");
       const canvases = Array.from(document.querySelectorAll<HTMLCanvasElement>(".card-r3f-canvas"));
       canvases.forEach((c) => io.observe(c));
+      syncPremiumCanvases();
     }
 
+    window.addEventListener("adspire-services-active-change", syncPremiumCanvases);
     init();
 
     return () => {
+      window.removeEventListener("adspire-services-active-change", syncPremiumCanvases);
       io.disconnect();
       active.forEach(({ dispose, timer }) => { if (timer !== null) clearTimeout(timer); dispose(); });
       active.clear();

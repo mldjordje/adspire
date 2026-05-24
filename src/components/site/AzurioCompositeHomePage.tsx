@@ -233,7 +233,15 @@ function applyServiceToCard(
   card: string,
   svc: (typeof ADSPIRE_SERVICES)[number],
 ): string {
+  const attr = (value: string) =>
+    value.replace(/&/g, "&amp;").replace(/"/g, "&quot;");
+
   let c = card.replace(
+    `<div class="mxd-stack-cards__card">`,
+    `<div class="mxd-stack-cards__card" data-service-title="${attr(svc.title)}" data-service-tags="${attr(svc.tags.join("|"))}" data-service-href="${attr(svc.href)}">`,
+  );
+
+  c = c.replace(
     /<div class="card__tags">[\s\S]*?<\/div>/,
     `<div class="card__tags">\n                        ${buildTagsHtml(svc.tags)}\n                      </div>`,
   );
@@ -306,6 +314,7 @@ function splitCardChunk(chunk: string): { card: string; suffix: string } | null 
 function prepareServicesStack(sectionHtml: string): string {
   // Update marquee text to reflect services
   let html = sectionHtml
+    .replace("mxd-stack-cards", "mxd-stack-cards adspire-services-stack")
     .replace(/Design\//g, "Web\/")
     .replace(/Development\//g, "Branding\/")
     .replace(/Branding\//g, "UI\/UX\/")

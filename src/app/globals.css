@@ -364,6 +364,172 @@ html.mxd-fallback-visible .loading-chars .char {
 .card-r3f-canvas[data-scene="security"]         { background: radial-gradient(ellipse at 50% 40%, #dc262615, #05080f); }
 .card-r3f-canvas[data-scene="uiux"]             { background: radial-gradient(ellipse at 50% 50%, #0ea5e915, #05080f); }
 
+.adspire-services-stack {
+  isolation: isolate;
+  overscroll-behavior: contain;
+}
+
+.adspire-services-stack.is-premium-stack {
+  height: 100svh;
+  min-height: 100svh;
+  gap: 0;
+  overflow: hidden;
+  background: #000;
+}
+
+.adspire-services-stack.is-premium-stack .mxd-stack-cards__card {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100svh !important;
+  margin-top: 0 !important;
+  contain: layout paint;
+  transform: translateZ(0);
+  will-change: transform, opacity, clip-path, filter;
+}
+
+.adspire-services-stack.is-premium-stack .mxd-stack-cards__card:nth-child(2) {
+  margin-top: 0;
+}
+
+.adspire-services-stack .card-r3f-canvas {
+  transform: translateZ(0);
+  will-change: opacity;
+}
+
+.adspire-services-stack .card__wrapper::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 50% 52%, rgba(0, 0, 0, 0.44) 0%, rgba(0, 0, 0, 0.22) 34%, rgba(0, 0, 0, 0.1) 64%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.22), rgba(0, 0, 0, 0.1) 42%, rgba(0, 0, 0, 0.24));
+}
+
+.adspire-services-stack .card__tags,
+.adspire-services-stack .card__title,
+.adspire-services-stack .card__descr,
+.adspire-services-stack .card__btn {
+  position: relative;
+  z-index: 2;
+  text-shadow: 0 0.8rem 2.4rem rgba(0, 0, 0, 0.42);
+}
+
+.adspire-services-stack.is-premium-stack .card__tags,
+.adspire-services-stack.is-premium-stack .card__title,
+.adspire-services-stack.is-premium-stack .card__descr,
+.adspire-services-stack.is-premium-stack .card__btn {
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+.adspire-services-copy {
+  position: absolute;
+  left: clamp(1.5rem, 4.2vw, 6rem);
+  top: 50%;
+  z-index: 30;
+  width: min(36rem, calc(100% - 3rem));
+  pointer-events: auto;
+  color: #fff;
+  transform: translateY(-50%);
+}
+
+.adspire-services-copy__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-bottom: 1.1rem;
+}
+
+.adspire-services-copy__tags span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.85rem;
+  padding: 0.35rem 0.72rem;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.07);
+  color: rgba(255, 255, 255, 0.86);
+  font-size: clamp(0.68rem, 0.74vw, 0.78rem);
+  line-height: 1;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  backdrop-filter: blur(12px);
+}
+
+.adspire-services-copy__title {
+  max-width: 12ch;
+  margin: 0;
+  color: #fff;
+  font: normal 700 clamp(3.1rem, 7vw, 7.2rem) / 0.94 var(--_font-default);
+  letter-spacing: 0;
+  text-shadow: 0 1.2rem 3.5rem rgba(0, 0, 0, 0.55);
+}
+
+.adspire-services-copy__link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.7rem;
+  margin-top: 1.4rem;
+  padding: 0 1.15rem;
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.18);
+  color: #fff;
+  font-size: 0.78rem;
+  line-height: 1;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  text-decoration: none;
+  backdrop-filter: blur(14px);
+  transition: border-color 180ms ease, background-color 180ms ease, transform 180ms ease;
+}
+
+.adspire-services-copy__link:hover {
+  border-color: rgba(255, 255, 255, 0.72);
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateY(-1px);
+}
+
+.adspire-services-stack .mxd-stack-cards__card:not(.is-service-active):not(.is-service-near) .card-r3f-canvas {
+  opacity: 0.001;
+}
+
+.adspire-services-progress {
+  position: absolute;
+  right: clamp(1.4rem, 4vw, 5rem);
+  bottom: clamp(1.4rem, 5vh, 4.5rem);
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  pointer-events: none;
+  color: rgba(255, 255, 255, 0.86);
+  font-size: clamp(0.72rem, 0.9vw, 0.9rem);
+  line-height: 1;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  mix-blend-mode: difference;
+}
+
+.adspire-services-progress__track {
+  display: block;
+  width: clamp(5.5rem, 11vw, 10rem);
+  height: 1px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.adspire-services-progress__bar {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
 /*
  * Ghost placeholder — GSAP's clip-path animation targets this instead of the canvas.
  * Completely invisible; only provides a .card__image DOM target for mxdProjectsStack().
@@ -428,7 +594,8 @@ html.mxd-fallback-visible .loading-chars .char {
   }
 
   /* Prevent browser pull-to-refresh from triggering during stacked service cards */
-  .mxd-stack-services {
+  .mxd-stack-services,
+  .adspire-services-stack {
     overscroll-behavior: none;
   }
 
@@ -436,6 +603,35 @@ html.mxd-fallback-visible .loading-chars .char {
   .card-r3f-canvas {
     pointer-events: auto;
     touch-action: pan-y;
+  }
+
+  .adspire-services-stack .card-r3f-canvas {
+    pointer-events: none;
+  }
+
+  .adspire-services-progress {
+    left: 1.25rem;
+    right: 1.25rem;
+    bottom: 1.15rem;
+    justify-content: center;
+  }
+
+  .adspire-services-copy {
+    left: 1.25rem;
+    right: 1.25rem;
+    top: auto;
+    bottom: 4rem;
+    width: auto;
+    transform: none;
+  }
+
+  .adspire-services-copy__title {
+    max-width: 10ch;
+    font-size: clamp(2.6rem, 13vw, 4.4rem);
+  }
+
+  .adspire-services-copy__tags {
+    max-width: 20rem;
   }
 }
 
