@@ -1964,7 +1964,7 @@ function mxdAdspireServicesStack() {
     }
     if (copyTitle) copyTitle.textContent = copy.title;
     if (copyLink) copyLink.setAttribute("href", copy.href);
-    gsap.fromTo(copyPanel, { autoAlpha: 0, y: 18 }, { autoAlpha: 1, y: 0, duration: 0.28, overwrite: "auto" });
+    gsap.fromTo(copyPanel, { autoAlpha: 0, y: 34, filter: "blur(6px)" }, { autoAlpha: 1, y: 0, filter: "blur(0px)", duration: 0.42, ease: "power3.out", overwrite: "auto" });
     if (progressCurrent) progressCurrent.textContent = String(index + 1).padStart(2, "0");
     window.dispatchEvent(new CustomEvent("adspire-services-active-change", { detail: { index } }));
   }
@@ -1979,9 +1979,9 @@ function mxdAdspireServicesStack() {
     height: "100svh",
     marginTop: 0,
     autoAlpha: 0,
-    yPercent: 12,
-    scale: 1.04,
-    clipPath: "inset(10% 4% 10% 4%)",
+    yPercent: 18,
+    scale: 0.96,
+    clipPath: "inset(0% 14% 0% 14%)",
     zIndex: (i) => i + 1,
     force3D: true,
   });
@@ -2005,8 +2005,8 @@ function mxdAdspireServicesStack() {
     scrollTrigger: {
       trigger: stack,
       start: "top top",
-      end: () => "+=" + Math.max(cards.length - 1, 1) * window.innerHeight * 0.92,
-      scrub: 0.85,
+      end: () => "+=" + Math.max(cards.length - 1, 1) * window.innerHeight * 1.08,
+      scrub: 0.58,
       pin: true,
       pinSpacing: true,
       anticipatePin: 1,
@@ -2033,37 +2033,37 @@ function mxdAdspireServicesStack() {
     timeline
       .to(previousContent, {
         autoAlpha: 0,
-        y: -26,
-        duration: 0.28,
+        y: -42,
+        duration: 0.24,
         stagger: 0.025,
       }, at)
       .to(previous, {
-        autoAlpha: 0.38,
-        yPercent: -7,
-        scale: 0.94,
-        filter: "blur(4px)",
-        duration: 0.72,
+        autoAlpha: 0,
+        yPercent: -18,
+        scale: 1.08,
+        filter: "blur(12px)",
+        duration: 0.62,
       }, at)
       .fromTo(card, {
         autoAlpha: 0,
-        yPercent: 16,
-        scale: 1.06,
-        clipPath: "inset(12% 7% 12% 7%)",
-        filter: "blur(7px)",
+        yPercent: 24,
+        scale: 0.93,
+        clipPath: "inset(0% 16% 0% 16%)",
+        filter: "blur(10px)",
       }, {
         autoAlpha: 1,
         yPercent: 0,
         scale: 1,
         clipPath: "inset(0% 0% 0% 0%)",
         filter: "blur(0px)",
-        duration: 0.82,
-      }, at + 0.06)
+        duration: 0.72,
+      }, at + 0.08)
       .to(content, {
         autoAlpha: 1,
         y: 0,
-        duration: 0.42,
+        duration: 0.48,
         stagger: 0.04,
-      }, at + 0.28);
+      }, at + 0.34);
   });
 }
 // --------------------------------------------- //

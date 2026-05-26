@@ -171,7 +171,7 @@ const ADSPIRE_SERVICES = [
     title: "Mobilne aplikacije",
     tags: ["PWA", "React Native", "iOS & Android", "Push notifikacije"],
     href: "/usluge",
-    scene: "mobile-app",
+    scene: "animated-shader",
   },
   {
     title: "CMS sistemi & upravljanje sadržajem",

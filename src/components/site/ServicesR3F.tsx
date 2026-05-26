@@ -118,8 +118,9 @@ function makeWebPresentationShader(
     resolution: { value: new THREE.Vector2(1, 1) },
     time: { value: 0.0 },
     xScale: { value: isMobile ? 1.45 : 1.18 },
-    yScale: { value: isMobile ? 0.38 : 0.46 },
-    distortion: { value: isMobile ? 0.055 : 0.07 },
+    yScale: { value: isMobile ? 0.32 : 0.36 },
+    distortion: { value: isMobile ? 0.045 : 0.055 },
+    sceneScale: { value: isMobile ? 1.18 : 1.38 },
   };
 
   const geometry = new THREE.BufferGeometry();
@@ -152,9 +153,11 @@ function makeWebPresentationShader(
       uniform float xScale;
       uniform float yScale;
       uniform float distortion;
+      uniform float sceneScale;
 
       void main() {
         vec2 p = (gl_FragCoord.xy * 2.0 - resolution) / min(resolution.x, resolution.y);
+        p *= sceneScale;
 
         float d = length(p) * distortion;
 
@@ -256,8 +259,9 @@ function makeEcommerceShader(
 
       void main(void) {
         vec2 uv = (gl_FragCoord.xy * 2.0 - resolution.xy) / min(resolution.x, resolution.y);
+        uv *= 1.34;
         float t = time * 0.05;
-        float lineWidth = 0.00115;
+        float lineWidth = 0.00086;
 
         vec3 color = vec3(0.0);
         for (int j = 0; j < 3; j++) {
@@ -301,6 +305,136 @@ function makeEcommerceShader(
     if (minFrameMs > 0 && now - lastTime < minFrameMs) return;
     lastTime = now;
     uniforms.time.value += isMobile ? 0.035 : 0.05;
+    renderer.render(scene, camera);
+  };
+  raf = requestAnimationFrame(animate);
+
+  return () => {
+    cancelAnimationFrame(raf);
+    io.disconnect();
+    ro.disconnect();
+    scene.remove(mesh);
+    geometry.dispose();
+    material.dispose();
+    renderer.dispose();
+  };
+}
+
+function makeAnimatedShaderBackground(
+  THREE: typeof ThreeTypes,
+  canvas: HTMLCanvasElement,
+  isMobile: boolean,
+): () => void {
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: false });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1 : 1.25));
+  renderer.setClearColor(0x000000, 1);
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.Camera();
+  camera.position.z = 1;
+
+  const uniforms = {
+    resolution: { value: new THREE.Vector2(1, 1) },
+    time: { value: 0.0 },
+  };
+
+  const geometry = new THREE.PlaneGeometry(2, 2);
+  const material = new THREE.ShaderMaterial({
+    uniforms,
+    vertexShader: /* glsl */ `
+      void main() {
+        gl_Position = vec4(position, 1.0);
+      }
+    `,
+    fragmentShader: /* glsl */ `
+      precision highp float;
+      uniform vec2 resolution;
+      uniform float time;
+      #define FC gl_FragCoord.xy
+      #define T time
+      #define R resolution
+      #define MN min(R.x,R.y)
+
+      float rnd(vec2 p) {
+        p=fract(p*vec2(12.9898,78.233));
+        p+=dot(p,p+34.56);
+        return fract(p.x*p.y);
+      }
+
+      float noise(in vec2 p) {
+        vec2 i=floor(p), f=fract(p), u=f*f*(3.-2.*f);
+        float a=rnd(i), b=rnd(i+vec2(1,0)), c=rnd(i+vec2(0,1)), d=rnd(i+1.);
+        return mix(mix(a,b,u.x),mix(c,d,u.x),u.y);
+      }
+
+      float fbm(vec2 p) {
+        float t=.0, a=1.; mat2 m=mat2(1.,-.5,.2,1.2);
+        for (int i=0; i<5; i++) {
+          t+=a*noise(p);
+          p*=2.*m;
+          a*=.5;
+        }
+        return t;
+      }
+
+      float clouds(vec2 p) {
+        float d=1., t=.0;
+        for (float i=.0; i<3.; i++) {
+          float a=d*fbm(i*10.+p.x*.2+.2*(1.+i)*p.y+d+i*i+p);
+          t=mix(t,d,a);
+          d=a;
+          p*=2./(i+1.);
+        }
+        return t;
+      }
+
+      void main(void) {
+        vec2 uv=(FC-.5*R)/MN, st=uv*vec2(2,1);
+        vec3 col=vec3(0);
+        float bg=clouds(vec2(st.x+T*.32,-st.y));
+        uv*=1.-.2*(sin(T*.16)*.5+.5);
+        for (float i=1.; i<12.; i++) {
+          uv+=.08*cos(i*vec2(.1+.01*i, .8)+i*i+T*.42+.1*uv.x);
+          vec2 p=uv;
+          float d=max(length(p), .015);
+          col+=.00165/d*(cos(sin(i)*vec3(1.0,1.8,3.0))+1.);
+          float b=noise(i+p+bg*1.731);
+          col+=.0024*b/length(max(p,vec2(b*p.x*.02,p.y)));
+          col=mix(col,vec3(bg*.2,bg*.11,bg*.055),d);
+        }
+        col *= vec3(1.05, .82, .62);
+        gl_FragColor=vec4(col,1.);
+      }
+    `,
+  });
+
+  const mesh = new THREE.Mesh(geometry, material);
+  scene.add(mesh);
+
+  const setSize = () => {
+    const width = canvas.clientWidth || 400;
+    const height = canvas.clientHeight || 300;
+    renderer.setSize(width, height, false);
+    uniforms.resolution.value.set(renderer.domElement.width, renderer.domElement.height);
+  };
+
+  const ro = new ResizeObserver(setSize);
+  ro.observe(canvas);
+  setSize();
+
+  let raf = 0;
+  let active = true;
+  let lastTime = 0;
+  const minFrameMs = isMobile ? 1000 / 30 : 0;
+  const io = new IntersectionObserver(([entry]) => { active = entry.isIntersecting; }, { threshold: 0 });
+  io.observe(canvas);
+
+  const animate = (now: number) => {
+    raf = requestAnimationFrame(animate);
+    if (!active) return;
+    if (minFrameMs > 0 && now - lastTime < minFrameMs) return;
+    lastTime = now;
+    uniforms.time.value = now * 0.001;
     renderer.render(scene, camera);
   };
   raf = requestAnimationFrame(animate);
@@ -560,6 +694,10 @@ const SCENES: Record<string, SceneFactory> = {
   },
 
   // ── Mobilne aplikacije — glass phone with live holographic UI + signals ───────
+  "animated-shader": (THREE, canvas, isMobile) => {
+    return makeAnimatedShaderBackground(THREE, canvas, isMobile);
+  },
+
   "mobile-app": (THREE, canvas, isMobile) => {
     const { renderer, scene, camera, stopResize } = makeRenderer(THREE, canvas, isMobile, 3.5);
     scene.fog = new THREE.FogExp2(0x02040f, 0.06);

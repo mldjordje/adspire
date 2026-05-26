@@ -357,6 +357,7 @@ html.mxd-fallback-visible .loading-chars .char {
 /* Per-scene gradient fallback visible before WebGL initialises */
 .card-r3f-canvas[data-scene="web-prezentacije"] { background: #000; }
 .card-r3f-canvas[data-scene="ecommerce"]        { background: #000; }
+.card-r3f-canvas[data-scene="animated-shader"]  { background: radial-gradient(ellipse at 50% 50%, #f59e0b24, #050505 68%); }
 .card-r3f-canvas[data-scene="mobile-app"]       { background: radial-gradient(ellipse at 50% 50%, #4455ff18, #05080f); }
 .card-r3f-canvas[data-scene="cms"]              { background: radial-gradient(ellipse at 50% 50%, #06b6d415, #05080f); }
 .card-r3f-canvas[data-scene="ai"]               { background: radial-gradient(ellipse at 50% 50%, #9333ea15, #05080f); }
@@ -404,8 +405,26 @@ html.mxd-fallback-visible .loading-chars .char {
   z-index: 1;
   pointer-events: none;
   background:
-    radial-gradient(ellipse at 50% 52%, rgba(0, 0, 0, 0.44) 0%, rgba(0, 0, 0, 0.22) 34%, rgba(0, 0, 0, 0.1) 64%),
-    linear-gradient(180deg, rgba(0, 0, 0, 0.22), rgba(0, 0, 0, 0.1) 42%, rgba(0, 0, 0, 0.24));
+    radial-gradient(ellipse at 50% 52%, rgba(0, 0, 0, 0.32) 0%, rgba(0, 0, 0, 0.16) 34%, rgba(0, 0, 0, 0.06) 64%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0.06) 42%, rgba(0, 0, 0, 0.22));
+}
+
+.adspire-services-stack .mxd-stack-cards__card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0) 38%),
+    radial-gradient(ellipse at 18% 50%, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0) 34%);
+  mix-blend-mode: screen;
+  transition: opacity 260ms ease;
+}
+
+.adspire-services-stack .mxd-stack-cards__card.is-service-active::after {
+  opacity: 0.22;
 }
 
 .adspire-services-stack .card__tags,
@@ -434,6 +453,16 @@ html.mxd-fallback-visible .loading-chars .char {
   pointer-events: auto;
   color: #fff;
   transform: translateY(-50%);
+}
+
+.adspire-services-copy::before {
+  content: "";
+  position: absolute;
+  inset: -1.35rem -1.75rem;
+  z-index: -1;
+  border-left: 1px solid rgba(255, 255, 255, 0.22);
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.34), rgba(0, 0, 0, 0));
+  backdrop-filter: blur(2px);
 }
 
 .adspire-services-copy__tags {
