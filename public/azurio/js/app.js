@@ -1907,7 +1907,17 @@ function mxdAdspireServicesStack() {
   `;
   stack.appendChild(progress);
 
-  const serviceCopy = cards.map((card) => ({
+  const transitionCue = document.createElement("div");
+  transitionCue.className = "adspire-services-switch";
+  transitionCue.innerHTML = `
+    <span class="adspire-services-switch__index">01</span>
+    <span class="adspire-services-switch__line"></span>
+    <span class="adspire-services-switch__title">Usluga</span>
+  `;
+  stack.appendChild(transitionCue);
+
+  const serviceCopy = cards.map((card, index) => ({
+    index: String(index + 1).padStart(2, "0"),
     title: card.dataset.serviceTitle || card.querySelector(".card__title")?.innerText?.trim() || "",
     summary: card.dataset.serviceSummary || card.querySelector(".card-description p")?.innerText?.trim() || "",
     tags: (card.dataset.serviceTags || "")
@@ -1932,6 +1942,8 @@ function mxdAdspireServicesStack() {
 
   const progressCurrent = progress.querySelector(".adspire-services-progress__current");
   const progressBar = progress.querySelector(".adspire-services-progress__bar");
+  const switchIndex = transitionCue.querySelector(".adspire-services-switch__index");
+  const switchTitle = transitionCue.querySelector(".adspire-services-switch__title");
   const copyTags = copyPanel.querySelector(".adspire-services-copy__tags");
   const copyTitle = copyPanel.querySelector(".adspire-services-copy__title");
   const copySummary = copyPanel.querySelector(".adspire-services-copy__summary");
@@ -1978,6 +1990,12 @@ function mxdAdspireServicesStack() {
     window.dispatchEvent(new CustomEvent("adspire-services-active-change", { detail: { index } }));
   }
 
+  function setTransitionCue(index) {
+    const copy = serviceCopy[index];
+    if (switchIndex) switchIndex.textContent = copy.index;
+    if (switchTitle) switchTitle.textContent = copy.title;
+  }
+
   gsap.set(cards, {
     position: "absolute",
     top: 0,
@@ -2005,6 +2023,7 @@ function mxdAdspireServicesStack() {
     gsap.set(targets, { autoAlpha: index === 0 ? 1 : 0, y: index === 0 ? 0 : 28 });
   });
   gsap.set(progressBar, { scaleX: 0, transformOrigin: "left center" });
+  gsap.set(transitionCue, { autoAlpha: 0, xPercent: -8, scaleX: 0.82, transformOrigin: "left center" });
   setActive(0);
 
   if (reduceMotion) return;
@@ -2023,7 +2042,7 @@ function mxdAdspireServicesStack() {
       invalidateOnRefresh: true,
       onUpdate: (self) => {
         if (progressBar) gsap.set(progressBar, { scaleX: self.progress });
-        const nextIndex = Math.min(cards.length - 1, Math.round(self.progress * (cards.length - 1)));
+        const nextIndex = Math.min(cards.length - 1, Math.floor(self.progress * (cards.length - 1) + 0.55));
         if (nextIndex !== activeIndex) {
           activeIndex = nextIndex;
           setActive(activeIndex);
@@ -2041,6 +2060,23 @@ function mxdAdspireServicesStack() {
     const at = index - 1;
 
     timeline
+      .call(setTransitionCue, [index], at)
+      .fromTo(transitionCue, {
+        autoAlpha: 0,
+        xPercent: isCompact ? -18 : -10,
+        scaleX: 0.78,
+      }, {
+        autoAlpha: 1,
+        xPercent: 0,
+        scaleX: 1,
+        duration: 0.22,
+      }, at)
+      .to(transitionCue, {
+        autoAlpha: 0,
+        xPercent: isCompact ? 8 : 44,
+        scaleX: 1.12,
+        duration: 0.52,
+      }, at + 0.36)
       .to(previousContent, {
         autoAlpha: 0,
         y: -42,

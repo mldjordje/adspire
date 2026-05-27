@@ -450,6 +450,157 @@ function makeAnimatedShaderBackground(
   };
 }
 
+function makeInteractiveShaderBackground(
+  THREE: typeof ThreeTypes,
+  canvas: HTMLCanvasElement,
+  isMobile: boolean,
+): () => void {
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: false });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1 : 1.25));
+  renderer.setClearColor(0x000000, 1);
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.Camera();
+  camera.position.z = 1;
+
+  const uniforms = {
+    u_resolution: { value: new THREE.Vector2(1, 1) },
+    u_time: { value: 0.0 },
+    u_mouse: { value: new THREE.Vector2(0.1, -0.15) },
+    u_hue: { value: 210.0 },
+    u_speed: { value: isMobile ? 0.34 : 0.46 },
+    u_intensity: { value: isMobile ? 1.05 : 1.2 },
+    u_complexity: { value: isMobile ? 4.0 : 5.0 },
+  };
+
+  const geometry = new THREE.PlaneGeometry(2, 2);
+  const material = new THREE.ShaderMaterial({
+    uniforms,
+    vertexShader: /* glsl */ `
+      void main() { gl_Position = vec4(position, 1.0); }
+    `,
+    fragmentShader: /* glsl */ `
+      precision highp float;
+      uniform vec2 u_resolution;
+      uniform float u_time;
+      uniform vec2 u_mouse;
+      uniform float u_hue;
+      uniform float u_speed;
+      uniform float u_intensity;
+      uniform float u_complexity;
+
+      vec3 hsv2rgb(vec3 c) {
+        vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
+        vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);
+        return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
+      }
+
+      float random(vec2 st) {
+        return fract(sin(dot(st.xy, vec2(12.9898, 78.233))) * 43758.5453123);
+      }
+
+      float noise(vec2 st) {
+        vec2 i = floor(st);
+        vec2 f = fract(st);
+        float a = random(i);
+        float b = random(i + vec2(1.0, 0.0));
+        float c = random(i + vec2(0.0, 1.0));
+        float d = random(i + vec2(1.0, 1.0));
+        vec2 u = f * f * (3.0 - 2.0 * f);
+        return mix(a, b, u.x) + (c - a) * u.y * (1.0 - u.x) + (d - b) * u.y * u.x;
+      }
+
+      float fbm(vec2 st) {
+        float value = 0.0;
+        float amplitude = 0.5;
+        for (int i = 0; i < 10; i++) {
+          if (float(i) >= u_complexity) break;
+          value += amplitude * noise(st);
+          st *= 2.0;
+          amplitude *= 0.5;
+        }
+        return value;
+      }
+
+      void main() {
+        vec2 uv = (gl_FragCoord.xy * 2.0 - u_resolution.xy) / min(u_resolution.x, u_resolution.y);
+        float t = u_time * u_speed * 0.1;
+        float mouse_dist = distance(uv, u_mouse);
+        float warp = smoothstep(0.55, 0.0, mouse_dist) * 0.62;
+        vec2 p = uv * 2.0 + vec2(t, t * 0.5) + warp;
+        float noise_pattern = fbm(p);
+        float vignette = 1.0 - smoothstep(0.72, 1.45, length(uv));
+        float saturation = 0.55 + noise_pattern * 0.45;
+        float value = 0.12 + (noise_pattern * 0.92) * u_intensity * vignette;
+        vec3 color = hsv2rgb(vec3(u_hue / 360.0 + noise_pattern * 0.035, saturation, value));
+        color += vec3(0.02, 0.08, 0.12) * smoothstep(0.7, 0.0, mouse_dist);
+        gl_FragColor = vec4(color, 1.0);
+      }
+    `,
+  });
+
+  const mesh = new THREE.Mesh(geometry, material);
+  scene.add(mesh);
+
+  const setSize = () => {
+    const width = canvas.clientWidth || 400;
+    const height = canvas.clientHeight || 300;
+    renderer.setSize(width, height, false);
+    uniforms.u_resolution.value.set(renderer.domElement.width, renderer.domElement.height);
+  };
+
+  const setPointer = (clientX: number, clientY: number) => {
+    const rect = canvas.getBoundingClientRect();
+    if (!rect.width || !rect.height) return;
+    uniforms.u_mouse.value.set(
+      ((clientX - rect.left) / rect.width) * 2 - 1,
+      -(((clientY - rect.top) / rect.height) * 2 - 1),
+    );
+  };
+
+  const onPointerMove = (e: PointerEvent) => setPointer(e.clientX, e.clientY);
+  const onTouchMove = (e: TouchEvent) => {
+    const touch = e.touches[0];
+    if (touch) setPointer(touch.clientX, touch.clientY);
+  };
+
+  window.addEventListener("pointermove", onPointerMove, { passive: true });
+  window.addEventListener("touchmove", onTouchMove, { passive: true });
+
+  const ro = new ResizeObserver(setSize);
+  ro.observe(canvas);
+  setSize();
+
+  let raf = 0;
+  let active = true;
+  let lastTime = 0;
+  const minFrameMs = isMobile ? 1000 / 30 : 0;
+  const io = new IntersectionObserver(([entry]) => { active = entry.isIntersecting; }, { threshold: 0 });
+  io.observe(canvas);
+
+  const animate = (now: number) => {
+    raf = requestAnimationFrame(animate);
+    if (!active) return;
+    if (minFrameMs > 0 && now - lastTime < minFrameMs) return;
+    lastTime = now;
+    uniforms.u_time.value = now * 0.001;
+    renderer.render(scene, camera);
+  };
+  raf = requestAnimationFrame(animate);
+
+  return () => {
+    cancelAnimationFrame(raf);
+    io.disconnect();
+    ro.disconnect();
+    window.removeEventListener("pointermove", onPointerMove);
+    window.removeEventListener("touchmove", onTouchMove);
+    scene.remove(mesh);
+    geometry.dispose();
+    material.dispose();
+    renderer.dispose();
+  };
+}
+
 const SCENES: Record<string, SceneFactory> = {
 
   // ── Web prezentacije — liquid chrome orb with flowing data streams ─────────
@@ -696,6 +847,10 @@ const SCENES: Record<string, SceneFactory> = {
   // ── Mobilne aplikacije — glass phone with live holographic UI + signals ───────
   "animated-shader": (THREE, canvas, isMobile) => {
     return makeAnimatedShaderBackground(THREE, canvas, isMobile);
+  },
+
+  "interactive-shader": (THREE, canvas, isMobile) => {
+    return makeInteractiveShaderBackground(THREE, canvas, isMobile);
   },
 
   "mobile-app": (THREE, canvas, isMobile) => {

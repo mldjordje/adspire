@@ -2,29 +2,19 @@
 
 import Script from "next/script";
 
-/**
- * Client-only component that loads the Spline viewer web component and
- * runs lazy-load, watermark-removal, and mobile interact-button logic.
- *
- * Kept separate so AzurioCompositeHomePage can remain a Server Component —
- * Next.js will SSR the full HTML immediately; these scripts hydrate on top.
- */
 export function SplineLoader() {
   return (
     <>
-      {/* ── Spline viewer web component ──────────────────────────────────── */}
       <Script
         src="https://unpkg.com/@splinetool/viewer@1.12.92/build/spline-viewer.js"
         type="module"
         strategy="afterInteractive"
       />
 
-      {/* ── Lazy-load + watermark + mobile interact button ───────────────── */}
       <Script id="spline-init" strategy="afterInteractive">{`
         (function () {
-          var isMobile = window.matchMedia('(hover: none)').matches;
+          var isMobile = window.matchMedia('(hover: none), (max-width: 767px)').matches;
 
-          // ── 1. Watermark removal ──────────────────────────────────────────
           function hideWatermark() {
             document.querySelectorAll('spline-viewer').forEach(function (v) {
               var sr = v.shadowRoot;
@@ -36,8 +26,6 @@ export function SplineLoader() {
             });
           }
 
-          // ── 2. Lazy loading ───────────────────────────────────────────────
-          // First viewer (robot hero) loads immediately; rest load on scroll.
           function setupLazyLoad() {
             var viewers = Array.from(document.querySelectorAll('spline-viewer'));
             viewers.forEach(function (v, i) {
@@ -72,10 +60,6 @@ export function SplineLoader() {
             });
           }
 
-          // ── 3. Mobile "hold to rotate" button ────────────────────────────
-          // Adds a pill button to each hero spline background. While the user
-          // holds the button, pointer-events are enabled on the scene so they
-          // can rotate/drag it. Releasing restores scroll-safe pointer-events.
           function setupInteractButtons() {
             if (!isMobile) return;
 
@@ -94,36 +78,50 @@ export function SplineLoader() {
 
             heroSelectors.forEach(function (sel) {
               var bg = document.querySelector(sel);
-              if (!bg) return;
+              if (!bg || bg.dataset.interactReady === 'true') return;
 
-              // Find the interactive element (spline-viewer or iframe)
               var scene = bg.querySelector('spline-viewer') || bg.querySelector('iframe');
               if (!scene) return;
+              bg.dataset.interactReady = 'true';
 
+              var section = bg.closest('.mxd-hero-01, .mxd-hero-09, .mxd-hero-05') || bg.parentElement;
               var btn = document.createElement('button');
+              var label = document.createElement('span');
+              var activeTimer = null;
+
               btn.className = 'spline-interact-btn';
-              btn.setAttribute('aria-label', 'Drži za rotaciju');
-              btn.innerHTML = iconSvg + '<span>Drži za rotaciju</span>';
+              btn.setAttribute('aria-label', 'Rotiraj scenu');
+              btn.innerHTML = iconSvg;
+              label.textContent = 'Rotiraj scenu';
+              btn.appendChild(label);
+
+              function disable() {
+                scene.style.pointerEvents = 'none';
+                scene.style.touchAction = 'auto';
+                btn.classList.remove('is-active');
+                if (section) section.classList.remove('is-spline-interacting');
+                label.textContent = 'Rotiraj scenu';
+                if (activeTimer) {
+                  window.clearTimeout(activeTimer);
+                  activeTimer = null;
+                }
+              }
 
               function enable(e) {
                 e.preventDefault();
                 scene.style.pointerEvents = 'auto';
                 scene.style.touchAction = 'none';
                 btn.classList.add('is-active');
+                if (section) section.classList.add('is-spline-interacting');
+                label.textContent = 'Prevuci scenu';
+                if (activeTimer) window.clearTimeout(activeTimer);
+                activeTimer = window.setTimeout(disable, 8000);
               }
 
-              function disable() {
-                scene.style.pointerEvents = 'none';
-                scene.style.touchAction = 'auto';
-                btn.classList.remove('is-active');
-              }
+              btn.addEventListener('pointerdown', enable, { passive: false });
+              btn.addEventListener('click', enable, { passive: false });
+              window.addEventListener('scroll', disable, { passive: true });
 
-              btn.addEventListener('touchstart', enable, { passive: false });
-              btn.addEventListener('touchend',   disable);
-              btn.addEventListener('touchcancel', disable);
-
-              // Insert button inside the parent section so it sits on top
-              var section = bg.closest('.mxd-hero-01, .mxd-hero-09, .mxd-hero-05') || bg.parentElement;
               if (section) {
                 section.style.position = 'relative';
                 section.appendChild(btn);
@@ -132,9 +130,13 @@ export function SplineLoader() {
           }
 
           setupLazyLoad();
-          // Delay button setup so dangerouslySetInnerHTML DOM is fully painted
           setTimeout(setupInteractButtons, 300);
-          [0, 500, 1500, 3000, 6000].forEach(function (d) { setTimeout(hideWatermark, d); });
+          [0, 500, 1500, 3000, 6000].forEach(function (d) {
+            setTimeout(function () {
+              hideWatermark();
+              setupInteractButtons();
+            }, d);
+          });
         })();
       `}</Script>
     </>
