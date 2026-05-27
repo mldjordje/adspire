@@ -1894,10 +1894,22 @@ function mxdAdspireServicesStack() {
   const cards = gsap.utils.toArray(stack.querySelectorAll(".mxd-stack-cards__card"));
   if (!cards.length) return;
 
-  stack.classList.add("is-premium-stack");
-
   const isCompact = window.matchMedia("(max-width: 767px), (hover: none)").matches;
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (isCompact) {
+    stack.classList.add("is-service-feed");
+    cards.forEach((card, index) => {
+      card.classList.add("is-service-active", "is-service-near");
+      card.style.position = "relative";
+      card.style.pointerEvents = "auto";
+      card.style.zIndex = index + 1;
+    });
+    window.dispatchEvent(new CustomEvent("adspire-services-active-change", { detail: { index: 0 } }));
+    return;
+  }
+
+  stack.classList.add("is-premium-stack");
   const progress = document.createElement("div");
   progress.className = "adspire-services-progress";
   progress.innerHTML = `
@@ -2006,9 +2018,9 @@ function mxdAdspireServicesStack() {
     height: "100svh",
     marginTop: 0,
     autoAlpha: 0,
-    yPercent: isCompact ? 5 : 7,
-    scale: isCompact ? 0.99 : 0.985,
-    clipPath: isCompact ? "inset(0% 0% 0% 0%)" : "inset(0% 4% 0% 4%)",
+    yPercent: 2,
+    scale: 0.995,
+    clipPath: "inset(0% 0% 0% 0%)",
     filter: "blur(0px)",
     zIndex: (i) => i + 1,
     force3D: true,
@@ -2035,7 +2047,7 @@ function mxdAdspireServicesStack() {
       trigger: stack,
       start: "top top",
       end: () => "+=" + Math.max(cards.length - 1, 1) * window.innerHeight * (isCompact ? 0.9 : 1.04),
-      scrub: isCompact ? 0.82 : 0.68,
+      scrub: 0.55,
       pin: true,
       pinSpacing: true,
       anticipatePin: 0.6,
@@ -2063,7 +2075,7 @@ function mxdAdspireServicesStack() {
       .call(setTransitionCue, [index], at)
       .fromTo(transitionCue, {
         autoAlpha: 0,
-        xPercent: isCompact ? -18 : -10,
+        xPercent: -10,
         scaleX: 0.78,
       }, {
         autoAlpha: 1,
@@ -2073,7 +2085,7 @@ function mxdAdspireServicesStack() {
       }, at)
       .to(transitionCue, {
         autoAlpha: 0,
-        xPercent: isCompact ? 8 : 44,
+        xPercent: 44,
         scaleX: 1.12,
         duration: 0.52,
       }, at + 0.36)
@@ -2085,24 +2097,24 @@ function mxdAdspireServicesStack() {
       }, at)
       .to(previous, {
         autoAlpha: 0,
-        yPercent: isCompact ? -4 : -6,
-        scale: isCompact ? 1.01 : 1.018,
-        filter: isCompact ? "blur(0px)" : "blur(2px)",
-        duration: 0.82,
+        yPercent: -2,
+        scale: 1.006,
+        filter: "blur(0px)",
+        duration: 0.72,
       }, at)
       .fromTo(card, {
         autoAlpha: 0,
-        yPercent: isCompact ? 5 : 8,
-        scale: isCompact ? 0.99 : 0.985,
-        clipPath: isCompact ? "inset(0% 0% 0% 0%)" : "inset(0% 4% 0% 4%)",
-        filter: isCompact ? "blur(0px)" : "blur(3px)",
+        yPercent: 2,
+        scale: 0.995,
+        clipPath: "inset(0% 0% 0% 0%)",
+        filter: "blur(0px)",
       }, {
         autoAlpha: 1,
         yPercent: 0,
         scale: 1,
         clipPath: "inset(0% 0% 0% 0%)",
         filter: "blur(0px)",
-        duration: 0.86,
+        duration: 0.72,
       }, at + 0.02)
       .to(content, {
         autoAlpha: 1,

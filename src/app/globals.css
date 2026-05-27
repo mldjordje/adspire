@@ -270,7 +270,15 @@ html.mxd-fallback-visible .loading-chars .char {
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem 1rem;
-  margin-top: 1.5rem;
+  margin-top: 0;
+  position: relative;
+  z-index: 2;
+}
+
+.mxd-hero-09 .adspire-orb-title,
+.mxd-hero-09 .adspire-orb-mark,
+.mxd-hero-09 .mxd-hero__mark {
+  display: none !important;
 }
 
 .mxd-hero-09__cover {
@@ -285,6 +293,15 @@ html.mxd-fallback-visible .loading-chars .char {
 .mxd-hero-09__wrap button,
 .mxd-hero-09__wrap [role="button"] {
   pointer-events: auto;
+}
+
+.mxd-hero-09 .mxd-hero-09__wrap {
+  justify-content: flex-end;
+  padding-bottom: clamp(5.5rem, 10vh, 8rem);
+}
+
+.mxd-hero-09 .mxd-hero-09__cta-group {
+  margin-left: clamp(1rem, 5vw, 5.5rem);
 }
 
 /* ── Spline chips iframe in creative-agency hero (mxd-hero-05) ──────────────── */
@@ -649,10 +666,14 @@ html.mxd-fallback-visible .loading-chars .char {
  * "Drži za rotaciju" dugme privremeno uključuje pointer-events dok se drži.
  */
 @media (hover: none), (max-width: 767px) {
-  .mxd-hero-01__spline-bg spline-viewer,
-  .mxd-hero-09__spline-bg spline-viewer {
+  .mxd-hero-01__spline-bg spline-viewer {
     pointer-events: none;
     touch-action: auto;
+  }
+
+  .mxd-hero-09__spline-bg spline-viewer {
+    pointer-events: auto;
+    touch-action: none;
   }
 
   .mxd-hero-05__spline-bg iframe {
@@ -761,6 +782,130 @@ html.mxd-fallback-visible .loading-chars .char {
   }
 }
 
+.adspire-services-stack.is-service-feed {
+  display: block;
+  overflow: visible;
+  background: #000;
+  isolation: isolate;
+}
+
+.adspire-services-stack.is-service-feed .mxd-stack-cards__card {
+  position: relative !important;
+  min-height: 100svh;
+  height: 100svh;
+  margin: 0 !important;
+  overflow: hidden;
+  contain: layout paint;
+}
+
+.adspire-services-stack.is-service-feed .mxd-stack-cards__card + .mxd-stack-cards__card {
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.adspire-services-stack.is-service-feed .card__wrapper {
+  min-height: 100%;
+}
+
+.adspire-services-stack.is-service-feed .card__content {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start !important;
+  justify-content: flex-end;
+  gap: 0;
+  padding: 0 1.1rem 4.25rem;
+}
+
+.adspire-services-card-summary {
+  max-width: 20rem;
+  margin: 0.7rem 0 1rem;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 0.92rem;
+  line-height: 1.42;
+}
+
+.adspire-services-stack.is-service-feed .card__descr,
+.adspire-services-stack.is-service-feed .card__title,
+.adspire-services-stack.is-service-feed .card__btn {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+}
+
+.adspire-services-stack.is-service-feed .card__title {
+  position: relative !important;
+  left: auto !important;
+  top: auto !important;
+  transform: none !important;
+  align-self: flex-start !important;
+  order: 1;
+  width: min(100%, 22rem) !important;
+  max-width: 10ch !important;
+  margin: 0 0 0.9rem !important;
+  font-size: clamp(2.45rem, 13vw, 4.3rem);
+  line-height: 0.98;
+  color: #fff;
+}
+
+.adspire-services-stack.is-service-feed .card__title p {
+  width: auto !important;
+  white-space: normal !important;
+}
+
+.adspire-services-stack.is-service-feed .card__descr {
+  position: relative !important;
+  left: auto !important;
+  top: auto !important;
+  transform: none !important;
+  order: 2;
+  display: flex !important;
+  width: min(100%, 24rem) !important;
+  height: auto !important;
+  min-height: 0 !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+}
+
+.adspire-services-stack.is-service-feed .card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.adspire-services-stack.is-service-feed .card__tags span:nth-child(n + 4) {
+  display: none;
+}
+
+.adspire-services-stack.is-service-feed .tag {
+  min-height: 1.5rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.62rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.adspire-services-stack.is-service-feed .card__btngroup {
+  margin-top: 0;
+}
+
+.adspire-services-stack.is-service-feed .card-r3f-canvas {
+  opacity: 1 !important;
+}
+
+.adspire-services-stack.is-service-feed .card__wrapper::before {
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.36) 58%, rgba(0, 0, 0, 0.76)),
+    radial-gradient(ellipse at 50% 38%, rgba(255, 255, 255, 0.05), rgba(0, 0, 0, 0) 46%);
+}
+
+.adspire-services-stack.is-service-feed .mxd-stack-cards__card::after {
+  opacity: 0.16;
+}
+
 /* ── Hero-09 responsiveness (druga sekcija — "Digitalna agencija...") ───────── */
 
 @media (max-width: 767px) {
@@ -770,16 +915,18 @@ html.mxd-fallback-visible .loading-chars .char {
   }
 
   .mxd-hero-09__top {
-    padding-top: 5rem !important;
+    padding-top: 0 !important;
   }
 
   .mxd-hero-09__cta-group {
-    flex-direction: column;
+    flex-direction: row;
     gap: 0.6rem;
+    margin-left: 0 !important;
+    justify-content: center;
   }
 
   .mxd-hero-09__cta-group .btn {
-    width: 100%;
+    width: auto;
     text-align: center;
     justify-content: center;
   }

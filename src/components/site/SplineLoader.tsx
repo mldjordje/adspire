@@ -65,7 +65,6 @@ export function SplineLoader() {
 
             var heroSelectors = [
               '.mxd-hero-01__spline-bg',
-              '.mxd-hero-09__spline-bg',
               '.mxd-hero-05__spline-bg',
             ];
 

@@ -124,15 +124,15 @@ function prepareFreelancerHero(heroHtml: string): string {
   html = html
     .replace(
       `<h1 class="loading-chars">Alex Walker</h1>`,
-      `<h1 class="loading-chars">Digitalna agencija koja isporučuje rezultate.</h1>`,
+      `<h1 class="loading-chars adspire-orb-title">Pokreni projekat.</h1>`,
     )
     .replace(
       `<span class="mark-text">Available for freelance</span>`,
-      `<span class="mark-text">Niš · Srbija</span>`,
+      `<span class="mark-text adspire-orb-mark">Adspire Digital</span>`,
     )
     .replace(
       `<span class="btn-caption mxd-scramble">Scroll to explore</span>`,
-      `<span class="btn-caption mxd-scramble">Istraži</span>`,
+      `<span class="btn-caption mxd-scramble">Istrazi</span>`,
     )
     .replace(`href="#about">`, `href="#projects">`);
 
@@ -140,9 +140,9 @@ function prepareFreelancerHero(heroHtml: string): string {
   const ctaButtons =
     `<div class="mxd-hero-09__cta-group">` +
     `<a class="btn btn-default btn-default-permanent slide-right" href="/contact-us">` +
-    `<span class="btn-caption mxd-scramble">Kontaktirajte nas</span></a> ` +
+    `<span class="btn-caption mxd-scramble">Zakazi poziv</span></a> ` +
     `<a class="btn btn-line btn-line-permanent slide-right" href="/our-projects">` +
-    `<span class="btn-caption mxd-scramble">Naši projekti</span></a>` +
+    `<span class="btn-caption mxd-scramble">Radovi</span></a>` +
     `</div>`;
   html = html.replace(
     /(<div class="mxd-hero__mark[^"]*">[\s\S]*?<\/div>)/,
@@ -259,6 +259,11 @@ function applyServiceToCard(
   c = c.replace(
     `<span class="btn-caption mxd-scramble">Know More</span>`,
     `<span class="btn-caption mxd-scramble">Saznaj više</span>`,
+  );
+
+  c = c.replace(
+    `<div class="card__btngroup">`,
+    `<p class="adspire-services-card-summary">${svc.summary}</p>\n                      <div class="card__btngroup">`,
   );
 
   c = c.replace(
