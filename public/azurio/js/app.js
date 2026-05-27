@@ -1896,6 +1896,7 @@ function mxdAdspireServicesStack() {
 
   stack.classList.add("is-premium-stack");
 
+  const isCompact = window.matchMedia("(max-width: 767px), (hover: none)").matches;
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const progress = document.createElement("div");
   progress.className = "adspire-services-progress";
@@ -1908,6 +1909,7 @@ function mxdAdspireServicesStack() {
 
   const serviceCopy = cards.map((card) => ({
     title: card.dataset.serviceTitle || card.querySelector(".card__title")?.innerText?.trim() || "",
+    summary: card.dataset.serviceSummary || card.querySelector(".card-description p")?.innerText?.trim() || "",
     tags: (card.dataset.serviceTags || "")
       .split("|")
       .map((tag) => tag.trim())
@@ -1923,6 +1925,7 @@ function mxdAdspireServicesStack() {
   copyPanel.innerHTML = `
     <div class="adspire-services-copy__tags"></div>
     <h3 class="adspire-services-copy__title"></h3>
+    <p class="adspire-services-copy__summary"></p>
     <a class="adspire-services-copy__link" href="#0">Saznaj vise</a>
   `;
   stack.appendChild(copyPanel);
@@ -1931,6 +1934,7 @@ function mxdAdspireServicesStack() {
   const progressBar = progress.querySelector(".adspire-services-progress__bar");
   const copyTags = copyPanel.querySelector(".adspire-services-copy__tags");
   const copyTitle = copyPanel.querySelector(".adspire-services-copy__title");
+  const copySummary = copyPanel.querySelector(".adspire-services-copy__summary");
   const copyLink = copyPanel.querySelector(".adspire-services-copy__link");
 
   const contentTargets = cards.map((card) => [
@@ -1963,8 +1967,13 @@ function mxdAdspireServicesStack() {
       }));
     }
     if (copyTitle) copyTitle.textContent = copy.title;
+    if (copySummary) copySummary.textContent = copy.summary;
     if (copyLink) copyLink.setAttribute("href", copy.href);
-    gsap.fromTo(copyPanel, { autoAlpha: 0, y: 34, filter: "blur(6px)" }, { autoAlpha: 1, y: 0, filter: "blur(0px)", duration: 0.42, ease: "power3.out", overwrite: "auto" });
+    gsap.fromTo(
+      copyPanel,
+      { autoAlpha: 0, y: isCompact ? 14 : 22, filter: "blur(3px)" },
+      { autoAlpha: 1, y: 0, filter: "blur(0px)", duration: 0.36, ease: "power2.out", overwrite: "auto" }
+    );
     if (progressCurrent) progressCurrent.textContent = String(index + 1).padStart(2, "0");
     window.dispatchEvent(new CustomEvent("adspire-services-active-change", { detail: { index } }));
   }
@@ -1979,9 +1988,10 @@ function mxdAdspireServicesStack() {
     height: "100svh",
     marginTop: 0,
     autoAlpha: 0,
-    yPercent: 18,
-    scale: 0.96,
-    clipPath: "inset(0% 14% 0% 14%)",
+    yPercent: isCompact ? 5 : 7,
+    scale: isCompact ? 0.99 : 0.985,
+    clipPath: isCompact ? "inset(0% 0% 0% 0%)" : "inset(0% 4% 0% 4%)",
+    filter: "blur(0px)",
     zIndex: (i) => i + 1,
     force3D: true,
   });
@@ -2005,11 +2015,11 @@ function mxdAdspireServicesStack() {
     scrollTrigger: {
       trigger: stack,
       start: "top top",
-      end: () => "+=" + Math.max(cards.length - 1, 1) * window.innerHeight * 1.08,
-      scrub: 0.58,
+      end: () => "+=" + Math.max(cards.length - 1, 1) * window.innerHeight * (isCompact ? 0.9 : 1.04),
+      scrub: isCompact ? 0.82 : 0.68,
       pin: true,
       pinSpacing: true,
-      anticipatePin: 1,
+      anticipatePin: 0.6,
       invalidateOnRefresh: true,
       onUpdate: (self) => {
         if (progressBar) gsap.set(progressBar, { scaleX: self.progress });
@@ -2039,31 +2049,31 @@ function mxdAdspireServicesStack() {
       }, at)
       .to(previous, {
         autoAlpha: 0,
-        yPercent: -18,
-        scale: 1.08,
-        filter: "blur(12px)",
-        duration: 0.62,
+        yPercent: isCompact ? -4 : -6,
+        scale: isCompact ? 1.01 : 1.018,
+        filter: isCompact ? "blur(0px)" : "blur(2px)",
+        duration: 0.82,
       }, at)
       .fromTo(card, {
         autoAlpha: 0,
-        yPercent: 24,
-        scale: 0.93,
-        clipPath: "inset(0% 16% 0% 16%)",
-        filter: "blur(10px)",
+        yPercent: isCompact ? 5 : 8,
+        scale: isCompact ? 0.99 : 0.985,
+        clipPath: isCompact ? "inset(0% 0% 0% 0%)" : "inset(0% 4% 0% 4%)",
+        filter: isCompact ? "blur(0px)" : "blur(3px)",
       }, {
         autoAlpha: 1,
         yPercent: 0,
         scale: 1,
         clipPath: "inset(0% 0% 0% 0%)",
         filter: "blur(0px)",
-        duration: 0.72,
-      }, at + 0.08)
+        duration: 0.86,
+      }, at + 0.02)
       .to(content, {
         autoAlpha: 1,
         y: 0,
-        duration: 0.48,
+        duration: 0.5,
         stagger: 0.04,
-      }, at + 0.34);
+      }, at + 0.28);
   });
 }
 // --------------------------------------------- //

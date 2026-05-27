@@ -449,7 +449,8 @@ html.mxd-fallback-visible .loading-chars .char {
   left: clamp(1.5rem, 4.2vw, 6rem);
   top: 50%;
   z-index: 30;
-  width: min(36rem, calc(100% - 3rem));
+  width: min(42rem, calc(100% - 3rem));
+  padding: clamp(1.25rem, 2vw, 2rem);
   pointer-events: auto;
   color: #fff;
   transform: translateY(-50%);
@@ -458,11 +459,16 @@ html.mxd-fallback-visible .loading-chars .char {
 .adspire-services-copy::before {
   content: "";
   position: absolute;
-  inset: -1.35rem -1.75rem;
+  inset: 0;
   z-index: -1;
-  border-left: 1px solid rgba(255, 255, 255, 0.22);
-  background: linear-gradient(90deg, rgba(0, 0, 0, 0.34), rgba(0, 0, 0, 0));
-  backdrop-filter: blur(2px);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-left-color: rgba(255, 255, 255, 0.34);
+  border-radius: 8px;
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.62), rgba(0, 0, 0, 0.24)),
+    rgba(0, 0, 0, 0.22);
+  box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(10px);
 }
 
 .adspire-services-copy__tags {
@@ -488,12 +494,21 @@ html.mxd-fallback-visible .loading-chars .char {
 }
 
 .adspire-services-copy__title {
-  max-width: 12ch;
+  max-width: 15ch;
   margin: 0;
   color: #fff;
-  font: normal 700 clamp(3.1rem, 7vw, 7.2rem) / 0.94 var(--_font-default);
+  font: normal 700 clamp(2.8rem, 5.4vw, 5.8rem) / 0.96 var(--_font-default);
   letter-spacing: 0;
   text-shadow: 0 1.2rem 3.5rem rgba(0, 0, 0, 0.55);
+}
+
+.adspire-services-copy__summary {
+  max-width: 34rem;
+  margin: 1rem 0 0;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: clamp(1rem, 1.15vw, 1.25rem);
+  line-height: 1.45;
+  text-shadow: 0 0.8rem 2rem rgba(0, 0, 0, 0.44);
 }
 
 .adspire-services-copy__link {
@@ -641,26 +656,56 @@ html.mxd-fallback-visible .loading-chars .char {
   .adspire-services-progress {
     left: 1.25rem;
     right: 1.25rem;
-    bottom: 1.15rem;
+    bottom: 0.95rem;
     justify-content: center;
+    mix-blend-mode: normal;
   }
 
   .adspire-services-copy {
     left: 1.25rem;
     right: 1.25rem;
     top: auto;
-    bottom: 4rem;
+    bottom: 4.15rem;
     width: auto;
+    max-height: calc(100svh - 8rem);
+    overflow: hidden;
+    padding: 1.05rem;
     transform: none;
   }
 
   .adspire-services-copy__title {
-    max-width: 10ch;
-    font-size: clamp(2.6rem, 13vw, 4.4rem);
+    max-width: 13ch;
+    font-size: clamp(2rem, 9.5vw, 3.2rem);
+    line-height: 1;
   }
 
   .adspire-services-copy__tags {
     max-width: 20rem;
+    gap: 0.35rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .adspire-services-copy__tags span {
+    min-height: 1.55rem;
+    padding: 0.28rem 0.52rem;
+    font-size: 0.62rem;
+  }
+
+  .adspire-services-copy__tags span:nth-child(n + 4) {
+    display: none;
+  }
+
+  .adspire-services-copy__summary {
+    margin-top: 0.75rem;
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
+
+  .adspire-services-copy__link {
+    min-height: 2.35rem;
+    margin-top: 0.95rem;
+    padding: 0 0.9rem;
+    font-size: 0.68rem;
   }
 }
 

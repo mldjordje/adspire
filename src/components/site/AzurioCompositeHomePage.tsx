@@ -158,49 +158,57 @@ const ADSPIRE_SERVICES = [
   {
     title: "Web prezentacije & sajtovi",
     tags: ["Next.js", "React", "WordPress", "Brz & SEO-ready"],
-    href: "/usluge",
+    summary: "Brze prezentacije i korporativni sajtovi sa jasnim CTA tokom, SEO osnovom i prostorom za kasniji rast.",
+    href: "/our-services/web-prezentacije",
     scene: "web-prezentacije",
   },
   {
     title: "E-commerce & web shop sistemi",
     tags: ["Online prodavnica", "Plaćanje", "Katalog", "Analitika"],
-    href: "/usluge",
+    summary: "Prodajni sistemi sa katalogom, placanjem, analitikom i administracijom koja ne usporava svakodnevni rad.",
+    href: "/our-services/e-commerce-web-shop",
     scene: "ecommerce",
   },
   {
     title: "Mobilne aplikacije",
     tags: ["PWA", "React Native", "iOS & Android", "Push notifikacije"],
-    href: "/usluge",
+    summary: "PWA i native aplikacije za korisnike, timove i interne procese, uz fokus na brzinu i stabilnu upotrebu.",
+    href: "/our-services/mobilne-aplikacije",
     scene: "animated-shader",
   },
   {
     title: "CMS sistemi & upravljanje sadržajem",
     tags: ["Headless CMS", "Sanity", "Strapi", "Lako ažuriranje"],
-    href: "/usluge",
+    summary: "Custom CMS i admin paneli koji omogucavaju timu da menja sadrzaj, tokove i podatke bez tehnickog haosa.",
+    href: "/our-services/cms-sistemi",
     scene: "cms",
   },
   {
     title: "AI integracije & automatizacija",
     tags: ["ChatGPT API", "Workflow automatizacija", "Chatboti", "ML modeli"],
-    href: "/usluge",
+    summary: "Automatizacije, AI asistenti i workflow sistemi koji uklanjaju rucni rad iz prodaje, podrske i operative.",
+    href: "/our-services/ai-integracije-automatizacija",
     scene: "ai",
   },
   {
     title: "SEO & digitalni marketing",
     tags: ["Google Ads", "SEO optimizacija", "Social media", "Lokalni SEO Niš"],
-    href: "/usluge",
+    summary: "Tehnicki SEO, kampanje i merenje rezultata povezani sa sajtom, landing stranicama i prodajnim ciljevima.",
+    href: "/our-services/seo-digitalni-marketing",
     scene: "seo",
   },
   {
     title: "Cyber security & GDPR",
     tags: ["Penetration testing", "GDPR usklađenost", "SSL & firewall", "Audit"],
-    href: "/usluge",
+    summary: "Bezbednosni audit, osnovna zastita, GDPR tokovi i infrastruktura koja smanjuje rizik posle lansiranja.",
+    href: "/our-services/cyber-security-gdpr",
     scene: "security",
   },
   {
     title: "UI/UX & web dizajn",
     tags: ["Figma dizajn", "Prototipovi", "Animacije", "Korisničko iskustvo"],
-    href: "/usluge",
+    summary: "Interfejsi, prototipovi i mikrointerakcije koji pomazu korisniku da brze razume ponudu i napravi sledeci korak.",
+    href: "/our-services/interaktivne-web-tehnologije",
     scene: "uiux",
   },
 ] as const;
@@ -238,7 +246,7 @@ function applyServiceToCard(
 
   let c = card.replace(
     `<div class="mxd-stack-cards__card">`,
-    `<div class="mxd-stack-cards__card" data-service-title="${attr(svc.title)}" data-service-tags="${attr(svc.tags.join("|"))}" data-service-href="${attr(svc.href)}">`,
+    `<div class="mxd-stack-cards__card" data-service-title="${attr(svc.title)}" data-service-tags="${attr(svc.tags.join("|"))}" data-service-summary="${attr(svc.summary)}" data-service-href="${attr(svc.href)}">`,
   );
 
   c = c.replace(
