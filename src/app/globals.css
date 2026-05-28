@@ -213,6 +213,257 @@ textarea {
   opacity: 0.78;
 }
 
+.adspire-section-kicker {
+  display: inline-flex;
+  margin-bottom: 0.8rem;
+  color: rgba(255, 255, 255, 0.58);
+  font-size: clamp(0.72rem, 0.85vw, 0.9rem);
+  line-height: 1;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.adspire-home-cases,
+.adspire-home-services {
+  position: relative;
+  isolation: isolate;
+  background: #050505;
+}
+
+.adspire-home-cases::before,
+.adspire-home-services::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0) 28%),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0) 42%);
+}
+
+.adspire-home-cases__head,
+.adspire-home-services__head {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(18rem, 0.68fr) auto;
+  gap: clamp(1.25rem, 3vw, 3rem);
+  align-items: end;
+  margin-bottom: clamp(2rem, 4vw, 3.5rem);
+}
+
+.adspire-home-cases__head h2,
+.adspire-home-services__head h2 {
+  max-width: 13ch;
+  margin: 0;
+  color: #fff;
+  font-size: clamp(2.6rem, 6vw, 6.5rem);
+  line-height: 0.94;
+  letter-spacing: 0;
+}
+
+.adspire-home-cases__head p,
+.adspire-home-services__head p {
+  max-width: 34rem;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: clamp(0.98rem, 1.1vw, 1.15rem);
+  line-height: 1.5;
+}
+
+.adspire-home-cases__head .btn,
+.adspire-home-services__head .btn {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.32);
+}
+
+.adspire-home-cases__head .btn:hover,
+.adspire-home-services__head .btn:hover {
+  border-color: rgba(255, 255, 255, 0.72);
+}
+
+.adspire-case-showcase {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+  gap: clamp(1rem, 2vw, 1.5rem);
+}
+
+.adspire-case-feature,
+.adspire-case-card,
+.adspire-service-tile {
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.035);
+  overflow: hidden;
+  transition: border-color 180ms ease, background-color 180ms ease, transform 180ms ease;
+}
+
+.adspire-case-feature:hover,
+.adspire-case-card:hover,
+.adspire-service-tile:hover {
+  border-color: rgba(255, 255, 255, 0.34);
+  background: rgba(255, 255, 255, 0.06);
+  transform: translateY(-2px);
+}
+
+.adspire-case-feature {
+  display: grid;
+  min-height: 100%;
+}
+
+.adspire-case-feature__media,
+.adspire-case-card__media {
+  display: block;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.adspire-case-feature__media img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+}
+
+.adspire-case-feature__content {
+  display: grid;
+  gap: 0.85rem;
+  padding: clamp(1.2rem, 2.2vw, 2rem);
+}
+
+.adspire-case-feature__title {
+  color: #fff;
+  font-size: clamp(2rem, 4vw, 4rem);
+  line-height: 0.98;
+  letter-spacing: 0;
+}
+
+.adspire-case-feature__summary,
+.adspire-case-feature__outcome,
+.adspire-case-card__summary {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: clamp(0.92rem, 1vw, 1.04rem);
+  line-height: 1.48;
+}
+
+.adspire-case-feature__outcome {
+  padding-top: 0.9rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.86);
+}
+
+.adspire-case-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1rem, 2vw, 1.5rem);
+}
+
+.adspire-case-card {
+  display: grid;
+  min-height: 100%;
+}
+
+.adspire-case-card__media img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.adspire-case-card__body {
+  display: grid;
+  gap: 0.7rem;
+  padding: clamp(1rem, 1.6vw, 1.35rem);
+}
+
+.adspire-case-card__meta,
+.adspire-service-tile__tag {
+  color: rgba(255, 255, 255, 0.56);
+  font-size: 0.72rem;
+  line-height: 1.2;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.adspire-case-card__title {
+  color: #fff;
+  font-size: clamp(1.18rem, 1.55vw, 1.65rem);
+  line-height: 1.05;
+  letter-spacing: 0;
+}
+
+.adspire-service-matrix {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  background: rgba(255, 255, 255, 0.13);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.adspire-service-tile {
+  display: grid;
+  min-height: clamp(18rem, 26vw, 25rem);
+  padding: clamp(1.15rem, 2vw, 1.8rem);
+  border: 0;
+  border-radius: 0;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.025)),
+    #050505;
+}
+
+.adspire-service-tile--featured {
+  grid-column: span 2;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.035) 52%),
+    #050505;
+}
+
+.adspire-service-tile--wide {
+  grid-column: span 3;
+  min-height: clamp(12rem, 18vw, 17rem);
+}
+
+.adspire-service-tile__index {
+  justify-self: start;
+  color: rgba(255, 255, 255, 0.44);
+  font-size: 0.8rem;
+  line-height: 1;
+}
+
+.adspire-service-tile__tag {
+  align-self: start;
+  max-width: 30rem;
+  margin-top: clamp(1rem, 2vw, 2rem);
+}
+
+.adspire-service-tile__title {
+  align-self: end;
+  max-width: 12ch;
+  color: #fff;
+  font-size: clamp(1.65rem, 2.8vw, 3.15rem);
+  line-height: 0.98;
+  letter-spacing: 0;
+}
+
+.adspire-service-tile__summary {
+  max-width: 34rem;
+  margin-top: 0.8rem;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: clamp(0.92rem, 1vw, 1.05rem);
+  line-height: 1.48;
+}
+
+.adspire-service-tile__cta {
+  align-self: end;
+  justify-self: start;
+  margin-top: 1.2rem;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 0.78rem;
+  line-height: 1;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
 @media (max-width: 991px) {
   .case-study-hero__grid,
   .case-study-summary__grid,
@@ -226,6 +477,37 @@ textarea {
 
   .case-study-summary__grid > div {
     min-height: auto;
+  }
+
+  .adspire-home-cases__head,
+  .adspire-home-services__head,
+  .adspire-case-showcase,
+  .adspire-case-grid,
+  .adspire-service-matrix {
+    grid-template-columns: 1fr;
+  }
+
+  .adspire-home-cases__head,
+  .adspire-home-services__head {
+    align-items: start;
+    padding-inline: 1rem;
+  }
+
+  .adspire-home-cases__head h2,
+  .adspire-home-services__head h2 {
+    max-width: 100%;
+  }
+
+  .adspire-service-tile--featured {
+    grid-column: auto;
+  }
+
+  .adspire-service-tile--wide {
+    grid-column: auto;
+  }
+
+  .adspire-service-tile {
+    min-height: 16rem;
   }
 }
 

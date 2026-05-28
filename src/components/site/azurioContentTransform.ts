@@ -308,84 +308,120 @@ function renderServiceCards() {
 /** Lista usluga na početnoj (index-digital-agency) — isti sadržaj kao na /our-services. */
 function renderHomeServicesListSection() {
   const section = content.home.servicesSection;
-  const items = content.servicesPage.items;
+  const featuredSlugs = [
+    "ai-preporuka",
+    "web-prezentacije",
+    "e-commerce-web-shop",
+    "interne-poslovne-aplikacije",
+    "ai-integracije-automatizacija",
+    "seo-digitalni-marketing",
+  ];
+  const items = featuredSlugs
+    .map((slug) => content.servicesPage.items.find((service) => service.slug === slug))
+    .filter(Boolean) as ServiceItem[];
 
   const listItems = items
     .map((service, index) => {
       const num = String(index + 1).padStart(2, "0");
-      const cursorImg = SERVICE_IMAGE_MAP[service.slug] ?? "/images/portfolio/one.png";
       const href = serviceHref(service);
-      return `              <!-- services item -->
-              <a class="mxd-services-list__item active-cursor-image-tr" data-cursor-image="${escapeHtml(cursorImg)}" href="${href}">
-                <div class="mxd-services-list__divider top"></div>
-                <div class="container-fluid px-0 mxd-services-list__inner">
-                  <div class="row gx-0">
-                    <div class="col-12 col-xl-1 mxd-grid-padding">
-                      <div class="mxd-services-list__number">
-                        <span class="meta-tag">[${num}]</span>
-                      </div>
-                    </div>
-                    <div class="col-12 col-xl-6 mxd-grid-padding">
-                      <div class="mxd-services-list__title">
-                        <h3>${escapeHtml(service.title)}</h3>
-                      </div>
-                    </div>
-                    <div class="col-12 col-xl-5 mxd-grid-padding">
-                      <div class="mxd-services-list__descr">
-                        <p class="t-medium">${escapeHtml(service.summary)}</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="mxd-services-list__divider bottom"></div>
+      const [primaryTag] = service.bullets;
+      const isFeatured = service.slug === "ai-preporuka";
+      const isWide = index === items.length - 1;
+      return `              <a class="adspire-service-tile${isFeatured ? " adspire-service-tile--featured" : ""}${isWide ? " adspire-service-tile--wide" : ""}" href="${href}">
+                <span class="adspire-service-tile__index">${num}</span>
+                <span class="adspire-service-tile__tag">${escapeHtml(primaryTag ?? "Adspire usluga")}</span>
+                <span class="adspire-service-tile__title">${escapeHtml(service.title)}</span>
+                <span class="adspire-service-tile__summary">${escapeHtml(service.summary)}</span>
+                <span class="adspire-service-tile__cta">${escapeHtml(service.cta)}</span>
               </a>`;
     })
     .join("\n");
 
   return `      <!-- Section - Services List Start -->
-      <div class="mxd-section blur-section pinned-section padding-top-subtitle-mobile padding-bottom-default">
-        <div class="pinned-section__inner">
-          <div class="mxd-container grid-l-container">
-
-            <!-- Block - Section Title v01 Start -->
-            <div class="mxd-block">
-              <div class="mxd-section-title pre-grid">
-                <div class="container-fluid p-0">
-                  <div class="row g-0 d-flex flex-column-reverse flex-xl-row">
-                    <div class="col-12 col-xl-8 mxd-grid-item">
-                      <div class="mxd-section-title__title">
-                        <h2 class="reveal-type">${escapeHtml(section.title)}</h2>
-                      </div>
-                    </div>
-                    <div class="col-12 col-xl-4 mxd-grid-item">
-                      <div class="mxd-section-title__data top-controls">
-                        <div class="mxd-section-title__controls pre-title justify-end anim-uni-in-up">
-                          <a class="btn btn-line btn-line-default" href="/our-services">
-                            <span class="btn-caption mxd-scramble">Sve usluge</span>
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+      <div id="services" class="mxd-section blur-section padding-top-subtitle-mobile padding-bottom-default adspire-home-services">
+        <div class="mxd-container grid-l-container">
+          <div class="mxd-block">
+            <div class="adspire-home-services__head">
+              <div>
+                <span class="adspire-section-kicker">${escapeHtml(section.eyebrow)}</span>
+                <h2>${escapeHtml(section.title)}</h2>
               </div>
+              <p>${escapeHtml(section.description)}</p>
+              <a class="btn btn-line btn-line-default" href="/our-services">
+                <span class="btn-caption mxd-scramble">Sve usluge</span>
+              </a>
             </div>
-            <!-- Block - Section Title v01 End -->
-
-            <!-- Block - Services List Start -->
-            <div class="mxd-block">
-              <div class="mxd-services-list no-marquee">
-${listItems}
-              </div>
-            </div>
-            <!-- Block - Services List End -->
-
           </div>
-          <div class="pinned-section__trigger"></div>
+
+          <div class="mxd-block">
+            <div class="adspire-service-matrix">
+${listItems}
+            </div>
+          </div>
         </div>
-        
       </div>
       <!-- Section - Services List End -->`;
+}
+
+function renderHomeCaseStudiesSection() {
+  const section = content.home.projectsSection;
+  const items = section.items.slice(0, 5);
+  const [featured, ...rest] = items;
+
+  if (!featured) return "";
+
+  const compactCards = rest
+    .map(
+      (project) => `              <a class="adspire-case-card" href="${escapeHtml(project.href ?? "/our-projects")}">
+                <span class="adspire-case-card__media">
+                  <img src="${escapeHtml(project.image)}" alt="${escapeHtml(project.name)} case study">
+                </span>
+                <span class="adspire-case-card__body">
+                  <span class="adspire-case-card__meta">${escapeHtml(project.category)}</span>
+                  <span class="adspire-case-card__title">${escapeHtml(project.name)}</span>
+                  <span class="adspire-case-card__summary">${escapeHtml(project.outcome)}</span>
+                </span>
+              </a>`,
+    )
+    .join("\n");
+
+  return `      <!-- Section - Projects ClipPath Showcase Start -->
+      <div id="case-studies" class="mxd-section blur-section padding-top-subtitle-mobile padding-bottom-default adspire-home-cases">
+        <div class="mxd-container grid-l-container">
+          <div class="mxd-block">
+            <div class="adspire-home-cases__head">
+              <div>
+                <span class="adspire-section-kicker">${escapeHtml(section.eyebrow)}</span>
+                <h2>${escapeHtml(section.title)}</h2>
+              </div>
+              <p>${escapeHtml(section.description)}</p>
+              <a class="btn btn-line btn-line-default" href="/our-projects">
+                <span class="btn-caption mxd-scramble">Svi projekti</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="mxd-block">
+            <div class="adspire-case-showcase">
+              <a class="adspire-case-feature" href="${escapeHtml(featured.href ?? "/our-projects")}">
+                <span class="adspire-case-feature__media">
+                  <img src="${escapeHtml(featured.image)}" alt="${escapeHtml(featured.name)} case study">
+                </span>
+                <span class="adspire-case-feature__content">
+                  <span class="adspire-case-card__meta">${escapeHtml(featured.category)}</span>
+                  <span class="adspire-case-feature__title">${escapeHtml(featured.name)}</span>
+                  <span class="adspire-case-feature__summary">${escapeHtml(featured.summary)}</span>
+                  <span class="adspire-case-feature__outcome">${escapeHtml(featured.outcome)}</span>
+                </span>
+              </a>
+              <div class="adspire-case-grid">
+${compactCards}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Section - Projects ClipPath Showcase End -->`;
 }
 
 function renderContactHero() {
@@ -1665,7 +1701,8 @@ export function transformTemplateMain(fileName: string, mainInner: string) {
       return finalizeMain(next);
     }
     case "index-digital-agency.html": {
-      let next = replaceSection(mainInner, "Section - Services List", renderHomeServicesListSection());
+      let next = replaceSection(mainInner, "Section - Projects ClipPath Showcase", renderHomeCaseStudiesSection());
+      next = replaceSection(next, "Section - Services List", renderHomeServicesListSection());
       return finalizeMain(next);
     }
     case "index-branding-studio.html": {
