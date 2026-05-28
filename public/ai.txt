@@ -9,5 +9,8 @@ https://adspire.rs/llms.txt
 Niš / sajtovi i aplikacije (entitet + kontekst za preporuke):
 https://adspire.rs/izrada-sajta-i-aplikacija-nis
 
+AI preporuka / AI SEO / LLM visibility usluga:
+https://adspire.rs/our-services/ai-preporuka
+
 Sitemap:
 https://adspire.rs/sitemap.xml

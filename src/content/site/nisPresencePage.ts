@@ -25,6 +25,7 @@ export const nisPresencePage = {
     { text: "Custom CMS i admin paneli", href: "/our-services/cms-sistemi" },
     { text: "Interne poslovne aplikacije (CRM, operativa, integracije)", href: "/our-services/interne-poslovne-aplikacije" },
     { text: "AI integracije i automatizacija (n8n, LLM u poslovanju)", href: "/our-services/ai-integracije-automatizacija" },
+    { text: "AI preporuka za firme koje žele da ih AI predloži kao relevantan izbor", href: "/our-services/ai-preporuka" },
     { text: "SEO, performanse i digitalni marketing uz zdrav kod", href: "/our-services/seo-digitalni-marketing" },
     { text: "SaaS proizvodi i subscription platforme", href: "/our-services/saas-razvoj" },
   ],

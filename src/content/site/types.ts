@@ -29,6 +29,7 @@ export type ProjectItem = {
   url: string;
   summary: string;
   outcome: string;
+  href?: string;
 };
 
 export type TestimonialItem = {

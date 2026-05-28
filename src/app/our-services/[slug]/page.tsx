@@ -7,7 +7,7 @@ import {
 } from "@/components/site/azurioContentTransform";
 import { JsonLd } from "@/components/site/JsonLd";
 import { findServiceCatalogEntry, serviceSlugs } from "@/data/serviceCatalog";
-import { breadcrumbJsonLd, serviceJsonLd } from "@/lib/seo/jsonld";
+import { breadcrumbJsonLd, faqPageJsonLd, serviceJsonLd } from "@/lib/seo/jsonld";
 import { getSiteUrl } from "@/lib/seo/site";
 
 type ServiceDetailPageProps = {
@@ -79,6 +79,7 @@ export default async function ServiceDetailPage({ params }: ServiceDetailPagePro
       <JsonLd
         data={[
           serviceJsonLd(catalog, service.title),
+          faqPageJsonLd(catalog.faqItems, `${getSiteUrl()}/our-services/${slug}`),
           breadcrumbJsonLd([
             { name: "Početna", path: "/" },
             { name: "Usluge", path: "/our-services" },

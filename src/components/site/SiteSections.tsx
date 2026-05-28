@@ -152,7 +152,7 @@ export function ProjectsGrid({ items }: { items: ProjectItem[] }) {
             <h3>{project.name}</h3>
             <p>{project.summary}</p>
             <p className="project-card__outcome">{project.outcome}</p>
-            <Link href="/project-single" className="inline-link">
+            <Link href={project.href ?? "/project-single"} className="inline-link">
               Pogledaj detalj
             </Link>
           </div>

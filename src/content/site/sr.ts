@@ -80,6 +80,19 @@ const services: ServiceItem[] = [
     cta: "Detalji usluge",
   },
   {
+    title: "AI preporuka za vaš biznis",
+    summary:
+      "Ako neko pita AI koji majstor, salon, kliniku, agenciju ili lokalni biznis da izabere, pripremamo vaš digitalni trag da AI lakše razume zašto ste relevantna preporuka.",
+    bullets: [
+      "Jasno objašnjenje ko ste, šta radite i za koga ste najbolji izbor",
+      "Stranice, FAQ i strukturisani podaci koje AI može lakše da protumači",
+      "Primeri upita: stolarija, klinika, salon, restoran, lokalna usluga",
+    ],
+    slug: "ai-preporuka",
+    href: "/our-services/ai-preporuka",
+    cta: "Detalji usluge",
+  },
+  {
     title: "Business intelligence i analitika",
     summary:
       "Gradimo dashboard-e i izveštaje koji se vezuju za vaše izvore istine — da vlasnici i timovi vide KPI, a ne samo skrinšotove iz alata.",
@@ -174,58 +187,54 @@ const services: ServiceItem[] = [
 
 const projects: ProjectItem[] = [
   {
-    name: "tamitrade.com",
-    category: "Korporativni sajt",
-    image: "/images/portfolio/one.png",
-    url: "https://tamitrade.com",
+    name: "Dr Igic Clinic",
+    category: "Booking + klinika",
+    image: "/images/case-studies/drigic-mobileview.png",
+    url: "https://drigic.rs",
+    href: "/our-projects/dr-igic-web-aplikacija-za-estetske-klinike",
     summary:
-      "Korporativna prezentacija sa jasnim prodajnim tokom i uredjenim sadrzajnim slojem za B2B publiku.",
-    outcome: "Jasnije predstavljanje ponude i stabilniji inbound upiti.",
+      "Web aplikacija za estetsku kliniku sa javnim sajtom, online zakazivanjem, Beauty Pass zonom i admin kalendarom.",
+    outcome: "Marketing, termini, klijenti, tretmani i analitika povezani su u jedan operativni sistem.",
   },
   {
-    name: "prevozkop.rs",
-    category: "Booking + servis",
-    image: "/images/portfolio/two.png",
+    name: "Prevoz Kop",
+    category: "SEO + operativa",
+    image: "/images/case-studies/prevozkop-desktop.png",
     url: "https://prevozkop.rs",
+    href: "/our-projects/prevozkop-digitalni-prodajni-operativni-sistem",
     summary:
-      "Sistem za rezervacije i operativni tok koji smanjuje rucnu koordinaciju i ubrzava obradu zahteva.",
-    outcome: "Manje administracije i brzi put od upita do potvrde.",
+      "SEO sajt, katalog, online upiti i interni admin panel za leadove, ponude, radnike, vozila i isporuke.",
+    outcome: "Upiti sa sajta ulaze u prodajni tok, a operativa dobija centralno mesto za svakodnevni rad.",
   },
   {
-    name: "aircoolplus.rs",
-    category: "Lead generation",
-    image: "/images/portfolio/three.png",
-    url: "https://aircoolplus.rs",
+    name: "Santos & Santorini",
+    category: "E-commerce",
+    image: "/images/case-studies/santos-desktop.png",
+    url: "https://santos-santorini.com",
+    href: "/our-projects/santos-santorini-web-shop-admin-platforma",
     summary:
-      "Servisni i prodajni sajt optimizovan za lokalnu traznju, upite i jednostavno odrzavanje.",
-    outcome: "Vise relevantnih leadova iz organskog i placenog saobracaja.",
+      "Web shop i admin platforma za premium modni brend, katalog, korpu, checkout, content i integracije.",
+    outcome: "Prodaja, lager, porudzbine, promocije i marketplace tokovi rade iz jedne platforme.",
   },
   {
-    name: "infinity-gym.rs",
-    category: "Brand sajt",
-    image: "/images/portfolio/four.png",
-    url: "https://infinity-gym.rs",
+    name: "TeachFromHome",
+    category: "Recruiting platforma",
+    image: "/images/case-studies/teachfromhome-desktop.png",
+    url: "https://teachfromhome.app",
+    href: "/our-projects/teachfromhome-onboarding-sistem-za-remote-nastavnike",
     summary:
-      "Vizuelno jaci nastup za lokalni brend uz jasnije sekcije, bolji ritam stranice i CTA tok.",
-    outcome: "Jacanje brenda i bolja konverzija sa mobilnih uredjaja.",
+      "Onboarding aplikacija za remote nastavnike sa Google prijavom, audio prijavom, admin review-om i referral sistemom.",
+    outcome: "Prijave vise ne zavrsavaju u inboxu, vec u merljivom funnel-u sa jasnim statusima.",
   },
   {
-    name: "autodelic.com",
-    category: "Katalog proizvoda",
-    image: "/images/portfolio/five.png",
-    url: "https://autodelic.com",
+    name: "Doctor Barber",
+    category: "Booking sistem",
+    image: "/images/case-studies/doctorbarber.png",
+    url: "https://doctorbarber.rs",
+    href: "/our-projects/doctor-barber-online-booking-sistem",
     summary:
-      "Pregledan katalog sa fokusom na navigaciju, organizaciju ponude i tehnicku odrzivost.",
-    outcome: "Brze snalazenje kroz proizvode i manje frikcije u prodajnom toku.",
-  },
-  {
-    name: "mlgroup.rs",
-    category: "Poslovna platforma",
-    image: "/images/portfolio/six.png",
-    url: "https://mlgroup.rs",
-    summary:
-      "Slozeniji poslovni nastup sa jasnijim informacijama, strukturisanim sekcijama i modernijim sistemom.",
-    outcome: "Ozbiljniji digitalni nastup i lakse predstavljanje usluga i referenci.",
+      "Booking aplikacija za barber studio sa javnim sajtom, online terminima, klijentskim nalogom i admin kalendarom.",
+    outcome: "Studio dobija raspored koji radi 24/7, manje rucnog dogovaranja i bolji pregled klijenata.",
   },
 ];
 

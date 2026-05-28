@@ -13,6 +13,7 @@ const SERVICE_IMAGE_MAP: Record<string, string> = {
   "cms-sistemi": "/images/portfolio/two.png",
   "interne-poslovne-aplikacije": "/images/portfolio/six.png",
   "ai-integracije-automatizacija": "/images/portfolio/three.png",
+  "ai-preporuka": "/images/blog/three.png",
   "business-intelligence-analitika": "/images/projects/one.png",
   "seo-digitalni-marketing": "/images/portfolio/four.png",
   "cyber-security-gdpr": "/images/portfolio/nine.png",
@@ -602,14 +603,15 @@ function renderProjectsHero() {
 
 function renderProjectCard(project: ProjectItem, wide = false) {
   const tags = [project.category, "Next.js", "Rezultat"];
+  const href = project.href ?? "/project-single";
   return `<div class="col-12 col-md-6 ${wide ? "col-xl-7" : "col-xl-5"} mxd-project-item animate-card-2">
-      <a class="mxd-project-item__media active-cursor-permanent" data-cursor-text="View Work" href="/project-single">
+      <a class="mxd-project-item__media active-cursor-permanent" data-cursor-text="View Work" href="${href}">
         <img src="${project.image}" alt="${escapeHtml(project.name)}">
         <div class="mxd-cover ${wide ? "mxd-cover-06" : "mxd-cover-03"}"></div>
       </a>
       <div class="mxd-project-item__caption">
         <div class="mxd-project-item__name">
-          <a class="project-name-s" href="/project-single">${escapeHtml(project.name)}</a>
+          <a class="project-name-s" href="${href}">${escapeHtml(project.name)}</a>
         </div>
         <div class="mxd-project-item__tags">
           ${tags.map((tag) => `<span class="tag tag-s tag-medium mxd-scramble">${escapeHtml(tag)}</span>`).join("")}
@@ -979,14 +981,35 @@ function renderServiceGallery(service: ServiceItem) {
 function renderServiceDetailSplit(service: ServiceItem, title: string, body: string, rightLabel: string) {
   const entry = findServiceCatalogEntry(service.slug);
   const items =
-    rightLabel === "Sta isporucujemo"
+    service.slug === "ai-preporuka" && rightLabel === "Sta isporucujemo"
+      ? [
+          {
+            title: "Mapiranje upita gde treba da budete preporuka",
+            description:
+              "Definisemo situacije u kojima korisnik pita AI za firmu poput vase: lokacija, usluga, problem, budzet i kriterijumi izbora.",
+          },
+          {
+            title: "Stranice koje jasno objasnjavaju zasto bas vi",
+            description:
+              "Sredjujemo usluge, FAQ, dokaze, lokaciju i konkretne razloge zbog kojih ste relevantan izbor za taj upit.",
+          },
+          {
+            title: "AI-readable signali i merenje upita",
+            description:
+              "Dodajemo strukturisane podatke, profil za AI alate, sitemap signale i pracenje poseta iz AI/search izvora.",
+          },
+        ]
+      : rightLabel === "Sta isporucujemo"
       ? service.bullets.map((bullet) => ({
           title: bullet,
           description: `${service.title} kroz konkretan iskorak koji pomera prodaju, upite ili operativu.`,
         }))
       : (entry?.searchPhrasesSr ?? service.bullets).slice(0, 3).map((phrase) => ({
           title: phrase,
-          description: "Tema i fokus koji koristimo za strukturu stranice, poruku i merljiv growth sloj.",
+          description:
+            service.slug === "ai-preporuka"
+              ? "Primer pitanja za koje zelimo da AI razume ko ste, sta radite i kada imate smisla kao preporuka."
+              : "Tema i fokus koji koristimo za strukturu stranice, poruku i merljiv growth sloj.",
         }));
 
   return renderProjectSplit(title, body, rightLabel, items);
@@ -1734,13 +1757,21 @@ export function buildServiceDetailMainHtml(slug: string) {
   let next = replaceSection(template, "Section - Inner Headline v07", renderServiceDetailHero(service));
   next = replaceSection(next, "Section - Split List v01", renderServiceDetailOverview(service));
   next = replaceSectionOccurrence(next, "Section - Images Grid Simple", renderServiceGallery(service), 0);
+  const serviceChallenge =
+    service.slug === "ai-preporuka"
+      ? "Kupci sve cesce pitaju AI kome da veruju, koga da pozovu ili koju firmu da izaberu. Ako vas sajt ne objasnjava jasno ko ste, sta radite, gde radite i zasto ste dobar izbor, AI nema dovoljno razloga da vas pomene."
+      : `Najcesci problem kod usluge "${service.title}" je sto biznisu treba rezultat bez improvizacije, a postojeci digitalni sloj obicno nema jasan funnel, prioritet ili metriku uspeha.`;
+  const serviceApproach =
+    service.slug === "ai-preporuka"
+      ? "Krecemo od realnih pitanja koja ljudi postavljaju AI alatima, zatim gradimo stranice, FAQ, dokaze, strukturisane podatke i profil koji objasnjavaju kada bas vas biznis treba uzeti u obzir."
+      : `Ulazimo od cilja, konteksta i obima, pa tek onda gradimo strukturu, dizajn i implementaciju. Na taj nacin ${service.title.toLowerCase()} nije izolovan task nego deo sireg sistema rasta.`;
   next = replaceSectionOccurrence(
     next,
     "Section - Split List v02",
     renderServiceDetailSplit(
       service,
       "Izazov",
-      `Najcesci problem kod usluge "${service.title}" je sto biznisu treba rezultat bez improvizacije, a postojeci digitalni sloj obicno nema jasan funnel, prioritet ili metriku uspeha.`,
+      serviceChallenge,
       "Sta isporucujemo",
     ),
     0,
@@ -1752,7 +1783,7 @@ export function buildServiceDetailMainHtml(slug: string) {
     renderServiceDetailSplit(
       service,
       "Pristup",
-      `Ulazimo od cilja, konteksta i obima, pa tek onda gradimo strukturu, dizajn i implementaciju. Na taj nacin ${service.title.toLowerCase()} nije izolovan task nego deo sireg sistema rasta.`,
+      serviceApproach,
       "Search i content fokus",
     ),
     1,
