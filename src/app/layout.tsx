@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
 import "@/app/globals.css";
 import { JsonLd } from "@/components/site/JsonLd";
@@ -83,7 +82,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
                 if (!document.documentElement.classList.contains('mxd-loader-complete')) {
                   document.documentElement.classList.add('mxd-fallback-visible');
                 }
-              }, 3200);
+              }, 1200);
             `,
           }}
         />
@@ -91,8 +90,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <body>
         <JsonLd data={[organizationJsonLd(), webSiteJsonLd()]} />
         {children}
-        <Script src="/azurio/js/libs.min.js" strategy="afterInteractive" />
-        <Script src="/azurio/js/app.js" strategy="afterInteractive" />
         <Analytics />
       </body>
     </html>

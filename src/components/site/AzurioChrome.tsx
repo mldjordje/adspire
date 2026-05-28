@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import Script from "next/script";
 import { getSiteContent } from "@/content/site";
 import { defaultLocale } from "@/lib/site-config";
 
@@ -6,10 +7,7 @@ const content = getSiteContent(defaultLocale);
 const menuServiceItems = content.servicesPage.items;
 
 /** Iste slike kao u Azurio HTML loaderu (`img/loa_01.webp` … `loa_07.webp` → `public/azurio/img/`). */
-const LOADER_IMAGE_PATHS = Array.from({ length: 7 }, (_, index) => {
-  const n = String(index + 1).padStart(2, "0");
-  return `/azurio/img/loa_${n}.webp`;
-});
+const LOADER_IMAGE_PATHS: string[] = [];
 
 type AzurioChromeProps = {
   children: ReactNode;
@@ -63,7 +61,7 @@ export function AzurioChrome({ children }: AzurioChromeProps) {
             <div className="mxd-menu__media">
               <div className="menu-media__wrapper">
                 {/* Isti izvor kao hero video u „The power of imagination” (index-design-studio → mxd-hero-06), portrait */}
-                <video preload="auto" autoPlay muted loop playsInline poster="/azurio/video/720x1280_hero-06.webp">
+                <video preload="none" muted loop playsInline poster="/azurio/video/720x1280_hero-06.webp">
                   <source type="video/mp4" src="/azurio/video/720x1280_hero-06.mp4" />
                   <source type="video/webm" src="/azurio/video/720x1280_hero-06.webm" />
                 </video>
@@ -376,6 +374,9 @@ export function AzurioChrome({ children }: AzurioChromeProps) {
         <p id="mxd-cursor__text" className="mxd-cursor__text" />
         <div id="mxd-cursor__image" className="mxd-cursor__image" />
       </div>
+
+      <Script src="/azurio/js/libs.min.js" strategy="lazyOnload" />
+      <Script src="/azurio/js/app.min.js" strategy="lazyOnload" />
     </>
   );
 }

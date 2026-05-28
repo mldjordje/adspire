@@ -1,6 +1,4 @@
 import { AzurioChrome } from "@/components/site/AzurioChrome";
-import { SplineLoader } from "@/components/site/SplineLoader";
-import { ServicesR3F } from "@/components/site/ServicesR3F";
 import {
   injectAfterBlur,
   loadTemplateSectionRange,
@@ -72,13 +70,11 @@ function injectSplineBackground(html: string, sceneUrl: string): string {
 
 /**
  * Prepares the branding-studio hero:
- *  1. Removes the video-wrap section entirely
- *  2. Injects the Spline robot as hero background
+ *  1. Removes the video-wrap section entirely.
+ *  2. Leaves a lightweight CSS-backed background instead of booting Spline.
  */
 function prepareBrandingHero(heroHtml: string): string {
-  let html = removeDivWithClass(heroHtml, "mxd-hero-01__video-wrap");
-  html = injectSplineBackground(html, SPLINE_HERO_URL);
-  return html;
+  return removeDivWithClass(heroHtml, "mxd-hero-01__video-wrap");
 }
 
 /**
@@ -110,16 +106,6 @@ function prepareCreativeAgencyHero(heroHtml: string): string {
 function prepareFreelancerHero(heroHtml: string): string {
   let html = removeDivWithClass(heroHtml, "mxd-hero-09__background");
   html = removeDivWithClass(html, "mxd-hero-09__media");
-
-  // No mouse-target="global" — keeps scene interactive but not scroll-tracking
-  const splineEl =
-    `<div class="mxd-hero-09__spline-bg">` +
-    `<spline-viewer url="${SPLINE_GLASS_URL}" background="transparent"></spline-viewer>` +
-    `</div>\n`;
-  const coverTag = `<div class="mxd-hero-09__cover">`;
-  if (html.includes(coverTag)) {
-    html = html.replace(coverTag, splineEl + coverTag);
-  }
 
   html = html
     .replace(
@@ -369,14 +355,8 @@ const COMPOSITE_BLOCKS = [
   prepareFreelancerHero(
     loadTemplateHeroSection("index-freelancer-portfolio.html"),
   ),
-  // 3. Services showcase — 8 usluga sa Three.js animacijama
-  prepareServicesStack(
-    loadTemplateSectionRange(
-      "index-branding-studio.html",
-      "Section - Progects Stack",
-      "Section - Progects Stack",
-    ),
-  ),
+  // Heavy 3D services stack intentionally removed; the landing now uses the
+  // lighter premium services matrix from index-digital-agency.html.
   // NOTE: Sve ostale sekcije (Creative Agency hero, Projects Grid,
   // Design Studio hero, Software Dev hero, Web Studio hero) su uklonjene —
   // višestruki hero blokovi konfuze korisnike i smanjuju konverziju.
@@ -399,9 +379,6 @@ export function AzurioCompositeHomePage() {
 
   return (
     <>
-      <SplineLoader />
-      <ServicesR3F />
-
       <AzurioChrome>
         <div
           className="azurio-template-root"
