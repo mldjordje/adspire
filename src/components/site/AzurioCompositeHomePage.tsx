@@ -1,4 +1,5 @@
 import { AzurioChrome } from "@/components/site/AzurioChrome";
+import { AdspireMotionController } from "@/components/site/AdspireMotionController";
 import {
   injectAfterBlur,
   loadTemplateSectionRange,
@@ -74,7 +75,33 @@ function injectSplineBackground(html: string, sceneUrl: string): string {
  *  2. Leaves a lightweight CSS-backed background instead of booting Spline.
  */
 function prepareBrandingHero(heroHtml: string): string {
-  return removeDivWithClass(heroHtml, "mxd-hero-01__video-wrap");
+  let html = removeDivWithClass(heroHtml, "mxd-hero-01__video-wrap");
+  const visual =
+    `<div class="adspire-kinetic-hero" aria-hidden="true">` +
+    `<div class="adspire-kinetic-hero__grid"></div>` +
+    `<div class="adspire-ai-core" role="img" aria-label="AI preporuka interaktivni signal">` +
+    `<div class="adspire-ai-core__halo"></div>` +
+    `<div class="adspire-ai-core__shell"><i></i><i></i><i></i><i></i></div>` +
+    `<div class="adspire-ai-core__face"><span>AI</span><b></b></div>` +
+    `<div class="adspire-ai-core__orbit"><i></i><i></i><i></i></div>` +
+    `</div>` +
+    `<div class="adspire-kinetic-hero__panel adspire-kinetic-hero__panel--one">` +
+    `<span>AI visibility</span><strong>AI preporuka</strong><em>Biznis koji AI razume</em>` +
+    `</div>` +
+    `<div class="adspire-kinetic-hero__panel adspire-kinetic-hero__panel--two">` +
+    `<span>Conversion system</span><strong>Web + booking</strong><em>Upit, termin, prodaja</em>` +
+    `</div>` +
+    `<div class="adspire-kinetic-hero__panel adspire-kinetic-hero__panel--three">` +
+    `<span>Product build</span><strong>SaaS / CRM</strong><em>Operativa bez haosa</em>` +
+    `</div>` +
+    `<div class="adspire-kinetic-hero__rail"><i></i><i></i><i></i><i></i></div>` +
+    `</div>\n`;
+
+  const coverTag = `<div class="mxd-hero-01__cover">`;
+  if (html.includes(coverTag)) {
+    html = html.replace(coverTag, visual + coverTag);
+  }
+  return html;
 }
 
 /**
@@ -106,6 +133,19 @@ function prepareCreativeAgencyHero(heroHtml: string): string {
 function prepareFreelancerHero(heroHtml: string): string {
   let html = removeDivWithClass(heroHtml, "mxd-hero-09__background");
   html = removeDivWithClass(html, "mxd-hero-09__media");
+
+  const visual =
+    `<div class="adspire-signal-stage" aria-hidden="true">` +
+    `<div class="adspire-signal-stage__ring"></div>` +
+    `<div class="adspire-signal-stage__ring adspire-signal-stage__ring--small"></div>` +
+    `<div class="adspire-signal-stage__card"><span>Next.js</span><strong>Core Web Vitals</strong></div>` +
+    `<div class="adspire-signal-stage__card"><span>LLM SEO</span><strong>AI-readable structure</strong></div>` +
+    `<div class="adspire-signal-stage__card"><span>Growth</span><strong>Measure every lead</strong></div>` +
+    `</div>\n`;
+  const coverTag = `<div class="mxd-hero-09__cover">`;
+  if (html.includes(coverTag)) {
+    html = html.replace(coverTag, visual + coverTag);
+  }
 
   html = html
     .replace(
@@ -384,6 +424,7 @@ export function AzurioCompositeHomePage() {
           className="azurio-template-root"
           dangerouslySetInnerHTML={{ __html: html }}
         />
+        <AdspireMotionController />
       </AzurioChrome>
     </>
   );
