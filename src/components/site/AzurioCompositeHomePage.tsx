@@ -1,6 +1,7 @@
 import { AzurioChrome } from "@/components/site/AzurioChrome";
 import { SplineLoader } from "@/components/site/SplineLoader";
 import { ServicesR3F } from "@/components/site/ServicesR3F";
+import { VideoController } from "@/components/site/VideoController";
 import {
   injectAfterBlur,
   loadTemplateSectionRange,
@@ -358,6 +359,121 @@ function prepareServicesStack(sectionHtml: string): string {
   );
 }
 
+// ─── Remove testimonials + image from template HTML ──────────────────────────
+
+/**
+ * Strips a top-level <div class="mxd-section ..."> block whose inner text
+ * contains the given needle string. Depth-balanced so nested divs are safe.
+ */
+function removeSectionByText(html: string, needle: string): string {
+  const idx = html.indexOf(needle);
+  if (idx === -1) return html;
+  const tagStart = html.lastIndexOf("<div", idx);
+  if (tagStart === -1) return html;
+  let pos = html.indexOf(">", tagStart) + 1;
+  let depth = 1;
+  while (pos < html.length && depth > 0) {
+    const nextOpen  = html.indexOf("<div", pos);
+    const nextClose = html.indexOf("</div>", pos);
+    if (nextClose === -1) break;
+    if (nextOpen !== -1 && nextOpen < nextClose) { depth++; pos = nextOpen + 4; }
+    else { depth--; if (depth === 0) return html.slice(0, tagStart) + html.slice(nextClose + 6); pos = nextClose + 6; }
+  }
+  return html;
+}
+
+function stripTestimonials(html: string): string {
+  // Remove heading block ("Few words from our clients")
+  let out = removeSectionByText(html, "Few words");
+  // Remove SVG illustration that follows (section-title__image)
+  out = removeSectionByText(out, "mxd-section-title__image");
+  // Remove the empty/carousel block that holds testimonial cards
+  // (it sits right before "Few words" — now that heading is gone,
+  //  the orphaned slider div is the first blank mxd-section after home-services)
+  out = out.replace(
+    /<div class="mxd-section blur-section">\s*<\/div>/,
+    "",
+  );
+  return out;
+}
+
+// ─── New showcase sections ─────────────────────────────────────────────────
+
+// 1. Scroll-cinema — video scrubbed by scroll, 3 story segments
+const SCROLL_CINEMA_HTML =
+  `<section class="adspire-scroll-cinema" aria-label="Naše veštine">` +
+    `<div class="adspire-scroll-cinema__sticky">` +
+      `<video class="adspire-scroll-cinema__video" src="/videos/scroll-scene.mp4" muted playsinline preload="auto" aria-hidden="true"></video>` +
+      `<div class="adspire-scroll-cinema__veil"></div>` +
+      `<div class="adspire-scroll-cinema__slides">` +
+
+        `<div class="adspire-scroll-cinema__slide" data-from="0" data-to="0.34">` +
+          `<span class="adspire-scroll-cinema__eyebrow">/ 01 — UI/UX dizajn</span>` +
+          `<h2 class="adspire-scroll-cinema__heading">Interfejs<br>koji ubjeđuje</h2>` +
+          `<p class="adspire-scroll-cinema__body">Figma prototip, motion design i piksel-precizna implementacija — od prvog wireframe-a do live animacije.</p>` +
+        `</div>` +
+
+        `<div class="adspire-scroll-cinema__slide" data-from="0.34" data-to="0.67">` +
+          `<span class="adspire-scroll-cinema__eyebrow">/ 02 — Web razvoj</span>` +
+          `<h2 class="adspire-scroll-cinema__heading">Kod koji<br>se skalira</h2>` +
+          `<p class="adspire-scroll-cinema__body">Next.js 15, TypeScript, WebGL i Three.js — arhitektura koja podnosi rast bez refaktorisanja.</p>` +
+        `</div>` +
+
+        `<div class="adspire-scroll-cinema__slide" data-from="0.67" data-to="1.01">` +
+          `<span class="adspire-scroll-cinema__eyebrow">/ 03 — Performanse</span>` +
+          `<h2 class="adspire-scroll-cinema__heading">100/100<br>Core Web Vitals</h2>` +
+          `<p class="adspire-scroll-cinema__body">LCP ispod 1.2s, CLS nula, FID nula. SEO struktura i brzina koja konvertuje od prvog utiska.</p>` +
+        `</div>` +
+
+      `</div>` +
+      `<div class="adspire-scroll-cinema__progress"><span class="adspire-scroll-cinema__progress-bar"></span></div>` +
+    `</div>` +
+  `</section>`;
+
+// 2. Craft split — video levo, tech stack desno
+const CRAFT_SPLIT_HTML =
+  `<section class="adspire-craft-split">` +
+    `<div class="adspire-craft-split__video-wrap">` +
+      `<video class="adspire-craft-video" src="/videos/hero-bg.mp4" autoplay muted loop playsinline preload="none" aria-hidden="true"></video>` +
+      `<div class="adspire-craft-split__video-overlay"></div>` +
+    `</div>` +
+    `<div class="adspire-craft-split__content">` +
+      `<span class="adspire-craft-split__eyebrow">Kako gradimo</span>` +
+      `<h2 class="adspire-craft-split__heading">Tehnički stack koji odgovara na svaki zahtev</h2>` +
+      `<ul class="adspire-craft-stack">` +
+        `<li class="adspire-craft-stack__item"><span class="adspire-craft-stack__num">01</span><strong>Next.js 15 + TypeScript</strong><em>Brz, SEO-spreman, production-grade</em></li>` +
+        `<li class="adspire-craft-stack__item"><span class="adspire-craft-stack__num">02</span><strong>Three.js + WebGL + GSAP</strong><em>3D scene, scroll animacije, shader efekti</em></li>` +
+        `<li class="adspire-craft-stack__item"><span class="adspire-craft-stack__num">03</span><strong>Figma → kod</strong><em>Design system, motion spec, pixel-perfect impl.</em></li>` +
+        `<li class="adspire-craft-stack__item"><span class="adspire-craft-stack__num">04</span><strong>AI integracije</strong><em>LLM agenti, n8n workflow, pametna automatizacija</em></li>` +
+      `</ul>` +
+    `</div>` +
+  `</section>`;
+
+// 3. Metrics strip — ambient video bg + 4 impaktne cifre
+const METRICS_STRIP_HTML =
+  `<section class="adspire-metrics-strip">` +
+    `<video class="adspire-video-ambient" src="/videos/services-ambient.mp4" autoplay muted loop playsinline preload="none" aria-hidden="true"></video>` +
+    `<div class="adspire-metrics-strip__veil"></div>` +
+    `<div class="adspire-metrics-strip__inner">` +
+      `<div class="adspire-metrics-strip__item">` +
+        `<strong class="adspire-metrics-strip__num">100</strong>` +
+        `<span class="adspire-metrics-strip__label">Core Web Vitals score</span>` +
+      `</div>` +
+      `<div class="adspire-metrics-strip__item">` +
+        `<strong class="adspire-metrics-strip__num">3D</strong>` +
+        `<span class="adspire-metrics-strip__label">WebGL + Three.js + Spline</span>` +
+      `</div>` +
+      `<div class="adspire-metrics-strip__item">` +
+        `<strong class="adspire-metrics-strip__num">48h</strong>` +
+        `<span class="adspire-metrics-strip__label">Od ideje do prvog prototipa</span>` +
+      `</div>` +
+      `<div class="adspire-metrics-strip__item">` +
+        `<strong class="adspire-metrics-strip__num">∞</strong>` +
+        `<span class="adspire-metrics-strip__label">Skalabilna arhitektura</span>` +
+      `</div>` +
+    `</div>` +
+  `</section>`;
+
 // ─── Page assembly ────────────────────────────────────────────────────────────
 
 const BASE_HOME_FILE = "index-digital-agency.html";
@@ -386,7 +502,19 @@ function buildCompositeHomeHtml() {
   const baseMainInner = loadTemplateMainInner(BASE_HOME_FILE);
   const baseMainWithoutHero = removeFirstHeroSection(baseMainInner);
   const injectedHeroes = COMPOSITE_BLOCKS.filter(Boolean).join("\n\n");
-  return injectAfterBlur(baseMainWithoutHero, injectedHeroes);
+  const withHeroes = injectAfterBlur(baseMainWithoutHero, injectedHeroes);
+
+  // Strip testimonials + image from base template
+  const cleaned = stripTestimonials(withHeroes);
+
+  // Inject new sections before the blog/news section
+  // The blog section contains "Featurednews" or "Featured news" from the template
+  const blogMarker = `pinned-section padding-top-subtitle-mobile padding-bottom-default`;
+  const blogIdx = cleaned.indexOf(blogMarker);
+  if (blogIdx === -1) return cleaned;
+  const insertAt = cleaned.lastIndexOf("<div", blogIdx);
+  const newSections = [SCROLL_CINEMA_HTML, CRAFT_SPLIT_HTML, METRICS_STRIP_HTML].join("\n\n");
+  return cleaned.slice(0, insertAt) + newSections + "\n\n" + cleaned.slice(insertAt);
 }
 
 // ─── Component (Server Component — no "use client") ──────────────────────────
@@ -401,6 +529,7 @@ export function AzurioCompositeHomePage() {
     <>
       <SplineLoader />
       <ServicesR3F />
+      <VideoController />
 
       <AzurioChrome>
         <div
