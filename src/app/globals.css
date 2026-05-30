@@ -1035,8 +1035,22 @@ html.mxd-fallback-visible .loading-chars .char {
   font-size: 0.94rem;
 }
 
+/* ── Project card image — enforced 16:9, handles desktop+mobile screenshots ── */
+
+.adspire-card-img-fixed {
+  aspect-ratio: 16 / 9 !important;
+  overflow: hidden !important;
+}
+
+.adspire-card-img-fixed img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: top center !important;
+}
+
 /* ═══════════════════════════════════════════════════════════════════════════
-   SCROLL-CINEMA  —  video scrubbed by scroll, 3 story segments
+   SCROLL-CINEMA  —  autoplay video bg, text transitions on scroll
    ═══════════════════════════════════════════════════════════════════════════ */
 
 .adspire-scroll-cinema {

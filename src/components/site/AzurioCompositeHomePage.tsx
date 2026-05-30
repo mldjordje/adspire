@@ -383,27 +383,42 @@ function removeSectionByText(html: string, needle: string): string {
 }
 
 function stripTestimonials(html: string): string {
-  // Remove heading block ("Few words from our clients")
   let out = removeSectionByText(html, "Few words");
-  // Remove SVG illustration that follows (section-title__image)
   out = removeSectionByText(out, "mxd-section-title__image");
-  // Remove the empty/carousel block that holds testimonial cards
-  // (it sits right before "Few words" — now that heading is gone,
-  //  the orphaned slider div is the first blank mxd-section after home-services)
-  out = out.replace(
-    /<div class="mxd-section blur-section">\s*<\/div>/,
-    "",
-  );
+  out = out.replace(/<div class="mxd-section blur-section">\s*<\/div>/, "");
   return out;
+}
+
+/**
+ * Strips the flat services grid from the base digital-agency template.
+ * Our R3F services stack (injected via COMPOSITE_BLOCKS) replaces it.
+ */
+function stripTemplateServices(html: string): string {
+  return removeSectionByText(html, "adspire-home-services");
+}
+
+/**
+ * Replaces template project cards with clean cards that enforce a fixed
+ * 16:9 aspect ratio — handles mixed desktop/mobile screenshots gracefully.
+ */
+function fixProjectImages(html: string): string {
+  // Add enforced aspect-ratio class to every project card image wrapper
+  return html.replace(
+    /class="([^"]*card__image[^"]*)"/g,
+    (match, cls) =>
+      cls.includes("adspire-card-img-fixed")
+        ? match
+        : `class="${cls} adspire-card-img-fixed"`,
+  );
 }
 
 // ─── New showcase sections ─────────────────────────────────────────────────
 
-// 1. Scroll-cinema — video scrubbed by scroll, 3 story segments
+// 1. Scroll-cinema — video autoplays in bg, text changes with scroll
 const SCROLL_CINEMA_HTML =
   `<section class="adspire-scroll-cinema" aria-label="Naše veštine">` +
     `<div class="adspire-scroll-cinema__sticky">` +
-      `<video class="adspire-scroll-cinema__video" src="/videos/scroll-scene.mp4" muted playsinline preload="auto" aria-hidden="true"></video>` +
+      `<video class="adspire-scroll-cinema__video" src="/videos/scroll-scene.mp4" autoplay muted loop playsinline preload="auto" aria-hidden="true"></video>` +
       `<div class="adspire-scroll-cinema__veil"></div>` +
       `<div class="adspire-scroll-cinema__slides">` +
 
@@ -504,8 +519,10 @@ function buildCompositeHomeHtml() {
   const injectedHeroes = COMPOSITE_BLOCKS.filter(Boolean).join("\n\n");
   const withHeroes = injectAfterBlur(baseMainWithoutHero, injectedHeroes);
 
-  // Strip testimonials + image from base template
-  const cleaned = stripTestimonials(withHeroes);
+  // Strip testimonials, flat services grid, fix project image aspect ratios
+  let cleaned = stripTestimonials(withHeroes);
+  cleaned = stripTemplateServices(cleaned);
+  cleaned = fixProjectImages(cleaned);
 
   // Inject new sections before the blog/news section
   // The blog section contains "Featurednews" or "Featured news" from the template

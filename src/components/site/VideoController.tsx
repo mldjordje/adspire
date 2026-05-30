@@ -4,25 +4,24 @@ import { useEffect } from "react";
 
 export function VideoController() {
   useEffect(() => {
-    // ── Autoplay all ambient videos ──────────────────────────────────────────
+    // ── Autoplay all background/ambient videos ───────────────────────────────
     document
-      .querySelectorAll<HTMLVideoElement>(".adspire-video-ambient, .adspire-craft-video")
+      .querySelectorAll<HTMLVideoElement>(
+        ".adspire-video-ambient, .adspire-craft-video, .adspire-scroll-cinema__video",
+      )
       .forEach((v) => {
         v.muted = true;
+        v.loop = true;
         v.play().catch(() => {});
       });
 
-    // ── Scroll-cinema scrub ──────────────────────────────────────────────────
+    // ── Scroll-cinema: text slide transitions only (no video scrub) ──────────
     const section = document.querySelector<HTMLElement>(".adspire-scroll-cinema");
-    const scrubVideo = document.querySelector<HTMLVideoElement>(".adspire-scroll-cinema__video");
-    if (!section || !scrubVideo) return;
+    if (!section) return;
 
     const slides = Array.from(
       section.querySelectorAll<HTMLElement>(".adspire-scroll-cinema__slide"),
     );
-
-    scrubVideo.preload = "auto";
-    scrubVideo.load();
 
     let raf = 0;
     let lastProgress = -1;
@@ -34,12 +33,8 @@ export function VideoController() {
       if (scrollable <= 0) return;
 
       const progress = Math.max(0, Math.min(1, -rect.top / scrollable));
-      if (Math.abs(progress - lastProgress) < 0.0008) return;
+      if (Math.abs(progress - lastProgress) < 0.002) return;
       lastProgress = progress;
-
-      if (scrubVideo.duration && isFinite(scrubVideo.duration)) {
-        scrubVideo.currentTime = progress * scrubVideo.duration;
-      }
 
       section.style.setProperty("--cinema-progress", String(progress));
 
