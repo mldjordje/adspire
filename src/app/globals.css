@@ -249,7 +249,8 @@ html.mxd-fallback-visible .loading-chars .char {
   inset: 0;
   width: 100%;
   height: 100%;
-  pointer-events: auto;
+  /* Disable pointer capture — prevents mouse freeze while scrolling past orb */
+  pointer-events: none;
   touch-action: none;
 }
 
@@ -1035,11 +1036,183 @@ html.mxd-fallback-visible .loading-chars .char {
   font-size: 0.94rem;
 }
 
-/* ── Project card image — enforced 16:9, handles desktop+mobile screenshots ── */
+/* ── Video background on service cards (last 4 services) ────────────────────── */
 
-.adspire-card-img-fixed {
-  aspect-ratio: 16 / 9 !important;
-  overflow: hidden !important;
+.card-video-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ── Services stack — compact height ─────────────────────────────────────────── */
+
+.adspire-services-stack .mxd-stack-cards__card {
+  min-height: 75svh !important;
+  height: 75svh !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   PROJECTS CINEMA  —  5 projekata, video bg po projektu, scroll-driven
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.adspire-projects-cinema {
+  position: relative;
+  height: 500svh;
+}
+
+.adspire-projects-cinema__sticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  background: #03030a;
+}
+
+.adspire-projects-cinema__videos {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.adspire-projects-cinema__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.7s ease;
+}
+
+.adspire-projects-cinema__video.is-active {
+  opacity: 1;
+}
+
+.adspire-projects-cinema__veil {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(105deg, rgba(3,3,10,0.88) 0%, rgba(3,3,10,0.4) 55%, rgba(3,3,10,0.7) 100%),
+    linear-gradient(180deg, rgba(3,3,10,0.5) 0%, rgba(3,3,10,0) 40%, rgba(3,3,10,0.6) 100%);
+}
+
+.adspire-projects-cinema__slides {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.adspire-projects-cinema__slide {
+  position: absolute;
+  left: clamp(2rem, 8vw, 9rem);
+  top: 50%;
+  transform: translateY(calc(-50% + 2rem));
+  max-width: 36rem;
+  opacity: 0;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  pointer-events: none;
+}
+
+.adspire-projects-cinema__slide.is-active {
+  opacity: 1;
+  transform: translateY(-50%);
+  pointer-events: auto;
+}
+
+.adspire-projects-cinema__counter {
+  display: block;
+  margin-bottom: 0.6rem;
+  color: rgba(255,255,255,0.3);
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  font-variant-numeric: tabular-nums;
+}
+
+.adspire-projects-cinema__cat {
+  display: block;
+  margin-bottom: 1rem;
+  color: rgba(255,255,255,0.5);
+  font-size: clamp(0.68rem, 0.78vw, 0.82rem);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.adspire-projects-cinema__name {
+  margin: 0 0 1.2rem;
+  color: #fff;
+  font-size: clamp(3rem, 6vw, 6.5rem);
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: -0.025em;
+}
+
+.adspire-projects-cinema__summary {
+  margin: 0 0 0.6rem;
+  color: rgba(255,255,255,0.72);
+  font-size: clamp(0.9rem, 1vw, 1.05rem);
+  line-height: 1.55;
+  max-width: 30rem;
+}
+
+.adspire-projects-cinema__outcome {
+  margin: 0 0 1.4rem;
+  color: rgba(255,255,255,0.45);
+  font-size: clamp(0.8rem, 0.88vw, 0.9rem);
+  line-height: 1.45;
+  max-width: 28rem;
+}
+
+.adspire-projects-cinema__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: #fff;
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-bottom: 1px solid rgba(255,255,255,0.35);
+  padding-bottom: 0.2rem;
+  text-decoration: none;
+  transition: border-color 0.2s, opacity 0.2s;
+}
+
+.adspire-projects-cinema__link:hover {
+  border-color: #fff;
+  opacity: 0.8;
+}
+
+.adspire-projects-cinema__progress {
+  position: absolute;
+  bottom: 2rem;
+  left: clamp(2rem, 8vw, 9rem);
+  z-index: 3;
+  width: clamp(6rem, 14vw, 12rem);
+  height: 1px;
+  background: rgba(255,255,255,0.15);
+  overflow: hidden;
+}
+
+.adspire-projects-cinema__bar {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  transform: scaleX(var(--projects-progress, 0));
+  transform-origin: left center;
+  transition: transform 0.08s linear;
+}
+
+@media (max-width: 767px) {
+  .adspire-projects-cinema { height: 450svh; }
+  .adspire-projects-cinema__slide { left: 1.5rem; right: 1.5rem; max-width: none; }
+  .adspire-projects-cinema__name { font-size: clamp(2.5rem, 11vw, 3.5rem); }
+  .adspire-projects-cinema__progress { left: 1.5rem; }
 }
 
 .adspire-card-img-fixed img {

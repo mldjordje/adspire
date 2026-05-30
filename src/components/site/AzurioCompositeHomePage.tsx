@@ -156,63 +156,16 @@ function prepareFreelancerHero(heroHtml: string): string {
 // ─── Services stack ───────────────────────────────────────────────────────────
 
 const ADSPIRE_SERVICES = [
-  {
-    title: "Web sajtovi",
-    tags: ["Next.js", "SEO", "CTA tok"],
-    summary: "Brz, jasan sajt koji vodi posetioca ka upitu.",
-    href: "/our-services/web-prezentacije",
-    scene: "web-prezentacije",
-  },
-  {
-    title: "Web shop",
-    tags: ["Katalog", "Placanje", "Analitika"],
-    summary: "Prodaja, porudzbine i administracija u jednom toku.",
-    href: "/our-services/e-commerce-web-shop",
-    scene: "ecommerce",
-  },
-  {
-    title: "Mobilne aplikacije",
-    tags: ["PWA", "iOS / Android", "Push"],
-    summary: "Aplikacije za korisnike, timove i interne procese.",
-    href: "/our-services/mobilne-aplikacije",
-    scene: "animated-shader",
-  },
-  {
-    title: "CMS sistemi",
-    tags: ["Admin panel", "Sadrzaj", "Kontrola"],
-    summary: "Sadrzaj, podaci i izmene bez tehnickog zastoja.",
-    href: "/our-services/cms-sistemi",
-    scene: "interactive-shader",
-  },
-  {
-    title: "AI automatizacija",
-    tags: ["LLM", "n8n", "Asistenti"],
-    summary: "Manje rucnog rada u prodaji, podrsci i operativi.",
-    href: "/our-services/ai-integracije-automatizacija",
-    scene: "ai",
-  },
-  {
-    title: "SEO & marketing",
-    tags: ["SEO", "Ads", "Merenje"],
-    summary: "Vidljivost, kampanje i jasna metrika rezultata.",
-    href: "/our-services/seo-digitalni-marketing",
-    scene: "seo",
-  },
-  {
-    title: "Security & GDPR",
-    tags: ["Audit", "GDPR", "Zastita"],
-    summary: "Osnovna sigurnost, procesi i manji rizik posle lansiranja.",
-    href: "/our-services/cyber-security-gdpr",
-    scene: "security",
-  },
-  {
-    title: "UI/UX dizajn",
-    tags: ["Figma", "Prototip", "Motion"],
-    summary: "Interfejs koji brzo objasni vrednost i sledeci korak.",
-    href: "/our-services/interaktivne-web-tehnologije",
-    scene: "uiux",
-  },
-] as const;
+  { title: "Web sajtovi",      tags: ["Next.js", "SEO", "CTA tok"]      as const, summary: "Brz, jasan sajt koji vodi posetioca ka upitu.",                   href: "/our-services/web-prezentacije",              scene: "web-prezentacije",  video: null },
+  { title: "Web shop",         tags: ["Katalog", "Placanje", "Analitika"] as const, summary: "Prodaja, porudzbine i administracija u jednom toku.",            href: "/our-services/e-commerce-web-shop",           scene: "ecommerce",         video: null },
+  { title: "Mobilne aplikacije", tags: ["PWA", "iOS / Android", "Push"]  as const, summary: "Aplikacije za korisnike, timove i interne procese.",              href: "/our-services/mobilne-aplikacije",            scene: "animated-shader",   video: null },
+  { title: "CMS sistemi",      tags: ["Admin panel", "Sadrzaj", "Kontrola"] as const, summary: "Sadrzaj, podaci i izmene bez tehnickog zastoja.",              href: "/our-services/cms-sistemi",                   scene: "interactive-shader",video: null },
+  // Last 4 — video background instead of Three.js
+  { title: "AI automatizacija", tags: ["LLM", "n8n", "Asistenti"]       as const, summary: "Manje rucnog rada u prodaji, podrsci i operativi.",              href: "/our-services/ai-integracije-automatizacija", scene: "",                  video: "/videos/waves-vertical.mp4" },
+  { title: "SEO & marketing",  tags: ["SEO", "Ads", "Merenje"]           as const, summary: "Vidljivost, kampanje i jasna metrika rezultata.",                href: "/our-services/seo-digitalni-marketing",       scene: "",                  video: "/videos/cta-bg.mp4" },
+  { title: "Security & GDPR",  tags: ["Audit", "GDPR", "Zastita"]        as const, summary: "Osnovna sigurnost, procesi i manji rizik posle lansiranja.",      href: "/our-services/cyber-security-gdpr",           scene: "",                  video: "/videos/galaxy-mobile.mp4" },
+  { title: "UI/UX dizajn",    tags: ["Figma", "Prototip", "Motion"]      as const, summary: "Interfejs koji brzo objasni vrednost i sledeci korak.",           href: "/our-services/interaktivne-web-tehnologije",  scene: "",                  video: "/videos/scroll-scene.mp4" },
+];
 
 function buildTagsHtml(tags: readonly string[]): string {
   return tags
@@ -272,23 +225,22 @@ function applyServiceToCard(
     `<p class="permanent">${svc.title}</p>`,
   );
 
-  // Build canvas + ghost placeholder
+  // Build background — video for last 4 services, Three.js canvas for first 4
   const coverMatch = c.match(/<div class="(card__cover[^"]*)">/);
   const coverClass = coverMatch ? coverMatch[1] : "card__cover";
-  const { canvas, ghost } = buildR3FCardHtml(svc.scene, coverClass);
 
-  // Replace the original .card__image block with the ghost placeholder
-  c = c.replace(
-    /<div class="card__image">[\s\S]*?<\/div>\s*<\/div>/,
-    ghost,
-  );
-
-  // Inject canvas BEFORE .card__wrapper so it is a direct child of the card
-  // and is NOT clipped by GSAP's clip-path on .card__image
-  c = c.replace(
-    `<div class="card__wrapper">`,
-    `${canvas}\n<div class="card__wrapper">`,
-  );
+  if (svc.video) {
+    // Video background card
+    const videoBg =
+      `<video class="card-video-bg" src="${svc.video}" autoplay muted loop playsinline preload="none" aria-hidden="true"></video>`;
+    const ghost = `<div class="card__image card__image--r3f-ghost"><div class="${coverClass}"></div></div>`;
+    c = c.replace(/<div class="card__image">[\s\S]*?<\/div>\s*<\/div>/, ghost);
+    c = c.replace(`<div class="card__wrapper">`, `${videoBg}\n<div class="card__wrapper">`);
+  } else {
+    const { canvas, ghost } = buildR3FCardHtml(svc.scene, coverClass);
+    c = c.replace(/<div class="card__image">[\s\S]*?<\/div>\s*<\/div>/, ghost);
+    c = c.replace(`<div class="card__wrapper">`, `${canvas}\n<div class="card__wrapper">`);
+  }
 
   return c;
 }
@@ -489,6 +441,47 @@ const METRICS_STRIP_HTML =
     `</div>` +
   `</section>`;
 
+// 4. Projects cinema — 5 projekata, video bg, scroll-driven
+const PROJECTS = [
+  { name: "Dr Igić Clinic",      cat: "Booking + klinika",     summary: "Web aplikacija sa online zakazivanjem, Beauty Pass zonom i admin kalendarom.",          outcome: "Marketing, termini, klijenti i analitika spojeni u jedan operativni sistem.", href: "/our-projects/dr-igic-web-aplikacija-za-estetske-klinike",              video: "/videos/cta-bg.mp4" },
+  { name: "Prevoz Kop",          cat: "SEO + operativa",        summary: "SEO sajt, katalog, online upiti i admin panel za leadove, vozila i isporuke.",            outcome: "Upiti sa sajta ulaze u prodajni tok, a operativa dobija centralno mjesto.", href: "/our-projects/prevozkop-digitalni-prodajni-operativni-sistem",          video: "/videos/scroll-scene.mp4" },
+  { name: "Santos & Santorini",  cat: "E-commerce",             summary: "Web shop i admin platforma za premium modni brend — katalog, checkout, marketplace.",    outcome: "Prodaja, lager, porudzbine i promocije rade iz jedne platforme.",          href: "/our-projects/santos-santorini-web-shop-admin-platforma",               video: "/videos/galaxy-mobile.mp4" },
+  { name: "TeachFromHome",       cat: "Recruiting platforma",   summary: "Onboarding app za remote nastavnike — Google prijava, audio intervju, referral sistem.", outcome: "Prijave vise ne zavrsavaju u inboxu, vec u merljivom funnel-u.",           href: "/our-projects/teachfromhome-onboarding-sistem-za-remote-nastavnike",    video: "/videos/waves-vertical.mp4" },
+  { name: "Doctor Barber",       cat: "Booking sistem",         summary: "Booking aplikacija za barber studio — online termini, klijentski nalog, admin.",         outcome: "Raspored koji radi 24/7 i jasna evidencija klijenata bez rucnog rada.",    href: "/our-projects/doctor-barber-online-booking-sistem",                     video: "/videos/hero-bg.mp4" },
+];
+
+const PROJECTS_CINEMA_HTML = (() => {
+  const slides = PROJECTS.map((p, i) => {
+    const from = i / PROJECTS.length;
+    const to   = (i + 1) / PROJECTS.length;
+    return (
+      `<div class="adspire-projects-cinema__slide" data-from="${from.toFixed(3)}" data-to="${to.toFixed(3)}">` +
+        `<span class="adspire-projects-cinema__counter">${String(i + 1).padStart(2,"0")} / ${String(PROJECTS.length).padStart(2,"0")}</span>` +
+        `<span class="adspire-projects-cinema__cat">${p.cat}</span>` +
+        `<h2 class="adspire-projects-cinema__name">${p.name}</h2>` +
+        `<p class="adspire-projects-cinema__summary">${p.summary}</p>` +
+        `<p class="adspire-projects-cinema__outcome">${p.outcome}</p>` +
+        `<a class="adspire-projects-cinema__link" href="${p.href}">Pogledaj projekat →</a>` +
+      `</div>`
+    );
+  }).join("\n");
+
+  const videos = PROJECTS.map((p, i) =>
+    `<video class="adspire-projects-cinema__video" data-idx="${i}" src="${p.video}" autoplay muted loop playsinline preload="${i === 0 ? "auto" : "none"}" aria-hidden="true"></video>`
+  ).join("\n");
+
+  return (
+    `<section class="adspire-projects-cinema" aria-label="Odabrani projekti">` +
+      `<div class="adspire-projects-cinema__sticky">` +
+        `<div class="adspire-projects-cinema__videos">${videos}</div>` +
+        `<div class="adspire-projects-cinema__veil"></div>` +
+        `<div class="adspire-projects-cinema__slides">${slides}</div>` +
+        `<div class="adspire-projects-cinema__progress"><span class="adspire-projects-cinema__bar"></span></div>` +
+      `</div>` +
+    `</section>`
+  );
+})();
+
 // ─── Page assembly ────────────────────────────────────────────────────────────
 
 const BASE_HOME_FILE = "index-digital-agency.html";
@@ -519,10 +512,11 @@ function buildCompositeHomeHtml() {
   const injectedHeroes = COMPOSITE_BLOCKS.filter(Boolean).join("\n\n");
   const withHeroes = injectAfterBlur(baseMainWithoutHero, injectedHeroes);
 
-  // Strip testimonials, flat services grid, fix project image aspect ratios
+  // Strip testimonials, flat services grid, old projects section
   let cleaned = stripTestimonials(withHeroes);
   cleaned = stripTemplateServices(cleaned);
-  cleaned = fixProjectImages(cleaned);
+  // Strip template projects section (replaced by projects cinema)
+  cleaned = removeSectionByText(cleaned, "adspire-home-cases");
 
   // Inject new sections before the blog/news section
   // The blog section contains "Featurednews" or "Featured news" from the template
@@ -530,7 +524,7 @@ function buildCompositeHomeHtml() {
   const blogIdx = cleaned.indexOf(blogMarker);
   if (blogIdx === -1) return cleaned;
   const insertAt = cleaned.lastIndexOf("<div", blogIdx);
-  const newSections = [SCROLL_CINEMA_HTML, CRAFT_SPLIT_HTML, METRICS_STRIP_HTML].join("\n\n");
+  const newSections = [PROJECTS_CINEMA_HTML, SCROLL_CINEMA_HTML, CRAFT_SPLIT_HTML, METRICS_STRIP_HTML].join("\n\n");
   return cleaned.slice(0, insertAt) + newSections + "\n\n" + cleaned.slice(insertAt);
 }
 
