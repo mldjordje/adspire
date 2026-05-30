@@ -1,5 +1,6 @@
 import { AzurioChrome } from "@/components/site/AzurioChrome";
-import { AdspireMotionController } from "@/components/site/AdspireMotionController";
+import { SplineLoader } from "@/components/site/SplineLoader";
+import { ServicesR3F } from "@/components/site/ServicesR3F";
 import {
   injectAfterBlur,
   loadTemplateSectionRange,
@@ -71,36 +72,12 @@ function injectSplineBackground(html: string, sceneUrl: string): string {
 
 /**
  * Prepares the branding-studio hero:
- *  1. Removes the video-wrap section entirely.
- *  2. Leaves a lightweight CSS-backed background instead of booting Spline.
+ *  1. Removes the video-wrap section entirely
+ *  2. Injects the Spline robot as hero background
  */
 function prepareBrandingHero(heroHtml: string): string {
   let html = removeDivWithClass(heroHtml, "mxd-hero-01__video-wrap");
-  const visual =
-    `<div class="adspire-kinetic-hero" aria-hidden="true">` +
-    `<div class="adspire-kinetic-hero__grid"></div>` +
-    `<div class="adspire-ai-core" role="img" aria-label="AI preporuka interaktivni signal">` +
-    `<div class="adspire-ai-core__halo"></div>` +
-    `<div class="adspire-ai-core__shell"><i></i><i></i><i></i><i></i></div>` +
-    `<div class="adspire-ai-core__face"><span>AI</span><b></b></div>` +
-    `<div class="adspire-ai-core__orbit"><i></i><i></i><i></i></div>` +
-    `</div>` +
-    `<div class="adspire-kinetic-hero__panel adspire-kinetic-hero__panel--one">` +
-    `<span>AI visibility</span><strong>AI preporuka</strong><em>Biznis koji AI razume</em>` +
-    `</div>` +
-    `<div class="adspire-kinetic-hero__panel adspire-kinetic-hero__panel--two">` +
-    `<span>Conversion system</span><strong>Web + booking</strong><em>Upit, termin, prodaja</em>` +
-    `</div>` +
-    `<div class="adspire-kinetic-hero__panel adspire-kinetic-hero__panel--three">` +
-    `<span>Product build</span><strong>SaaS / CRM</strong><em>Operativa bez haosa</em>` +
-    `</div>` +
-    `<div class="adspire-kinetic-hero__rail"><i></i><i></i><i></i><i></i></div>` +
-    `</div>\n`;
-
-  const coverTag = `<div class="mxd-hero-01__cover">`;
-  if (html.includes(coverTag)) {
-    html = html.replace(coverTag, visual + coverTag);
-  }
+  html = injectSplineBackground(html, SPLINE_HERO_URL);
   return html;
 }
 
@@ -134,17 +111,14 @@ function prepareFreelancerHero(heroHtml: string): string {
   let html = removeDivWithClass(heroHtml, "mxd-hero-09__background");
   html = removeDivWithClass(html, "mxd-hero-09__media");
 
-  const visual =
-    `<div class="adspire-signal-stage" aria-hidden="true">` +
-    `<div class="adspire-signal-stage__ring"></div>` +
-    `<div class="adspire-signal-stage__ring adspire-signal-stage__ring--small"></div>` +
-    `<div class="adspire-signal-stage__card"><span>Next.js</span><strong>Core Web Vitals</strong></div>` +
-    `<div class="adspire-signal-stage__card"><span>LLM SEO</span><strong>AI-readable structure</strong></div>` +
-    `<div class="adspire-signal-stage__card"><span>Growth</span><strong>Measure every lead</strong></div>` +
+  // No mouse-target="global" — keeps scene interactive but not scroll-tracking
+  const splineEl =
+    `<div class="mxd-hero-09__spline-bg">` +
+    `<spline-viewer url="${SPLINE_GLASS_URL}" background="transparent"></spline-viewer>` +
     `</div>\n`;
   const coverTag = `<div class="mxd-hero-09__cover">`;
   if (html.includes(coverTag)) {
-    html = html.replace(coverTag, visual + coverTag);
+    html = html.replace(coverTag, splineEl + coverTag);
   }
 
   html = html
@@ -395,8 +369,14 @@ const COMPOSITE_BLOCKS = [
   prepareFreelancerHero(
     loadTemplateHeroSection("index-freelancer-portfolio.html"),
   ),
-  // Heavy 3D services stack intentionally removed; the landing now uses the
-  // lighter premium services matrix from index-digital-agency.html.
+  // 3. Services showcase — 8 usluga sa Three.js animacijama
+  prepareServicesStack(
+    loadTemplateSectionRange(
+      "index-branding-studio.html",
+      "Section - Progects Stack",
+      "Section - Progects Stack",
+    ),
+  ),
   // NOTE: Sve ostale sekcije (Creative Agency hero, Projects Grid,
   // Design Studio hero, Software Dev hero, Web Studio hero) su uklonjene —
   // višestruki hero blokovi konfuze korisnike i smanjuju konverziju.
@@ -419,12 +399,14 @@ export function AzurioCompositeHomePage() {
 
   return (
     <>
+      <SplineLoader />
+      <ServicesR3F />
+
       <AzurioChrome>
         <div
           className="azurio-template-root"
           dangerouslySetInnerHTML={{ __html: html }}
         />
-        <AdspireMotionController />
       </AzurioChrome>
     </>
   );

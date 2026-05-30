@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
 import "@/app/globals.css";
 import { JsonLd } from "@/components/site/JsonLd";
@@ -24,9 +25,6 @@ export const metadata: Metadata = {
     "PWA razvoj",
     "e-commerce razvoj",
     "AI automatizacija",
-    "AI preporuka",
-    "AI SEO",
-    "LLM visibility",
     "SaaS razvoj",
   ],
   authors: [{ name: "Adspire Digital", url: siteUrl }],
@@ -82,7 +80,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
                 if (!document.documentElement.classList.contains('mxd-loader-complete')) {
                   document.documentElement.classList.add('mxd-fallback-visible');
                 }
-              }, 1200);
+              }, 3200);
             `,
           }}
         />
@@ -90,6 +88,8 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <body>
         <JsonLd data={[organizationJsonLd(), webSiteJsonLd()]} />
         {children}
+        <Script src="/azurio/js/libs.min.js" strategy="afterInteractive" />
+        <Script src="/azurio/js/app.js" strategy="afterInteractive" />
         <Analytics />
       </body>
     </html>
