@@ -1,5 +1,5 @@
 import { ORGANIZATION, getOrgSameAs, getSiteUrl } from "@/lib/seo/site";
-import type { ServiceCatalogEntry } from "@/data/serviceCatalog";
+import { serviceCatalog, type ServiceCatalogEntry } from "@/data/serviceCatalog";
 
 const base = () => getSiteUrl();
 
@@ -30,8 +30,29 @@ export function organizationJsonLd() {
     areaServed: [
       { "@type": "Country", name: "Serbia" },
       { "@type": "AdministrativeArea", name: "Niš" },
+      { "@type": "Country", name: "Bosnia and Herzegovina" },
+      { "@type": "Country", name: "Croatia" },
+      { "@type": "Country", name: "Slovenia" },
     ],
     priceRange: "$$",
+    knowsAbout: serviceCatalog.map((s) => s.keywordSr.split(",")[0].trim()),
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "Usluge Adspire Digital",
+      itemListElement: serviceCatalog.map((s, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        item: {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: s.keywordSr.split(",")[0].trim(),
+            description: s.metaDescriptionSr,
+            url: `${base()}/our-services/${s.slug}`,
+          },
+        },
+      })),
+    },
     ...(getOrgSameAs().length > 0 ? { sameAs: getOrgSameAs() } : {}),
   };
 }
