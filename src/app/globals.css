@@ -1823,3 +1823,49 @@ html.mxd-fallback-visible .loading-chars .char {
 }
 
 .bp-back__link:hover { color: rgba(255,255,255,0.85); }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   MOBILE PERFORMANCE — isključiti heavy GPU elemente na max-width: 767px
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media (max-width: 767px) {
+  /* Svi video elementi — sakriti i preveniti učitavanje */
+  video {
+    display: none !important;
+  }
+
+  /* Spline WebGL scene — hero-01 i hero-09 */
+  .mxd-hero-01__spline-bg,
+  .mxd-hero-09__spline-bg {
+    display: none !important;
+  }
+
+  /* Three.js R3F canvas u service karticama */
+  .card-r3f-canvas {
+    display: none !important;
+  }
+
+  /* Ghost placeholder može da ostane ali bez canvas-a iznad njega */
+  .card__image--r3f-ghost {
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  /* Scroll-cinema canvas ostaje (slike su OK) */
+  .adspire-scroll-cinema__canvas {
+    display: block !important;
+  }
+
+  /* Dugme "Drži za rotaciju" — sakriti jer nema Spline-a */
+  .spline-interact-btn {
+    display: none !important;
+  }
+
+  /* Projects cinema: sakriti video kontejner, pokazati fallback boju */
+  .adspire-projects-cinema__videos {
+    display: none !important;
+  }
+
+  /* Craft split video */
+  .adspire-craft-split__video-wrap {
+    display: none !important;
+  }
+}

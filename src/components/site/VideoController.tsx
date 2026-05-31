@@ -158,6 +158,19 @@ function playAmbient() {
 
 export function VideoController() {
   useEffect(() => {
+    const isMobile = window.innerWidth <= 767;
+
+    if (isMobile) {
+      // Prevent browser from fetching video files on mobile
+      document.querySelectorAll<HTMLVideoElement>("video").forEach((v) => {
+        v.preload = "none";
+        v.pause();
+        v.src = "";
+        v.load();
+      });
+      return;
+    }
+
     playAmbient();
     setupProjectsCinema();
 
