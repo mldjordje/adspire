@@ -242,62 +242,56 @@ const blogPosts = [
   {
     slug: "web-sistemi-spremni-za-rast",
     title: "Kako gradimo web sisteme koji podnose kampanje i skaliranje",
-    excerpt:
-      "Next.js, TypeScript i jasna arhitektura od prvog dana — zašto dobar sistem znači da ne prepisuješ kod kada klijent naraste.",
+    excerpt: "Next.js, TypeScript i jasna arhitektura od prvog dana — zašto dobar sistem znači da ne prepisuješ kod kada klijent naraste.",
     category: "Web razvoj",
     date: "03.04.2026",
     image: "/images/blog/one.png",
-    href: "/blog-single",
+    href: "/blog/web-sistemi-spremni-za-rast",
   },
   {
     slug: "booking-sistemi-bez-haosa",
     title: "Booking sistemi koji zamenjuju pozive, poruke i Excel tabele",
-    excerpt:
-      "Centralni kalendar, online termini i admin panel koji radi 24/7 — kako uslužni biznisi smanjuju ručni rad za 60%.",
+    excerpt: "Centralni kalendar, online termini i admin panel koji radi 24/7 — kako uslužni biznisi smanjuju ručni rad za 60%.",
     category: "Booking sistemi",
     date: "28.03.2026",
     image: "/images/blog/two.png",
-    href: "/blog-single",
+    href: "/blog/booking-sistemi-bez-haosa",
   },
   {
     slug: "seo-i-performanse-u-prvom-sprintu",
     title: "SEO i performanse ne idu na kraj projekta — ni kod nas",
-    excerpt:
-      "LCP ispod 1.2s, strukturirani podaci i Core Web Vitals 100 nisu bonus — grade se u prvi sprint jer je tada najjeftinije.",
+    excerpt: "LCP ispod 1.2s, strukturirani podaci i Core Web Vitals 100 nisu bonus — grade se u prvi sprint jer je tada najjeftinije.",
     category: "SEO & performanse",
     date: "21.03.2026",
     image: "/images/blog/three.png",
-    href: "/blog-single",
+    href: "/blog/seo-i-performanse-u-prvom-sprintu",
   },
   {
     slug: "threejs-webgl-u-produkciji",
     title: "Three.js i WebGL u produkciji — šta agencije ne govore klijentima",
-    excerpt:
-      "3D animacije na sajtovima su impresivne, ali bundle size, FPS na mobilnom i fallback za starije browsere su gde projekti padaju.",
+    excerpt: "3D animacije na sajtovima su impresivne, ali bundle size, FPS na mobilnom i fallback za starije browsere su gde projekti padaju.",
     category: "Frontend & 3D",
     date: "10.03.2026",
     image: "/images/blog/four.png",
-    href: "/blog-single",
+    href: "/blog/threejs-webgl-u-produkciji",
   },
   {
     slug: "ai-automatizacija-za-mala-preduzeca",
     title: "AI automatizacija nije samo za korporacije — konkretni primeri za mala preduzeća",
-    excerpt:
-      "n8n workflow, LLM agenti i integracije koje smanjuju ručni rad u prodaji, podršci i operativi — bez enterprise budžeta.",
+    excerpt: "n8n workflow, LLM agenti i integracije koje smanjuju ručni rad u prodaji, podršci i operativi — bez enterprise budžeta.",
     category: "AI & automatizacija",
     date: "01.03.2026",
     image: "/images/blog/one.png",
-    href: "/blog-single",
+    href: "/blog/ai-automatizacija-za-mala-preduzeca",
   },
   {
     slug: "ecommerce-koji-prodaje",
     title: "E-commerce koji zaista prodaje — razlika između kataloške stranice i sistema",
-    excerpt:
-      "Checkout tok, upsell mehanizmi, lager integracije i analytics — šta razdvaja web shop koji konvertuje od onog koji ne.",
+    excerpt: "Checkout tok, upsell mehanizmi, lager integracije i analytics — šta razdvaja web shop koji konvertuje od onog koji ne.",
     category: "E-commerce",
     date: "18.02.2026",
     image: "/images/blog/two.png",
-    href: "/blog-single",
+    href: "/blog/ecommerce-koji-prodaje",
   },
 ];
 
