@@ -366,30 +366,30 @@ function fixProjectImages(html: string): string {
 
 // ─── New showcase sections ─────────────────────────────────────────────────
 
-// 1. Scroll-cinema — video autoplays in bg, text changes with scroll
+// 1. Scroll-cinema — canvas image-sequence scrubbed by scroll (Apple-style)
 const SCROLL_CINEMA_HTML =
   `<section class="adspire-scroll-cinema" aria-label="Naše veštine">` +
     `<div class="adspire-scroll-cinema__sticky">` +
-      `<video class="adspire-scroll-cinema__video" src="/videos/scroll-scene.mp4" autoplay muted loop playsinline preload="auto" aria-hidden="true"></video>` +
+      `<canvas class="adspire-scroll-cinema__canvas" aria-hidden="true"></canvas>` +
       `<div class="adspire-scroll-cinema__veil"></div>` +
       `<div class="adspire-scroll-cinema__slides">` +
 
         `<div class="adspire-scroll-cinema__slide" data-from="0" data-to="0.34">` +
-          `<span class="adspire-scroll-cinema__eyebrow">/ 01 — UI/UX dizajn</span>` +
-          `<h2 class="adspire-scroll-cinema__heading">Interfejs<br>koji ubjeđuje</h2>` +
-          `<p class="adspire-scroll-cinema__body">Figma prototip, motion design i piksel-precizna implementacija — od prvog wireframe-a do live animacije.</p>` +
+          `<span class="adspire-scroll-cinema__eyebrow">/ 01 — UI/UX &amp; Motion design</span>` +
+          `<h2 class="adspire-scroll-cinema__heading">Svaki piksel<br>ima razlog</h2>` +
+          `<p class="adspire-scroll-cinema__body">Figma design sistem, frame-by-frame motion spec i pixel-perfect implementacija — interfejs koji ubjeđuje pre nego što korisnik pročita i reč.</p>` +
         `</div>` +
 
         `<div class="adspire-scroll-cinema__slide" data-from="0.34" data-to="0.67">` +
-          `<span class="adspire-scroll-cinema__eyebrow">/ 02 — Web razvoj</span>` +
-          `<h2 class="adspire-scroll-cinema__heading">Kod koji<br>se skalira</h2>` +
-          `<p class="adspire-scroll-cinema__body">Next.js 15, TypeScript, WebGL i Three.js — arhitektura koja podnosi rast bez refaktorisanja.</p>` +
+          `<span class="adspire-scroll-cinema__eyebrow">/ 02 — Next.js · Three.js · WebGL</span>` +
+          `<h2 class="adspire-scroll-cinema__heading">Produkcijski<br>kod od dana 1</h2>` +
+          `<p class="adspire-scroll-cinema__body">TypeScript, server components, WebGL shader efekti i 3D animacije — arhitektura koja podnosi skaliranje bez retroaktivnog refaktorisanja.</p>` +
         `</div>` +
 
         `<div class="adspire-scroll-cinema__slide" data-from="0.67" data-to="1.01">` +
-          `<span class="adspire-scroll-cinema__eyebrow">/ 03 — Performanse</span>` +
-          `<h2 class="adspire-scroll-cinema__heading">100/100<br>Core Web Vitals</h2>` +
-          `<p class="adspire-scroll-cinema__body">LCP ispod 1.2s, CLS nula, FID nula. SEO struktura i brzina koja konvertuje od prvog utiska.</p>` +
+          `<span class="adspire-scroll-cinema__eyebrow">/ 03 — Core Web Vitals · LCP · CLS</span>` +
+          `<h2 class="adspire-scroll-cinema__heading">100/100<br>od prvog deploya</h2>` +
+          `<p class="adspire-scroll-cinema__body">LCP ispod 1.2s, CLS nula, zero layout shift. Performanse i SEO ne idu na kraj projekta — grade se u prvu iteraciju.</p>` +
         `</div>` +
 
       `</div>` +
@@ -405,13 +405,14 @@ const CRAFT_SPLIT_HTML =
       `<div class="adspire-craft-split__video-overlay"></div>` +
     `</div>` +
     `<div class="adspire-craft-split__content">` +
-      `<span class="adspire-craft-split__eyebrow">Kako gradimo</span>` +
-      `<h2 class="adspire-craft-split__heading">Tehnički stack koji odgovara na svaki zahtev</h2>` +
+      `<span class="adspire-craft-split__eyebrow">Naš pristup razvoju</span>` +
+      `<h2 class="adspire-craft-split__heading">Stack koji nosi produkciju — ne samo demo</h2>` +
+      `<p class="adspire-craft-split__desc">Biramo tehnologije koje su dokazane u produkciji, ne u tutorialima. Svaki sloj ima razlog — od infrastrukture do animacije.</p>` +
       `<ul class="adspire-craft-stack">` +
-        `<li class="adspire-craft-stack__item"><span class="adspire-craft-stack__num">01</span><strong>Next.js 15 + TypeScript</strong><em>Brz, SEO-spreman, production-grade</em></li>` +
-        `<li class="adspire-craft-stack__item"><span class="adspire-craft-stack__num">02</span><strong>Three.js + WebGL + GSAP</strong><em>3D scene, scroll animacije, shader efekti</em></li>` +
-        `<li class="adspire-craft-stack__item"><span class="adspire-craft-stack__num">03</span><strong>Figma → kod</strong><em>Design system, motion spec, pixel-perfect impl.</em></li>` +
-        `<li class="adspire-craft-stack__item"><span class="adspire-craft-stack__num">04</span><strong>AI integracije</strong><em>LLM agenti, n8n workflow, pametna automatizacija</em></li>` +
+        `<li class="adspire-craft-stack__item"><span class="adspire-craft-stack__num">01</span><strong>Next.js 15 · App Router · TypeScript</strong><em>SSR, ISR, Edge runtime — brz, indeksiran, skalabilan</em></li>` +
+        `<li class="adspire-craft-stack__item"><span class="adspire-craft-stack__num">02</span><strong>Three.js · WebGL · GLSL · Spline</strong><em>3D scene, custom shader efekti, scroll-driven animacije</em></li>` +
+        `<li class="adspire-craft-stack__item"><span class="adspire-craft-stack__num">03</span><strong>Figma Design System → produkcijski kod</strong><em>Tokens, motion spec, responsive system bez kompromisa</em></li>` +
+        `<li class="adspire-craft-stack__item"><span class="adspire-craft-stack__num">04</span><strong>AI · LLM agenti · n8n workflow</strong><em>Automatizacija prodaje, podrške i operativnih procesa</em></li>` +
       `</ul>` +
     `</div>` +
   `</section>`;
@@ -422,32 +423,55 @@ const METRICS_STRIP_HTML =
     `<video class="adspire-video-ambient" src="/videos/services-ambient.mp4" autoplay muted loop playsinline preload="none" aria-hidden="true"></video>` +
     `<div class="adspire-metrics-strip__veil"></div>` +
     `<div class="adspire-metrics-strip__inner">` +
-      `<div class="adspire-metrics-strip__item">` +
-        `<strong class="adspire-metrics-strip__num">100</strong>` +
-        `<span class="adspire-metrics-strip__label">Core Web Vitals score</span>` +
-      `</div>` +
-      `<div class="adspire-metrics-strip__item">` +
-        `<strong class="adspire-metrics-strip__num">3D</strong>` +
-        `<span class="adspire-metrics-strip__label">WebGL + Three.js + Spline</span>` +
-      `</div>` +
-      `<div class="adspire-metrics-strip__item">` +
-        `<strong class="adspire-metrics-strip__num">48h</strong>` +
-        `<span class="adspire-metrics-strip__label">Od ideje do prvog prototipa</span>` +
-      `</div>` +
-      `<div class="adspire-metrics-strip__item">` +
-        `<strong class="adspire-metrics-strip__num">∞</strong>` +
-        `<span class="adspire-metrics-strip__label">Skalabilna arhitektura</span>` +
-      `</div>` +
+      `<div class="adspire-metrics-strip__item"><strong class="adspire-metrics-strip__num">100</strong><span class="adspire-metrics-strip__label">Core Web Vitals — Lighthouse score</span></div>` +
+      `<div class="adspire-metrics-strip__item"><strong class="adspire-metrics-strip__num">5+</strong><span class="adspire-metrics-strip__label">Produkcijskih sistema — live i aktivnih</span></div>` +
+      `<div class="adspire-metrics-strip__item"><strong class="adspire-metrics-strip__num">48h</strong><span class="adspire-metrics-strip__label">Od briefinga do prvog interaktivnog prototipa</span></div>` +
+      `<div class="adspire-metrics-strip__item"><strong class="adspire-metrics-strip__num">3D</strong><span class="adspire-metrics-strip__label">WebGL · Three.js · Spline — u produkciji</span></div>` +
     `</div>` +
   `</section>`;
 
 // 4. Projects cinema — 5 projekata, video bg, scroll-driven
 const PROJECTS = [
-  { name: "Dr Igić Clinic",      cat: "Booking + klinika",     summary: "Web aplikacija sa online zakazivanjem, Beauty Pass zonom i admin kalendarom.",          outcome: "Marketing, termini, klijenti i analitika spojeni u jedan operativni sistem.", href: "/our-projects/dr-igic-web-aplikacija-za-estetske-klinike",              video: "/videos/cta-bg.mp4" },
-  { name: "Prevoz Kop",          cat: "SEO + operativa",        summary: "SEO sajt, katalog, online upiti i admin panel za leadove, vozila i isporuke.",            outcome: "Upiti sa sajta ulaze u prodajni tok, a operativa dobija centralno mjesto.", href: "/our-projects/prevozkop-digitalni-prodajni-operativni-sistem",          video: "/videos/scroll-scene.mp4" },
-  { name: "Santos & Santorini",  cat: "E-commerce",             summary: "Web shop i admin platforma za premium modni brend — katalog, checkout, marketplace.",    outcome: "Prodaja, lager, porudzbine i promocije rade iz jedne platforme.",          href: "/our-projects/santos-santorini-web-shop-admin-platforma",               video: "/videos/galaxy-mobile.mp4" },
-  { name: "TeachFromHome",       cat: "Recruiting platforma",   summary: "Onboarding app za remote nastavnike — Google prijava, audio intervju, referral sistem.", outcome: "Prijave vise ne zavrsavaju u inboxu, vec u merljivom funnel-u.",           href: "/our-projects/teachfromhome-onboarding-sistem-za-remote-nastavnike",    video: "/videos/waves-vertical.mp4" },
-  { name: "Doctor Barber",       cat: "Booking sistem",         summary: "Booking aplikacija za barber studio — online termini, klijentski nalog, admin.",         outcome: "Raspored koji radi 24/7 i jasna evidencija klijenata bez rucnog rada.",    href: "/our-projects/doctor-barber-online-booking-sistem",                     video: "/videos/hero-bg.mp4" },
+  {
+    title: "Next.js booking platforma · Admin kalendar · Beauty Pass zona",
+    cat: "Estetska medicina · Klinika",
+    summary: "Javni sajt, online zakazivanje tretmana, klijentska zona i admin panel za Dr Igić Clinic — sistem koji spaja marketing i operativu.",
+    outcome: "Termini, klijenti, tretmani i analitika spojeni u jedan tok — bez Excel tabela i poziva.",
+    href: "/our-projects/dr-igic-web-aplikacija-za-estetske-klinike",
+    video: "/videos/cta-bg.mp4",
+  },
+  {
+    title: "SEO platforma · CRM panel · Operativni sistem za transport",
+    cat: "Transport · Logistika",
+    summary: "SEO sajt sa katalogom usluga, online upit formom i internim admin panelom za leadove, ponude, radnike i vozila — za Prevoz Kop.",
+    outcome: "Upiti sa sajta ulaze direktno u prodajni tok, a dispečeri imaju centralno mesto za rad.",
+    href: "/our-projects/prevozkop-digitalni-prodajni-operativni-sistem",
+    video: "/videos/scroll-scene.mp4",
+  },
+  {
+    title: "E-commerce sistem · Admin platforma · Marketplace integracije",
+    cat: "Premium modni brend",
+    summary: "Web shop i admin platforma za Santos & Santorini — katalog, korpa, checkout, content management i marketplace tokovi.",
+    outcome: "Prodaja, lager, porudžbine i promocije rade iz jedne platforme bez tehničkog zastoja.",
+    href: "/our-projects/santos-santorini-web-shop-admin-platforma",
+    video: "/videos/galaxy-mobile.mp4",
+  },
+  {
+    title: "Onboarding aplikacija · Google OAuth · Audio intervju · Referral sistem",
+    cat: "EdTech · Remote rad",
+    summary: "Platforma za onboarding remote nastavnika — Google prijava, audio snimak, admin review i referral sistem za TeachFromHome.",
+    outcome: "Prijave više ne završavaju u inboxu, nego u merljivom funnel-u sa jasnim statusima.",
+    href: "/our-projects/teachfromhome-onboarding-sistem-za-remote-nastavnike",
+    video: "/videos/waves-vertical.mp4",
+  },
+  {
+    title: "Booking sistem · Klijentski portal · 24/7 online termini",
+    cat: "Barber studio · Uslužni biznis",
+    summary: "Booking aplikacija za Doctor Barber — javni sajt, online zakazivanje, klijentski nalog i admin kalendar za osoblje.",
+    outcome: "Studio dobija raspored koji radi 24/7 i jasnu evidenciju klijenata bez ručnog dogovaranja.",
+    href: "/our-projects/doctor-barber-online-booking-sistem",
+    video: "/videos/hero-bg.mp4",
+  },
 ];
 
 const PROJECTS_CINEMA_HTML = (() => {
@@ -458,7 +482,7 @@ const PROJECTS_CINEMA_HTML = (() => {
       `<div class="adspire-projects-cinema__slide" data-from="${from.toFixed(3)}" data-to="${to.toFixed(3)}">` +
         `<span class="adspire-projects-cinema__counter">${String(i + 1).padStart(2,"0")} / ${String(PROJECTS.length).padStart(2,"0")}</span>` +
         `<span class="adspire-projects-cinema__cat">${p.cat}</span>` +
-        `<h2 class="adspire-projects-cinema__name">${p.name}</h2>` +
+        `<h2 class="adspire-projects-cinema__name">${p.title}</h2>` +
         `<p class="adspire-projects-cinema__summary">${p.summary}</p>` +
         `<p class="adspire-projects-cinema__outcome">${p.outcome}</p>` +
         `<a class="adspire-projects-cinema__link" href="${p.href}">Pogledaj projekat →</a>` +

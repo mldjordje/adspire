@@ -241,19 +241,19 @@ const projects: ProjectItem[] = [
 const blogPosts = [
   {
     slug: "web-sistemi-spremni-za-rast",
-    title: "Kako gradimo web sisteme spremne za kampanje i rast",
+    title: "Kako gradimo web sisteme koji podnose kampanje i skaliranje",
     excerpt:
-      "Proces koji povezuje strategiju, dizajn, development i merenje da sajt ne ostane samo lep nego i upotrebljiv u prodaji.",
-    category: "Strategija i development",
+      "Next.js, TypeScript i jasna arhitektura od prvog dana — zašto dobar sistem znači da ne prepisuješ kod kada klijent naraste.",
+    category: "Web razvoj",
     date: "03.04.2026",
     image: "/images/blog/one.png",
     href: "/blog-single",
   },
   {
     slug: "booking-sistemi-bez-haosa",
-    title: "Booking sistemi koji smanjuju haos u operativi",
+    title: "Booking sistemi koji zamenjuju pozive, poruke i Excel tabele",
     excerpt:
-      "Kako prelazak sa poziva i poruka na centralni kalendar menja dnevni rad usluznih biznisa.",
+      "Centralni kalendar, online termini i admin panel koji radi 24/7 — kako uslužni biznisi smanjuju ručni rad za 60%.",
     category: "Booking sistemi",
     date: "28.03.2026",
     image: "/images/blog/two.png",
@@ -261,22 +261,42 @@ const blogPosts = [
   },
   {
     slug: "seo-i-performanse-u-prvom-sprintu",
-    title: "Zasto SEO i performanse postavljamo vec u prvom sprintu",
+    title: "SEO i performanse ne idu na kraj projekta — ni kod nas",
     excerpt:
-      "Tehnicka osnova ne ide na kraj projekta kada nema vremena, nego na pocetak kada najvise vredi.",
-    category: "SEO i performance",
+      "LCP ispod 1.2s, strukturirani podaci i Core Web Vitals 100 nisu bonus — grade se u prvi sprint jer je tada najjeftinije.",
+    category: "SEO & performanse",
     date: "21.03.2026",
     image: "/images/blog/three.png",
     href: "/blog-single",
   },
   {
-    slug: "sta-znaci-dobar-agency-stack",
-    title: "Sta za nas znaci dobar agency stack",
+    slug: "threejs-webgl-u-produkciji",
+    title: "Three.js i WebGL u produkciji — šta agencije ne govore klijentima",
     excerpt:
-      "Spoj procesa, alata i odgovornosti koji omogucava da dizajn, development i growth rade kao jedan tim.",
-    category: "Agency sistem",
-    date: "13.03.2026",
+      "3D animacije na sajtovima su impresivne, ali bundle size, FPS na mobilnom i fallback za starije browsere su gde projekti padaju.",
+    category: "Frontend & 3D",
+    date: "10.03.2026",
     image: "/images/blog/four.png",
+    href: "/blog-single",
+  },
+  {
+    slug: "ai-automatizacija-za-mala-preduzeca",
+    title: "AI automatizacija nije samo za korporacije — konkretni primeri za mala preduzeća",
+    excerpt:
+      "n8n workflow, LLM agenti i integracije koje smanjuju ručni rad u prodaji, podršci i operativi — bez enterprise budžeta.",
+    category: "AI & automatizacija",
+    date: "01.03.2026",
+    image: "/images/blog/one.png",
+    href: "/blog-single",
+  },
+  {
+    slug: "ecommerce-koji-prodaje",
+    title: "E-commerce koji zaista prodaje — razlika između kataloške stranice i sistema",
+    excerpt:
+      "Checkout tok, upsell mehanizmi, lager integracije i analytics — šta razdvaja web shop koji konvertuje od onog koji ne.",
+    category: "E-commerce",
+    date: "18.02.2026",
+    image: "/images/blog/two.png",
     href: "/blog-single",
   },
 ];
