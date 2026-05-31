@@ -2,6 +2,7 @@ import { AzurioChrome } from "@/components/site/AzurioChrome";
 import { SplineLoader } from "@/components/site/SplineLoader";
 import { ServicesR3F } from "@/components/site/ServicesR3F";
 import { VideoController } from "@/components/site/VideoController";
+import { StickyMobileBar, WhatsAppFAB, CTAMidObserver } from "@/components/site/CTAOverlays";
 import {
   injectAfterBlur,
   loadTemplateSectionRange,
@@ -506,6 +507,21 @@ const PROJECTS_CINEMA_HTML = (() => {
   );
 })();
 
+// ─── Mid-page CTA section ────────────────────────────────────────────────────
+const CTA_MID_HTML =
+  `<section class="adspire-cta-mid" aria-label="Kontaktirajte nas">` +
+    `<div class="adspire-cta-mid__glow" aria-hidden="true"></div>` +
+    `<div class="adspire-cta-mid__card">` +
+      `<span class="adspire-cta-mid__eyebrow">/ Sledeći korak</span>` +
+      `<h2 class="adspire-cta-mid__heading">Imate projekat<br>u glavi?</h2>` +
+      `<p class="adspire-cta-mid__sub">Zakažimo 30-minutni discovery poziv — bez obaveza, bez praznih obećanja.</p>` +
+      `<div class="adspire-cta-mid__actions">` +
+        `<a class="adspire-cta-mid__btn" href="/contact-us">Zakazi razgovor</a>` +
+        `<a class="adspire-cta-mid__link" href="tel:+381601491491">ili nas pozovite →</a>` +
+      `</div>` +
+    `</div>` +
+  `</section>`;
+
 // ─── Page assembly ────────────────────────────────────────────────────────────
 
 const BASE_HOME_FILE = "index-digital-agency.html";
@@ -548,7 +564,7 @@ function buildCompositeHomeHtml() {
   const blogIdx = cleaned.indexOf(blogMarker);
   if (blogIdx === -1) return cleaned;
   const insertAt = cleaned.lastIndexOf("<div", blogIdx);
-  const newSections = [PROJECTS_CINEMA_HTML, SCROLL_CINEMA_HTML, CRAFT_SPLIT_HTML, METRICS_STRIP_HTML].join("\n\n");
+  const newSections = [PROJECTS_CINEMA_HTML, CTA_MID_HTML, SCROLL_CINEMA_HTML, CRAFT_SPLIT_HTML, METRICS_STRIP_HTML].join("\n\n");
   return cleaned.slice(0, insertAt) + newSections + "\n\n" + cleaned.slice(insertAt);
 }
 
@@ -565,6 +581,9 @@ export function AzurioCompositeHomePage() {
       <SplineLoader />
       <ServicesR3F />
       <VideoController />
+      <CTAMidObserver />
+      <StickyMobileBar />
+      <WhatsAppFAB />
 
       <AzurioChrome>
         <div

@@ -1869,3 +1869,359 @@ html.mxd-fallback-visible .loading-chars .char {
     display: none !important;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   CTA OVERLAYS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── 1. Sticky Mobile Bottom Bar ─────────────────────────────────────────── */
+@keyframes cta-bar-slide-up {
+  from { transform: translateY(110%); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+.adspire-sticky-bar {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .adspire-sticky-bar {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    padding: 12px 16px;
+    padding-bottom: max(12px, env(safe-area-inset-bottom));
+    gap: 10px;
+    background: rgba(8, 8, 8, 0.94);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+    animation: cta-bar-slide-up 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.8s both;
+  }
+
+  .adspire-sticky-bar__btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 48px;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    text-decoration: none;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .adspire-sticky-bar__btn:active {
+    transform: scale(0.96);
+  }
+
+  .adspire-sticky-bar__btn--primary {
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    color: #fff;
+    box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+  }
+
+  .adspire-sticky-bar__btn--primary:active {
+    box-shadow: 0 2px 10px rgba(99, 102, 241, 0.3);
+  }
+
+  .adspire-sticky-bar__btn--secondary {
+    background: transparent;
+    color: rgba(255, 255, 255, 0.82);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+  }
+
+  .adspire-sticky-bar__btn--secondary:active {
+    background: rgba(255, 255, 255, 0.06);
+  }
+}
+
+/* ── 2. Mid-Page CTA Section ─────────────────────────────────────────────── */
+@keyframes cta-border-spin {
+  to { --cta-border-angle: 360deg; }
+}
+
+@keyframes cta-fade-up {
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes cta-glow-pulse {
+  0%, 100% { opacity: 0.35; transform: scale(1); }
+  50%       { opacity: 0.55; transform: scale(1.08); }
+}
+
+@property --cta-border-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+.adspire-cta-mid {
+  position: relative;
+  width: 100%;
+  padding: 120px 24px;
+  background: #080808;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.adspire-cta-mid__glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 50% at 50% 50%,
+    rgba(99, 102, 241, 0.12) 0%,
+    rgba(139, 92, 246, 0.06) 40%,
+    transparent 70%);
+  pointer-events: none;
+  animation: cta-glow-pulse 6s ease-in-out infinite;
+}
+
+.adspire-cta-mid__card {
+  position: relative;
+  width: 100%;
+  max-width: 720px;
+  padding: 64px 56px;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.028);
+  text-align: center;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.adspire-cta-mid__card.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Animated conic-gradient border via pseudo-element */
+.adspire-cta-mid__card::before {
+  content: "";
+  position: absolute;
+  inset: -1.5px;
+  border-radius: 25.5px;
+  background: conic-gradient(
+    from var(--cta-border-angle),
+    transparent 0deg,
+    rgba(99, 102, 241, 0.9) 60deg,
+    rgba(139, 92, 246, 0.9) 120deg,
+    rgba(236, 72, 153, 0.6) 180deg,
+    transparent 240deg
+  );
+  animation: cta-border-spin 4s linear infinite;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  padding: 1.5px;
+  z-index: 0;
+}
+
+.adspire-cta-mid__card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.adspire-cta-mid__eyebrow {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(139, 92, 246, 0.9);
+  margin-bottom: 20px;
+}
+
+.adspire-cta-mid__heading {
+  margin: 0 0 16px;
+  font-size: clamp(2rem, 4.5vw, 3.2rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: #fff;
+}
+
+.adspire-cta-mid__sub {
+  margin: 0 0 40px;
+  font-size: clamp(0.95rem, 1.6vw, 1.1rem);
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.48);
+  max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.adspire-cta-mid__actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.adspire-cta-mid__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 52px;
+  padding: 0 32px;
+  border-radius: 14px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  color: #fff;
+  box-shadow: 0 8px 32px rgba(99, 102, 241, 0.35);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.adspire-cta-mid__btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(99, 102, 241, 0.5);
+}
+
+.adspire-cta-mid__link {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.45);
+  text-decoration: none;
+  letter-spacing: 0.01em;
+  transition: color 0.2s ease;
+  white-space: nowrap;
+}
+
+.adspire-cta-mid__link:hover {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+@media (max-width: 767px) {
+  .adspire-cta-mid {
+    padding: 80px 20px;
+  }
+
+  .adspire-cta-mid__card {
+    padding: 40px 28px;
+  }
+
+  .adspire-cta-mid__actions {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .adspire-cta-mid__btn {
+    width: 100%;
+  }
+}
+
+/* ── 3. WhatsApp FAB ─────────────────────────────────────────────────────── */
+@keyframes wa-pulse {
+  0%   { transform: scale(1);    opacity: 0.6; }
+  70%  { transform: scale(1.55); opacity: 0;   }
+  100% { transform: scale(1.55); opacity: 0;   }
+}
+
+.adspire-wa-fab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9998;
+  width: 56px;
+  height: 56px;
+}
+
+.adspire-wa-fab__ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: #25D366;
+  animation: wa-pulse 2.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  pointer-events: none;
+}
+
+.adspire-wa-fab__btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #25D366;
+  box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+  text-decoration: none;
+  transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.22s ease;
+}
+
+.adspire-wa-fab__btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 32px rgba(37, 211, 102, 0.6);
+}
+
+.adspire-wa-fab__btn svg {
+  width: 28px;
+  height: 28px;
+  fill: #fff;
+  flex-shrink: 0;
+}
+
+.adspire-wa-fab__tooltip {
+  position: absolute;
+  right: calc(100% + 10px);
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(10, 10, 10, 0.92);
+  backdrop-filter: blur(12px);
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.1);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.18s ease;
+}
+
+.adspire-wa-fab__btn:hover .adspire-wa-fab__tooltip,
+.adspire-wa-fab:hover .adspire-wa-fab__tooltip {
+  opacity: 1;
+}
+
+/* Na mobilnom pomjeriti gore da ne preklapa sticky bar */
+@media (max-width: 767px) {
+  .adspire-wa-fab {
+    bottom: 88px;
+    right: 16px;
+    width: 48px;
+    height: 48px;
+  }
+
+  .adspire-wa-fab__btn {
+    width: 48px;
+    height: 48px;
+  }
+
+  .adspire-wa-fab__btn svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .adspire-wa-fab__tooltip {
+    display: none;
+  }
+}
