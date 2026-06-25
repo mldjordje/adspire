@@ -160,7 +160,11 @@ const nextConfig = {
   },
   async rewrites() {
     return {
-      beforeFiles: [...buildTemplateRewrites()],
+      beforeFiles: [
+        // New AI Product Studio landing served at the homepage
+        { source: "/", destination: "/concept/index.html", locale: false },
+        ...buildTemplateRewrites(),
+      ],
       afterFiles: [
         // Serve Kopex static site without locale prefix
         { source: "/kopex", destination: "/kopex/index.html", locale: false },

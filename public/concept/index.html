@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Adspire — AI Product Studio | KI-Apps, Agenten, Automatisierung & Custom SaaS</title>
+<meta name="description" content="Adspire is an AI Product Studio from Niš. We build AI apps, agents, automations, custom SaaS and complete websites & web shops — systems that automate work, save hours and create measurable value. SR · EN · DE." />
+<meta name="keywords" content="AI Product Studio, AI agents, KI-Agenten, AI automation, Custom SaaS, web development, web shop, Niš, Serbia, Deutschland" />
+<link rel="canonical" href="https://adspire.rs/" />
+<meta name="theme-color" content="#08080a" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Adspire" />
+<meta property="og:title" content="Adspire — AI Product Studio" />
+<meta property="og:description" content="KI-Produkte und komplette Web-Entwicklung. Systeme, die Stunden sparen und messbaren Wert schaffen. SR · EN · DE." />
+<meta property="og:url" content="https://adspire.rs/" />
+<meta property="og:image" content="https://adspire.rs/images/case-studies/drigic-mobileview.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Adspire — AI Product Studio" />
+<meta name="twitter:description" content="AI products and full web development from Niš — SR · EN · DE." />
+<meta name="twitter:image" content="https://adspire.rs/images/case-studies/drigic-mobileview.png" />
+<link rel="alternate" hreflang="sr" href="https://adspire.rs/" />
+<link rel="alternate" hreflang="en" href="https://adspire.rs/" />
+<link rel="alternate" hreflang="de" href="https://adspire.rs/" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"ProfessionalService","name":"Adspire","alternateName":"Adspire Digital","description":"AI Product Studio — AI apps, agents, automations, custom SaaS and web development.","url":"https://adspire.rs","email":"djordje@adspire.rs","telephone":"+381601491491","priceRange":"$$","address":{"@type":"PostalAddress","streetAddress":"Dimitrija Leka 66","addressLocality":"Niš","postalCode":"18000","addressCountry":"RS"},"areaServed":[{"@type":"Country","name":"Serbia"},{"@type":"Country","name":"Germany"},{"@type":"Country","name":"Austria"},{"@type":"Country","name":"Switzerland"}],"knowsAbout":["AI applications","AI agents","AI automation","Custom SaaS","Web development","E-commerce","Booking systems"]}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --bg:#08080a; --bg2:#0d0d10; --bg3:#101014; --line:rgba(255,255,255,.08); --line2:rgba(255,255,255,.14);
+  --text:#f6f3f0; --muted:#b3b0a9; --faint:#8a8780;
+  --ember1:#ff9a23; --ember2:#e01200; --ember-soft:rgba(255,120,40,.16);
+  --display:'Space Grotesk',sans-serif; --body:'Inter',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+.lenis.lenis-smooth [data-lenis-prevent]{overscroll-behavior:contain}
+.lenis.lenis-stopped{overflow:hidden}
+body{background:var(--bg);color:var(--text);font-family:var(--body);-webkit-font-smoothing:antialiased;overflow-x:hidden;line-height:1.55}
+.grain{position:fixed;inset:-50%;z-index:60;pointer-events:none;opacity:.05;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");animation:grain 6s steps(6) infinite}
+@keyframes grain{0%{transform:translate(0,0)}20%{transform:translate(-6%,4%)}40%{transform:translate(4%,-6%)}60%{transform:translate(-4%,6%)}80%{transform:translate(6%,-4%)}100%{transform:translate(0,0)}}
+@media(prefers-reduced-motion:reduce){.grain{animation:none}}
+@media(pointer:fine){body{cursor:none}}
+canvas#signal{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.vignette{position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(115% 85% at var(--vx,72%) var(--vy,10%), transparent 26%, rgba(0,0,0,.5) 62%, rgba(0,0,0,.8) 100%)}
+.scrim{position:fixed;inset:0;z-index:1;pointer-events:none;background:#08080a;opacity:0;will-change:opacity}
+.toptint{position:fixed;top:0;left:0;right:0;height:62vh;z-index:1;pointer-events:none;background:linear-gradient(180deg,rgba(8,8,10,.82),rgba(8,8,10,.5) 28%,rgba(8,8,10,.22) 55%,transparent)}
+.wrap{position:relative;z-index:2;max-width:1180px;margin:0 auto;padding:0 22px}
+.em{background:linear-gradient(110deg,#ffb24d,#ff8a1e,#e01200,#ff9a23,#ffb24d);background-size:260% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:emshift 7s linear infinite}
+@keyframes emshift{to{background-position:260% center}}
+@media(prefers-reduced-motion:reduce){.em{animation:none}}
+h1,.fcta h2,.forge .headline .t,.tn-big,.liquid h2,.flame-play h2{text-shadow:-1.2px 0 rgba(255,60,60,.3),1.2px 0 rgba(55,170,255,.26),0 3px 38px rgba(0,0,0,.72),0 2px 6px rgba(0,0,0,.6)}
+.sub,.hmeta,.sec-title,.sec-note,.trust .clients,.eyebrow{text-shadow:0 1px 18px rgba(0,0,0,.7),0 1px 3px rgba(0,0,0,.55)}
+
+/* cursor (desktop) */
+.cur,.curr{display:none}
+@media(pointer:fine){
+ .cur{display:block;position:fixed;top:0;left:0;width:9px;height:9px;border-radius:50%;background:var(--ember1);z-index:9999;pointer-events:none;transform:translate(-50%,-50%);mix-blend-mode:screen;transition:width .25s,height .25s}
+ .cur.big{width:50px;height:50px;background:rgba(255,140,50,.18)}
+ .curr{display:block;position:fixed;top:0;left:0;width:32px;height:32px;border:1px solid rgba(255,255,255,.22);border-radius:50%;z-index:9998;pointer-events:none;transform:translate(-50%,-50%)}
+}
+
+/* intro */
+.intro{position:fixed;inset:0;z-index:9000;background:var(--bg);display:flex;align-items:center;justify-content:center;transition:opacity .8s ease,visibility .8s}
+.intro.gone{opacity:0;visibility:hidden}
+.intro .brand{font-family:var(--display);font-weight:700;font-size:clamp(34px,9vw,84px);letter-spacing:-.03em;display:flex}
+.intro .brand span{opacity:0;transform:translateY(40px) scale(.8);animation:assemble .7s cubic-bezier(.16,1,.3,1) forwards}
+@keyframes assemble{to{opacity:1;transform:none}}
+
+/* nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;backdrop-filter:blur(10px);background:linear-gradient(180deg,rgba(8,8,10,.86),rgba(8,8,10,0));border-bottom:1px solid transparent;transition:.4s}
+nav.scrolled{background:rgba(8,8,10,.93);border-color:var(--line)}
+.nav-in{max-width:1180px;margin:0 auto;padding:15px 22px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:var(--display);font-weight:700;font-size:19px;letter-spacing:-.02em;display:flex;align-items:center;gap:9px;z-index:210}
+.logo .dot{width:9px;height:9px;border-radius:50%;background:radial-gradient(circle at 35% 30%,var(--ember1),var(--ember2));box-shadow:0 0 16px 2px var(--ember-soft)}
+.nav-links{display:flex;gap:28px;align-items:center}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:14px;font-weight:500;transition:.25s}
+.nav-links a:hover{color:var(--text)}
+.nav-right{display:flex;gap:12px;align-items:center;z-index:210}
+.lang{display:flex;gap:2px;border:1px solid var(--line);border-radius:999px;padding:3px;font-size:12px}
+.lang button{background:none;border:none;color:var(--muted);padding:4px 10px;border-radius:999px;cursor:pointer;font-family:var(--body);font-weight:500;transition:.2s}
+.lang button.on{background:var(--text);color:#000}
+.cta-btn{font-family:var(--body);font-weight:500;font-size:14px;color:#0a0a0a;background:var(--text);border:none;border-radius:999px;padding:10px 18px;cursor:pointer;text-decoration:none;transition:.25s;display:inline-block;white-space:nowrap}
+.cta-btn:hover{transform:translateY(-1px);box-shadow:0 8px 34px rgba(255,140,50,.3)}
+.burger{display:none;flex-direction:column;gap:5px;width:26px;background:none;border:none;cursor:pointer;padding:4px;z-index:210}
+.burger span{display:block;height:2px;background:var(--text);border-radius:2px;transition:.3s}
+.menu.open .burger span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.menu.open .burger span:nth-child(2){opacity:0}
+.menu.open .burger span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.mobile-menu{position:fixed;inset:0;z-index:190;background:rgba(8,8,10,.97);backdrop-filter:blur(14px);display:flex;flex-direction:column;justify-content:center;padding:0 32px;gap:6px;opacity:0;visibility:hidden;transition:.4s}
+.menu.open .mobile-menu{opacity:1;visibility:visible}
+.mobile-menu a{font-family:var(--display);font-weight:500;font-size:34px;letter-spacing:-.02em;color:var(--text);text-decoration:none;padding:12px 0;border-bottom:1px solid var(--line);transition:.25s}
+.mobile-menu a:hover,.mobile-menu a:active{color:var(--ember1);padding-left:10px}
+.mobile-menu .mm-cta{margin-top:28px;border:none;background:var(--text);color:#000;border-radius:999px;text-align:center;font-family:var(--body);font-size:18px;padding:16px}
+@media(max-width:820px){
+  .nav-links{display:none}
+  .nav-right .cta-btn{display:none}
+  .burger{display:flex}
+}
+
+/* hero */
+.hero{min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding-top:96px;padding-bottom:48px;will-change:transform,opacity}
+.eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:12.5px;font-weight:500;color:var(--muted);letter-spacing:.04em;border:1px solid var(--line);border-radius:999px;padding:7px 14px;margin-bottom:28px;width:fit-content}
+.eyebrow .pulse{width:7px;height:7px;border-radius:50%;background:var(--ember1);box-shadow:0 0 10px var(--ember1);animation:pulse 2.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.hmeta{display:flex;gap:14px 26px;flex-wrap:wrap;align-items:center;font-size:11.5px;letter-spacing:.05em;color:var(--faint);margin-bottom:26px;font-variant-numeric:tabular-nums;opacity:0;animation:fade 1s ease .3s forwards}
+.hmeta-l{display:inline-flex;align-items:center;gap:8px;color:var(--muted)}
+.hmeta-dot{width:6px;height:6px;border-radius:50%;background:#4ad07d;box-shadow:0 0 8px #4ad07d;animation:pulse 2.4s ease-in-out infinite}
+.hclock{color:var(--ember1)}
+h1{font-family:var(--display);font-weight:600;letter-spacing:-.03em;line-height:1.0;font-size:clamp(44px,9vw,94px);max-width:15ch}
+.reveal{display:block;overflow:hidden;padding-bottom:.02em}
+.reveal>span{display:block;transform:translateY(110%);animation:rise .95s cubic-bezier(.16,1,.3,1) forwards}
+.reveal>span.chx{transform:none;animation:none}
+.chx .ch{display:inline-block;transform:translateY(110%);animation:rise .9s cubic-bezier(.16,1,.3,1) forwards}
+@keyframes rise{to{transform:translateY(0)}}
+.rot{display:inline-flex;flex-direction:column;height:1em;overflow:hidden;vertical-align:bottom;line-height:1}
+.rot b{font-weight:600;line-height:1;height:1em;display:block;animation:roll 9s infinite;background:linear-gradient(110deg,#ffb24d,#ff8a1e,#e01200,#ff9a23,#ffb24d);background-size:260% auto;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 16px rgba(255,120,40,.4));animation:roll 9s infinite,emshift 7s linear infinite}
+@keyframes roll{0%,16%{transform:translateY(0)}20%,36%{transform:translateY(-100%)}40%,56%{transform:translateY(-200%)}60%,76%{transform:translateY(-300%)}80%,96%{transform:translateY(-400%)}100%{transform:translateY(-500%)}}
+.sub{margin-top:26px;font-size:clamp(16px,1.6vw,19px);color:var(--muted);max-width:50ch;line-height:1.6;opacity:0;animation:fade 1s ease .7s forwards}
+@keyframes fade{to{opacity:1}}
+.hero-cta{margin-top:34px;display:flex;gap:14px;align-items:center;flex-wrap:wrap;opacity:0;animation:fade 1s ease .9s forwards}
+.ghost{color:var(--text);text-decoration:none;font-size:14px;font-weight:500;display:inline-flex;align-items:center;gap:9px;border:1px solid var(--line2);border-radius:999px;padding:11px 20px;transition:.25s;cursor:pointer}
+.ghost:hover{border-color:rgba(255,255,255,.4);gap:13px}
+.trust{border-top:1px solid var(--line);padding:22px 0 4px;margin-top:38px;display:flex;align-items:center;gap:22px 40px;flex-wrap:wrap;opacity:0;animation:fade 1s ease 1.1s forwards}
+.trust .lbl{font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);white-space:nowrap}
+.trust .clients{display:flex;gap:14px 28px;flex-wrap:wrap;font-family:var(--display);font-weight:500;color:var(--muted);font-size:14.5px}
+
+/* marquee */
+.marquee{overflow:hidden;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:18px 0;position:relative;z-index:2;background:rgba(8,8,10,.4)}
+.marquee .track{display:flex;gap:42px;white-space:nowrap;font-family:var(--display);font-weight:500;font-size:clamp(17px,2.4vw,28px);color:var(--faint);will-change:transform}
+.marquee .track .it{display:flex;align-items:center;gap:42px}
+.marquee .track .it b{color:var(--ember1);font-weight:600}
+
+/* sections */
+section.blk{padding:96px 0;position:relative;z-index:2}
+@media(min-width:820px){section.blk{padding:120px 0}}
+.sec-head{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:14px;margin-bottom:44px}
+.sec-tag{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ember1);font-weight:500}
+.sec-title{font-family:var(--display);font-weight:600;font-size:clamp(26px,3.6vw,42px);letter-spacing:-.02em;max-width:20ch;margin-top:10px}
+.sec-note{color:var(--muted);font-size:15px;max-width:34ch}
+.rv{opacity:0;transform:translateY(30px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+.rv.in{opacity:1;transform:none}
+
+/* build list (AI) */
+.build .row{display:grid;grid-template-columns:48px 1fr auto;gap:16px;align-items:center;padding:24px 0;border-top:1px solid var(--line);cursor:pointer;transition:.4s;position:relative}
+.build .row:last-child{border-bottom:1px solid var(--line)}
+.build .row .num{font-family:var(--display);color:var(--faint);font-size:14px;transition:.3s}
+.build .row .main h3{font-family:var(--display);font-weight:500;font-size:clamp(20px,2.6vw,30px);letter-spacing:-.01em;transition:.3s}
+.build .row .main p{color:var(--muted);font-size:14px;margin-top:6px;max-width:62ch;transition:.3s}
+.build .row .arr{color:var(--faint);font-size:22px;transition:.35s;transform:translateX(-6px);opacity:0}
+.build .row:hover{padding-left:16px}
+.build .row:hover .num{color:var(--ember1)}.build .row:hover h3{color:var(--text)}
+.build .row:hover .arr{opacity:1;transform:translateX(0);color:var(--ember1)}
+.build .row::before{content:"";position:absolute;left:0;top:0;bottom:0;width:2px;background:linear-gradient(var(--ember1),var(--ember2));transform:scaleY(0);transform-origin:top;transition:.4s}
+.build .row:hover::before{transform:scaleY(1)}
+@media(max-width:560px){.build .row{grid-template-columns:30px 1fr;gap:12px}.build .row .arr{display:none}}
+
+/* services grid (classic) */
+.svc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.svc{background:var(--bg);padding:26px 22px;transition:.3s;cursor:pointer;position:relative;min-height:148px;display:flex;flex-direction:column}
+.svc:hover{background:var(--bg3)}
+.svc .ic{font-size:13px;color:var(--ember1);font-family:var(--display);font-weight:600;margin-bottom:auto}
+.svc h4{font-family:var(--display);font-weight:500;font-size:18px;letter-spacing:-.01em;margin-top:18px}
+.svc p{color:var(--muted);font-size:13px;margin-top:7px;line-height:1.5}
+.svc .gl{position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--ember1),var(--ember2));transform:scaleX(0);transform-origin:left;transition:.35s}
+.svc:hover .gl{transform:scaleX(1)}
+
+/* forge signature */
+.forge{height:300vh;position:relative;z-index:2}
+.forge .stick{position:sticky;top:0;height:100svh;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.forge .core{position:absolute;width:16px;height:16px;border-radius:50%;background:radial-gradient(circle at 40% 35%,var(--ember1),var(--ember2));box-shadow:0 0 60px 14px rgba(255,120,40,.5);will-change:transform,opacity}
+.forge .chip{position:absolute;font-family:var(--display);font-weight:500;font-size:clamp(13px,1.8vw,21px);color:var(--text);white-space:nowrap;will-change:transform,opacity;border:1px solid var(--line2);border-radius:999px;padding:8px 16px;background:rgba(13,13,16,.72);backdrop-filter:blur(4px)}
+.forge .headline{position:absolute;text-align:center;opacity:0;will-change:opacity,transform;pointer-events:none;padding:0 24px;z-index:5}
+.forge .headline .t{font-family:var(--display);font-weight:600;font-size:clamp(32px,7vw,76px);letter-spacing:-.025em;line-height:1.02}
+.forge .headline .s{color:var(--muted);margin-top:16px;font-size:15px;max-width:40ch;margin-left:auto;margin-right:auto}
+.forge .core{box-shadow:0 0 80px 20px rgba(255,120,40,.55),0 0 200px 60px rgba(224,18,0,.25)}
+.fflash{position:absolute;left:50%;top:50%;width:80vmax;height:80vmax;transform:translate(-50%,-50%) scale(.2);border-radius:50%;pointer-events:none;opacity:0;background:radial-gradient(circle,rgba(255,210,150,.9),rgba(255,120,40,.25) 30%,transparent 62%);mix-blend-mode:screen;will-change:opacity,transform}
+.fember{position:absolute;bottom:-10px;width:3px;height:3px;border-radius:50%;background:radial-gradient(circle,#ffd9a0,#ff7a1e);box-shadow:0 0 8px #ff7a1e;opacity:0;animation:frise linear infinite}
+@keyframes frise{0%{transform:translateY(0) scale(1);opacity:0}10%{opacity:.9}90%{opacity:.7}100%{transform:translateY(-78vh) scale(.3);opacity:0}}
+@media(prefers-reduced-motion:reduce){.fember{display:none}}
+
+/* title focus-in + accent glow */
+.sec-title,.fcta h2{clip-path:inset(0 0 100% 0);opacity:.25;transition:clip-path 1.05s cubic-bezier(.16,1,.3,1),opacity 1.05s}
+.sec-head.in .sec-title,.works-head.in .sec-title,.fcta.in h2{clip-path:inset(0 0 -18% 0);opacity:1}
+.em{filter:drop-shadow(0 0 16px rgba(255,120,40,.32))}
+.forge .headline .t{filter:drop-shadow(0 0 30px rgba(255,120,40,.4))}
+
+/* section A — pomeri vatru (interactive webgl) */
+.flame-play{position:relative;z-index:2;height:86vh;min-height:520px;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden}
+.flame-play canvas{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+.flame-play .fp-in{position:relative;z-index:2;pointer-events:none;padding:0 22px}
+.flame-play .fp-tag{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ember1);font-weight:500;margin-bottom:14px}
+.flame-play h2{font-family:var(--display);font-weight:600;font-size:clamp(34px,7.5vw,80px);letter-spacing:-.025em;line-height:1.02;text-shadow:0 2px 40px rgba(0,0,0,.75),0 1px 4px rgba(0,0,0,.6)}
+.flame-play .fp-hint{margin-top:22px;font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:inline-flex;align-items:center;gap:10px;text-shadow:0 1px 10px rgba(0,0,0,.7)}
+.flame-play .fp-hint .d{width:7px;height:7px;border-radius:50%;background:var(--ember1);box-shadow:0 0 10px var(--ember1);animation:pulse 2s ease-in-out infinite}
+
+/* section B — live AI agent chat demo */
+.chat{max-width:560px;margin:0 auto;background:var(--bg2);border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.45)}
+.chat-head{display:flex;align-items:center;gap:12px;padding:15px 18px;border-bottom:1px solid var(--line);background:var(--bg3)}
+.chat-head .ca{width:38px;height:38px;border-radius:50%;background:radial-gradient(circle at 35% 30%,var(--ember1),var(--ember2));position:relative;flex:0 0 auto;box-shadow:0 0 18px rgba(255,120,40,.4)}
+.chat-head .ca .cadot{position:absolute;right:-1px;bottom:-1px;width:11px;height:11px;border-radius:50%;background:#4ad07d;border:2px solid var(--bg3)}
+.chat-head .chm{flex:1}
+.chat-head .chm b{font-family:var(--display);font-weight:500;font-size:15px;display:block}
+.chat-head .chm span{font-size:12px;color:#4ad07d}
+.chat-replay{background:none;border:1px solid var(--line);color:var(--muted);width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:16px;transition:.3s;flex:0 0 auto}
+.chat-replay:hover{color:var(--ember1);border-color:var(--ember1);transform:rotate(-180deg)}
+.chat-body{padding:20px 18px;min-height:320px;display:flex;flex-direction:column;gap:11px}
+.msg{max-width:80%;padding:11px 15px;border-radius:16px;font-size:14.5px;line-height:1.5;opacity:0;transform:translateY(10px);animation:msgin .4s cubic-bezier(.16,1,.3,1) forwards;word-wrap:break-word}
+@keyframes msgin{to{opacity:1;transform:none}}
+.msg.agent{align-self:flex-start;background:var(--bg3);border:1px solid var(--line);border-bottom-left-radius:5px}
+.msg.user{align-self:flex-end;background:linear-gradient(120deg,rgba(255,140,50,.2),rgba(224,18,0,.14));border:1px solid rgba(255,140,50,.28);border-bottom-right-radius:5px}
+.msg.typing{display:inline-flex;gap:4px;align-items:center;padding:13px 15px}
+.msg.typing i{width:7px;height:7px;border-radius:50%;background:var(--muted);animation:tdot 1.2s infinite}
+.msg.typing i:nth-child(2){animation-delay:.2s}.msg.typing i:nth-child(3){animation-delay:.4s}
+@keyframes tdot{0%,60%,100%{opacity:.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-3px)}}
+.chatwrap{max-width:600px;margin:0 auto;overflow:hidden;border-radius:18px}
+.chattrack{display:flex;transition:transform .7s cubic-bezier(.16,1,.3,1);will-change:transform}
+.chatslide{flex:0 0 100%;min-width:100%}
+.chat-head .chm span.solve{color:var(--muted)}
+.chatnav{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:24px}
+.chatnav .arw{width:44px;height:44px;border-radius:50%;border:1px solid var(--line2);background:var(--bg2);color:var(--text);cursor:pointer;font-size:18px;transition:.25s;display:flex;align-items:center;justify-content:center}
+.chatnav .arw:hover{border-color:var(--ember1);color:var(--ember1);transform:scale(1.08)}
+.chatdots{display:flex;gap:9px;align-items:center}
+.chatdots button{width:8px;height:8px;border-radius:50%;background:var(--faint);border:none;cursor:pointer;transition:.35s;padding:0}
+.chatdots button.on{background:linear-gradient(120deg,var(--ember1),var(--ember2));width:26px;border-radius:4px}
+
+/* concept 1 — tunnel of problems (z-depth fly-through), 2nd shader bg cold->ember */
+.tunnel{height:600vh;position:relative;z-index:2}
+.tn-stick{position:sticky;top:0;height:100svh;overflow:hidden;display:flex;align-items:center;justify-content:center;perspective:1100px}
+.tn-stick canvas{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+.tn-stage{position:relative;z-index:2;width:100%;height:100%;transform-style:preserve-3d}
+.tn-ch{position:absolute;left:0;right:0;top:50%;text-align:center;padding:0 22px;will-change:transform,opacity,filter;opacity:0}
+.tn-sm{font-size:clamp(13px,2vw,17px);letter-spacing:.04em;color:#ece8e1;margin-bottom:14px;text-shadow:0 1px 18px rgba(0,0,0,.85),0 1px 3px rgba(0,0,0,.7)}
+.tn-big{font-family:var(--display);font-weight:700;font-size:clamp(38px,8.5vw,104px);letter-spacing:-.02em;line-height:.95;color:#f7f4f1;max-width:15ch;margin:0 auto;text-shadow:0 4px 60px rgba(0,0,0,.75),0 2px 6px rgba(0,0,0,.6)}
+.tn-final .tn-big{font-size:clamp(40px,8vw,92px)}
+.tn-sub{color:#ece8e1;max-width:44ch;margin:20px auto 28px;font-size:16px;line-height:1.6;text-shadow:0 1px 18px rgba(0,0,0,.85)}
+.tn-final .cta-btn{pointer-events:auto}
+
+/* concept 2 — liquid ember metaballs (interactive) */
+.liquid{position:relative;z-index:2;height:92vh;min-height:560px;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden}
+.liquid canvas{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+.liquid .lq-in{position:relative;z-index:2;pointer-events:none;padding:0 22px}
+.liquid .lq-tag{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ember1);font-weight:500;margin-bottom:14px}
+.liquid h2{font-family:var(--display);font-weight:600;font-size:clamp(34px,7vw,76px);letter-spacing:-.025em;line-height:1.02;max-width:16ch;margin:0 auto;text-shadow:0 2px 44px rgba(0,0,0,.8),0 1px 5px rgba(0,0,0,.65)}
+.liquid .lq-hint{margin-top:22px;font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:inline-flex;align-items:center;gap:10px;text-shadow:0 1px 12px rgba(0,0,0,.8)}
+.liquid .lq-hint .d{width:7px;height:7px;border-radius:50%;background:var(--ember1);box-shadow:0 0 10px var(--ember1);animation:pulse 2s ease-in-out infinite}
+
+/* concept 3 — fire warp tunnel (interactive steer) */
+.warp{position:relative;z-index:2;height:94vh;min-height:560px;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden}
+.warp canvas{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+.warp .wp-in{position:relative;z-index:2;pointer-events:none;padding:0 22px}
+.warp .wp-tag{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ember1);font-weight:500;margin-bottom:14px}
+.warp h2{font-family:var(--display);font-weight:600;font-size:clamp(34px,7vw,78px);letter-spacing:-.025em;line-height:1.02;max-width:15ch;margin:0 auto}
+.warp .wp-hint{margin-top:22px;font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:inline-flex;align-items:center;gap:10px;text-shadow:0 1px 12px rgba(0,0,0,.8)}
+.warp .wp-hint .d{width:7px;height:7px;border-radius:50%;background:var(--ember1);box-shadow:0 0 10px var(--ember1);animation:pulse 2s ease-in-out infinite}
+
+/* global readability scrim behind text over full-bleed shaders */
+.wp-in::before,.lq-in::before,.fp-in::before{content:"";position:absolute;inset:-16% -18%;z-index:-1;pointer-events:none;background:radial-gradient(60% 62% at 50% 50%,rgba(8,8,10,.66),rgba(8,8,10,.32) 56%,transparent 82%)}
+.tn-ch::before{content:"";position:absolute;inset:-22% -12%;z-index:-1;pointer-events:none;background:radial-gradient(58% 64% at 50% 50%,rgba(8,8,10,.58),rgba(8,8,10,.26) 56%,transparent 82%)}
+
+/* case */
+.case{background:var(--bg2);border:1px solid var(--line);border-radius:18px;overflow:hidden;display:grid;grid-template-columns:1.05fr 1fr}
+.case .vis{background:linear-gradient(135deg,#15110d,#0a0a0c);position:relative;min-height:300px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.case .vis .glow{position:absolute;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,var(--ember-soft),transparent 70%);filter:blur(10px)}
+.case .vis .mock{position:relative;z-index:2;width:76%;border-radius:10px;border:1px solid var(--line);background:#0e0e11;padding:14px;font-family:var(--display)}
+.case .vis .mock .bar{display:flex;gap:6px;margin-bottom:12px}
+.case .vis .mock .bar i{width:9px;height:9px;border-radius:50%;background:var(--faint)}
+.case .vis .mock .kpi{font-size:34px;font-weight:600}
+.case .vis .mock .kpil{font-size:12px;color:var(--muted);font-family:var(--body)}
+.case .vis .mock .grid{display:flex;gap:6px;margin-top:14px;align-items:flex-end;height:56px}
+.case .vis .mock .grid b{flex:1;background:rgba(255,140,50,.25);border-radius:3px 3px 0 0;display:block}
+.case .body{padding:34px}
+.case .body .ctag{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ember1);font-weight:500}
+.case .body h3{font-family:var(--display);font-weight:600;font-size:24px;margin:12px 0 14px;letter-spacing:-.01em}
+.case .body .pl{display:grid;gap:12px;margin-top:16px}
+.case .body .pl div{border-left:2px solid var(--line);padding-left:13px}
+.case .body .pl div .k{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+.case .body .pl div .v{font-size:14px;color:var(--muted);margin-top:3px}
+.case .body .res{display:flex;gap:28px;margin-top:22px;border-top:1px solid var(--line);padding-top:20px}
+.case .body .res div .n{font-family:var(--display);font-weight:600;font-size:26px}
+.case .body .res div .l{font-size:12px;color:var(--muted)}
+@media(max-width:820px){.case{grid-template-columns:1fr}}
+
+/* cta + footer */
+.fcta{text-align:center;padding:110px 0}
+.fcta h2{font-family:var(--display);font-weight:600;font-size:clamp(32px,6vw,60px);letter-spacing:-.025em;line-height:1.04;max-width:16ch;margin:0 auto}
+.fcta p{color:var(--muted);margin:20px auto 32px;max-width:46ch;font-size:16px}
+footer{border-top:1px solid var(--line);padding:32px 0;color:var(--faint);font-size:13px;position:relative;z-index:2}
+.footer-in{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+
+/* works gallery — pinned horizontal (desktop) / swipe (mobile) */
+.works{position:relative;z-index:2}
+.works-head{padding:96px 0 36px}
+.works .stick{position:sticky;top:0;height:100svh;display:flex;align-items:center;overflow:hidden}
+.works .track{display:flex;gap:26px;padding:0 22px;will-change:transform}
+.wcard{flex:0 0 auto;width:min(78vw,560px);background:var(--bg2);border:1px solid var(--line);border-radius:18px;overflow:hidden;display:flex;flex-direction:column}
+.wcard .wimg{height:300px;overflow:hidden;position:relative;background:#000}
+.wcard .wimg img{width:100%;height:100%;object-fit:cover;object-position:top center;transition:transform .9s cubic-bezier(.16,1,.3,1);filter:saturate(1.02)}
+.wcard:hover .wimg img{transform:scale(1.05)}
+.wcard .wimg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(8,8,10,.65))}
+.wcard .wmeta{padding:22px 24px 26px}
+.wcard .wtag{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ember1);font-weight:500}
+.wcard .wmeta h3{font-family:var(--display);font-weight:600;font-size:24px;letter-spacing:-.01em;margin:9px 0 8px}
+.wcard .wmeta p{color:var(--muted);font-size:14px;line-height:1.55}
+.wcard .wmeta .wlink{display:inline-flex;align-items:center;gap:7px;margin-top:16px;font-size:13px;font-weight:500;color:var(--text);transition:.25s}
+.wcard:hover .wmeta .wlink{gap:11px;color:var(--ember1)}
+.wprog{position:absolute;left:22px;right:22px;bottom:48px;height:2px;background:var(--line);z-index:3}
+.wprog i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--ember1),var(--ember2))}
+@media(max-width:820px){
+  .works{height:auto!important}
+  .works-head{padding:64px 0 26px}
+  .works .stick{position:static;height:auto;display:block}
+  .works .track{overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding-bottom:14px;transform:none!important}
+  .wcard{scroll-snap-align:center;width:84vw}
+  .wcard .wimg{height:230px}
+  .wprog{display:none}
+}
+
+/* process */
+.proc{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.proc .step{background:var(--bg);padding:30px 22px;min-height:200px;display:flex;flex-direction:column;position:relative;transition:.3s}
+.proc .step:hover{background:var(--bg3)}
+.proc .step .pn{font-family:var(--display);font-weight:600;font-size:13px;color:var(--ember1)}
+.proc .step h4{font-family:var(--display);font-weight:500;font-size:20px;margin:auto 0 10px;letter-spacing:-.01em}
+.proc .step p{color:var(--muted);font-size:13.5px;line-height:1.55}
+@media(max-width:820px){.proc{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.proc{grid-template-columns:1fr}}
+
+/* metrics */
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:48px 0}
+.metrics .m .mn{font-family:var(--display);font-weight:600;font-size:clamp(34px,5vw,56px);letter-spacing:-.02em;line-height:1}
+.metrics .m .mn .em{}
+.metrics .m .ml{color:var(--muted);font-size:13.5px;margin-top:8px}
+@media(max-width:680px){.metrics{grid-template-columns:1fr 1fr;gap:30px 22px}}
+
+/* faq */
+.faq{border-top:1px solid var(--line)}
+.faq .q{border-bottom:1px solid var(--line);padding:24px 0;cursor:pointer}
+.faq .q .qh{display:flex;justify-content:space-between;align-items:center;gap:18px}
+.faq .q .qh h4{font-family:var(--display);font-weight:500;font-size:clamp(17px,2.2vw,21px);letter-spacing:-.01em}
+.faq .q .qh .qi{color:var(--ember1);font-size:22px;transition:.3s;flex:0 0 auto}
+.faq .q.open .qh .qi{transform:rotate(45deg)}
+.faq .q .qa{max-height:0;overflow:hidden;transition:max-height .4s ease;color:var(--muted);font-size:15px;line-height:1.6}
+.faq .q .qa p{padding-top:14px;max-width:70ch}
+
+/* scroll progress + section index */
+.sprog{position:fixed;top:0;left:0;height:2px;width:0;background:linear-gradient(90deg,var(--ember1),var(--ember2));z-index:300;box-shadow:0 0 12px rgba(255,140,50,.6)}
+.sindex{position:fixed;left:22px;bottom:16px;z-index:120;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-variant-numeric:tabular-nums;pointer-events:none;display:flex;gap:10px;align-items:center}
+.sindex b{color:var(--ember1);font-weight:600}
+@media(max-width:560px){.sindex{font-size:10px;left:16px;bottom:12px}}
+
+/* AI row cursor preview (desktop) */
+.rowprev{position:fixed;top:0;left:0;width:230px;height:150px;border-radius:12px;overflow:hidden;pointer-events:none;z-index:140;opacity:0;transform:translate(-50%,-50%) scale(.88) rotate(-3deg);transition:opacity .35s,transform .35s;border:1px solid var(--line2);box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.rowprev img{width:100%;height:100%;object-fit:cover;object-position:top}
+.rowprev.on{opacity:1;transform:translate(-50%,-50%) scale(1) rotate(-3deg)}
+@media(pointer:coarse){.rowprev{display:none}}
+
+/* work card reveal */
+.wcard{opacity:0;transform:translateY(40px) scale(.97);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+.wcard.win{opacity:1;transform:none}
+
+/* industries explorer */
+.ind{display:grid;grid-template-columns:.85fr 1.15fr;gap:0;border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.ind-list{display:flex;flex-direction:column;border-right:1px solid var(--line)}
+.ind-i{display:flex;align-items:center;gap:14px;background:none;border:none;border-bottom:1px solid var(--line);color:var(--muted);font-family:var(--display);font-weight:500;font-size:clamp(16px,2vw,21px);letter-spacing:-.01em;text-align:left;padding:20px 24px;cursor:pointer;transition:.3s;position:relative}
+.ind-i:last-child{border-bottom:none}
+.ind-i span{font-size:12px;color:var(--faint);font-weight:600;transition:.3s}
+.ind-i::before{content:"";position:absolute;left:0;top:0;bottom:0;width:2px;background:linear-gradient(var(--ember1),var(--ember2));transform:scaleY(0);transition:.3s}
+.ind-i:hover{color:var(--text);padding-left:30px}
+.ind-i.on{color:var(--text);background:var(--bg3)}
+.ind-i.on::before{transform:scaleY(1)}
+.ind-i.on span{color:var(--ember1)}
+.ind-detail{padding:38px 36px;display:flex;flex-direction:column;justify-content:center;min-height:340px}
+.ind-detail .idtag{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ember1);font-weight:500}
+.ind-detail h3{font-family:var(--display);font-weight:600;font-size:clamp(22px,3vw,32px);letter-spacing:-.02em;margin:10px 0 14px}
+.ind-detail p{color:var(--muted);font-size:15px;line-height:1.6;max-width:52ch}
+.ind-detail ul{list-style:none;margin:22px 0 0;display:grid;gap:11px}
+.ind-detail li{display:flex;gap:11px;align-items:flex-start;font-size:14.5px;color:var(--text)}
+.ind-detail li::before{content:"→";color:var(--ember1);flex:0 0 auto}
+.ind-fade{animation:idfade .45s ease}
+@keyframes idfade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@media(max-width:820px){.ind{grid-template-columns:1fr}.ind-list{flex-direction:row;overflow-x:auto;border-right:none;border-bottom:1px solid var(--line);scroll-snap-type:x mandatory}.ind-i{border-bottom:none;border-right:1px solid var(--line);white-space:nowrap;scroll-snap-align:start}.ind-i::before{width:100%;height:2px;top:auto;bottom:0;left:0;transform:scaleX(0)}.ind-i.on::before{transform:scaleX(1)}.ind-detail{min-height:auto;padding:30px 24px}}
+
+/* big editorial footer */
+.bigfoot{position:relative;z-index:2;border-top:1px solid var(--line);padding:70px 0 0;overflow:hidden}
+.bigfoot .cols{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px;padding-bottom:48px}
+.bigfoot .fbrand .flogo{font-family:var(--display);font-weight:700;font-size:22px;letter-spacing:-.02em;display:flex;align-items:center;gap:9px}
+.bigfoot .fbrand p{color:var(--muted);font-size:14px;margin-top:14px;max-width:36ch;line-height:1.6}
+.bigfoot .fcol h5{font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin-bottom:16px}
+.bigfoot .fcol a{display:block;color:var(--muted);text-decoration:none;font-size:14.5px;padding:6px 0;transition:.25s}
+.bigfoot .fcol a:hover{color:var(--ember1)}
+.bigfoot .wordmark{font-family:var(--display);font-weight:700;font-size:clamp(64px,18vw,260px);letter-spacing:-.04em;line-height:.8;text-align:center;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.1);user-select:none;padding-bottom:6px}
+.bigfoot .fbottom{border-top:1px solid var(--line);padding:22px 0;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;color:var(--faint);font-size:13px}
+@media(max-width:760px){.bigfoot .cols{grid-template-columns:1fr;gap:30px}}
+</style>
+</head>
+<body>
+<div class="cur" id="cur"></div><div class="curr" id="curr"></div>
+<canvas id="signal"></canvas>
+<div class="vignette"></div>
+<div class="scrim" id="scrim"></div>
+<div class="toptint" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+<div class="sprog" id="sprog"></div>
+<div class="sindex" id="sindex"><b>01</b><span id="sindexlbl">Intro</span></div>
+<div class="rowprev" id="rowprev"><img alt="" src=""></div>
+
+<div class="intro" id="intro"><div class="brand">
+  <span class="em" style="animation-delay:0s">A</span><span style="animation-delay:.07s">D</span><span style="animation-delay:.14s">S</span><span style="animation-delay:.21s">P</span><span style="animation-delay:.28s">I</span><span style="animation-delay:.35s">R</span><span style="animation-delay:.42s">E</span>
+</div></div>
+
+<div class="menu" id="menu">
+<nav id="nav">
+  <div class="nav-in">
+    <div class="logo"><span class="dot"></span>Adspire</div>
+    <div class="nav-links">
+      <a href="#ai" data-cursor data-i="n1">AI rešenja</a>
+      <a href="#usluge" data-cursor data-i="n2">Usluge</a>
+      <a href="#" data-cursor data-i="n3">Industrije</a>
+      <a href="#work" data-cursor data-i="n4">Radovi</a>
+      <a href="#" data-cursor data-i="n5">Studio</a>
+    </div>
+    <div class="nav-right">
+      <div class="lang"><button class="on" data-cursor data-l="sr">SR</button><button data-cursor data-l="en">EN</button><button data-cursor data-l="de">DE</button></div>
+      <a class="cta-btn" data-cursor href="#kontakt" data-i="cta">Započni projekat</a>
+      <button class="burger" id="burger" aria-label="Meni"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+<div class="mobile-menu" id="mm">
+  <a href="#ai" data-i="n1">AI rešenja</a>
+  <a href="#usluge" data-i="n2">Usluge</a>
+  <a href="#" data-i="n3">Industrije</a>
+  <a href="#work" data-i="n4">Radovi</a>
+  <a href="#" data-i="n5">Studio</a>
+  <a class="mm-cta" href="#kontakt" data-i="cta">Započni projekat</a>
+</div>
+</div>
+
+<div class="wrap">
+  <header class="hero" id="hero">
+    <div class="hmeta">
+      <span class="hmeta-l"><span class="hmeta-dot"></span><span data-i="hm1">Dostupni za nove projekte</span></span>
+      <span data-i="hm2">Niš, RS · 43.32°N 21.90°E</span>
+      <span class="hclock" id="hclock">--:--:--</span>
+    </div>
+    <span class="eyebrow"><span class="pulse"></span><span data-i="eyebrow">AI Product Studio · Niš → Evropa</span></span>
+    <h1>
+      <span class="reveal"><span class="chx" data-i="h1a">Gradimo</span></span>
+      <span class="reveal"><span class="rot" id="rotw"><b data-i="rw1">AI aplikacije</b><b data-i="rw2">AI agente</b><b data-i="rw3">automatizacije</b><b data-i="rw4">custom SaaS</b><b data-i="rw5">web shopove</b><b data-i="rw1b">AI aplikacije</b></span></span>
+      <span class="reveal"><span class="chx" data-i="h1c">koji rade posao.</span></span>
+    </h1>
+    <p class="sub" data-i="sub">AI proizvodi i kompletan web razvoj — od sajtova i web shopova do agenata, automatizacija i custom SaaS-a. Sistemi koji štede sate i donose merljivu vrednost.</p>
+    <div class="hero-cta">
+      <a class="cta-btn" data-cursor href="#kontakt" data-i="cta2">Rezerviši konsultaciju</a>
+      <a class="ghost" data-cursor href="#work" data-i="ghost">Pogledaj radove →</a>
+    </div>
+    <div class="trust">
+      <span class="lbl" data-i="trustlbl">Sistemi u produkciji za</span>
+      <div class="clients"><span>Dr Igić</span><span>Doctor Barber</span><span>Prevoz Kop</span><span>Santos &amp; Santorini</span><span>TeachFromHome</span></div>
+    </div>
+  </header>
+</div>
+
+<div class="marquee"><div class="track" id="mtrack">
+  <div class="it"><span>Next.js</span><b>·</b><span>OpenAI</span><b>·</b><span>Claude</span><b>·</b><span>n8n</span><b>·</b><span>PostgreSQL</span><b>·</b><span>Supabase</span><b>·</b><span>Stripe</span><b>·</b><span>Flutter</span><b>·</b><span>Vercel</span><b>·</b></div>
+  <div class="it"><span>Next.js</span><b>·</b><span>OpenAI</span><b>·</b><span>Claude</span><b>·</b><span>n8n</span><b>·</b><span>PostgreSQL</span><b>·</b><span>Supabase</span><b>·</b><span>Stripe</span><b>·</b><span>Flutter</span><b>·</b><span>Vercel</span><b>·</b></div>
+</div></div>
+
+<section class="tunnel" id="tunnel">
+  <div class="tn-stick">
+    <canvas id="sigcanvas"></canvas>
+    <div class="tn-stage" id="tnStage">
+      <div class="tn-ch" data-ch="0"><div class="tn-sm" data-i="t0s">4 mesta gde mali biznis najviše gubi novac</div><div class="tn-big" data-i="t0b">GUBIŠ LI<br>NOVAC?</div></div>
+      <div class="tn-ch" data-ch="1"><div class="tn-sm" data-i="t1s">Ne javiš se na poziv → klijent ode kod drugog</div><div class="tn-big" data-i="t1b">Termini se<br><span class="em">zakazuju sami</span></div></div>
+      <div class="tn-ch" data-ch="2"><div class="tn-sm" data-i="t2s">Po ceo dan odgovaraš na ista pitanja</div><div class="tn-big" data-i="t2b">AI odgovara<br><span class="em">umesto tebe</span></div></div>
+      <div class="tn-ch" data-ch="3"><div class="tn-sm" data-i="t3s">Sve ti je u Excelu, sveskama i porukama</div><div class="tn-big" data-i="t3b">Sve na<br><span class="em">jednom mestu</span></div></div>
+      <div class="tn-ch" data-ch="4"><div class="tn-sm" data-i="t4s">Ljudi uđu na sajt i odu praznih ruku</div><div class="tn-big" data-i="t4b">Sajt koji ti<br><span class="em">donosi posao</span></div></div>
+      <div class="tn-ch tn-final" data-ch="5"><div class="tn-sm" data-i="t5s">Saberi koliko te sve ovo košta svaki mesec</div><div class="tn-big" data-i="t5b">Da ti to<br><span class="em">vratimo.</span></div><p class="tn-sub" data-i="t5sub">Za 30 minuta ti pokažem gde tačno gubiš novac i kako da to rešiš. Besplatno, bez obaveze.</p><a class="cta-btn" data-cursor href="#kontakt" data-i="t5cta">Zakaži besplatan razgovor</a></div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <section class="blk build" id="ai">
+    <div class="sec-head rv">
+      <div><div class="sec-tag" data-i="bt">AI proizvodi</div><div class="sec-title" data-i="btitle">Pet vrsta AI proizvoda koji menjaju kako biznis radi</div></div>
+      <div class="sec-note" data-i="bnote">Svaki kreće od poslovnog problema — ne od tehnologije.</div>
+    </div>
+    <div class="rows">
+      <div class="row rv" data-img="/images/case-studies/drigic-mobileview.png"><div class="num">01</div><div class="main"><h3 data-i="r1t">AI aplikacije</h3><p data-i="r1d">Proizvodi vođeni modelima: pretraga znanja, asistenti, obrada dokumenata — ugrađeni u vaš tok rada.</p></div><div class="arr">→</div></div>
+      <div class="row rv" data-img="/images/case-studies/doctorbarber.png"><div class="num">02</div><div class="main"><h3 data-i="r2t">AI agenti</h3><p data-i="r2d">Prodajni i support agenti koji kvalifikuju leadove, odgovaraju i zakazuju 24/7 — povezani sa vašim CRM-om.</p></div><div class="arr">→</div></div>
+      <div class="row rv" data-img="/images/case-studies/prevozkop-desktop.png"><div class="num">03</div><div class="main"><h3 data-i="r3t">AI automatizacije</h3><p data-i="r3d">n8n/LLM tokovi koji uklanjaju ručni unos, izveštaje i follow-up — bez angažovanja zaposlenih.</p></div><div class="arr">→</div></div>
+      <div class="row rv" data-img="/images/case-studies/santos-desktop.png"><div class="num">04</div><div class="main"><h3 data-i="r4t">Custom SaaS</h3><p data-i="r4d">Subscription proizvodi i interne platforme od MVP-a do skaliranja — Next.js, PostgreSQL, Stripe.</p></div><div class="arr">→</div></div>
+      <div class="row rv" data-img="/images/case-studies/teachfromhome-desktop.png"><div class="num">05</div><div class="main"><h3 data-i="r5t">Interni poslovni sistemi</h3><p data-i="r5d">CRM, booking, ERP-mini i dashboardi koji zamenjuju Excel, pozive i haos — jedan izvor istine.</p></div><div class="arr">→</div></div>
+    </div>
+  </section>
+</div>
+
+<div class="wrap">
+  <section class="blk" id="agentdemo">
+    <div class="sec-head rv"><div><div class="sec-tag" data-i="adt">AI agent uživo</div><div class="sec-title" data-i="adtitle">Za svaku uslugu — koji problem AI rešava, uživo</div></div><div class="sec-note" data-i="adnote">Nije snimak. Isti tip agenta radi na sajtu klijenta 24/7. Prevuci ili sačekaj.</div></div>
+    <div class="chatwrap rv">
+      <div class="chattrack" id="chattrack"></div>
+    </div>
+    <div class="chatnav">
+      <button class="arw" id="chatprev" aria-label="Prethodni">←</button>
+      <div class="chatdots" id="chatdots"></div>
+      <button class="arw" id="chatnext" aria-label="Sledeći">→</button>
+    </div>
+  </section>
+</div>
+
+<section class="works" id="works2">
+  <div class="works-head wrap rv">
+    <div class="sec-tag" data-i="wt">Radovi</div>
+    <div class="sec-title" data-i="wtitle">Sistemi koje smo isporučili — uživo i u produkciji</div>
+  </div>
+  <div class="stick">
+    <div class="track" id="wtrack">
+      <article class="wcard"><div class="wimg"><img src="/images/case-studies/drigic-mobileview.png" alt="Dr Igić web aplikacija" loading="lazy"></div><div class="wmeta"><span class="wtag" data-i="w1tag">Web aplikacija · Estetske klinike</span><h3>Dr Igić</h3><p data-i="w1d">Platforma za zakazivanje i vođenje pacijenata za lanac estetskih klinika.</p><span class="wlink" data-i="w1l">Case study →</span></div></article>
+      <article class="wcard"><div class="wimg"><img src="/images/case-studies/doctorbarber.png" alt="Doctor Barber booking" loading="lazy"></div><div class="wmeta"><span class="wtag" data-i="w2tag">Booking sistem · Grooming</span><h3>Doctor Barber</h3><p data-i="w2d">Online zakazivanje 24/7 sa kalendarom, podsetnicima i admin panelom.</p><span class="wlink" data-i="w2l">Case study →</span></div></article>
+      <article class="wcard"><div class="wimg"><img src="/images/case-studies/prevozkop-desktop.png" alt="Prevoz Kop platforma" loading="lazy"></div><div class="wmeta"><span class="wtag" data-i="w3tag">Operativni sistem · Logistika</span><h3>Prevoz Kop</h3><p data-i="w3d">Digitalni prodajni i operativni sistem za transport i građevinu.</p><span class="wlink" data-i="w3l">Case study →</span></div></article>
+      <article class="wcard"><div class="wimg"><img src="/images/case-studies/santos-desktop.png" alt="Santos & Santorini web shop" loading="lazy"></div><div class="wmeta"><span class="wtag" data-i="w4tag">E-commerce · Web shop</span><h3>Santos &amp; Santorini</h3><p data-i="w4d">Web shop i admin platforma sa kompletnim upravljanjem porudžbinama.</p><span class="wlink" data-i="w4l">Case study →</span></div></article>
+      <article class="wcard"><div class="wimg"><img src="/images/case-studies/teachfromhome-desktop.png" alt="TeachFromHome onboarding" loading="lazy"></div><div class="wmeta"><span class="wtag" data-i="w5tag">SaaS · Onboarding</span><h3>TeachFromHome</h3><p data-i="w5d">Onboarding sistem za remote nastavnike — od prijave do prve smene.</p><span class="wlink" data-i="w5l">Case study →</span></div></article>
+    </div>
+    <div class="wprog"><i id="wprogbar"></i></div>
+  </div>
+</section>
+
+<div class="wrap">
+  <section class="blk" id="usluge">
+    <div class="sec-head rv">
+      <div><div class="sec-tag" data-i="st">Kompletne usluge</div><div class="sec-title" data-i="stitle">Sve što vaš digitalni proizvod traži — pod jednim krovom</div></div>
+      <div class="sec-note" data-i="snote">AI je nadogradnja. Temelj ostaje: web, e-commerce i softver koji radi.</div>
+    </div>
+    <div class="svc-grid rv">
+      <div class="svc"><div class="gl"></div><div class="ic">01</div><h4 data-i="s1t">Web prezentacije</h4><p data-i="s1d">Brzi Next.js sajtovi, optimizovani za SEO i konverzije.</p></div>
+      <div class="svc"><div class="gl"></div><div class="ic">02</div><h4 data-i="s2t">E-commerce i web shop</h4><p data-i="s2d">Online prodavnice i headless shop sistemi koji prodaju.</p></div>
+      <div class="svc"><div class="gl"></div><div class="ic">03</div><h4 data-i="s3t">Mobilne aplikacije</h4><p data-i="s3d">PWA i native (Flutter / React Native) za iOS i Android.</p></div>
+      <div class="svc"><div class="gl"></div><div class="ic">04</div><h4 data-i="s4t">CMS sistemi</h4><p data-i="s4d">Custom admin paneli za upravljanje sadržajem bez muke.</p></div>
+      <div class="svc"><div class="gl"></div><div class="ic">05</div><h4 data-i="s5t">Interne poslovne aplikacije</h4><p data-i="s5d">CRM, ERP-mini i alati po meri vašeg procesa.</p></div>
+      <div class="svc"><div class="gl"></div><div class="ic">06</div><h4 data-i="s6t">Business intelligence</h4><p data-i="s6d">Dashboardi i KPI praćenje za odluke na osnovu podataka.</p></div>
+      <div class="svc"><div class="gl"></div><div class="ic">07</div><h4 data-i="s7t">SEO i digitalni marketing</h4><p data-i="s7d">Tehnički SEO, Google i Meta Ads, lokalna vidljivost.</p></div>
+      <div class="svc"><div class="gl"></div><div class="ic">08</div><h4 data-i="s8t">Cyber security i GDPR</h4><p data-i="s8d">Security audit, zaštita podataka, backup i usklađenost.</p></div>
+      <div class="svc"><div class="gl"></div><div class="ic">09</div><h4 data-i="s9t">Hosting i infrastruktura</h4><p data-i="s9d">Vercel deploy, SSL, domeni, email i cloud setup.</p></div>
+      <div class="svc"><div class="gl"></div><div class="ic">10</div><h4 data-i="s10t">Interaktivne web tehnologije</h4><p data-i="s10d">3D prezentacije, virtual showroom, WebGL iskustva.</p></div>
+    </div>
+  </section>
+</div>
+
+<div class="wrap">
+  <section class="blk" id="proces">
+    <div class="sec-head rv"><div><div class="sec-tag" data-i="pt">Proces</div><div class="sec-title" data-i="ptitle">Od poslovnog problema do živog proizvoda — u četiri koraka</div></div><div class="sec-note" data-i="pnote">Jasan scope, fiksni milestone-ovi, bez iznenađenja.</div></div>
+    <div class="proc rv">
+      <div class="step"><div class="pn">01</div><h4 data-i="p1t">Otkrivanje</h4><p data-i="p1d">Mapiramo proces, ciljeve i gde se gubi vreme i novac. Definišemo merljiv ishod.</p></div>
+      <div class="step"><div class="pn">02</div><h4 data-i="p2t">Prototip</h4><p data-i="p2d">Klikabilni prototip i tehnička arhitektura za nedelju-dve. Vidiš pre nego što gradimo.</p></div>
+      <div class="step"><div class="pn">03</div><h4 data-i="p3t">Izgradnja</h4><p data-i="p3d">Razvoj u sprintovima sa redovnim demoima. Produkcijski kod, ne demo efekat.</p></div>
+      <div class="step"><div class="pn">04</div><h4 data-i="p4t">Lansiranje i rast</h4><p data-i="p4d">Go-live, merenje, iteracija. Podrška i nadogradnja kako biznis raste.</p></div>
+    </div>
+    <div class="metrics rv">
+      <div class="m"><div class="mn em"><span class="cu" data-to="5">0</span></div><div class="ml" data-i="m1">živih klijentskih sistema u produkciji</div></div>
+      <div class="m"><div class="mn"><span class="cu" data-to="48">0</span>h</div><div class="ml" data-i="m2">prosečno vreme prvog odgovora</div></div>
+      <div class="m"><div class="mn"><span class="cu" data-to="100">0</span>%</div><div class="ml" data-i="m3">custom kod — bez šablona i page buildera</div></div>
+      <div class="m"><div class="mn"><span class="cu" data-to="2">0</span>+</div><div class="ml" data-i="m4">jezika sajta: SR, EN (DE u pripremi)</div></div>
+    </div>
+  </section>
+</div>
+
+<section class="forge" id="forge">
+  <div class="stick">
+    <div class="fflash" id="fflash"></div>
+    <span class="fember" style="left:12%;animation-duration:5.5s;animation-delay:.2s"></span>
+    <span class="fember" style="left:24%;animation-duration:6.8s;animation-delay:1.4s"></span>
+    <span class="fember" style="left:38%;animation-duration:5.1s;animation-delay:.7s"></span>
+    <span class="fember" style="left:47%;animation-duration:7.2s;animation-delay:2.1s"></span>
+    <span class="fember" style="left:56%;animation-duration:6.0s;animation-delay:.4s"></span>
+    <span class="fember" style="left:64%;animation-duration:5.8s;animation-delay:1.9s"></span>
+    <span class="fember" style="left:73%;animation-duration:6.5s;animation-delay:1.0s"></span>
+    <span class="fember" style="left:86%;animation-duration:5.3s;animation-delay:2.6s"></span>
+    <div class="core" id="core"></div>
+    <div class="chip" data-c="0">AI aplikacije</div>
+    <div class="chip" data-c="1">AI agenti</div>
+    <div class="chip" data-c="2">Web &amp; e-commerce</div>
+    <div class="chip" data-c="3">Custom SaaS</div>
+    <div class="chip" data-c="4">Interni sistemi</div>
+    <div class="headline" id="fhead">
+      <div class="t" data-i="ft1">Jedan studio.<br><span class="em" data-i="ft2">Jedan plamen.</span></div>
+      <div class="s" data-i="ft3">AI i klasičan web razvoj, jedan tim, jedan tok od ideje do produkcije.</div>
+    </div>
+  </div>
+</section>
+
+<section class="flame-play" id="flameplay">
+  <canvas id="flamecanvas"></canvas>
+  <div class="fp-in rv">
+    <div class="fp-tag" data-i="fpt">Interaktivno</div>
+    <h2 data-i="fph">Pomeri <span class="em">vatru</span>.</h2>
+    <div class="fp-hint"><span class="d"></span><span data-i="fphint">Prevuci prstom ili mišem</span></div>
+  </div>
+</section>
+
+<div class="wrap">
+  <section class="blk" id="work">
+    <div class="sec-head rv"><div><div class="sec-tag" data-i="ct">Case study</div><div class="sec-title" data-i="ctitle">Problem → sistem → rezultat</div></div><div class="sec-note" data-i="cnote">Stvarni klijenti. Živi sistemi. Merljiv efekat.</div></div>
+    <div class="case rv">
+      <div class="vis"><div class="glow"></div>
+        <div class="mock"><div class="bar"><i></i><i></i><i></i></div>
+          <div class="kpi em"><span class="cu" data-to="38" data-pre="+" data-suf="%">+0%</span></div>
+          <div class="kpil" data-i="mockl">popunjenost termina / mesec</div>
+          <div class="grid"><b style="height:40%"></b><b style="height:55%"></b><b style="height:48%"></b><b style="height:70%"></b><b style="height:85%"></b><b style="height:100%"></b></div>
+        </div>
+      </div>
+      <div class="body">
+        <div class="ctag">Doctor Barber · Booking sistem</div>
+        <h3 data-i="ch">Pozivi i poruke zamenjeni online zakazivanjem</h3>
+        <div class="pl">
+          <div><div class="k" data-i="pk">Problem</div><div class="v" data-i="pv">Termini su se vodili preko poziva i DM-ova — propušteni zahtevi, duple rezervacije, nula podataka.</div></div>
+          <div><div class="k" data-i="sk">Rešenje</div><div class="v" data-i="sv">Custom booking sistem sa real-time kalendarom, podsetnicima i admin panelom za osoblje.</div></div>
+        </div>
+        <div class="res"><div><div class="n">24/7</div><div class="l" data-i="res1">zakazivanje bez osoblja</div></div><div><div class="n"><span class="cu" data-to="0">0</span></div><div class="l" data-i="res2">duplih rezervacija</div></div></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<section class="liquid" id="liquid">
+  <canvas id="liquidcanvas"></canvas>
+  <div class="lq-in rv">
+    <div class="lq-tag" data-i="lqt">Kako radimo</div>
+    <h2 data-i="lqh">Spajamo ideje, dizajn i kod u <span class="em">jedan proizvod</span>.</h2>
+    <div class="lq-hint"><span class="d"></span><span data-i="lqhint">Prevuci kroz tečni ember</span></div>
+  </div>
+</section>
+
+<div class="wrap">
+  <section class="blk" id="ind">
+    <div class="sec-head rv"><div><div class="sec-tag" data-i="it">Industrije</div><div class="sec-title" data-i="ititle">AI i softver skrojen za vašu branšu</div></div><div class="sec-note" data-i="inote">Isti tim, drugačiji problem. Biramo rešenje koje vaša industrija stvarno koristi.</div></div>
+    <div class="ind rv">
+      <div class="ind-list" id="indList">
+        <button class="ind-i on" data-ind="0"><span>01</span> <span class="il" data-i="i0">Advokatske kancelarije</span></button>
+        <button class="ind-i" data-ind="1"><span>02</span> <span class="il" data-i="i1">Klinike i ordinacije</span></button>
+        <button class="ind-i" data-ind="2"><span>03</span> <span class="il" data-i="i2">Proizvodnja</span></button>
+        <button class="ind-i" data-ind="3"><span>04</span> <span class="il" data-i="i3">Nekretnine</span></button>
+        <button class="ind-i" data-ind="4"><span>05</span> <span class="il" data-i="i4">Restorani i ugostiteljstvo</span></button>
+        <button class="ind-i" data-ind="5"><span>06</span> <span class="il" data-i="i5">Mala i srednja preduzeća</span></button>
+      </div>
+      <div class="ind-detail" id="indDetail"></div>
+    </div>
+  </section>
+</div>
+
+<section class="warp" id="warp">
+  <canvas id="warpcanvas"></canvas>
+  <div class="wp-in rv">
+    <div class="wp-tag" data-i="wpt">Brzina isporuke</div>
+    <h2 data-i="wph">Od ideje do prvog korisnika — <span class="em">za nedelje</span>.</h2>
+    <div class="wp-hint"><span class="d"></span><span data-i="wphint">Pomeri prst — skreni kroz tunel</span></div>
+  </div>
+</section>
+
+<div class="wrap">
+  <section class="blk" id="faq">
+    <div class="sec-head rv"><div><div class="sec-tag" data-i="qt">FAQ</div><div class="sec-title" data-i="qtitle">Česta pitanja</div></div><div class="sec-note" data-i="qnote">Kratko i jasno. Detalje rešavamo na konsultaciji.</div></div>
+    <div class="faq rv">
+      <div class="q"><div class="qh"><h4 data-i="q1">Šta tačno gradite — samo AI ili i klasične sajtove?</h4><span class="qi">+</span></div><div class="qa"><p data-i="a1">Oboje. Pravimo sajtove, web shopove i mobilne aplikacije kao i ranije, a AI (aplikacije, agenti, automatizacije) i custom SaaS su nadogradnja kada ima poslovnog smisla. Često je rešenje kombinacija.</p></div></div>
+      <div class="q"><div class="qh"><h4 data-i="q2">Koliko traje projekat?</h4><span class="qi">+</span></div><div class="qa"><p data-i="a2">Sajt ili landing 1–3 nedelje. Web shop ili booking sistem 3–6 nedelja. Custom SaaS i AI sistemi zavise od opsega — krećemo od MVP-a pa širimo. Prototip vidiš već u prvoj-drugoj nedelji.</p></div></div>
+      <div class="q"><div class="qh"><h4 data-i="q3">Koliko košta?</h4><span class="qi">+</span></div><div class="qa"><p data-i="a3">Zavisi od opsega. Landing/sajt od nekoliko stotina €, sistemi i SaaS više. Na konsultaciji dobiješ fiksnu procenu po milestone-ovima — bez skrivenih troškova.</p></div></div>
+      <div class="q"><div class="qh"><h4 data-i="q4">Radite li za klijente van Srbije (Nemačka, EU)?</h4><span class="qi">+</span></div><div class="qa"><p data-i="a4">Da. Radimo remote za ceo region i EU, komunikacija na srpskom, engleskom (nemački u pripremi). Sajt je dvojezičan i spreman za nemačko tržište.</p></div></div>
+      <div class="q"><div class="qh"><h4 data-i="q5">Šta posle lansiranja?</h4><span class="qi">+</span></div><div class="qa"><p data-i="a5">Merimo rezultat, iteriramo i nudimo održavanje i nadogradnju. Kod je vaš, hostujemo na modernoj infrastrukturi (Vercel, Supabase) sa monitoringom.</p></div></div>
+    </div>
+  </section>
+</div>
+
+<div class="wrap">
+  <section class="fcta rv" id="kontakt">
+    <h2><span data-i="fc1">Imate proces koji troši sate?</span> <span class="em" data-i="fc2">Pretvorimo ga u proizvod.</span></h2>
+    <p data-i="fcp">30 minuta. Mapiramo gde AI i automatizacija realno štede novac u vašem biznisu — bez obaveze.</p>
+    <a class="cta-btn" data-cursor href="#" data-i="fcb">Rezerviši konsultaciju</a>
+  </section>
+</div>
+
+<footer class="bigfoot">
+  <div class="wrap">
+    <div class="cols">
+      <div class="fbrand">
+        <div class="flogo"><span class="dot" style="width:9px;height:9px;border-radius:50%;background:radial-gradient(circle at 35% 30%,var(--ember1),var(--ember2));box-shadow:0 0 16px 2px var(--ember-soft)"></span>Adspire</div>
+        <p data-i="fbp">AI Product Studio iz Niša. Gradimo AI proizvode i web sisteme koji rade posao — za klijente u Srbiji, regionu i EU.</p>
+      </div>
+      <div class="fcol"><h5 data-i="fc_a">Studio</h5>
+        <a href="#ai" data-i="n1">AI rešenja</a><a href="#usluge" data-i="n2">Usluge</a><a href="#ind" data-i="n3">Industrije</a><a href="#works2" data-i="n4">Radovi</a><a href="#faq" data-i="qt">FAQ</a>
+      </div>
+      <div class="fcol"><h5 data-i="fc_b">Kontakt</h5>
+        <a href="mailto:djordje@adspire.rs">djordje@adspire.rs</a><a href="tel:+381601491491">+381 60 149 149 1</a><a href="#">Dimitrija Leka 66, Niš</a><a href="#kontakt" data-i="cta2">Rezerviši konsultaciju</a>
+      </div>
+    </div>
+    <div class="wordmark" aria-hidden="true">ADSPIRE</div>
+    <div class="fbottom"><span>© 2026 Adspire Digital · Niš, Srbija</span><span data-i="fbr">Napravljeno u Nišu · Next.js · 100% custom</span></div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+<script>
+const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+const fine=matchMedia('(pointer:fine)').matches;
+setTimeout(()=>document.getElementById('intro').classList.add('gone'), reduce?200:1700);
+const nav=document.getElementById('nav');
+
+/* lenis smooth scroll */
+let lenis=null;
+if(window.Lenis&&!reduce){lenis=new Lenis({lerp:.085,wheelMultiplier:1,touchMultiplier:1.4});function lraf(t){lenis.raf(t);requestAnimationFrame(lraf);}requestAnimationFrame(lraf);
+ document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{const id=a.getAttribute('href');if(id.length>1){const t=document.querySelector(id);if(t){e.preventDefault();lenis.scrollTo(t,{offset:-10,duration:1.3});document.getElementById('menu')?.classList.remove('open');}}}));}
+
+/* live clock (Niš) */
+const hclock=document.getElementById('hclock');
+function tick(){if(!hclock)return;hclock.textContent=new Date().toLocaleTimeString('sr-RS',{hour12:false,timeZone:'Europe/Belgrade'});}
+tick();setInterval(tick,1000);
+
+/* per-character headline reveal */
+function splitChars(el){const t=el.textContent;el.textContent='';let i=0;t.split('').forEach(ch=>{const s=document.createElement('span');s.className='ch';if(ch===' '){s.innerHTML='&nbsp;';}else s.textContent=ch;if(reduce)s.style.transform='none';else s.style.animationDelay=(0.05+i*0.028)+'s';el.appendChild(s);i++;});}
+function splitAllChx(){document.querySelectorAll('.chx').forEach(splitChars);}
+splitAllChx();
+
+/* mobile menu */
+const menu=document.getElementById('menu');
+document.getElementById('burger').onclick=()=>menu.classList.toggle('open');
+document.querySelectorAll('#mm a').forEach(a=>a.onclick=()=>menu.classList.remove('open'));
+
+/* cursor */
+if(fine){const cur=document.getElementById('cur'),curr=document.getElementById('curr');let cx=0,cy=0,rx=0,ry=0;
+addEventListener('mousemove',e=>{cx=e.clientX;cy=e.clientY;cur.style.left=cx+'px';cur.style.top=cy+'px';});
+(function ring(){rx+=(cx-rx)*.18;ry+=(cy-ry)*.18;curr.style.left=rx+'px';curr.style.top=ry+'px';requestAnimationFrame(ring);})();
+document.querySelectorAll('[data-cursor]').forEach(el=>{el.addEventListener('mouseenter',()=>cur.classList.add('big'));el.addEventListener('mouseleave',()=>cur.classList.remove('big'));});}
+
+/* bilingual */
+const EN={n1:"AI solutions",n2:"Services",n3:"Industries",n4:"Work",n5:"Studio",cta:"Start a project",cta2:"Book a consult",
+eyebrow:"AI Product Studio · Niš → Europe",h1a:"We build",h1c:"that do the work.",
+rw1:"AI applications",rw2:"AI agents",rw3:"automations",rw4:"custom SaaS",rw5:"web shops",rw1b:"AI applications",
+sub:"AI products and full web development — from websites and web shops to agents, automations and custom SaaS. Systems that save hours and create measurable value.",
+ghost:"See the work →",trustlbl:"Systems in production for",bt:"AI products",btitle:"Five kinds of AI product that change how a business runs",
+bnote:"Each starts from a business problem — never from the technology.",
+r1t:"AI applications",r1d:"Model-driven products: knowledge search, assistants, document processing — embedded in your workflow.",
+r2t:"AI agents",r2d:"Sales & support agents that qualify leads, answer and book 24/7 — wired into your CRM.",
+r3t:"AI automations",r3d:"n8n/LLM flows that kill manual entry, reporting and follow-up — without hiring.",
+r4t:"Custom SaaS",r4d:"Subscription products and internal platforms from MVP to scale — Next.js, PostgreSQL, Stripe.",
+r5t:"Internal business systems",r5d:"CRM, booking, mini-ERP and dashboards that replace Excel, calls and chaos — one source of truth.",
+st:"Full services",stitle:"Everything your digital product needs — under one roof",snote:"AI is the upgrade. The foundation stays: web, e-commerce and software that works.",
+s1t:"Websites",s1d:"Fast Next.js sites, built for SEO and conversions.",s2t:"E-commerce & web shop",s2d:"Online stores and headless shop systems that sell.",
+s3t:"Mobile apps",s3d:"PWA and native (Flutter / React Native) for iOS and Android.",s4t:"CMS systems",s4d:"Custom admin panels to manage content with ease.",
+s5t:"Internal business apps",s5d:"CRM, mini-ERP and tools shaped to your process.",s6t:"Business intelligence",s6d:"Dashboards and KPI tracking for data-driven decisions.",
+s7t:"SEO & digital marketing",s7d:"Technical SEO, Google and Meta Ads, local visibility.",s8t:"Cyber security & GDPR",s8d:"Security audit, data protection, backup and compliance.",
+s9t:"Hosting & infrastructure",s9d:"Vercel deploy, SSL, domains, email and cloud setup.",s10t:"Interactive web tech",s10d:"3D presentations, virtual showrooms, WebGL experiences.",
+ct:"Case study",ctitle:"Problem → system → result",cnote:"Real clients. Live systems. Measurable impact.",
+mockl:"booking fill rate / month",ch:"Calls and DMs replaced by online booking",
+pk:"Problem",pv:"Appointments ran over calls and DMs — missed requests, double-bookings, zero data.",
+sk:"Solution",sv:"Custom booking system with a real-time calendar, reminders and a staff admin panel.",
+res1:"booking without staff",res2:"double bookings",
+ft1:"One studio.",ft2:"One flame.",ft3:"AI and classic web development, one team, one flow from idea to production.",
+wt:"Work",wtitle:"Systems we shipped — live and in production",
+w1tag:"Web app · Aesthetic clinics",w1d:"Booking and patient management platform for a chain of aesthetic clinics.",w1l:"Case study →",
+w2tag:"Booking system · Grooming",w2d:"24/7 online booking with calendar, reminders and an admin panel.",w2l:"Case study →",
+w3tag:"Operations system · Logistics",w3d:"Digital sales and operations system for transport and construction.",w3l:"Case study →",
+w4tag:"E-commerce · Web shop",w4d:"Web shop and admin platform with full order management.",w4l:"Case study →",
+w5tag:"SaaS · Onboarding",w5d:"Onboarding system for remote teachers — from sign-up to first shift.",w5l:"Case study →",
+it:"Industries",ititle:"AI and software tailored to your field",inote:"Same team, different problem. We pick the solution your industry actually uses.",
+i0:"Law firms",i1:"Clinics & practices",i2:"Manufacturing",i3:"Real estate",i4:"Restaurants & hospitality",i5:"Small & medium business",
+fbp:"AI Product Studio from Niš. We build AI products and web systems that do the work — for clients in Serbia, the region and the EU.",
+fc_a:"Studio",fc_b:"Contact",fbr:"Made in Niš · Next.js · 100% custom",
+pt:"Process",ptitle:"From business problem to live product — in four steps",pnote:"Clear scope, fixed milestones, no surprises.",
+p1t:"Discovery",p1d:"We map the process, goals and where time and money leak. We define a measurable outcome.",
+p2t:"Prototype",p2d:"Clickable prototype and technical architecture within a week or two. You see it before we build.",
+p3t:"Build",p3d:"Development in sprints with regular demos. Production code, not demo theatre.",
+p4t:"Launch & grow",p4d:"Go-live, measure, iterate. Support and upgrades as the business grows.",
+m1:"live client systems in production",m2:"average first response time",m3:"custom code — no templates or page builders",m4:"site languages: SR, EN (DE in progress)",
+qt:"FAQ",qtitle:"Frequently asked questions",qnote:"Short and clear. We handle the detail on a call.",
+q1:"What exactly do you build — only AI or classic sites too?",a1:"Both. We build websites, web shops and mobile apps as before, and AI (apps, agents, automations) plus custom SaaS are the upgrade when there's a business case. Often the answer is a mix.",
+q2:"How long does a project take?",a2:"A site or landing 1–3 weeks. A web shop or booking system 3–6 weeks. Custom SaaS and AI systems depend on scope — we start from an MVP and expand. You see a prototype in the first or second week.",
+q3:"How much does it cost?",a3:"It depends on scope. A landing/site from a few hundred €, systems and SaaS more. On a call you get a fixed estimate per milestone — no hidden costs.",
+q4:"Do you work with clients outside Serbia (Germany, EU)?",a4:"Yes. We work remotely across the region and EU, communicating in Serbian and English (German in progress). The site is bilingual and ready for the German market.",
+q5:"What happens after launch?",a5:"We measure results, iterate and offer maintenance and upgrades. The code is yours; we host on modern infrastructure (Vercel, Supabase) with monitoring.",
+fpt:"Interactive",fph:'Move the <span class="em">fire</span>.',fphint:"Drag with finger or mouse",
+adt:"AI agent live",adtitle:"For every service — which problem AI solves, live",adnote:"Not a recording. The same kind of agent runs on a client site 24/7. Drag or wait.",adname:"Adspire AI Agent",adonline:"online · replies instantly",
+t0s:"The 4 places small businesses lose the most money",t0b:"ARE YOU<br>LOSING MONEY?",
+t1s:"Miss a call → the client goes to someone else",t1b:"Appointments<br><span class='em'>book themselves</span>",
+t2s:"Answering the same questions all day",t2b:"AI replies<br><span class='em'>for you</span>",
+t3s:"Everything in Excel, notebooks and messages",t3b:"Everything in<br><span class='em'>one place</span>",
+t4s:"People land on your site and leave empty-handed",t4b:"A site that<br><span class='em'>brings you work</span>",
+t5s:"Add up what all this costs you every month",t5b:"Let's win<br><span class='em'>it back.</span>",t5sub:"In 30 minutes I'll show you exactly where you lose money and how to fix it. Free, no obligation.",t5cta:"Book a free call",
+lqt:"How we work",lqh:"We fuse idea, design and code into <span class='em'>one product</span>.",lqhint:"Drag through the liquid ember",
+wpt:"Speed to launch",wph:"From idea to your first user — <span class='em'>in weeks</span>.",wphint:"Move to steer the tunnel",
+fc1:"Got a process that eats hours?",fc2:"Let's turn it into a product.",fcp:"30 minutes. We map where AI and automation actually save money in your business — no strings.",fcb:"Book a consult"};
+const DE={n1:"KI-Lösungen",n2:"Leistungen",n3:"Branchen",n4:"Arbeiten",n5:"Studio",cta:"Projekt starten",cta2:"Beratung buchen",
+eyebrow:"AI Product Studio · Niš → Europa",h1a:"Wir bauen",h1c:"die die Arbeit machen.",
+rw1:"KI-Anwendungen",rw2:"KI-Agenten",rw3:"Automatisierungen",rw4:"Custom SaaS",rw5:"Webshops",rw1b:"KI-Anwendungen",
+sub:"KI-Produkte und komplette Web-Entwicklung — von Websites und Webshops bis zu Agenten, Automatisierungen und Custom SaaS. Systeme, die Stunden sparen und messbaren Wert schaffen.",
+ghost:"Arbeiten ansehen →",trustlbl:"Systeme in Produktion für",bt:"KI-Produkte",btitle:"Fünf Arten von KI-Produkten, die ein Unternehmen verändern",
+bnote:"Jedes beginnt mit einem Geschäftsproblem — nie mit der Technologie.",
+r1t:"KI-Anwendungen",r1d:"Modellgetriebene Produkte: Wissenssuche, Assistenten, Dokumentenverarbeitung — in Ihren Arbeitsablauf integriert.",
+r2t:"KI-Agenten",r2d:"Vertriebs- und Support-Agenten, die Leads qualifizieren, antworten und rund um die Uhr Termine buchen — mit Ihrem CRM verbunden.",
+r3t:"KI-Automatisierungen",r3d:"n8n/LLM-Abläufe, die manuelle Eingaben, Berichte und Follow-ups eliminieren — ohne neue Mitarbeiter.",
+r4t:"Custom SaaS",r4d:"Abo-Produkte und interne Plattformen vom MVP bis zur Skalierung — Next.js, PostgreSQL, Stripe.",
+r5t:"Interne Geschäftssysteme",r5d:"CRM, Buchung, Mini-ERP und Dashboards, die Excel, Anrufe und Chaos ersetzen — eine Quelle der Wahrheit.",
+st:"Komplette Leistungen",stitle:"Alles, was Ihr digitales Produkt braucht — aus einer Hand",snote:"KI ist das Upgrade. Die Basis bleibt: Web, E-Commerce und Software, die funktioniert.",
+s1t:"Websites",s1d:"Schnelle Next.js-Websites, gebaut für SEO und Conversions.",s2t:"E-Commerce & Webshop",s2d:"Online-Shops und Headless-Shop-Systeme, die verkaufen.",
+s3t:"Mobile Apps",s3d:"PWA und nativ (Flutter / React Native) für iOS und Android.",s4t:"CMS-Systeme",s4d:"Individuelle Admin-Panels zur einfachen Inhaltsverwaltung.",
+s5t:"Interne Business-Apps",s5d:"CRM, Mini-ERP und Tools, auf Ihren Prozess zugeschnitten.",s6t:"Business Intelligence",s6d:"Dashboards und KPI-Tracking für datenbasierte Entscheidungen.",
+s7t:"SEO & digitales Marketing",s7d:"Technisches SEO, Google und Meta Ads, lokale Sichtbarkeit.",s8t:"Cybersicherheit & DSGVO",s8d:"Security-Audit, Datenschutz, Backup und Compliance.",
+s9t:"Hosting & Infrastruktur",s9d:"Vercel-Deploy, SSL, Domains, E-Mail und Cloud-Setup.",s10t:"Interaktive Web-Tech",s10d:"3D-Präsentationen, virtuelle Showrooms, WebGL-Erlebnisse.",
+ct:"Fallstudie",ctitle:"Problem → System → Ergebnis",cnote:"Echte Kunden. Live-Systeme. Messbare Wirkung.",
+mockl:"Auslastung der Termine / Monat",ch:"Anrufe und DMs durch Online-Buchung ersetzt",
+pk:"Problem",pv:"Termine liefen über Anrufe und DMs — verpasste Anfragen, Doppelbuchungen, keine Daten.",
+sk:"Lösung",sv:"Individuelles Buchungssystem mit Echtzeit-Kalender, Erinnerungen und Admin-Panel für das Team.",
+res1:"Buchung ohne Personal",res2:"Doppelbuchungen",
+ft1:"Ein Studio.",ft2:"Eine Flamme.",ft3:"KI und klassische Web-Entwicklung, ein Team, ein Ablauf von der Idee bis zur Produktion.",
+wt:"Arbeiten",wtitle:"Systeme, die wir ausgeliefert haben — live und in Produktion",
+w1tag:"Web-App · Ästhetische Kliniken",w1d:"Buchungs- und Patientenverwaltungsplattform für eine Klinikkette.",w1l:"Fallstudie →",
+w2tag:"Buchungssystem · Grooming",w2d:"24/7 Online-Buchung mit Kalender, Erinnerungen und Admin-Panel.",w2l:"Fallstudie →",
+w3tag:"Betriebssystem · Logistik",w3d:"Digitales Vertriebs- und Betriebssystem für Transport und Bau.",w3l:"Fallstudie →",
+w4tag:"E-Commerce · Webshop",w4d:"Webshop und Admin-Plattform mit vollständiger Bestellverwaltung.",w4l:"Fallstudie →",
+w5tag:"SaaS · Onboarding",w5d:"Onboarding-System für Remote-Lehrer — von der Anmeldung bis zur ersten Schicht.",w5l:"Fallstudie →",
+it:"Branchen",ititle:"KI und Software, zugeschnitten auf Ihre Branche",inote:"Gleiches Team, anderes Problem. Wir wählen die Lösung, die Ihre Branche wirklich nutzt.",
+i0:"Anwaltskanzleien",i1:"Kliniken & Praxen",i2:"Produktion",i3:"Immobilien",i4:"Restaurants & Gastgewerbe",i5:"Kleine & mittlere Unternehmen",
+fbp:"AI Product Studio aus Niš. Wir bauen KI-Produkte und Web-Systeme, die arbeiten — für Kunden in Serbien, der Region und der EU.",
+fc_a:"Studio",fc_b:"Kontakt",fbr:"Gemacht in Niš · Next.js · 100% individuell",
+pt:"Ablauf",ptitle:"Vom Geschäftsproblem zum Live-Produkt — in vier Schritten",pnote:"Klarer Umfang, feste Meilensteine, keine Überraschungen.",
+p1t:"Analyse",p1d:"Wir erfassen Prozess, Ziele und wo Zeit und Geld verloren gehen. Wir definieren ein messbares Ergebnis.",
+p2t:"Prototyp",p2d:"Klickbarer Prototyp und technische Architektur in ein bis zwei Wochen. Sie sehen es, bevor wir bauen.",
+p3t:"Entwicklung",p3d:"Entwicklung in Sprints mit regelmäßigen Demos. Produktionscode, kein Demo-Theater.",
+p4t:"Launch & Wachstum",p4d:"Go-live, messen, iterieren. Support und Upgrades, während das Geschäft wächst.",
+m1:"Live-Kundensysteme in Produktion",m2:"durchschnittliche Antwortzeit",m3:"individueller Code — keine Templates oder Baukästen",m4:"Sprachen: SR, EN, DE",
+qt:"FAQ",qtitle:"Häufige Fragen",qnote:"Kurz und klar. Details klären wir im Gespräch.",
+q1:"Was genau baut ihr — nur KI oder auch klassische Websites?",a1:"Beides. Wir bauen Websites, Webshops und mobile Apps wie bisher, und KI (Apps, Agenten, Automatisierungen) sowie Custom SaaS sind das Upgrade, wenn es geschäftlich Sinn ergibt. Oft ist die Antwort eine Kombination.",
+q2:"Wie lange dauert ein Projekt?",a2:"Eine Website oder Landingpage 1–3 Wochen. Ein Webshop oder Buchungssystem 3–6 Wochen. Custom SaaS und KI-Systeme hängen vom Umfang ab — wir starten mit einem MVP und erweitern. Einen Prototyp sehen Sie in der ersten oder zweiten Woche.",
+q3:"Was kostet das?",a3:"Hängt vom Umfang ab. Eine Landingpage/Website ab einigen hundert €, Systeme und SaaS mehr. Im Gespräch erhalten Sie eine feste Schätzung pro Meilenstein — keine versteckten Kosten.",
+q4:"Arbeitet ihr für Kunden in Deutschland und der EU?",a4:"Ja. Wir arbeiten remote in der gesamten Region und EU, auf Deutsch, Englisch und Serbisch. Die Website ist mehrsprachig und für den deutschen Markt bereit.",
+q5:"Was passiert nach dem Launch?",a5:"Wir messen Ergebnisse, iterieren und bieten Wartung und Upgrades. Der Code gehört Ihnen; wir hosten auf moderner Infrastruktur (Vercel, Supabase) mit Monitoring.",
+fpt:"Interaktiv",fph:"Bewege das <span class='em'>Feuer</span>.",fphint:"Mit Finger oder Maus ziehen",
+adt:"KI-Agent live",adtitle:"Für jede Leistung — welches Problem die KI löst, live",adnote:"Keine Aufnahme. Derselbe Agent läuft 24/7 auf einer Kunden-Website. Ziehen oder warten.",adname:"Adspire KI-Agent",adonline:"online · antwortet sofort",
+t0s:"Die 4 Stellen, an denen kleine Unternehmen am meisten Geld verlieren",t0b:"VERLIEREN SIE<br>GELD?",
+t1s:"Anruf verpasst → der Kunde geht zur Konkurrenz",t1b:"Termine buchen<br><span class='em'>sich selbst</span>",
+t2s:"Den ganzen Tag dieselben Fragen beantworten",t2b:"KI antwortet<br><span class='em'>für Sie</span>",
+t3s:"Alles in Excel, Heften und Nachrichten",t3b:"Alles an<br><span class='em'>einem Ort</span>",
+t4s:"Leute landen auf der Seite und gehen mit leeren Händen",t4b:"Eine Seite, die<br><span class='em'>Aufträge bringt</span>",
+t5s:"Rechnen Sie zusammen, was Sie das jeden Monat kostet",t5b:"Holen wir es<br><span class='em'>zurück.</span>",t5sub:"In 30 Minuten zeige ich Ihnen genau, wo Sie Geld verlieren und wie Sie es beheben. Kostenlos, unverbindlich.",t5cta:"Kostenloses Gespräch buchen",
+lqt:"Wie wir arbeiten",lqh:"Wir verschmelzen Idee, Design und Code zu <span class='em'>einem Produkt</span>.",lqhint:"Durch den flüssigen Ember ziehen",
+wpt:"Tempo bis zum Launch",wph:"Von der Idee zum ersten Nutzer — <span class='em'>in Wochen</span>.",wphint:"Bewegen zum Lenken des Tunnels",
+fc1:"Ein Prozess, der Stunden frisst?",fc2:"Machen wir ein Produkt daraus.",fcp:"30 Minuten. Wir zeigen, wo KI und Automatisierung in Ihrem Geschäft wirklich Geld sparen — unverbindlich.",fcb:"Beratung buchen"};
+const SR={};document.querySelectorAll('[data-i]').forEach(el=>SR[el.dataset.i]=el.innerHTML);
+let LANG='sr';
+document.querySelectorAll('.lang button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.lang button').forEach(x=>x.classList.remove('on'));b.classList.add('on');LANG=b.dataset.l;const d=LANG==='de'?DE:(LANG==='en'?EN:SR);document.querySelectorAll('[data-i]').forEach(el=>{if(d[el.dataset.i]!=null)el.innerHTML=d[el.dataset.i]});document.documentElement.lang=LANG;splitAllChx();renderInd(curInd);if(window._chatLang)window._chatLang();});
+
+/* reveal + count */
+const io=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');const cu=e.target.querySelectorAll('.cu');if(cu.length)runCount(cu);io.unobserve(e.target);}}),{threshold:.15});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+function runCount(list){list.forEach(el=>{if(el.dataset.done)return;el.dataset.done=1;const to=+el.dataset.to,pre=el.dataset.pre||'',suf=el.dataset.suf||'';if(reduce){el.textContent=pre+to+suf;return;}let s=null;(function step(t){if(!s)s=t;const p=Math.min((t-s)/1100,1);el.textContent=pre+Math.round(to*(1-Math.pow(1-p,3)))+suf;if(p<1)requestAnimationFrame(step);})(performance.now());});}
+
+/* faq accordion */
+document.querySelectorAll('.faq .q').forEach(q=>{const a=q.querySelector('.qa');q.querySelector('.qh').onclick=()=>{const open=q.classList.toggle('open');a.style.maxHeight=open?a.scrollHeight+'px':'0';};});
+
+/* scroll progress + live section index */
+(function(){const secs=[['hero','Intro'],['ai','AI proizvodi'],['works2','Radovi'],['usluge','Usluge'],['proces','Proces'],['forge','Studio'],['work','Case study'],['ind','Industrije'],['faq','FAQ'],['kontakt','Kontakt']].map(([id,l])=>({el:document.getElementById(id),l})).filter(o=>o.el);
+const sprog=document.getElementById('sprog'),sb=document.querySelector('#sindex b'),sl=document.getElementById('sindexlbl');
+function upd(){const max=document.documentElement.scrollHeight-innerHeight;sprog.style.width=(max>0?Math.min(scrollY/max,1)*100:0)+'%';let cur=0;for(let i=0;i<secs.length;i++){if(secs[i].el.getBoundingClientRect().top<=innerHeight*.42)cur=i;}sb.textContent=String(cur+1).padStart(2,'0');sl.textContent=secs[cur].l;}
+addEventListener('scroll',upd,{passive:true});upd();})();
+
+/* AI row cursor preview (desktop) */
+if(fine){const rp=document.getElementById('rowprev'),rpi=rp.querySelector('img');document.querySelectorAll('.build .row').forEach(row=>{row.addEventListener('mouseenter',()=>{const s=row.dataset.img;if(s){rpi.src=s;rp.classList.add('on');}});row.addEventListener('mouseleave',()=>rp.classList.remove('on'));});addEventListener('mousemove',e=>{rp.style.left=Math.min(e.clientX+150,innerWidth-130)+'px';rp.style.top=e.clientY+'px';});}
+
+/* work card staggered reveal */
+(function(){const cards=[...document.querySelectorAll('.wcard')];const wio=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting){e.target.style.transitionDelay=((cards.indexOf(e.target)%5)*.08)+'s';e.target.classList.add('win');wio.unobserve(e.target);}}),{threshold:.2});cards.forEach(c=>wio.observe(c));})();
+
+/* works mobile auto-drift (alive on phone) */
+(function(){const tr=document.getElementById('wtrack');if(!tr)return;let auto=true,dir=1;['touchstart','pointerdown','wheel'].forEach(ev=>tr.addEventListener(ev,()=>auto=false,{passive:true}));function drift(){if(auto&&innerWidth<=820&&!reduce){const m=tr.scrollWidth-tr.clientWidth;tr.scrollLeft+=.4*dir;if(tr.scrollLeft>=m-1)dir=-1;else if(tr.scrollLeft<=0)dir=1;}requestAnimationFrame(drift);}requestAnimationFrame(drift);})();
+
+/* industries explorer */
+const IND={sr:[
+ {tag:"Advokatske kancelarije",h:"Manje administracije, više naplativih sati",p:"Advokati gube sate na zakazivanje, podsetnike i traženje dokumenata. Automatizujemo rutinu i činimo predmete pretraživim.",pts:["AI pretraga kroz predmete i dokumente","Automatski podsetnici za rokove i ročišta","Klijentski portal za prijem i status slučaja"]},
+ {tag:"Klinike i ordinacije",h:"Termini koji se sami popunjavaju",p:"Pozivi i poruke za zakazivanje troše osoblje. Booking sistem i AI asistent preuzimaju prvu liniju 24/7.",pts:["Online zakazivanje sa podsetnicima (manje no-show)","AI asistent za česta pitanja o tretmanima","Kartoni i istorija na jednom mestu"]},
+ {tag:"Proizvodnja",h:"Excel i papir → jedan operativni sistem",p:"Nalozi, zalihe i izveštaji vode se ručno. Pravimo interni sistem koji povezuje proizvodnju, prodaju i magacin.",pts:["Praćenje naloga i zaliha u realnom vremenu","Automatski izveštaji i KPI dashboard","Integracija sa postojećim alatima i mašinama"]},
+ {tag:"Nekretnine",h:"Brži leadovi, kvalifikovaniji kupci",p:"Agencije gube vreme na nekvalifikovane upite. AI agent kvalifikuje i zakazuje, sajt prikazuje ponudu kako treba.",pts:["AI agent koji kvalifikuje i zakazuje obilaske","Pretraga ponude sa pametnim filterima","CRM koji prati svaki lead do zatvaranja"]},
+ {tag:"Restorani i ugostiteljstvo",h:"Rezervacije, porudžbine i gosti bez haosa",p:"Rezervacije preko telefona i DM-a se gube. Digitalizujemo zakazivanje, meni i lojalnost gostiju.",pts:["Online rezervacije i lista čekanja","Digitalni meni i naručivanje sa stola","Lojalnost i povratak gostiju kroz podatke"]},
+ {tag:"Mala i srednja preduzeća",h:"Jedan sistem umesto deset alata",p:"SMB-ovi plaćaju gomilu alata koji ne pričaju. Pravimo custom sistem skrojen za vaš tačan proces.",pts:["CRM, fakture i zadaci na jednom mestu","AI automatizacija ponavljajućih poslova","Sajt i shop povezani sa back-office-om"]}
+],en:[
+ {tag:"Law firms",h:"Less admin, more billable hours",p:"Lawyers lose hours on scheduling, reminders and finding documents. We automate the routine and make cases searchable.",pts:["AI search across cases and documents","Automatic reminders for deadlines and hearings","Client portal for intake and case status"]},
+ {tag:"Clinics & practices",h:"Appointments that fill themselves",p:"Calls and messages for booking drain staff. A booking system and AI assistant take the front line 24/7.",pts:["Online booking with reminders (fewer no-shows)","AI assistant for common treatment questions","Records and history in one place"]},
+ {tag:"Manufacturing",h:"Excel and paper → one operations system",p:"Orders, inventory and reports run by hand. We build an internal system linking production, sales and warehouse.",pts:["Real-time order and inventory tracking","Automatic reports and a KPI dashboard","Integration with existing tools and machines"]},
+ {tag:"Real estate",h:"Faster leads, more qualified buyers",p:"Agencies waste time on unqualified inquiries. An AI agent qualifies and books; the site shows listings properly.",pts:["AI agent that qualifies and books viewings","Listing search with smart filters","A CRM that tracks every lead to close"]},
+ {tag:"Restaurants & hospitality",h:"Reservations, orders and guests without chaos",p:"Phone and DM reservations get lost. We digitise booking, menus and guest loyalty.",pts:["Online reservations and a waitlist","Digital menu and order-from-table","Loyalty and repeat visits through data"]},
+ {tag:"Small & medium business",h:"One system instead of ten tools",p:"SMBs pay for a pile of tools that don't talk. We build a custom system shaped to your exact process.",pts:["CRM, invoices and tasks in one place","AI automation of repetitive work","Site and shop connected to the back office"]}
+],de:[
+ {tag:"Anwaltskanzleien",h:"Weniger Verwaltung, mehr abrechenbare Stunden",p:"Anwälte verlieren Stunden mit Terminen, Erinnerungen und der Suche nach Dokumenten. Wir automatisieren die Routine und machen Akten durchsuchbar.",pts:["KI-Suche über Akten und Dokumente","Automatische Erinnerungen an Fristen und Termine","Mandantenportal für Aufnahme und Fallstatus"]},
+ {tag:"Kliniken & Praxen",h:"Termine, die sich von selbst füllen",p:"Anrufe und Nachrichten zur Terminbuchung belasten das Personal. Ein Buchungssystem und ein KI-Assistent übernehmen die erste Linie rund um die Uhr.",pts:["Online-Buchung mit Erinnerungen (weniger No-Shows)","KI-Assistent für häufige Behandlungsfragen","Akten und Verlauf an einem Ort"]},
+ {tag:"Produktion",h:"Excel und Papier → ein Betriebssystem",p:"Aufträge, Bestände und Berichte laufen manuell. Wir bauen ein internes System, das Produktion, Vertrieb und Lager verbindet.",pts:["Auftrags- und Bestandsverfolgung in Echtzeit","Automatische Berichte und KPI-Dashboard","Integration mit bestehenden Tools und Maschinen"]},
+ {tag:"Immobilien",h:"Schnellere Leads, qualifiziertere Käufer",p:"Agenturen verschwenden Zeit mit unqualifizierten Anfragen. Ein KI-Agent qualifiziert und bucht; die Seite zeigt das Angebot richtig.",pts:["KI-Agent, der qualifiziert und Besichtigungen bucht","Angebotssuche mit smarten Filtern","CRM, das jeden Lead bis zum Abschluss verfolgt"]},
+ {tag:"Restaurants & Gastgewerbe",h:"Reservierungen, Bestellungen und Gäste ohne Chaos",p:"Telefon- und DM-Reservierungen gehen verloren. Wir digitalisieren Buchung, Menü und Gästetreue.",pts:["Online-Reservierungen und Warteliste","Digitales Menü und Bestellung am Tisch","Treue und Wiederbesuche durch Daten"]},
+ {tag:"Kleine & mittlere Unternehmen",h:"Ein System statt zehn Tools",p:"KMU zahlen für viele Tools, die nicht zusammenarbeiten. Wir bauen ein individuelles System, zugeschnitten auf Ihren genauen Prozess.",pts:["CRM, Rechnungen und Aufgaben an einem Ort","KI-Automatisierung wiederkehrender Arbeit","Website und Shop mit dem Back-Office verbunden"]}
+]};
+let curInd=0;
+function renderInd(i){curInd=i;const d=(IND[LANG]||IND.en||IND.sr)[i];const el=document.getElementById('indDetail');if(!el)return;el.classList.remove('ind-fade');void el.offsetWidth;el.innerHTML='<div class="idtag">'+(LANG==='de'?'Branche':(LANG==='en'?'Industry':'Industrija'))+' · 0'+(i+1)+'</div><h3>'+d.h+'</h3><p>'+d.p+'</p><ul>'+d.pts.map(p=>'<li>'+p+'</li>').join('')+'</ul>';el.classList.add('ind-fade');document.querySelectorAll('.ind-i').forEach(b=>b.classList.toggle('on',+b.dataset.ind===i));}
+document.querySelectorAll('.ind-i').forEach(b=>b.addEventListener('click',()=>renderInd(+b.dataset.ind)));
+renderInd(0);
+
+/* magnetic buttons (desktop) */
+if(fine){document.querySelectorAll('.cta-btn,.ghost').forEach(b=>{b.addEventListener('mousemove',e=>{const r=b.getBoundingClientRect();b.style.transform='translate('+(e.clientX-(r.left+r.width/2))*.25+'px,'+(e.clientY-(r.top+r.height/2))*.4+'px)';});b.addEventListener('mouseleave',()=>{b.style.transform='';});});}
+
+/* scramble section tags on first reveal */
+if(!reduce){const SC='ABCDEFGHIJKLMNOPQRSTUVWXYZ#%&/0123456789';const so=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting){const el=e.target,fin=el.textContent;let f=0,steps=fin.length+10;const id=setInterval(()=>{el.textContent=fin.split('').map((c,i)=>c===' '?' ':(i<=f-8?c:SC[Math.floor(Math.random()*SC.length)])).join('');f++;if(f>=steps){clearInterval(id);el.textContent=fin;}},32);so.unobserve(el);}}),{threshold:.6});document.querySelectorAll('.sec-tag').forEach(el=>so.observe(el));}
+
+/* marquee */
+(function(){const tr=document.getElementById('mtrack');let off=0,vel=0,svel=0,last=scrollY;function loop(){const dv=scrollY-last;last=scrollY;vel+=(Math.abs(dv)-vel)*.1;svel+=(dv-svel)*.12;off-=(.4+vel*.25);const w=tr.firstElementChild.offsetWidth+42;if(-off>=w)off+=w;const sk=Math.max(-7,Math.min(7,-svel*.45));tr.style.transform='translateX('+off+'px) skewX('+sk+'deg)';requestAnimationFrame(loop);}if(!reduce)loop();})();
+
+/* hero parallax + forge choreography */
+const hero=document.getElementById('hero'),forge=document.getElementById('forge'),core=document.getElementById('core'),fhead=document.getElementById('fhead'),scrim=document.getElementById('scrim'),fflash=document.getElementById('fflash');
+const tunnel=document.getElementById('tunnel'),tnch=tunnel?[...tunnel.querySelectorAll('.tn-ch')]:[];
+window._sigOrder=0;
+const chips=[...document.querySelectorAll('.forge .chip')];
+const spread=chips.map((_,i)=>{const a=(i/chips.length)*Math.PI*2-Math.PI/2;return{x:Math.cos(a),y:Math.sin(a)};});
+let ticking=false;
+function onScroll(){nav.classList.toggle('scrolled',scrollY>20);if(ticking)return;ticking=true;requestAnimationFrame(()=>{const sy=scrollY,vh=innerHeight;
+ scrim.style.opacity=String(Math.max(0,Math.min(.8,(sy-vh*.5)/(vh*.55))));
+ if(sy<vh){const p=sy/vh;hero.style.transform='translateY('+sy*.16+'px)';hero.style.opacity=String(1-p*.92);}
+ const r=forge.getBoundingClientRect(),total=forge.offsetHeight-vh;let p=Math.max(0,Math.min(1,(-r.top)/total));
+ const conv=Math.min(p/.7,1),ease=1-Math.pow(1-conv,3),R=Math.min(innerWidth,vh)*.34;
+ chips.forEach((c,i)=>{c.style.transform='translate('+spread[i].x*R*(1-ease)+'px,'+spread[i].y*R*(1-ease)+'px) scale('+(1-ease*.62)+')';c.style.opacity=String(1-Math.max(0,(conv-.7)/.3));});
+ const hp=Math.max(0,(p-.72)/.28);core.style.transform='scale('+(1+ease*5)+')';core.style.opacity=String((.3+ease*.7)*(1-hp*.65));
+ const flash=Math.max(0,1-Math.abs(p-.72)/.11);fflash.style.opacity=String(flash*.92);fflash.style.transform='translate(-50%,-50%) scale('+(.2+flash*1.05)+')';
+ fhead.style.opacity=String(hp);fhead.style.transform='translateY('+(1-hp)*20+'px) scale('+(.92+hp*.08)+')';
+ if(tunnel&&tnch.length){const tr=tunnel.getBoundingClientRect(),tH=tunnel.offsetHeight-vh;const N=tnch.length;
+  let P=tH>0?Math.max(0,Math.min(1,(-tr.top)/tH)):0;window._sigOrder=P;
+  const fpos=P*N;window._sigPulse=Math.pow(1-Math.abs((fpos%1)-0.5)*2,2.2);
+  tnch.forEach((c,i)=>{let u=fpos-i;if(i===N-1)u=Math.min(u,.5);let op,sc,bl;
+   if(u<-.1||u>1.1){op=0;sc=.4;bl=18;}
+   else{sc=.4+u*1.4;op=u<.5?(u+.12)/.62:1-(u-.5)/.6;op=Math.max(0,Math.min(1,op));bl=Math.max(0,Math.abs(u-.5)-.2)*42;}
+   c.style.opacity=op.toFixed(3);c.style.transform='translateY(-50%) scale('+sc.toFixed(3)+')';c.style.filter=bl>.3?'blur('+bl.toFixed(1)+'px)':'none';});}
+ ticking=false;});}
+addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+/* works gallery — desktop pin → horizontal, mobile native swipe */
+(function(){const works=document.getElementById('works2'),wtrack=document.getElementById('wtrack'),wbar=document.getElementById('wprogbar');let dist=0,mob=innerWidth<=820;
+function layout(){mob=innerWidth<=820;if(mob){works.style.height='auto';wtrack.style.transform='';return;}dist=Math.max(0,wtrack.scrollWidth-innerWidth+44);works.style.height=(dist+innerHeight)+'px';}
+function upd(){if(mob)return;const r=works.getBoundingClientRect(),total=works.offsetHeight-innerHeight;let p=total>0?Math.max(0,Math.min(1,(-r.top)/total)):0;wtrack.style.transform='translate3d('+(-p*dist)+'px,0,0)';if(wbar)wbar.style.width=(p*100)+'%';}
+addEventListener('scroll',upd,{passive:true});addEventListener('resize',()=>{layout();upd();});addEventListener('load',()=>{layout();upd();});layout();upd();})();
+
+/* WebGL fluid ember shader — domain-warped FBM, pointer/touch reactive */
+(function(){
+const c=document.getElementById('signal');
+const gl=c.getContext('webgl',{antialias:false,alpha:false,powerPreference:'high-performance'})||c.getContext('experimental-webgl');
+if(!gl){const x=c.getContext('2d');function fb(){const w=innerWidth,h=innerHeight;c.width=w;c.height=h;const g=x.createRadialGradient(w*.6,h*.3,0,w*.6,h*.3,h);g.addColorStop(0,'rgba(255,120,40,.18)');g.addColorStop(1,'#08080a');x.fillStyle=g;x.fillRect(0,0,w,h);}fb();addEventListener('resize',fb);return;}
+const vs='attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}';
+const fs=['precision highp float;',
+'uniform vec2 uRes;uniform float uTime;uniform vec2 uAnchor;uniform float uMix;uniform vec3 uRip[4];',
+'float hash(vec2 p){p=fract(p*vec2(123.34,456.21));p+=dot(p,p+45.32);return fract(p.x*p.y);}',
+'float noise(vec2 p){vec2 i=floor(p),f=fract(p);float a=hash(i),b=hash(i+vec2(1,0)),c2=hash(i+vec2(0,1)),d=hash(i+vec2(1,1));vec2 u=f*f*(3.-2.*f);return mix(a,b,u.x)+(c2-a)*u.y*(1.-u.x)+(d-b)*u.x*u.y;}',
+'float fbm(vec2 p){float v=0.,a=.5;for(int i=0;i<5;i++){v+=a*noise(p);p*=2.03;a*=.5;}return v;}',
+'float ember(vec2 p,vec2 an){float t=uTime*.045;vec2 q=vec2(fbm(p*2.2+t),fbm(p*2.2-t+5.2));vec2 r=vec2(fbm(p*2.2+q*1.6+t*1.2),fbm(p*2.2+q*1.6-t*1.1+2.3));float f=fbm(p*2.2+r*1.9);float d=distance(p,an);float core=smoothstep(.74,0.,d);return clamp(core*.86+f*core*1.15+r.x*.22*core-d*.42,0.,1.);}',
+'float vortex(vec2 p,vec2 c){vec2 dv=p-c;float r=length(dv);float a=atan(dv.y,dv.x);a+=1.5/(r+.22)+uTime*.2;vec2 sp=vec2(cos(a),sin(a))*r;float f=fbm(sp*3.3+uTime*.08);float g=fbm(sp*7.+uTime*.12);float core=smoothstep(.85,0.,r);return clamp(core*.62+f*core*1.25+g*core*.35-r*.5,0.,1.);}',
+'void main(){vec2 uv=gl_FragCoord.xy/uRes;vec2 asp=vec2(uRes.x/uRes.y,1.);vec2 p=uv*asp;vec2 an=uAnchor*asp;vec2 cc=vec2(.5,.5)*asp;',
+'float h=mix(ember(p,an),vortex(p,cc),uMix);',
+'for(int i=0;i<4;i++){float age=uRip[i].z;if(age<1.0){vec2 rc=uRip[i].xy*asp;float rr=age*1.4;float ring=smoothstep(.075,0.,abs(distance(p,rc)-rr));h+=ring*(1.-age)*.75;}}',
+'h=clamp(h,0.,1.);',
+'vec3 col=vec3(.0);',
+'col=mix(col,vec3(.40,.018,0.),smoothstep(.06,.4,h));',
+'col=mix(col,vec3(1.,.30,.03),smoothstep(.38,.72,h));',
+'col=mix(col,vec3(1.,.70,.32),smoothstep(.72,.92,h));',
+'col=mix(col,vec3(1.,.96,.84),smoothstep(.95,1.,h));',
+'col+=(hash(uv*(uTime+1.))-.5)*.025;',
+'float dc=distance(p,mix(an,cc,uMix));',
+'col*= .42+.5*smoothstep(1.6,.05,dc);',
+'col+=col*col*0.45;float ca=length(uv-0.5);col.r+=ca*0.05;col.b-=ca*0.04;',
+'gl_FragColor=vec4(max(col,0.)*.82,1.);}'].join('\n');
+function sh(type,src){const s=gl.createShader(type);gl.shaderSource(s,src);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))console.error('SHADER_ERR',gl.getShaderInfoLog(s));return s;}
+const prog=gl.createProgram();gl.attachShader(prog,sh(gl.VERTEX_SHADER,vs));gl.attachShader(prog,sh(gl.FRAGMENT_SHADER,fs));gl.linkProgram(prog);if(!gl.getProgramParameter(prog,gl.LINK_STATUS))console.error('PROG_ERR',gl.getProgramInfoLog(prog));gl.useProgram(prog);
+const buf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buf);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);
+const loc=gl.getAttribLocation(prog,'p');gl.enableVertexAttribArray(loc);gl.vertexAttribPointer(loc,2,gl.FLOAT,false,0,0);
+const uRes=gl.getUniformLocation(prog,'uRes'),uTime=gl.getUniformLocation(prog,'uTime'),uAnchor=gl.getUniformLocation(prog,'uAnchor'),uMix=gl.getUniformLocation(prog,'uMix'),uRip=gl.getUniformLocation(prog,'uRip[0]');
+let W,H,mob,q;
+function size(){mob=innerWidth<760;q=mob?.6:.85;const dpr=Math.min(devicePixelRatio||1,mob?1.5:1.7);W=Math.round(innerWidth*dpr*q);H=Math.round(innerHeight*dpr*q);c.width=W;c.height=H;gl.viewport(0,0,W,H);document.documentElement.style.setProperty('--vx',mob?'50%':'72%');document.documentElement.style.setProperty('--vy',mob?'82%':'12%');}
+const ptr={x:.5,y:.5,on:false};
+addEventListener('mousemove',e=>{ptr.x=e.clientX/innerWidth;ptr.y=1-e.clientY/innerHeight;ptr.on=true;});
+addEventListener('touchmove',e=>{const t=e.touches[0];if(t){ptr.x=t.clientX/innerWidth;ptr.y=1-t.clientY/innerHeight;ptr.on=true;}},{passive:true});
+const rips=[{x:0,y:0,a:1},{x:0,y:0,a:1},{x:0,y:0,a:1},{x:0,y:0,a:1}];let ri=0;const ripData=new Float32Array(12);
+function ripple(cx,cy){const r=rips[ri%4];r.x=cx/innerWidth;r.y=1-cy/innerHeight;r.a=0;ri++;}
+addEventListener('pointerdown',e=>ripple(e.clientX,e.clientY));
+addEventListener('touchstart',e=>{const t=e.touches[0];if(t)ripple(t.clientX,t.clientY);},{passive:true});
+let ax=.72,ay=.72,mix=0,running=true,t0=performance.now();
+function frame(t){if(!running)return;const dt=Math.min((t-t0)/1000,.05);t0=t;
+ const bx=mob?.5:.72, by=(mob?.16:.72)+Math.min(scrollY/innerHeight,1.2)*(mob?.05:.18);
+ const tx=ptr.on?bx+(ptr.x-bx)*.28:bx, ty=ptr.on?by+(ptr.y-by)*.28:by;
+ ax+=(tx-ax)*.06;ay+=(ty-ay)*.06;
+ const maxS=document.documentElement.scrollHeight-innerHeight, prog2=maxS>0?scrollY/maxS:0;
+ const tMix=Math.max(0,Math.min(1,(prog2-.30)/.25));mix+=(tMix-mix)*.08;
+ for(let i=0;i<4;i++){const r=rips[i];if(r.a<1)r.a=Math.min(1,r.a+dt*.85);ripData[i*3]=r.x;ripData[i*3+1]=r.y;ripData[i*3+2]=r.a;}
+ gl.uniform2f(uRes,W,H);gl.uniform1f(uTime,reduce?2.:t*.001);gl.uniform2f(uAnchor,ax,ay);gl.uniform1f(uMix,mix);gl.uniform3fv(uRip,ripData);
+ gl.drawArrays(gl.TRIANGLES,0,3);
+ if(!reduce)requestAnimationFrame(frame);}
+size();addEventListener('resize',size);
+document.addEventListener('visibilitychange',()=>{running=!document.hidden;if(running){t0=performance.now();requestAnimationFrame(frame);}});
+requestAnimationFrame(frame);})();
+
+/* section A — pomeri vatru: interactive heat-trail (touch + mouse identical) */
+(function(){
+const cv=document.getElementById('flamecanvas');if(!cv)return;
+const gl=cv.getContext('webgl',{antialias:false,alpha:true,premultipliedAlpha:false});if(!gl){return;}
+const vs='attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}';
+const fs=['precision highp float;','uniform vec2 uRes;uniform float uTime;uniform vec3 uTrail[20];',
+'float hash(vec2 p){p=fract(p*vec2(123.34,456.21));p+=dot(p,p+45.32);return fract(p.x*p.y);}',
+'float noise(vec2 p){vec2 i=floor(p),f=fract(p);float a=hash(i),b=hash(i+vec2(1,0)),c2=hash(i+vec2(0,1)),d=hash(i+vec2(1,1));vec2 u=f*f*(3.-2.*f);return mix(a,b,u.x)+(c2-a)*u.y*(1.-u.x)+(d-b)*u.x*u.y;}',
+'float fbm(vec2 p){float v=0.,a=.5;for(int i=0;i<4;i++){v+=a*noise(p);p*=2.03;a*=.5;}return v;}',
+'void main(){vec2 uv=gl_FragCoord.xy/uRes;vec2 asp=vec2(uRes.x/uRes.y,1.);vec2 p=uv*asp;',
+'float amb=fbm(p*3.+vec2(uTime*.05,0.))*.10;float h=amb;',
+'for(int i=0;i<20;i++){float age=uTrail[i].z;if(age<1.){vec2 tp=uTrail[i].xy*asp;float d=distance(p,tp);h+=smoothstep(.17,0.,d)*(1.-age)*.95;}}',
+'float fl=fbm(p*6.+vec2(0.,-uTime*.35));h*=.78+fl*.55;h=clamp(h,0.,1.);',
+'vec3 col=vec3(0.);',
+'col=mix(col,vec3(.4,.02,0.),smoothstep(.05,.35,h));',
+'col=mix(col,vec3(1.,.32,.03),smoothstep(.32,.68,h));',
+'col=mix(col,vec3(1.,.72,.34),smoothstep(.68,.9,h));',
+'col=mix(col,vec3(1.,.96,.85),smoothstep(.92,1.,h));',
+'col+=col*col*0.4;',
+'float a=smoothstep(.03,.22,h);',
+'gl_FragColor=vec4(col*a,a);}'].join('\n');
+function sh(t,s){const o=gl.createShader(t);gl.shaderSource(o,s);gl.compileShader(o);if(!gl.getShaderParameter(o,gl.COMPILE_STATUS))console.error('FP_SH',gl.getShaderInfoLog(o));return o;}
+const pr=gl.createProgram();gl.attachShader(pr,sh(gl.VERTEX_SHADER,vs));gl.attachShader(pr,sh(gl.FRAGMENT_SHADER,fs));gl.linkProgram(pr);if(!gl.getProgramParameter(pr,gl.LINK_STATUS))console.error('FP_PR',gl.getProgramInfoLog(pr));gl.useProgram(pr);
+const bf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,bf);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);
+const lp=gl.getAttribLocation(pr,'p');gl.enableVertexAttribArray(lp);gl.vertexAttribPointer(lp,2,gl.FLOAT,false,0,0);
+const uRes=gl.getUniformLocation(pr,'uRes'),uTime=gl.getUniformLocation(pr,'uTime'),uTrail=gl.getUniformLocation(pr,'uTrail[0]');
+let W,H;function size(){const r=cv.getBoundingClientRect();const dpr=Math.min(devicePixelRatio||1,1.5);W=Math.max(1,Math.round(r.width*dpr*.7));H=Math.max(1,Math.round(r.height*dpr*.7));cv.width=W;cv.height=H;gl.viewport(0,0,W,H);}
+const N=20,tr=[];for(let i=0;i<N;i++)tr.push({x:.5,y:.5,a:1});let ti=0;const td=new Float32Array(N*3);
+function add(cx,cy){const r=cv.getBoundingClientRect();const x=(cx-r.left)/r.width,y=1-(cy-r.top)/r.height;if(x<-.15||x>1.15||y<-.15||y>1.15)return;const s=tr[ti%N];s.x=x;s.y=y;s.a=0;ti++;}
+addEventListener('mousemove',e=>add(e.clientX,e.clientY));
+addEventListener('touchmove',e=>{const t=e.touches[0];if(t)add(t.clientX,t.clientY);},{passive:true});
+let vis=false;new IntersectionObserver(es=>es.forEach(e=>vis=e.isIntersecting),{threshold:.05}).observe(cv);
+let t0=performance.now();
+function frame(t){const dt=Math.min((t-t0)/1000,.05);t0=t;if(vis&&!reduce){for(let i=0;i<N;i++){const s=tr[i];if(s.a<1)s.a=Math.min(1,s.a+dt*.6);td[i*3]=s.x;td[i*3+1]=s.y;td[i*3+2]=s.a;}gl.uniform2f(uRes,W,H);gl.uniform1f(uTime,t*.001);gl.uniform3fv(uTrail,td);gl.drawArrays(gl.TRIANGLES,0,3);}requestAnimationFrame(frame);}
+size();addEventListener('resize',size);requestAnimationFrame(frame);})();
+
+/* section B — AI agent chat carousel (per-service, auto-advance horizontal) */
+(function(){
+const track=document.getElementById('chattrack');if(!track)return;
+const CHATS=[
+ {name:{sr:'AI agent · Zakazivanje',en:'AI agent · Booking',de:'KI-Agent · Buchung'},solve:{sr:'Rešava: propuštene termine i duple rezervacije',en:'Solves: missed appointments & double-bookings',de:'Löst: verpasste Termine & Doppelbuchungen'},s:{
+  sr:[['agent','Zdravo! Koliko termina vodite dnevno?'],['user','Oko 30, sve preko telefona.'],['agent','To pravi duple rezervacije i jede vreme. AI agent + booking preuzima zakazivanje 24/7 — bez osoblja.'],['user','Koliko brzo se postavlja?'],['agent','MVP za 2 nedelje. Da rezervišem besplatnu konsultaciju?'],['user','Može, sutra.'],['agent','Zakazano ✓ Sutra 15h. Potvrda na mejlu. Vidimo se!']],
+  en:[['agent','Hi! How many appointments do you handle per day?'],['user','Around 30, all by phone.'],['agent','That creates double-bookings and eats time. An AI agent + booking takes scheduling 24/7 — no staff.'],['user','How fast to set up?'],['agent','MVP in 2 weeks. Shall I book a free consult?'],['user','Sure, tomorrow.'],['agent','Booked ✓ Tomorrow 3pm. Confirmation sent. See you!']],
+  de:[['agent','Hallo! Wie viele Termine haben Sie pro Tag?'],['user','Etwa 30, alles per Telefon.'],['agent','Das führt zu Doppelbuchungen und kostet Zeit. Ein KI-Agent + Buchung übernimmt die Terminvergabe rund um die Uhr — ohne Personal.'],['user','Wie schnell ist das eingerichtet?'],['agent','MVP in 2 Wochen. Soll ich eine kostenlose Beratung buchen?'],['user','Ja, morgen.'],['agent','Gebucht ✓ Morgen 15 Uhr. Bestätigung gesendet. Bis dann!']]}},
+ {name:{sr:'AI agent · Podrška',en:'AI agent · Support',de:'KI-Agent · Support'},solve:{sr:'Rešava: sporu podršku i ponavljajuća pitanja',en:'Solves: slow support & repetitive questions',de:'Löst: langsamen Support & wiederkehrende Fragen'},s:{
+  sr:[['agent','Koliko upita podrške dobijate dnevno na webshopu?'],['user','Previše — gde mi je porudžbina, povraćaj, dostupnost...'],['agent','90% toga je ponavljajuće. AI agent odgovara odmah, na srpskom, 24/7 — a čoveku predaje samo složeno.'],['user','A integracija sa našim sistemom?'],['agent','Povezujemo se na shop i CRM preko API-ja. Tiketi se sami kategorišu.'],['agent','Hoćete primer na vašim podacima?']],
+  en:[['agent','How many support tickets do you get daily on your shop?'],['user','Too many — where is my order, returns, stock...'],['agent','90% is repetitive. An AI agent answers instantly, 24/7 — and hands only complex cases to a human.'],['user','What about integration with our system?'],['agent','We connect to your shop and CRM via API. Tickets self-categorize.'],['agent','Want an example on your data?']],
+  de:[['agent','Wie viele Support-Anfragen bekommen Sie täglich im Shop?'],['user','Zu viele — wo ist meine Bestellung, Rückgabe, Verfügbarkeit...'],['agent','90% davon wiederholt sich. Ein KI-Agent antwortet sofort, rund um die Uhr — und gibt nur Komplexes an einen Menschen.'],['user','Und die Integration mit unserem System?'],['agent','Wir verbinden uns per API mit Shop und CRM. Tickets kategorisieren sich selbst.'],['agent','Möchten Sie ein Beispiel mit Ihren Daten?']]}},
+ {name:{sr:'AI agent · Leadovi',en:'AI agent · Leads',de:'KI-Agent · Leads'},solve:{sr:'Rešava: nekvalifikovane upite i izgubljeno vreme',en:'Solves: unqualified inquiries & wasted time',de:'Löst: unqualifizierte Anfragen & verlorene Zeit'},s:{
+  sr:[['agent','Koliko upita za nekretnine dobijate nedeljno?'],['user','Mnogo, ali većina nije ozbiljna.'],['agent','AI agent kvalifikuje svaki upit — budžet, lokacija, rok — i zakazuje obilazak samo sa ozbiljnima.'],['user','Znači filtrira umesto agenta?'],['agent','Tako je. Tim priča samo sa spremnim kupcima, ostalo agent neguje automatski.'],['agent','Da pokažem na vašoj ponudi?']],
+  en:[['agent','How many property inquiries do you get weekly?'],['user','Lots, but most are not serious.'],['agent','An AI agent qualifies each — budget, location, timing — and books viewings only with serious ones.'],['user','So it filters instead of the agent?'],['agent','Exactly. Your team talks only to ready buyers; the rest are nurtured automatically.'],['agent','Want a demo on your listings?']],
+  de:[['agent','Wie viele Immobilien-Anfragen bekommen Sie pro Woche?'],['user','Viele, aber die meisten sind nicht ernst.'],['agent','Ein KI-Agent qualifiziert jede Anfrage — Budget, Lage, Zeitrahmen — und bucht Besichtigungen nur mit ernsthaften.'],['user','Also filtert er statt des Maklers?'],['agent','Genau. Ihr Team spricht nur mit kaufbereiten Kunden, den Rest pflegt der Agent automatisch.'],['agent','Soll ich es an Ihrem Angebot zeigen?']]}},
+ {name:{sr:'AI agent · Dokumenti',en:'AI agent · Documents',de:'KI-Agent · Dokumente'},solve:{sr:'Rešava: ručno čitanje ugovora i dosijea',en:'Solves: manual reading of contracts & files',de:'Löst: manuelles Lesen von Verträgen & Akten'},s:{
+  sr:[['agent','Koliko vremena trošite na čitanje ugovora i dosijea?'],['user','Sate. Sve ručno.'],['agent','AI čita, sumira i vadi ključne klauzule i rokove — za sekunde, sa referencama na izvor.'],['user','A poverljivost podataka?'],['agent','Radi privatno, na vašoj infrastrukturi. Ništa ne napušta firmu.'],['agent','Hoćete demo na jednom vašem dokumentu?']],
+  en:[['agent','How much time do you spend reading contracts and files?'],['user','Hours. All manual.'],['agent','AI reads, summarizes and extracts key clauses and deadlines — in seconds, with source references.'],['user','What about data confidentiality?'],['agent','It runs privately, on your infrastructure. Nothing leaves the firm.'],['agent','Want a demo on one of your documents?']],
+  de:[['agent','Wie viel Zeit verbringen Sie mit dem Lesen von Verträgen und Akten?'],['user','Stunden. Alles manuell.'],['agent','Die KI liest, fasst zusammen und extrahiert wichtige Klauseln und Fristen — in Sekunden, mit Quellenverweisen.'],['user','Und der Datenschutz?'],['agent','Läuft privat, auf Ihrer Infrastruktur. Nichts verlässt das Unternehmen.'],['agent','Möchten Sie eine Demo mit einem Ihrer Dokumente?']]}}
+];
+let cur=0,timers=[],started=false;
+function bodyOf(i){return track.children[i].querySelector('.chat-body');}
+function build(){
+ CHATS.forEach((ch,i)=>{const sl=document.createElement('div');sl.className='chatslide';
+  sl.innerHTML='<div class="chat"><div class="chat-head"><div class="ca"><span class="cadot"></span></div><div class="chm"><b></b><span class="solve"></span></div></div><div class="chat-body"></div></div>';
+  track.appendChild(sl);});
+ const dots=document.getElementById('chatdots');CHATS.forEach((_,i)=>{const b=document.createElement('button');b.setAttribute('aria-label','Chat '+(i+1));b.onclick=()=>go(i,true);dots.appendChild(b);});
+ syncHeads();
+}
+function syncHeads(){CHATS.forEach((ch,i)=>{const sl=track.children[i];sl.querySelector('.chm b').textContent=ch.name[LANG]||ch.name.en||ch.name.sr;sl.querySelector('.chm .solve').textContent=ch.solve[LANG]||ch.solve.en||ch.solve.sr;});}
+function clr(){timers.forEach(clearTimeout);timers=[];}
+function play(i){clr();const body=bodyOf(i);body.innerHTML='';const s=CHATS[i].s[LANG]||CHATS[i].s.en||CHATS[i].s.sr;let d=350;
+ s.forEach(([who,text])=>{
+  if(who==='agent'){
+   timers.push(setTimeout(()=>{const tp=document.createElement('div');tp.className='msg agent typing';tp.innerHTML='<i></i><i></i><i></i>';body.appendChild(tp);body.scrollTop=body.scrollHeight;},d));d+=700;
+   timers.push(setTimeout(()=>{const tp=body.querySelector('.typing');if(tp)tp.remove();const m=document.createElement('div');m.className='msg agent';m.textContent=text;body.appendChild(m);body.scrollTop=body.scrollHeight;},d));d+=800+text.length*6;
+  }else{timers.push(setTimeout(()=>{const m=document.createElement('div');m.className='msg user';m.textContent=text;body.appendChild(m);body.scrollTop=body.scrollHeight;},d));d+=700;}
+ });
+ timers.push(setTimeout(()=>{if(cur===i)go((i+1)%CHATS.length,false);},d+3200));
+}
+function dotsUpd(){const ds=document.getElementById('chatdots').children;for(let i=0;i<ds.length;i++)ds[i].classList.toggle('on',i===cur);}
+function go(i,manual){cur=(i+CHATS.length)%CHATS.length;track.style.transform='translateX('+(-cur*100)+'%)';dotsUpd();play(cur);}
+function start(){if(started)return;started=true;go(0,false);}
+build();dotsUpd();
+document.getElementById('chatprev').onclick=()=>go(cur-1,true);
+document.getElementById('chatnext').onclick=()=>go(cur+1,true);
+window._chatLang=function(){syncHeads();if(started)play(cur);};
+new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting)start();}),{threshold:.3}).observe(track);
+})();
+
+/* signal scene — 2nd shader: chaos->order flow field, cold->ember */
+(function(){
+const cv=document.getElementById('sigcanvas');if(!cv)return;
+const gl=cv.getContext('webgl',{antialias:false,alpha:false});if(!gl)return;
+const vs='attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}';
+const fs=['precision highp float;','uniform vec2 uRes;uniform float uTime;uniform float uOrder;uniform float uPulse;uniform vec3 uTrail[12];',
+'float hash(vec2 p){p=fract(p*vec2(123.34,456.21));p+=dot(p,p+45.32);return fract(p.x*p.y);}',
+'float noise(vec2 p){vec2 i=floor(p),f=fract(p);float a=hash(i),b=hash(i+vec2(1,0)),c2=hash(i+vec2(0,1)),d=hash(i+vec2(1,1));vec2 u=f*f*(3.-2.*f);return mix(a,b,u.x)+(c2-a)*u.y*(1.-u.x)+(d-b)*u.x*u.y;}',
+'float fbm(vec2 p){float v=0.,a=.5;for(int i=0;i<4;i++){v+=a*noise(p);p*=2.03;a*=.5;}return v;}',
+'void main(){vec2 uv=gl_FragCoord.xy/uRes;vec2 asp=vec2(uRes.x/uRes.y,1.);vec2 p=uv*asp;vec2 c=vec2(.5,.5)*asp;float r=distance(p,c);float t=uTime*.13;',
+'float trail=0.0;vec2 warpv=vec2(0.0);for(int i=0;i<12;i++){float age=uTrail[i].z;if(age<1.0){vec2 tp=uTrail[i].xy*asp;vec2 tov=p-tp;float dd=length(tov);float infl=smoothstep(0.28,0.0,dd)*(1.0-age);trail+=infl;warpv+=normalize(tov+1e-4)*infl*0.12;}}',
+'vec2 drift=vec2(t*0.2,sin(t*0.6)*0.14);',
+'float turb=mix(1.0,0.22,uOrder);vec2 fp=(p+drift+warpv)*mix(2.6,1.7,uOrder);',
+'vec2 q=vec2(fbm(fp+vec2(0.0,t)),fbm(fp+vec2(5.2,-t)));',
+'float fa=fbm(fp+q*1.4+vec2(t,t*.5))*6.2831*turb;fa=mix(fa,sin(p.y*7.0+t*1.8)*0.5,uOrder);',
+'vec2 dir=vec2(cos(fa),sin(fa));float s=0.0;vec2 sp=p+warpv;',
+'for(int i=0;i<6;i++){s+=fbm(sp*3.0+t*1.3);sp+=dir*0.032;}s/=6.0;',
+'float lines=abs(sin(s*11.0+p.x*mix(6.0,16.0,uOrder)+t*1.5));',
+'float inten=smoothstep(0.2,0.9,s)*(0.45+0.55*lines);',
+'float bloom=uPulse*smoothstep(1.05,0.0,r);inten+=bloom*0.3+trail*0.85;',
+'inten=clamp(inten,0.0,1.0);',
+'vec3 cold=mix(vec3(.03,.02,.10),vec3(.10,.42,.62),inten);',
+'vec3 warm=mix(vec3(.07,.01,.0),vec3(1.0,.48,.12),inten);warm=mix(warm,vec3(1.0,.85,.6),smoothstep(.72,1.0,inten));',
+'float warmth=clamp(uOrder+uPulse*0.4+trail*0.8,0.0,1.0);',
+'vec3 col=mix(cold,warm,warmth);col+=(hash(uv*(uTime+1.0))-.5)*.025;col*=0.62;',
+'col+=col*col*0.5;float ca=length(uv-0.5);col.r+=ca*0.05;col.b-=ca*0.04;',
+'gl_FragColor=vec4(max(col,0.0),1.0);}'].join('\n');
+function sh(ty,s){const o=gl.createShader(ty);gl.shaderSource(o,s);gl.compileShader(o);if(!gl.getShaderParameter(o,gl.COMPILE_STATUS))console.error('SS_SH',gl.getShaderInfoLog(o));return o;}
+const pr=gl.createProgram();gl.attachShader(pr,sh(gl.VERTEX_SHADER,vs));gl.attachShader(pr,sh(gl.FRAGMENT_SHADER,fs));gl.linkProgram(pr);if(!gl.getProgramParameter(pr,gl.LINK_STATUS))console.error('SS_PR',gl.getProgramInfoLog(pr));gl.useProgram(pr);
+const bf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,bf);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);
+const lp=gl.getAttribLocation(pr,'p');gl.enableVertexAttribArray(lp);gl.vertexAttribPointer(lp,2,gl.FLOAT,false,0,0);
+const uRes=gl.getUniformLocation(pr,'uRes'),uTime=gl.getUniformLocation(pr,'uTime'),uOrder=gl.getUniformLocation(pr,'uOrder'),uPulse=gl.getUniformLocation(pr,'uPulse'),uTrail=gl.getUniformLocation(pr,'uTrail[0]');
+let W,H;function size(){const r=cv.getBoundingClientRect();const dpr=Math.min(devicePixelRatio||1,1.5);W=Math.max(1,Math.round((r.width||innerWidth)*dpr*.6));H=Math.max(1,Math.round((r.height||innerHeight)*dpr*.6));cv.width=W;cv.height=H;gl.viewport(0,0,W,H);}
+const TN=12,trl=[];for(let i=0;i<TN;i++)trl.push({x:.5,y:.5,a:1});let tri=0;const trd=new Float32Array(TN*3);
+function tadd(cx,cy){const r=cv.getBoundingClientRect();const x=(cx-r.left)/r.width,y=1-(cy-r.top)/r.height;if(x<-.2||x>1.2||y<-.2||y>1.2)return;const s=trl[tri%TN];s.x=x;s.y=y;s.a=0;tri++;}
+addEventListener('mousemove',e=>tadd(e.clientX,e.clientY));
+addEventListener('touchmove',e=>{const tt=e.touches[0];if(tt)tadd(tt.clientX,tt.clientY);},{passive:true});
+let vis=false;new IntersectionObserver(es=>es.forEach(e=>vis=e.isIntersecting),{threshold:.02}).observe(cv);
+let pulseS=0,lt=performance.now();function frame(t){const dt=Math.min((t-lt)/1000,.05);lt=t;if(vis&&!reduce){pulseS+=((window._sigPulse||0)-pulseS)*.15;for(let i=0;i<TN;i++){const s=trl[i];if(s.a<1)s.a=Math.min(1,s.a+dt*.5);trd[i*3]=s.x;trd[i*3+1]=s.y;trd[i*3+2]=s.a;}gl.uniform2f(uRes,W,H);gl.uniform1f(uTime,t*.001);gl.uniform1f(uOrder,window._sigOrder||0);gl.uniform1f(uPulse,pulseS);gl.uniform3fv(uTrail,trd);gl.drawArrays(gl.TRIANGLES,0,3);}requestAnimationFrame(frame);}
+size();addEventListener('resize',size);requestAnimationFrame(frame);})();
+
+/* concept 2 — liquid ember metaballs (interactive, touch + mouse) */
+(function(){
+const cv=document.getElementById('liquidcanvas');if(!cv)return;
+const gl=cv.getContext('webgl',{antialias:false,alpha:true,premultipliedAlpha:false});if(!gl)return;
+const vs='attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}';
+const fs=['precision highp float;','uniform vec2 uRes;uniform float uTime;uniform vec3 uBlobs[7];',
+'float hash(vec2 p){p=fract(p*vec2(123.34,456.21));p+=dot(p,p+45.32);return fract(p.x*p.y);}',
+'void main(){vec2 uv=gl_FragCoord.xy/uRes;vec2 asp=vec2(uRes.x/uRes.y,1.);vec2 p=uv*asp;',
+'float f=0.0;for(int i=0;i<7;i++){vec2 b=uBlobs[i].xy*asp;vec2 dd=p-b;f+=uBlobs[i].z/(dot(dd,dd)+0.0009);}',
+'float surf=smoothstep(0.9,1.5,f);',
+'vec3 col=vec3(0.0);',
+'col=mix(col,vec3(.5,.04,0.),smoothstep(0.9,1.3,f));',
+'col=mix(col,vec3(1.,.35,.04),smoothstep(1.3,2.4,f));',
+'col=mix(col,vec3(1.,.78,.4),smoothstep(2.4,4.6,f));',
+'col=mix(col,vec3(1.,.96,.84),smoothstep(4.6,8.5,f));',
+'float rim=smoothstep(0.62,0.92,f)*(1.0-surf);col+=vec3(.6,.2,.05)*rim*0.55;',
+'col+=(hash(uv*(uTime+1.0))-.5)*.02*surf;',
+'col+=col*col*0.4;float ca=length(uv-0.5);col.r+=ca*0.04;col.b-=ca*0.03;',
+'float a=smoothstep(0.7,1.0,f);',
+'gl_FragColor=vec4(col*a,a);}'].join('\n');
+function sh(ty,s){const o=gl.createShader(ty);gl.shaderSource(o,s);gl.compileShader(o);if(!gl.getShaderParameter(o,gl.COMPILE_STATUS))console.error('LQ_SH',gl.getShaderInfoLog(o));return o;}
+const pr=gl.createProgram();gl.attachShader(pr,sh(gl.VERTEX_SHADER,vs));gl.attachShader(pr,sh(gl.FRAGMENT_SHADER,fs));gl.linkProgram(pr);if(!gl.getProgramParameter(pr,gl.LINK_STATUS))console.error('LQ_PR',gl.getProgramInfoLog(pr));gl.useProgram(pr);
+const bf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,bf);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);
+const lp=gl.getAttribLocation(pr,'p');gl.enableVertexAttribArray(lp);gl.vertexAttribPointer(lp,2,gl.FLOAT,false,0,0);
+const uRes=gl.getUniformLocation(pr,'uRes'),uTime=gl.getUniformLocation(pr,'uTime'),uBlobs=gl.getUniformLocation(pr,'uBlobs[0]');
+let W,H;function size(){const r=cv.getBoundingClientRect();const dpr=Math.min(devicePixelRatio||1,1.5);W=Math.max(1,Math.round((r.width||innerWidth)*dpr*.7));H=Math.max(1,Math.round((r.height||innerHeight)*dpr*.7));cv.width=W;cv.height=H;gl.viewport(0,0,W,H);}
+const NB=7,blobs=[];for(let i=1;i<NB;i++)blobs.push({fx:.14+Math.random()*.32,fy:.14+Math.random()*.32,ph:Math.random()*6.28,ph2:Math.random()*6.28,rad:.012+Math.random()*.02});
+let px=.5,py=.5,pon=false;
+addEventListener('mousemove',e=>{const r=cv.getBoundingClientRect();px=(e.clientX-r.left)/r.width;py=1-(e.clientY-r.top)/r.height;pon=true;});
+addEventListener('touchmove',e=>{const tt=e.touches[0];if(tt){const r=cv.getBoundingClientRect();px=(tt.clientX-r.left)/r.width;py=1-(tt.clientY-r.top)/r.height;pon=true;}},{passive:true});
+let vis=false;new IntersectionObserver(es=>es.forEach(e=>vis=e.isIntersecting),{threshold:.02}).observe(cv);
+const bd=new Float32Array(NB*3);let b0x=.5,b0y=.5;
+function frame(t){if(vis&&!reduce){const tt=t*.001;
+ const tx=pon?px:.5+Math.sin(tt*.5)*.22,ty=pon?py:.5+Math.cos(tt*.4)*.2;
+ b0x+=(tx-b0x)*.08;b0y+=(ty-b0y)*.08;bd[0]=b0x;bd[1]=b0y;bd[2]=.032;
+ for(let i=1;i<NB;i++){const b=blobs[i-1];bd[i*3]=.5+Math.sin(tt*b.fx+b.ph)*.34;bd[i*3+1]=.5+Math.cos(tt*b.fy+b.ph2)*.3;bd[i*3+2]=b.rad;}
+ gl.uniform2f(uRes,W,H);gl.uniform1f(uTime,tt);gl.uniform3fv(uBlobs,bd);gl.drawArrays(gl.TRIANGLES,0,3);}requestAnimationFrame(frame);}
+size();addEventListener('resize',size);requestAnimationFrame(frame);})();
+
+/* concept 3 — fire warp tunnel (textured walls, interactive steer, touch + mouse) */
+(function(){
+const cv=document.getElementById('warpcanvas');if(!cv)return;
+const gl=cv.getContext('webgl',{antialias:false,alpha:false});if(!gl)return;
+const vs='attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}';
+const fs=['precision highp float;','uniform vec2 uRes;uniform float uTime;uniform vec2 uPtr;uniform float uSpeed;',
+'float hash(vec2 p){p=fract(p*vec2(123.34,456.21));p+=dot(p,p+45.32);return fract(p.x*p.y);}',
+'float noise(vec2 p){vec2 i=floor(p),f=fract(p);float a=hash(i),b=hash(i+vec2(1,0)),c2=hash(i+vec2(0,1)),d=hash(i+vec2(1,1));vec2 u=f*f*(3.-2.*f);return mix(a,b,u.x)+(c2-a)*u.y*(1.-u.x)+(d-b)*u.x*u.y;}',
+'float fbm(vec2 p){float v=0.,a=.5;for(int i=0;i<4;i++){v+=a*noise(p);p*=2.04;a*=.5;}return v;}',
+'void main(){vec2 uv=gl_FragCoord.xy/uRes;vec2 asp=vec2(uRes.x/uRes.y,1.);',
+'vec2 ctr=mix(vec2(0.5),uPtr,0.22);vec2 d=(uv-ctr)*asp;float rad=length(d)+0.0008;float ang=atan(d.y,d.x);',
+'float depth=0.34/rad+uTime*(0.4+uSpeed);',
+'float fire=fbm(vec2(cos(ang)*2.6+depth,sin(ang)*2.6));fire+=0.5*fbm(vec2(cos(ang)*5.0-depth*1.2,sin(ang)*5.0));fire/=1.5;',
+'float band=smoothstep(0.04,0.30,rad)*smoothstep(0.68,0.40,rad);',
+'float inten=fire*band*1.5;inten*=smoothstep(1.0,0.25,rad);inten=clamp(inten,0.0,1.0);',
+'vec3 col=vec3(0.0);',
+'col=mix(col,vec3(.45,.03,0.),smoothstep(.06,.35,inten));',
+'col=mix(col,vec3(1.,.34,.04),smoothstep(.35,.66,inten));',
+'col=mix(col,vec3(1.,.74,.36),smoothstep(.66,.88,inten));',
+'col=mix(col,vec3(1.,.96,.84),smoothstep(.9,1.,inten));',
+'col+=col*col*0.4;float caa=length(uv-0.5);col.r+=caa*0.05;col.b-=caa*0.04;col*=0.85;',
+'gl_FragColor=vec4(max(col,0.0),1.0);}'].join('\n');
+function sh(ty,s){const o=gl.createShader(ty);gl.shaderSource(o,s);gl.compileShader(o);if(!gl.getShaderParameter(o,gl.COMPILE_STATUS))console.error('WP_SH',gl.getShaderInfoLog(o));return o;}
+const pr=gl.createProgram();gl.attachShader(pr,sh(gl.VERTEX_SHADER,vs));gl.attachShader(pr,sh(gl.FRAGMENT_SHADER,fs));gl.linkProgram(pr);if(!gl.getProgramParameter(pr,gl.LINK_STATUS))console.error('WP_PR',gl.getProgramInfoLog(pr));gl.useProgram(pr);
+const bf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,bf);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);
+const lp=gl.getAttribLocation(pr,'p');gl.enableVertexAttribArray(lp);gl.vertexAttribPointer(lp,2,gl.FLOAT,false,0,0);
+const uRes=gl.getUniformLocation(pr,'uRes'),uTime=gl.getUniformLocation(pr,'uTime'),uPtr=gl.getUniformLocation(pr,'uPtr'),uSpeed=gl.getUniformLocation(pr,'uSpeed');
+let W,H;function size(){const r=cv.getBoundingClientRect();const dpr=Math.min(devicePixelRatio||1,1.5);W=Math.max(1,Math.round((r.width||innerWidth)*dpr*.65));H=Math.max(1,Math.round((r.height||innerHeight)*dpr*.65));cv.width=W;cv.height=H;gl.viewport(0,0,W,H);}
+let px=.5,py=.5,tpx=.5,tpy=.5;
+addEventListener('mousemove',e=>{const r=cv.getBoundingClientRect();tpx=(e.clientX-r.left)/r.width;tpy=1-(e.clientY-r.top)/r.height;});
+addEventListener('touchmove',e=>{const tt=e.touches[0];if(tt){const r=cv.getBoundingClientRect();tpx=(tt.clientX-r.left)/r.width;tpy=1-(tt.clientY-r.top)/r.height;}},{passive:true});
+let vis=false;new IntersectionObserver(es=>es.forEach(e=>vis=e.isIntersecting),{threshold:.02}).observe(cv);
+let lastY=scrollY,spd=0;
+function frame(t){if(vis&&!reduce){const dv=Math.abs(scrollY-lastY);lastY=scrollY;spd+=(Math.min(dv*0.009,0.5)-spd)*0.05;px+=(tpx-px)*.06;py+=(tpy-py)*.06;gl.uniform2f(uRes,W,H);gl.uniform1f(uTime,t*.001);gl.uniform2f(uPtr,px,py);gl.uniform1f(uSpeed,spd);gl.drawArrays(gl.TRIANGLES,0,3);}requestAnimationFrame(frame);}
+size();addEventListener('resize',size);requestAnimationFrame(frame);})();
+</script>
+</body>
+</html>
