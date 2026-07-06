@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { AzurioTemplatePage } from "@/components/site/AzurioTemplatePage";
+import { BlogV4 } from "@/components/site/v4/BlogV4";
+import { v4FontClass } from "@/components/site/v4/fonts";
 import { getSiteContent } from "@/content/site";
 import { pageMetadata } from "@/lib/seo/metadata";
 import { defaultLocale } from "@/lib/site-config";
@@ -10,9 +11,13 @@ export const metadata: Metadata = pageMetadata({
   path: "/blog",
   title: "Blog",
   description: blogPage.hero.description,
-  keywords: ["Adspire blog", "web development", "SEO", "growth", "Niš"],
+  keywords: ["Adspire blog", "web development", "SEO", "growth", "Nis"],
 });
 
 export default function BlogPage() {
-  return <AzurioTemplatePage fileName="blog-standard.html" />;
+  return (
+    <div className={v4FontClass}>
+      <BlogV4 />
+    </div>
+  );
 }

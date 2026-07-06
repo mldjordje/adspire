@@ -1,0 +1,219 @@
+.dot {
+  color: #6be1ff;
+}
+
+.overview,
+.bullets,
+.faq,
+.cta {
+  width: min(1120px, calc(100vw - 40px));
+  margin-inline: auto;
+}
+
+.overview {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+  gap: 24px;
+  margin-bottom: 72px;
+}
+
+.copy,
+.panel,
+.cta {
+  border: 1px solid rgba(242, 241, 236, 0.14);
+  background:
+    radial-gradient(circle at 0 0, rgba(107, 225, 255, 0.13), transparent 34%),
+    rgba(255, 255, 255, 0.04);
+}
+
+.copy {
+  padding: clamp(28px, 5vw, 56px);
+}
+
+.label,
+.panelLabel {
+  color: #6be1ff;
+  font-family: var(--font-body-v4), sans-serif;
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.copy p {
+  margin: 20px 0 0;
+  color: rgba(242, 241, 236, 0.78);
+  font-family: var(--font-body-v4), sans-serif;
+  font-size: clamp(1.08rem, 2vw, 1.55rem);
+  line-height: 1.65;
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 32px;
+  padding: 34px;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.tag {
+  padding: 10px 12px;
+  border: 1px solid rgba(242, 241, 236, 0.14);
+  color: rgba(242, 241, 236, 0.78);
+  font-family: var(--font-body-v4), sans-serif;
+  font-size: 0.86rem;
+}
+
+.panelButton,
+.cta a {
+  display: inline-flex;
+  width: max-content;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 20px;
+  color: #0a0b0f;
+  background: #6be1ff;
+  font-family: var(--font-body-v4), sans-serif;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.bullets {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 80px;
+}
+
+.bullet {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 18px;
+  align-items: start;
+  padding: 26px 0;
+  border-top: 1px solid rgba(242, 241, 236, 0.14);
+}
+
+.bullet:last-child {
+  border-bottom: 1px solid rgba(242, 241, 236, 0.14);
+}
+
+.bullet span {
+  color: #6be1ff;
+  font-family: var(--font-body-v4), sans-serif;
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.bullet p {
+  margin: 0;
+  color: #f2f1ec;
+  font-family: var(--font-display-v4), sans-serif;
+  font-size: clamp(1.35rem, 3vw, 3rem);
+  font-weight: 700;
+  line-height: 1.04;
+}
+
+.faq {
+  margin-bottom: 80px;
+}
+
+.faq h2,
+.cta h2 {
+  margin: 0 0 28px;
+  color: #f2f1ec;
+  font-family: var(--font-display-v4), sans-serif;
+  font-size: clamp(2rem, 5vw, 5.5rem);
+  line-height: 0.95;
+}
+
+.faqItem {
+  border-top: 1px solid rgba(242, 241, 236, 0.14);
+}
+
+.faqItem:last-child {
+  border-bottom: 1px solid rgba(242, 241, 236, 0.14);
+}
+
+.faqItem summary {
+  display: grid;
+  grid-template-columns: 1fr 40px;
+  gap: 18px;
+  align-items: center;
+  min-height: 86px;
+  color: #f2f1ec;
+  cursor: pointer;
+  list-style: none;
+}
+
+.faqItem summary::-webkit-details-marker {
+  display: none;
+}
+
+.faqItem summary span:first-child {
+  font-family: var(--font-display-v4), sans-serif;
+  font-size: clamp(1.1rem, 2vw, 1.8rem);
+  font-weight: 700;
+}
+
+.faqItem summary span:last-child {
+  display: grid;
+  width: 40px;
+  height: 40px;
+  place-items: center;
+  border: 1px solid rgba(242, 241, 236, 0.22);
+  border-radius: 50%;
+  color: #6be1ff;
+  transition: transform 220ms ease;
+}
+
+.faqItem[open] summary span:last-child {
+  transform: rotate(45deg);
+}
+
+.faqItem p {
+  max-width: 760px;
+  margin: -8px 0 28px;
+  color: rgba(242, 241, 236, 0.72);
+  font-family: var(--font-body-v4), sans-serif;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.cta {
+  margin-bottom: 96px;
+  padding: clamp(28px, 5vw, 56px);
+}
+
+.cta p {
+  max-width: 720px;
+  margin: 0 0 28px;
+  color: rgba(242, 241, 236, 0.72);
+  font-family: var(--font-body-v4), sans-serif;
+  font-size: 1.08rem;
+  line-height: 1.7;
+}
+
+@media (max-width: 820px) {
+  .overview,
+  .bullets,
+  .faq,
+  .cta {
+    width: min(100% - 24px, 1120px);
+  }
+
+  .overview {
+    grid-template-columns: 1fr;
+    margin-bottom: 54px;
+  }
+
+  .bullet {
+    grid-template-columns: 42px 1fr;
+  }
+}

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { AzurioTemplatePage } from "@/components/site/AzurioTemplatePage";
 import { JsonLd } from "@/components/site/JsonLd";
+import { FaqV4 } from "@/components/site/v4/FaqV4";
+import { v4FontClass } from "@/components/site/v4/fonts";
 import { getSiteContent } from "@/content/site";
 import { faqPageJsonLd } from "@/lib/seo/jsonld";
 import { absoluteUrl, pageMetadata } from "@/lib/seo/metadata";
@@ -18,9 +19,9 @@ export const metadata: Metadata = pageMetadata({
 export default function FaqPage() {
   const faqUrl = absoluteUrl("/faq");
   return (
-    <>
+    <div className={v4FontClass}>
       <JsonLd data={faqPageJsonLd(faqPage.items, faqUrl)} />
-      <AzurioTemplatePage fileName="faq.html" />
-    </>
+      <FaqV4 />
+    </div>
   );
 }

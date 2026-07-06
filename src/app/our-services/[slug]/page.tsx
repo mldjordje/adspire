@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { AzurioChrome } from "@/components/site/AzurioChrome";
-import {
-  buildServiceDetailMainHtml,
-  findServiceBySlug,
-} from "@/components/site/azurioContentTransform";
+import { findServiceBySlug } from "@/components/site/azurioContentTransform";
 import { JsonLd } from "@/components/site/JsonLd";
+import { v4FontClass } from "@/components/site/v4/fonts";
+import { ServiceDetailV4 } from "@/components/site/v4/ServiceDetailV4";
 import { findServiceCatalogEntry, serviceSlugs } from "@/data/serviceCatalog";
 import { breadcrumbJsonLd, faqPageJsonLd, serviceJsonLd } from "@/lib/seo/jsonld";
 import { getSiteUrl } from "@/lib/seo/site";
@@ -29,7 +27,7 @@ export async function generateMetadata({ params }: ServiceDetailPageProps): Prom
 
   if (!service || !catalog) {
     return {
-      title: "Usluga nije pronađena",
+      title: "Usluga nije pronadjena",
     };
   }
 
@@ -66,28 +64,27 @@ export async function generateMetadata({ params }: ServiceDetailPageProps): Prom
 
 export default async function ServiceDetailPage({ params }: ServiceDetailPageProps) {
   const { slug } = await params;
-  const html = buildServiceDetailMainHtml(slug);
   const service = findServiceBySlug(slug);
   const catalog = findServiceCatalogEntry(slug);
 
-  if (!html || !service || !catalog) {
+  if (!service || !catalog) {
     notFound();
   }
 
   return (
-    <AzurioChrome>
+    <div className={v4FontClass}>
       <JsonLd
         data={[
           serviceJsonLd(catalog, service.title),
           faqPageJsonLd(catalog.faqItems, `${getSiteUrl()}/our-services/${slug}`),
           breadcrumbJsonLd([
-            { name: "Početna", path: "/" },
+            { name: "Pocetna", path: "/" },
             { name: "Usluge", path: "/our-services" },
             { name: service.title, path: `/our-services/${slug}` },
           ]),
         ]}
       />
-      <div className="azurio-template-root" dangerouslySetInnerHTML={{ __html: html }} />
-    </AzurioChrome>
+      <ServiceDetailV4 service={service} catalog={catalog} />
+    </div>
   );
 }

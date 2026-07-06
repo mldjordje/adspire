@@ -1,17 +1,37 @@
 import type { Metadata } from "next";
-import { AzurioCompositeHomePage } from "@/components/site/AzurioCompositeHomePage";
+import { JsonLd } from "@/components/site/JsonLd";
+import { FAQ_ITEMS } from "@/components/site/v4/faqData";
+import { v4FontClass } from "@/components/site/v4/fonts";
+import { HomeV4 } from "@/components/site/v4/HomeV4";
 import { pageMetadata } from "@/lib/seo/metadata";
 
 const homeTitle =
-  "Adspire Digital | Web agencija Niš — razvoj sajtova, aplikacija i e-commerce";
+  "Adspire Digital | Web agencija Nis - web, aplikacije i AI automatizacija";
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: FAQ_ITEMS.map((item) => ({
+    "@type": "Question",
+    name: item.q,
+    acceptedAnswer: { "@type": "Answer", text: item.a },
+  })),
+};
 
 export const metadata: Metadata = {
   ...pageMetadata({
     path: "/",
-    title: "Početna",
+    title: "Pocetna",
     description:
-      "Adspire Digital iz Niša — web platforme, mobilne aplikacije, e-commerce, poslovni sistemi, AI automatizacija i SaaS. Kontakt: djordje@adspire.rs, +381 60 149 149 1.",
-    keywords: ["Adspire Digital", "web agencija Niš", "izrada sajta", "Next.js Srbija", "PWA", "e-commerce"],
+      "Adspire Digital iz Nisa - web sajtovi koji dovode klijente, aplikacije koje stede vreme i AI automatizacija za prodaju i podrsku.",
+    keywords: [
+      "Adspire Digital",
+      "web agencija Nis",
+      "izrada sajta",
+      "Next.js Srbija",
+      "AI automatizacija",
+      "e-commerce",
+    ],
   }),
   title: { absolute: homeTitle },
   openGraph: { title: homeTitle },
@@ -19,5 +39,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <AzurioCompositeHomePage />;
+  return (
+    <div className={v4FontClass}>
+      <JsonLd data={[faqJsonLd]} />
+      <HomeV4 />
+    </div>
+  );
 }

@@ -161,8 +161,6 @@ const nextConfig = {
   async rewrites() {
     return {
       beforeFiles: [
-        // New AI Product Studio landing served at the homepage
-        { source: "/", destination: "/concept/index.html", locale: false },
         ...buildTemplateRewrites(),
       ],
       afterFiles: [
