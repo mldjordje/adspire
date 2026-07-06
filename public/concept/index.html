@@ -393,6 +393,39 @@ footer{border-top:1px solid var(--line);padding:32px 0;color:var(--faint);font-s
 .bigfoot .wordmark{font-family:var(--display);font-weight:700;font-size:clamp(64px,18vw,260px);letter-spacing:-.04em;line-height:.8;text-align:center;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.1);user-select:none;padding-bottom:6px}
 .bigfoot .fbottom{border-top:1px solid var(--line);padding:22px 0;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;color:var(--faint);font-size:13px}
 @media(max-width:760px){.bigfoot .cols{grid-template-columns:1fr;gap:30px}}
+/* ───────── premium polish + refined scrollbars (added) ───────── */
+/* kill native scrollbars on horizontal/inner tracks */
+.works .track,.ind-list,.chattrack,.mobile-menu,.svc-grid{scrollbar-width:none;-ms-overflow-style:none}
+.works .track::-webkit-scrollbar,.ind-list::-webkit-scrollbar,.chattrack::-webkit-scrollbar,.mobile-menu::-webkit-scrollbar,.svc-grid::-webkit-scrollbar{width:0;height:0;display:none}
+/* slim, on-brand global scrollbar (desktop pointers only) */
+@media(pointer:fine){
+  html{scrollbar-width:thin;scrollbar-color:rgba(255,140,60,.42) transparent}
+  ::-webkit-scrollbar{width:10px;height:10px}
+  ::-webkit-scrollbar-track{background:transparent}
+  ::-webkit-scrollbar-thumb{background:linear-gradient(180deg,var(--ember1),var(--ember2));border-radius:999px;border:3px solid var(--bg);background-clip:padding-box}
+  ::-webkit-scrollbar-thumb:hover{background:var(--ember1);border-width:2px}
+}
+/* GPU-promote heavy canvas layers → smoother scroll/compositing */
+#signal,#sigcanvas,#flamecanvas,#liquidcanvas,#warpcanvas{transform:translateZ(0);backface-visibility:hidden}
+/* premium depth + hover on work cards */
+.wcard{box-shadow:0 1px 0 rgba(255,255,255,.04) inset,0 18px 50px -30px rgba(0,0,0,.85);transition:transform .55s cubic-bezier(.16,1,.3,1),border-color .4s ease,box-shadow .55s cubic-bezier(.16,1,.3,1)}
+.wcard:hover{transform:translateY(-6px);border-color:var(--line2);box-shadow:0 1px 0 rgba(255,255,255,.07) inset,0 36px 74px -30px rgba(0,0,0,.92),0 0 0 1px rgba(255,140,60,.14),0 22px 64px -36px rgba(255,120,40,.5)}
+/* refined hover on the other framed blocks */
+.svc,.case,.ind,.chat,.faq .q{transition:border-color .4s ease,box-shadow .5s ease,transform .5s cubic-bezier(.16,1,.3,1)}
+.svc:hover{border-color:var(--line2);box-shadow:0 24px 60px -38px rgba(255,120,40,.42)}
+.ind-i{transition:background .3s ease,color .3s ease,padding .3s cubic-bezier(.16,1,.3,1)}
+/* premium primary button */
+.cta-btn{background:linear-gradient(180deg,#ffffff,#ececec);box-shadow:0 1px 0 rgba(255,255,255,.7) inset,0 10px 30px -16px rgba(0,0,0,.6);letter-spacing:.01em}
+.cta-btn:hover{transform:translateY(-2px);box-shadow:0 1px 0 rgba(255,255,255,.7) inset,0 16px 42px -14px rgba(255,140,50,.5),0 0 0 1px rgba(255,140,60,.28)}
+/* premium language pill */
+.lang{background:rgba(255,255,255,.035);backdrop-filter:blur(6px)}
+.lang button.on{background:linear-gradient(180deg,#fff,#e9e9e9);box-shadow:0 2px 10px -4px rgba(0,0,0,.6)}
+/* eyebrow / section tags get a faint glow for that high-end feel */
+.sec-tag,.fp-tag,.lq-tag,.wp-tag{text-shadow:0 0 18px rgba(255,140,60,.25)}
+@media(prefers-reduced-motion:reduce){
+  .wcard,.svc,.cta-btn{transition:none!important}
+  .wcard:hover,.cta-btn:hover{transform:none!important}
+}
 </style>
 </head>
 <body>
@@ -417,9 +450,9 @@ footer{border-top:1px solid var(--line);padding:32px 0;color:var(--faint);font-s
     <div class="nav-links">
       <a href="#ai" data-cursor data-i="n1">AI rešenja</a>
       <a href="#usluge" data-cursor data-i="n2">Usluge</a>
-      <a href="#" data-cursor data-i="n3">Industrije</a>
+      <a href="#ind" data-cursor data-i="n3">Industrije</a>
       <a href="#work" data-cursor data-i="n4">Radovi</a>
-      <a href="#" data-cursor data-i="n5">Studio</a>
+      <a href="#proces" data-cursor data-i="n5">Studio</a>
     </div>
     <div class="nav-right">
       <div class="lang"><button class="on" data-cursor data-l="sr">SR</button><button data-cursor data-l="en">EN</button><button data-cursor data-l="de">DE</button></div>
@@ -431,9 +464,9 @@ footer{border-top:1px solid var(--line);padding:32px 0;color:var(--faint);font-s
 <div class="mobile-menu" id="mm">
   <a href="#ai" data-i="n1">AI rešenja</a>
   <a href="#usluge" data-i="n2">Usluge</a>
-  <a href="#" data-i="n3">Industrije</a>
+  <a href="#ind" data-i="n3">Industrije</a>
   <a href="#work" data-i="n4">Radovi</a>
-  <a href="#" data-i="n5">Studio</a>
+  <a href="#proces" data-i="n5">Studio</a>
   <a class="mm-cta" href="#kontakt" data-i="cta">Započni projekat</a>
 </div>
 </div>
@@ -451,7 +484,7 @@ footer{border-top:1px solid var(--line);padding:32px 0;color:var(--faint);font-s
       <span class="reveal"><span class="rot" id="rotw"><b data-i="rw1">AI aplikacije</b><b data-i="rw2">AI agente</b><b data-i="rw3">automatizacije</b><b data-i="rw4">custom SaaS</b><b data-i="rw5">web shopove</b><b data-i="rw1b">AI aplikacije</b></span></span>
       <span class="reveal"><span class="chx" data-i="h1c">koji rade posao.</span></span>
     </h1>
-    <p class="sub" data-i="sub">AI proizvodi i kompletan web razvoj — od sajtova i web shopova do agenata, automatizacija i custom SaaS-a. Sistemi koji štede sate i donose merljivu vrednost.</p>
+    <p class="sub" data-i="sub">AI proizvodi i kompletan web razvoj. Sistemi koji štede sate i donose merljivu vrednost.</p>
     <div class="hero-cta">
       <a class="cta-btn" data-cursor href="#kontakt" data-i="cta2">Rezerviši konsultaciju</a>
       <a class="ghost" data-cursor href="#work" data-i="ghost">Pogledaj radove →</a>
@@ -677,7 +710,7 @@ footer{border-top:1px solid var(--line);padding:32px 0;color:var(--faint);font-s
   <section class="fcta rv" id="kontakt">
     <h2><span data-i="fc1">Imate proces koji troši sate?</span> <span class="em" data-i="fc2">Pretvorimo ga u proizvod.</span></h2>
     <p data-i="fcp">30 minuta. Mapiramo gde AI i automatizacija realno štede novac u vašem biznisu — bez obaveze.</p>
-    <a class="cta-btn" data-cursor href="#" data-i="fcb">Rezerviši konsultaciju</a>
+    <a class="cta-btn" data-cursor href="/contact-us" data-i="fcb">Rezerviši konsultaciju</a>
   </section>
 </div>
 
@@ -737,7 +770,7 @@ document.querySelectorAll('[data-cursor]').forEach(el=>{el.addEventListener('mou
 const EN={n1:"AI solutions",n2:"Services",n3:"Industries",n4:"Work",n5:"Studio",cta:"Start a project",cta2:"Book a consult",
 eyebrow:"AI Product Studio · Niš → Europe",h1a:"We build",h1c:"that do the work.",
 rw1:"AI applications",rw2:"AI agents",rw3:"automations",rw4:"custom SaaS",rw5:"web shops",rw1b:"AI applications",
-sub:"AI products and full web development — from websites and web shops to agents, automations and custom SaaS. Systems that save hours and create measurable value.",
+sub:"AI products and complete web development. Systems that save hours and create measurable value.",
 ghost:"See the work →",trustlbl:"Systems in production for",bt:"AI products",btitle:"Five kinds of AI product that change how a business runs",
 bnote:"Each starts from a business problem — never from the technology.",
 r1t:"AI applications",r1d:"Model-driven products: knowledge search, assistants, document processing — embedded in your workflow.",
@@ -793,7 +826,7 @@ fc1:"Got a process that eats hours?",fc2:"Let's turn it into a product.",fcp:"30
 const DE={n1:"KI-Lösungen",n2:"Leistungen",n3:"Branchen",n4:"Arbeiten",n5:"Studio",cta:"Projekt starten",cta2:"Beratung buchen",
 eyebrow:"AI Product Studio · Niš → Europa",h1a:"Wir bauen",h1c:"die die Arbeit machen.",
 rw1:"KI-Anwendungen",rw2:"KI-Agenten",rw3:"Automatisierungen",rw4:"Custom SaaS",rw5:"Webshops",rw1b:"KI-Anwendungen",
-sub:"KI-Produkte und komplette Web-Entwicklung — von Websites und Webshops bis zu Agenten, Automatisierungen und Custom SaaS. Systeme, die Stunden sparen und messbaren Wert schaffen.",
+sub:"KI-Produkte und komplette Web-Entwicklung. Systeme, die Stunden sparen und messbaren Wert schaffen.",
 ghost:"Arbeiten ansehen →",trustlbl:"Systeme in Produktion für",bt:"KI-Produkte",btitle:"Fünf Arten von KI-Produkten, die ein Unternehmen verändern",
 bnote:"Jedes beginnt mit einem Geschäftsproblem — nie mit der Technologie.",
 r1t:"KI-Anwendungen",r1d:"Modellgetriebene Produkte: Wissenssuche, Assistenten, Dokumentenverarbeitung — in Ihren Arbeitsablauf integriert.",

@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
-import { AzurioTemplatePage } from "@/components/site/AzurioTemplatePage";
 import { JsonLd } from "@/components/site/JsonLd";
 import { getSiteContent } from "@/content/site";
 import { serviceSlugs } from "@/data/serviceCatalog";
 import { itemListServicesJsonLd } from "@/lib/seo/jsonld";
 import { pageMetadata } from "@/lib/seo/metadata";
 import { defaultLocale } from "@/lib/site-config";
+import { ServicesV4 } from "@/components/site/v4/ServicesV4";
+import { v4FontClass } from "@/components/site/v4/fonts";
 
 const servicesPage = getSiteContent(defaultLocale).servicesPage;
 
@@ -26,9 +27,9 @@ export const metadata: Metadata = pageMetadata({
 export default function ServicesPage() {
   const paths = serviceSlugs.map((slug) => `/our-services/${slug}`);
   return (
-    <>
+    <div className={v4FontClass}>
       <JsonLd data={itemListServicesJsonLd(paths)} />
-      <AzurioTemplatePage fileName="services.html" />
-    </>
+      <ServicesV4 />
+    </div>
   );
 }

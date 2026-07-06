@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { ProjectCaseStudyPage } from "@/components/site/ProjectCaseStudyPage";
+import { CaseStudyV4 } from "@/components/site/v4/CaseStudyV4";
+import { v4FontClass } from "@/components/site/v4/fonts";
 import { JsonLd } from "@/components/site/JsonLd";
 import {
   findProjectCaseStudy,
+  getCaseStudyV4Content,
   getProjectCaseStudyContent,
   projectCaseStudySlugs,
 } from "@/data/projectCaseStudies";
@@ -64,10 +66,10 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
     notFound();
   }
 
-  const content = getProjectCaseStudyContent(project);
+  const content = getCaseStudyV4Content(project);
 
   return (
-    <>
+    <div className={v4FontClass}>
       <JsonLd
         data={[
           breadcrumbJsonLd([
@@ -77,7 +79,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
           ]),
         ]}
       />
-      <ProjectCaseStudyPage project={project} {...content} />
-    </>
+      <CaseStudyV4 project={project} content={content} />
+    </div>
   );
 }

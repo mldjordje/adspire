@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import { AzurioTemplatePage } from "@/components/site/AzurioTemplatePage";
 import { getSiteContent } from "@/content/site";
 import { pageMetadata } from "@/lib/seo/metadata";
 import { defaultLocale } from "@/lib/site-config";
+import { ContactV4 } from "@/components/site/v4/ContactV4";
+import { v4FontClass } from "@/components/site/v4/fonts";
 
 const contact = getSiteContent(defaultLocale).contactPage;
 
@@ -14,5 +15,9 @@ export const metadata: Metadata = pageMetadata({
 });
 
 export default function ContactPage() {
-  return <AzurioTemplatePage fileName="contact.html" />;
+  return (
+    <div className={v4FontClass}>
+      <ContactV4 />
+    </div>
+  );
 }

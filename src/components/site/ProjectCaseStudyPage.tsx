@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { AzurioChrome } from "@/components/site/AzurioChrome";
+import { defaultLocale, localePath, type LocaleCode } from "@/lib/site-config";
 import type { ProjectCaseStudy } from "@/data/projectCaseStudies";
 
 type MarkdownBlock =
@@ -87,6 +88,7 @@ type ProjectCaseStudyPageProps = {
   shortDescription: string;
   ctaItems: string[];
   body: string;
+  locale?: LocaleCode;
 };
 
 export function ProjectCaseStudyPage({
@@ -96,23 +98,25 @@ export function ProjectCaseStudyPage({
   shortDescription,
   ctaItems,
   body,
+  locale = defaultLocale,
 }: ProjectCaseStudyPageProps) {
   const blocks = parseMarkdown(body);
   const images = [project.image, ...(project.extraImages ?? [])];
+  const lp = (href: string) => localePath(href, locale);
 
   return (
-    <AzurioChrome>
+    <AzurioChrome locale={locale}>
       <main className="case-study-page">
         <section className="case-study-hero blur-section">
           <div className="mxd-container grid-l-container">
             <div className="case-study-breadcrumbs breadcrumbs__nav">
               <span>
-                <Link href="/">
+                <Link href={lp("/")}>
                   <span className="mxd-scramble">Pocetna</span>
                 </Link>
               </span>
               <span>
-                <Link href="/our-projects">
+                <Link href={lp("/our-projects")}>
                   <span className="mxd-scramble">Projekti</span>
                 </Link>
               </span>
@@ -127,7 +131,7 @@ export function ProjectCaseStudyPage({
                   <Link className="btn btn-line btn-line-default" href="#case-study-content">
                     <span className="btn-caption mxd-scramble">{ctaItems[0] ?? "Pogledaj case study"}</span>
                   </Link>
-                  <Link className="btn btn-line btn-line-default" href="/contact-us">
+                  <Link className="btn btn-line btn-line-default" href={lp("/contact-us")}>
                     <span className="btn-caption mxd-scramble">Zakazi konsultaciju</span>
                   </Link>
                 </div>
@@ -213,7 +217,7 @@ export function ProjectCaseStudyPage({
                 Posalji nam kontekst, cilj i trenutni problem. Vracamo konkretan predlog
                 sledeceg koraka.
               </p>
-              <Link className="btn btn-line btn-line-default" href="/contact-us">
+              <Link className="btn btn-line btn-line-default" href={lp("/contact-us")}>
                 <span className="btn-caption mxd-scramble">Pokreni razgovor</span>
               </Link>
             </div>

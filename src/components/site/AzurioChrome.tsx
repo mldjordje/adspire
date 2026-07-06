@@ -1,9 +1,8 @@
 import type { ReactNode } from "react";
 import { getSiteContent } from "@/content/site";
-import { defaultLocale } from "@/lib/site-config";
-
-const content = getSiteContent(defaultLocale);
-const menuServiceItems = content.servicesPage.items;
+import { getUiStrings } from "@/content/site/ui";
+import { LanguageSwitcher } from "@/components/site/LanguageSwitcher";
+import { defaultLocale, localePath, type LocaleCode } from "@/lib/site-config";
 
 /** Iste slike kao u Azurio HTML loaderu (`img/loa_01.webp` … `loa_07.webp` → `public/azurio/img/`). */
 const LOADER_IMAGE_PATHS = Array.from({ length: 7 }, (_, index) => {
@@ -13,9 +12,15 @@ const LOADER_IMAGE_PATHS = Array.from({ length: 7 }, (_, index) => {
 
 type AzurioChromeProps = {
   children: ReactNode;
+  locale?: LocaleCode;
 };
 
-export function AzurioChrome({ children }: AzurioChromeProps) {
+export function AzurioChrome({ children, locale = defaultLocale }: AzurioChromeProps) {
+  const content = getSiteContent(locale);
+  const ui = getUiStrings(locale);
+  const menuServiceItems = content.servicesPage.items;
+  const lp = (href: string) => localePath(href, locale);
+
   return (
     <>
       <div className="mxd-page-transition" />
@@ -33,7 +38,7 @@ export function AzurioChrome({ children }: AzurioChromeProps) {
             <span className="count__text">0</span>
             <span className="count__percent">%</span>
           </div>
-          <span className="mxd-loader__caption">Loading</span>
+          <span className="mxd-loader__caption">{ui.loading}</span>
         </div>
       </div>
 
@@ -51,7 +56,7 @@ export function AzurioChrome({ children }: AzurioChromeProps) {
         <div className="mxd-menu__overlay">
           <div className="mxd-menu__content" data-lenis-prevent>
             <div className="mxd-menu__logo">
-              <a href="/" className="menu-logo">
+              <a href={lp("/")} className="menu-logo">
                 <img
                   className="adspire-menu-logo"
                   src="/images/logo.png"
@@ -74,9 +79,7 @@ export function AzurioChrome({ children }: AzurioChromeProps) {
               <div className="mxd-menu__inner">
                 <div className="mxd-menu__shadow shadow-top" />
                 <div className="mxd-menu__caption">
-                  <p>
-                    Razvojni i tehnološki partner iz Niša — web, mobilne aplikacije, poslovni sistemi i AI automatizacija.
-                  </p>
+                  <p>{ui.menuCaption}</p>
                 </div>
 
                 <div className="mxd-menu__left">
@@ -86,9 +89,9 @@ export function AzurioChrome({ children }: AzurioChromeProps) {
                         <li className="main-menu__item">
                           <div className="main-menu__divider divider-top" />
                           <div className="main-menu__toggle">
-                            <a className="main-menu__link" href="/">
+                            <a className="main-menu__link" href={lp("/")}>
                               <span className="main-menu__number">/ 01</span>
-                              <span className="main-menu__caption">Početna</span>
+                              <span className="main-menu__caption">{ui.nav.home}</span>
                             </a>
                           </div>
                           <div className="main-menu__divider divider-bottom" />
@@ -97,16 +100,16 @@ export function AzurioChrome({ children }: AzurioChromeProps) {
                           <div className="main-menu__toggle">
                             <p className="main-menu__link">
                               <span className="main-menu__number">/ 02</span>
-                              <span className="main-menu__caption">Usluge</span>
+                              <span className="main-menu__caption">{ui.nav.services}</span>
                             </p>
                           </div>
                           <ul className="submenu">
                             <li className="submenu__item">
-                              <a href="/our-services">Pregled svih usluga</a>
+                              <a href={lp("/our-services")}>{ui.nav.servicesOverview}</a>
                             </li>
                             {menuServiceItems.map((item) => (
                               <li key={item.slug} className="submenu__item">
-                                <a href={item.href}>{item.title}</a>
+                                <a href={lp(item.href)}>{item.title}</a>
                               </li>
                             ))}
                           </ul>
@@ -114,9 +117,9 @@ export function AzurioChrome({ children }: AzurioChromeProps) {
                         </li>
                         <li className="main-menu__item">
                           <div className="main-menu__toggle">
-                            <a className="main-menu__link" href="/our-projects">
+                            <a className="main-menu__link" href={lp("/our-projects")}>
                               <span className="main-menu__number">/ 03</span>
-                              <span className="main-menu__caption">Projekti</span>
+                              <span className="main-menu__caption">{ui.nav.projects}</span>
                             </a>
                           </div>
                           <div className="main-menu__divider divider-bottom" />
@@ -125,36 +128,36 @@ export function AzurioChrome({ children }: AzurioChromeProps) {
                           <div className="main-menu__toggle">
                             <p className="main-menu__link">
                               <span className="main-menu__number">/ 04</span>
-                              <span className="main-menu__caption">Stranice</span>
+                              <span className="main-menu__caption">{ui.nav.pages}</span>
                             </p>
                           </div>
                           <ul className="submenu">
                             <li className="submenu__item">
-                              <a href="/about-us">O nama</a>
+                              <a href={lp("/about-us")}>{ui.nav.about}</a>
                             </li>
                             <li className="submenu__item">
-                              <a href="/faq">FAQ</a>
+                              <a href={lp("/faq")}>{ui.nav.faq}</a>
                             </li>
                             <li className="submenu__item">
-                              <a href="/izrada-sajta-i-aplikacija-nis">Izrada u Nišu</a>
+                              <a href={lp("/izrada-sajta-i-aplikacija-nis")}>{ui.nav.nisDev}</a>
                             </li>
                           </ul>
                           <div className="main-menu__divider divider-bottom" />
                         </li>
                         <li className="main-menu__item">
                           <div className="main-menu__toggle">
-                            <a className="main-menu__link" href="/blog">
+                            <a className="main-menu__link" href={lp("/blog")}>
                               <span className="main-menu__number">/ 05</span>
-                              <span className="main-menu__caption">Blog</span>
+                              <span className="main-menu__caption">{ui.nav.blog}</span>
                             </a>
                           </div>
                           <div className="main-menu__divider divider-bottom" />
                         </li>
                         <li className="main-menu__item">
                           <div className="main-menu__toggle">
-                            <a className="main-menu__link" href="/contact-us">
+                            <a className="main-menu__link" href={lp("/contact-us")}>
                               <span className="main-menu__number">/ 06</span>
-                              <span className="main-menu__caption">Kontakt</span>
+                              <span className="main-menu__caption">{ui.nav.contact}</span>
                             </a>
                           </div>
                           <div className="main-menu__divider divider-bottom" />
@@ -184,7 +187,7 @@ export function AzurioChrome({ children }: AzurioChromeProps) {
                       <ul className="menu-contact__list">
                         <li>
                           <a className="tag tag-m" href="https://maps.google.com/?q=Dimitrija+Leka+66+Nis" target="_blank">
-                            <span>Dimitrija Leka 66,<br />Nis,<br />Srbija</span>
+                            <span>Dimitrija Leka 66,<br />Niš,<br />Srbija</span>
                           </a>
                         </li>
                       </ul>
@@ -192,26 +195,29 @@ export function AzurioChrome({ children }: AzurioChromeProps) {
                     <div className="menu-contact__item">
                       <ul className="menu-contact__list">
                         <li>
-                          <a className="tag tag-m" href="/our-services">
-                            <span className="mxd-scramble">Usluge</span>
+                          <a className="tag tag-m" href={lp("/our-services")}>
+                            <span className="mxd-scramble">{ui.nav.services}</span>
                           </a>
                         </li>
                         <li>
-                          <a className="tag tag-m" href="/our-projects">
-                            <span className="mxd-scramble">Projekti</span>
+                          <a className="tag tag-m" href={lp("/our-projects")}>
+                            <span className="mxd-scramble">{ui.nav.projects}</span>
                           </a>
                         </li>
                         <li>
-                          <a className="tag tag-m" href="/blog">
-                            <span className="mxd-scramble">Blog</span>
+                          <a className="tag tag-m" href={lp("/blog")}>
+                            <span className="mxd-scramble">{ui.nav.blog}</span>
                           </a>
                         </li>
                         <li>
-                          <a className="tag tag-m" href="/contact-us">
-                            <span className="mxd-scramble">Kontakt</span>
+                          <a className="tag tag-m" href={lp("/contact-us")}>
+                            <span className="mxd-scramble">{ui.nav.contact}</span>
                           </a>
                         </li>
                       </ul>
+                      <div className="menu-contact__lang">
+                        <LanguageSwitcher current={locale} />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -234,13 +240,14 @@ export function AzurioChrome({ children }: AzurioChromeProps) {
 
       <header id="header" className="mxd-header mxd-header-permanent">
         <div className="mxd-header__logo loading-fade">
-          <a className="mxd-logo" href="/">
+          <a className="mxd-logo" href={lp("/")}>
             <img className="adspire-header-logo" src="/images/logo.png" alt="Adspire" />
           </a>
         </div>
         <div className="mxd-header__controls loading-fade">
-          <a className="btn mxd-header__link slide-right-up" href="/contact-us" aria-label="Say Hello">
-            <span className="btn-caption mxd-scramble">Pokreni projekat</span>
+          <LanguageSwitcher current={locale} />
+          <a className="btn mxd-header__link slide-right-up" href={lp("/contact-us")} aria-label={content.headerCta.label}>
+            <span className="btn-caption mxd-scramble">{content.headerCta.label}</span>
             <i>
               <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 18 18">
                 <path d="M18,0v14.4h-3.6v-7.2h-3.6v-3.6H3.6V0h14.4ZM7.2,10.8h3.6v-3.6h-3.6s0,3.6,0,3.6ZM3.6,14.4h3.6v-3.6h-3.6v3.6ZM0,18h3.6v-3.6H0v3.6Z" />
@@ -282,7 +289,7 @@ export function AzurioChrome({ children }: AzurioChromeProps) {
                 <ul className="footer-nav-v01">
                   {content.nav.map((item) => (
                     <li key={item.href} className="footer-nav-v01__item">
-                      <a className="anim-uni-slide-down" href={item.href}>
+                      <a className="anim-uni-slide-down" href={lp(item.href)}>
                         <span className="mxd-scramble mxd-slide-down">{item.label}</span>
                       </a>
                     </li>
@@ -307,7 +314,7 @@ export function AzurioChrome({ children }: AzurioChromeProps) {
                     </a>
                   </p>
                   <p className="footer-data anim-uni-slide-down">
-                    <span>Dimitrija Leka 66, Nis</span>
+                    <span>Dimitrija Leka 66, Niš</span>
                   </p>
                 </div>
               </div>
@@ -317,7 +324,7 @@ export function AzurioChrome({ children }: AzurioChromeProps) {
                     <span className="mxd-slide-down">Copyright 2026</span>
                   </p>
                   <p className="footer-data anim-uni-slide-down">
-                    <span className="mxd-slide-down">Copyright Adspire. Sva prava zadrzana</span>
+                    <span className="mxd-slide-down">Adspire. {ui.copyrightReserved}</span>
                   </p>
                   <p className="footer-data anim-uni-slide-down">
                     <span className="mxd-slide-down">{content.footer.tagline}</span>
@@ -342,13 +349,13 @@ export function AzurioChrome({ children }: AzurioChromeProps) {
               <div className="footer-blocks__column mxd-grid-item justify-start">
                 <div className="footer-blocks__socials">
                   <ul className="mxd-socials-line anim-uni-fade-in">
-                    <li><a className="mxd-socials-line__link" href="/our-services"><span className="mxd-scramble">Usluge</span></a></li>
-                    <li><a className="mxd-socials-line__link" href="/our-projects"><span className="mxd-scramble">Projekti</span></a></li>
-                    <li><a className="mxd-socials-line__link" href="/blog"><span className="mxd-scramble">Blog</span></a></li>
-                    <li><a className="mxd-socials-line__link" href="/faq"><span className="mxd-scramble">FAQ</span></a></li>
+                    <li><a className="mxd-socials-line__link" href={lp("/our-services")}><span className="mxd-scramble">{ui.nav.services}</span></a></li>
+                    <li><a className="mxd-socials-line__link" href={lp("/our-projects")}><span className="mxd-scramble">{ui.nav.projects}</span></a></li>
+                    <li><a className="mxd-socials-line__link" href={lp("/blog")}><span className="mxd-scramble">{ui.nav.blog}</span></a></li>
+                    <li><a className="mxd-socials-line__link" href={lp("/faq")}><span className="mxd-scramble">{ui.nav.faq}</span></a></li>
                     <li>
-                      <a className="mxd-socials-line__link" href="/izrada-sajta-i-aplikacija-nis">
-                        <span className="mxd-scramble">Niš — razvoj</span>
+                      <a className="mxd-socials-line__link" href={lp("/izrada-sajta-i-aplikacija-nis")}>
+                        <span className="mxd-scramble">{ui.nav.nisDev}</span>
                       </a>
                     </li>
                   </ul>
@@ -357,7 +364,7 @@ export function AzurioChrome({ children }: AzurioChromeProps) {
               <div className="footer-blocks__column mxd-grid-item justify-end">
                 <div className="footer-blocks__controls anim-uni-fade-in">
                   <a id="to-top" className="btn btn-line-icon btn-line-default slide-up" href="#">
-                    <span className="btn-caption mxd-scramble">Nazad na vrh</span>
+                    <span className="btn-caption mxd-scramble">{ui.backToTop}</span>
                     <i>
                       <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18">
                         <path d="M0,7.2h3.6v3.6H0V7.2z M10.8,3.6V0H7.2v3.6H3.6v3.6h3.6V18h3.6V7.2h3.6V3.6H10.8z M14.4,7.2v3.6H18V7.2H14.4z" />

@@ -1,10 +1,20 @@
 import { getSiteContent } from "@/content/site";
+import { localizeUiPhrases } from "@/content/site/ui";
 import type { MetricItem, ProjectItem, ServiceItem } from "@/content/site/types";
 import { findServiceCatalogEntry } from "@/data/serviceCatalog";
 import type { ServiceCatalogEntry } from "@/data/serviceCatalog";
-import { defaultLocale } from "@/lib/site-config";
+import { defaultLocale, type LocaleCode } from "@/lib/site-config";
 
-const content = getSiteContent(defaultLocale);
+// Swappable per-request locale state. transformTemplateMain / buildServiceDetailMainHtml
+// run fully synchronously, so reassigning this at the top of each entry function is
+// race-free under Node's single-threaded model.
+let content = getSiteContent(defaultLocale);
+let activeLocale: LocaleCode = defaultLocale;
+
+function useLocale(locale: LocaleCode) {
+  content = getSiteContent(locale);
+  activeLocale = locale;
+}
 
 const SERVICE_IMAGE_MAP: Record<string, string> = {
   "web-prezentacije": "/images/portfolio/one.png",
@@ -1315,7 +1325,8 @@ function applyTemplateDemoLocalizations(html: string) {
 }
 
 function finalizeMain(html: string) {
-  return applyTemplateDemoLocalizations(applyGlobalBrandReplacements(html));
+  const branded = applyTemplateDemoLocalizations(applyGlobalBrandReplacements(html));
+  return localizeUiPhrases(branded, activeLocale);
 }
 
 function renderAboutPageHero() {
@@ -1605,11 +1616,16 @@ function renderBlogArticleHeadBlock() {
                 <!-- Article Headline End -->`;
 }
 
-export function findServiceBySlug(slug: string) {
-  return content.servicesPage.items.find((item) => item.slug === slug) ?? null;
+export function findServiceBySlug(slug: string, locale: LocaleCode = defaultLocale) {
+  return getSiteContent(locale).servicesPage.items.find((item) => item.slug === slug) ?? null;
 }
 
-export function transformTemplateMain(fileName: string, mainInner: string) {
+export function transformTemplateMain(
+  fileName: string,
+  mainInner: string,
+  locale: LocaleCode = defaultLocale,
+) {
+  useLocale(locale);
   switch (fileName) {
     case "services.html": {
       let next = replaceSection(mainInner, "Section - Inner Headline v03", renderServicesHero());
@@ -1775,8 +1791,9 @@ ${items}
       <!-- Section - FAQ End -->`;
 }
 
-export function buildServiceDetailMainHtml(slug: string) {
-  const service = findServiceBySlug(slug);
+export function buildServiceDetailMainHtml(slug: string, locale: LocaleCode = defaultLocale) {
+  useLocale(locale);
+  const service = findServiceBySlug(slug, locale);
 
   if (!service) {
     return null;
@@ -1836,5 +1853,5 @@ export function buildServiceDetailMainHtml(slug: string) {
     );
   }
 
-  return next;
+  return localizeUiPhrases(next, locale);
 }

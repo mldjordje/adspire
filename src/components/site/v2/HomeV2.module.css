@@ -1,0 +1,566 @@
+/* ============================================================
+   Adspire Home V2 — clean, custom, mobile-first
+   Dark premium + flame accent (matches logo). No Azurio deps.
+   Animations: transform/opacity only. Honors reduced-motion.
+   ============================================================ */
+
+.root {
+  --bg: #08080a;
+  --bg-soft: #0f0f12;
+  --surface: #141418;
+  --surface-2: #1b1b20;
+  --line: rgba(255, 255, 255, 0.08);
+  --line-strong: rgba(255, 255, 255, 0.16);
+  --text: #f6f5f3;
+  --muted: #9d9b95;
+  --muted-2: #6f6e69;
+  --flame-1: #ff8a1e;
+  --flame-2: #ff4d12;
+  --flame-3: #e01200;
+  --flame-grad: linear-gradient(135deg, #ff9a23 0%, #ff4d12 52%, #e01200 100%);
+  --maxw: 1180px;
+  --radius: 18px;
+
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body, system-ui, sans-serif);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+  position: relative;
+}
+
+.root *::selection {
+  background: var(--flame-2);
+  color: #fff;
+}
+
+/* Beat Azurio's global element rules (h1/h2/h3/p color overrides) */
+.root h1,
+.root h2,
+.root h3,
+.root h4,
+.root p,
+.root span,
+.root a,
+.root li,
+.root em,
+.root strong {
+  color: inherit;
+}
+.root h1,
+.root h2,
+.root h3 {
+  color: var(--text);
+  margin: 0;
+}
+
+.display {
+  font-family: var(--font-display, var(--font-body, system-ui));
+  letter-spacing: -0.03em;
+  line-height: 0.98;
+  font-weight: 700;
+}
+
+.wrap {
+  width: 100%;
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding-inline: 20px;
+}
+
+/* ---------- buttons ---------- */
+.btnPrimary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--flame-grad);
+  color: #fff;
+  font-weight: 600;
+  font-size: 16px;
+  padding: 16px 26px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
+  box-shadow: 0 10px 34px -12px rgba(255, 77, 18, 0.7);
+  will-change: transform;
+}
+.btnPrimary:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.06);
+  box-shadow: 0 18px 46px -14px rgba(255, 77, 18, 0.85);
+}
+.btnGhost {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text);
+  font-weight: 600;
+  font-size: 16px;
+  padding: 16px 26px;
+  border-radius: 999px;
+  border: 1px solid var(--line-strong);
+  background: rgba(255, 255, 255, 0.02);
+  cursor: pointer;
+  transition: border-color 0.25s ease, background 0.25s ease, transform 0.25s ease;
+}
+.btnGhost:hover {
+  border-color: var(--flame-2);
+  background: rgba(255, 77, 18, 0.06);
+  transform: translateY(-2px);
+}
+
+/* ---------- eyebrow ---------- */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--flame-1);
+}
+.eyebrow::before {
+  content: "";
+  width: 22px;
+  height: 1px;
+  background: var(--flame-2);
+}
+
+/* =================== HERO =================== */
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 120px 0 64px;
+  overflow: clip;
+}
+.heroOrb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: 0.55;
+  pointer-events: none;
+  z-index: 0;
+}
+.heroOrbA {
+  width: 460px;
+  height: 460px;
+  top: -120px;
+  right: -120px;
+  background: radial-gradient(circle, rgba(255, 77, 18, 0.55), transparent 70%);
+  animation: float1 14s ease-in-out infinite;
+}
+.heroOrbB {
+  width: 380px;
+  height: 380px;
+  bottom: -100px;
+  left: -100px;
+  background: radial-gradient(circle, rgba(224, 18, 0, 0.4), transparent 70%);
+  animation: float2 18s ease-in-out infinite;
+}
+.heroGrid {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image: linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, #000 30%, transparent 75%);
+  opacity: 0.5;
+}
+.heroInner {
+  position: relative;
+  z-index: 2;
+}
+.heroBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 13px;
+  color: var(--muted);
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.02);
+  padding: 7px 14px 7px 10px;
+  border-radius: 999px;
+  margin-bottom: 24px;
+}
+.heroBadgeDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #29d36b;
+  box-shadow: 0 0 0 4px rgba(41, 211, 107, 0.18);
+}
+.heroTitle {
+  font-size: clamp(2.6rem, 11vw, 5.6rem);
+  margin: 0 0 22px;
+}
+.heroTitle em {
+  font-style: normal;
+  background: linear-gradient(120deg, #ffc46b 0%, #ff7a18 45%, #ff4d12 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.heroSub {
+  font-size: clamp(1.05rem, 4.4vw, 1.32rem);
+  line-height: 1.5;
+  color: var(--muted);
+  max-width: 30ch;
+  margin: 0 0 34px;
+}
+.heroActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 40px;
+}
+.heroTrust {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 22px 30px;
+  align-items: center;
+}
+.heroTrustItem {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.heroTrustNum {
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-family: var(--font-display, inherit);
+}
+.heroTrustLabel {
+  font-size: 12.5px;
+  color: var(--muted-2);
+  letter-spacing: 0.02em;
+}
+
+/* =================== SECTION shell =================== */
+.section {
+  position: relative;
+  padding: 92px 0;
+}
+.sectionHead {
+  max-width: 640px;
+  margin-bottom: 48px;
+}
+.sectionTitle {
+  font-size: clamp(2rem, 7.5vw, 3.1rem);
+  margin: 16px 0 0;
+}
+.sectionLead {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: var(--muted);
+  margin: 18px 0 0;
+}
+
+/* =================== MARQUEE =================== */
+.marquee {
+  border-block: 1px solid var(--line);
+  padding: 22px 0;
+  overflow: hidden;
+  white-space: nowrap;
+  background: var(--bg-soft);
+}
+.marqueeTrack {
+  display: inline-flex;
+  gap: 40px;
+  animation: marquee 28s linear infinite;
+}
+.marqueeItem {
+  font-family: var(--font-display, inherit);
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--muted-2);
+  display: inline-flex;
+  align-items: center;
+  gap: 40px;
+}
+.marqueeItem::after {
+  content: "✦";
+  color: var(--flame-2);
+  font-size: 0.9rem;
+}
+
+/* =================== SERVICES =================== */
+.servicesGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+.serviceCard {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 26px 24px;
+  overflow: hidden;
+  transition: border-color 0.3s ease, transform 0.3s ease;
+}
+.serviceCard:hover {
+  border-color: var(--line-strong);
+  transform: translateY(-3px);
+}
+.serviceCard::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 0% 0%, rgba(255, 77, 18, 0.1), transparent 45%);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+.serviceCard:hover::before {
+  opacity: 1;
+}
+.serviceIcon {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  background: rgba(255, 77, 18, 0.12);
+  border: 1px solid rgba(255, 77, 18, 0.22);
+  font-size: 22px;
+  margin-bottom: 18px;
+}
+.serviceName {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0 0 8px;
+  font-family: var(--font-display, inherit);
+  letter-spacing: -0.01em;
+  position: relative;
+}
+.serviceDesc {
+  font-size: 0.96rem;
+  line-height: 1.55;
+  color: var(--muted);
+  margin: 0;
+  position: relative;
+}
+
+/* =================== WORK =================== */
+.workList {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+.workCard {
+  display: block;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: border-color 0.3s ease, transform 0.3s ease;
+}
+.workCard:hover {
+  border-color: var(--line-strong);
+  transform: translateY(-4px);
+}
+.workShot {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: var(--surface-2);
+}
+.workShot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  transition: transform 0.6s ease;
+}
+.workCard:hover .workShot img {
+  transform: scale(1.04);
+}
+.workBody {
+  padding: 22px 22px 26px;
+}
+.workCat {
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--flame-1);
+  font-weight: 600;
+}
+.workName {
+  font-size: 1.3rem;
+  font-weight: 700;
+  font-family: var(--font-display, inherit);
+  margin: 10px 0 8px;
+  letter-spacing: -0.01em;
+}
+.workOutcome {
+  font-size: 0.96rem;
+  line-height: 1.55;
+  color: var(--muted);
+  margin: 0 0 16px;
+}
+.workLink {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--text);
+  display: inline-flex;
+  gap: 7px;
+  align-items: center;
+}
+.workLink span {
+  color: var(--flame-1);
+  transition: transform 0.25s ease;
+}
+.workCard:hover .workLink span {
+  transform: translateX(4px);
+}
+
+/* =================== PROCESS =================== */
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.step {
+  display: flex;
+  gap: 18px;
+  padding: 24px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+.stepNum {
+  font-family: var(--font-display, inherit);
+  font-size: 1.4rem;
+  font-weight: 700;
+  background: var(--flame-grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  flex-shrink: 0;
+  line-height: 1;
+}
+.stepTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0 0 6px;
+}
+.stepDesc {
+  font-size: 0.95rem;
+  color: var(--muted);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* =================== CTA =================== */
+.cta {
+  position: relative;
+  margin: 0 16px 80px;
+  border-radius: 28px;
+  background: linear-gradient(135deg, #16100c, #0d0d10);
+  border: 1px solid rgba(255, 122, 30, 0.2);
+  padding: 56px 28px;
+  overflow: hidden;
+  text-align: center;
+}
+.ctaGlow {
+  position: absolute;
+  width: 360px;
+  height: 360px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 77, 18, 0.35), transparent 70%);
+  filter: blur(60px);
+  top: -120px;
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+.ctaTitle {
+  font-size: clamp(2rem, 8vw, 3.2rem);
+  margin: 16px 0 14px;
+  position: relative;
+}
+.ctaSub {
+  color: var(--muted);
+  font-size: 1.05rem;
+  line-height: 1.55;
+  max-width: 44ch;
+  margin: 0 auto 30px;
+  position: relative;
+}
+.ctaActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  position: relative;
+}
+
+/* =================== FOOTER mini =================== */
+.footerMini {
+  border-top: 1px solid var(--line);
+  padding: 40px 0;
+  text-align: center;
+}
+.footerMini p {
+  color: var(--muted-2);
+  font-size: 0.9rem;
+  margin: 6px 0 0;
+}
+.footerContacts {
+  display: flex;
+  gap: 22px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+.footerContacts a {
+  color: var(--text);
+  font-weight: 600;
+  font-size: 0.98rem;
+}
+.footerContacts a:hover {
+  color: var(--flame-1);
+}
+
+/* =================== animations =================== */
+@keyframes float1 {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(-30px, 40px); }
+}
+@keyframes float2 {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(40px, -30px); }
+}
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* =================== tablet / desktop =================== */
+@media (min-width: 720px) {
+  .wrap { padding-inline: 32px; }
+  .heroSub { max-width: 40ch; }
+  .servicesGrid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .workList {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+  .steps { display: grid; grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 1024px) {
+  .servicesGrid { grid-template-columns: repeat(3, 1fr); }
+  .section { padding: 120px 0; }
+  .hero { padding: 0; }
+  .cta { padding: 88px 40px; margin-inline: auto; max-width: var(--maxw); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heroOrbA, .heroOrbB, .marqueeTrack { animation: none !important; }
+  .root * { scroll-behavior: auto; }
+}

@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import path from "node:path";
 import { AzurioChrome } from "@/components/site/AzurioChrome";
 import { transformTemplateMain } from "@/components/site/azurioContentTransform";
+import { defaultLocale, type LocaleCode } from "@/lib/site-config";
 
 const TEMPLATE_ROOT = path.join(process.cwd(), "azurio");
 
@@ -120,36 +121,39 @@ export function loadTemplateBody(fileName: string) {
   return PAGE_CACHE.get(fileName) ?? "";
 }
 
-export function loadTemplateMainInner(fileName: string) {
-  if (!MAIN_CACHE.has(fileName)) {
+export function loadTemplateMainInner(fileName: string, locale: LocaleCode = defaultLocale) {
+  const cacheKey = `${fileName}::${locale}`;
+  if (!MAIN_CACHE.has(cacheKey)) {
     const body = loadTemplateBody(fileName);
     const match = body.match(/<main\b[^>]*>([\s\S]*?)<\/main>/i);
     const mainInner = match ? match[1] : "";
-    MAIN_CACHE.set(fileName, transformTemplateMain(fileName, mainInner));
+    MAIN_CACHE.set(cacheKey, transformTemplateMain(fileName, mainInner, locale));
   }
 
-  return MAIN_CACHE.get(fileName) ?? "";
+  return MAIN_CACHE.get(cacheKey) ?? "";
 }
 
-export function loadTemplateHeroSection(fileName: string) {
-  if (!HERO_CACHE.has(fileName)) {
-    const main = loadTemplateMainInner(fileName);
+export function loadTemplateHeroSection(fileName: string, locale: LocaleCode = defaultLocale) {
+  const cacheKey = `${fileName}::${locale}`;
+  if (!HERO_CACHE.has(cacheKey)) {
+    const main = loadTemplateMainInner(fileName, locale);
     const match = main.match(/<!-- Hero Section Start -->([\s\S]*?)<!-- Hero Section End -->/i);
-    HERO_CACHE.set(fileName, match ? match[0] : "");
+    HERO_CACHE.set(cacheKey, match ? match[0] : "");
   }
 
-  return HERO_CACHE.get(fileName) ?? "";
+  return HERO_CACHE.get(cacheKey) ?? "";
 }
 
 export function loadTemplateSectionRange(
   fileName: string,
   startComment: string,
   endComment: string,
+  locale: LocaleCode = defaultLocale,
 ) {
-  const cacheKey = `${fileName}::${startComment}::${endComment}`;
+  const cacheKey = `${fileName}::${locale}::${startComment}::${endComment}`;
 
   if (!SECTION_CACHE.has(cacheKey)) {
-    const main = loadTemplateMainInner(fileName);
+    const main = loadTemplateMainInner(fileName, locale);
     const escapedStart = startComment.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
     const escapedEnd = endComment.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
     const pattern = new RegExp(
@@ -193,13 +197,14 @@ export function replaceMain(bodyHtml: string, mainInner: string) {
 
 type AzurioTemplatePageProps = {
   fileName: string;
+  locale?: LocaleCode;
 };
 
-export function AzurioTemplatePage({ fileName }: AzurioTemplatePageProps) {
-  const html = loadTemplateMainInner(fileName);
+export function AzurioTemplatePage({ fileName, locale = defaultLocale }: AzurioTemplatePageProps) {
+  const html = loadTemplateMainInner(fileName, locale);
 
   return (
-    <AzurioChrome>
+    <AzurioChrome locale={locale}>
       <div className="azurio-template-root" dangerouslySetInnerHTML={{ __html: html }} />
     </AzurioChrome>
   );

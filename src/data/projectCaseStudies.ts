@@ -115,6 +115,86 @@ function plainLine(value: string) {
     .find(Boolean) ?? "";
 }
 
+/** Split a section body into its `### subsection` blocks. */
+function extractSubsectionBlocks(section: string) {
+  const blocks: { title: string; lines: string[]; paragraph: string }[] = [];
+  const parts = section.split(/^###\s+/m).slice(1);
+  for (const part of parts) {
+    const [titleLine, ...rest] = part.split(/\r?\n/);
+    const bodyLines = rest.map((l) => l.trim()).filter(Boolean);
+    const lines = bodyLines
+      .filter((l) => l.startsWith("-"))
+      .map((l) => l.replace(/^-+\s*/, "").trim());
+    const paragraph = bodyLines.find((l) => !l.startsWith("-") && !l.startsWith("#")) ?? "";
+    blocks.push({ title: titleLine.trim(), lines, paragraph });
+  }
+  return blocks;
+}
+
+/** First non-empty section matching any of the candidate titles. */
+function firstSectionOf(markdown: string, titles: string[]) {
+  for (const t of titles) {
+    const s = extractSection(markdown, t);
+    if (s) return s;
+  }
+  return "";
+}
+
+/**
+ * Structured content for the OBSIDIAN (v4) case study page. Pulls the
+ * consistent sections across all case-study markdown files into typed data.
+ */
+export function getCaseStudyV4Content(project: ProjectCaseStudy) {
+  const markdown = readProjectCaseStudyMarkdown(project);
+  const base = getProjectCaseStudyContent(project);
+
+  const intro = firstParagraph(extractSection(markdown, "Case study uvod")) || base.shortDescription;
+
+  const features = extractSubsectionBlocks(extractSection(markdown, "Glavne funkcionalnosti"))
+    .map((b) => ({ title: b.title, items: b.lines.slice(0, 5) }))
+    .filter((b) => b.items.length > 0)
+    .slice(0, 8);
+
+  const salesBlocks = extractSubsectionBlocks(
+    extractSection(markdown, "Prodajni blokovi za landing stranicu"),
+  )
+    .map((b) => ({ title: b.title, text: b.paragraph }))
+    .filter((b) => b.text)
+    .slice(0, 6);
+
+  // Some files wrap the prose in a `### Tekst` subsection; unwrap it and
+  // drop any residual heading lines before taking the first paragraph.
+  const clientGetsRaw = firstSectionOf(markdown, ["Sta klijent dobija", "Sekcija: Sta klinika dobija"]);
+  const clientGetsBody = extractSubsection(clientGetsRaw, "Tekst") || clientGetsRaw;
+  const clientGets = firstParagraph(clientGetsBody.replace(/^#{1,6}\s+.*$/gm, "").trim());
+
+  const forWhomSection = firstSectionOf(markdown, [
+    "Za koga je resenje",
+    "Sekcija: Za koje klinike je resenje",
+  ]);
+  const forWhom = forWhomSection
+    .split(/\r?\n/)
+    .map((l) => l.replace(/^-+\s*/, "").trim())
+    .filter((l) => l && !l.startsWith("#") && l.length < 90);
+
+  const ctaSection = extractSection(markdown, "CTA sekcija");
+  const ctaTitle = plainLine(extractSubsection(ctaSection, "Naslov"));
+  const ctaText = firstParagraph(extractSubsection(ctaSection, "Tekst"));
+
+  return {
+    heroTitle: base.heroTitle,
+    heroSubtitle: base.heroSubtitle,
+    shortDescription: base.shortDescription,
+    intro,
+    features,
+    salesBlocks,
+    clientGets,
+    forWhom,
+    ctaTitle,
+    ctaText,
+  };
+}
+
 export function getProjectCaseStudyContent(project: ProjectCaseStudy) {
   const markdown = readProjectCaseStudyMarkdown(project);
   const hero = extractSection(markdown, "Hero sekcija");

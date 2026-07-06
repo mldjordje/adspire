@@ -1,0 +1,244 @@
+/* ═══ Services page content ═══ */
+
+.dot {
+  color: var(--accent);
+}
+
+.group {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: clamp(40px, 6vh, 80px) clamp(20px, 4vw, 56px);
+}
+
+.groupHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding-bottom: clamp(24px, 3vh, 40px);
+  margin-bottom: clamp(28px, 4vh, 46px);
+  border-bottom: 1px solid var(--line);
+}
+
+.groupLabel {
+  font-family: var(--font-d);
+  font-weight: 700;
+  font-size: clamp(24px, 3.4vw, 44px);
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.groupBlurb {
+  max-width: 420px;
+  margin: 0;
+  font-size: clamp(14px, 1.2vw, 16px);
+  line-height: 1.6;
+  color: var(--ink-dim);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(14px, 1.6vw, 22px);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: clamp(22px, 2.4vw, 34px);
+  background: linear-gradient(150deg, #14141c, #0a0a0f);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  text-decoration: none;
+  color: var(--ink);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s;
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 25% 0%, rgba(107, 225, 255, 0.1), transparent 55%);
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(107, 225, 255, 0.4);
+}
+
+.card:hover::before {
+  opacity: 1;
+}
+
+.cardTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.cardTitle {
+  font-family: var(--font-d);
+  font-weight: 700;
+  font-size: clamp(18px, 1.7vw, 23px);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.cardArrow {
+  font-size: 20px;
+  color: var(--accent);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  flex: 0 0 auto;
+}
+
+.card:hover .cardArrow {
+  transform: translate(4px, -4px);
+}
+
+.cardDesc {
+  font-size: clamp(13px, 1.1vw, 15px);
+  line-height: 1.65;
+  color: var(--ink-dim);
+  margin: 0;
+  flex: 1;
+}
+
+.cardTags {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+}
+
+.tag {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 5px 11px;
+}
+
+/* ─── Process ─── */
+
+.process {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: clamp(50px, 8vh, 100px) clamp(20px, 4vw, 56px);
+}
+
+.processTitle {
+  font-family: var(--font-d);
+  font-weight: 800;
+  font-size: clamp(32px, 5vw, 68px);
+  letter-spacing: -0.02em;
+  margin: 0 0 clamp(36px, 5vh, 60px);
+}
+
+.processGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(16px, 2vw, 28px);
+}
+
+.processStep {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 22px;
+  border-top: 2px solid var(--accent);
+}
+
+.processNum {
+  font-family: var(--font-d);
+  font-weight: 800;
+  font-size: 14px;
+  letter-spacing: 0.16em;
+  color: var(--accent);
+}
+
+.processStepTitle {
+  font-family: var(--font-d);
+  font-weight: 700;
+  font-size: clamp(17px, 1.7vw, 22px);
+  margin: 0;
+}
+
+.processDesc {
+  font-size: clamp(13px, 1.1vw, 15px);
+  line-height: 1.6;
+  color: var(--ink-dim);
+  margin: 0;
+}
+
+/* ─── CTA ─── */
+
+.cta {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: clamp(60px, 10vh, 130px) clamp(20px, 4vw, 56px);
+  text-align: center;
+}
+
+.ctaTitle {
+  font-family: var(--font-d);
+  font-weight: 800;
+  font-size: clamp(32px, 5.5vw, 76px);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  margin: 0 0 20px;
+}
+
+.ctaText {
+  max-width: 540px;
+  margin: 0 auto 34px;
+  font-size: clamp(15px, 1.4vw, 18px);
+  line-height: 1.6;
+  color: var(--ink-dim);
+}
+
+.ctaButton {
+  display: inline-block;
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: 0.04em;
+  color: #04070a;
+  background: var(--accent);
+  border-radius: 999px;
+  padding: 18px 40px;
+  text-decoration: none;
+  box-shadow: 0 0 40px rgba(107, 225, 255, 0.35);
+  transition: box-shadow 0.3s, background 0.3s;
+}
+
+.ctaButton:hover {
+  box-shadow: 0 0 70px rgba(107, 225, 255, 0.55);
+  background: #9beeff;
+}
+
+/* ─── Mobile ─── */
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .processGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .processGrid {
+    grid-template-columns: 1fr;
+  }
+}

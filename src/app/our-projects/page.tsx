@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import { AzurioTemplatePage } from "@/components/site/AzurioTemplatePage";
 import { getSiteContent } from "@/content/site";
 import { pageMetadata } from "@/lib/seo/metadata";
 import { defaultLocale } from "@/lib/site-config";
+import { ProjectsV4 } from "@/components/site/v4/ProjectsV4";
+import { v4FontClass } from "@/components/site/v4/fonts";
 
 const projectsPage = getSiteContent(defaultLocale).projectsPage;
 
@@ -14,5 +15,9 @@ export const metadata: Metadata = pageMetadata({
 });
 
 export default function ProjectsPage() {
-  return <AzurioTemplatePage fileName="works-grid-sticky.html" />;
+  return (
+    <div className={v4FontClass}>
+      <ProjectsV4 />
+    </div>
+  );
 }

@@ -1,0 +1,371 @@
+/* ═══ Case study detail content ═══ */
+
+.blockEyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.blockEyebrow::before {
+  content: "";
+  width: 28px;
+  height: 1px;
+  background: var(--accent);
+}
+
+.sectionTitle {
+  font-family: var(--font-d);
+  font-weight: 800;
+  font-size: clamp(30px, 4.6vw, 60px);
+  letter-spacing: -0.02em;
+  margin: 0 0 clamp(30px, 4.5vh, 52px);
+}
+
+/* ─── Meta bar ─── */
+
+.meta {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 4vw, 56px) clamp(30px, 4vh, 48px);
+  display: flex;
+  gap: clamp(30px, 6vw, 80px);
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--line);
+}
+
+.metaItem {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.metaLabel {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.metaValue {
+  font-family: var(--font-d);
+  font-weight: 600;
+  font-size: clamp(16px, 1.6vw, 22px);
+  color: var(--ink);
+}
+
+.metaLink {
+  font-family: var(--font-d);
+  font-weight: 600;
+  font-size: clamp(16px, 1.6vw, 22px);
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.metaLink:hover {
+  text-decoration: underline;
+}
+
+/* ─── Hero shot ─── */
+
+.shot {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: clamp(30px, 5vh, 60px) clamp(20px, 4vw, 56px);
+}
+
+.shotImg {
+  width: 100%;
+  border-radius: 20px;
+  border: 1px solid var(--line);
+  box-shadow: 0 40px 90px rgba(0, 0, 0, 0.55);
+  display: block;
+}
+
+/* ─── Overview ─── */
+
+.overview {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: clamp(30px, 5vh, 60px) clamp(20px, 4vw, 56px);
+}
+
+.overviewText {
+  font-size: clamp(18px, 2vw, 28px);
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin: 18px 0 26px;
+  font-family: var(--font-d);
+  font-weight: 500;
+}
+
+.stackChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.chip {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--ink-dim);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 8px 16px;
+}
+
+/* ─── Generic section ─── */
+
+.section {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: clamp(40px, 7vh, 90px) clamp(20px, 4vw, 56px);
+}
+
+/* ─── Sales blocks ─── */
+
+.salesGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(14px, 1.8vw, 24px);
+}
+
+.salesCard {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: clamp(24px, 2.6vw, 36px);
+  background: linear-gradient(150deg, #14141c, #0a0a0f);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+}
+
+.salesNum {
+  font-family: var(--font-d);
+  font-weight: 800;
+  font-size: 14px;
+  letter-spacing: 0.14em;
+  color: var(--accent);
+}
+
+.salesTitle {
+  font-family: var(--font-d);
+  font-weight: 700;
+  font-size: clamp(18px, 1.9vw, 25px);
+  line-height: 1.15;
+  margin: 0;
+}
+
+.salesText {
+  font-size: clamp(13px, 1.1vw, 15px);
+  line-height: 1.65;
+  color: var(--ink-dim);
+  margin: 0;
+}
+
+/* ─── Feature groups ─── */
+
+.featureGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(14px, 1.8vw, 24px);
+}
+
+.featureCard {
+  padding: clamp(24px, 2.6vw, 36px);
+  background: rgba(10, 10, 15, 0.6);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+}
+
+.featureTitle {
+  font-family: var(--font-d);
+  font-weight: 700;
+  font-size: clamp(17px, 1.7vw, 22px);
+  margin: 0 0 16px;
+  color: var(--accent);
+}
+
+.featureList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.featureList li {
+  position: relative;
+  padding-left: 20px;
+  font-size: clamp(13px, 1.1vw, 15px);
+  line-height: 1.55;
+  color: var(--ink-dim);
+}
+
+.featureList li::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 8px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+/* ─── Gallery ─── */
+
+.gallery {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: clamp(20px, 3vh, 40px) clamp(20px, 4vw, 56px);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+.galleryImg {
+  width: 100%;
+  border-radius: 18px;
+  border: 1px solid var(--line);
+  display: block;
+}
+
+/* ─── Outcome / for whom ─── */
+
+.outcome {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: clamp(40px, 7vh, 90px) clamp(20px, 4vw, 56px);
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: clamp(30px, 5vw, 70px);
+  align-items: start;
+}
+
+.outcomeText {
+  font-size: clamp(17px, 1.7vw, 23px);
+  line-height: 1.55;
+  color: var(--ink);
+  margin: 16px 0 0;
+  font-family: var(--font-d);
+  font-weight: 500;
+}
+
+.forWhomList {
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.forWhomList li {
+  position: relative;
+  padding-left: 22px;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ink-dim);
+  text-transform: capitalize;
+}
+
+.forWhomList li::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+}
+
+/* ─── CTA ─── */
+
+.cta {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: clamp(60px, 10vh, 130px) clamp(20px, 4vw, 56px);
+  text-align: center;
+}
+
+.ctaTitle {
+  font-family: var(--font-d);
+  font-weight: 800;
+  font-size: clamp(28px, 4.6vw, 60px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin: 0 0 18px;
+}
+
+.ctaText {
+  max-width: 560px;
+  margin: 0 auto 34px;
+  font-size: clamp(15px, 1.4vw, 18px);
+  line-height: 1.6;
+  color: var(--ink-dim);
+}
+
+.ctaActions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.ctaButton {
+  display: inline-block;
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: 0.04em;
+  color: #04070a;
+  background: var(--accent);
+  border-radius: 999px;
+  padding: 18px 40px;
+  text-decoration: none;
+  box-shadow: 0 0 40px rgba(107, 225, 255, 0.35);
+  transition: box-shadow 0.3s, background 0.3s;
+}
+
+.ctaButton:hover {
+  box-shadow: 0 0 70px rgba(107, 225, 255, 0.55);
+  background: #9beeff;
+}
+
+.ctaGhost {
+  display: inline-block;
+  font-weight: 500;
+  font-size: 15px;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 18px 38px;
+  text-decoration: none;
+  transition: border-color 0.3s, color 0.3s;
+}
+
+.ctaGhost:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* ─── Mobile ─── */
+
+@media (max-width: 900px) {
+  .salesGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .featureGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .outcome {
+    grid-template-columns: 1fr;
+  }
+}

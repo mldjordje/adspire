@@ -1823,3 +1823,56 @@ html.mxd-fallback-visible .loading-chars .char {
 }
 
 .bp-back__link:hover { color: rgba(255,255,255,0.85); }
+
+/* ─── Language switcher (SR / EN / DE) ─────────────────────────────────────── */
+.adspire-lang {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.1rem;
+  margin-right: 0.35rem;
+}
+.adspire-lang__item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.9rem;
+  padding: 0.32rem 0.42rem;
+  font: 600 0.72rem/1 var(--_font-default, system-ui, sans-serif);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: currentColor;
+  opacity: 0.6;
+  border-radius: 0.55rem;
+  transition: opacity 0.2s ease, background 0.2s ease;
+}
+.adspire-lang__item:hover {
+  opacity: 1;
+}
+.adspire-lang__item.is-active {
+  opacity: 1;
+  background: currentColor;
+}
+.adspire-lang__item.is-active span,
+.adspire-lang__item.is-active {
+  /* invert text on the active pill so it stays legible on both themes */
+  color: currentColor;
+}
+.adspire-lang__item.is-active {
+  color: var(--t-bright, #fff);
+  background: rgba(127, 127, 127, 0.28);
+}
+
+/* Mobile menu placement: own row under the contact links */
+.menu-contact__lang {
+  margin-top: 1.1rem;
+}
+.menu-contact__lang .adspire-lang {
+  margin-right: 0;
+  gap: 0.25rem;
+}
+.menu-contact__lang .adspire-lang__item {
+  min-width: 2.4rem;
+  padding: 0.5rem 0.7rem;
+  font-size: 0.9rem;
+}

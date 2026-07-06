@@ -1,0 +1,152 @@
+/* ═══ V4 mobile menu — burger + fullscreen overlay ═══ */
+
+/* visible only where the host nav hid its desktop links */
+.showLg,
+.showMd {
+  display: none;
+}
+
+@media (max-width: 1023px) {
+  .showLg {
+    display: block;
+  }
+}
+
+@media (max-width: 860px) {
+  .showMd {
+    display: block;
+  }
+}
+
+.burger {
+  position: relative;
+  z-index: 97;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  background: rgba(6, 6, 8, 0.35);
+  border: 1px solid rgba(242, 241, 236, 0.14);
+  border-radius: 999px;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  padding: 0;
+}
+
+@media (max-width: 480px) {
+  .burger {
+    width: 38px;
+    height: 38px;
+    flex: 0 0 auto;
+  }
+}
+
+.burger span {
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: #f2f1ec;
+  border-radius: 2px;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s;
+}
+
+.burgerOpen span:first-child {
+  transform: translateY(4.5px) rotate(45deg);
+}
+
+.burgerOpen span:last-child {
+  transform: translateY(-4.5px) rotate(-45deg);
+}
+
+/* ─── Overlay ─── */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 96;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 110px 28px 34px;
+  /* no backdrop-filter: full-screen blur over a live WebGL canvas tanks
+     the compositor on mobile — near-solid ink does the same job */
+  background: rgba(4, 4, 7, 0.96);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+  overflow-y: auto;
+}
+
+.overlayOpen {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.groupLabel {
+  margin: 14px 0 8px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #6be1ff;
+}
+
+.groupLabel:first-child {
+  margin-top: 0;
+}
+
+.link {
+  font-family: var(--font-display-v4), system-ui, sans-serif;
+  font-weight: 700;
+  font-size: clamp(26px, 7.4vw, 40px);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: #f2f1ec;
+  background: none;
+  border: none;
+  padding: 2px 0;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: left;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s;
+}
+
+.overlayOpen .link {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.link:active,
+.link:hover {
+  color: #6be1ff;
+}
+
+.contact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 22px;
+  padding-top: 22px;
+  border-top: 1px solid rgba(242, 241, 236, 0.12);
+  font-size: 14px;
+}
+
+.contact a {
+  color: rgba(242, 241, 236, 0.72);
+  text-decoration: none;
+}
+
+.contact a:active {
+  color: #6be1ff;
+}

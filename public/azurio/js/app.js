@@ -66,6 +66,10 @@
 // Base - Inits Start
 // --------------------------------------------- //
 function mxdInit() {
+  // Standalone pages (e.g. /v4) run their own Lenis/GSAP stack — the Azurio
+  // runtime must not start there, otherwise two smooth-scroll engines fight.
+  if (document.querySelector("[data-standalone-page]")) return;
+
   document.documentElement.classList.add("mxd-runtime-started");
 
   const lenis = new Lenis({ smoothTouch: false });
