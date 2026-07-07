@@ -1,5 +1,5 @@
 .dot {
-  color: #6be1ff;
+  color: #ff7847;
 }
 
 .list {
@@ -17,7 +17,7 @@
   border: 1px solid rgba(242, 241, 236, 0.14);
   color: #f2f1ec;
   background:
-    linear-gradient(135deg, rgba(107, 225, 255, 0.08), rgba(255, 255, 255, 0.025)),
+    linear-gradient(135deg, rgba(255, 120, 71, 0.08), rgba(255, 255, 255, 0.025)),
     rgba(255, 255, 255, 0.035);
   text-decoration: none;
 }
@@ -48,7 +48,7 @@
   position: absolute;
   left: 22px;
   bottom: 18px;
-  color: #6be1ff;
+  color: #ff7847;
   font-family: var(--font-display-v4), sans-serif;
   font-size: clamp(3rem, 8vw, 7rem);
   font-weight: 800;
@@ -96,8 +96,8 @@
 .link {
   width: max-content;
   margin-top: 34px;
-  border-bottom: 1px solid rgba(107, 225, 255, 0.85);
-  color: #6be1ff;
+  border-bottom: 1px solid rgba(255, 120, 71, 0.85);
+  color: #ff7847;
   font-family: var(--font-body-v4), sans-serif;
   font-weight: 800;
 }

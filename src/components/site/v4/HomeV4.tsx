@@ -25,7 +25,7 @@ const PROJECTS = [
     summary: "Booking platforma, javni sajt i admin kalendar — termini, klijenti i analitika u jednom sistemu.",
     image: "/images/case-studies/drigic-mobileview.png",
     href: "/our-projects/dr-igic-web-aplikacija-za-estetske-klinike",
-    accent: "#6be1ff",
+    accent: "#ff7847",
     meta: "2025 · Next.js · Supabase · Booking",
   },
   {
@@ -34,7 +34,7 @@ const PROJECTS = [
     summary: "SEO sajt i CRM panel — upiti sa sajta ulaze pravo u prodajni tok.",
     image: "/images/case-studies/prevozkop-desktop.png",
     href: "/our-projects/prevozkop-digitalni-prodajni-operativni-sistem",
-    accent: "#8b7cff",
+    accent: "#ffc46b",
     meta: "2025 · Next.js · CRM · SEO",
   },
   {
@@ -61,7 +61,7 @@ const PROJECTS = [
     summary: "Booking sistem 24/7 — online termini i admin kalendar, bez ručnog dogovaranja.",
     image: "/images/case-studies/doctorbarber.png",
     href: "/our-projects/doctor-barber-online-booking-sistem",
-    accent: "#6be1ff",
+    accent: "#ff7847",
     meta: "2024 · Booking 24/7 · PWA",
   },
 ];
@@ -79,15 +79,17 @@ const RAIL = [
   { key: "cta", label: "Kontakt" },
 ] as const;
 
+// gen = SceneV4 shape the cloud re-knits into while the row is hovered
+// (0 sphere · 1 torus knot · 2 galaxy · 3 crystal · 4 neural · 5 wave · 6 "A")
 const SERVICES = [
-  { num: "01", title: "Web sajtovi", desc: "Brz sajt koji posetioca vodi do upita.", tags: ["Next.js", "SEO"] },
-  { num: "02", title: "Web shop", desc: "Prodaja i porudžbine u jednom toku.", tags: ["Katalog", "Plaćanje"] },
-  { num: "03", title: "Mobilne aplikacije", desc: "Aplikacije za korisnike i timove.", tags: ["PWA", "iOS / Android"] },
-  { num: "04", title: "CMS sistemi", desc: "Izmene sadržaja bez programera.", tags: ["Admin", "Sadržaj"] },
-  { num: "05", title: "AI automatizacija", desc: "Manje ručnog rada u prodaji i podršci.", tags: ["LLM", "n8n"] },
-  { num: "06", title: "SEO & marketing", desc: "Vidljivost i merljivi rezultati.", tags: ["SEO", "Ads"] },
-  { num: "07", title: "Security & GDPR", desc: "Sigurnost i zaštita podataka.", tags: ["Audit", "GDPR"] },
-  { num: "08", title: "UI/UX dizajn", desc: "Interfejs koji jasno vodi korisnika.", tags: ["Figma", "Motion"] },
+  { num: "01", title: "Web sajtovi", desc: "Brz sajt koji posetioca vodi do upita.", tags: ["Next.js", "SEO"], href: "/our-services/web-prezentacije", gen: 0, glow: "#ff7847", c1: [1, 0.47, 0.28], c2: [1, 0.77, 0.42] },
+  { num: "02", title: "Web shop", desc: "Prodaja i porudžbine u jednom toku.", tags: ["Katalog", "Plaćanje"], href: "/our-services/e-commerce-web-shop", gen: 3, glow: "#ff6b8e", c1: [1, 0.42, 0.5], c2: [1, 0.7, 0.35] },
+  { num: "03", title: "Mobilne aplikacije", desc: "Aplikacije za korisnike i timove.", tags: ["PWA", "iOS / Android"], href: "/our-services/mobilne-aplikacije", gen: 1, glow: "#ffc46b", c1: [1, 0.77, 0.42], c2: [1, 0.47, 0.28] },
+  { num: "04", title: "CMS sistemi", desc: "Izmene sadržaja bez programera.", tags: ["Admin", "Sadržaj"], href: "/our-services/cms-sistemi", gen: 5, glow: "#ffb35c", c1: [1, 0.6, 0.3], c2: [1, 0.8, 0.5] },
+  { num: "05", title: "AI automatizacija", desc: "Manje ručnog rada u prodaji i podršci.", tags: ["LLM", "n8n"], href: "/our-services/ai-integracije-automatizacija", gen: 4, glow: "#5cf2a6", c1: [0.35, 0.95, 0.65], c2: [1, 0.75, 0.4] },
+  { num: "06", title: "SEO & marketing", desc: "Vidljivost i merljivi rezultati.", tags: ["SEO", "Ads"], href: "/our-services/seo-digitalni-marketing", gen: 2, glow: "#ffd166", c1: [1, 0.8, 0.4], c2: [1, 0.42, 0.56] },
+  { num: "07", title: "Security & GDPR", desc: "Sigurnost i zaštita podataka.", tags: ["Audit", "GDPR"], href: "/our-services/cyber-security-gdpr", gen: 3, glow: "#ff5c4d", c1: [1, 0.36, 0.3], c2: [1, 0.6, 0.25] },
+  { num: "08", title: "UI/UX dizajn", desc: "Interfejs koji jasno vodi korisnika.", tags: ["Figma", "Motion"], href: "/our-services/interaktivne-web-tehnologije", gen: 6, glow: "#ff8ea1", c1: [1, 0.42, 0.56], c2: [1, 0.77, 0.42] },
 ];
 
 const METRICS = [
@@ -127,6 +129,12 @@ const VALUE_PROPS = [
 
 const MARQUEE = "WEB · APLIKACIJE · E-COMMERCE · AI · WEBGL · DIZAJN · ";
 
+const hexTo01 = (hex: string): [number, number, number] => [
+  parseInt(hex.slice(1, 3), 16) / 255,
+  parseInt(hex.slice(3, 5), 16) / 255,
+  parseInt(hex.slice(5, 7), 16) / 255,
+];
+
 // ─── Component ───────────────────────────────────────────────────────────────
 
 export function HomeV4() {
@@ -156,7 +164,7 @@ export function HomeV4() {
     // eslint-disable-next-line no-console
     console.log(
       "%cADSPIRE %c— OBSIDIAN v4\n%cRučno kodirano u Nišu. WebGL, GSAP, 24.000 čestica.\nTražiš ovakav sajt? djordje@adspire.rs",
-      "font-size:20px;font-weight:800;color:#6be1ff",
+      "font-size:20px;font-weight:800;color:#ff7847",
       "font-size:20px;font-weight:300;color:#f2f1ec",
       "font-size:12px;color:#8a8a92",
     );
@@ -394,6 +402,36 @@ export function HomeV4() {
           }
         }
 
+        // each project re-tints the particle cloud to its accent while it
+        // holds the frame; leaving the strip hands the palette back
+        q<HTMLElement>(`.${styles.projectPanel}`).forEach((panel, i) => {
+          ScrollTrigger.create({
+            trigger: panel,
+            containerAnimation: horizontal,
+            start: "left 70%",
+            end: "right 30%",
+            onToggle: (self) => {
+              if (self.isActive) {
+                window.dispatchEvent(
+                  new CustomEvent("v4:tint", {
+                    detail: { color: hexTo01(PROJECTS[i].accent), color2: [1, 0.77, 0.42] },
+                  }),
+                );
+              }
+            },
+          });
+        });
+        ScrollTrigger.create({
+          trigger: projectsSection,
+          start: "top 55%",
+          end: "bottom 45%",
+          onToggle: (self) => {
+            if (!self.isActive) {
+              window.dispatchEvent(new CustomEvent("v4:tint", { detail: null }));
+            }
+          },
+        });
+
         // per-panel content stagger as each project enters the frame
         q<HTMLElement>(`.${styles.projectPanel}`).forEach((panel) => {
           const bits = panel.querySelectorAll(
@@ -415,23 +453,54 @@ export function HomeV4() {
         });
       }
 
-      // ── Services: sticky stack, covered cards recede ────────────────
-      const cards = q<HTMLElement>(`.${styles.serviceCard}`);
-      cards.forEach((card, i) => {
-        const next = cards[i + 1];
-        if (!next) return;
-        gsap.to(card, {
-          scale: 0.95,
-          filter: "brightness(0.8)",
-          ease: "none",
-          scrollTrigger: {
-            trigger: next,
-            start: "top bottom",
-            end: "top top+=140",
-            scrub: true,
-          },
+      // ── Services: editorial index — rows rise in, borders draw ──────
+      const svcRows = q<HTMLElement>(`.${styles.svcRow}`);
+      svcRows.forEach((row, i) => {
+        gsap.from(row, {
+          y: 60,
+          autoAlpha: 0,
+          duration: 0.85,
+          delay: (i % 4) * 0.06,
+          ease: "power3.out",
+          scrollTrigger: { trigger: row, start: "top 90%", once: true },
         });
       });
+
+      // touch devices have no hover — scroll drives the same experience:
+      // the row crossing the center band lights up and morphs the cloud
+      if (window.matchMedia("(pointer: coarse)").matches && svcRows.length) {
+        svcRows.forEach((row, i) => {
+          ScrollTrigger.create({
+            trigger: row,
+            start: "top 62%",
+            end: "bottom 38%",
+            onToggle: (self) => {
+              if (self.isActive) {
+                row.classList.add(styles.svcRowActive);
+                const s = SERVICES[i];
+                window.dispatchEvent(
+                  new CustomEvent("v4:morph", {
+                    detail: { gen: s.gen, color: s.c1, color2: s.c2 },
+                  }),
+                );
+              } else {
+                row.classList.remove(styles.svcRowActive);
+              }
+            },
+          });
+        });
+        // leaving the section hands the cloud back to the scroll shapes
+        ScrollTrigger.create({
+          trigger: q(`.${styles.services}`)[0],
+          start: "top 62%",
+          end: "bottom 38%",
+          onToggle: (self) => {
+            if (!self.isActive) {
+              window.dispatchEvent(new CustomEvent("v4:morph", { detail: null }));
+            }
+          },
+        });
+      }
 
       // ── Process: line draws down, steps light up ────────────────────
       const processTrack = q<HTMLElement>(`.${styles.processTrack}`)[0];
@@ -716,11 +785,70 @@ export function HomeV4() {
       });
     }
 
+    // services index: hover forces the particle cloud into that service's
+    // shape + palette, and a glass preview panel glides after the cursor
+    const svcCleanups: (() => void)[] = [];
+    if (!window.matchMedia("(pointer: coarse)").matches) {
+      const list = root.querySelector<HTMLElement>(`.${styles.svcList}`);
+      const panel = root.querySelector<HTMLElement>(`.${styles.svcPanel}`);
+      const panelDesc = panel?.querySelector<HTMLElement>(`.${styles.svcPanelDesc}`);
+      const rows = Array.from(root.querySelectorAll<HTMLElement>(`.${styles.svcRow}`));
+      if (list && panel && panelDesc && rows.length) {
+        const px = gsap.quickTo(panel, "x", { duration: 0.45, ease: "power3.out" });
+        const py = gsap.quickTo(panel, "y", { duration: 0.45, ease: "power3.out" });
+        const onListMove = (e: PointerEvent) => {
+          px(e.clientX + 28);
+          py(e.clientY - panel.offsetHeight / 2);
+        };
+        const clearMorph = () => {
+          panel.classList.remove(styles.svcPanelOn);
+          window.dispatchEvent(new CustomEvent("v4:morph", { detail: null }));
+        };
+        const enterFns = rows.map((row, i) => {
+          const s = SERVICES[i];
+          const onEnter = () => {
+            panelDesc.textContent = s.desc;
+            panel.style.setProperty("--sa", s.glow);
+            panel.classList.add(styles.svcPanelOn);
+            window.dispatchEvent(
+              new CustomEvent("v4:morph", {
+                detail: { gen: s.gen, color: s.c1, color2: s.c2 },
+              }),
+            );
+          };
+          row.addEventListener("pointerenter", onEnter);
+          return () => row.removeEventListener("pointerenter", onEnter);
+        });
+        list.addEventListener("pointermove", onListMove, { passive: true });
+        list.addEventListener("pointerleave", clearMorph);
+        svcCleanups.push(() => {
+          enterFns.forEach((fn) => fn());
+          list.removeEventListener("pointermove", onListMove);
+          list.removeEventListener("pointerleave", clearMorph);
+          clearMorph();
+        });
+      }
+    }
+
+    // cursor spotlight on value cards — radial glow tracks the pointer
+    const spotCleanups: (() => void)[] = [];
+    root.querySelectorAll<HTMLElement>(`.${styles.valueCard}`).forEach((el) => {
+      const onMove = (e: PointerEvent) => {
+        const r = el.getBoundingClientRect();
+        el.style.setProperty("--mx", `${e.clientX - r.left}px`);
+        el.style.setProperty("--my", `${e.clientY - r.top}px`);
+      };
+      el.addEventListener("pointermove", onMove, { passive: true });
+      spotCleanups.push(() => el.removeEventListener("pointermove", onMove));
+    });
+
     return () => {
       ctx.revert();
       magnetCleanups.forEach((fn) => fn());
       tiltCleanups.forEach((fn) => fn());
       repelCleanups.forEach((fn) => fn());
+      svcCleanups.forEach((fn) => fn());
+      spotCleanups.forEach((fn) => fn());
       gsap.ticker.remove(tickerFn);
       lenisRef.current = null;
       lenis.destroy();
@@ -802,15 +930,16 @@ export function HomeV4() {
               Studio za web, aplikacije i AI — Niš, Srbija
             </p>
             <h1 className={styles.heroTitle}>
-              <span className={styles.heroLine}>DIGITALNO</span>
-              <span className={`${styles.heroLine} ${styles.heroLineOutline}`}>KOJE SE</span>
+              <span className={styles.heroLine}>NIKO NE PAMTI</span>
+              <span className={`${styles.heroLine} ${styles.heroLineOutline}`}>PROSEČAN</span>
               <span className={styles.heroLine}>
-                PAMTI<span className={styles.heroAccentDot}>.</span>
+                SAJT<span className={styles.heroAccentDot}>.</span>
               </span>
             </h1>
             <p className={styles.heroSub}>
-              Pravimo sajtove koji dovode nove klijente i aplikacije koje završavaju
-              posao umesto vas. Prvi klikabilan predlog dobijate za 48 sati — besplatno.
+              Mi gradimo one koji se pamte: ručno, bez šablona, sa sistemima koji
+              rade posao umesto vas. Predlog za 48 sati — ako vas ne oduševi,
+              ništa ne dugujete.
             </p>
             <div className={styles.heroCtas}>
               <a className={styles.btnPrimary} href="/contact-us" data-cursor="on" data-magnetic>
@@ -915,31 +1044,46 @@ export function HomeV4() {
           </div>
         </section>
 
-        {/* ── 05 · Services — sticky stack ── */}
+        {/* ── 05 · Services — editorial index, hover morphs the scene ── */}
         <section className={styles.services}>
           <div className={styles.servicesHead}>
-            <span className={styles.sectionEyebrow}>Šta radimo</span>
+            <span className={styles.sectionEyebrow}>Šta radimo — pređi preko liste</span>
             <h2 className={styles.sectionTitle} data-reveal="chars">
               USLUGE
             </h2>
           </div>
-          <div className={styles.serviceStack}>
+          <div className={styles.svcList}>
             {SERVICES.map((s) => (
-              <div key={s.num} className={styles.serviceCard}>
-                <span className={styles.serviceNum}>{s.num}</span>
-                <div className={styles.serviceBody}>
-                  <h3 className={styles.serviceTitle}>{s.title}</h3>
-                  <p className={styles.serviceDesc}>{s.desc}</p>
-                </div>
-                <div className={styles.serviceTags}>
+              <a
+                key={s.num}
+                className={styles.svcRow}
+                href={s.href}
+                data-cursor="on"
+                style={{ "--sa": s.glow } as React.CSSProperties}
+              >
+                <span className={styles.svcNum}>{s.num}</span>
+                <span className={styles.svcTitleWrap} aria-hidden="true">
+                  <span className={styles.svcTitle}>{s.title}</span>
+                  <span className={`${styles.svcTitle} ${styles.svcTitleGhost}`}>{s.title}</span>
+                </span>
+                <span className={styles.svcTitleSr}>{s.title}</span>
+                <p className={styles.svcDesc}>{s.desc}</p>
+                <span className={styles.svcMeta}>
                   {s.tags.map((t) => (
-                    <span key={t} className={styles.serviceTag}>
+                    <span key={t} className={styles.svcTag}>
                       {t}
                     </span>
                   ))}
-                </div>
-              </div>
+                </span>
+                <span className={styles.svcArrow} aria-hidden="true">
+                  →
+                </span>
+              </a>
             ))}
+          </div>
+          <div className={styles.svcPanel} aria-hidden="true">
+            <p className={styles.svcPanelDesc} />
+            <span className={styles.svcPanelCta}>Pogledaj uslugu →</span>
           </div>
         </section>
 

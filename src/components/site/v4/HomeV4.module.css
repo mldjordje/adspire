@@ -6,8 +6,8 @@
   --ink: #f2f1ec;
   --ink-dim: rgba(242, 241, 236, 0.55);
   --ink-faint: rgba(242, 241, 236, 0.45);
-  --accent: #6be1ff;
-  --accent-2: #8b7cff;
+  --accent: #ff7847;
+  --accent-2: #ffc46b;
   --line: rgba(242, 241, 236, 0.1);
   --font-d: var(--font-display-v4), system-ui, sans-serif;
   --font-b: var(--font-body-v4), system-ui, sans-serif;
@@ -120,7 +120,7 @@
   left: -22px;
   width: 44px;
   height: 44px;
-  border: 1px solid rgba(107, 225, 255, 0.5);
+  border: 1px solid rgba(255, 120, 71, 0.5);
   border-radius: 50%;
   z-index: 99;
   pointer-events: none;
@@ -387,7 +387,7 @@
 }
 
 .railItemActive .railNum {
-  text-shadow: 0 0 12px rgba(107, 225, 255, 0.7);
+  text-shadow: 0 0 12px rgba(255, 120, 71, 0.7);
 }
 
 @media (max-width: 1023px) {
@@ -616,12 +616,12 @@
   border-radius: 999px;
   padding: 18px 38px;
   text-decoration: none;
-  box-shadow: 0 0 34px rgba(107, 225, 255, 0.35);
+  box-shadow: 0 0 34px rgba(255, 120, 71, 0.35);
   transition: box-shadow 0.3s, background 0.3s;
 }
 
 .btnPrimary:hover {
-  box-shadow: 0 0 60px rgba(107, 225, 255, 0.55);
+  box-shadow: 0 0 60px rgba(255, 120, 71, 0.55);
   background: #9beeff;
 }
 
@@ -630,7 +630,7 @@
   position: absolute;
   inset: -2px;
   border-radius: 999px;
-  border: 1px solid rgba(107, 225, 255, 0.7);
+  border: 1px solid rgba(255, 120, 71, 0.7);
   animation: ctaRing 2.6s cubic-bezier(0.2, 0.6, 0.3, 1) infinite;
   pointer-events: none;
 }
@@ -951,7 +951,7 @@
   transform: scaleX(0);
 }
 
-/* ─── Services — sticky stack ──────────────────────────────── */
+/* ─── Services — editorial index (hover morphs the scene) ─────── */
 
 .services {
   position: relative;
@@ -963,71 +963,117 @@
   margin: 0 auto clamp(50px, 8vh, 100px);
 }
 
-.serviceStack {
+.svcList {
   max-width: 1240px;
   margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
+  border-top: 1px solid var(--line);
 }
 
-.serviceCard {
-  position: sticky;
-  top: clamp(80px, 12vh, 130px);
+.svcRow {
+  --sa: var(--accent);
+  position: relative;
   display: grid;
-  grid-template-columns: auto 1fr auto;
-  gap: clamp(18px, 3vw, 48px);
+  grid-template-columns: auto 1fr auto auto;
   align-items: center;
-  background: linear-gradient(140deg, #16161e, #0a0a0f);
-  border: 1px solid var(--line);
-  border-radius: 20px;
-  padding: clamp(24px, 3.5vw, 48px);
-  backdrop-filter: blur(10px);
-  will-change: transform;
-  transform-origin: center top;
-  transition: border-color 0.4s;
+  gap: clamp(18px, 3vw, 44px);
+  padding: clamp(20px, 3vh, 32px) clamp(8px, 1.5vw, 24px);
+  border-bottom: 1px solid var(--line);
+  text-decoration: none;
+  color: var(--ink);
+  overflow: hidden;
+  transition: padding-left 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.serviceCard:hover {
-  border-color: rgba(107, 225, 255, 0.4);
+/* fill wipe rises from the bottom edge in the row's own accent */
+.svcRow::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--sa) 12%, transparent), transparent 72%);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
 }
 
-.serviceCard:hover .serviceNum {
-  -webkit-text-stroke-color: var(--accent);
+.svcRow:hover::before {
+  transform: scaleY(1);
 }
 
-.serviceNum {
+.svcRow:hover {
+  padding-left: clamp(16px, 2.5vw, 40px);
+}
+
+.svcNum {
   font-family: var(--font-d);
   font-weight: 800;
-  font-size: clamp(26px, 3vw, 44px);
-  color: transparent;
-  -webkit-text-stroke: 1px rgba(107, 225, 255, 0.55);
-  line-height: 1;
+  font-size: clamp(13px, 1.2vw, 16px);
+  letter-spacing: 0.18em;
+  color: var(--ink-faint);
+  transition: color 0.4s;
 }
 
-.serviceTitle {
+.svcRow:hover .svcNum {
+  color: var(--sa);
+}
+
+.svcTitleWrap {
+  position: relative;
+  display: block;
+  overflow: hidden;
+}
+
+.svcTitle {
+  display: block;
   font-family: var(--font-d);
-  font-weight: 700;
-  font-size: clamp(22px, 2.6vw, 38px);
-  letter-spacing: -0.01em;
-  margin: 0 0 8px;
+  font-weight: 800;
+  font-size: clamp(26px, 4vw, 58px);
+  line-height: 1.06;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.serviceDesc {
-  font-size: clamp(13px, 1.1vw, 16px);
+/* roll-up: solid line slides out, accent ghost slides in */
+.svcRow:hover .svcTitle {
+  transform: translateY(-100%);
+}
+
+/* sits just below the clip window; the roll-up brings it in */
+.svcTitleGhost {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  color: var(--sa);
+}
+
+/* accessible label — the visual titles are aria-hidden duplicates */
+.svcTitleSr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.svcDesc {
+  display: none;
+  font-size: 13px;
   line-height: 1.6;
   color: var(--ink-dim);
   margin: 0;
 }
 
-.serviceTags {
+.svcMeta {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
   justify-content: flex-end;
 }
 
-.serviceTag {
+.svcTag {
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -1037,6 +1083,94 @@
   border-radius: 999px;
   padding: 7px 14px;
   white-space: nowrap;
+  transition: border-color 0.4s, color 0.4s;
+}
+
+.svcRow:hover .svcTag {
+  border-color: color-mix(in srgb, var(--sa) 45%, transparent);
+  color: var(--ink);
+}
+
+.svcArrow {
+  font-size: clamp(20px, 2vw, 30px);
+  color: var(--ink-faint);
+  transform: translateX(-8px);
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), color 0.4s;
+}
+
+.svcRow:hover .svcArrow {
+  transform: translateX(0) rotate(-45deg);
+  color: var(--sa);
+}
+
+/* glass preview panel gliding after the cursor (desktop only) */
+.svcPanel {
+  --sa: var(--accent);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 60;
+  width: min(300px, 30vw);
+  padding: 18px 20px;
+  border-radius: 14px;
+  background: rgba(8, 8, 12, 0.88);
+  border: 1px solid color-mix(in srgb, var(--sa) 40%, transparent);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  scale: 0.92;
+  transition: opacity 0.35s, scale 0.35s;
+  pointer-events: none;
+}
+
+.svcPanelOn {
+  opacity: 1;
+  scale: 1;
+}
+
+.svcPanelDesc {
+  margin: 0 0 10px;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--ink);
+}
+
+.svcPanelCta {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--sa);
+}
+
+/* mid widths: tags steal room from nowrap titles — drop them
+   (phones keep tags: titles wrap there, so there's no clash) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .svcMeta {
+    display: none;
+  }
+}
+
+/* scroll-driven "hover" on touch — mirrors the desktop hover state */
+.svcRowActive::before {
+  transform: scaleY(1);
+}
+
+.svcRowActive .svcNum,
+.svcRowActive .svcArrow {
+  color: var(--sa);
+}
+
+.svcRowActive .svcArrow {
+  transform: translateX(0) rotate(-45deg);
+}
+
+.svcRowActive .svcTitle {
+  color: var(--sa);
+}
+
+.svcRowActive .svcTag {
+  border-color: color-mix(in srgb, var(--sa) 45%, transparent);
+  color: var(--ink);
 }
 
 /* ─── Letterbox — cinematic bars during projects ───────────── */
@@ -1135,7 +1269,7 @@
   flex: 0 0 auto;
   border-radius: 50%;
   background: radial-gradient(circle at 35% 30%, var(--accent), var(--accent-2));
-  box-shadow: 0 0 18px rgba(107, 225, 255, 0.4);
+  box-shadow: 0 0 18px rgba(255, 120, 71, 0.4);
 }
 
 .chatDot {
@@ -1204,8 +1338,8 @@
 
 .chatMsgUser {
   align-self: flex-end;
-  background: linear-gradient(120deg, rgba(107, 225, 255, 0.16), rgba(139, 124, 255, 0.16));
-  border: 1px solid rgba(107, 225, 255, 0.28);
+  background: linear-gradient(120deg, rgba(255, 120, 71, 0.16), rgba(255, 196, 107, 0.16));
+  border: 1px solid rgba(255, 120, 71, 0.28);
   border-bottom-right-radius: 5px;
 }
 
@@ -1346,7 +1480,7 @@
   border-radius: 50%;
   background: var(--bg);
   border: 2px solid var(--accent);
-  box-shadow: 0 0 14px rgba(107, 225, 255, 0.5);
+  box-shadow: 0 0 14px rgba(255, 120, 71, 0.5);
 }
 
 .processNum {
@@ -1355,7 +1489,7 @@
   font-size: clamp(30px, 4vw, 54px);
   line-height: 1;
   color: transparent;
-  -webkit-text-stroke: 1px rgba(107, 225, 255, 0.6);
+  -webkit-text-stroke: 1px rgba(255, 120, 71, 0.6);
   flex: 0 0 auto;
 }
 
@@ -1407,18 +1541,19 @@
   transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s;
 }
 
+/* spotlight follows the cursor — --mx/--my are set from JS on pointermove */
 .valueCard::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 20% 0%, rgba(107, 225, 255, 0.12), transparent 55%);
+  background: radial-gradient(260px circle at var(--mx, 20%) var(--my, 0%), rgba(255, 120, 71, 0.16), transparent 65%);
   opacity: 0;
   transition: opacity 0.5s;
 }
 
 .valueCard:hover {
   transform: translateY(-8px);
-  border-color: rgba(107, 225, 255, 0.4);
+  border-color: rgba(255, 120, 71, 0.4);
 }
 
 .valueCard:hover::before {
@@ -1708,12 +1843,12 @@
   border-radius: 999px;
   padding: clamp(18px, 2.4vw, 30px) clamp(34px, 4.5vw, 66px);
   text-decoration: none;
-  box-shadow: 0 0 44px rgba(107, 225, 255, 0.3);
+  box-shadow: 0 0 44px rgba(255, 120, 71, 0.3);
   transition: box-shadow 0.3s;
 }
 
 .ctaButton:hover {
-  box-shadow: 0 0 80px rgba(107, 225, 255, 0.55);
+  box-shadow: 0 0 80px rgba(255, 120, 71, 0.55);
 }
 
 .ctaAlt {
@@ -1729,7 +1864,7 @@
 .ctaAlt a {
   color: var(--ink);
   text-decoration: none;
-  border-bottom: 1px solid rgba(107, 225, 255, 0.5);
+  border-bottom: 1px solid rgba(255, 120, 71, 0.5);
   padding-bottom: 2px;
   transition: color 0.3s, border-color 0.3s;
 }
@@ -1773,7 +1908,7 @@
 }
 
 .wordmark:hover .wordmarkText {
-  -webkit-text-stroke-color: rgba(107, 225, 255, 0.6);
+  -webkit-text-stroke-color: rgba(255, 120, 71, 0.6);
 }
 
 .footer {
@@ -1935,13 +2070,34 @@
     aspect-ratio: 16 / 11;
   }
 
-  .serviceCard {
-    grid-template-columns: auto 1fr;
+  .svcRow {
+    grid-template-columns: auto 1fr auto;
+    row-gap: 10px;
   }
 
-  .serviceTags {
-    grid-column: 1 / -1;
+  .svcTitle {
+    white-space: normal;
+    font-size: clamp(24px, 7vw, 34px);
+  }
+
+  /* multi-line titles break the roll illusion on touch — drop the ghost */
+  .svcTitleGhost {
+    display: none;
+  }
+
+  /* no hover on touch — show the description inline instead of the panel */
+  .svcDesc {
+    display: block;
+    grid-column: 2 / -1;
+  }
+
+  .svcMeta {
+    grid-column: 2 / -1;
     justify-content: flex-start;
+  }
+
+  .svcPanel {
+    display: none;
   }
 
   .metrics {

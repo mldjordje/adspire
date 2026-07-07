@@ -132,7 +132,7 @@ a.channelValue:hover {
 .field textarea:focus {
   outline: none;
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(107, 225, 255, 0.14);
+  box-shadow: 0 0 0 3px rgba(255, 120, 71, 0.14);
 }
 
 .actions {
@@ -153,12 +153,12 @@ a.channelValue:hover {
   border-radius: 999px;
   padding: 16px 34px;
   cursor: pointer;
-  box-shadow: 0 0 34px rgba(107, 225, 255, 0.3);
+  box-shadow: 0 0 34px rgba(255, 120, 71, 0.3);
   transition: box-shadow 0.3s, background 0.3s, opacity 0.3s;
 }
 
 .submit:hover {
-  box-shadow: 0 0 60px rgba(107, 225, 255, 0.5);
+  box-shadow: 0 0 60px rgba(255, 120, 71, 0.5);
   background: #9beeff;
 }
 

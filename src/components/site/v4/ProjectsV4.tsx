@@ -29,7 +29,7 @@ const PROJECTS: ProjectRow[] = [
     outcome: "Sajt, booking, admin kalendar, Beauty Pass i analitika rade kao jedan sistem.",
     stack: "Next.js · PostgreSQL · Drizzle · Vercel",
     image: "/images/case-studies/drigic-mobileview.png",
-    accent: "#6be1ff",
+    accent: "#ff7847",
   },
   {
     slug: "prevozkop-digitalni-prodajni-operativni-sistem",
@@ -39,7 +39,7 @@ const PROJECTS: ProjectRow[] = [
     outcome: "Javni SEO sajt, lead CRM, ponude, proizvodi, radnici, vozila i isporuke.",
     stack: "Next.js · PHP API · MySQL",
     image: "/images/case-studies/prevozkop-desktop.png",
-    accent: "#8b7cff",
+    accent: "#ffc46b",
   },
   {
     slug: "santos-santorini-web-shop-admin-platforma",
@@ -69,7 +69,7 @@ const PROJECTS: ProjectRow[] = [
     outcome: "Javni sajt, online zakazivanje, klijentski nalog, admin kalendar i notifikacije.",
     stack: "Next.js · TypeScript · PHP · PWA",
     image: "/images/case-studies/doctorbarber.png",
-    accent: "#6be1ff",
+    accent: "#ff7847",
   },
 ];
 
