@@ -927,7 +927,7 @@ export function HomeV4() {
             <span className={styles.heroSheen} aria-hidden="true" />
             <p className={styles.heroBadge}>
               <span className={styles.heroBadgeDot} />
-              Studio za web, aplikacije i AI — Niš, Srbija
+              Web · Aplikacije · AI — Niš
             </p>
             <h1 className={styles.heroTitle}>
               <span className={styles.heroLine}>NIKO NE PAMTI</span>
@@ -937,9 +937,8 @@ export function HomeV4() {
               </span>
             </h1>
             <p className={styles.heroSub}>
-              Mi gradimo one koji se pamte: ručno, bez šablona, sa sistemima koji
-              rade posao umesto vas. Predlog za 48 sati — ako vas ne oduševi,
-              ništa ne dugujete.
+              Ručno kodirani sajtovi i AI sistemi koji pretvaraju posetioce u
+              klijente.
             </p>
             <div className={styles.heroCtas}>
               <a className={styles.btnPrimary} href="/contact-us" data-cursor="on" data-magnetic>

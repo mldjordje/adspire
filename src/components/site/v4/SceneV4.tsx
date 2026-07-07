@@ -23,6 +23,10 @@ type ShapeDef = {
   /** index into the generated shape-target list */
   gen: number;
   camZ: number;
+  /** camera orbit angle (rad) around the sculpture — scroll swings the view */
+  camA: number;
+  /** camera height on the orbit — crane up/down between sections */
+  camY: number;
   x: number;
   /** how much continuous rotation this shape gets (flat shapes face camera) */
   rot: number;
@@ -39,14 +43,14 @@ type ShapeDef = {
 
 // gen: 0 sphere · 1 torus knot · 2 galaxy · 3 crystal · 4 neural · 5 wave · 6 "A"
 const SHAPES: ShapeDef[] = [
-  { section: "hero", gen: 0, camZ: 8.6, x: 0.0, rot: 1.0, tilt: 0, alpha: 0.7, wave: 0, color: [1.0, 0.47, 0.28], color2: [1.0, 0.77, 0.42] },
-  { section: "manifesto", gen: 1, camZ: 8.4, x: 0.0, rot: 0.55, tilt: 0.15, alpha: 0.6, wave: 0, color: [1.0, 0.8, 0.5], color2: [1.0, 0.55, 0.3] },
-  { section: "projects", gen: 2, camZ: 8.2, x: 2.4, rot: 0.6, tilt: 0.5, alpha: 0.3, wave: 0, color: [1.0, 0.42, 0.56], color2: [1.0, 0.7, 0.35] },
-  { section: "services", gen: 3, camZ: 8.4, x: -2.8, rot: 0.35, tilt: 0, alpha: 0.22, wave: 0, color: [1.0, 0.5, 0.25], color2: [1.0, 0.42, 0.5] },
-  { section: "aiDemo", gen: 4, camZ: 8.4, x: 1.8, rot: 0.8, tilt: 0, alpha: 0.6, wave: 0, color: [1.0, 0.75, 0.4], color2: [0.35, 0.95, 0.65] },
-  { section: "process", gen: 5, camZ: 7.6, x: 0.0, rot: 0.04, tilt: 0.62, alpha: 0.75, wave: 1, color: [1.0, 0.55, 0.3], color2: [1.0, 0.8, 0.45] },
-  { section: "metrics", gen: 5, camZ: 8.2, x: 0.0, rot: 0.04, tilt: 0.55, alpha: 0.32, wave: 1, color: [1.0, 0.78, 0.42], color2: [1.0, 0.55, 0.3] },
-  { section: "cta", gen: 6, camZ: 7.0, x: 0.0, rot: 0.2, tilt: 0, alpha: 0.8, wave: 0, color: [1.0, 0.33, 0.3], color2: [1.0, 0.6, 0.25] },
+  { section: "hero", gen: 0, camZ: 8.6, camA: 0.0, camY: 0.0, x: 0.0, rot: 1.0, tilt: 0, alpha: 0.7, wave: 0, color: [1.0, 0.47, 0.28], color2: [1.0, 0.77, 0.42] },
+  { section: "manifesto", gen: 1, camZ: 8.4, camA: 0.55, camY: 0.5, x: 0.0, rot: 0.55, tilt: 0.15, alpha: 0.6, wave: 0, color: [1.0, 0.8, 0.5], color2: [1.0, 0.55, 0.3] },
+  { section: "projects", gen: 2, camZ: 8.2, camA: -0.5, camY: -0.35, x: 2.4, rot: 0.6, tilt: 0.5, alpha: 0.3, wave: 0, color: [1.0, 0.42, 0.56], color2: [1.0, 0.7, 0.35] },
+  { section: "services", gen: 3, camZ: 8.4, camA: 0.6, camY: 0.4, x: -2.8, rot: 0.35, tilt: 0, alpha: 0.22, wave: 0, color: [1.0, 0.5, 0.25], color2: [1.0, 0.42, 0.5] },
+  { section: "aiDemo", gen: 4, camZ: 8.4, camA: -0.55, camY: -0.3, x: 1.8, rot: 0.8, tilt: 0, alpha: 0.6, wave: 0, color: [1.0, 0.75, 0.4], color2: [0.35, 0.95, 0.65] },
+  { section: "process", gen: 5, camZ: 7.6, camA: 0.25, camY: 0.9, x: 0.0, rot: 0.04, tilt: 0.62, alpha: 0.55, wave: 1, color: [1.0, 0.55, 0.3], color2: [1.0, 0.8, 0.45] },
+  { section: "metrics", gen: 5, camZ: 8.2, camA: -0.3, camY: 0.45, x: 0.0, rot: 0.04, tilt: 0.55, alpha: 0.32, wave: 1, color: [1.0, 0.78, 0.42], color2: [1.0, 0.55, 0.3] },
+  { section: "cta", gen: 6, camZ: 7.0, camA: 0.0, camY: 0.0, x: 0.0, rot: 0.2, tilt: 0, alpha: 0.8, wave: 0, color: [1.0, 0.33, 0.3], color2: [1.0, 0.6, 0.25] },
 ];
 
 /** payload of the `v4:morph` event — the services index can take the cloud
@@ -200,6 +204,9 @@ function genCrystal(n: number): Float32Array {
   return out;
 }
 
+/** node positions cached so the constellation-line layer can connect them */
+let NEURAL_NODES: number[][] = [];
+
 function genNeural(n: number): Float32Array {
   const out = new Float32Array(n * 3);
   const rnd = mulberry32(505);
@@ -215,6 +222,7 @@ function genNeural(n: number): Float32Array {
       Math.cos(ph) * r,
     ]);
   }
+  NEURAL_NODES = nodes;
   const nCluster = Math.floor(n * 0.45);
   for (let i = 0; i < nCluster; i++) {
     const nd = nodes[Math.floor(rnd() * NODES)];
@@ -351,6 +359,8 @@ const CLOUD_VERT = /* glsl */ `
   uniform float uOverride;
   uniform float uIntro;
   uniform float uAgitation;
+  uniform float uWarp;
+  uniform float uAttract;
   uniform float uWaveA;
   uniform float uWaveB;
   uniform float uWaveC;
@@ -360,6 +370,7 @@ const CLOUD_VERT = /* glsl */ `
   varying float vSeed;
   varying float vGlow;
   varying float vDepth;
+  varying float vSize;
 
   ${SNOISE}
 
@@ -393,8 +404,17 @@ const CLOUD_VERT = /* glsl */ `
     float pI = dI * dI * (3.0 - 2.0 * dI);
     pos = mix(aScatter * (0.25 + fract(aSeed * 7.13) * 0.4), pos, pI);
 
-    // living ocean undulation, blended in/out through the morph
-    float waveW = mix(mix(uWaveA, uWaveB, pm), uWaveC, pO);
+    // vortex morph: mid-flight the whole cloud corkscrews around its axis —
+    // shapes tear apart in a spiral galaxy motion instead of drifting
+    float midE = pm * (1.0 - pm) * 4.0 + pO * (1.0 - pO) * 4.0 + pI * (1.0 - pI) * 4.0;
+    float vAng = midE * (0.55 + fract(aSeed * 2.39) * 0.75);
+    float vc = cos(vAng);
+    float vs = sin(vAng);
+    pos.xz = mat2(vc, -vs, vs, vc) * pos.xz;
+
+    // living ocean undulation, blended in/out through the morph;
+    // fast scrolling whips the surface into a storm
+    float waveW = mix(mix(uWaveA, uWaveB, pm), uWaveC, pO) * (1.0 + uWarp * 0.9);
     pos.y += waveW * (
       sin(pos.x * 1.4 + uTime * 1.1) * 0.28 +
       sin(pos.z * 2.1 + uTime * 0.8) * 0.18 +
@@ -412,12 +432,13 @@ const CLOUD_VERT = /* glsl */ `
     pos.y += cos(uTime * 0.9 + aSeed * 4.71) * 0.016;
 
     // cursor repulsion in world space — particles part around the pointer
-    // and ignite; the whole background answers the visitor's hand
+    // and ignite; press-and-hold flips the force: the swarm gathers to the
+    // hand, and letting go releases the shockwave burst
     vec4 wp = modelMatrix * vec4(pos, 1.0);
     vec2 toP = wp.xy - uPointer.xy;
     float pd = length(toP);
-    float rep = smoothstep(1.7, 0.0, pd);
-    wp.xy += normalize(toP + vec2(0.0001)) * rep * rep * 0.6;
+    float rep = smoothstep(1.7 + uAttract * 1.4, 0.0, pd);
+    wp.xy += normalize(toP + vec2(0.0001)) * rep * rep * (0.6 - uAttract * 1.6);
 
     // tap/click shockwave — an igniting ring races through the cloud
     float shock = 0.0;
@@ -431,9 +452,22 @@ const CLOUD_VERT = /* glsl */ `
       wp.xy += normalize(toS + vec2(0.0001)) * shock * 0.85;
     }
 
-    vGlow = puff + rep * 0.7 + shock * 1.3;
+    // hyperspace warp — fast scroll smears the cloud toward the lens,
+    // each particle by its own depth so the volume stretches, not slides
+    wp.z += uWarp * (0.35 + fract(aSeed * 3.71)) * 1.7;
+
+    // cinematic key-light band slowly panning across the sculpture —
+    // particles it crosses catch fire for a beat (world space, so the
+    // sweep stays level while the shape itself keeps turning)
+    float sweepX = mod(uTime * 0.55, 9.0) - 4.5;
+    float sweep = exp(-pow((wp.x - sweepX) * 1.1, 2.0));
+
+    vGlow = puff + rep * 0.7 + shock * 1.3 + sweep * 0.55
+      + rep * uAttract * 0.9
+      + uWarp * (0.25 + fract(aSeed * 3.71) * 0.5);
     vec4 mv = viewMatrix * wp;
     vDepth = -mv.z;
+    vSize = aSize;
     float twinkle = 0.82 + 0.28 * sin(uTime * 1.6 + aSeed * 7.0);
     gl_PointSize = aSize * twinkle * uScale / -mv.z;
     gl_Position = projectionMatrix * mv;
@@ -444,24 +478,35 @@ const CLOUD_FRAG = /* glsl */ `
   uniform vec3 uColor;
   uniform vec3 uColorB;
   uniform float uOpacity;
+  uniform float uTime;
   varying float vSeed;
   varying float vGlow;
   varying float vDepth;
+  varying float vSize;
   void main() {
     float d = distance(gl_PointCoord, vec2(0.5));
     if (d > 0.5) discard;
     // soft gaussian-ish falloff with a hot core
     float glow = exp(-d * d * 14.0);
     float core = smoothstep(0.18, 0.0, d);
-    // two-tone palette — each particle sits somewhere between the pair
-    vec3 base = mix(uColor, uColorB, fract(vSeed * 0.618));
+    // the few big hero particles get 4-point lens spikes — camera sparkle
+    float spikes = (pow(max(0.0, 1.0 - abs(gl_PointCoord.x - 0.5) * 2.0), 12.0)
+      + pow(max(0.0, 1.0 - abs(gl_PointCoord.y - 0.5) * 2.0), 12.0))
+      * step(2.2, vSize);
+    glow += spikes * 0.6;
+    // two-tone palette — each particle drifts slowly between the pair,
+    // so the cloud shimmers instead of sitting in a frozen gradient
+    vec3 base = mix(uColor, uColorB,
+      fract(vSeed * 0.618 + sin(uTime * 0.25 + vSeed * 6.0) * 0.07));
     vec3 col = base + vec3(0.3, 0.24, 0.16) * core + base * 0.2 * sin(vSeed);
     // particles in flight (or near the cursor) ignite — hot ember, not haze
     col += vec3(0.75, 0.5, 0.28) * vGlow * 0.55;
     // fake depth-of-field: particles swirling right up to the lens dissolve
     // instead of turning into hard discs
     float nearFade = smoothstep(1.0, 2.6, vDepth);
-    gl_FragColor = vec4(col, glow * uOpacity * (1.0 + vGlow * 0.35) * nearFade);
+    // atmospheric haze — the far side of the sculpture recedes into the void
+    float farFade = 1.0 - smoothstep(10.5, 15.0, vDepth) * 0.5;
+    gl_FragColor = vec4(col, glow * uOpacity * (1.0 + vGlow * 0.35) * nearFade * farFade);
   }
 `;
 
@@ -602,6 +647,8 @@ export function SceneV4() {
         uOverride: { value: 0 },
         uIntro: { value: 0 },
         uAgitation: { value: 0 },
+        uWarp: { value: 0 },
+        uAttract: { value: 0 },
         uShockPos: { value: new THREE.Vector3(0, 0, 0) },
         uShockT: { value: -1 },
         uWaveA: { value: SHAPES[0].wave },
@@ -621,6 +668,167 @@ export function SceneV4() {
       // real positions live in the shader — never let three cull on stale bounds
       cloud.frustumCulled = false;
       scene.add(cloud);
+
+      // ── Neural constellation — synapse lines between the AI shape's nodes,
+      // energy pulses racing along them; fades in only while the neural shape
+      // holds the stage ───────────────────────────────────────────────────
+      const nlRnd = mulberry32(2468);
+      const nlPairs: number[][] = [];
+      let nlGuard = 0;
+      while (nlPairs.length < 44 && nlGuard++ < 500) {
+        const i = Math.floor(nlRnd() * NEURAL_NODES.length);
+        const j = Math.floor(nlRnd() * NEURAL_NODES.length);
+        if (i === j) continue;
+        const a = NEURAL_NODES[i];
+        const b = NEURAL_NODES[j];
+        const dd = Math.hypot(a[0] - b[0], a[1] - b[1], a[2] - b[2]);
+        if (dd < 2.3) nlPairs.push([i, j]);
+      }
+      const nlPos = new Float32Array(nlPairs.length * 2 * 3);
+      const nlT = new Float32Array(nlPairs.length * 2);
+      const nlSeed = new Float32Array(nlPairs.length * 2);
+      for (let k = 0; k < nlPairs.length; k++) {
+        const sd = nlRnd();
+        for (let v = 0; v < 2; v++) {
+          const nd = NEURAL_NODES[nlPairs[k][v]];
+          // NEURAL_NODES are raw gen coords — apply the same shapeScale
+          nlPos[(k * 2 + v) * 3] = nd[0] * shapeScale;
+          nlPos[(k * 2 + v) * 3 + 1] = nd[1] * shapeScale;
+          nlPos[(k * 2 + v) * 3 + 2] = nd[2] * shapeScale;
+          nlT[k * 2 + v] = v;
+          nlSeed[k * 2 + v] = sd;
+        }
+      }
+      const neuralGeo = new THREE.BufferGeometry();
+      neuralGeo.setAttribute("position", new THREE.BufferAttribute(nlPos, 3));
+      neuralGeo.setAttribute("aT", new THREE.BufferAttribute(nlT, 1));
+      neuralGeo.setAttribute("aSeed", new THREE.BufferAttribute(nlSeed, 1));
+      const neuralMat = new THREE.ShaderMaterial({
+        uniforms: {
+          uColor: { value: new THREE.Color(0.5, 0.95, 0.7) },
+          uOpacity: { value: 0 },
+          uTime: { value: 0 },
+        },
+        transparent: true,
+        depthWrite: false,
+        blending: THREE.AdditiveBlending,
+        vertexShader: /* glsl */ `
+          attribute float aT;
+          attribute float aSeed;
+          varying float vT;
+          varying float vSeed;
+          void main() {
+            vT = aT;
+            vSeed = aSeed;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+          }
+        `,
+        fragmentShader: /* glsl */ `
+          uniform vec3 uColor;
+          uniform float uOpacity;
+          uniform float uTime;
+          varying float vT;
+          varying float vSeed;
+          void main() {
+            // bright pulse racing node-to-node; each synapse on its own clock
+            float pulse = pow(0.5 + 0.5 * sin(vT * 9.4 - uTime * 2.6 + vSeed * 40.0), 4.0);
+            gl_FragColor = vec4(uColor + pulse * 0.5, (0.16 + pulse * 0.84) * uOpacity);
+          }
+        `,
+      });
+      const neuralLines = new THREE.LineSegments(neuralGeo, neuralMat);
+      neuralLines.frustumCulled = false;
+      scene.add(neuralLines);
+
+      // ── Fireflies — a handful of bright motes on elliptical orbits around
+      // the sculpture, each dragging a fading light-trail. Constant life even
+      // when the visitor stops scrolling ───────────────────────────────────
+      const FLY_N = isMobile ? 4 : 7;
+      const TRAIL = 10;
+      const flyRnd = mulberry32(6161);
+      const flyDefs = Array.from({ length: FLY_N }, () => ({
+        rx: 2.7 + flyRnd() * 1.7,
+        ry: 1.1 + flyRnd() * 1.2,
+        sp: 0.14 + flyRnd() * 0.17,
+        ph: flyRnd() * Math.PI * 2,
+        zw: 1.1 + flyRnd() * 0.9,
+      }));
+      const flyPoint = (f: (typeof flyDefs)[number], tt: number, out: number[]) => {
+        out[0] = Math.cos(tt * f.sp + f.ph) * f.rx;
+        out[1] = Math.sin(tt * f.sp * 0.83 + f.ph) * f.ry;
+        out[2] = Math.sin(tt * f.sp * 1.31 + f.ph * 2.0) * f.zw;
+      };
+      // trail: (TRAIL-1) segments per fly, rebuilt on CPU each frame (tiny)
+      const trailGeo = new THREE.BufferGeometry();
+      const trailPos = new THREE.BufferAttribute(new Float32Array(FLY_N * (TRAIL - 1) * 2 * 3), 3);
+      trailPos.setUsage(THREE.DynamicDrawUsage);
+      trailGeo.setAttribute("position", trailPos);
+      const trailFade = new Float32Array(FLY_N * (TRAIL - 1) * 2);
+      for (let f = 0; f < FLY_N; f++) {
+        for (let k = 0; k < TRAIL - 1; k++) {
+          trailFade[(f * (TRAIL - 1) + k) * 2] = 1 - k / TRAIL;
+          trailFade[(f * (TRAIL - 1) + k) * 2 + 1] = 1 - (k + 1) / TRAIL;
+        }
+      }
+      trailGeo.setAttribute("aFade", new THREE.BufferAttribute(trailFade, 1));
+      const trailMat = new THREE.ShaderMaterial({
+        uniforms: { uColor: { value: new THREE.Color(1, 0.8, 0.5) } },
+        transparent: true,
+        depthWrite: false,
+        blending: THREE.AdditiveBlending,
+        vertexShader: /* glsl */ `
+          attribute float aFade;
+          varying float vF;
+          void main() {
+            vF = aFade;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+          }
+        `,
+        fragmentShader: /* glsl */ `
+          uniform vec3 uColor;
+          varying float vF;
+          void main() {
+            gl_FragColor = vec4(uColor, vF * vF * 0.55);
+          }
+        `,
+      });
+      const flyTrails = new THREE.LineSegments(trailGeo, trailMat);
+      flyTrails.frustumCulled = false;
+      scene.add(flyTrails);
+      // heads — hot dots the bloom pass catches
+      const headGeo = new THREE.BufferGeometry();
+      const headPos = new THREE.BufferAttribute(new Float32Array(FLY_N * 3), 3);
+      headPos.setUsage(THREE.DynamicDrawUsage);
+      headGeo.setAttribute("position", headPos);
+      const headMat = new THREE.ShaderMaterial({
+        uniforms: {
+          uColor: { value: new THREE.Color(1, 0.85, 0.6) },
+          uScale: { value: (isMobile ? 46 : 40) * basePR },
+        },
+        transparent: true,
+        depthWrite: false,
+        blending: THREE.AdditiveBlending,
+        vertexShader: /* glsl */ `
+          uniform float uScale;
+          void main() {
+            vec4 mv = modelViewMatrix * vec4(position, 1.0);
+            gl_PointSize = 2.6 * uScale / -mv.z;
+            gl_Position = projectionMatrix * mv;
+          }
+        `,
+        fragmentShader: /* glsl */ `
+          uniform vec3 uColor;
+          void main() {
+            float d = distance(gl_PointCoord, vec2(0.5));
+            if (d > 0.5) discard;
+            gl_FragColor = vec4(uColor + vec3(0.4), exp(-d * d * 18.0));
+          }
+        `,
+      });
+      const flyHeads = new THREE.Points(headGeo, headMat);
+      flyHeads.frustumCulled = false;
+      scene.add(flyHeads);
+      const flyTmp = [0, 0, 0];
 
       // ── Obsidian shards — faceted dark glass with fresnel rims ────────
       const shardUniforms = {
@@ -693,6 +901,55 @@ export function SceneV4() {
         return { mesh, mat, baseY: def.pos[1], baseX: def.pos[0], phase: i * 2.1 };
       });
 
+      // ── Aurora ribbons — two vast silk bands undulating far behind the
+      // cloud; the volumetric depth cue that makes the void feel expensive ──
+      const RIB_FRAG = /* glsl */ `
+        uniform vec3 uColorA;
+        uniform vec3 uColorB;
+        uniform float uOpacity;
+        uniform float uTime;
+        uniform float uPhase;
+        varying vec2 vUv;
+        void main() {
+          // slow traveling wave bends the band; a second harmonic keeps it organic
+          float flow = sin(vUv.x * 6.283 + uTime * 0.14 + uPhase
+            + sin(vUv.x * 13.9 - uTime * 0.21 + uPhase) * 0.55);
+          float band = exp(-pow((vUv.y - 0.5 - flow * 0.16) * 3.4, 2.0));
+          // soft second ribbon ghosting above the first
+          float band2 = exp(-pow((vUv.y - 0.62 - flow * 0.22) * 5.0, 2.0)) * 0.5;
+          float edge = smoothstep(0.0, 0.16, vUv.x) * smoothstep(1.0, 0.84, vUv.x);
+          vec3 col = mix(uColorA, uColorB, clamp(vUv.x + flow * 0.25, 0.0, 1.0));
+          gl_FragColor = vec4(col, (band + band2) * edge * uOpacity);
+        }
+      `;
+      const ribbonGeo = new THREE.PlaneGeometry(30, 8);
+      const ribbonDefs = [
+        { y: 2.6, z: -9.5, rz: 0.12, phase: 0, op: 0.085 },
+        { y: -3.4, z: -12.5, rz: -0.09, phase: 2.4, op: 0.065 },
+      ];
+      const ribbons = ribbonDefs.map((def) => {
+        const mat = new THREE.ShaderMaterial({
+          uniforms: {
+            uColorA: { value: new THREE.Color(0xff7847) },
+            uColorB: { value: new THREE.Color(0xffc46b) },
+            uOpacity: { value: def.op },
+            uTime: { value: 0 },
+            uPhase: { value: def.phase },
+          },
+          transparent: true,
+          depthWrite: false,
+          blending: THREE.AdditiveBlending,
+          vertexShader: NEB_VERT,
+          fragmentShader: RIB_FRAG,
+        });
+        const mesh = new THREE.Mesh(ribbonGeo, mat);
+        mesh.position.set(0, def.y, def.z);
+        mesh.rotation.z = def.rz;
+        mesh.renderOrder = -1;
+        scene.add(mesh);
+        return { mesh, mat, baseY: def.y };
+      });
+
       // ── Ambient starfield backdrop ────────────────────────────────────
       const STARS = isMobile ? 350 : 900;
       const starRnd = mulberry32(7777);
@@ -736,6 +993,62 @@ export function SceneV4() {
       });
       const stars = new THREE.Points(starGeo, starMat);
       scene.add(stars);
+
+      // ── Hyperspace streaks — invisible at rest; fast scrolling stretches
+      // hidden stars into light-lines racing past the camera. Scroll speed
+      // becomes literal speed ──────────────────────────────────────────────
+      const WARP_N = isMobile ? 80 : 220;
+      const wRnd = mulberry32(8811);
+      const warpPos = new Float32Array(WARP_N * 2 * 3);
+      const warpEnd = new Float32Array(WARP_N * 2);
+      const warpSeed = new Float32Array(WARP_N * 2);
+      for (let i = 0; i < WARP_N; i++) {
+        const x = (wRnd() - 0.5) * 26;
+        const y = (wRnd() - 0.5) * 16;
+        const z = -13 + wRnd() * 15;
+        const sd = wRnd();
+        for (let v = 0; v < 2; v++) {
+          warpPos[(i * 2 + v) * 3] = x;
+          warpPos[(i * 2 + v) * 3 + 1] = y;
+          warpPos[(i * 2 + v) * 3 + 2] = z;
+          warpEnd[i * 2 + v] = v;
+          warpSeed[i * 2 + v] = sd;
+        }
+      }
+      const warpGeo = new THREE.BufferGeometry();
+      warpGeo.setAttribute("position", new THREE.BufferAttribute(warpPos, 3));
+      warpGeo.setAttribute("aEnd", new THREE.BufferAttribute(warpEnd, 1));
+      warpGeo.setAttribute("aSeed", new THREE.BufferAttribute(warpSeed, 1));
+      const warpMat = new THREE.ShaderMaterial({
+        uniforms: { uWarp: { value: 0 }, uColor: { value: new THREE.Color(1, 0.85, 0.62) } },
+        transparent: true,
+        depthWrite: false,
+        blending: THREE.AdditiveBlending,
+        vertexShader: /* glsl */ `
+          attribute float aEnd;
+          attribute float aSeed;
+          uniform float uWarp;
+          varying float vA;
+          void main() {
+            vec3 pos = position;
+            // tail vertex streaks toward the lens — perspective turns the
+            // z-stretch into radial speed-lines from the vanishing point
+            pos.z += aEnd * uWarp * (1.6 + aSeed * 4.2);
+            vA = uWarp * (0.22 + aSeed * 0.45) * (1.0 - aEnd * 0.85);
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+          }
+        `,
+        fragmentShader: /* glsl */ `
+          uniform vec3 uColor;
+          varying float vA;
+          void main() {
+            gl_FragColor = vec4(uColor, vA);
+          }
+        `,
+      });
+      const warpLines = new THREE.LineSegments(warpGeo, warpMat);
+      warpLines.frustumCulled = false;
+      scene.add(warpLines);
 
       // ── Foreground bokeh dust — big soft out-of-focus discs drifting in
       // front of the cloud; the third depth layer that sells the parallax ──
@@ -927,22 +1240,42 @@ export function SceneV4() {
       window.addEventListener("v4:tint", onTint);
 
       // touch drag steers the repulsion pocket — the finger parts the cloud
-      // exactly like the desktop cursor does
+      // exactly like the desktop cursor does. Horizontal swipe velocity also
+      // torques the sculpture: flick it and it spins like a globe
+      let spinVel = 0;
+      let lastTX: number | null = null;
+      const onTouchStart = (e: TouchEvent) => {
+        const tch = e.touches[0];
+        if (tch) lastTX = tch.clientX;
+      };
       const onTouchMove = (e: TouchEvent) => {
         const tch = e.touches[0];
         if (!tch) return;
         targetMX = (tch.clientX / window.innerWidth - 0.5) * 2;
         targetMY = (tch.clientY / window.innerHeight - 0.5) * 2;
+        if (lastTX !== null) spinVel += (tch.clientX - lastTX) * 0.00011;
+        lastTX = tch.clientX;
+      };
+      const onTouchEnd = () => {
+        lastTX = null;
       };
       const coarse = window.matchMedia("(pointer: coarse)").matches;
-      if (coarse) window.addEventListener("touchmove", onTouchMove, { passive: true });
+      if (coarse) {
+        window.addEventListener("touchstart", onTouchStart, { passive: true });
+        window.addEventListener("touchmove", onTouchMove, { passive: true });
+        window.addEventListener("touchend", onTouchEnd, { passive: true });
+      }
 
-      // tap / click anywhere → shockwave ring races through the particles
+      // press-and-hold gathers the swarm to the pointer (uAttract ramps in
+      // the shader); release fires the shockwave from that exact spot — a
+      // tap still reads as an instant burst
       let shockAt = -1;
+      let holdOn = false;
+      let holdT0 = 0;
       const shockNdc = new THREE.Vector3();
-      const onShock = (e: PointerEvent) => {
+      const fireShock = (cx: number, cy: number) => {
         shockNdc
-          .set((e.clientX / window.innerWidth - 0.5) * 2, -((e.clientY / window.innerHeight - 0.5) * 2), 0.5)
+          .set((cx / window.innerWidth - 0.5) * 2, -((cy / window.innerHeight - 0.5) * 2), 0.5)
           .unproject(camera);
         const dir = shockNdc.sub(camera.position).normalize();
         if (Math.abs(dir.z) < 0.001) return;
@@ -952,7 +1285,21 @@ export function SceneV4() {
           .addScaledVector(dir, tt);
         shockAt = (performance.now() - startTime) / 1000;
       };
-      window.addEventListener("pointerdown", onShock, { passive: true });
+      const onPress = () => {
+        holdOn = true;
+        holdT0 = performance.now();
+      };
+      const onRelease = (e: PointerEvent) => {
+        if (!holdOn) return;
+        holdOn = false;
+        fireShock(e.clientX, e.clientY);
+      };
+      const onPressCancel = () => {
+        holdOn = false;
+      };
+      window.addEventListener("pointerdown", onPress, { passive: true });
+      window.addEventListener("pointerup", onRelease, { passive: true });
+      window.addEventListener("pointercancel", onPressCancel, { passive: true });
 
       // big-bang intro arms when the preloader lifts
       let introOn = false;
@@ -978,12 +1325,21 @@ export function SceneV4() {
       let composer: { render: () => void; setSize: (w: number, h: number) => void; dispose: () => void } | null = null;
       // lens pack: subtle chromatic fringing that breathes with scroll speed
       let caOffset: { set: (x: number, y: number) => void } | null = null;
+      // live handle on bloom so morphs/shocks/warp can pulse it
+      let bloomFx: { intensity: number } | null = null;
       if (!isMobile) {
         try {
           const PP = await import("postprocessing");
           if (disposed) return;
           const c = new PP.EffectComposer(renderer, { frameBufferType: THREE.HalfFloatType });
           c.addPass(new PP.RenderPass(scene, camera));
+          // SMAA smooths shard edges and line layers — the "shot in 8K" edge
+          try {
+            const smaa = new PP.SMAAEffect({ preset: PP.SMAAPreset.HIGH });
+            c.addPass(new PP.EffectPass(camera, smaa));
+          } catch {
+            /* AA is decoration — skip if the preset API shifts */
+          }
           const bloom = new PP.BloomEffect({
             intensity: 0.9,
             luminanceThreshold: 0.42,
@@ -991,6 +1347,7 @@ export function SceneV4() {
             mipmapBlur: true,
             radius: 0.68,
           });
+          bloomFx = bloom;
           const ca = new PP.ChromaticAberrationEffect({
             offset: new THREE.Vector2(0.0006, 0.0006),
             radialModulation: true,
@@ -1025,6 +1382,7 @@ export function SceneV4() {
         composer?.setSize(window.innerWidth, window.innerHeight);
         cloudUniforms.uScale.value = (isMobile ? 46 : 40) * pr;
         dustUniforms.uScale.value = (isMobile ? 46 : 40) * pr;
+        headMat.uniforms.uScale.value = (isMobile ? 46 : 40) * pr;
         starMat.uniforms.uPR.value = pr;
       };
 
@@ -1062,6 +1420,11 @@ export function SceneV4() {
       let smoothedProgress = 0;
       let lastScrollY = window.scrollY;
       let smoothedVel = 0;
+      let warp = 0;
+      let prevAng = SHAPES[0].camA;
+      let bank = 0;
+      let attract = 0;
+      let spinOffset = 0;
       let stops = measureStops();
       let measuredHeight = document.documentElement.scrollHeight;
       let currentSeg = -1;
@@ -1116,10 +1479,17 @@ export function SceneV4() {
         cloudUniforms.uAgitation.value = Math.min(smoothedVel * 0.004, 0.45);
 
         // rotation — round shapes spin, flat shapes face the camera;
-        // disc/surface shapes get a fixed downward-view tilt instead
+        // disc/surface shapes get a fixed downward-view tilt instead.
+        // Scroll progress scrubs extra rotation on top of the idle spin, so
+        // the visitor's hand literally turns the sculpture
         const rot = a.rot + (b.rot - a.rot) * m;
         const tilt = a.tilt + (b.tilt - a.tilt) * m;
-        cloud.rotation.y = t * 0.22 * rot;
+        // swipe torque: horizontal flicks keep spinning the sculpture with
+        // momentum, decaying like a struck globe
+        spinVel = Math.max(-0.05, Math.min(0.05, spinVel));
+        spinOffset += spinVel;
+        spinVel *= 0.94;
+        cloud.rotation.y = t * 0.22 * rot + p * 2.4 * rot + spinOffset;
         cloud.rotation.x = tilt + Math.sin(t * 0.14) * 0.08 * rot;
 
         // narrow viewports: side offsets would push the cloud off screen
@@ -1128,14 +1498,41 @@ export function SceneV4() {
 
         mouseX += (targetMX - mouseX) * 0.05;
         mouseY += (targetMY - mouseY) * 0.05;
-        // slow "breathing" dolly keeps the frame alive even when idle
-        const camZ = a.camZ + (b.camZ - a.camZ) * m + Math.sin(t * 0.35) * 0.18;
-        camera.position.z += (camZ - camera.position.z) * 0.08;
-        camera.position.x = mouseX * 0.5;
-        camera.position.y = -mouseY * 0.35;
+
+        // scroll velocity → hyperspace warp. Dead zone keeps a slow reading
+        // scroll perfectly calm; a real flick punches the drive
+        const warpTarget = Math.min(Math.max((smoothedVel - 22) / 80, 0), 1);
+        warp += (warpTarget - warp) * (warpTarget > warp ? 0.09 : 0.05);
+        cloudUniforms.uWarp.value = warp;
+        warpMat.uniforms.uWarp.value = warp;
+
+        // press-and-hold gathers the swarm; ramp eases so it feels magnetic
+        const attractOn = holdOn && performance.now() - holdT0 > 260;
+        attract += ((attractOn ? 1 : 0) - attract) * 0.09;
+        cloudUniforms.uAttract.value = attract;
+
+        // shared event energies: mid-morph beat + decaying shock impulse
+        const morphE = rawMix * (1 - rawMix) * 4;
+        const shockAge = shockAt >= 0 ? t - shockAt : 99;
+        const shockE = shockAge < 3 ? Math.exp(-shockAge * 1.7) : 0;
+
+        // camera rides an orbit arc between sections — a crane move, not an
+        // elevator. Mid-morph the lens dollies in while the FOV widens (a
+        // gentle vertigo beat), shocks punch it forward, warp stretches it
+        const orbitR = a.camZ + (b.camZ - a.camZ) * m + Math.sin(t * 0.35) * 0.18 - morphE * 0.5;
+        const ang = a.camA + (b.camA - a.camA) * m;
+        const craneY = a.camY + (b.camY - a.camY) * m;
+        camera.position.x += (Math.sin(ang) * orbitR * 0.62 + mouseX * 0.5 - camera.position.x) * 0.06;
+        camera.position.y += (craneY - mouseY * 0.35 - camera.position.y) * 0.06;
+        camera.position.z += (Math.cos(ang * 0.72) * orbitR - camera.position.z) * 0.06;
+        camera.position.z -= shockAge < 2 ? Math.exp(-shockAge * 3.2) * 0.3 : 0;
+        camera.fov += (42 + warp * 9 + morphE * 4 - camera.fov) * 0.1;
+        camera.updateProjectionMatrix();
         camera.lookAt(cloud.position.x * 0.4, 0, 0);
-        // barely-there roll — handheld cinema, not a static tripod
-        camera.rotation.z = Math.sin(t * 0.1) * 0.012;
+        // banking roll leans into the orbit swing — handheld cinema, not a tripod
+        bank += (Math.max(-0.055, Math.min(0.055, (ang - prevAng) * 30)) - bank) * 0.05;
+        prevAng = ang;
+        camera.rotation.z = Math.sin(t * 0.1) * 0.012 + bank;
 
         // project the cursor onto the z=0 plane the cloud lives around,
         // smoothed so the repulsion pocket glides after the hand
@@ -1201,6 +1598,16 @@ export function SceneV4() {
           nb.mesh.position.x = nb.baseX + Math.cos(t * 0.04 + nb.phase) * 0.7;
           if (i === 0) nb.mat.uniforms.uColor.value.lerp(tmpColor, 0.005);
         }
+
+        // aurora ribbons breathe, drift with scroll, and slowly re-dye
+        // themselves in the section palette
+        for (let i = 0; i < ribbons.length; i++) {
+          const rb = ribbons[i];
+          rb.mat.uniforms.uTime.value = t;
+          rb.mesh.position.y = rb.baseY + Math.sin(t * 0.045 + i * 2.2) * 0.6 + p * 2.0;
+          rb.mat.uniforms.uColorA.value.lerp(i === 0 ? tmpColor : tmpColorB, 0.01);
+          rb.mat.uniforms.uColorB.value.lerp(tmpColorB, 0.008);
+        }
         shardUniforms.uTime.value = t;
 
         // shards drift, tumble, and slide slowly against the scroll
@@ -1211,6 +1618,41 @@ export function SceneV4() {
           d.mesh.position.y = d.baseY + Math.sin(t * d.orbit + i * 1.7) * 0.5 + p * 2.2;
         }
         shardUniforms.uColor.value.lerp(tmpColor, 0.04);
+
+        // neural constellation lights only while the AI shape holds the
+        // stage (scroll or hover-override); squared so it settles in late,
+        // after the nodes have re-knit
+        let neuralW = 0;
+        if (a.gen === 4) neuralW += 1 - m;
+        if (b.gen === 4) neuralW += m;
+        if (overrideGen === 4) neuralW = Math.max(neuralW, overrideMix);
+        else neuralW *= 1 - overrideMix;
+        neuralMat.uniforms.uOpacity.value +=
+          (neuralW * neuralW * 0.6 - neuralMat.uniforms.uOpacity.value) * 0.06;
+        neuralMat.uniforms.uTime.value = t;
+        neuralLines.rotation.copy(cloud.rotation);
+        neuralLines.position.copy(cloud.position);
+        neuralMat.uniforms.uColor.value.lerp(tmpColorB, 0.04);
+
+        // fireflies — heads plus analytic trails (positions sampled back in
+        // time along the same orbit, so no history buffer is needed)
+        for (let f = 0; f < FLY_N; f++) {
+          for (let k = 0; k < TRAIL - 1; k++) {
+            const vbase = (f * (TRAIL - 1) + k) * 2;
+            flyPoint(flyDefs[f], t - k * 0.09, flyTmp);
+            trailPos.setXYZ(vbase, flyTmp[0], flyTmp[1], flyTmp[2]);
+            flyPoint(flyDefs[f], t - (k + 1) * 0.09, flyTmp);
+            trailPos.setXYZ(vbase + 1, flyTmp[0], flyTmp[1], flyTmp[2]);
+          }
+          flyPoint(flyDefs[f], t, flyTmp);
+          headPos.setXYZ(f, flyTmp[0], flyTmp[1], flyTmp[2]);
+        }
+        trailPos.needsUpdate = true;
+        headPos.needsUpdate = true;
+        flyTrails.position.x = cloud.position.x;
+        flyHeads.position.x = cloud.position.x;
+        trailMat.uniforms.uColor.value.lerp(tmpColorB, 0.03);
+        headMat.uniforms.uColor.value.lerp(tmpColorB, 0.03);
 
         // bokeh dust: counter-parallax against the camera = depth; palette
         // follows the section's second tone so it never fights the cloud
@@ -1248,10 +1690,16 @@ export function SceneV4() {
           s.mat.uniforms.uAlpha.value = Math.sin(Math.PI * s.u) * 0.5;
         }
 
-        // chromatic fringing widens slightly under fast scroll — lens, not glitch
+        // chromatic fringing widens under fast scroll + warp — lens, not glitch
         if (caOffset) {
-          const caAmt = Math.min(0.0005 + smoothedVel * 0.000018, 0.0026);
+          const caAmt = Math.min(0.0005 + smoothedVel * 0.000018 + warp * 0.0011, 0.0034);
           caOffset.set(caAmt, caAmt);
+        }
+
+        // morphs, shocks and warp read as light events — bloom breathes with them
+        if (bloomFx) {
+          bloomFx.intensity +=
+            (0.9 + morphE * 0.3 + warp * 0.65 + shockE * 0.55 - bloomFx.intensity) * 0.08;
         }
 
         if (composer) composer.render();
@@ -1272,8 +1720,12 @@ export function SceneV4() {
         window.removeEventListener("pointermove", onMove);
         window.removeEventListener("v4:morph", onMorph);
         window.removeEventListener("v4:tint", onTint);
+        window.removeEventListener("touchstart", onTouchStart);
         window.removeEventListener("touchmove", onTouchMove);
-        window.removeEventListener("pointerdown", onShock);
+        window.removeEventListener("touchend", onTouchEnd);
+        window.removeEventListener("pointerdown", onPress);
+        window.removeEventListener("pointerup", onRelease);
+        window.removeEventListener("pointercancel", onPressCancel);
         window.removeEventListener("v4:ready", startIntro);
         window.clearTimeout(introFallback);
         if (isTouch) window.removeEventListener("deviceorientation", onOrient);
@@ -1289,6 +1741,16 @@ export function SceneV4() {
         shardMat.dispose();
         nebGeo.dispose();
         nebulas.forEach((n) => n.mat.dispose());
+        ribbonGeo.dispose();
+        ribbons.forEach((r) => r.mat.dispose());
+        warpGeo.dispose();
+        warpMat.dispose();
+        neuralGeo.dispose();
+        neuralMat.dispose();
+        trailGeo.dispose();
+        trailMat.dispose();
+        headGeo.dispose();
+        headMat.dispose();
         dustGeo.dispose();
         dustMat.dispose();
         streakGeo.dispose();
