@@ -1,5 +1,5 @@
 .dot {
-  color: #9d6bff;
+  color: #f2efe6;
 }
 
 .faq {
@@ -34,7 +34,7 @@
 }
 
 .index {
-  color: #9d6bff;
+  color: #f2efe6;
   font-family: var(--font-body-v4), sans-serif;
   font-size: 0.78rem;
   letter-spacing: 0.12em;
@@ -54,14 +54,14 @@
   place-items: center;
   border: 1px solid rgba(242, 241, 236, 0.25);
   border-radius: 50%;
-  color: #9d6bff;
+  color: #f2efe6;
   font-size: 1.4rem;
   transition: transform 220ms ease, border-color 220ms ease;
 }
 
 .item[open] .plus {
   transform: rotate(45deg);
-  border-color: rgba(157, 107, 255, 0.7);
+  border-color: rgba(242, 239, 230, 0.7);
 }
 
 .answer {
@@ -81,14 +81,14 @@
   width: min(1120px, calc(100vw - 40px));
   margin: 0 auto 96px;
   padding: 38px;
-  border: 1px solid rgba(157, 107, 255, 0.24);
+  border: 1px solid rgba(242, 239, 230, 0.24);
   background:
-    radial-gradient(circle at 12% 0%, rgba(157, 107, 255, 0.18), transparent 34%),
+    radial-gradient(circle at 12% 0%, rgba(242, 239, 230, 0.18), transparent 34%),
     rgba(255, 255, 255, 0.045);
 }
 
 .ctaLabel {
-  color: #9d6bff;
+  color: #f2efe6;
   font-family: var(--font-body-v4), sans-serif;
   font-size: 0.78rem;
   font-weight: 700;
@@ -109,7 +109,7 @@
   padding: 18px 24px;
   border: 1px solid rgba(242, 241, 236, 0.24);
   color: #0a0b0f;
-  background: #9d6bff;
+  background: #f2efe6;
   font-family: var(--font-body-v4), sans-serif;
   font-weight: 800;
   text-decoration: none;

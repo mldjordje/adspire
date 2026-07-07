@@ -13,6 +13,7 @@ import { CursorV4 } from "./CursorV4";
 import { AiDemoV4 } from "./AiDemoV4";
 import { TechCarouselV4 } from "./TechCarouselV4";
 import { SilkV4 } from "./SilkV4";
+import { EventHorizonV4 } from "./EventHorizonV4";
 import { MobileMenuV4 } from "./MobileMenuV4";
 import { FAQ_ITEMS } from "./faqData";
 
@@ -25,7 +26,7 @@ const PROJECTS = [
     summary: "Booking platforma, javni sajt i admin kalendar — termini, klijenti i analitika u jednom sistemu.",
     image: "/images/case-studies/drigic-mobileview.png",
     href: "/our-projects/dr-igic-web-aplikacija-za-estetske-klinike",
-    accent: "#9d6bff",
+    accent: "#f2efe6",
     meta: "2025 · Next.js · Supabase · Booking",
   },
   {
@@ -34,7 +35,7 @@ const PROJECTS = [
     summary: "SEO sajt i CRM panel — upiti sa sajta ulaze pravo u prodajni tok.",
     image: "/images/case-studies/prevozkop-desktop.png",
     href: "/our-projects/prevozkop-digitalni-prodajni-operativni-sistem",
-    accent: "#ff5c9d",
+    accent: "#b9bac9",
     meta: "2025 · Next.js · CRM · SEO",
   },
   {
@@ -43,7 +44,7 @@ const PROJECTS = [
     summary: "E-commerce i admin platforma — prodaja, lager i porudžbine iz jednog mesta.",
     image: "/images/case-studies/santos-desktop.png",
     href: "/our-projects/santos-santorini-web-shop-admin-platforma",
-    accent: "#ff5c9d",
+    accent: "#b9bac9",
     meta: "2024 · E-commerce · Admin · Lager",
   },
   {
@@ -52,7 +53,7 @@ const PROJECTS = [
     summary: "Onboarding aplikacija — prijava, audio intervju i referral u merljivom funnel-u.",
     image: "/images/case-studies/teachfromhome-desktop.png",
     href: "/our-projects/teachfromhome-onboarding-sistem-za-remote-nastavnike",
-    accent: "#c084fc",
+    accent: "#d8d6e4",
     meta: "2024 · Onboarding · Audio · Funnel",
   },
   {
@@ -61,7 +62,7 @@ const PROJECTS = [
     summary: "Booking sistem 24/7 — online termini i admin kalendar, bez ručnog dogovaranja.",
     image: "/images/case-studies/doctorbarber.png",
     href: "/our-projects/doctor-barber-online-booking-sistem",
-    accent: "#9d6bff",
+    accent: "#f2efe6",
     meta: "2024 · Booking 24/7 · PWA",
   },
 ];
@@ -82,14 +83,14 @@ const RAIL = [
 // gen = SceneV4 shape the cloud re-knits into while the row is hovered
 // (0 sphere · 1 torus knot · 2 galaxy · 3 crystal · 4 neural · 5 wave · 6 "A")
 const SERVICES = [
-  { num: "01", title: "Web sajtovi", desc: "Brz sajt koji posetioca vodi do upita.", tags: ["Next.js", "SEO"], href: "/our-services/web-prezentacije", gen: 0, glow: "#9d6bff", c1: [0.62, 0.42, 1], c2: [1, 0.45, 0.72] },
-  { num: "02", title: "Web shop", desc: "Prodaja i porudžbine u jednom toku.", tags: ["Katalog", "Plaćanje"], href: "/our-services/e-commerce-web-shop", gen: 3, glow: "#ff5c9d", c1: [1, 0.36, 0.62], c2: [0.7, 0.45, 1] },
-  { num: "03", title: "Mobilne aplikacije", desc: "Aplikacije za korisnike i timove.", tags: ["PWA", "iOS / Android"], href: "/our-services/mobilne-aplikacije", gen: 1, glow: "#c084fc", c1: [0.75, 0.52, 0.99], c2: [0.62, 0.42, 1] },
-  { num: "04", title: "CMS sistemi", desc: "Izmene sadržaja bez programera.", tags: ["Admin", "Sadržaj"], href: "/our-services/cms-sistemi", gen: 5, glow: "#818cf8", c1: [0.5, 0.55, 0.97], c2: [0.75, 0.6, 1] },
-  { num: "05", title: "AI automatizacija", desc: "Manje ručnog rada u prodaji i podršci.", tags: ["LLM", "n8n"], href: "/our-services/ai-integracije-automatizacija", gen: 4, glow: "#5cf2a6", c1: [0.35, 0.95, 0.65], c2: [0.7, 0.5, 1] },
-  { num: "06", title: "SEO & marketing", desc: "Vidljivost i merljivi rezultati.", tags: ["SEO", "Ads"], href: "/our-services/seo-digitalni-marketing", gen: 2, glow: "#f0abfc", c1: [0.94, 0.67, 0.99], c2: [1, 0.42, 0.7] },
-  { num: "07", title: "Security & GDPR", desc: "Sigurnost i zaštita podataka.", tags: ["Audit", "GDPR"], href: "/our-services/cyber-security-gdpr", gen: 3, glow: "#fb7185", c1: [0.98, 0.44, 0.52], c2: [0.7, 0.4, 1] },
-  { num: "08", title: "UI/UX dizajn", desc: "Interfejs koji jasno vodi korisnika.", tags: ["Figma", "Motion"], href: "/our-services/interaktivne-web-tehnologije", gen: 6, glow: "#ff5c9d", c1: [1, 0.36, 0.62], c2: [0.75, 0.55, 1] },
+  { num: "01", title: "Web sajtovi", desc: "Brz sajt koji posetioca vodi do upita.", tags: ["Next.js", "SEO"], href: "/our-services/web-prezentacije", gen: 0, glow: "#f2efe6", c1: [0.92, 0.91, 0.98], c2: [1, 0.96, 0.88] },
+  { num: "02", title: "Web shop", desc: "Prodaja i porudžbine u jednom toku.", tags: ["Katalog", "Plaćanje"], href: "/our-services/e-commerce-web-shop", gen: 3, glow: "#b9bac9", c1: [0.78, 0.79, 0.9], c2: [1, 0.97, 0.9] },
+  { num: "03", title: "Mobilne aplikacije", desc: "Aplikacije za korisnike i timove.", tags: ["PWA", "iOS / Android"], href: "/our-services/mobilne-aplikacije", gen: 1, glow: "#d8d6e4", c1: [0.85, 0.84, 0.92], c2: [0.72, 0.74, 0.86] },
+  { num: "04", title: "CMS sistemi", desc: "Izmene sadržaja bez programera.", tags: ["Admin", "Sadržaj"], href: "/our-services/cms-sistemi", gen: 5, glow: "#9aa0b8", c1: [0.62, 0.65, 0.75], c2: [0.85, 0.87, 0.95] },
+  { num: "05", title: "AI automatizacija", desc: "Manje ručnog rada u prodaji i podršci.", tags: ["LLM", "n8n"], href: "/our-services/ai-integracije-automatizacija", gen: 4, glow: "#5cf2a6", c1: [0.35, 0.95, 0.65], c2: [0.85, 0.9, 0.95] },
+  { num: "06", title: "SEO & marketing", desc: "Vidljivost i merljivi rezultati.", tags: ["SEO", "Ads"], href: "/our-services/seo-digitalni-marketing", gen: 2, glow: "#e8e0d8", c1: [0.92, 0.88, 0.82], c2: [0.75, 0.77, 0.9] },
+  { num: "07", title: "Security & GDPR", desc: "Sigurnost i zaštita podataka.", tags: ["Audit", "GDPR"], href: "/our-services/cyber-security-gdpr", gen: 3, glow: "#d9c9c0", c1: [0.86, 0.78, 0.74], c2: [0.7, 0.72, 0.85] },
+  { num: "08", title: "UI/UX dizajn", desc: "Interfejs koji jasno vodi korisnika.", tags: ["Figma", "Motion"], href: "/our-services/interaktivne-web-tehnologije", gen: 6, glow: "#b9bac9", c1: [0.78, 0.79, 0.9], c2: [0.95, 0.93, 0.88] },
 ];
 
 const METRICS = [
@@ -164,7 +165,7 @@ export function HomeV4() {
     // eslint-disable-next-line no-console
     console.log(
       "%cADSPIRE %c— OBSIDIAN v4\n%cRučno kodirano u Nišu. WebGL, GSAP, 24.000 čestica.\nTražiš ovakav sajt? djordje@adspire.rs",
-      "font-size:20px;font-weight:800;color:#9d6bff",
+      "font-size:20px;font-weight:800;color:#f2efe6",
       "font-size:20px;font-weight:300;color:#f2f1ec",
       "font-size:12px;color:#8a8a92",
     );
@@ -434,7 +435,7 @@ export function HomeV4() {
               if (self.isActive) {
                 window.dispatchEvent(
                   new CustomEvent("v4:tint", {
-                    detail: { color: hexTo01(PROJECTS[i].accent), color2: [0.72, 0.55, 1] },
+                    detail: { color: hexTo01(PROJECTS[i].accent), color2: [1, 0.96, 0.88] },
                   }),
                 );
               }
@@ -1199,16 +1200,7 @@ export function HomeV4() {
 
         {/* ── 11 · CTA ── */}
         <section className={styles.cta}>
-          <video
-            className={styles.ctaVideo}
-            src="/videos/blackhole.mp4"
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="none"
-            aria-hidden="true"
-          />
+          <EventHorizonV4 />
           <div className={styles.ctaVeil} aria-hidden="true" />
           <span className={styles.sectionEyebrow}>Besplatan poziv · 30 min</span>
           <h2 className={styles.ctaTitle}>

@@ -6,8 +6,8 @@
   --ink: #f2f1ec;
   --ink-dim: rgba(242, 241, 236, 0.86);
   --ink-faint: rgba(242, 241, 236, 0.68);
-  --accent: #9d6bff;
-  --accent-2: #ff5c9d;
+  --accent: #f2efe6;
+  --accent-2: #b9bac9;
   --line: rgba(242, 241, 236, 0.12);
   /* lifts copy off the live particle field behind it */
   --txt-shadow: 0 1px 2px rgba(4, 4, 6, 0.6), 0 2px 18px rgba(4, 4, 6, 0.8);
@@ -122,7 +122,7 @@
   left: -22px;
   width: 44px;
   height: 44px;
-  border: 1px solid rgba(157, 107, 255, 0.5);
+  border: 1px solid rgba(242, 239, 230, 0.5);
   border-radius: 50%;
   z-index: 99;
   pointer-events: none;
@@ -389,7 +389,7 @@
 }
 
 .railItemActive .railNum {
-  text-shadow: 0 0 12px rgba(157, 107, 255, 0.7);
+  text-shadow: 0 0 12px rgba(242, 239, 230, 0.7);
 }
 
 @media (max-width: 1023px) {
@@ -624,13 +624,13 @@
   border-radius: 999px;
   padding: 18px 38px;
   text-decoration: none;
-  box-shadow: 0 0 34px rgba(157, 107, 255, 0.35);
+  box-shadow: 0 0 34px rgba(242, 239, 230, 0.35);
   transition: box-shadow 0.3s, background 0.3s;
 }
 
 .btnPrimary:hover {
-  box-shadow: 0 0 60px rgba(157, 107, 255, 0.55);
-  background: #9beeff;
+  box-shadow: 0 0 60px rgba(242, 239, 230, 0.55);
+  background: #ffffff;
 }
 
 .btnPrimary::after {
@@ -638,7 +638,7 @@
   position: absolute;
   inset: -2px;
   border-radius: 999px;
-  border: 1px solid rgba(157, 107, 255, 0.7);
+  border: 1px solid rgba(242, 239, 230, 0.7);
   animation: ctaRing 2.6s cubic-bezier(0.2, 0.6, 0.3, 1) infinite;
   pointer-events: none;
 }
@@ -1288,7 +1288,7 @@
   flex: 0 0 auto;
   border-radius: 50%;
   background: radial-gradient(circle at 35% 30%, var(--accent), var(--accent-2));
-  box-shadow: 0 0 18px rgba(157, 107, 255, 0.4);
+  box-shadow: 0 0 18px rgba(242, 239, 230, 0.4);
 }
 
 .chatDot {
@@ -1357,8 +1357,8 @@
 
 .chatMsgUser {
   align-self: flex-end;
-  background: linear-gradient(120deg, rgba(157, 107, 255, 0.16), rgba(255, 92, 157, 0.16));
-  border: 1px solid rgba(157, 107, 255, 0.28);
+  background: linear-gradient(120deg, rgba(242, 239, 230, 0.16), rgba(185, 186, 201, 0.16));
+  border: 1px solid rgba(242, 239, 230, 0.28);
   border-bottom-right-radius: 5px;
 }
 
@@ -1499,7 +1499,7 @@
   border-radius: 50%;
   background: var(--bg);
   border: 2px solid var(--accent);
-  box-shadow: 0 0 14px rgba(157, 107, 255, 0.5);
+  box-shadow: 0 0 14px rgba(242, 239, 230, 0.5);
 }
 
 .processNum {
@@ -1508,7 +1508,7 @@
   font-size: clamp(30px, 4vw, 54px);
   line-height: 1;
   color: transparent;
-  -webkit-text-stroke: 1px rgba(157, 107, 255, 0.6);
+  -webkit-text-stroke: 1px rgba(242, 239, 230, 0.6);
   flex: 0 0 auto;
 }
 
@@ -1568,14 +1568,14 @@
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(260px circle at var(--mx, 20%) var(--my, 0%), rgba(157, 107, 255, 0.16), transparent 65%);
+  background: radial-gradient(260px circle at var(--mx, 20%) var(--my, 0%), rgba(242, 239, 230, 0.16), transparent 65%);
   opacity: 0;
   transition: opacity 0.5s;
 }
 
 .valueCard:hover {
   transform: translateY(-8px);
-  border-color: rgba(157, 107, 255, 0.4);
+  border-color: rgba(242, 239, 230, 0.4);
 }
 
 .valueCard:hover::before {
@@ -1823,26 +1823,16 @@
   gap: clamp(22px, 3.5vh, 36px);
 }
 
-.ctaVideo {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0.55;
-  pointer-events: none;
-}
-
 .ctaVeil {
   position: absolute;
   inset: 0;
   background:
     linear-gradient(to bottom, var(--bg) 0%, transparent 22%, transparent 70%, var(--bg) 100%),
-    radial-gradient(ellipse 60% 50% at 50% 55%, rgba(6, 6, 8, 0.55), transparent 80%);
+    radial-gradient(ellipse 60% 46% at 50% 46%, rgba(6, 6, 8, 0.32), transparent 78%);
   pointer-events: none;
 }
 
-.cta > *:not(.ctaVideo):not(.ctaVeil) {
+.cta > *:not(.ctaVeil) {
   position: relative;
 }
 
@@ -1871,12 +1861,12 @@
   border-radius: 999px;
   padding: clamp(18px, 2.4vw, 30px) clamp(34px, 4.5vw, 66px);
   text-decoration: none;
-  box-shadow: 0 0 44px rgba(157, 107, 255, 0.3);
+  box-shadow: 0 0 44px rgba(242, 239, 230, 0.3);
   transition: box-shadow 0.3s;
 }
 
 .ctaButton:hover {
-  box-shadow: 0 0 80px rgba(157, 107, 255, 0.55);
+  box-shadow: 0 0 80px rgba(242, 239, 230, 0.55);
 }
 
 .ctaAlt {
@@ -1892,7 +1882,7 @@
 .ctaAlt a {
   color: var(--ink);
   text-decoration: none;
-  border-bottom: 1px solid rgba(157, 107, 255, 0.5);
+  border-bottom: 1px solid rgba(242, 239, 230, 0.5);
   padding-bottom: 2px;
   transition: color 0.3s, border-color 0.3s;
 }
@@ -1936,7 +1926,7 @@
 }
 
 .wordmark:hover .wordmarkText {
-  -webkit-text-stroke-color: rgba(157, 107, 255, 0.6);
+  -webkit-text-stroke-color: rgba(242, 239, 230, 0.6);
 }
 
 .footer {

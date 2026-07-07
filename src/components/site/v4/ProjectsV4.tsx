@@ -29,7 +29,7 @@ const PROJECTS: ProjectRow[] = [
     outcome: "Sajt, booking, admin kalendar, Beauty Pass i analitika rade kao jedan sistem.",
     stack: "Next.js · PostgreSQL · Drizzle · Vercel",
     image: "/images/case-studies/drigic-mobileview.png",
-    accent: "#9d6bff",
+    accent: "#f2efe6",
   },
   {
     slug: "prevozkop-digitalni-prodajni-operativni-sistem",
@@ -39,7 +39,7 @@ const PROJECTS: ProjectRow[] = [
     outcome: "Javni SEO sajt, lead CRM, ponude, proizvodi, radnici, vozila i isporuke.",
     stack: "Next.js · PHP API · MySQL",
     image: "/images/case-studies/prevozkop-desktop.png",
-    accent: "#ff5c9d",
+    accent: "#b9bac9",
   },
   {
     slug: "santos-santorini-web-shop-admin-platforma",
@@ -49,7 +49,7 @@ const PROJECTS: ProjectRow[] = [
     outcome: "Storefront, korpa, checkout, CMS, admin, lager i marketplace integracije.",
     stack: "Next.js · Supabase · Ananas API",
     image: "/images/case-studies/santos-desktop.png",
-    accent: "#ff5c9d",
+    accent: "#b9bac9",
   },
   {
     slug: "teachfromhome-onboarding-sistem-za-remote-nastavnike",
@@ -59,7 +59,7 @@ const PROJECTS: ProjectRow[] = [
     outcome: "Google prijava, audio prijave, admin review, referral i funnel analitika.",
     stack: "Next.js · NextAuth · Vercel Postgres",
     image: "/images/case-studies/teachfromhome-desktop.png",
-    accent: "#c084fc",
+    accent: "#d8d6e4",
   },
   {
     slug: "doctor-barber-online-booking-sistem",
@@ -69,7 +69,7 @@ const PROJECTS: ProjectRow[] = [
     outcome: "Javni sajt, online zakazivanje, klijentski nalog, admin kalendar i notifikacije.",
     stack: "Next.js · TypeScript · PHP · PWA",
     image: "/images/case-studies/doctorbarber.png",
-    accent: "#9d6bff",
+    accent: "#f2efe6",
   },
 ];
 
