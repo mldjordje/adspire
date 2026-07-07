@@ -586,9 +586,14 @@ export function SceneV4() {
     let disposed = false;
     let cleanup: (() => void) | null = null;
 
+    // preloader listens: counter tracks real load, not a fake timer
+    const prog = (p: number) =>
+      window.dispatchEvent(new CustomEvent("v4:scene-progress", { detail: p }));
+
     (async () => {
       const THREE = await import("three");
       if (disposed) return;
+      prog(0.35);
 
       const isMobile = window.matchMedia("(max-width: 767px)").matches;
       const renderer = new THREE.WebGLRenderer({
@@ -1379,6 +1384,8 @@ export function SceneV4() {
       window.addEventListener("pointerup", onRelease, { passive: true });
       window.addEventListener("pointercancel", onPressCancel, { passive: true });
 
+      prog(0.6); // geometry + attributes live, shaders not yet compiled
+
       // big-bang intro arms when the preloader lifts
       let introOn = false;
       const startIntro = () => {
@@ -1387,6 +1394,7 @@ export function SceneV4() {
       window.addEventListener("v4:ready", startIntro, { once: true });
       const introFallback = window.setTimeout(startIntro, 2800);
       let introMix = 0;
+      let firstFrameDone = false;
 
       // mobile: tilt the phone instead of moving a mouse (Android fires
       // freely; iOS needs a user-gesture permission we don't prompt for)
@@ -1460,6 +1468,7 @@ export function SceneV4() {
           composer = null; // effects are decoration — plain render is the fallback
         }
       }
+      prog(0.85); // post chain built — first compile + frame still pending
 
       const onResize = () => {
         camera.aspect = window.innerWidth / window.innerHeight;
@@ -1848,6 +1857,10 @@ export function SceneV4() {
 
         if (composer) composer.render();
         else renderer.render(scene, camera);
+        if (!firstFrameDone) {
+          firstFrameDone = true;
+          prog(1); // shaders compiled, kernel is on screen — preloader may lift
+        }
         raf = requestAnimationFrame(tick);
       };
 
@@ -1855,6 +1868,7 @@ export function SceneV4() {
         cloudUniforms.uIntro.value = 1; // no intro animation — land assembled
         if (composer) composer.render();
         else renderer.render(scene, camera);
+        prog(1);
       } else {
         raf = requestAnimationFrame(tick);
       }

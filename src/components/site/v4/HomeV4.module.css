@@ -159,7 +159,16 @@
   position: fixed;
   inset: 0;
   z-index: 200;
-  background: var(--bg);
+  /* transparent window over the particle kernel — the load and the
+     big-bang intro read as one continuous shot (hero copy sits hidden
+     behind it until v4:ready, so only the WebGL canvas shows through) */
+  background: radial-gradient(
+    circle at 50% 44%,
+    rgba(4, 4, 7, 0) 0,
+    rgba(4, 4, 7, 0.22) 16%,
+    rgba(4, 4, 7, 0.85) 32%,
+    var(--bg) 52%
+  );
   display: flex;
   align-items: flex-end;
   transition: transform 0.9s cubic-bezier(0.76, 0, 0.24, 1);
@@ -230,12 +239,7 @@
   height: 100%;
   background: linear-gradient(90deg, var(--accent), var(--accent-2));
   transform-origin: left center;
-  transform: scaleX(0);
-  animation: preloaderFill 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-}
-
-@keyframes preloaderFill {
-  to { transform: scaleX(1); }
+  transform: scaleX(0); /* driven by JS from real scene-load progress */
 }
 
 /* ─── Nav ──────────────────────────────────────────────────── */
