@@ -14,6 +14,7 @@ import { AiDemoV4 } from "./AiDemoV4";
 import { TechCarouselV4 } from "./TechCarouselV4";
 import { SilkV4 } from "./SilkV4";
 import { EventHorizonV4 } from "./EventHorizonV4";
+import ProjectPlanesV4 from "./ProjectPlanesV4";
 import { MobileMenuV4 } from "./MobileMenuV4";
 import { FAQ_ITEMS } from "./faqData";
 
@@ -1059,6 +1060,13 @@ export function HomeV4() {
               </article>
             ))}
           </div>
+          <ProjectPlanesV4
+            className={styles.projectGL}
+            panelClass={styles.projectPanel}
+            mediaClass={styles.projectMedia}
+            linkClass={styles.projectMediaLink}
+            imgClass={styles.projectImg}
+          />
           <div className={styles.projectsProgress} aria-hidden="true">
             <span className={styles.projectsBar} />
           </div>
