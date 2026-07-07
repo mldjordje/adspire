@@ -36,21 +36,27 @@ type ShapeDef = {
   alpha: number;
   /** 1 = this shape is the living wave surface (adds animated undulation) */
   wave: number;
+  /** how deep the camera dives mid-transition OUT of this section —
+   *  big values (≈5) fly the lens straight through the particle field */
+  dive: number;
+  /** scene background grade for this chapter — mood shifts per section */
+  bg: [number, number, number];
   color: [number, number, number];
   /** second palette tone — particles blend between the two by seed */
   color2: [number, number, number];
 };
 
 // gen: 0 sphere · 1 torus knot · 2 galaxy · 3 crystal · 4 neural · 5 wave · 6 "A"
+// palette: electric violet ↔ magenta; green stays the AI chapter's signature
 const SHAPES: ShapeDef[] = [
-  { section: "hero", gen: 0, camZ: 8.6, camA: 0.0, camY: 0.0, x: 0.0, rot: 1.0, tilt: 0, alpha: 0.7, wave: 0, color: [1.0, 0.47, 0.28], color2: [1.0, 0.77, 0.42] },
-  { section: "manifesto", gen: 1, camZ: 8.4, camA: 0.55, camY: 0.5, x: 0.0, rot: 0.55, tilt: 0.15, alpha: 0.6, wave: 0, color: [1.0, 0.8, 0.5], color2: [1.0, 0.55, 0.3] },
-  { section: "projects", gen: 2, camZ: 8.2, camA: -0.5, camY: -0.35, x: 2.4, rot: 0.6, tilt: 0.5, alpha: 0.3, wave: 0, color: [1.0, 0.42, 0.56], color2: [1.0, 0.7, 0.35] },
-  { section: "services", gen: 3, camZ: 8.4, camA: 0.6, camY: 0.4, x: -2.8, rot: 0.35, tilt: 0, alpha: 0.22, wave: 0, color: [1.0, 0.5, 0.25], color2: [1.0, 0.42, 0.5] },
-  { section: "aiDemo", gen: 4, camZ: 8.4, camA: -0.55, camY: -0.3, x: 1.8, rot: 0.8, tilt: 0, alpha: 0.6, wave: 0, color: [1.0, 0.75, 0.4], color2: [0.35, 0.95, 0.65] },
-  { section: "process", gen: 5, camZ: 7.6, camA: 0.25, camY: 0.9, x: 0.0, rot: 0.04, tilt: 0.62, alpha: 0.55, wave: 1, color: [1.0, 0.55, 0.3], color2: [1.0, 0.8, 0.45] },
-  { section: "metrics", gen: 5, camZ: 8.2, camA: -0.3, camY: 0.45, x: 0.0, rot: 0.04, tilt: 0.55, alpha: 0.32, wave: 1, color: [1.0, 0.78, 0.42], color2: [1.0, 0.55, 0.3] },
-  { section: "cta", gen: 6, camZ: 7.0, camA: 0.0, camY: 0.0, x: 0.0, rot: 0.2, tilt: 0, alpha: 0.8, wave: 0, color: [1.0, 0.33, 0.3], color2: [1.0, 0.6, 0.25] },
+  { section: "hero", gen: 0, camZ: 8.6, camA: 0.0, camY: 0.0, x: 0.0, rot: 1.0, tilt: 0, alpha: 0.62, wave: 0, dive: 0.5, bg: [0.018, 0.016, 0.032], color: [0.62, 0.42, 1.0], color2: [1.0, 0.45, 0.72] },
+  { section: "manifesto", gen: 1, camZ: 8.4, camA: 0.55, camY: 0.5, x: 0.0, rot: 0.55, tilt: 0.15, alpha: 0.5, wave: 0, dive: 5.0, bg: [0.026, 0.018, 0.04], color: [0.72, 0.55, 1.0], color2: [0.55, 0.38, 0.98] },
+  { section: "projects", gen: 2, camZ: 8.2, camA: -0.5, camY: -0.35, x: 2.4, rot: 0.6, tilt: 0.5, alpha: 0.3, wave: 0, dive: 0.6, bg: [0.034, 0.014, 0.032], color: [1.0, 0.4, 0.7], color2: [0.68, 0.48, 1.0] },
+  { section: "services", gen: 3, camZ: 8.4, camA: 0.6, camY: 0.4, x: -2.8, rot: 0.35, tilt: 0, alpha: 0.22, wave: 0, dive: 5.2, bg: [0.02, 0.016, 0.036], color: [0.58, 0.42, 1.0], color2: [1.0, 0.42, 0.64] },
+  { section: "aiDemo", gen: 4, camZ: 8.4, camA: -0.55, camY: -0.3, x: 1.8, rot: 0.8, tilt: 0, alpha: 0.42, wave: 0, dive: 0.7, bg: [0.012, 0.028, 0.02], color: [0.72, 0.52, 1.0], color2: [0.35, 0.95, 0.65] },
+  { section: "process", gen: 5, camZ: 7.6, camA: 0.25, camY: 0.9, x: 0.0, rot: 0.04, tilt: 0.62, alpha: 0.55, wave: 1, dive: 0.6, bg: [0.024, 0.018, 0.042], color: [0.6, 0.48, 1.0], color2: [0.85, 0.6, 1.0] },
+  { section: "metrics", gen: 5, camZ: 8.2, camA: -0.3, camY: 0.45, x: 0.0, rot: 0.04, tilt: 0.55, alpha: 0.32, wave: 1, dive: 2.6, bg: [0.02, 0.018, 0.034], color: [0.78, 0.6, 1.0], color2: [1.0, 0.5, 0.75] },
+  { section: "cta", gen: 6, camZ: 7.0, camA: 0.0, camY: 0.0, x: 0.0, rot: 0.2, tilt: 0, alpha: 0.8, wave: 0, dive: 0.5, bg: [0.012, 0.008, 0.02], color: [1.0, 0.35, 0.62], color2: [0.7, 0.45, 1.0] },
 ];
 
 /** payload of the `v4:morph` event — the services index can take the cloud
@@ -350,6 +356,7 @@ const CLOUD_VERT = /* glsl */ `
   attribute vec3 aTargetA;
   attribute vec3 aTargetB;
   attribute vec3 aTargetC;
+  attribute vec3 aTargetD;
   attribute vec3 aScatter;
   attribute float aSize;
   attribute float aSeed;
@@ -357,13 +364,17 @@ const CLOUD_VERT = /* glsl */ `
   uniform float uScale;
   uniform float uMix;
   uniform float uOverride;
+  uniform float uOvBlend;
   uniform float uIntro;
   uniform float uAgitation;
   uniform float uWarp;
   uniform float uAttract;
+  uniform float uPointerVel;
+  uniform float uArrival;
   uniform float uWaveA;
   uniform float uWaveB;
   uniform float uWaveC;
+  uniform float uWaveD;
   uniform vec3 uPointer;
   uniform vec3 uShockPos;
   uniform float uShockT;
@@ -382,21 +393,34 @@ const CLOUD_VERT = /* glsl */ `
     );
   }
 
+  // gentle ease-out-back: particles overshoot the target ~3% and settle —
+  // arrivals feel sprung, not machined
+  float outBack(float x) {
+    float u = x - 1.0;
+    return 1.0 + 1.9 * u * u * u + 0.9 * u * u;
+  }
+
   void main() {
     vSeed = aSeed;
     // per-particle stagger: each particle leaves and arrives on its own
     // schedule, so the cloud tears apart and re-knits instead of gliding
     float lead = fract(aSeed * 0.618);
     float d = clamp(uMix * 1.3 - lead * 0.3, 0.0, 1.0);
-    float pm = d * d * (3.0 - 2.0 * d);
+    // blend smoothstep with overshoot per particle (mix weight >1 is the point)
+    float pm = mix(d * d * (3.0 - 2.0 * d), outBack(d), 0.55 + fract(aSeed * 5.3) * 0.35);
+    float pmC = clamp(pm, 0.0, 1.0);
 
     vec3 pos = mix(aTargetA, aTargetB, pm);
 
-    // hover override: the cloud abandons the scroll shape and re-knits into
-    // the hovered service's form, with the same per-particle stagger
+    // hover override: two target slots ping-pong, so switching one service
+    // to another crossfades shape-to-shape instead of snapping the buffer
+    float dB = clamp(uOvBlend * 1.3 - lead * 0.3, 0.0, 1.0);
+    float pB = dB * dB * (3.0 - 2.0 * dB);
+    vec3 ovTarget = mix(aTargetC, aTargetD, pB);
     float dO = clamp(uOverride * 1.3 - lead * 0.3, 0.0, 1.0);
-    float pO = dO * dO * (3.0 - 2.0 * dO);
-    pos = mix(pos, aTargetC, pO);
+    float pO = mix(dO * dO * (3.0 - 2.0 * dO), outBack(dO), 0.5);
+    float pOC = clamp(pO, 0.0, 1.0);
+    pos = mix(pos, ovTarget, pO);
 
     // big-bang intro: everything starts crushed into a hot kernel and
     // blooms outward to the first shape when the preloader lifts
@@ -405,8 +429,11 @@ const CLOUD_VERT = /* glsl */ `
     pos = mix(aScatter * (0.25 + fract(aSeed * 7.13) * 0.4), pos, pI);
 
     // vortex morph: mid-flight the whole cloud corkscrews around its axis —
-    // shapes tear apart in a spiral galaxy motion instead of drifting
-    float midE = pm * (1.0 - pm) * 4.0 + pO * (1.0 - pO) * 4.0 + pI * (1.0 - pI) * 4.0;
+    // shapes tear apart in a spiral galaxy motion instead of drifting.
+    // ovSwitch = crossfade between two hovered services, same drama
+    float ovSwitch = pB * (1.0 - pB) * 4.0 * pOC;
+    float midE = pmC * (1.0 - pmC) * 4.0 + pOC * (1.0 - pOC) * 4.0
+      + pI * (1.0 - pI) * 4.0 + ovSwitch;
     float vAng = midE * (0.55 + fract(aSeed * 2.39) * 0.75);
     float vc = cos(vAng);
     float vs = sin(vAng);
@@ -414,7 +441,8 @@ const CLOUD_VERT = /* glsl */ `
 
     // living ocean undulation, blended in/out through the morph;
     // fast scrolling whips the surface into a storm
-    float waveW = mix(mix(uWaveA, uWaveB, pm), uWaveC, pO) * (1.0 + uWarp * 0.9);
+    float waveW = mix(mix(uWaveA, uWaveB, pmC), mix(uWaveC, uWaveD, pB), pOC)
+      * (1.0 + uWarp * 0.9);
     pos.y += waveW * (
       sin(pos.x * 1.4 + uTime * 1.1) * 0.28 +
       sin(pos.z * 2.1 + uTime * 0.8) * 0.18 +
@@ -422,7 +450,7 @@ const CLOUD_VERT = /* glsl */ `
     );
 
     // puff peaks mid-transition; the noise field turns it into a swirl
-    float puff = pm * (1.0 - pm) * 3.4 + pO * (1.0 - pO) * 3.4
+    float puff = pmC * (1.0 - pmC) * 3.4 + pOC * (1.0 - pOC) * 3.4 + ovSwitch * 0.85
       + pI * (1.0 - pI) * 3.0 + uAgitation;
     vec3 fl = flow(pos * 0.42 + vec3(0.0, uTime * 0.1, uTime * 0.06));
     pos += (fl * 0.85 + aScatter * 0.4) * puff;
@@ -434,11 +462,13 @@ const CLOUD_VERT = /* glsl */ `
     // cursor repulsion in world space — particles part around the pointer
     // and ignite; press-and-hold flips the force: the swarm gathers to the
     // hand, and letting go releases the shockwave burst
+    // fast hand = wide, hot wake; slow hand = calm pocket — the field
+    // answers the *energy* of the gesture, not just its position
     vec4 wp = modelMatrix * vec4(pos, 1.0);
     vec2 toP = wp.xy - uPointer.xy;
     float pd = length(toP);
-    float rep = smoothstep(1.7 + uAttract * 1.4, 0.0, pd);
-    wp.xy += normalize(toP + vec2(0.0001)) * rep * rep * (0.6 - uAttract * 1.6);
+    float rep = smoothstep(1.7 + uAttract * 1.4 + uPointerVel * 1.1, 0.0, pd);
+    wp.xy += normalize(toP + vec2(0.0001)) * rep * rep * (0.6 + uPointerVel * 0.5 - uAttract * 1.6);
 
     // tap/click shockwave — an igniting ring races through the cloud
     float shock = 0.0;
@@ -464,6 +494,8 @@ const CLOUD_VERT = /* glsl */ `
 
     vGlow = puff + rep * 0.7 + shock * 1.3 + sweep * 0.55
       + rep * uAttract * 0.9
+      + rep * uPointerVel * 0.5
+      + uArrival * (0.25 + step(2.2, aSize) * 0.9)
       + uWarp * (0.25 + fract(aSeed * 3.71) * 0.5);
     vec4 mv = viewMatrix * wp;
     vDepth = -mv.z;
@@ -498,9 +530,9 @@ const CLOUD_FRAG = /* glsl */ `
     // so the cloud shimmers instead of sitting in a frozen gradient
     vec3 base = mix(uColor, uColorB,
       fract(vSeed * 0.618 + sin(uTime * 0.25 + vSeed * 6.0) * 0.07));
-    vec3 col = base + vec3(0.3, 0.24, 0.16) * core + base * 0.2 * sin(vSeed);
-    // particles in flight (or near the cursor) ignite — hot ember, not haze
-    col += vec3(0.75, 0.5, 0.28) * vGlow * 0.55;
+    vec3 col = base + vec3(0.26, 0.22, 0.36) * core + base * 0.2 * sin(vSeed);
+    // particles in flight (or near the cursor) ignite — hot violet-white
+    col += vec3(0.72, 0.5, 0.95) * vGlow * 0.55;
     // fake depth-of-field: particles swirling right up to the lens dissolve
     // instead of turning into hard discs
     float nearFade = smoothstep(1.0, 2.6, vDepth);
@@ -534,7 +566,7 @@ const SHARD_FRAG = /* glsl */ `
     float fres = pow(1.0 - abs(dot(normalize(vN), normalize(vV))), 2.4);
     // slow light band crawling across the glass — obsidian catches light
     float band = 0.5 + 0.5 * sin(vPos.y * 7.0 + uTime * 0.7);
-    vec3 base = vec3(0.024, 0.017, 0.012);
+    vec3 base = vec3(0.014, 0.012, 0.028);
     vec3 col = base + uColor * fres * (0.85 + band * 0.55);
     gl_FragColor = vec4(col, 0.4 + fres * 0.6);
   }
@@ -617,10 +649,14 @@ export function SceneV4() {
       tgtB.setUsage(THREE.DynamicDrawUsage);
       cloudGeo.setAttribute("aTargetA", tgtA);
       cloudGeo.setAttribute("aTargetB", tgtB);
-      // third target — hover override slot for the services index
+      // third + fourth targets — ping-pong override slots for the services
+      // index, so service→service switches crossfade instead of snapping
       const tgtC = new THREE.BufferAttribute(new Float32Array(shapes[3]), 3);
       tgtC.setUsage(THREE.DynamicDrawUsage);
       cloudGeo.setAttribute("aTargetC", tgtC);
+      const tgtD = new THREE.BufferAttribute(new Float32Array(shapes[3]), 3);
+      tgtD.setUsage(THREE.DynamicDrawUsage);
+      cloudGeo.setAttribute("aTargetD", tgtD);
       cloudGeo.setAttribute("aScatter", new THREE.BufferAttribute(scatter, 3));
 
       // per-particle size + seed → soft glowing dots of varied size that
@@ -645,15 +681,19 @@ export function SceneV4() {
         uScale: { value: (isMobile ? 46 : 40) * basePR },
         uMix: { value: 0 },
         uOverride: { value: 0 },
+        uOvBlend: { value: 0 },
         uIntro: { value: 0 },
         uAgitation: { value: 0 },
         uWarp: { value: 0 },
         uAttract: { value: 0 },
+        uPointerVel: { value: 0 },
+        uArrival: { value: 0 },
         uShockPos: { value: new THREE.Vector3(0, 0, 0) },
         uShockT: { value: -1 },
         uWaveA: { value: SHAPES[0].wave },
         uWaveB: { value: SHAPES[1].wave },
         uWaveC: { value: 0 },
+        uWaveD: { value: 0 },
         uPointer: { value: new THREE.Vector3(0, 0, 99) },
       };
       const cloudMat = new THREE.ShaderMaterial({
@@ -772,7 +812,7 @@ export function SceneV4() {
       }
       trailGeo.setAttribute("aFade", new THREE.BufferAttribute(trailFade, 1));
       const trailMat = new THREE.ShaderMaterial({
-        uniforms: { uColor: { value: new THREE.Color(1, 0.8, 0.5) } },
+        uniforms: { uColor: { value: new THREE.Color(0.72, 0.55, 1.0) } },
         transparent: true,
         depthWrite: false,
         blending: THREE.AdditiveBlending,
@@ -802,7 +842,7 @@ export function SceneV4() {
       headGeo.setAttribute("position", headPos);
       const headMat = new THREE.ShaderMaterial({
         uniforms: {
-          uColor: { value: new THREE.Color(1, 0.85, 0.6) },
+          uColor: { value: new THREE.Color(0.8, 0.65, 1.0) },
           uScale: { value: (isMobile ? 46 : 40) * basePR },
         },
         transparent: true,
@@ -832,7 +872,7 @@ export function SceneV4() {
 
       // ── Obsidian shards — faceted dark glass with fresnel rims ────────
       const shardUniforms = {
-        uColor: { value: new THREE.Color(0xff7847) },
+        uColor: { value: new THREE.Color(0x9d6bff) },
         uTime: { value: 0 },
       };
       const shardMat = new THREE.ShaderMaterial({
@@ -880,9 +920,9 @@ export function SceneV4() {
         }
       `;
       const nebDefs: { color: number; pos: [number, number, number]; s: number }[] = [
-        { color: 0x5a2a14, pos: [-5, 2.5, -10], s: 1.4 },
-        { color: 0x451a30, pos: [6, -3, -12], s: 1.7 },
-        { color: 0x4a3410, pos: [0, 4.5, -14], s: 1.9 },
+        { color: 0x2a1a55, pos: [-5, 2.5, -10], s: 1.4 },
+        { color: 0x451a40, pos: [6, -3, -12], s: 1.7 },
+        { color: 0x1c1450, pos: [0, 4.5, -14], s: 1.9 },
       ];
       const nebulas = nebDefs.map((def, i) => {
         const mat = new THREE.ShaderMaterial({
@@ -930,8 +970,8 @@ export function SceneV4() {
       const ribbons = ribbonDefs.map((def) => {
         const mat = new THREE.ShaderMaterial({
           uniforms: {
-            uColorA: { value: new THREE.Color(0xff7847) },
-            uColorB: { value: new THREE.Color(0xffc46b) },
+            uColorA: { value: new THREE.Color(0x9d6bff) },
+            uColorB: { value: new THREE.Color(0xff5c9d) },
             uOpacity: { value: def.op },
             uTime: { value: 0 },
             uPhase: { value: def.phase },
@@ -987,7 +1027,7 @@ export function SceneV4() {
           void main() {
             float d = distance(gl_PointCoord, vec2(0.5));
             if (d > 0.5) discard;
-            gl_FragColor = vec4(vec3(0.85, 0.76, 0.66), smoothstep(0.5, 0.1, d) * vA);
+            gl_FragColor = vec4(vec3(0.78, 0.77, 0.92), smoothstep(0.5, 0.1, d) * vA);
           }
         `,
       });
@@ -1020,7 +1060,7 @@ export function SceneV4() {
       warpGeo.setAttribute("aEnd", new THREE.BufferAttribute(warpEnd, 1));
       warpGeo.setAttribute("aSeed", new THREE.BufferAttribute(warpSeed, 1));
       const warpMat = new THREE.ShaderMaterial({
-        uniforms: { uWarp: { value: 0 }, uColor: { value: new THREE.Color(1, 0.85, 0.62) } },
+        uniforms: { uWarp: { value: 0 }, uColor: { value: new THREE.Color(0.78, 0.68, 1.0) } },
         transparent: true,
         depthWrite: false,
         blending: THREE.AdditiveBlending,
@@ -1137,7 +1177,7 @@ export function SceneV4() {
       };
       for (let i = 0; i < STREAK_COUNT; i++) {
         const mat = new THREE.ShaderMaterial({
-          uniforms: { uColor: { value: new THREE.Color(1, 0.75, 0.5) }, uAlpha: { value: 0 } },
+          uniforms: { uColor: { value: new THREE.Color(0.75, 0.6, 1.0) }, uAlpha: { value: 0 } },
           transparent: true,
           depthWrite: false,
           blending: THREE.AdditiveBlending,
@@ -1175,10 +1215,26 @@ export function SceneV4() {
       core.renderOrder = -1;
       scene.add(core);
 
+      // god-ray light source — small hot disc buried behind the cloud; the
+      // post pass streaks volumetric shafts from it through the particles
+      const sunMat = new THREE.MeshBasicMaterial({
+        color: 0xb18cff,
+        transparent: true,
+        opacity: 0.85,
+        depthWrite: false,
+      });
+      const sunGeo = new THREE.CircleGeometry(0.42, 32);
+      const sun = new THREE.Mesh(sunGeo, sunMat);
+      sun.position.set(0, 0.4, -2.6);
+      sun.renderOrder = -2;
+      // mobile has no composer → a bare disc with no rays would just sit
+      // there; only desktop gets the sun
+      if (!isMobile) scene.add(sun);
+
       // anamorphic flare — thin horizontal light bar across the core;
       // the cinema-lens signature on every bright source
       const flareMat = new THREE.ShaderMaterial({
-        uniforms: { uColor: { value: new THREE.Color(1, 0.8, 0.55) }, uOpacity: { value: 0.1 } },
+        uniforms: { uColor: { value: new THREE.Color(0.75, 0.6, 1.0) }, uOpacity: { value: 0.1 } },
         transparent: true,
         depthWrite: false,
         blending: THREE.AdditiveBlending,
@@ -1202,21 +1258,42 @@ export function SceneV4() {
       };
       window.addEventListener("pointermove", onMove, { passive: true });
 
-      // services index hover → the cloud re-knits into that service's shape
+      // services index hover → the cloud re-knits into that service's shape.
+      // Two override slots ping-pong: a new hover loads the *far* slot and
+      // uOvBlend crossfades to it, so switching rows morphs instead of
+      // snapping the target buffer under an already-visible override
       let override: MorphOverride = null;
       let overrideMix = 0;
       let overrideGen = -1;
+      let ovBlendTarget = 0; // 0 → aTargetC holds the shape, 1 → aTargetD
+      let ovBlend = 0;
+      let ovAngTarget = 0; // per-service camera nudge — scene "turns to look"
       const ovColor = new THREE.Color();
       const ovColorB = new THREE.Color();
+      const loadOvSlot = (slotIdx: number, gen: number) => {
+        const slot = slotIdx === 0 ? tgtC : tgtD;
+        (slot.array as Float32Array).set(shapes[gen]);
+        slot.needsUpdate = true;
+        if (slotIdx === 0) cloudUniforms.uWaveC.value = gen === 5 ? 1 : 0;
+        else cloudUniforms.uWaveD.value = gen === 5 ? 1 : 0;
+      };
       const onMorph = (e: Event) => {
         const detail = (e as CustomEvent<MorphOverride>).detail ?? null;
         override = detail;
         if (!detail) return;
         if (detail.gen !== overrideGen) {
           overrideGen = detail.gen;
-          (tgtC.array as Float32Array).set(shapes[detail.gen]);
-          tgtC.needsUpdate = true;
-          cloudUniforms.uWaveC.value = detail.gen === 5 ? 1 : 0;
+          if (overrideMix < 0.05 || Math.abs(ovBlend - ovBlendTarget) > 0.65) {
+            // override not visible yet, or a flip just started and the
+            // destination slot still carries almost no weight — overwrite
+            // the facing slot in place, no visible pop
+            loadOvSlot(ovBlendTarget, detail.gen);
+          } else {
+            // live switch: load the far slot and crossfade to it
+            ovBlendTarget = ovBlendTarget === 0 ? 1 : 0;
+            loadOvSlot(ovBlendTarget, detail.gen);
+          }
+          ovAngTarget = Math.sin(detail.gen * 1.7) * 0.14;
         }
         ovColor.setRGB(detail.color[0], detail.color[1], detail.color[2]);
         ovColorB.setRGB(detail.color2[0], detail.color2[1], detail.color2[2]);
@@ -1355,7 +1432,25 @@ export function SceneV4() {
           });
           caOffset = ca.offset;
           const vignette = new PP.VignetteEffect({ darkness: 0.52, offset: 0.28 });
-          c.addPass(new PP.EffectPass(camera, bloom, ca, vignette));
+          // volumetric shafts from the buried sun — light owns the frame
+          let godRays: InstanceType<typeof PP.GodRaysEffect> | null = null;
+          try {
+            godRays = new PP.GodRaysEffect(camera, sun, {
+              samples: 24,
+              density: 0.94,
+              decay: 0.9,
+              weight: 0.28,
+              exposure: 0.28,
+              clampMax: 1,
+            });
+          } catch {
+            godRays = null; // rays are gravy — the rest of the pass still runs
+          }
+          c.addPass(
+            godRays
+              ? new PP.EffectPass(camera, godRays, bloom, ca, vignette)
+              : new PP.EffectPass(camera, bloom, ca, vignette),
+          );
           c.setSize(window.innerWidth, window.innerHeight);
           composer = c;
         } catch {
@@ -1415,8 +1510,14 @@ export function SceneV4() {
 
       const tmpColor = new THREE.Color();
       const tmpColorB = new THREE.Color();
+      const tmpBg = new THREE.Color();
       const pointerNdc = new THREE.Vector3();
       const pointerWorld = new THREE.Vector3();
+      const prevPointer = new THREE.Vector3(0, 0, 0);
+      let pointerVel = 0;
+      let ovAng = 0;
+      let arrivalAt = -9;
+      let prevRawMix = 0;
       let smoothedProgress = 0;
       let lastScrollY = window.scrollY;
       let smoothedVel = 0;
@@ -1469,8 +1570,15 @@ export function SceneV4() {
           tgtB.needsUpdate = true;
           cloudUniforms.uWaveA.value = a.wave;
           cloudUniforms.uWaveB.value = b.wave;
+          // suppress a false arrival from the mix value jumping across segments
+          prevRawMix = rawMix;
         }
         cloudUniforms.uMix.value = rawMix;
+
+        // arrival beat — the frame a morph settles, the scene acknowledges
+        // it (flare pop, particle flash, bloom breath)
+        if (rawMix >= 0.9 && prevRawMix < 0.9) arrivalAt = t;
+        prevRawMix = rawMix;
 
         // scroll velocity agitates the cloud — fast scroll, restless particles
         const dy = Math.abs(window.scrollY - lastScrollY);
@@ -1511,16 +1619,22 @@ export function SceneV4() {
         attract += ((attractOn ? 1 : 0) - attract) * 0.09;
         cloudUniforms.uAttract.value = attract;
 
-        // shared event energies: mid-morph beat + decaying shock impulse
+        // shared event energies: mid-morph beat + decaying shock impulse +
+        // arrival flash the moment a shape settles
         const morphE = rawMix * (1 - rawMix) * 4;
         const shockAge = shockAt >= 0 ? t - shockAt : 99;
         const shockE = shockAge < 3 ? Math.exp(-shockAge * 1.7) : 0;
+        const arrAge = t - arrivalAt;
+        const arrE = arrAge >= 0 && arrAge < 1.5 ? Math.exp(-arrAge * 3.5) : 0;
+        cloudUniforms.uArrival.value = arrE;
 
         // camera rides an orbit arc between sections — a crane move, not an
-        // elevator. Mid-morph the lens dollies in while the FOV widens (a
-        // gentle vertigo beat), shocks punch it forward, warp stretches it
-        const orbitR = a.camZ + (b.camZ - a.camZ) * m + Math.sin(t * 0.35) * 0.18 - morphE * 0.5;
-        const ang = a.camA + (b.camA - a.camA) * m;
+        // elevator. Mid-morph the lens dives by the section's `dive` depth:
+        // small = vertigo beat, large (manifesto, services) = a full
+        // fly-through of the particle field. Hovered services nudge the
+        // orbit so the scene "turns to look" at each one
+        const orbitR = a.camZ + (b.camZ - a.camZ) * m + Math.sin(t * 0.35) * 0.18 - morphE * a.dive;
+        const ang = a.camA + (b.camA - a.camA) * m + ovAng * overrideMix;
         const craneY = a.camY + (b.camY - a.camY) * m;
         camera.position.x += (Math.sin(ang) * orbitR * 0.62 + mouseX * 0.5 - camera.position.x) * 0.06;
         camera.position.y += (craneY - mouseY * 0.35 - camera.position.y) * 0.06;
@@ -1543,11 +1657,21 @@ export function SceneV4() {
           pointerWorld.copy(camera.position).addScaledVector(pDir, pT);
           cloudUniforms.uPointer.value.lerp(pointerWorld, 0.12);
         }
+        // gesture energy: how fast the (smoothed) pocket is moving drives
+        // the wake width + heat in the shader
+        const pv = cloudUniforms.uPointer.value.distanceTo(prevPointer) / Math.max(dt, 0.008);
+        prevPointer.copy(cloudUniforms.uPointer.value);
+        pointerVel += (Math.min(pv * 0.1, 1) - pointerVel) * 0.12;
+        cloudUniforms.uPointerVel.value = pointerVel;
 
         // hover override eases in/out; palette + opacity follow it so the
         // receded services cloud lights back up while a shape is forced
         overrideMix += ((override ? 1 : 0) - overrideMix) * 0.07;
         cloudUniforms.uOverride.value = overrideMix;
+        // slot crossfade + camera nudge glide after the hovered service
+        ovBlend += (ovBlendTarget - ovBlend) * 0.08;
+        cloudUniforms.uOvBlend.value = ovBlend;
+        ovAng += (ovAngTarget - ovAng) * 0.06;
 
         // intro blooms open over ~2s once the preloader lifts
         introMix += ((introOn ? 1 : 0) - introMix) * 0.03;
@@ -1586,6 +1710,15 @@ export function SceneV4() {
           lowRes = false;
           applyResolution();
         }
+
+        // chapter grading — the void itself shifts mood per section:
+        // warm black → rose (projects) → green-black (AI) → pure void (CTA)
+        tmpBg.setRGB(
+          a.bg[0] + (b.bg[0] - a.bg[0]) * m,
+          a.bg[1] + (b.bg[1] - a.bg[1]) * m,
+          a.bg[2] + (b.bg[2] - a.bg[2]) * m,
+        );
+        (scene.background as InstanceType<typeof THREE.Color>).lerp(tmpBg, 0.04);
 
         stars.rotation.y = t * 0.008;
         stars.position.y = p * 2.5;
@@ -1667,11 +1800,19 @@ export function SceneV4() {
         coreMat.uniforms.uColor.value.lerp(tmpColor, 0.06);
         coreMat.uniforms.uOpacity.value = 0.1 + cloudUniforms.uOpacity.value * 0.08;
 
-        // anamorphic bar rides the core, stretching as it breathes
+        // god-ray sun rides the core; rays fade back where content leads
+        sun.position.x = core.position.x;
+        sun.scale.setScalar(1 + Math.sin(t * 0.45) * 0.12 + arrE * 0.5);
+        sunMat.opacity = 0.35 + cloudUniforms.uOpacity.value * 0.6;
+        sunMat.color.lerp(tmpColor, 0.05);
+
+        // anamorphic bar rides the core, stretching as it breathes;
+        // it POPS wide the instant a morph lands — the arrival signature
         flare.position.x = core.position.x;
-        flare.scale.x = 0.9 * (1 + Math.sin(t * 0.7) * 0.18) + cloudUniforms.uOpacity.value * 0.5;
+        flare.scale.x =
+          0.9 * (1 + Math.sin(t * 0.7) * 0.18) + cloudUniforms.uOpacity.value * 0.5 + arrE * 1.6;
         flareMat.uniforms.uColor.value.lerp(tmpColor, 0.06);
-        flareMat.uniforms.uOpacity.value = coreMat.uniforms.uOpacity.value * 0.85;
+        flareMat.uniforms.uOpacity.value = coreMat.uniforms.uOpacity.value * 0.85 + arrE * 0.25;
 
         // shooting streaks: wait → cross the deep background → re-arm
         for (let i = 0; i < streaks.length; i++) {
@@ -1699,7 +1840,7 @@ export function SceneV4() {
         // morphs, shocks and warp read as light events — bloom breathes with them
         if (bloomFx) {
           bloomFx.intensity +=
-            (0.9 + morphE * 0.3 + warp * 0.65 + shockE * 0.55 - bloomFx.intensity) * 0.08;
+            (0.9 + morphE * 0.3 + warp * 0.65 + shockE * 0.55 + arrE * 0.4 - bloomFx.intensity) * 0.08;
         }
 
         if (composer) composer.render();
@@ -1757,6 +1898,8 @@ export function SceneV4() {
         streaks.forEach((s) => s.mat.dispose());
         coreMat.dispose();
         flareMat.dispose();
+        sunGeo.dispose();
+        sunMat.dispose();
         composer?.dispose();
         renderer.dispose();
       };

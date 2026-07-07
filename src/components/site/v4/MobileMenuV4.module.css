@@ -98,7 +98,7 @@
   font-weight: 700;
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: #ff7847;
+  color: #9d6bff;
 }
 
 .groupLabel:first-child {
@@ -130,7 +130,7 @@
 
 .link:active,
 .link:hover {
-  color: #ff7847;
+  color: #9d6bff;
 }
 
 .contact {
@@ -148,5 +148,5 @@
 }
 
 .contact a:active {
-  color: #ff7847;
+  color: #9d6bff;
 }

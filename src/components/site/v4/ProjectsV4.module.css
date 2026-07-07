@@ -179,12 +179,12 @@
   border-radius: 999px;
   padding: 18px 40px;
   text-decoration: none;
-  box-shadow: 0 0 40px rgba(255, 120, 71, 0.35);
+  box-shadow: 0 0 40px rgba(157, 107, 255, 0.35);
   transition: box-shadow 0.3s, background 0.3s;
 }
 
 .ctaButton:hover {
-  box-shadow: 0 0 70px rgba(255, 120, 71, 0.55);
+  box-shadow: 0 0 70px rgba(157, 107, 255, 0.55);
   background: #9beeff;
 }
 

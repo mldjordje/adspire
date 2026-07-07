@@ -62,14 +62,14 @@
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 25% 0%, rgba(255, 120, 71, 0.1), transparent 55%);
+  background: radial-gradient(circle at 25% 0%, rgba(157, 107, 255, 0.1), transparent 55%);
   opacity: 0;
   transition: opacity 0.5s;
 }
 
 .card:hover {
   transform: translateY(-6px);
-  border-color: rgba(255, 120, 71, 0.4);
+  border-color: rgba(157, 107, 255, 0.4);
 }
 
 .card:hover::before {
@@ -216,12 +216,12 @@
   border-radius: 999px;
   padding: 18px 40px;
   text-decoration: none;
-  box-shadow: 0 0 40px rgba(255, 120, 71, 0.35);
+  box-shadow: 0 0 40px rgba(157, 107, 255, 0.35);
   transition: box-shadow 0.3s, background 0.3s;
 }
 
 .ctaButton:hover {
-  box-shadow: 0 0 70px rgba(255, 120, 71, 0.55);
+  box-shadow: 0 0 70px rgba(157, 107, 255, 0.55);
   background: #9beeff;
 }
 
