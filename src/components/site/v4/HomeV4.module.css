@@ -303,6 +303,46 @@
   box-shadow: 0 0 34px var(--blue-glow);
 }
 
+/* ─── Language switch — SR / EN / DE ───────────────────────── */
+
+.langSwitch {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  backdrop-filter: blur(8px);
+}
+
+.langItem {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--ink-faint);
+  text-decoration: none;
+  padding: 6px 10px;
+  border-radius: 999px;
+  line-height: 1;
+  transition: color 0.25s, background 0.25s;
+}
+
+.langItem:hover {
+  color: var(--ink);
+}
+
+.langItemActive,
+.langItemActive:hover {
+  color: #ffffff;
+  background: var(--blue);
+}
+
+@media (max-width: 560px) {
+  .langSwitch {
+    display: none;
+  }
+}
+
 /* ─── Nav HUD — live clock + active section ────────────────── */
 
 .navHud {

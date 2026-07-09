@@ -2,71 +2,21 @@
 
 import { useEffect, useRef, useState } from "react";
 import styles from "./HomeV4.module.css";
+import { getV4Copy } from "./copy";
+import { defaultLocale, type LocaleCode } from "@/lib/site-config";
 
 /**
  * Live AI-agent chat demo — ported from the "Signal" concept landing.
  * Four scripted conversations play out with typing indicators; carousel
  * auto-advances, arrows/dots for manual control. Playback starts when the
- * section scrolls into view.
+ * section scrolls into view. Copy is localized via copy.ts (getV4Copy).
  */
-
-type Msg = readonly [who: "agent" | "user", text: string];
-
-const CHATS: { name: string; solve: string; msgs: Msg[] }[] = [
-  {
-    name: "AI agent · Zakazivanje",
-    solve: "Rešava: propuštene termine i duple rezervacije",
-    msgs: [
-      ["agent", "Zdravo! Koliko termina vodite dnevno?"],
-      ["user", "Oko 30, sve preko telefona."],
-      ["agent", "To pravi duple rezervacije i jede vreme. AI agent + booking preuzima zakazivanje 24/7 — bez osoblja."],
-      ["user", "Koliko brzo se postavlja?"],
-      ["agent", "MVP za 2 nedelje. Da rezervišem besplatnu konsultaciju?"],
-      ["user", "Može, sutra."],
-      ["agent", "Zakazano ✓ Sutra 15h. Potvrda na mejlu. Vidimo se!"],
-    ],
-  },
-  {
-    name: "AI agent · Podrška",
-    solve: "Rešava: sporu podršku i ponavljajuća pitanja",
-    msgs: [
-      ["agent", "Koliko upita podrške dobijate dnevno na webshopu?"],
-      ["user", "Previše — gde mi je porudžbina, povraćaj, dostupnost..."],
-      ["agent", "90% toga je ponavljajuće. AI agent odgovara odmah, na srpskom, 24/7 — a čoveku predaje samo složeno."],
-      ["user", "A integracija sa našim sistemom?"],
-      ["agent", "Povezujemo se na shop i CRM preko API-ja. Tiketi se sami kategorišu."],
-      ["agent", "Hoćete primer na vašim podacima?"],
-    ],
-  },
-  {
-    name: "AI agent · Leadovi",
-    solve: "Rešava: nekvalifikovane upite i izgubljeno vreme",
-    msgs: [
-      ["agent", "Koliko upita za nekretnine dobijate nedeljno?"],
-      ["user", "Mnogo, ali većina nije ozbiljna."],
-      ["agent", "AI agent kvalifikuje svaki upit — budžet, lokacija, rok — i zakazuje obilazak samo sa ozbiljnima."],
-      ["user", "Znači filtrira umesto agenta?"],
-      ["agent", "Tako je. Tim priča samo sa spremnim kupcima, ostalo agent neguje automatski."],
-      ["agent", "Da pokažem na vašoj ponudi?"],
-    ],
-  },
-  {
-    name: "AI agent · Dokumenti",
-    solve: "Rešava: ručno čitanje ugovora i dosijea",
-    msgs: [
-      ["agent", "Koliko vremena trošite na čitanje ugovora i dosijea?"],
-      ["user", "Sate. Sve ručno."],
-      ["agent", "AI čita, sumira i vadi ključne klauzule i rokove — za sekunde, sa referencama na izvor."],
-      ["user", "A poverljivost podataka?"],
-      ["agent", "Radi privatno, na vašoj infrastrukturi. Ništa ne napušta firmu."],
-      ["agent", "Hoćete demo na jednom vašem dokumentu?"],
-    ],
-  },
-];
 
 type Shown = { who: "agent" | "user"; text: string } | { who: "typing" };
 
-export function AiDemoV4() {
+export function AiDemoV4({ locale = defaultLocale }: { locale?: LocaleCode } = {}) {
+  const t = getV4Copy(locale);
+  const CHATS = t.aiDemo.chats;
   const [cur, setCur] = useState(0);
   const [shown, setShown] = useState<Shown[]>([]);
   const timersRef = useRef<number[]>([]);
@@ -179,7 +129,7 @@ export function AiDemoV4() {
         ))}
       </div>
       <div className={styles.chatNav}>
-        <button className={styles.chatArrow} aria-label="Prethodni" data-cursor="on" onClick={() => go(cur - 1)}>
+        <button className={styles.chatArrow} aria-label={t.aiDemo.prev} data-cursor="on" onClick={() => go(cur - 1)}>
           ←
         </button>
         <div className={styles.chatDots}>
@@ -192,7 +142,7 @@ export function AiDemoV4() {
             />
           ))}
         </div>
-        <button className={styles.chatArrow} aria-label="Sledeći" data-cursor="on" onClick={() => go(cur + 1)}>
+        <button className={styles.chatArrow} aria-label={t.aiDemo.next} data-cursor="on" onClick={() => go(cur + 1)}>
           →
         </button>
       </div>

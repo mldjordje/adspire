@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
+import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "@studio-freight/lenis";
@@ -16,120 +17,50 @@ import { SilkV4 } from "./SilkV4";
 import { EventHorizonV4 } from "./EventHorizonV4";
 import ProjectPlanesV4 from "./ProjectPlanesV4";
 import { MobileMenuV4 } from "./MobileMenuV4";
-import { FAQ_ITEMS } from "./faqData";
+import { getV4Copy } from "./copy";
+import {
+  defaultLocale,
+  localePath,
+  locales,
+  splitLocaleFromPath,
+  type LocaleCode,
+} from "@/lib/site-config";
 
-// ─── Content (SR preview copy — localize before launch) ─────────────────────
+// ─── Structural content (all text is localized in copy.ts, zipped by index) ──
 
+// title = brand name (same across locales); cat/summary come from copy
 const PROJECTS = [
-  {
-    cat: "Estetska klinika",
-    title: "Dr Igić Clinic",
-    summary: "Booking platforma, javni sajt i admin kalendar — termini, klijenti i analitika u jednom sistemu.",
-    image: "/images/case-studies/drigic-mobileview.png",
-    href: "/our-projects/dr-igic-web-aplikacija-za-estetske-klinike",
-    accent: "#f2efe6",
-    meta: "2025 · Next.js · Supabase · Booking",
-  },
-  {
-    cat: "Transport · Logistika",
-    title: "Prevoz Kop",
-    summary: "SEO sajt i CRM panel — upiti sa sajta ulaze pravo u prodajni tok.",
-    image: "/images/case-studies/prevozkop-desktop.png",
-    href: "/our-projects/prevozkop-digitalni-prodajni-operativni-sistem",
-    accent: "#2f6bff",
-    meta: "2025 · Next.js · CRM · SEO",
-  },
-  {
-    cat: "Modni brend",
-    title: "Santos & Santorini",
-    summary: "E-commerce i admin platforma — prodaja, lager i porudžbine iz jednog mesta.",
-    image: "/images/case-studies/santos-desktop.png",
-    href: "/our-projects/santos-santorini-web-shop-admin-platforma",
-    accent: "#5b8bff",
-    meta: "2024 · E-commerce · Admin · Lager",
-  },
-  {
-    cat: "EdTech",
-    title: "TeachFromHome",
-    summary: "Onboarding aplikacija — prijava, audio intervju i referral u merljivom funnel-u.",
-    image: "/images/case-studies/teachfromhome-desktop.png",
-    href: "/our-projects/teachfromhome-onboarding-sistem-za-remote-nastavnike",
-    accent: "#2f6bff",
-    meta: "2024 · Onboarding · Audio · Funnel",
-  },
-  {
-    cat: "Barber studio",
-    title: "Doctor Barber",
-    summary: "Booking sistem 24/7 — online termini i admin kalendar, bez ručnog dogovaranja.",
-    image: "/images/case-studies/doctorbarber.png",
-    href: "/our-projects/doctor-barber-online-booking-sistem",
-    accent: "#f2efe6",
-    meta: "2024 · Booking 24/7 · PWA",
-  },
+  { title: "Dr Igić Clinic", image: "/images/case-studies/drigic-mobileview.png", href: "/our-projects/dr-igic-web-aplikacija-za-estetske-klinike", accent: "#f2efe6", meta: "2025 · Next.js · Supabase · Booking" },
+  { title: "Prevoz Kop", image: "/images/case-studies/prevozkop-desktop.png", href: "/our-projects/prevozkop-digitalni-prodajni-operativni-sistem", accent: "#2f6bff", meta: "2025 · Next.js · CRM · SEO" },
+  { title: "Santos & Santorini", image: "/images/case-studies/santos-desktop.png", href: "/our-projects/santos-santorini-web-shop-admin-platforma", accent: "#5b8bff", meta: "2024 · E-commerce · Admin · Lager" },
+  { title: "TeachFromHome", image: "/images/case-studies/teachfromhome-desktop.png", href: "/our-projects/teachfromhome-onboarding-sistem-za-remote-nastavnike", accent: "#2f6bff", meta: "2024 · Onboarding · Audio · Funnel" },
+  { title: "Doctor Barber", image: "/images/case-studies/doctorbarber.png", href: "/our-projects/doctor-barber-online-booking-sistem", accent: "#f2efe6", meta: "2024 · Booking 24/7 · PWA" },
 ];
 
-// section rail — labels follow the visible section order
-const RAIL = [
-  { key: "hero", label: "Početak" },
-  { key: "manifesto", label: "Manifest" },
-  { key: "value", label: "Vrednost" },
-  { key: "projects", label: "Radovi" },
-  { key: "services", label: "Usluge" },
-  { key: "aiDemo", label: "AI demo" },
-  { key: "process", label: "Proces" },
-  { key: "faq", label: "FAQ" },
-  { key: "cta", label: "Kontakt" },
-] as const;
+// section rail keys — labels come from copy.rail by index
+const RAIL_KEYS = ["hero", "manifesto", "value", "projects", "services", "aiDemo", "process", "faq", "cta"] as const;
 
 // gen = SceneV4 shape the cloud re-knits into while the row is hovered
 // (0 sphere · 1 torus knot · 2 galaxy · 3 crystal · 4 neural · 5 wave · 6 "A")
+// title/desc/tags come from copy; num is derived from index
 const SERVICES = [
-  { num: "01", title: "Web sajtovi", desc: "Brz sajt koji posetioca vodi do upita.", tags: ["Next.js", "SEO"], href: "/our-services/web-prezentacije", gen: 0, glow: "#f2efe6", c1: [0.92, 0.91, 0.98], c2: [1, 0.96, 0.88] },
-  { num: "02", title: "Web shop", desc: "Prodaja i porudžbine u jednom toku.", tags: ["Katalog", "Plaćanje"], href: "/our-services/e-commerce-web-shop", gen: 3, glow: "#b9bac9", c1: [0.78, 0.79, 0.9], c2: [1, 0.97, 0.9] },
-  { num: "03", title: "Mobilne aplikacije", desc: "Aplikacije za korisnike i timove.", tags: ["PWA", "iOS / Android"], href: "/our-services/mobilne-aplikacije", gen: 1, glow: "#d8d6e4", c1: [0.85, 0.84, 0.92], c2: [0.72, 0.74, 0.86] },
-  { num: "04", title: "CMS sistemi", desc: "Izmene sadržaja bez programera.", tags: ["Admin", "Sadržaj"], href: "/our-services/cms-sistemi", gen: 5, glow: "#9aa0b8", c1: [0.62, 0.65, 0.75], c2: [0.85, 0.87, 0.95] },
-  { num: "05", title: "AI automatizacija", desc: "Manje ručnog rada u prodaji i podršci.", tags: ["LLM", "n8n"], href: "/our-services/ai-integracije-automatizacija", gen: 4, glow: "#2f6bff", c1: [0.4, 0.66, 1.0], c2: [0.85, 0.9, 1.0] },
-  { num: "06", title: "SEO & marketing", desc: "Vidljivost i merljivi rezultati.", tags: ["SEO", "Ads"], href: "/our-services/seo-digitalni-marketing", gen: 2, glow: "#e8e0d8", c1: [0.92, 0.88, 0.82], c2: [0.75, 0.77, 0.9] },
-  { num: "07", title: "Security & GDPR", desc: "Sigurnost i zaštita podataka.", tags: ["Audit", "GDPR"], href: "/our-services/cyber-security-gdpr", gen: 3, glow: "#d9c9c0", c1: [0.86, 0.78, 0.74], c2: [0.7, 0.72, 0.85] },
-  { num: "08", title: "UI/UX dizajn", desc: "Interfejs koji jasno vodi korisnika.", tags: ["Figma", "Motion"], href: "/our-services/interaktivne-web-tehnologije", gen: 6, glow: "#b9bac9", c1: [0.78, 0.79, 0.9], c2: [0.95, 0.93, 0.88] },
+  { href: "/our-services/web-prezentacije", gen: 0, c1: [0.92, 0.91, 0.98], c2: [1, 0.96, 0.88] },
+  { href: "/our-services/e-commerce-web-shop", gen: 3, c1: [0.78, 0.79, 0.9], c2: [1, 0.97, 0.9] },
+  { href: "/our-services/mobilne-aplikacije", gen: 1, c1: [0.85, 0.84, 0.92], c2: [0.72, 0.74, 0.86] },
+  { href: "/our-services/cms-sistemi", gen: 5, c1: [0.62, 0.65, 0.75], c2: [0.85, 0.87, 0.95] },
+  { href: "/our-services/ai-integracije-automatizacija", gen: 4, c1: [0.4, 0.66, 1.0], c2: [0.85, 0.9, 1.0] },
+  { href: "/our-services/seo-digitalni-marketing", gen: 2, c1: [0.92, 0.88, 0.82], c2: [0.75, 0.77, 0.9] },
+  { href: "/our-services/cyber-security-gdpr", gen: 3, c1: [0.86, 0.78, 0.74], c2: [0.7, 0.72, 0.85] },
+  { href: "/our-services/interaktivne-web-tehnologije", gen: 6, c1: [0.78, 0.79, 0.9], c2: [0.95, 0.93, 0.88] },
 ];
 
+// num/suffix are locale-agnostic; label comes from copy.metrics by index
 const METRICS = [
-  { num: 100, suffix: "", label: "Google ocena brzine — maksimalnih 100" },
-  { num: 5, suffix: "+", label: "Sajtova i aplikacija koje rade uživo" },
-  { num: 48, suffix: "h", label: "Od prvog poziva do prototipa" },
-  { num: 24, suffix: "/7", label: "Vaš sistem radi i kad vi ne radite" },
+  { num: 100, suffix: "" },
+  { num: 5, suffix: "+" },
+  { num: 48, suffix: "h" },
+  { num: 24, suffix: "/7" },
 ];
-
-const PROCESS = [
-  { num: "01", title: "Analiza", desc: "Poziv od 30 minuta. Razumemo biznis, cilj i gde curi novac — bez žargona." },
-  { num: "02", title: "Prototip za 48h", desc: "Klikabilan prototip pre ugovora — vidite tačno šta kupujete, pre nego što platite bilo šta." },
-  { num: "03", title: "Sprint", desc: "MVP za 2 nedelje. Nedeljni demo, transparentan napredak, bez iznenađenja." },
-  { num: "04", title: "Launch & rast", desc: "Merenje, iteracije, AI automatizacija. Sistem koji raste sa biznisom." },
-];
-
-const MANIFESTO =
-  "Vaš sajt ima jedan posao: da vam dovodi klijente. Vaši procesi drugi: da vam ne jedu vreme. Mi gradimo oba — sajt koji prodaje dok spavate i sisteme koji dosadan posao rade umesto vas.";
-
-const VALUE_PROPS = [
-  {
-    num: "01",
-    title: "Više upita",
-    desc: "Sajt koji pretvara posetioce u pozive i porudžbine. Ne vizit-karta — prodavac koji radi 24 sata dnevno.",
-  },
-  {
-    num: "02",
-    title: "Više vremena",
-    desc: "Aplikacije koje same zakazuju termine, prave izveštaje i sređuju papire. Vama ostaju sati — svake nedelje.",
-  },
-  {
-    num: "03",
-    title: "Više novca",
-    desc: "Web shop, AI agenti i automatska prodaja. Sistem odgovara kupcima i prodaje — i kad vi ne radite.",
-  },
-];
-
-const MARQUEE = "WEB · APLIKACIJE · E-COMMERCE · AI · WEBGL · DIZAJN · ";
 
 const hexTo01 = (hex: string): [number, number, number] => [
   parseInt(hex.slice(1, 3), 16) / 255,
@@ -139,13 +70,16 @@ const hexTo01 = (hex: string): [number, number, number] => [
 
 // ─── Component ───────────────────────────────────────────────────────────────
 
-export function HomeV4() {
+export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {}) {
+  const t = getV4Copy(locale);
   const rootRef = useRef<HTMLDivElement>(null);
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [clock, setClock] = useState("");
   const [activeSection, setActiveSection] = useState(0);
   const curtainRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
+  const pathname = usePathname() ?? "/";
+  const { basePath } = splitLocaleFromPath(pathname);
 
   // live Niš clock in the nav — studio feels staffed
   useEffect(() => {
@@ -662,8 +596,8 @@ export function HomeV4() {
       }
 
       // ── Section rail tracking ───────────────────────────────────────
-      RAIL.forEach((r, i) => {
-        const el = q<HTMLElement>(`.${styles[r.key]}`)[0];
+      RAIL_KEYS.forEach((key, i) => {
+        const el = q<HTMLElement>(`.${styles[key]}`)[0];
         if (!el) return;
         ScrollTrigger.create({
           trigger: el,
@@ -829,7 +763,7 @@ export function HomeV4() {
         const enterFns = rows.map((row, i) => {
           const s = SERVICES[i];
           const onEnter = () => {
-            panelDesc.textContent = s.desc;
+            panelDesc.textContent = t.services.items[i].desc;
             panel.style.setProperty("--sa", "#2f6bff");
             panel.classList.add(styles.svcPanelOn);
             window.dispatchEvent(
@@ -894,48 +828,64 @@ export function HomeV4() {
 
       {/* ── Nav ── */}
       <header className={styles.nav}>
-        <a className={styles.navLogo} href="/" data-cursor="on">
+        <a className={styles.navLogo} href={localePath("/", locale)} data-cursor="on">
           ADSPIRE<span className={styles.navLogoDot}>.</span>
         </a>
         <div className={styles.navHud} aria-hidden="true">
           <span className={styles.navHudDot} />
           <span>NIŠ&nbsp;·&nbsp;{clock}</span>
           <span className={styles.navHudSep}>—</span>
-          <span className={styles.navHudLabel}>{RAIL[activeSection]?.label}</span>
+          <span className={styles.navHudLabel}>{t.rail[activeSection]}</span>
         </div>
         <div className={styles.navRight}>
+          <div className={styles.langSwitch} role="group" aria-label="Language">
+            {locales.map((lc) => (
+              <Link
+                key={lc}
+                href={localePath(basePath, lc)}
+                className={`${styles.langItem} ${lc === locale ? styles.langItemActive : ""}`}
+                hrefLang={lc}
+                aria-current={lc === locale ? "true" : undefined}
+                data-cursor="on"
+              >
+                {lc.toUpperCase()}
+              </Link>
+            ))}
+          </div>
           <a className={styles.navCta} href="/contact-us" data-cursor="on" data-magnetic data-scramble>
-            Pokreni projekat
+            {t.nav.cta}
           </a>
           <MobileMenuV4
-            sections={RAIL.filter((r) => r.key !== "hero" && r.key !== "manifesto" && r.key !== "value").map((r) => ({
-              label: r.label,
-              onSelect: () => {
-                const el = rootRef.current?.querySelector<HTMLElement>(`.${styles[r.key]}`);
-                if (!el) return;
-                if (lenisRef.current) lenisRef.current.scrollTo(el, { duration: 1.2 });
-                else el.scrollIntoView({ behavior: "smooth" });
-              },
-            }))}
+            sections={RAIL_KEYS.map((key, i) => ({ key, label: t.rail[i] }))
+              .filter((r) => r.key !== "hero" && r.key !== "manifesto" && r.key !== "value")
+              .map((r) => ({
+                label: r.label,
+                onSelect: () => {
+                  const el = rootRef.current?.querySelector<HTMLElement>(`.${styles[r.key]}`);
+                  if (!el) return;
+                  if (lenisRef.current) lenisRef.current.scrollTo(el, { duration: 1.2 });
+                  else el.scrollIntoView({ behavior: "smooth" });
+                },
+              }))}
           />
         </div>
       </header>
 
       {/* section rail — desktop navigation spine */}
       <aside className={styles.rail} aria-label="Sekcije">
-        {RAIL.map((r, i) => (
+        {RAIL_KEYS.map((key, i) => (
           <button
-            key={r.key}
+            key={key}
             className={`${styles.railItem} ${i === activeSection ? styles.railItemActive : ""}`}
             data-cursor="on"
-            aria-label={r.label}
+            aria-label={t.rail[i]}
             onClick={() => {
-              const el = rootRef.current?.querySelector<HTMLElement>(`.${styles[r.key]}`);
+              const el = rootRef.current?.querySelector<HTMLElement>(`.${styles[key]}`);
               if (el) lenisRef.current?.scrollTo(el, { offset: 0, duration: 1.4 });
             }}
           >
             <span className={styles.railNum}>{String(i + 1).padStart(2, "0")}</span>
-            <span className={styles.railLabel}>{r.label}</span>
+            <span className={styles.railLabel}>{t.rail[i]}</span>
           </button>
         ))}
       </aside>
@@ -949,37 +899,34 @@ export function HomeV4() {
             <span className={styles.heroSheen} aria-hidden="true" />
             <p className={styles.heroBadge}>
               <span className={styles.heroBadgeDot} />
-              Web · Aplikacije · AI — Niš
+              {t.hero.badge}
             </p>
             <h1 className={styles.heroTitle}>
-              <span className={styles.heroLine}>NIKO NE PAMTI</span>
-              <span className={`${styles.heroLine} ${styles.heroLineOutline}`}>PROSEČAN</span>
+              <span className={styles.heroLine}>{t.hero.title[0]}</span>
+              <span className={`${styles.heroLine} ${styles.heroLineOutline}`}>{t.hero.title[1]}</span>
               <span className={styles.heroLine}>
-                SAJT<span className={styles.heroAccentDot}>.</span>
+                {t.hero.title[2]}<span className={styles.heroAccentDot}>.</span>
               </span>
             </h1>
-            <p className={styles.heroSub}>
-              Ručno kodirani sajtovi i AI sistemi koji pretvaraju posetioce u
-              klijente.
-            </p>
+            <p className={styles.heroSub}>{t.hero.sub}</p>
             <div className={styles.heroCtas}>
               <a className={styles.btnPrimary} href="/contact-us" data-cursor="on" data-magnetic>
-                Zakaži besplatan poziv
+                {t.hero.ctaPrimary}
               </a>
               <a className={styles.btnGhost} href="/our-projects" data-cursor="on" data-scramble>
-                Pogledaj radove
+                {t.hero.ctaGhost}
               </a>
             </div>
             <div className={styles.heroTrust}>
-              <span>5+ sajtova i aplikacija uživo</span>
+              <span>{t.hero.trust[0]}</span>
               <span className={styles.heroTrustSep} />
-              <span>Google brzina 100/100</span>
+              <span>{t.hero.trust[1]}</span>
               <span className={styles.heroTrustSep} />
-              <span>Prototip za 48h</span>
+              <span>{t.hero.trust[2]}</span>
             </div>
           </div>
           <div className={styles.heroScrollHint} aria-hidden="true">
-            <span>skroluj</span>
+            <span>{t.hero.scroll}</span>
             <span className={styles.heroScrollLine} />
           </div>
         </section>
@@ -987,17 +934,17 @@ export function HomeV4() {
         {/* ── 02 · Marquee ── */}
         <div className={styles.marquee} aria-hidden="true">
           <div className={styles.marqueeRow}>
-            <span>{MARQUEE.repeat(4)}</span>
+            <span>{t.marquee.repeat(4)}</span>
           </div>
           <div className={`${styles.marqueeRow} ${styles.marqueeRowAlt}`}>
-            <span>{MARQUEE.repeat(4)}</span>
+            <span>{t.marquee.repeat(4)}</span>
           </div>
         </div>
 
         {/* ── 03 · Manifesto ── */}
         <section className={styles.manifesto}>
-          <p className={styles.manifestoText} aria-label={MANIFESTO}>
-            {MANIFESTO.split(" ").map((w, i) => (
+          <p className={styles.manifestoText} aria-label={t.manifesto}>
+            {t.manifesto.split(" ").map((w, i) => (
               <span key={i} className={styles.manifestoWord} aria-hidden="true">
                 {w}{" "}
               </span>
@@ -1009,15 +956,15 @@ export function HomeV4() {
         <section className={styles.value}>
           <SilkV4 opacity={0.55} />
           <div className={styles.valueHead}>
-            <span className={styles.sectionEyebrow}>Bez magle — ovo dobijate</span>
+            <span className={styles.sectionEyebrow}>{t.value.eyebrow}</span>
             <h2 className={styles.sectionTitle} data-reveal="chars">
-              ŠTA PLAĆATE
+              {t.value.title}
             </h2>
           </div>
           <div className={styles.valueGrid}>
-            {VALUE_PROPS.map((v) => (
-              <div key={v.num} className={styles.valueCard} data-cursor="on">
-                <span className={styles.valueNum}>{v.num}</span>
+            {t.value.items.map((v, i) => (
+              <div key={i} className={styles.valueCard} data-cursor="on">
+                <span className={styles.valueNum}>{String(i + 1).padStart(2, "0")}</span>
                 <h3 className={styles.valueTitle}>{v.title}</h3>
                 <p className={styles.valueDesc}>{v.desc}</p>
               </div>
@@ -1029,11 +976,11 @@ export function HomeV4() {
         <section className={styles.projects} aria-label="Odabrani projekti">
           <div className={styles.projectsTrack}>
             <div className={styles.projectsIntro}>
-              <span className={styles.sectionEyebrow}>Radovi / 01—05</span>
+              <span className={styles.sectionEyebrow}>{t.projects.eyebrow}</span>
               <h2 className={styles.projectsIntroTitle} data-reveal="chars">
-                IZDVOJENI PROJEKTI
+                {t.projects.title}
               </h2>
-              <p className={styles.projectsIntroHint}>Skroluj — priča ide udesno →</p>
+              <p className={styles.projectsIntroHint}>{t.projects.hint}</p>
             </div>
             {PROJECTS.map((p, i) => (
               <article
@@ -1042,19 +989,19 @@ export function HomeV4() {
                 style={{ "--accent": p.accent } as React.CSSProperties}
               >
                 <span className={styles.projectIndex}>{String(i + 1).padStart(2, "0")}</span>
-                <div className={styles.projectMedia} data-cursor="otvori">
+                <div className={styles.projectMedia} data-cursor={t.projects.open}>
                   <a href={p.href} className={styles.projectMediaLink} aria-label={p.title}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img className={styles.projectImg} src={p.image} alt={p.title} loading="lazy" />
                   </a>
                 </div>
                 <div className={styles.projectInfo}>
-                  <span className={styles.projectCat}>{p.cat}</span>
+                  <span className={styles.projectCat}>{t.projects.items[i].cat}</span>
                   <span className={styles.projectMetaRow}>{p.meta}</span>
                   <h3 className={styles.projectTitle}>{p.title}</h3>
-                  <p className={styles.projectSummary}>{p.summary}</p>
+                  <p className={styles.projectSummary}>{t.projects.items[i].summary}</p>
                   <a className={styles.projectLink} href={p.href} data-cursor="on" data-scramble>
-                    Pogledaj projekat →
+                    {t.projects.link}
                   </a>
                 </div>
               </article>
@@ -1075,31 +1022,31 @@ export function HomeV4() {
         {/* ── 05 · Services — editorial index, hover morphs the scene ── */}
         <section className={styles.services}>
           <div className={styles.servicesHead}>
-            <span className={styles.sectionEyebrow}>Šta radimo — pređi preko liste</span>
+            <span className={styles.sectionEyebrow}>{t.services.eyebrow}</span>
             <h2 className={styles.sectionTitle} data-reveal="chars">
-              USLUGE
+              {t.services.title}
             </h2>
           </div>
           <div className={styles.svcList}>
-            {SERVICES.map((s) => (
+            {SERVICES.map((s, i) => (
               <a
-                key={s.num}
+                key={s.href}
                 className={styles.svcRow}
                 href={s.href}
                 data-cursor="on"
                 style={{ "--sa": "#2f6bff" } as React.CSSProperties}
               >
-                <span className={styles.svcNum}>{s.num}</span>
+                <span className={styles.svcNum}>{String(i + 1).padStart(2, "0")}</span>
                 <span className={styles.svcTitleWrap} aria-hidden="true">
-                  <span className={styles.svcTitle}>{s.title}</span>
-                  <span className={`${styles.svcTitle} ${styles.svcTitleGhost}`}>{s.title}</span>
+                  <span className={styles.svcTitle}>{t.services.items[i].title}</span>
+                  <span className={`${styles.svcTitle} ${styles.svcTitleGhost}`}>{t.services.items[i].title}</span>
                 </span>
-                <span className={styles.svcTitleSr}>{s.title}</span>
-                <p className={styles.svcDesc}>{s.desc}</p>
+                <span className={styles.svcTitleSr}>{t.services.items[i].title}</span>
+                <p className={styles.svcDesc}>{t.services.items[i].desc}</p>
                 <span className={styles.svcMeta}>
-                  {s.tags.map((t) => (
-                    <span key={t} className={styles.svcTag}>
-                      {t}
+                  {t.services.items[i].tags.map((tag) => (
+                    <span key={tag} className={styles.svcTag}>
+                      {tag}
                     </span>
                   ))}
                 </span>
@@ -1111,39 +1058,35 @@ export function HomeV4() {
           </div>
           <div className={styles.svcPanel} aria-hidden="true">
             <p className={styles.svcPanelDesc} />
-            <span className={styles.svcPanelCta}>Pogledaj uslugu →</span>
+            <span className={styles.svcPanelCta}>{t.services.panelCta}</span>
           </div>
         </section>
 
         {/* ── 06 · AI agent live demo ── */}
         <section className={styles.aiDemo}>
           <div className={styles.aiDemoHead}>
-            <span className={styles.sectionEyebrow}>AI agent uživo</span>
+            <span className={styles.sectionEyebrow}>{t.aiDemo.eyebrow}</span>
             <h2 className={styles.sectionTitle} data-reveal="chars">
-              NIJE SNIMAK.
+              {t.aiDemo.title}
             </h2>
-            <p className={styles.aiDemoNote}>
-              Ovakav agent već radi kod naših klijenata: odgovara kupcima, zakazuje
-              termine i beleži svaki upit — 24 sata dnevno, bez pauze. Prevuci i
-              pogledaj prave razgovore.
-            </p>
+            <p className={styles.aiDemoNote}>{t.aiDemo.note}</p>
           </div>
-          <AiDemoV4 />
+          <AiDemoV4 locale={locale} />
         </section>
 
         {/* ── 07 · Process ── */}
         <section className={styles.process}>
           <div className={styles.processHead}>
-            <span className={styles.sectionEyebrow}>Kako radimo</span>
+            <span className={styles.sectionEyebrow}>{t.process.eyebrow}</span>
             <h2 className={styles.sectionTitle} data-reveal="chars">
-              PROCES
+              {t.process.title}
             </h2>
           </div>
           <div className={styles.processTrack}>
             <span className={styles.processLine} aria-hidden="true" />
-            {PROCESS.map((p) => (
-              <div key={p.num} className={styles.processStep}>
-                <span className={styles.processNum}>{p.num}</span>
+            {t.process.items.map((p, i) => (
+              <div key={i} className={styles.processStep}>
+                <span className={styles.processNum}>{String(i + 1).padStart(2, "0")}</span>
                 <div>
                   <h3 className={styles.processTitle}>{p.title}</h3>
                   <p className={styles.processDesc}>{p.desc}</p>
@@ -1156,9 +1099,9 @@ export function HomeV4() {
         {/* ── 08 · Tech — infinite carousel ── */}
         <section className={styles.tech}>
           <div className={styles.techHead}>
-            <span className={styles.sectionEyebrow}>Alati koje vozimo</span>
+            <span className={styles.sectionEyebrow}>{t.tech.eyebrow}</span>
             <h2 className={styles.sectionTitle} data-reveal="chars">
-              STACK
+              {t.tech.title}
             </h2>
           </div>
           <TechCarouselV4 />
@@ -1166,12 +1109,12 @@ export function HomeV4() {
 
         {/* ── 09 · Metrics ── */}
         <section className={styles.metrics}>
-          {METRICS.map((m) => (
-            <div key={m.label} className={styles.metric}>
+          {METRICS.map((m, i) => (
+            <div key={i} className={styles.metric}>
               <span className={styles.metricNum} data-num={m.num} data-suffix={m.suffix}>
                 0
               </span>
-              <span className={styles.metricLabel}>{m.label}</span>
+              <span className={styles.metricLabel}>{t.metrics[i]}</span>
             </div>
           ))}
         </section>
@@ -1179,13 +1122,13 @@ export function HomeV4() {
         {/* ── 10 · FAQ ── */}
         <section className={styles.faq}>
           <div className={styles.faqHead}>
-            <span className={styles.sectionEyebrow}>Pitanja koja svi postavljaju</span>
+            <span className={styles.sectionEyebrow}>{t.faq.eyebrow}</span>
             <h2 className={styles.sectionTitle} data-reveal="chars">
-              FAQ
+              {t.faq.title}
             </h2>
           </div>
           <div className={styles.faqList}>
-            {FAQ_ITEMS.map((item, i) => (
+            {t.faq.items.map((item, i) => (
               <div key={item.q} className={styles.faqItem}>
                 <button
                   className={styles.faqQ}
@@ -1210,11 +1153,11 @@ export function HomeV4() {
         <section className={styles.cta}>
           <EventHorizonV4 />
           <div className={styles.ctaVeil} aria-hidden="true" />
-          <span className={styles.sectionEyebrow}>Besplatan poziv · 30 min</span>
+          <span className={styles.sectionEyebrow}>{t.cta.eyebrow}</span>
           <h2 className={styles.ctaTitle}>
-            HAJDE DA NAPRAVIMO
+            {t.cta.titleLine1}
             <br />
-            NEŠTO <span className={styles.ctaAccent}>VELIKO.</span>
+            {t.cta.titleLine2Pre}<span className={styles.ctaAccent}>{t.cta.titleAccent}</span>
           </h2>
           <a
             className={styles.ctaButton}
@@ -1225,16 +1168,14 @@ export function HomeV4() {
             djordje@adspire.rs
           </a>
           <div className={styles.ctaAlt}>
-            <span>ili odmah:</span>
+            <span>{t.cta.altPrefix}</span>
             <a href="tel:+381601491491" data-cursor="on">+381 60 149 149 1</a>
             <span className={styles.ctaAltSep}>·</span>
             <a href="https://wa.me/381601491491" target="_blank" rel="noreferrer" data-cursor="on">
               WhatsApp
             </a>
           </div>
-          <p className={styles.ctaNote}>
-            Kažemo ti koliko vremena i novca možeš da vratiš — pre nego što potpišeš bilo šta.
-          </p>
+          <p className={styles.ctaNote}>{t.cta.note}</p>
           <div className={styles.wordmark} aria-hidden="true">
             <span className={styles.wordmarkText} data-reveal="chars">
               ADSPIRE
@@ -1246,36 +1187,33 @@ export function HomeV4() {
                 <span className={styles.footerBrand}>
                   ADSPIRE<span className={styles.navLogoDot}>.</span>
                 </span>
-                <p className={styles.footerBlurb}>
-                  Studio za web, aplikacije i AI automatizaciju. Sajtovi koji dovode
-                  klijente, sistemi koji štede vreme.
-                </p>
+                <p className={styles.footerBlurb}>{t.footer.blurb}</p>
               </div>
               <div className={styles.footerCol}>
-                <span className={styles.footerColTitle}>Mapa</span>
-                <a href="/our-projects" data-cursor="on">Projekti</a>
-                <a href="/our-services" data-cursor="on">Usluge</a>
-                <a href="/blog" data-cursor="on">Blog</a>
-                <a href="/contact-us" data-cursor="on">Kontakt</a>
+                <span className={styles.footerColTitle}>{t.footer.mapTitle}</span>
+                <a href="/our-projects" data-cursor="on">{t.footer.map[0]}</a>
+                <a href="/our-services" data-cursor="on">{t.footer.map[1]}</a>
+                <a href="/blog" data-cursor="on">{t.footer.map[2]}</a>
+                <a href="/contact-us" data-cursor="on">{t.footer.map[3]}</a>
               </div>
               <div className={styles.footerCol}>
-                <span className={styles.footerColTitle}>Kontakt</span>
+                <span className={styles.footerColTitle}>{t.footer.contactTitle}</span>
                 <a href="mailto:djordje@adspire.rs" data-cursor="on">djordje@adspire.rs</a>
                 <a href="tel:+381601491491" data-cursor="on">+381 60 149 149 1</a>
-                <span>Niš, Srbija</span>
+                <span>{t.footer.location}</span>
               </div>
               <div className={styles.footerCol}>
-                <span className={styles.footerColTitle}>Status</span>
+                <span className={styles.footerColTitle}>{t.footer.statusTitle}</span>
                 <span className={styles.footerStatus}>
                   <span className={styles.footerStatusDot} />
-                  Dostupni za nove projekte
+                  {t.footer.status}
                 </span>
                 <span className={styles.footerVersion}>OBSIDIAN · v4.0</span>
               </div>
             </div>
             <div className={styles.footerBottom}>
-              <span>© 2026 Adspire Digital — Niš. Sva prava zadržana.</span>
-              <span>Dizajn i kod: Adspire — ručno, bez šablona.</span>
+              <span>{t.footer.copyright}</span>
+              <span>{t.footer.credit}</span>
             </div>
           </footer>
         </section>

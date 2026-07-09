@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { JsonLd } from "@/components/site/JsonLd";
-import { FAQ_ITEMS } from "@/components/site/v4/faqData";
+import { getV4Faq } from "@/components/site/v4/copy";
 import { v4FontClass } from "@/components/site/v4/fonts";
 import { HomeV4 } from "@/components/site/v4/HomeV4";
 import { pageMetadata } from "@/lib/seo/metadata";
@@ -11,7 +11,7 @@ const homeTitle =
 const faqJsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  mainEntity: FAQ_ITEMS.map((item) => ({
+  mainEntity: getV4Faq("sr").map((item) => ({
     "@type": "Question",
     name: item.q,
     acceptedAnswer: { "@type": "Answer", text: item.a },
@@ -42,7 +42,7 @@ export default function Page() {
   return (
     <div className={v4FontClass}>
       <JsonLd data={[faqJsonLd]} />
-      <HomeV4 />
+      <HomeV4 locale="sr" />
     </div>
   );
 }
