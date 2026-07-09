@@ -50,14 +50,14 @@ type ShapeDef = {
 // palette: monochrome platinum — chapters shift TEMPERATURE (cool silver ↔
 // warm champagne ↔ steel), never hue; green stays the AI chapter's signature
 const SHAPES: ShapeDef[] = [
-  { section: "hero", gen: 0, camZ: 8.6, camA: 0.0, camY: 0.0, x: 0.0, rot: 1.0, tilt: 0, alpha: 0.62, wave: 0, dive: 0.5, bg: [0.014, 0.014, 0.02], color: [0.88, 0.87, 0.95], color2: [1.0, 0.96, 0.88] },
-  { section: "manifesto", gen: 1, camZ: 8.4, camA: 0.55, camY: 0.5, x: 0.0, rot: 0.55, tilt: 0.15, alpha: 0.5, wave: 0, dive: 5.0, bg: [0.022, 0.019, 0.014], color: [0.95, 0.9, 0.78], color2: [0.8, 0.8, 0.9] },
-  { section: "projects", gen: 2, camZ: 8.2, camA: -0.5, camY: -0.35, x: 2.4, rot: 0.6, tilt: 0.5, alpha: 0.3, wave: 0, dive: 0.6, bg: [0.024, 0.02, 0.018], color: [1.0, 0.95, 0.9], color2: [0.75, 0.77, 0.9] },
-  { section: "services", gen: 3, camZ: 8.4, camA: 0.6, camY: 0.4, x: -2.8, rot: 0.35, tilt: 0, alpha: 0.22, wave: 0, dive: 5.2, bg: [0.014, 0.015, 0.022], color: [0.72, 0.74, 0.88], color2: [0.95, 0.93, 0.85] },
-  { section: "aiDemo", gen: 4, camZ: 8.4, camA: -0.55, camY: -0.3, x: 1.8, rot: 0.8, tilt: 0, alpha: 0.42, wave: 0, dive: 0.7, bg: [0.012, 0.024, 0.018], color: [0.8, 0.85, 0.95], color2: [0.35, 0.95, 0.65] },
-  { section: "process", gen: 5, camZ: 7.6, camA: 0.25, camY: 0.9, x: 0.0, rot: 0.04, tilt: 0.62, alpha: 0.55, wave: 1, dive: 0.6, bg: [0.014, 0.016, 0.024], color: [0.82, 0.85, 0.95], color2: [0.95, 0.9, 0.8] },
-  { section: "metrics", gen: 5, camZ: 8.2, camA: -0.3, camY: 0.45, x: 0.0, rot: 0.04, tilt: 0.55, alpha: 0.32, wave: 1, dive: 2.6, bg: [0.016, 0.016, 0.02], color: [0.9, 0.9, 0.95], color2: [1.0, 0.95, 0.85] },
-  { section: "cta", gen: 6, camZ: 7.0, camA: 0.0, camY: 0.0, x: 0.0, rot: 0.2, tilt: 0, alpha: 0.8, wave: 0, dive: 0.5, bg: [0.008, 0.008, 0.01], color: [1.0, 0.98, 0.95], color2: [0.8, 0.8, 0.9] },
+  { section: "hero", gen: 0, camZ: 8.6, camA: 0.0, camY: 0.0, x: 0.0, rot: 1.0, tilt: 0, alpha: 0.62, wave: 0, dive: 0.5, bg: [0.012, 0.02, 0.04], color: [0.86, 0.89, 1.0], color2: [0.7, 0.8, 1.0] },
+  { section: "manifesto", gen: 1, camZ: 8.4, camA: 0.55, camY: 0.5, x: 0.0, rot: 0.55, tilt: 0.15, alpha: 0.5, wave: 0, dive: 5.0, bg: [0.014, 0.022, 0.044], color: [0.85, 0.88, 1.0], color2: [0.72, 0.78, 0.95] },
+  { section: "projects", gen: 2, camZ: 8.2, camA: -0.5, camY: -0.35, x: 2.4, rot: 0.6, tilt: 0.5, alpha: 0.3, wave: 0, dive: 0.6, bg: [0.016, 0.026, 0.05], color: [0.88, 0.92, 1.0], color2: [0.72, 0.78, 0.95] },
+  { section: "services", gen: 3, camZ: 8.4, camA: 0.6, camY: 0.4, x: -2.8, rot: 0.35, tilt: 0, alpha: 0.22, wave: 0, dive: 5.2, bg: [0.012, 0.02, 0.04], color: [0.72, 0.78, 0.95], color2: [0.82, 0.88, 1.0] },
+  { section: "aiDemo", gen: 4, camZ: 8.4, camA: -0.55, camY: -0.3, x: 1.8, rot: 0.8, tilt: 0, alpha: 0.42, wave: 0, dive: 0.7, bg: [0.012, 0.022, 0.046], color: [0.78, 0.85, 1.0], color2: [0.4, 0.66, 1.0] },
+  { section: "process", gen: 5, camZ: 7.6, camA: 0.25, camY: 0.9, x: 0.0, rot: 0.04, tilt: 0.62, alpha: 0.55, wave: 1, dive: 0.6, bg: [0.014, 0.022, 0.044], color: [0.8, 0.85, 1.0], color2: [0.78, 0.84, 1.0] },
+  { section: "metrics", gen: 5, camZ: 8.2, camA: -0.3, camY: 0.45, x: 0.0, rot: 0.04, tilt: 0.55, alpha: 0.32, wave: 1, dive: 2.6, bg: [0.014, 0.022, 0.042], color: [0.86, 0.89, 1.0], color2: [0.78, 0.84, 1.0] },
+  { section: "cta", gen: 6, camZ: 7.0, camA: 0.0, camY: 0.0, x: 0.0, rot: 0.2, tilt: 0, alpha: 0.8, wave: 0, dive: 0.5, bg: [0.008, 0.014, 0.03], color: [0.9, 0.93, 1.0], color2: [0.72, 0.8, 1.0] },
 ];
 
 /** payload of the `v4:morph` event — the services index can take the cloud
@@ -608,7 +608,8 @@ export function SceneV4() {
 
       const scene = new THREE.Scene();
       // opaque bg matches the page — required for the bloom composer path
-      scene.background = new THREE.Color(0x060608);
+      // blue-black, not neutral near-black: kills the flat-gray scroll read
+      scene.background = new THREE.Color(0x05070f);
       const camera = new THREE.PerspectiveCamera(
         42,
         window.innerWidth / window.innerHeight,
@@ -926,9 +927,9 @@ export function SceneV4() {
         }
       `;
       const nebDefs: { color: number; pos: [number, number, number]; s: number }[] = [
-        { color: 0x1a1a24, pos: [-5, 2.5, -10], s: 1.4 },
-        { color: 0x201c16, pos: [6, -3, -12], s: 1.7 },
-        { color: 0x121218, pos: [0, 4.5, -14], s: 1.9 },
+        { color: 0x16305c, pos: [-5, 2.5, -10], s: 1.4 },
+        { color: 0x0e2440, pos: [6, -3, -12], s: 1.7 },
+        { color: 0x122645, pos: [0, 4.5, -14], s: 1.9 },
       ];
       const nebulas = nebDefs.map((def, i) => {
         const mat = new THREE.ShaderMaterial({
@@ -976,8 +977,8 @@ export function SceneV4() {
       const ribbons = ribbonDefs.map((def) => {
         const mat = new THREE.ShaderMaterial({
           uniforms: {
-            uColorA: { value: new THREE.Color(0xf2efe6) },
-            uColorB: { value: new THREE.Color(0xb9bac9) },
+            uColorA: { value: new THREE.Color(0xaec4f2) },
+            uColorB: { value: new THREE.Color(0x3f6bd6) },
             uOpacity: { value: def.op },
             uTime: { value: 0 },
             uPhase: { value: def.phase },

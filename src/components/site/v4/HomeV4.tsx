@@ -36,7 +36,7 @@ const PROJECTS = [
     summary: "SEO sajt i CRM panel — upiti sa sajta ulaze pravo u prodajni tok.",
     image: "/images/case-studies/prevozkop-desktop.png",
     href: "/our-projects/prevozkop-digitalni-prodajni-operativni-sistem",
-    accent: "#b9bac9",
+    accent: "#2f6bff",
     meta: "2025 · Next.js · CRM · SEO",
   },
   {
@@ -45,7 +45,7 @@ const PROJECTS = [
     summary: "E-commerce i admin platforma — prodaja, lager i porudžbine iz jednog mesta.",
     image: "/images/case-studies/santos-desktop.png",
     href: "/our-projects/santos-santorini-web-shop-admin-platforma",
-    accent: "#b9bac9",
+    accent: "#5b8bff",
     meta: "2024 · E-commerce · Admin · Lager",
   },
   {
@@ -54,7 +54,7 @@ const PROJECTS = [
     summary: "Onboarding aplikacija — prijava, audio intervju i referral u merljivom funnel-u.",
     image: "/images/case-studies/teachfromhome-desktop.png",
     href: "/our-projects/teachfromhome-onboarding-sistem-za-remote-nastavnike",
-    accent: "#d8d6e4",
+    accent: "#2f6bff",
     meta: "2024 · Onboarding · Audio · Funnel",
   },
   {
@@ -88,7 +88,7 @@ const SERVICES = [
   { num: "02", title: "Web shop", desc: "Prodaja i porudžbine u jednom toku.", tags: ["Katalog", "Plaćanje"], href: "/our-services/e-commerce-web-shop", gen: 3, glow: "#b9bac9", c1: [0.78, 0.79, 0.9], c2: [1, 0.97, 0.9] },
   { num: "03", title: "Mobilne aplikacije", desc: "Aplikacije za korisnike i timove.", tags: ["PWA", "iOS / Android"], href: "/our-services/mobilne-aplikacije", gen: 1, glow: "#d8d6e4", c1: [0.85, 0.84, 0.92], c2: [0.72, 0.74, 0.86] },
   { num: "04", title: "CMS sistemi", desc: "Izmene sadržaja bez programera.", tags: ["Admin", "Sadržaj"], href: "/our-services/cms-sistemi", gen: 5, glow: "#9aa0b8", c1: [0.62, 0.65, 0.75], c2: [0.85, 0.87, 0.95] },
-  { num: "05", title: "AI automatizacija", desc: "Manje ručnog rada u prodaji i podršci.", tags: ["LLM", "n8n"], href: "/our-services/ai-integracije-automatizacija", gen: 4, glow: "#5cf2a6", c1: [0.35, 0.95, 0.65], c2: [0.85, 0.9, 0.95] },
+  { num: "05", title: "AI automatizacija", desc: "Manje ručnog rada u prodaji i podršci.", tags: ["LLM", "n8n"], href: "/our-services/ai-integracije-automatizacija", gen: 4, glow: "#2f6bff", c1: [0.4, 0.66, 1.0], c2: [0.85, 0.9, 1.0] },
   { num: "06", title: "SEO & marketing", desc: "Vidljivost i merljivi rezultati.", tags: ["SEO", "Ads"], href: "/our-services/seo-digitalni-marketing", gen: 2, glow: "#e8e0d8", c1: [0.92, 0.88, 0.82], c2: [0.75, 0.77, 0.9] },
   { num: "07", title: "Security & GDPR", desc: "Sigurnost i zaštita podataka.", tags: ["Audit", "GDPR"], href: "/our-services/cyber-security-gdpr", gen: 3, glow: "#d9c9c0", c1: [0.86, 0.78, 0.74], c2: [0.7, 0.72, 0.85] },
   { num: "08", title: "UI/UX dizajn", desc: "Interfejs koji jasno vodi korisnika.", tags: ["Figma", "Motion"], href: "/our-services/interaktivne-web-tehnologije", gen: 6, glow: "#b9bac9", c1: [0.78, 0.79, 0.9], c2: [0.95, 0.93, 0.88] },
@@ -830,7 +830,7 @@ export function HomeV4() {
           const s = SERVICES[i];
           const onEnter = () => {
             panelDesc.textContent = s.desc;
-            panel.style.setProperty("--sa", s.glow);
+            panel.style.setProperty("--sa", "#2f6bff");
             panel.classList.add(styles.svcPanelOn);
             window.dispatchEvent(
               new CustomEvent("v4:morph", {
@@ -1087,7 +1087,7 @@ export function HomeV4() {
                 className={styles.svcRow}
                 href={s.href}
                 data-cursor="on"
-                style={{ "--sa": s.glow } as React.CSSProperties}
+                style={{ "--sa": "#2f6bff" } as React.CSSProperties}
               >
                 <span className={styles.svcNum}>{s.num}</span>
                 <span className={styles.svcTitleWrap} aria-hidden="true">

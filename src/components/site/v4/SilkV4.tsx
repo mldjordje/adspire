@@ -58,16 +58,17 @@ void main() {
   float f = fbm(uv * 1.8 + q * 1.4 + vec2(t * 0.6, -t * 0.4));
 
   vec3 deep = vec3(0.016, 0.016, 0.03);
-  vec3 cyan = vec3(0.16, 0.5, 0.62);
-  vec3 violet = vec3(0.3, 0.24, 0.62);
+  // two-blue palette only — no cyan/violet
+  vec3 blue = vec3(0.16, 0.36, 0.9);
+  vec3 blueDeep = vec3(0.13, 0.26, 0.68);
 
   vec3 col = deep;
-  col += cyan * smoothstep(0.35, 0.85, f) * 0.5;
-  col += violet * smoothstep(0.55, 1.0, fbm(uv * 2.4 - q)) * 0.45;
+  col += blue * smoothstep(0.35, 0.85, f) * 0.5;
+  col += blueDeep * smoothstep(0.55, 1.0, fbm(uv * 2.4 - q)) * 0.45;
   // fine sheen lines along the folds
-  col += vec3(0.5, 0.75, 0.85) * pow(abs(sin(f * 14.0 + t * 3.0)), 24.0) * 0.06;
+  col += vec3(0.5, 0.62, 1.0) * pow(abs(sin(f * 14.0 + t * 3.0)), 24.0) * 0.06;
   // cursor glow rides on top of the fabric
-  col += vec3(0.28, 0.62, 0.8) * inf * 0.45;
+  col += vec3(0.24, 0.44, 0.95) * inf * 0.45;
 
   // vignette
   col *= 1.0 - dot(uv, uv) * 0.7;
