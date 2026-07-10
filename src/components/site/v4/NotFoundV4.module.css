@@ -1,0 +1,32 @@
+.dot {
+  color: var(--blue);
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: center;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: clamp(40px, 8vh, 90px) 20px;
+}
+
+.link {
+  display: inline-block;
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  border: 1px solid rgba(242, 239, 230, 0.22);
+  border-radius: 999px;
+  padding: 14px 30px;
+  text-decoration: none;
+  transition: border-color 0.3s, background 0.3s, color 0.3s;
+}
+
+.link:hover {
+  color: #04070a;
+  background: var(--accent);
+  border-color: var(--accent);
+}

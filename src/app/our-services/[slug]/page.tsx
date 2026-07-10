@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { findServiceBySlug } from "@/components/site/azurioContentTransform";
+import { findServiceBySlug } from "@/lib/services";
 import { JsonLd } from "@/components/site/JsonLd";
 import { v4FontClass } from "@/components/site/v4/fonts";
 import { ServiceDetailV4 } from "@/components/site/v4/ServiceDetailV4";

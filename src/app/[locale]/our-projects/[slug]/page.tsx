@@ -1,11 +1,15 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { ProjectCaseStudyPage } from "@/components/site/ProjectCaseStudyPage";
+import { CaseStudyV4 } from "@/components/site/v4/CaseStudyV4";
+import { v4FontClass } from "@/components/site/v4/fonts";
+import { JsonLd } from "@/components/site/JsonLd";
 import {
   findProjectCaseStudy,
+  getCaseStudyV4Content,
   getProjectCaseStudyContent,
   projectCaseStudySlugs,
 } from "@/data/projectCaseStudies";
+import { breadcrumbJsonLd } from "@/lib/seo/jsonld";
 import { pageMetadata } from "@/lib/seo/metadata";
 import { isLocale, type LocaleCode } from "@/lib/site-config";
 
@@ -30,11 +34,23 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function Page({ params }: Props) {
-  const { locale, slug } = await params;
-  const lc = (isLocale(locale) ? locale : "en") as LocaleCode;
+  const { slug } = await params;
   const project = findProjectCaseStudy(slug);
   if (!project) notFound();
-  const content = getProjectCaseStudyContent(project);
+  const content = getCaseStudyV4Content(project);
 
-  return <ProjectCaseStudyPage project={project} {...content} locale={lc} />;
+  return (
+    <div className={v4FontClass}>
+      <JsonLd
+        data={[
+          breadcrumbJsonLd([
+            { name: "Pocetna", path: "/" },
+            { name: "Projekti", path: "/our-projects" },
+            { name: project.shortTitle, path: `/our-projects/${project.slug}` },
+          ]),
+        ]}
+      />
+      <CaseStudyV4 project={project} content={content} />
+    </div>
+  );
 }
