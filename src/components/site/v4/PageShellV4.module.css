@@ -45,6 +45,13 @@
   color: inherit;
 }
 
+/* Wide Syne display type — never break a word mid-glyph on inner pages either. */
+.root :where(h1, h2, h3) {
+  overflow-wrap: normal;
+  word-break: keep-all;
+  hyphens: none;
+}
+
 .silk {
   position: fixed;
   inset: 0;

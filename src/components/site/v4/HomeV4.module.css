@@ -48,6 +48,15 @@
   will-change: auto;
 }
 
+/* Syne-800 is very wide (~9em for a 9-letter word). Never let a display heading
+   break mid-word — wrap only at spaces. Per-title font sizes keep the longest
+   single word inside its column so atomic words don't overflow either. */
+.root :where(h1, h2, h3) {
+  overflow-wrap: normal;
+  word-break: keep-all;
+  hyphens: none;
+}
+
 /* Azurio also themes bare h1–h6/p colors globally — force inheritance, but
    via :where() so it never outweighs v4's own class colors (.serviceDesc etc). */
 .root :where(h1, h2, h3, h4, h5, h6, p) {
@@ -882,8 +891,10 @@
 .projectsIntroTitle {
   font-family: var(--font-d);
   font-weight: 800;
-  font-size: clamp(44px, 7vw, 110px);
-  line-height: 0.95;
+  /* Longest word "IZDVOJENI" is ~9em wide; column inner maxes ~620px, so cap
+     the font where that word still fits on one line (no mid-word break, no overflow). */
+  font-size: clamp(34px, 4.5vw, 66px);
+  line-height: 0.98;
   letter-spacing: -0.02em;
   margin: 16px 0 0;
 }
@@ -2160,7 +2171,8 @@
   }
 
   .projectsIntroTitle {
-    font-size: clamp(30px, 10.5vw, 44px);
+    /* Mobile column inner ~282px → keep "IZDVOJENI" on one line. */
+    font-size: clamp(20px, 7.5vw, 32px);
   }
 
   .projectPanel {
