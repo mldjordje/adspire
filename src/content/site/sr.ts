@@ -189,7 +189,7 @@ const projects: ProjectItem[] = [
   {
     name: "Dr Igic Clinic",
     category: "Booking + klinika",
-    image: "/images/case-studies/drigic-mobileview.png",
+    image: "/images/case-studies/drigic-mobileview.webp",
     url: "https://drigic.rs",
     href: "/our-projects/dr-igic-web-aplikacija-za-estetske-klinike",
     summary:
@@ -199,7 +199,7 @@ const projects: ProjectItem[] = [
   {
     name: "Prevoz Kop",
     category: "SEO + operativa",
-    image: "/images/case-studies/prevozkop-desktop.png",
+    image: "/images/case-studies/prevozkop-desktop.webp",
     url: "https://prevozkop.rs",
     href: "/our-projects/prevozkop-digitalni-prodajni-operativni-sistem",
     summary:
@@ -209,7 +209,7 @@ const projects: ProjectItem[] = [
   {
     name: "Santos & Santorini",
     category: "E-commerce",
-    image: "/images/case-studies/santos-desktop.png",
+    image: "/images/case-studies/santos-desktop.webp",
     url: "https://santos-santorini.com",
     href: "/our-projects/santos-santorini-web-shop-admin-platforma",
     summary:
@@ -219,7 +219,7 @@ const projects: ProjectItem[] = [
   {
     name: "TeachFromHome",
     category: "Recruiting platforma",
-    image: "/images/case-studies/teachfromhome-desktop.png",
+    image: "/images/case-studies/teachfromhome-desktop.webp",
     url: "https://teachfromhome.app",
     href: "/our-projects/teachfromhome-onboarding-sistem-za-remote-nastavnike",
     summary:
@@ -229,7 +229,7 @@ const projects: ProjectItem[] = [
   {
     name: "Doctor Barber",
     category: "Booking sistem",
-    image: "/images/case-studies/doctorbarber.png",
+    image: "/images/case-studies/doctorbarber.webp",
     url: "https://doctorbarber.rs",
     href: "/our-projects/doctor-barber-online-booking-sistem",
     summary:

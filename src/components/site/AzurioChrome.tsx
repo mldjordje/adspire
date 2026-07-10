@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import Script from "next/script";
 import { getSiteContent } from "@/content/site";
 import { getUiStrings } from "@/content/site/ui";
 import { LanguageSwitcher } from "@/components/site/LanguageSwitcher";
@@ -23,6 +24,15 @@ export function AzurioChrome({ children, locale = defaultLocale }: AzurioChromeP
 
   return (
     <>
+      {/* Azurio theme assets are scoped to template pages only — React 19 hoists
+          these stylesheet links into <head>. The v4 landing never mounts this
+          component, so `/` no longer pays for the render-blocking theme CSS/JS. */}
+      <link rel="stylesheet" href="/azurio/css/loader.css" precedence="high" />
+      <link rel="stylesheet" href="/azurio/css/plugins.css" precedence="high" />
+      <link rel="stylesheet" href="/azurio/css/main.css" precedence="high" />
+      <Script id="mxd-loader-fallback" strategy="afterInteractive">
+        {`window.setTimeout(function(){if(!document.documentElement.classList.contains('mxd-loader-complete')){document.documentElement.classList.add('mxd-fallback-visible');}},3200);`}
+      </Script>
       <div className="mxd-page-transition" />
       <div className="mxd-loader">
         <div className="mxd-loader__top">
@@ -383,6 +393,10 @@ export function AzurioChrome({ children, locale = defaultLocale }: AzurioChromeP
         <p id="mxd-cursor__text" className="mxd-cursor__text" />
         <div id="mxd-cursor__image" className="mxd-cursor__image" />
       </div>
+
+      {/* Azurio jQuery-era runtime — only loads on template pages, not on `/`. */}
+      <Script src="/azurio/js/libs.min.js" strategy="afterInteractive" />
+      <Script src="/azurio/js/app.js" strategy="afterInteractive" />
     </>
   );
 }

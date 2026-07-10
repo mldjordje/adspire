@@ -30,11 +30,11 @@ import {
 
 // title = brand name (same across locales); cat/summary come from copy
 const PROJECTS = [
-  { title: "Dr Igić Clinic", image: "/images/case-studies/drigic-mobileview.png", href: "/our-projects/dr-igic-web-aplikacija-za-estetske-klinike", accent: "#f2efe6", meta: "2025 · Next.js · Supabase · Booking" },
-  { title: "Prevoz Kop", image: "/images/case-studies/prevozkop-desktop.png", href: "/our-projects/prevozkop-digitalni-prodajni-operativni-sistem", accent: "#2f6bff", meta: "2025 · Next.js · CRM · SEO" },
-  { title: "Santos & Santorini", image: "/images/case-studies/santos-desktop.png", href: "/our-projects/santos-santorini-web-shop-admin-platforma", accent: "#5b8bff", meta: "2024 · E-commerce · Admin · Lager" },
-  { title: "TeachFromHome", image: "/images/case-studies/teachfromhome-desktop.png", href: "/our-projects/teachfromhome-onboarding-sistem-za-remote-nastavnike", accent: "#2f6bff", meta: "2024 · Onboarding · Audio · Funnel" },
-  { title: "Doctor Barber", image: "/images/case-studies/doctorbarber.png", href: "/our-projects/doctor-barber-online-booking-sistem", accent: "#f2efe6", meta: "2024 · Booking 24/7 · PWA" },
+  { title: "Dr Igić Clinic", image: "/images/case-studies/drigic-mobileview.webp", href: "/our-projects/dr-igic-web-aplikacija-za-estetske-klinike", accent: "#f2efe6", meta: "2025 · Next.js · Supabase · Booking" },
+  { title: "Prevoz Kop", image: "/images/case-studies/prevozkop-desktop.webp", href: "/our-projects/prevozkop-digitalni-prodajni-operativni-sistem", accent: "#2f6bff", meta: "2025 · Next.js · CRM · SEO" },
+  { title: "Santos & Santorini", image: "/images/case-studies/santos-desktop.webp", href: "/our-projects/santos-santorini-web-shop-admin-platforma", accent: "#5b8bff", meta: "2024 · E-commerce · Admin · Lager" },
+  { title: "TeachFromHome", image: "/images/case-studies/teachfromhome-desktop.webp", href: "/our-projects/teachfromhome-onboarding-sistem-za-remote-nastavnike", accent: "#2f6bff", meta: "2024 · Onboarding · Audio · Funnel" },
+  { title: "Doctor Barber", image: "/images/case-studies/doctorbarber.webp", href: "/our-projects/doctor-barber-online-booking-sistem", accent: "#f2efe6", meta: "2024 · Booking 24/7 · PWA" },
 ];
 
 // section rail keys — labels come from copy.rail by index

@@ -590,6 +590,16 @@ export function SceneV4() {
     const prog = (p: number) =>
       window.dispatchEvent(new CustomEvent("v4:scene-progress", { detail: p }));
 
+    // Low-end / mobile: the full particle sim + postprocessing chain (bloom,
+    // god-rays) costs ~8s of main-thread on a Moto G and tanks mobile Lighthouse
+    // (Perf 19, TBT 1580ms). Skip WebGL entirely — three.js is never imported —
+    // paint a static CSS kernel backdrop and release the preloader at once.
+    if (window.matchMedia("(max-width: 767px)").matches) {
+      canvas.classList.add(styles.sceneStatic);
+      prog(1);
+      return;
+    }
+
     (async () => {
       const THREE = await import("three");
       if (disposed) return;

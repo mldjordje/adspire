@@ -113,6 +113,9 @@ export function EventHorizonV4() {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    // Mobile: decorative event-horizon shader — skip the WebGL rAF loop on
+    // low-end phones to protect the main thread (mobile Lighthouse).
+    if (window.matchMedia("(max-width: 767px)").matches) return;
 
     const gl = canvas.getContext("webgl", { antialias: false, alpha: false });
     if (!gl) return;

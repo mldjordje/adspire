@@ -79,6 +79,15 @@
   pointer-events: none;
 }
 
+/* Mobile fallback for the WebGL kernel — a static trust-blue glow on near-black.
+   Zero JS/GPU cost; keeps the hero legible without the particle sim. */
+.sceneStatic {
+  background:
+    radial-gradient(circle at 50% 38%, rgba(47, 107, 255, 0.28), rgba(47, 107, 255, 0) 42%),
+    radial-gradient(circle at 50% 40%, rgba(91, 139, 255, 0.16), rgba(10, 12, 20, 0) 60%),
+    #05070d;
+}
+
 .grain {
   position: fixed;
   inset: -50%;

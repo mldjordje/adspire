@@ -28,28 +28,28 @@ const SERVICES = [
 
 const WORK = [
   {
-    img: "/images/case-studies/drigic-mobileview.png",
+    img: "/images/case-studies/drigic-mobileview.webp",
     cat: "Estetska klinika · Booking",
     name: "Dr Igić Clinic",
     outcome: "Javni sajt, online zakazivanje, Beauty Pass zona i admin kalendar — marketing i operativa u jednom sistemu.",
     href: "/our-projects/dr-igic-web-aplikacija-za-estetske-klinike",
   },
   {
-    img: "/images/case-studies/doctorbarber.png",
+    img: "/images/case-studies/doctorbarber.webp",
     cat: "Barber studio · Booking",
     name: "Doctor Barber",
     outcome: "Booking aplikacija sa online terminima, klijentskim nalogom i admin kalendarom — raspored radi 24/7.",
     href: "/our-projects/doctor-barber-online-booking-sistem",
   },
   {
-    img: "/images/case-studies/prevozkop-desktop.png",
+    img: "/images/case-studies/prevozkop-desktop.webp",
     cat: "Transport · SEO + operativa",
     name: "Prevoz Kop",
     outcome: "SEO sajt, katalog i interni admin za leadove, ponude i vozila — upiti ulaze pravo u prodajni tok.",
     href: "/our-projects/prevozkop-digitalni-prodajni-operativni-sistem",
   },
   {
-    img: "/images/case-studies/santos-desktop.png",
+    img: "/images/case-studies/santos-desktop.webp",
     cat: "Modni brend · E-commerce",
     name: "Santos & Santorini",
     outcome: "Web shop i admin platforma — katalog, checkout, lager i marketplace tokovi iz jednog mesta.",

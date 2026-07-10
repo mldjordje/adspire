@@ -89,6 +89,9 @@ export function SilkV4({ opacity = 0.85 }: { opacity?: number }) {
     const canvas = canvasRef.current;
     if (!canvas) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    // Mobile: this is a decorative silk overlay — skip the WebGL rAF loop to
+    // keep low-end phones off the main thread (mobile Lighthouse).
+    if (window.matchMedia("(max-width: 767px)").matches) return;
 
     const gl = canvas.getContext("webgl", { antialias: false, alpha: false });
     if (!gl) return;

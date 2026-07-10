@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
 import "@/app/globals.css";
 import { JsonLd } from "@/components/site/JsonLd";
@@ -58,11 +57,8 @@ export default function RootLayout({ children }: RootLayoutProps) {
     <html lang="sr" dir="ltr">
       <head>
         <link rel="icon" href="/images/favicon.png" type="image/png" />
-        <link rel="apple-touch-icon" href="/images/favicon.png" />
+        <link rel="apple-touch-icon" href="/images/apple-touch-icon.png" />
         <link rel="manifest" href="/site.webmanifest" />
-        <link rel="stylesheet" href="/azurio/css/loader.css" />
-        <link rel="stylesheet" href="/azurio/css/plugins.css" />
-        <link rel="stylesheet" href="/azurio/css/main.css" />
         <meta name="theme-color" media="(prefers-color-scheme: light)" content="#EEEAE8" />
         <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0f0f0f" />
         <meta name="msapplication-navbutton-color" content="#0f0f0f" />
@@ -73,23 +69,10 @@ export default function RootLayout({ children }: RootLayoutProps) {
             __html: `(function(){try{var t=localStorage.getItem('template.theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('color-scheme',t);}catch(e){}})();`,
           }}
         />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.setTimeout(function () {
-                if (!document.documentElement.classList.contains('mxd-loader-complete')) {
-                  document.documentElement.classList.add('mxd-fallback-visible');
-                }
-              }, 3200);
-            `,
-          }}
-        />
       </head>
       <body>
         <JsonLd data={[organizationJsonLd(), webSiteJsonLd()]} />
         {children}
-        <Script src="/azurio/js/libs.min.js" strategy="afterInteractive" />
-        <Script src="/azurio/js/app.js" strategy="afterInteractive" />
         <Analytics />
       </body>
     </html>
