@@ -630,6 +630,35 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
       };
     }, root);
 
+    // Pins + Lenis were measured while the preloader held `html.v4-locked`
+    // (overflow:hidden) — so Lenis' cached scroll limit and every ScrollTrigger
+    // start/end is stale. Without this, Lenis clamps you back to the top when
+    // you scroll past its bogus limit (the "jumps to start at services" bug)
+    // and pinned sections snap. The preloader fires v4:ready ~950ms BEFORE it
+    // drops the lock, so refreshing on that event is still too early — watch
+    // for the class actually being removed, then recompute.
+    const htmlEl = document.documentElement;
+    const syncScroll = () => {
+      lenis.resize();
+      ScrollTrigger.refresh();
+    };
+    const trySync = () => {
+      if (htmlEl.classList.contains("v4-locked")) return;
+      unlockObserver.disconnect();
+      window.clearTimeout(syncFallback);
+      syncScroll();
+    };
+    const unlockObserver = new MutationObserver(trySync);
+    unlockObserver.observe(htmlEl, { attributes: true, attributeFilter: ["class"] });
+    // belt-and-suspenders: force a sync past the preloader hard cap (6s) + lift
+    const syncFallback = window.setTimeout(() => {
+      unlockObserver.disconnect();
+      syncScroll();
+    }, 7200);
+    trySync(); // handle an already-unlocked page (e.g. hot reload)
+    // late-loading project screenshots shift layout → refresh on window load too
+    window.addEventListener("load", syncScroll);
+
     // magnetic buttons (outside gsap.context — plain listeners)
     const magnets = Array.from(root.querySelectorAll<HTMLElement>("[data-magnetic]"));
     const magnetCleanups = magnets.map((el) => {
@@ -799,6 +828,9 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
     });
 
     return () => {
+      unlockObserver.disconnect();
+      window.removeEventListener("load", syncScroll);
+      window.clearTimeout(syncFallback);
       ctx.revert();
       magnetCleanups.forEach((fn) => fn());
       tiltCleanups.forEach((fn) => fn());
