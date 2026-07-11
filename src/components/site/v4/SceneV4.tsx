@@ -590,11 +590,12 @@ export function SceneV4() {
     const prog = (p: number) =>
       window.dispatchEvent(new CustomEvent("v4:scene-progress", { detail: p }));
 
-    // Low-end / mobile: the full particle sim + postprocessing chain (bloom,
-    // god-rays) costs ~8s of main-thread on a Moto G and tanks mobile Lighthouse
-    // (Perf 19, TBT 1580ms). Skip WebGL entirely — three.js is never imported —
-    // paint a static CSS kernel backdrop and release the preloader at once.
-    if (window.matchMedia("(max-width: 767px)").matches) {
+    // Reduced-motion users (any device) get the static CSS backdrop instead of the
+    // live sim. Everyone else — mobile included — gets the signature morphing
+    // particle kernel; it's the visual that sets this site apart, so it stays.
+    // Mobile is kept affordable by fewer particles + a capped pixel ratio below,
+    // and the postprocessing composer is already desktop-only.
+    if (reduced) {
       canvas.classList.add(styles.sceneStatic);
       prog(1);
       return;
@@ -612,7 +613,7 @@ export function SceneV4() {
         alpha: true,
         powerPreference: "high-performance",
       });
-      const basePR = Math.min(window.devicePixelRatio, isMobile ? 1.5 : 2);
+      const basePR = Math.min(window.devicePixelRatio, isMobile ? 1.15 : 2);
       renderer.setPixelRatio(basePR);
       renderer.setSize(window.innerWidth, window.innerHeight);
 
@@ -629,7 +630,7 @@ export function SceneV4() {
       camera.position.z = SHAPES[0].camZ;
 
       // ── Morphing cloud — GPU-side, CPU only swaps targets ─────────────
-      const COUNT = isMobile ? 7000 : 24000;
+      const COUNT = isMobile ? 6000 : 24000;
       // indexed by ShapeDef.gen
       const shapes = [
         genSphere(COUNT),
