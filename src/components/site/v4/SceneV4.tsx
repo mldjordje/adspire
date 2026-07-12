@@ -53,15 +53,19 @@ type ShapeDef = {
 // (blue → accent-blue #2f6bff), additively lit on a near-black background.
 // Chapters shift how blue-dominant they are to tell the story; bloom makes the
 // accent blue glow. Bg is deep black-blue, never grey.
+// color = BLUE body (dominant tone, keeps the cloud reading blue even where
+// particles pile up additively); color2 = bright ice/white HIGHLIGHT end.
+// White-dominant tones average to silver-grey under additive blending — so
+// blue must be the base and white only the sparkle.
 const SHAPES: ShapeDef[] = [
-  { section: "hero", gen: 0, camZ: 8.6, camA: 0.0, camY: 0.0, x: 0.0, rot: 1.0, tilt: 0, alpha: 0.62, wave: 0, dive: 0.5, bg: [0.004, 0.008, 0.022], color: [0.95, 0.97, 1.0], color2: [0.22, 0.48, 1.0] },
-  { section: "manifesto", gen: 1, camZ: 8.4, camA: 0.55, camY: 0.5, x: 0.0, rot: 0.4, tilt: 0.2, alpha: 0.5, wave: 0, dive: 5.0, bg: [0.005, 0.01, 0.028], color: [0.8, 0.88, 1.0], color2: [0.18, 0.42, 1.0] },
-  { section: "projects", gen: 2, camZ: 8.2, camA: -0.5, camY: -0.35, x: 2.4, rot: 0.12, tilt: 0.08, alpha: 0.3, wave: 0, dive: 0.6, bg: [0.006, 0.012, 0.03], color: [0.95, 0.97, 1.0], color2: [0.38, 0.62, 1.0] },
-  { section: "services", gen: 3, camZ: 8.4, camA: 0.6, camY: 0.4, x: -2.8, rot: 0.18, tilt: 0, alpha: 0.22, wave: 0, dive: 5.2, bg: [0.005, 0.01, 0.03], color: [0.35, 0.6, 1.0], color2: [0.88, 0.94, 1.0] },
-  { section: "aiDemo", gen: 4, camZ: 8.4, camA: -0.55, camY: -0.3, x: 1.8, rot: 0.8, tilt: 0, alpha: 0.42, wave: 0, dive: 0.7, bg: [0.005, 0.011, 0.03], color: [0.5, 0.74, 1.0], color2: [0.2, 0.46, 1.0] },
-  { section: "process", gen: 5, camZ: 7.6, camA: 0.25, camY: 0.7, x: 0.0, rot: 0.06, tilt: 0.12, alpha: 0.55, wave: 0, dive: 0.6, bg: [0.005, 0.011, 0.03], color: [0.62, 0.8, 1.0], color2: [0.24, 0.52, 1.0] },
-  { section: "metrics", gen: 6, camZ: 8.2, camA: -0.3, camY: 0.45, x: 0.0, rot: 0.1, tilt: 0.18, alpha: 0.32, wave: 0, dive: 2.6, bg: [0.005, 0.011, 0.028], color: [0.9, 0.95, 1.0], color2: [0.26, 0.54, 1.0] },
-  { section: "cta", gen: 7, camZ: 7.0, camA: 0.0, camY: 0.0, x: 0.0, rot: 0.2, tilt: 0, alpha: 0.8, wave: 0, dive: 0.5, bg: [0.003, 0.007, 0.02], color: [1.0, 1.0, 1.0], color2: [0.3, 0.56, 1.0] },
+  { section: "hero", gen: 0, camZ: 8.6, camA: 0.0, camY: 0.0, x: 0.0, rot: 1.0, tilt: 0, alpha: 0.62, wave: 0, dive: 0.5, bg: [0.004, 0.008, 0.022], color: [0.32, 0.58, 1.0], color2: [0.86, 0.93, 1.0] },
+  { section: "manifesto", gen: 1, camZ: 8.4, camA: 0.55, camY: 0.5, x: 0.0, rot: 0.4, tilt: 0.2, alpha: 0.5, wave: 0, dive: 5.0, bg: [0.005, 0.01, 0.028], color: [0.24, 0.5, 1.0], color2: [0.6, 0.82, 1.0] },
+  { section: "projects", gen: 2, camZ: 8.2, camA: -0.5, camY: -0.35, x: 2.4, rot: 0.12, tilt: 0.08, alpha: 0.3, wave: 0, dive: 0.6, bg: [0.006, 0.012, 0.03], color: [0.36, 0.62, 1.0], color2: [0.9, 0.95, 1.0] },
+  { section: "services", gen: 3, camZ: 8.4, camA: 0.6, camY: 0.4, x: -2.8, rot: 0.18, tilt: 0, alpha: 0.22, wave: 0, dive: 5.2, bg: [0.005, 0.01, 0.03], color: [0.18, 0.42, 1.0], color2: [0.5, 0.76, 1.0] },
+  { section: "aiDemo", gen: 4, camZ: 8.4, camA: -0.55, camY: -0.3, x: 1.8, rot: 0.8, tilt: 0, alpha: 0.42, wave: 0, dive: 0.7, bg: [0.005, 0.011, 0.03], color: [0.28, 0.58, 1.0], color2: [0.6, 0.84, 1.0] },
+  { section: "process", gen: 5, camZ: 7.6, camA: 0.25, camY: 0.7, x: 0.0, rot: 0.06, tilt: 0.12, alpha: 0.55, wave: 0, dive: 0.6, bg: [0.005, 0.011, 0.03], color: [0.3, 0.56, 1.0], color2: [0.68, 0.87, 1.0] },
+  { section: "metrics", gen: 6, camZ: 8.2, camA: -0.3, camY: 0.45, x: 0.0, rot: 0.1, tilt: 0.18, alpha: 0.32, wave: 0, dive: 2.6, bg: [0.005, 0.011, 0.028], color: [0.34, 0.6, 1.0], color2: [0.9, 0.95, 1.0] },
+  { section: "cta", gen: 7, camZ: 7.0, camA: 0.0, camY: 0.0, x: 0.0, rot: 0.2, tilt: 0, alpha: 0.8, wave: 0, dive: 0.5, bg: [0.003, 0.007, 0.02], color: [0.42, 0.66, 1.0], color2: [1.0, 1.0, 1.0] },
 ];
 
 /** payload of the `v4:morph` event — the services index can take the cloud
@@ -661,10 +665,10 @@ const CLOUD_FRAG = /* glsl */ `
     // so the cloud shimmers instead of sitting in a frozen gradient
     vec3 base = mix(uColor, uColorB,
       fract(vSeed * 0.618 + sin(uTime * 0.25 + vSeed * 6.0) * 0.07));
-    vec3 col = base + vec3(0.28, 0.34, 0.5) * core + base * 0.2 * sin(vSeed);
-    // particles in flight (or near the cursor) ignite — white-hot with a
-    // cool electric-blue edge, never warm/grey
-    col += vec3(0.75, 0.86, 1.0) * vGlow * 0.5;
+    vec3 col = base + vec3(0.16, 0.32, 0.62) * core + base * 0.2 * sin(vSeed);
+    // particles in flight (or near the cursor) ignite — electric blue with a
+    // white-hot tip, never warm/grey. Blue-weighted so glow stays saturated.
+    col += vec3(0.55, 0.78, 1.0) * vGlow * 0.5;
     // fake depth-of-field: particles swirling right up to the lens dissolve
     // instead of turning into hard discs
     float nearFade = smoothstep(1.0, 2.6, vDepth);
