@@ -46,18 +46,22 @@ type ShapeDef = {
   color2: [number, number, number];
 };
 
-// gen: 0 sphere · 1 torus knot · 2 galaxy · 3 crystal · 4 neural · 5 wave · 6 "A"
-// palette: monochrome platinum — chapters shift TEMPERATURE (cool silver ↔
-// warm champagne ↔ steel), never hue; green stays the AI chapter's signature
+// gen: 0 idea-core · 1 blueprint · 2 devices · 3 service-hub · 4 neural ·
+//      5 pipeline · 6 growth-chart · 7 "A" monogram
+// PALETTE: black void · white structure · electric/accent-blue fill (no grey).
+// Each particle shimmers between `color` (bright white/ice) and `color2`
+// (blue → accent-blue #2f6bff), additively lit on a near-black background.
+// Chapters shift how blue-dominant they are to tell the story; bloom makes the
+// accent blue glow. Bg is deep black-blue, never grey.
 const SHAPES: ShapeDef[] = [
-  { section: "hero", gen: 0, camZ: 8.6, camA: 0.0, camY: 0.0, x: 0.0, rot: 1.0, tilt: 0, alpha: 0.62, wave: 0, dive: 0.5, bg: [0.012, 0.02, 0.04], color: [0.86, 0.89, 1.0], color2: [0.7, 0.8, 1.0] },
-  { section: "manifesto", gen: 1, camZ: 8.4, camA: 0.55, camY: 0.5, x: 0.0, rot: 0.55, tilt: 0.15, alpha: 0.5, wave: 0, dive: 5.0, bg: [0.014, 0.022, 0.044], color: [0.85, 0.88, 1.0], color2: [0.72, 0.78, 0.95] },
-  { section: "projects", gen: 2, camZ: 8.2, camA: -0.5, camY: -0.35, x: 2.4, rot: 0.6, tilt: 0.5, alpha: 0.3, wave: 0, dive: 0.6, bg: [0.016, 0.026, 0.05], color: [0.88, 0.92, 1.0], color2: [0.72, 0.78, 0.95] },
-  { section: "services", gen: 3, camZ: 8.4, camA: 0.6, camY: 0.4, x: -2.8, rot: 0.35, tilt: 0, alpha: 0.22, wave: 0, dive: 5.2, bg: [0.012, 0.02, 0.04], color: [0.72, 0.78, 0.95], color2: [0.82, 0.88, 1.0] },
-  { section: "aiDemo", gen: 4, camZ: 8.4, camA: -0.55, camY: -0.3, x: 1.8, rot: 0.8, tilt: 0, alpha: 0.42, wave: 0, dive: 0.7, bg: [0.012, 0.022, 0.046], color: [0.78, 0.85, 1.0], color2: [0.4, 0.66, 1.0] },
-  { section: "process", gen: 5, camZ: 7.6, camA: 0.25, camY: 0.9, x: 0.0, rot: 0.04, tilt: 0.62, alpha: 0.55, wave: 1, dive: 0.6, bg: [0.014, 0.022, 0.044], color: [0.8, 0.85, 1.0], color2: [0.78, 0.84, 1.0] },
-  { section: "metrics", gen: 5, camZ: 8.2, camA: -0.3, camY: 0.45, x: 0.0, rot: 0.04, tilt: 0.55, alpha: 0.32, wave: 1, dive: 2.6, bg: [0.014, 0.022, 0.042], color: [0.86, 0.89, 1.0], color2: [0.78, 0.84, 1.0] },
-  { section: "cta", gen: 6, camZ: 7.0, camA: 0.0, camY: 0.0, x: 0.0, rot: 0.2, tilt: 0, alpha: 0.8, wave: 0, dive: 0.5, bg: [0.008, 0.014, 0.03], color: [0.9, 0.93, 1.0], color2: [0.72, 0.8, 1.0] },
+  { section: "hero", gen: 0, camZ: 8.6, camA: 0.0, camY: 0.0, x: 0.0, rot: 1.0, tilt: 0, alpha: 0.62, wave: 0, dive: 0.5, bg: [0.004, 0.008, 0.022], color: [0.95, 0.97, 1.0], color2: [0.22, 0.48, 1.0] },
+  { section: "manifesto", gen: 1, camZ: 8.4, camA: 0.55, camY: 0.5, x: 0.0, rot: 0.4, tilt: 0.2, alpha: 0.5, wave: 0, dive: 5.0, bg: [0.005, 0.01, 0.028], color: [0.8, 0.88, 1.0], color2: [0.18, 0.42, 1.0] },
+  { section: "projects", gen: 2, camZ: 8.2, camA: -0.5, camY: -0.35, x: 2.4, rot: 0.12, tilt: 0.08, alpha: 0.3, wave: 0, dive: 0.6, bg: [0.006, 0.012, 0.03], color: [0.95, 0.97, 1.0], color2: [0.38, 0.62, 1.0] },
+  { section: "services", gen: 3, camZ: 8.4, camA: 0.6, camY: 0.4, x: -2.8, rot: 0.18, tilt: 0, alpha: 0.22, wave: 0, dive: 5.2, bg: [0.005, 0.01, 0.03], color: [0.35, 0.6, 1.0], color2: [0.88, 0.94, 1.0] },
+  { section: "aiDemo", gen: 4, camZ: 8.4, camA: -0.55, camY: -0.3, x: 1.8, rot: 0.8, tilt: 0, alpha: 0.42, wave: 0, dive: 0.7, bg: [0.005, 0.011, 0.03], color: [0.5, 0.74, 1.0], color2: [0.2, 0.46, 1.0] },
+  { section: "process", gen: 5, camZ: 7.6, camA: 0.25, camY: 0.7, x: 0.0, rot: 0.06, tilt: 0.12, alpha: 0.55, wave: 0, dive: 0.6, bg: [0.005, 0.011, 0.03], color: [0.62, 0.8, 1.0], color2: [0.24, 0.52, 1.0] },
+  { section: "metrics", gen: 6, camZ: 8.2, camA: -0.3, camY: 0.45, x: 0.0, rot: 0.1, tilt: 0.18, alpha: 0.32, wave: 0, dive: 2.6, bg: [0.005, 0.011, 0.028], color: [0.9, 0.95, 1.0], color2: [0.26, 0.54, 1.0] },
+  { section: "cta", gen: 7, camZ: 7.0, camA: 0.0, camY: 0.0, x: 0.0, rot: 0.2, tilt: 0, alpha: 0.8, wave: 0, dive: 0.5, bg: [0.003, 0.007, 0.02], color: [1.0, 1.0, 1.0], color2: [0.3, 0.56, 1.0] },
 ];
 
 /** payload of the `v4:morph` event — the services index can take the cloud
@@ -105,108 +109,187 @@ function mulberry32(seed: number) {
 }
 
 // ─── Shape generators — each fills n*3 floats, all volumetric ───────────────
+// The morph narrates the agency pipeline as the visitor scrolls:
+//   idea-core → blueprint → device build → service hub → neural AI →
+//   automation pipeline → growth chart → "A" brand
+// Every form is abstract-legible: reads as premium particle art, but decodes
+// into a chapter of "we turn your idea into a growing digital product".
 
-function genSphere(n: number): Float32Array {
+/** HERO — the idea: a bright dense nucleus with service-electrons orbiting on
+ *  tilted rings. "One idea radiating many capabilities." */
+function genIdeaCore(n: number): Float32Array {
   const out = new Float32Array(n * 3);
   const rnd = mulberry32(101);
-  const R = 2.05;
   const golden = Math.PI * (3 - Math.sqrt(5));
+  // (tiltX, tiltZ) for three orbital planes crossing the core
+  const planes = [
+    [0.15, 0.1],
+    [1.15, 0.55],
+    [2.05, -0.5],
+  ];
   for (let i = 0; i < n; i++) {
-    const y = 1 - (i / (n - 1)) * 2;
-    const rad = Math.sqrt(1 - y * y);
-    const th = golden * i;
-    out[i * 3] = Math.cos(th) * rad * R + (rnd() - 0.5) * 0.08;
-    out[i * 3 + 1] = y * R + (rnd() - 0.5) * 0.08;
-    out[i * 3 + 2] = Math.sin(th) * rad * R + (rnd() - 0.5) * 0.08;
+    if (rnd() < 0.42) {
+      // glowing core sphere
+      const y = 1 - rnd() * 2;
+      const rad = Math.sqrt(Math.max(0, 1 - y * y));
+      const th = golden * i;
+      const cr = 0.72;
+      out[i * 3] = Math.cos(th) * rad * cr + (rnd() - 0.5) * 0.1;
+      out[i * 3 + 1] = y * cr + (rnd() - 0.5) * 0.1;
+      out[i * 3 + 2] = Math.sin(th) * rad * cr + (rnd() - 0.5) * 0.1;
+    } else {
+      // orbiting electron ring on a tilted plane
+      const pl = planes[Math.floor(rnd() * planes.length)];
+      const R = 1.55 + Math.floor(rnd() * 3) * 0.24;
+      const a = rnd() * Math.PI * 2;
+      const tube = (rnd() - 0.5) * 0.14;
+      let x = Math.cos(a) * R + (rnd() - 0.5) * 0.05;
+      let y = tube;
+      let z = Math.sin(a) * R + (rnd() - 0.5) * 0.05;
+      // rotate the flat ring about X then Z into its plane
+      const cx = Math.cos(pl[0]);
+      const sx = Math.sin(pl[0]);
+      const y1 = y * cx - z * sx;
+      const z1 = y * sx + z * cx;
+      y = y1;
+      z = z1;
+      const cz = Math.cos(pl[1]);
+      const sz = Math.sin(pl[1]);
+      const x1 = x * cz - y * sz;
+      const y2 = x * sz + y * cz;
+      x = x1;
+      y = y2;
+      out[i * 3] = x;
+      out[i * 3 + 1] = y;
+      out[i * 3 + 2] = z;
+    }
   }
   return out;
 }
 
-/** (2,3) torus knot with a particle tube around the curve — woven craft */
-function genTorusKnot(n: number): Float32Array {
+/** MANIFESTO — the blueprint: a 3D wireframe lattice, particles strung along
+ *  the edges of a grid of cells. The plan / scaffold before the build. */
+function genBlueprint(n: number): Float32Array {
   const out = new Float32Array(n * 3);
   const rnd = mulberry32(202);
-  const P = 2;
-  const Q = 3;
-  const S = 0.62;
+  const G = 3;
+  const S = 2.0;
+  const at = (x: number, y: number, z: number) => (x * (G + 1) + y) * (G + 1) + z;
+  const nodes: number[][] = [];
+  for (let xi = 0; xi <= G; xi++)
+    for (let yi = 0; yi <= G; yi++)
+      for (let zi = 0; zi <= G; zi++)
+        nodes.push([(xi / G - 0.5) * 2 * S, (yi / G - 0.5) * 2 * S * 0.7, (zi / G - 0.5) * 2 * S * 0.5]);
+  const edges: number[][] = [];
+  for (let xi = 0; xi <= G; xi++)
+    for (let yi = 0; yi <= G; yi++)
+      for (let zi = 0; zi <= G; zi++) {
+        if (xi < G) edges.push([at(xi, yi, zi), at(xi + 1, yi, zi)]);
+        if (yi < G) edges.push([at(xi, yi, zi), at(xi, yi + 1, zi)]);
+        if (zi < G) edges.push([at(xi, yi, zi), at(xi, yi, zi + 1)]);
+      }
   for (let i = 0; i < n; i++) {
-    const t = rnd() * Math.PI * 2;
-    const r = 2 + Math.cos(Q * t);
-    const x = r * Math.cos(P * t);
-    const y = r * Math.sin(P * t);
-    const z = Math.sin(Q * t);
-    const th = rnd() * Math.PI * 2;
-    const tr = Math.sqrt(rnd()) * 0.28;
-    out[i * 3] = x * S + Math.cos(th) * tr;
-    out[i * 3 + 1] = y * S * 0.9 + Math.sin(th) * tr;
-    out[i * 3 + 2] = z * S * 1.5 + (rnd() - 0.5) * 0.26;
+    const e = edges[Math.floor(rnd() * edges.length)];
+    const a = nodes[e[0]];
+    const b = nodes[e[1]];
+    const t = rnd();
+    out[i * 3] = a[0] + (b[0] - a[0]) * t + (rnd() - 0.5) * 0.03;
+    out[i * 3 + 1] = a[1] + (b[1] - a[1]) * t + (rnd() - 0.5) * 0.03;
+    out[i * 3 + 2] = a[2] + (b[2] - a[2]) * t + (rnd() - 0.5) * 0.03;
   }
   return out;
 }
 
-/** 3-arm logarithmic spiral galaxy with thickness falloff toward the rim */
-function genGalaxy(n: number): Float32Array {
+/** particle outline of a rounded screen frame + a few interior content bars */
+function rectFrame(
+  out: Float32Array,
+  start: number,
+  count: number,
+  cx: number,
+  cy: number,
+  cz: number,
+  w: number,
+  h: number,
+  rnd: () => number,
+) {
+  const peri = 2 * (w + h);
+  for (let k = 0; k < count; k++) {
+    const i = start + k;
+    let x: number;
+    let y: number;
+    if (rnd() < 0.72) {
+      // border walk
+      const p = rnd() * peri;
+      if (p < w) {
+        x = -w / 2 + p;
+        y = h / 2;
+      } else if (p < w + h) {
+        x = w / 2;
+        y = h / 2 - (p - w);
+      } else if (p < 2 * w + h) {
+        x = w / 2 - (p - w - h);
+        y = -h / 2;
+      } else {
+        x = -w / 2;
+        y = -h / 2 + (p - 2 * w - h);
+      }
+    } else {
+      // interior content lines (UI rows)
+      const rows = 5;
+      const row = Math.floor(rnd() * rows);
+      y = h / 2 - 0.24 - (row * (h - 0.48)) / rows;
+      x = -w / 2 + 0.16 + rnd() * (w - 0.32) * 0.92;
+    }
+    out[i * 3] = cx + x + (rnd() - 0.5) * 0.02;
+    out[i * 3 + 1] = cy + y + (rnd() - 0.5) * 0.02;
+    out[i * 3 + 2] = cz + (rnd() - 0.5) * 0.05;
+  }
+}
+
+/** PROJECTS — the build: a desktop screen + a phone screen assembled from
+ *  particles. Web + app work, the portfolio made literal-but-elegant. */
+function genDevices(n: number): Float32Array {
   const out = new Float32Array(n * 3);
   const rnd = mulberry32(303);
-  const ARMS = 3;
-  for (let i = 0; i < n; i++) {
-    const arm = Math.floor(rnd() * ARMS);
-    const r = Math.pow(rnd(), 0.55) * 2.7;
-    const spread = (rnd() - 0.5) * (rnd() - 0.5) * 1.6 * (0.35 + r * 0.28);
-    const ang = (arm / ARMS) * Math.PI * 2 + r * 1.75 + spread;
-    const y = (rnd() - 0.5) * (rnd() - 0.5) * (1.15 - r * 0.3);
-    out[i * 3] = Math.cos(ang) * r;
-    out[i * 3 + 1] = y;
-    out[i * 3 + 2] = Math.sin(ang) * r;
-  }
+  const desk = Math.floor(n * 0.6);
+  rectFrame(out, 0, desk, -0.6, 0.15, -0.2, 3.2, 2.0, rnd);
+  rectFrame(out, desk, n - desk, 1.75, -0.3, 0.35, 1.0, 1.95, rnd);
   return out;
 }
 
-/** elongated octahedron sampled on faces + edges — the obsidian crystal */
-function genCrystal(n: number): Float32Array {
+/** SERVICES — the toolkit: a central node with spokes radiating to satellite
+ *  service-nodes on a ring. One team, every capability. */
+function genServiceHub(n: number): Float32Array {
   const out = new Float32Array(n * 3);
   const rnd = mulberry32(404);
-  const R = 1.45;
-  const V = [
-    [R, 0, 0],
-    [-R, 0, 0],
-    [0, R * 1.75, 0],
-    [0, -R * 1.75, 0],
-    [0, 0, R],
-    [0, 0, -R],
-  ];
-  const faces: number[][][] = [];
-  for (const xi of [0, 1]) for (const yi of [2, 3]) for (const zi of [4, 5]) faces.push([V[xi], V[yi], V[zi]]);
+  const SPOKES = 8;
+  const R = 2.25;
+  const tips: number[][] = [];
+  for (let k = 0; k < SPOKES; k++) {
+    const a = (k / SPOKES) * Math.PI * 2;
+    tips.push([Math.cos(a) * R, Math.sin(a) * R * 0.82, (rnd() - 0.5) * 0.4]);
+  }
   for (let i = 0; i < n; i++) {
-    const f = faces[Math.floor(rnd() * 8)];
-    let px: number;
-    let py: number;
-    let pz: number;
-    if (rnd() < 0.45) {
-      // edge sample — crisp facet outlines
-      const a = f[Math.floor(rnd() * 3)];
-      let b = f[Math.floor(rnd() * 3)];
-      if (b === a) b = f[(f.indexOf(a) + 1) % 3];
+    const r = rnd();
+    if (r < 0.16) {
+      // core hub cluster
+      out[i * 3] = (rnd() - 0.5) * 0.5;
+      out[i * 3 + 1] = (rnd() - 0.5) * 0.5;
+      out[i * 3 + 2] = (rnd() - 0.5) * 0.5;
+    } else if (r < 0.62) {
+      // spoke line out to a tip
+      const tp = tips[Math.floor(rnd() * SPOKES)];
       const t = rnd();
-      px = a[0] + (b[0] - a[0]) * t;
-      py = a[1] + (b[1] - a[1]) * t;
-      pz = a[2] + (b[2] - a[2]) * t;
+      out[i * 3] = tp[0] * t + (rnd() - 0.5) * 0.03;
+      out[i * 3 + 1] = tp[1] * t + (rnd() - 0.5) * 0.03;
+      out[i * 3 + 2] = tp[2] * t + (rnd() - 0.5) * 0.03;
     } else {
-      // face fill
-      let a = rnd();
-      let b = rnd();
-      if (a + b > 1) {
-        a = 1 - a;
-        b = 1 - b;
-      }
-      const c = 1 - a - b;
-      px = f[0][0] * a + f[1][0] * b + f[2][0] * c;
-      py = f[0][1] * a + f[1][1] * b + f[2][1] * c;
-      pz = f[0][2] * a + f[1][2] * b + f[2][2] * c;
+      // satellite node cluster
+      const tp = tips[Math.floor(rnd() * SPOKES)];
+      out[i * 3] = tp[0] + (rnd() - 0.5) * 0.28;
+      out[i * 3 + 1] = tp[1] + (rnd() - 0.5) * 0.28;
+      out[i * 3 + 2] = tp[2] + (rnd() - 0.5) * 0.28;
     }
-    out[i * 3] = px + (rnd() - 0.5) * 0.05;
-    out[i * 3 + 1] = py + (rnd() - 0.5) * 0.05;
-    out[i * 3 + 2] = pz + (rnd() - 0.5) * 0.05;
   }
   return out;
 }
@@ -249,25 +332,72 @@ function genNeural(n: number): Float32Array {
   return out;
 }
 
-/**
- * Flat particle grid — the base of the "digital ocean" surface. The living
- * undulation is added in the vertex shader (wave weight blends in/out during
- * morphs), so the stored target stays static.
- */
-function genWave(n: number): Float32Array {
+/** PROCESS — the automation pipeline: a horizontal chain of stage-nodes wired
+ *  left→right, particles clustering at each stage and flowing along the wires.
+ *  Reads as an n8n / workflow diagram — work that runs itself. */
+function genPipeline(n: number): Float32Array {
   const out = new Float32Array(n * 3);
   const rnd = mulberry32(707);
-  const W = 4.2;
-  const D = 2.6;
-  const cols = Math.ceil(Math.sqrt(n * (W / D)));
-  const rows = Math.ceil(n / cols);
-  let i = 0;
-  for (let r = 0; r < rows && i < n; r++) {
-    for (let c = 0; c < cols && i < n; c++, i++) {
-      out[i * 3] = (c / (cols - 1) - 0.5) * 2 * W + (rnd() - 0.5) * 0.05;
-      out[i * 3 + 1] = -0.4 + (rnd() - 0.5) * 0.04;
-      out[i * 3 + 2] = (r / (rows - 1) - 0.5) * 2 * D + (rnd() - 0.5) * 0.05;
+  const STAGES = 6;
+  const span = 4.1;
+  const nodes: number[][] = [];
+  for (let k = 0; k < STAGES; k++) {
+    const x = -span + (k / (STAGES - 1)) * 2 * span;
+    const y = Math.sin(k * 1.3) * 0.55;
+    nodes.push([x, y, (rnd() - 0.5) * 0.3]);
+  }
+  for (let i = 0; i < n; i++) {
+    if (rnd() < 0.4) {
+      // stage-node cluster
+      const nd = nodes[Math.floor(rnd() * STAGES)];
+      out[i * 3] = nd[0] + (rnd() - 0.5) * 0.32;
+      out[i * 3 + 1] = nd[1] + (rnd() - 0.5) * 0.32;
+      out[i * 3 + 2] = nd[2] + (rnd() - 0.5) * 0.32;
+    } else {
+      // connector wire between consecutive stages
+      const k = Math.floor(rnd() * (STAGES - 1));
+      const a = nodes[k];
+      const b = nodes[k + 1];
+      const t = rnd();
+      out[i * 3] = a[0] + (b[0] - a[0]) * t + (rnd() - 0.5) * 0.04;
+      out[i * 3 + 1] = a[1] + (b[1] - a[1]) * t + (rnd() - 0.5) * 0.04;
+      out[i * 3 + 2] = a[2] + (b[2] - a[2]) * t + (rnd() - 0.5) * 0.04;
     }
+  }
+  return out;
+}
+
+/** METRICS — the growth: an ascending bar chart with a trend line climbing
+ *  above the tops. Results, ROI, the numbers going up. */
+function genGrowth(n: number): Float32Array {
+  const out = new Float32Array(n * 3);
+  const rnd = mulberry32(808);
+  const BARS = 7;
+  const bw = 0.42;
+  const gap = 0.26;
+  const totalW = BARS * bw + (BARS - 1) * gap;
+  const x0 = -totalW / 2 + bw / 2;
+  const base = -1.7;
+  const heights: number[] = [];
+  for (let k = 0; k < BARS; k++) heights.push(0.6 + (k / (BARS - 1)) * 3.0 + (rnd() - 0.3) * 0.3);
+  const barsN = Math.floor(n * 0.82);
+  for (let i = 0; i < barsN; i++) {
+    const k = Math.floor(rnd() * BARS);
+    const bx = x0 + k * (bw + gap);
+    out[i * 3] = bx + (rnd() - 0.5) * bw;
+    out[i * 3 + 1] = base + rnd() * heights[k];
+    out[i * 3 + 2] = (rnd() - 0.5) * 0.35;
+  }
+  // trend line riding just above the bar tops
+  for (let i = barsN; i < n; i++) {
+    const f = rnd() * (BARS - 1);
+    const k = Math.floor(f);
+    const frac = f - k;
+    const bx = x0 + f * (bw + gap);
+    const h = heights[k] + (heights[Math.min(k + 1, BARS - 1)] - heights[k]) * frac;
+    out[i * 3] = bx + (rnd() - 0.5) * 0.05;
+    out[i * 3 + 1] = base + h + 0.28 + (rnd() - 0.5) * 0.05;
+    out[i * 3 + 2] = 0.25 + (rnd() - 0.5) * 0.05;
   }
   return out;
 }
@@ -531,9 +661,10 @@ const CLOUD_FRAG = /* glsl */ `
     // so the cloud shimmers instead of sitting in a frozen gradient
     vec3 base = mix(uColor, uColorB,
       fract(vSeed * 0.618 + sin(uTime * 0.25 + vSeed * 6.0) * 0.07));
-    vec3 col = base + vec3(0.3, 0.3, 0.32) * core + base * 0.2 * sin(vSeed);
-    // particles in flight (or near the cursor) ignite — white-hot platinum
-    col += vec3(0.95, 0.93, 0.85) * vGlow * 0.5;
+    vec3 col = base + vec3(0.28, 0.34, 0.5) * core + base * 0.2 * sin(vSeed);
+    // particles in flight (or near the cursor) ignite — white-hot with a
+    // cool electric-blue edge, never warm/grey
+    col += vec3(0.75, 0.86, 1.0) * vGlow * 0.5;
     // fake depth-of-field: particles swirling right up to the lens dissolve
     // instead of turning into hard discs
     float nearFade = smoothstep(1.0, 2.6, vDepth);
@@ -567,7 +698,7 @@ const SHARD_FRAG = /* glsl */ `
     float fres = pow(1.0 - abs(dot(normalize(vN), normalize(vV))), 2.4);
     // slow light band crawling across the glass — obsidian catches light
     float band = 0.5 + 0.5 * sin(vPos.y * 7.0 + uTime * 0.7);
-    vec3 base = vec3(0.012, 0.012, 0.016);
+    vec3 base = vec3(0.006, 0.012, 0.03);
     vec3 col = base + uColor * fres * (0.85 + band * 0.55);
     gl_FragColor = vec4(col, 0.4 + fres * 0.6);
   }
@@ -613,14 +744,18 @@ export function SceneV4() {
         alpha: true,
         powerPreference: "high-performance",
       });
-      const basePR = Math.min(window.devicePixelRatio, isMobile ? 1.15 : 2);
+      // cap desktop DPR at 1.6 (not 2): on retina/hi-DPR displays a full 2x
+      // draw = 4x the fragment work through the whole post-chain, which is what
+      // makes scroll stutter. 1.6 keeps the frame budget open; bloom + SMAA
+      // hide the softness so the look holds.
+      const basePR = Math.min(window.devicePixelRatio, isMobile ? 1.15 : 1.6);
       renderer.setPixelRatio(basePR);
       renderer.setSize(window.innerWidth, window.innerHeight);
 
       const scene = new THREE.Scene();
       // opaque bg matches the page — required for the bloom composer path
-      // blue-black, not neutral near-black: kills the flat-gray scroll read
-      scene.background = new THREE.Color(0x05070f);
+      // deep black-blue void: pure black would read flat, grey is banned
+      scene.background = new THREE.Color(0x03060e);
       const camera = new THREE.PerspectiveCamera(
         42,
         window.innerWidth / window.innerHeight,
@@ -633,12 +768,13 @@ export function SceneV4() {
       const COUNT = isMobile ? 6000 : 24000;
       // indexed by ShapeDef.gen
       const shapes = [
-        genSphere(COUNT),
-        genTorusKnot(COUNT),
-        genGalaxy(COUNT),
-        genCrystal(COUNT),
+        genIdeaCore(COUNT),
+        genBlueprint(COUNT),
+        genDevices(COUNT),
+        genServiceHub(COUNT),
         genNeural(COUNT),
-        genWave(COUNT),
+        genPipeline(COUNT),
+        genGrowth(COUNT),
         genMonogramA(COUNT),
       ];
       // scale non-sphere shapes down a touch on mobile
@@ -763,7 +899,7 @@ export function SceneV4() {
       neuralGeo.setAttribute("aSeed", new THREE.BufferAttribute(nlSeed, 1));
       const neuralMat = new THREE.ShaderMaterial({
         uniforms: {
-          uColor: { value: new THREE.Color(0.5, 0.95, 0.7) },
+          uColor: { value: new THREE.Color(0.35, 0.72, 1.0) },
           uOpacity: { value: 0 },
           uTime: { value: 0 },
         },
@@ -890,7 +1026,7 @@ export function SceneV4() {
 
       // ── Obsidian shards — faceted dark glass with fresnel rims ────────
       const shardUniforms = {
-        uColor: { value: new THREE.Color(0xf2efe6) },
+        uColor: { value: new THREE.Color(0xbcd4ff) },
         uTime: { value: 0 },
       };
       const shardMat = new THREE.ShaderMaterial({
@@ -938,13 +1074,13 @@ export function SceneV4() {
         }
       `;
       const nebDefs: { color: number; pos: [number, number, number]; s: number }[] = [
-        { color: 0x16305c, pos: [-5, 2.5, -10], s: 1.4 },
-        { color: 0x0e2440, pos: [6, -3, -12], s: 1.7 },
-        { color: 0x122645, pos: [0, 4.5, -14], s: 1.9 },
+        { color: 0x1e46a0, pos: [-5, 2.5, -10], s: 1.4 },
+        { color: 0x122f6e, pos: [6, -3, -12], s: 1.7 },
+        { color: 0x2f6bff, pos: [0, 4.5, -14], s: 1.9 },
       ];
       const nebulas = nebDefs.map((def, i) => {
         const mat = new THREE.ShaderMaterial({
-          uniforms: { uColor: { value: new THREE.Color(def.color) }, uOpacity: { value: 0.09 } },
+          uniforms: { uColor: { value: new THREE.Color(def.color) }, uOpacity: { value: 0.14 } },
           transparent: true,
           depthWrite: false,
           blending: THREE.AdditiveBlending,
@@ -1045,7 +1181,7 @@ export function SceneV4() {
           void main() {
             float d = distance(gl_PointCoord, vec2(0.5));
             if (d > 0.5) discard;
-            gl_FragColor = vec4(vec3(0.78, 0.77, 0.92), smoothstep(0.5, 0.1, d) * vA);
+            gl_FragColor = vec4(vec3(0.72, 0.84, 1.0), smoothstep(0.5, 0.1, d) * vA);
           }
         `,
       });
@@ -1236,7 +1372,7 @@ export function SceneV4() {
       // god-ray light source — small hot disc buried behind the cloud; the
       // post pass streaks volumetric shafts from it through the particles
       const sunMat = new THREE.MeshBasicMaterial({
-        color: 0xfff0dd,
+        color: 0xdfebff,
         transparent: true,
         opacity: 0.85,
         depthWrite: false,
@@ -1252,7 +1388,7 @@ export function SceneV4() {
       // anamorphic flare — thin horizontal light bar across the core;
       // the cinema-lens signature on every bright source
       const flareMat = new THREE.ShaderMaterial({
-        uniforms: { uColor: { value: new THREE.Color(0.95, 0.93, 0.88) }, uOpacity: { value: 0.1 } },
+        uniforms: { uColor: { value: new THREE.Color(0.82, 0.9, 1.0) }, uOpacity: { value: 0.1 } },
         transparent: true,
         depthWrite: false,
         blending: THREE.AdditiveBlending,
@@ -1292,8 +1428,9 @@ export function SceneV4() {
         const slot = slotIdx === 0 ? tgtC : tgtD;
         (slot.array as Float32Array).set(shapes[gen]);
         slot.needsUpdate = true;
-        if (slotIdx === 0) cloudUniforms.uWaveC.value = gen === 5 ? 1 : 0;
-        else cloudUniforms.uWaveD.value = gen === 5 ? 1 : 0;
+        // no shape uses the ocean-wave undulation in the story sequence
+        if (slotIdx === 0) cloudUniforms.uWaveC.value = 0;
+        else cloudUniforms.uWaveD.value = 0;
       };
       const onMorph = (e: Event) => {
         const detail = (e as CustomEvent<MorphOverride>).detail ?? null;

@@ -43,15 +43,18 @@ const RAIL_KEYS = ["hero", "manifesto", "value", "projects", "services", "aiDemo
 // gen = SceneV4 shape the cloud re-knits into while the row is hovered
 // (0 sphere · 1 torus knot · 2 galaxy · 3 crystal · 4 neural · 5 wave · 6 "A")
 // title/desc/tags come from copy; num is derived from index
+// gen → story shape: 0 idea-core · 1 blueprint · 2 devices · 3 service-hub ·
+//   4 neural · 5 pipeline · 6 growth · 7 "A". Each service morphs the cloud
+//   into the form that best pictures it.
 const SERVICES = [
-  { href: "/our-services/web-prezentacije", gen: 0, c1: [0.92, 0.91, 0.98], c2: [1, 0.96, 0.88] },
-  { href: "/our-services/e-commerce-web-shop", gen: 3, c1: [0.78, 0.79, 0.9], c2: [1, 0.97, 0.9] },
-  { href: "/our-services/mobilne-aplikacije", gen: 1, c1: [0.85, 0.84, 0.92], c2: [0.72, 0.74, 0.86] },
-  { href: "/our-services/cms-sistemi", gen: 5, c1: [0.62, 0.65, 0.75], c2: [0.85, 0.87, 0.95] },
+  { href: "/our-services/web-prezentacije", gen: 2, c1: [0.92, 0.91, 0.98], c2: [1, 0.96, 0.88] },
+  { href: "/our-services/e-commerce-web-shop", gen: 2, c1: [0.78, 0.79, 0.9], c2: [1, 0.97, 0.9] },
+  { href: "/our-services/mobilne-aplikacije", gen: 2, c1: [0.85, 0.84, 0.92], c2: [0.72, 0.74, 0.86] },
+  { href: "/our-services/cms-sistemi", gen: 1, c1: [0.62, 0.65, 0.75], c2: [0.85, 0.87, 0.95] },
   { href: "/our-services/ai-integracije-automatizacija", gen: 4, c1: [0.4, 0.66, 1.0], c2: [0.85, 0.9, 1.0] },
-  { href: "/our-services/seo-digitalni-marketing", gen: 2, c1: [0.92, 0.88, 0.82], c2: [0.75, 0.77, 0.9] },
-  { href: "/our-services/cyber-security-gdpr", gen: 3, c1: [0.86, 0.78, 0.74], c2: [0.7, 0.72, 0.85] },
-  { href: "/our-services/interaktivne-web-tehnologije", gen: 6, c1: [0.78, 0.79, 0.9], c2: [0.95, 0.93, 0.88] },
+  { href: "/our-services/seo-digitalni-marketing", gen: 6, c1: [0.92, 0.88, 0.82], c2: [0.75, 0.77, 0.9] },
+  { href: "/our-services/cyber-security-gdpr", gen: 1, c1: [0.86, 0.78, 0.74], c2: [0.7, 0.72, 0.85] },
+  { href: "/our-services/interaktivne-web-tehnologije", gen: 0, c1: [0.78, 0.79, 0.9], c2: [0.95, 0.93, 0.88] },
 ];
 
 // num/suffix are locale-agnostic; label comes from copy.metrics by index
@@ -165,7 +168,7 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
       }
       intro
         .from(
-          q(`.${styles.heroBadge}, .${styles.heroSub}, .${styles.heroCtas}, .${styles.heroTrust}`),
+          q(`.${styles.heroBadge}, .${styles.heroCtas}`),
           { y: 26, autoAlpha: 0, stagger: 0.09, duration: 0.8, ease: "power3.out" },
           "-=0.55",
         )
@@ -237,7 +240,8 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
         });
       }
 
-      // ── Manifesto: pinned word-fill ─────────────────────────────────
+      // ── Manifesto: free scroll-through word-fill (no pin — the page never
+      // locks here, so the visitor scrubs the background freely) ───────────
       const manifestoWords = q<HTMLElement>(`.${styles.manifestoWord}`);
       if (manifestoWords.length) {
         gsap.fromTo(
@@ -249,10 +253,9 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
             ease: "none",
             scrollTrigger: {
               trigger: q(`.${styles.manifesto}`)[0],
-              start: "top top",
-              end: "+=115%",
+              start: "top 80%",
+              end: "bottom 55%",
               scrub: 0.4,
-              pin: true,
             },
           },
         );
@@ -940,7 +943,6 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
                 {t.hero.title[2]}<span className={styles.heroAccentDot}>.</span>
               </span>
             </h1>
-            <p className={styles.heroSub}>{t.hero.sub}</p>
             <div className={styles.heroCtas}>
               <a className={styles.btnPrimary} href="/contact-us" data-cursor="on" data-magnetic>
                 {t.hero.ctaPrimary}
@@ -948,13 +950,6 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
               <a className={styles.btnGhost} href="/our-projects" data-cursor="on" data-scramble>
                 {t.hero.ctaGhost}
               </a>
-            </div>
-            <div className={styles.heroTrust}>
-              <span>{t.hero.trust[0]}</span>
-              <span className={styles.heroTrustSep} />
-              <span>{t.hero.trust[1]}</span>
-              <span className={styles.heroTrustSep} />
-              <span>{t.hero.trust[2]}</span>
             </div>
           </div>
           <div className={styles.heroScrollHint} aria-hidden="true">
