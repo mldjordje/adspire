@@ -752,7 +752,10 @@ export function SceneV4() {
       // draw = 4x the fragment work through the whole post-chain, which is what
       // makes scroll stutter. 1.6 keeps the frame budget open; bloom + SMAA
       // hide the softness so the look holds.
-      const basePR = Math.min(window.devicePixelRatio, isMobile ? 1.15 : 1.6);
+      // Mobile has NO post-chain (bloom/godrays are desktop-only), so it can
+      // afford a crisp render: a 1.15 cap on a DPR-3 phone drew at ~1.15x then
+      // upscaled = the "360p" blur. Cap at 2 for a retina-sharp background.
+      const basePR = Math.min(window.devicePixelRatio, isMobile ? 2 : 1.6);
       renderer.setPixelRatio(basePR);
       renderer.setSize(window.innerWidth, window.innerHeight);
 
@@ -769,7 +772,7 @@ export function SceneV4() {
       camera.position.z = SHAPES[0].camZ;
 
       // ── Morphing cloud — GPU-side, CPU only swaps targets ─────────────
-      const COUNT = isMobile ? 6000 : 24000;
+      const COUNT = isMobile ? 10000 : 24000;
       // indexed by ShapeDef.gen
       const shapes = [
         genIdeaCore(COUNT),
@@ -941,7 +944,7 @@ export function SceneV4() {
       // ── Fireflies — a handful of bright motes on elliptical orbits around
       // the sculpture, each dragging a fading light-trail. Constant life even
       // when the visitor stops scrolling ───────────────────────────────────
-      const FLY_N = isMobile ? 4 : 7;
+      const FLY_N = isMobile ? 6 : 7;
       const TRAIL = 10;
       const flyRnd = mulberry32(6161);
       const flyDefs = Array.from({ length: FLY_N }, () => ({
@@ -1149,7 +1152,7 @@ export function SceneV4() {
       });
 
       // ── Ambient starfield backdrop ────────────────────────────────────
-      const STARS = isMobile ? 350 : 900;
+      const STARS = isMobile ? 720 : 900;
       const starRnd = mulberry32(7777);
       const starPos = new Float32Array(STARS * 3);
       for (let i = 0; i < STARS; i++) {
@@ -1173,19 +1176,32 @@ export function SceneV4() {
           uniform float uTime;
           uniform float uPR;
           varying float vA;
+          varying float vTw;
           void main() {
-            vA = 0.18 + 0.3 * (0.5 + 0.5 * sin(uTime * (0.5 + aTw * 1.3) + aTw * 41.0));
+            vTw = aTw;
+            vA = 0.28 + 0.42 * (0.5 + 0.5 * sin(uTime * (0.5 + aTw * 1.3) + aTw * 41.0));
             vec4 mv = modelViewMatrix * vec4(position, 1.0);
-            gl_PointSize = (1.1 + aTw * 1.5) * uPR;
+            // wider size spread + bigger sprites so bright stars read as real
+            // glowing points, not single flat pixels
+            gl_PointSize = (1.6 + aTw * aTw * 4.0) * uPR;
             gl_Position = projectionMatrix * mv;
           }
         `,
         fragmentShader: /* glsl */ `
           varying float vA;
+          varying float vTw;
           void main() {
             float d = distance(gl_PointCoord, vec2(0.5));
             if (d > 0.5) discard;
-            gl_FragColor = vec4(vec3(0.72, 0.84, 1.0), smoothstep(0.5, 0.1, d) * vA);
+            // soft halo + hot core = a star that glows, not a dot
+            float halo = exp(-d * d * 11.0);
+            float core = smoothstep(0.14, 0.0, d);
+            // 4-point diffraction spikes on the brightest stars — camera sparkle
+            float spike = (pow(max(0.0, 1.0 - abs(gl_PointCoord.x - 0.5) * 2.0), 16.0)
+              + pow(max(0.0, 1.0 - abs(gl_PointCoord.y - 0.5) * 2.0), 16.0)) * step(0.78, vTw);
+            vec3 col = vec3(0.72, 0.84, 1.0) + vec3(0.22, 0.14, 0.06) * core;
+            float a = (halo * 0.55 + core + spike * 0.6) * vA;
+            gl_FragColor = vec4(col + spike * 0.35, a);
           }
         `,
       });
@@ -1195,7 +1211,7 @@ export function SceneV4() {
       // ── Hyperspace streaks — invisible at rest; fast scrolling stretches
       // hidden stars into light-lines racing past the camera. Scroll speed
       // becomes literal speed ──────────────────────────────────────────────
-      const WARP_N = isMobile ? 80 : 220;
+      const WARP_N = isMobile ? 150 : 220;
       const wRnd = mulberry32(8811);
       const warpPos = new Float32Array(WARP_N * 2 * 3);
       const warpEnd = new Float32Array(WARP_N * 2);
@@ -1250,7 +1266,7 @@ export function SceneV4() {
 
       // ── Foreground bokeh dust — big soft out-of-focus discs drifting in
       // front of the cloud; the third depth layer that sells the parallax ──
-      const DUST = isMobile ? 36 : 130;
+      const DUST = isMobile ? 72 : 130;
       const dustRnd = mulberry32(3131);
       const dustPos = new Float32Array(DUST * 3);
       const dustSize = new Float32Array(DUST);
