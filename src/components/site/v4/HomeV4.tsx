@@ -5,7 +5,7 @@ import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Lenis from "@studio-freight/lenis";
+import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import SplitType from "split-type";
 import styles from "./HomeV4.module.css";
 import { SceneV4 } from "./SceneV4";
@@ -131,22 +131,13 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
     return () => root.removeEventListener("click", onClick);
   }, [router]);
 
-  const lenisRef = useRef<Lenis | null>(null);
-
   useEffect(() => {
     const root = rootRef.current;
     if (!root) return;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduced) return;
 
-    gsap.registerPlugin(ScrollTrigger);
-
-    const lenis = new Lenis({ lerp: 0.09, smoothWheel: true });
-    lenisRef.current = lenis;
-    lenis.on("scroll", ScrollTrigger.update);
-    const tickerFn = (time: number) => lenis.raf(time * 1000);
-    gsap.ticker.add(tickerFn);
-    gsap.ticker.lagSmoothing(0);
+    gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
     const q = gsap.utils.selector(root);
     const ctx = gsap.context(() => {
@@ -633,16 +624,13 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
       };
     }, root);
 
-    // Pins + Lenis were measured while the preloader held `html.v4-locked`
-    // (overflow:hidden) — so Lenis' cached scroll limit and every ScrollTrigger
-    // start/end is stale. Without this, Lenis clamps you back to the top when
-    // you scroll past its bogus limit (the "jumps to start at services" bug)
-    // and pinned sections snap. The preloader fires v4:ready ~950ms BEFORE it
-    // drops the lock, so refreshing on that event is still too early — watch
-    // for the class actually being removed, then recompute.
+    // Pins were measured while the preloader held `html.v4-locked`
+    // (overflow:hidden) — so every ScrollTrigger start/end is stale and pinned
+    // sections snap. The preloader fires v4:ready ~950ms BEFORE it drops the
+    // lock, so refreshing on that event is still too early — watch for the
+    // class actually being removed, then recompute.
     const htmlEl = document.documentElement;
     const syncScroll = () => {
-      lenis.resize();
       ScrollTrigger.refresh();
     };
     const trySync = () => {
@@ -840,11 +828,23 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
       repelCleanups.forEach((fn) => fn());
       svcCleanups.forEach((fn) => fn());
       spotCleanups.forEach((fn) => fn());
-      gsap.ticker.remove(tickerFn);
-      lenisRef.current = null;
-      lenis.destroy();
     };
   }, []);
+
+  // nav/rail jump — JS-driven (ScrollToPlugin) so it works regardless of the
+  // browser's native smooth-scroll support; autoKill hands control back to the
+  // user's wheel mid-flight
+  const scrollToSection = (el: HTMLElement) => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      el.scrollIntoView();
+      return;
+    }
+    gsap.to(window, {
+      scrollTo: { y: el, autoKill: true },
+      duration: 1.1,
+      ease: "power3.inOut",
+    });
+  };
 
   return (
     <div ref={rootRef} className={styles.root} data-standalone-page="v4">
@@ -898,8 +898,7 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
                 onSelect: () => {
                   const el = rootRef.current?.querySelector<HTMLElement>(`.${styles[r.key]}`);
                   if (!el) return;
-                  if (lenisRef.current) lenisRef.current.scrollTo(el, { duration: 1.2 });
-                  else el.scrollIntoView({ behavior: "smooth" });
+                  scrollToSection(el);
                 },
               }))}
           />
@@ -916,7 +915,7 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
             aria-label={t.rail[i]}
             onClick={() => {
               const el = rootRef.current?.querySelector<HTMLElement>(`.${styles[key]}`);
-              if (el) lenisRef.current?.scrollTo(el, { offset: 0, duration: 1.4 });
+              if (el) scrollToSection(el);
             }}
           >
             <span className={styles.railNum}>{String(i + 1).padStart(2, "0")}</span>
