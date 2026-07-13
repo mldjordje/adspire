@@ -152,6 +152,16 @@ const serviceText: Array<Pick<ServiceItem, "title" | "summary" | "bullets">> = [
       "Interactive presentations and animations",
     ],
   },
+  {
+    title: "Appointment booking systems",
+    summary:
+      "24/7 online appointment booking for clinics, dental practices, salons, barbershops and service businesses — public booking page, staff calendars and automatic reminders that cut no-shows. Proven in production (Dr Igić, Doctor Barber), deployed in ~2 weeks.",
+    bullets: [
+      "24/7 booking from your website or Instagram profile",
+      "SMS/email reminders — fewer missed appointments",
+      "Per-staff calendars, client records and treatment history",
+    ],
+  },
 ];
 
 const services: ServiceItem[] = srContent.servicesPage.items.map((s, i) => ({

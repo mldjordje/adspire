@@ -183,6 +183,19 @@ const services: ServiceItem[] = [
     href: "/our-services/interaktivne-web-tehnologije",
     cta: "Detalji usluge",
   },
+  {
+    title: "Sistemi za zakazivanje",
+    summary:
+      "Online zakazivanje termina 24/7 za klinike, ordinacije, salone, frizere i servise — javna strana za klijente, admin kalendar po zaposlenom i automatski podsetnici koji seku nedolaske. Dokazano u produkciji (Dr Igić, Doctor Barber), implementacija za ~2 nedelje.",
+    bullets: [
+      "Zakazivanje 24/7 sa sajta ili Instagram profila",
+      "SMS/Viber/email podsetnici — manje propuštenih termina",
+      "Kalendar po zaposlenom, evidencija klijenata i tretmana",
+    ],
+    slug: "sistemi-za-zakazivanje",
+    href: "/our-services/sistemi-za-zakazivanje",
+    cta: "Detalji usluge",
+  },
 ];
 
 const projects: ProjectItem[] = [

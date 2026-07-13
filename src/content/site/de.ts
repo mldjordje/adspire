@@ -153,6 +153,16 @@ const serviceText: Array<Pick<ServiceItem, "title" | "summary" | "bullets">> = [
       "Interaktive Präsentationen und Animationen",
     ],
   },
+  {
+    title: "Terminbuchungssysteme",
+    summary:
+      "24/7-Online-Terminbuchung für Kliniken, Zahnarztpraxen, Salons, Barbershops und Dienstleister — öffentliche Buchungsseite, Mitarbeiterkalender und automatische Erinnerungen gegen No-Shows. In Produktion bewährt (Dr Igić, Doctor Barber), einsatzbereit in ca. 2 Wochen.",
+    bullets: [
+      "Buchung rund um die Uhr über Website oder Instagram-Profil",
+      "SMS/E-Mail-Erinnerungen — weniger verpasste Termine",
+      "Kalender pro Mitarbeiter, Kundenkartei und Behandlungshistorie",
+    ],
+  },
 ];
 
 const services: ServiceItem[] = srContent.servicesPage.items.map((s, i) => ({

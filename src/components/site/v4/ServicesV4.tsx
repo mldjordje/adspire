@@ -46,6 +46,12 @@ const GROUPS: { label: string; blurb: string; services: Service[] }[] = [
     blurb: "Alati koji vlasnicima i timovima vraćaju sate rada svake nedelje.",
     services: [
       {
+        slug: "sistemi-za-zakazivanje",
+        title: "Sistemi za zakazivanje",
+        desc: "Online zakazivanje 24/7 za klinike, salone, frizere i servise — podsetnici seku nedolaske, kalendar se puni dok spavate.",
+        tags: ["Booking", "Podsetnici", "Kalendar"],
+      },
+      {
         slug: "interne-poslovne-aplikacije",
         title: "Interne poslovne aplikacije",
         desc: "Zakazivanje, izveštaji, evidencija, fakture — sve što danas radite ručno kroz Excel i telefon, automatizovano.",
