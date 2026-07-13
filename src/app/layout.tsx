@@ -36,14 +36,14 @@ export const metadata: Metadata = {
     title: "Adspire Digital | Web agencija Niš",
     description:
       "Razvojni i tehnološki partner iz Niša: web, aplikacije, e-commerce, AI, SEO i hosting.",
-    images: [{ url: "/images/logo.png", width: 1200, height: 630, alt: "Adspire Digital" }],
+    // og/twitter image comes from src/app/opengraph-image.tsx (real 1200x630
+    // card) — the old /images/logo.png here was 100x100 and broke share previews
   },
   twitter: {
     card: "summary_large_image",
     title: "Adspire Digital | Web agencija Niš",
     description:
       "Razvojni i tehnološki partner iz Niša: web, aplikacije, e-commerce, AI, SEO i hosting.",
-    images: ["/images/logo.png"],
   },
   robots: { index: true, follow: true },
 };
