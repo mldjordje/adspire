@@ -15,6 +15,13 @@ module.exports = {
     "/server-sitemap.xml",
     "/sr",
     "/sr/*",
+    // Prefixed inner pages render Serbian copy (only HomeV4 reads the locale),
+    // so they are noindex in pageMetadata and must not be advertised here.
+    // /en and /de themselves stay — the home route is genuinely localized.
+    "/en/*",
+    "/de/*",
+    // Preview route for the V4 design, now shipped at "/" — pure duplicate.
+    "/v4",
     "/web-pozivnice-za-veselja",
     "/our-story",
     "/our-teams",
