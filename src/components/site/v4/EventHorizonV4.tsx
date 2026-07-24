@@ -62,7 +62,7 @@ void main() {
     + smoothstep(0.94, 1.0, noise(bg * 90.0 + 7.0)) * 0.6;
   // the shadow swallows everything behind it
   float shadow = smoothstep(RH * 0.92, RH * 1.06, sr);
-  vec3 col = vec3(0.006, 0.006, 0.01) + vec3(0.75, 0.77, 0.9) * stars * shadow;
+  vec3 col = vec3(0.006, 0.006, 0.01) + vec3(0.6, 0.72, 1.0) * stars * shadow;
 
   // ── accretion disc: tilted plane, pointer changes inclination + roll ──
   float incl = 0.34 + uMouse.y * 0.14;
@@ -82,9 +82,9 @@ void main() {
   disc *= 0.6 + 0.4 * cos(ang - 0.7);
   disc *= 1.0 + uMouseI * 0.55 + uPulse * 1.1;
 
-  // platinum grade: silver plasma with a white-hot inner edge
-  vec3 warm = vec3(1.0, 0.97, 0.9);
-  vec3 silver = vec3(0.72, 0.75, 0.88);
+  // ice grade: electric-blue plasma with a white-hot inner edge
+  vec3 warm = vec3(0.82, 0.9, 1.0);
+  vec3 silver = vec3(0.42, 0.58, 0.98);
   col += mix(silver, warm, clamp(disc * 1.3, 0.0, 1.0)) * disc;
 
   // photon ring — light orbiting the horizon itself

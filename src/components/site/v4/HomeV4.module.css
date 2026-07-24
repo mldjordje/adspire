@@ -576,7 +576,8 @@
 .heroAuraA {
   top: 8%;
   left: -6%;
-  background: radial-gradient(circle, var(--accent), transparent 65%);
+  /* trust-blue, not the cream accent — no warm haze on the void */
+  background: radial-gradient(circle, var(--blue-bright), transparent 65%);
   animation: auraDrift 16s ease-in-out infinite;
 }
 

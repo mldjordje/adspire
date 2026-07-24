@@ -58,14 +58,14 @@ type ShapeDef = {
 // White-dominant tones average to silver-grey under additive blending — so
 // blue must be the base and white only the sparkle.
 const SHAPES: ShapeDef[] = [
-  { section: "hero", gen: 0, camZ: 8.6, camA: 0.0, camY: 0.0, x: 0.0, rot: 1.0, tilt: 0, alpha: 0.62, wave: 0, dive: 0.5, bg: [0.004, 0.008, 0.022], color: [0.32, 0.58, 1.0], color2: [0.86, 0.93, 1.0] },
+  { section: "hero", gen: 0, camZ: 8.6, camA: 0.0, camY: 0.0, x: 0.0, rot: 1.0, tilt: 0, alpha: 0.62, wave: 0, dive: 0.5, bg: [0.004, 0.008, 0.022], color: [0.32, 0.58, 1.0], color2: [0.62, 0.8, 1.0] },
   { section: "manifesto", gen: 1, camZ: 8.4, camA: 0.55, camY: 0.5, x: 0.0, rot: 0.4, tilt: 0.2, alpha: 0.5, wave: 0, dive: 5.0, bg: [0.005, 0.01, 0.028], color: [0.24, 0.5, 1.0], color2: [0.6, 0.82, 1.0] },
-  { section: "projects", gen: 2, camZ: 8.2, camA: -0.5, camY: -0.35, x: 2.4, rot: 0.12, tilt: 0.08, alpha: 0.3, wave: 0, dive: 0.6, bg: [0.006, 0.012, 0.03], color: [0.36, 0.62, 1.0], color2: [0.9, 0.95, 1.0] },
+  { section: "projects", gen: 2, camZ: 8.2, camA: -0.5, camY: -0.35, x: 2.4, rot: 0.12, tilt: 0.08, alpha: 0.3, wave: 0, dive: 0.6, bg: [0.006, 0.012, 0.03], color: [0.36, 0.62, 1.0], color2: [0.66, 0.83, 1.0] },
   { section: "services", gen: 3, camZ: 8.4, camA: 0.6, camY: 0.4, x: -2.8, rot: 0.18, tilt: 0, alpha: 0.22, wave: 0, dive: 5.2, bg: [0.005, 0.01, 0.03], color: [0.18, 0.42, 1.0], color2: [0.5, 0.76, 1.0] },
   { section: "aiDemo", gen: 4, camZ: 8.4, camA: -0.55, camY: -0.3, x: 1.8, rot: 0.8, tilt: 0, alpha: 0.42, wave: 0, dive: 0.7, bg: [0.005, 0.011, 0.03], color: [0.28, 0.58, 1.0], color2: [0.6, 0.84, 1.0] },
   { section: "process", gen: 5, camZ: 7.6, camA: 0.25, camY: 0.7, x: 0.0, rot: 0.06, tilt: 0.12, alpha: 0.55, wave: 0, dive: 0.6, bg: [0.005, 0.011, 0.03], color: [0.3, 0.56, 1.0], color2: [0.68, 0.87, 1.0] },
-  { section: "metrics", gen: 6, camZ: 8.2, camA: -0.3, camY: 0.45, x: 0.0, rot: 0.1, tilt: 0.18, alpha: 0.32, wave: 0, dive: 2.6, bg: [0.005, 0.011, 0.028], color: [0.34, 0.6, 1.0], color2: [0.9, 0.95, 1.0] },
-  { section: "cta", gen: 7, camZ: 7.0, camA: 0.0, camY: 0.0, x: 0.0, rot: 0.2, tilt: 0, alpha: 0.8, wave: 0, dive: 0.5, bg: [0.003, 0.007, 0.02], color: [0.42, 0.66, 1.0], color2: [1.0, 1.0, 1.0] },
+  { section: "metrics", gen: 6, camZ: 8.2, camA: -0.3, camY: 0.45, x: 0.0, rot: 0.1, tilt: 0.18, alpha: 0.32, wave: 0, dive: 2.6, bg: [0.005, 0.011, 0.028], color: [0.34, 0.6, 1.0], color2: [0.66, 0.83, 1.0] },
+  { section: "cta", gen: 7, camZ: 7.0, camA: 0.0, camY: 0.0, x: 0.0, rot: 0.2, tilt: 0, alpha: 0.8, wave: 0, dive: 0.5, bg: [0.003, 0.007, 0.02], color: [0.42, 0.66, 1.0], color2: [0.85, 0.92, 1.0] },
 ];
 
 /** payload of the `v4:morph` event — the services index can take the cloud
@@ -653,14 +653,14 @@ const CLOUD_FRAG = /* glsl */ `
   void main() {
     float d = distance(gl_PointCoord, vec2(0.5));
     if (d > 0.5) discard;
-    // soft gaussian-ish falloff with a hot core
-    float glow = exp(-d * d * 14.0);
-    float core = smoothstep(0.18, 0.0, d);
+    // tight falloff with a hot core — crisp point, not a fuzzy puff
+    float glow = exp(-d * d * 19.0);
+    float core = smoothstep(0.15, 0.0, d);
     // the few big hero particles get 4-point lens spikes — camera sparkle
     float spikes = (pow(max(0.0, 1.0 - abs(gl_PointCoord.x - 0.5) * 2.0), 12.0)
       + pow(max(0.0, 1.0 - abs(gl_PointCoord.y - 0.5) * 2.0), 12.0))
       * step(2.2, vSize);
-    glow += spikes * 0.6;
+    glow += spikes * 0.8;
     // two-tone palette — each particle drifts slowly between the pair,
     // so the cloud shimmers instead of sitting in a frozen gradient
     vec3 base = mix(uColor, uColorB,
@@ -674,7 +674,11 @@ const CLOUD_FRAG = /* glsl */ `
     float nearFade = smoothstep(1.0, 2.6, vDepth);
     // atmospheric haze — the far side of the sculpture recedes into the void
     float farFade = 1.0 - smoothstep(10.5, 15.0, vDepth) * 0.5;
-    gl_FragColor = vec4(col, glow * uOpacity * (1.0 + vGlow * 0.35) * nearFade * farFade);
+    // halo weighted DOWN vs the hot core: thousands of overlapping soft
+    // halos additively clip to white — that was the grey fog ring around
+    // dense shapes. Cores carry the sparkle, halos stay thin and blue.
+    float a = (glow * 0.55 + core * 0.6) * uOpacity * (1.0 + vGlow * 0.35);
+    gl_FragColor = vec4(col, a * nearFade * farFade);
   }
 `;
 
@@ -699,11 +703,17 @@ const SHARD_FRAG = /* glsl */ `
   varying vec3 vV;
   varying vec3 vPos;
   void main() {
-    float fres = pow(1.0 - abs(dot(normalize(vN), normalize(vV))), 2.4);
+    float ndv = abs(dot(normalize(vN), normalize(vV)));
+    // tighter fresnel = a thin hard rim of light on each facet edge
+    float fres = pow(1.0 - ndv, 3.2);
     // slow light band crawling across the glass — obsidian catches light
     float band = 0.5 + 0.5 * sin(vPos.y * 7.0 + uTime * 0.7);
+    // facets aligned with the lens flash a white-hot specular glint
+    float glint = pow(band, 9.0) * pow(ndv, 3.0) * 0.6;
     vec3 base = vec3(0.006, 0.012, 0.03);
-    vec3 col = base + uColor * fres * (0.85 + band * 0.55);
+    // rim locked to electric blue — the shards carry the accent, not grey
+    vec3 rim = mix(uColor, vec3(0.18, 0.42, 1.0), 0.55);
+    vec3 col = base + rim * fres * (1.0 + band * 0.7) + vec3(0.8, 0.9, 1.0) * glint;
     gl_FragColor = vec4(col, 0.4 + fres * 0.6);
   }
 `;
@@ -748,14 +758,15 @@ export function SceneV4() {
         alpha: true,
         powerPreference: "high-performance",
       });
-      // cap desktop DPR at 1.6 (not 2): on retina/hi-DPR displays a full 2x
-      // draw = 4x the fragment work through the whole post-chain, which is what
-      // makes scroll stutter. 1.6 keeps the frame budget open; bloom + SMAA
-      // hide the softness so the look holds.
+      // cap desktop DPR at 1.8 (not 2): a full 2x draw = 4x the fragment work
+      // through the whole post-chain, which is what makes scroll stutter.
+      // 1.8 buys visibly sharper edges than the old 1.6 cap while the
+      // adaptive low-res drop below still protects the frame budget when the
+      // cloud recedes behind content.
       // Mobile has NO post-chain (bloom/godrays are desktop-only), so it can
       // afford a crisp render: a 1.15 cap on a DPR-3 phone drew at ~1.15x then
       // upscaled = the "360p" blur. Cap at 2 for a retina-sharp background.
-      const basePR = Math.min(window.devicePixelRatio, isMobile ? 2 : 1.6);
+      const basePR = Math.min(window.devicePixelRatio, isMobile ? 2 : 1.8);
       renderer.setPixelRatio(basePR);
       renderer.setSize(window.innerWidth, window.innerHeight);
 
@@ -1047,15 +1058,16 @@ export function SceneV4() {
       shardGeo.computeVertexNormals();
       const debris: { mesh: InstanceType<typeof THREE.Mesh>; spin: number; orbit: number; baseY: number }[] = [];
       const dRnd = mulberry32(1234);
-      const DEBRIS_COUNT = isMobile ? 5 : 9;
+      const DEBRIS_COUNT = isMobile ? 6 : 13;
       for (let i = 0; i < DEBRIS_COUNT; i++) {
         const mesh = new THREE.Mesh(shardGeo, shardMat);
         const ang = dRnd() * Math.PI * 2;
         const r = 3.2 + dRnd() * 3.4;
         mesh.position.set(Math.cos(ang) * r, (dRnd() - 0.5) * 5, -1.5 - dRnd() * 5);
-        const s = 0.5 + dRnd() * 1.1;
-        // non-uniform scale — elongated shards, not platonic solids
-        mesh.scale.set(s * (0.55 + dRnd() * 0.5), s * (1.0 + dRnd() * 0.9), s * (0.55 + dRnd() * 0.5));
+        const s = 0.4 + dRnd() * 1.5;
+        // non-uniform scale — elongated shards, not platonic solids; wider
+        // size spread = a few monoliths among slivers, reads more expensive
+        mesh.scale.set(s * (0.45 + dRnd() * 0.5), s * (1.0 + dRnd() * 1.3), s * (0.45 + dRnd() * 0.5));
         mesh.rotation.set(dRnd() * Math.PI, dRnd() * Math.PI, dRnd() * Math.PI);
         scene.add(mesh);
         debris.push({ mesh, spin: 0.15 + dRnd() * 0.4, orbit: 0.2 + dRnd() * 0.5, baseY: mesh.position.y });
@@ -1102,6 +1114,82 @@ export function SceneV4() {
         return { mesh, mat, baseY: def.pos[1], baseX: def.pos[0], phase: i * 2.1 };
       });
 
+      // ── Ink field — interactive plasma void (ported from dropz's ambient
+      // fbm drift). A single huge plane far behind everything; a two-octave
+      // noise field warps *toward the cursor* so the whole void breathes and
+      // answers the hand, not just the sculpture. Additive + blue-only so it
+      // deepens the black instead of washing it grey. This is the "living
+      // background" layer — the dropz signature, re-themed to the palette ──
+      const inkGeo = new THREE.PlaneGeometry(60, 38);
+      const INK_FRAG = /* glsl */ `
+        uniform float uTime;
+        uniform vec2 uPointer;    // 0..1 screen space, y up
+        uniform float uAspect;
+        uniform vec3 uColorLo;
+        uniform vec3 uColorHi;
+        uniform float uOpacity;
+        uniform float uEnergy;    // scroll/warp lifts the plasma
+        varying vec2 vUv;
+
+        float hash(vec2 p) {
+          p = fract(p * vec2(123.34, 456.21));
+          p += dot(p, p + 45.32);
+          return fract(p.x * p.y);
+        }
+        float noise(vec2 p) {
+          vec2 i = floor(p), f = fract(p);
+          float a = hash(i), b = hash(i + vec2(1.0, 0.0));
+          float c = hash(i + vec2(0.0, 1.0)), d = hash(i + vec2(1.0, 1.0));
+          vec2 u = f * f * (3.0 - 2.0 * f);
+          return mix(mix(a, b, u.x), mix(c, d, u.x), u.y);
+        }
+        float fbm(vec2 p) {
+          float v = 0.0, amp = 0.5;
+          for (int i = 0; i < 5; i++) { v += amp * noise(p); p *= 2.02; amp *= 0.55; }
+          return v;
+        }
+        void main() {
+          vec2 uv = vUv;
+          uv.x *= uAspect;
+          vec2 drift = vec2(uTime * 0.015, uTime * 0.011);
+          // the cursor drags the field — a slow gravitational pull
+          vec2 pull = (uPointer - 0.5) * (0.35 + uEnergy * 0.5);
+          float n = fbm(uv * 2.2 + drift + pull);
+          float n2 = fbm(uv * 3.9 - drift * 1.4 - pull * 0.6);
+          float ink = smoothstep(0.34, 0.86, n * 0.6 + n2 * 0.4);
+          // hot filaments where the two octaves peak together = plasma veins
+          float veins = pow(ink, 4.0);
+          vec3 col = mix(uColorLo, uColorHi, ink) * ink;
+          col += uColorHi * veins * (0.6 + uEnergy * 0.9);
+          // radial falloff keeps the frame edges dark (no flat wash)
+          float vig = smoothstep(1.15, 0.25, length(vUv - 0.5) * 1.3);
+          gl_FragColor = vec4(col, ink * vig * uOpacity * (1.0 + uEnergy * 0.6));
+        }
+      `;
+      const inkUniforms = {
+        uTime: { value: 0 },
+        uPointer: { value: new THREE.Vector2(0.5, 0.5) },
+        uAspect: { value: window.innerWidth / window.innerHeight },
+        uColorLo: { value: new THREE.Color(0x0a1f4a) },
+        uColorHi: { value: new THREE.Color(0x2f6bff) },
+        uOpacity: { value: isMobile ? 0.42 : 0.5 },
+        uEnergy: { value: 0 },
+      };
+      const inkMat = new THREE.ShaderMaterial({
+        uniforms: inkUniforms,
+        transparent: true,
+        depthWrite: false,
+        depthTest: false,
+        blending: THREE.AdditiveBlending,
+        vertexShader: NEB_VERT,
+        fragmentShader: INK_FRAG,
+      });
+      const inkField = new THREE.Mesh(inkGeo, inkMat);
+      inkField.position.set(0, 0, -18);
+      inkField.renderOrder = -3; // behind nebulas (-1) and everything else
+      inkField.frustumCulled = false;
+      scene.add(inkField);
+
       // ── Aurora ribbons — two vast silk bands undulating far behind the
       // cloud; the volumetric depth cue that makes the void feel expensive ──
       const RIB_FRAG = /* glsl */ `
@@ -1115,9 +1203,9 @@ export function SceneV4() {
           // slow traveling wave bends the band; a second harmonic keeps it organic
           float flow = sin(vUv.x * 6.283 + uTime * 0.14 + uPhase
             + sin(vUv.x * 13.9 - uTime * 0.21 + uPhase) * 0.55);
-          float band = exp(-pow((vUv.y - 0.5 - flow * 0.16) * 3.4, 2.0));
+          float band = exp(-pow((vUv.y - 0.5 - flow * 0.16) * 4.6, 2.0));
           // soft second ribbon ghosting above the first
-          float band2 = exp(-pow((vUv.y - 0.62 - flow * 0.22) * 5.0, 2.0)) * 0.5;
+          float band2 = exp(-pow((vUv.y - 0.62 - flow * 0.22) * 7.0, 2.0)) * 0.5;
           float edge = smoothstep(0.0, 0.16, vUv.x) * smoothstep(1.0, 0.84, vUv.x);
           vec3 col = mix(uColorA, uColorB, clamp(vUv.x + flow * 0.25, 0.0, 1.0));
           gl_FragColor = vec4(col, (band + band2) * edge * uOpacity);
@@ -1131,8 +1219,8 @@ export function SceneV4() {
       const ribbons = ribbonDefs.map((def) => {
         const mat = new THREE.ShaderMaterial({
           uniforms: {
-            uColorA: { value: new THREE.Color(0xaec4f2) },
-            uColorB: { value: new THREE.Color(0x3f6bd6) },
+            uColorA: { value: new THREE.Color(0x4a7dff) },
+            uColorB: { value: new THREE.Color(0x2f6bff) },
             uOpacity: { value: def.op },
             uTime: { value: 0 },
             uPhase: { value: def.phase },
@@ -1198,7 +1286,7 @@ export function SceneV4() {
             float core = smoothstep(0.14, 0.0, d);
             // 4-point diffraction spikes on the brightest stars — camera sparkle
             float spike = (pow(max(0.0, 1.0 - abs(gl_PointCoord.x - 0.5) * 2.0), 16.0)
-              + pow(max(0.0, 1.0 - abs(gl_PointCoord.y - 0.5) * 2.0), 16.0)) * step(0.78, vTw);
+              + pow(max(0.0, 1.0 - abs(gl_PointCoord.y - 0.5) * 2.0), 16.0)) * step(0.7, vTw);
             vec3 col = vec3(0.72, 0.84, 1.0) + vec3(0.22, 0.14, 0.06) * core;
             float a = (halo * 0.55 + core + spike * 0.6) * vA;
             gl_FragColor = vec4(col + spike * 0.35, a);
@@ -1234,7 +1322,7 @@ export function SceneV4() {
       warpGeo.setAttribute("aEnd", new THREE.BufferAttribute(warpEnd, 1));
       warpGeo.setAttribute("aSeed", new THREE.BufferAttribute(warpSeed, 1));
       const warpMat = new THREE.ShaderMaterial({
-        uniforms: { uWarp: { value: 0 }, uColor: { value: new THREE.Color(0.92, 0.92, 1.0) } },
+        uniforms: { uWarp: { value: 0 }, uColor: { value: new THREE.Color(0.5, 0.72, 1.0) } },
         transparent: true,
         depthWrite: false,
         blending: THREE.AdditiveBlending,
@@ -1264,9 +1352,10 @@ export function SceneV4() {
       warpLines.frustumCulled = false;
       scene.add(warpLines);
 
-      // ── Foreground bokeh dust — big soft out-of-focus discs drifting in
-      // front of the cloud; the third depth layer that sells the parallax ──
-      const DUST = isMobile ? 72 : 130;
+      // ── Foreground glass shrapnel — angular slivers drifting in front of
+      // the cloud; the third depth layer that sells the parallax. Blades,
+      // not discs: soft grey bokeh circles read cheap on the dark void ──
+      const DUST = isMobile ? 48 : 90;
       const dustRnd = mulberry32(3131);
       const dustPos = new Float32Array(DUST * 3);
       const dustSize = new Float32Array(DUST);
@@ -1275,7 +1364,7 @@ export function SceneV4() {
         dustPos[i * 3] = (dustRnd() - 0.5) * 15;
         dustPos[i * 3 + 1] = (dustRnd() - 0.5) * 9;
         dustPos[i * 3 + 2] = 2.2 + dustRnd() * 3.4; // between cloud and camera
-        dustSize[i] = 14 + dustRnd() * 46;
+        dustSize[i] = 10 + dustRnd() * 30;
         dustSeed[i] = dustRnd() * 100;
       }
       const dustGeo = new THREE.BufferGeometry();
@@ -1283,8 +1372,8 @@ export function SceneV4() {
       dustGeo.setAttribute("aSize", new THREE.BufferAttribute(dustSize, 1));
       dustGeo.setAttribute("aSeed", new THREE.BufferAttribute(dustSeed, 1));
       const dustUniforms = {
-        uColor: { value: new THREE.Color(SHAPES[0].color2[0], SHAPES[0].color2[1], SHAPES[0].color2[2]) },
-        uOpacity: { value: 0.075 },
+        uColor: { value: new THREE.Color(SHAPES[0].color[0], SHAPES[0].color[1], SHAPES[0].color[2]) },
+        uOpacity: { value: 0.14 },
         uTime: { value: 0 },
         uScale: { value: (isMobile ? 46 : 40) * basePR },
       };
@@ -1298,7 +1387,9 @@ export function SceneV4() {
           attribute float aSeed;
           uniform float uTime;
           uniform float uScale;
+          varying float vSeed;
           void main() {
+            vSeed = aSeed;
             vec3 pos = position;
             pos.y += sin(uTime * 0.11 + aSeed * 6.283) * 0.5;
             pos.x += cos(uTime * 0.08 + aSeed * 4.71) * 0.4;
@@ -1310,13 +1401,26 @@ export function SceneV4() {
         fragmentShader: /* glsl */ `
           uniform vec3 uColor;
           uniform float uOpacity;
+          uniform float uTime;
+          varying float vSeed;
           void main() {
-            float d = distance(gl_PointCoord, vec2(0.5));
-            if (d > 0.5) discard;
-            // brighter rim than core = camera-lens bokeh, not a glow dot
-            float disc = smoothstep(0.5, 0.38, d);
-            float ring = 0.35 + 0.65 * smoothstep(0.1, 0.42, d);
-            gl_FragColor = vec4(uColor, disc * ring * uOpacity);
+            // each sprite is a slowly tumbling glass sliver — sharp diamond
+            // silhouette with a hot electric edge, faceted two-tone fill
+            vec2 uv = gl_PointCoord - 0.5;
+            float ang = vSeed * 6.283 + uTime * (0.05 + fract(vSeed * 7.31) * 0.08);
+            float ca = cos(ang);
+            float sa = sin(ang);
+            uv = mat2(ca, -sa, sa, ca) * uv;
+            // elongated diamond metric — a blade, not a disc
+            float dx = abs(uv.x) * 1.15 + abs(uv.y) * 3.4;
+            float body = 1.0 - smoothstep(0.3, 0.34, dx);
+            if (body <= 0.0) discard;
+            // silhouette rim runs hotter than the fill = lit glass edge
+            float edge = smoothstep(0.18, 0.32, dx) * body;
+            // hard facet split across the long axis catches the key light
+            float facet = 0.55 + 0.45 * step(0.0, uv.x * uv.y);
+            vec3 col = uColor * (0.4 + facet * 0.5) + vec3(0.35, 0.55, 1.0) * edge * 1.5;
+            gl_FragColor = vec4(col, (body * 0.42 + edge * 1.1) * uOpacity);
           }
         `,
       });
@@ -1351,7 +1455,7 @@ export function SceneV4() {
       };
       for (let i = 0; i < STREAK_COUNT; i++) {
         const mat = new THREE.ShaderMaterial({
-          uniforms: { uColor: { value: new THREE.Color(0.9, 0.9, 0.98) }, uAlpha: { value: 0 } },
+          uniforms: { uColor: { value: new THREE.Color(0.42, 0.64, 1.0) }, uAlpha: { value: 0 } },
           transparent: true,
           depthWrite: false,
           blending: THREE.AdditiveBlending,
@@ -1374,6 +1478,48 @@ export function SceneV4() {
         streaks.push(s);
       }
 
+      // ── Laser grid floor — a vast perspective tech-grid buried far below
+      // the sculpture; hard right angles anchor the void and surge with
+      // scroll warp. The angular counterweight to all the particle glow ──
+      const gridGeo = new THREE.PlaneGeometry(90, 46);
+      const gridMat = new THREE.ShaderMaterial({
+        uniforms: {
+          uColor: { value: new THREE.Color(0x2f6bff) },
+          uOpacity: { value: 0.12 },
+          uTime: { value: 0 },
+          uWarp: { value: 0 },
+        },
+        transparent: true,
+        depthWrite: false,
+        blending: THREE.AdditiveBlending,
+        vertexShader: NEB_VERT,
+        fragmentShader: /* glsl */ `
+          uniform vec3 uColor;
+          uniform float uOpacity;
+          uniform float uTime;
+          uniform float uWarp;
+          varying vec2 vUv;
+          void main() {
+            vec2 g = vec2(vUv.x * 60.0, vUv.y * 30.0);
+            // grid streams toward the camera; warp slams the throttle
+            g.y -= uTime * 0.4 + uWarp * 3.0;
+            vec2 f = abs(fract(g) - 0.5);
+            float line = max(smoothstep(0.44, 0.5, f.x), smoothstep(0.44, 0.5, f.y));
+            // energy pulse sweeping down the grid every few seconds
+            float pulse = exp(-pow(fract(vUv.y * 3.0 - uTime * 0.07) * 6.0 - 1.2, 2.0)) * 0.5;
+            float fadeX = smoothstep(0.0, 0.3, vUv.x) * smoothstep(1.0, 0.7, vUv.x);
+            float fadeY = smoothstep(0.02, 0.3, vUv.y) * smoothstep(1.0, 0.6, vUv.y);
+            float a = line * (0.55 + pulse) * fadeX * fadeY * uOpacity;
+            gl_FragColor = vec4(uColor + vec3(0.25, 0.4, 0.9) * pulse, a);
+          }
+        `,
+      });
+      const grid = new THREE.Mesh(gridGeo, gridMat);
+      grid.rotation.x = -Math.PI / 2;
+      grid.position.set(0, -5.6, -6);
+      grid.renderOrder = -1;
+      scene.add(grid);
+
       // ── Core glow — the cloud reads as lit from within ────────────────
       const coreMat = new THREE.ShaderMaterial({
         uniforms: { uColor: { value: new THREE.Color(SHAPES[0].color[0], SHAPES[0].color[1], SHAPES[0].color[2]) }, uOpacity: { value: 0.13 } },
@@ -1392,7 +1538,7 @@ export function SceneV4() {
       // god-ray light source — small hot disc buried behind the cloud; the
       // post pass streaks volumetric shafts from it through the particles
       const sunMat = new THREE.MeshBasicMaterial({
-        color: 0xdfebff,
+        color: 0xbfd6ff,
         transparent: true,
         opacity: 0.85,
         depthWrite: false,
@@ -1401,14 +1547,14 @@ export function SceneV4() {
       const sun = new THREE.Mesh(sunGeo, sunMat);
       sun.position.set(0, 0.4, -2.6);
       sun.renderOrder = -2;
-      // mobile has no composer → a bare disc with no rays would just sit
-      // there; only desktop gets the sun
-      if (!isMobile) scene.add(sun);
+      // god rays are gone, so the sun mesh never enters the scene — a bare
+      // pale disc is exactly the "basic circle" this palette bans. The mesh
+      // still exists because the flare/core choreography reads its transform.
 
       // anamorphic flare — thin horizontal light bar across the core;
       // the cinema-lens signature on every bright source
       const flareMat = new THREE.ShaderMaterial({
-        uniforms: { uColor: { value: new THREE.Color(0.82, 0.9, 1.0) }, uOpacity: { value: 0.1 } },
+        uniforms: { uColor: { value: new THREE.Color(0.55, 0.75, 1.0) }, uOpacity: { value: 0.1 } },
         transparent: true,
         depthWrite: false,
         blending: THREE.AdditiveBlending,
@@ -1597,11 +1743,13 @@ export function SceneV4() {
           }
           const bloom = new PP.BloomEffect({
             intensity: 0.9,
-            // platinum particles run brighter than the old warm palette —
-            // higher threshold keeps the glow crisp, not hazy
-            luminanceThreshold: 0.48,
+            // high threshold = only white-hot cores bloom; anything lower
+            // wraps the nucleus in the grey fog we just removed
+            luminanceThreshold: 0.56,
             luminanceSmoothing: 0.3,
-            mipmapBlur: true,
+            // mipmapBlur's LDR mip chain warm-shifts saturated blues — the
+            // "amber ring" around dense shapes. Kawase blur keeps hue true.
+            mipmapBlur: false,
             radius: 0.68,
           });
           bloomFx = bloom;
@@ -1612,25 +1760,10 @@ export function SceneV4() {
           });
           caOffset = ca.offset;
           const vignette = new PP.VignetteEffect({ darkness: 0.52, offset: 0.28 });
-          // volumetric shafts from the buried sun — light owns the frame
-          let godRays: InstanceType<typeof PP.GodRaysEffect> | null = null;
-          try {
-            godRays = new PP.GodRaysEffect(camera, sun, {
-              samples: 24,
-              density: 0.94,
-              decay: 0.9,
-              weight: 0.28,
-              exposure: 0.28,
-              clampMax: 1,
-            });
-          } catch {
-            godRays = null; // rays are gravy — the rest of the pass still runs
-          }
-          c.addPass(
-            godRays
-              ? new PP.EffectPass(camera, godRays, bloom, ca, vignette)
-              : new PP.EffectPass(camera, bloom, ca, vignette),
-          );
+          // NO god rays: the white volumetric wash read as warm-grey fog over
+          // the navy void and murdered the contrast. Bloom + anamorphic flare
+          // carry the light story now — crisp, blue, no milk.
+          c.addPass(new PP.EffectPass(camera, bloom, ca, vignette));
           c.setSize(window.innerWidth, window.innerHeight);
           composer = c;
         } catch {
@@ -1644,6 +1777,7 @@ export function SceneV4() {
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
         composer?.setSize(window.innerWidth, window.innerHeight);
+        inkUniforms.uAspect.value = window.innerWidth / window.innerHeight;
       };
       window.addEventListener("resize", onResize);
 
@@ -1905,6 +2039,14 @@ export function SceneV4() {
         stars.position.y = p * 2.5;
         starMat.uniforms.uTime.value = t;
 
+        // ink field: living plasma void follows the cursor + section palette,
+        // and surges with scroll energy (warp) so fast scrolling ignites it
+        inkUniforms.uTime.value = t;
+        inkUniforms.uPointer.value.set(0.5 + mouseX * 0.5, 0.5 - mouseY * 0.5);
+        inkUniforms.uEnergy.value = warp;
+        inkUniforms.uColorHi.value.lerp(tmpColor, 0.02);
+        inkField.position.x = cloud.position.x * 0.3;
+
         // nebulas drift slowly and take on the section palette
         for (let i = 0; i < nebulas.length; i++) {
           const nb = nebulas[i];
@@ -1923,6 +2065,15 @@ export function SceneV4() {
           rb.mat.uniforms.uColorB.value.lerp(tmpColorB, 0.008);
         }
         shardUniforms.uTime.value = t;
+
+        // laser grid breathes with warp + arrival; sinks as the page scrolls
+        // so it never crowds the mid-page content sections
+        gridMat.uniforms.uTime.value = t;
+        gridMat.uniforms.uWarp.value = warp;
+        gridMat.uniforms.uOpacity.value +=
+          (0.12 + warp * 0.34 + arrE * 0.22 - gridMat.uniforms.uOpacity.value) * 0.06;
+        grid.position.y = -5.6 - p * 1.6;
+        gridMat.uniforms.uColor.value.lerp(tmpColor, 0.02);
 
         // shards drift, tumble, and slide slowly against the scroll
         for (let i = 0; i < debris.length; i++) {
@@ -1968,10 +2119,10 @@ export function SceneV4() {
         trailMat.uniforms.uColor.value.lerp(tmpColorB, 0.03);
         headMat.uniforms.uColor.value.lerp(tmpColorB, 0.03);
 
-        // bokeh dust: counter-parallax against the camera = depth; palette
-        // follows the section's second tone so it never fights the cloud
+        // glass shrapnel: counter-parallax against the camera = depth; palette
+        // follows the section's primary blue so the slivers stay electric
         dustUniforms.uTime.value = t;
-        dustUniforms.uColor.value.lerp(tmpColorB, 0.03);
+        dustUniforms.uColor.value.lerp(tmpColor, 0.03);
         dust.position.x = -mouseX * 0.9;
         dust.position.y = mouseY * 0.6 + p * 1.8;
 
@@ -2068,6 +2219,8 @@ export function SceneV4() {
         shardMat.dispose();
         nebGeo.dispose();
         nebulas.forEach((n) => n.mat.dispose());
+        inkGeo.dispose();
+        inkMat.dispose();
         ribbonGeo.dispose();
         ribbons.forEach((r) => r.mat.dispose());
         warpGeo.dispose();
@@ -2082,6 +2235,8 @@ export function SceneV4() {
         dustMat.dispose();
         streakGeo.dispose();
         streaks.forEach((s) => s.mat.dispose());
+        gridGeo.dispose();
+        gridMat.dispose();
         coreMat.dispose();
         flareMat.dispose();
         sunGeo.dispose();
