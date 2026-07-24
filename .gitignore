@@ -1,5 +1,6 @@
 .next
 node_modules
+.worktrees/
 .DS_Store
 Adspire - Srpska Dijaspora Outreach.json
 new-videos/
