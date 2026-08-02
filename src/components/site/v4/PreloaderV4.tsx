@@ -32,8 +32,8 @@ export function PreloaderV4() {
 
     document.documentElement.classList.add("v4-locked");
 
-    const MIN_SHOW = 1400; // brand letters need their beat even on a hot cache
-    const HARD_CAP = 6000; // never hold the page hostage if the scene stalls
+    const MIN_SHOW = 700; // enough for recognition without charging an attention tax
+    const HARD_CAP = 3500; // the first impression belongs to the site, not its loader
     const start = performance.now();
     let raf = 0;
     let fired = false;
@@ -56,7 +56,7 @@ export function PreloaderV4() {
       window.setTimeout(() => {
         document.documentElement.classList.remove("v4-locked");
         setGone(true);
-      }, 950);
+      }, 650);
     };
 
     const step = (now: number) => {
@@ -65,7 +65,7 @@ export function PreloaderV4() {
 
       // time creeps the counter to 60% at most; the last stretch belongs to
       // the scene — 100 only lands once the first shader frame is compiled
-      const creep = Math.min(elapsed / 1600, 1) * 0.6;
+      const creep = Math.min(elapsed / 1100, 1) * 0.7;
       const target = real >= 1 ? 1 : Math.min(Math.max(creep, real * 0.97), 0.97);
       disp += (target - disp) * 0.09;
 

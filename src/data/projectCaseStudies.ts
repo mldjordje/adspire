@@ -45,7 +45,7 @@ export const projectCaseStudies: ProjectCaseStudy[] = [
     category: "E-commerce",
     image: "/images/case-studies/santos-desktop.webp",
     extraImages: ["/images/case-studies/santos-mobile.webp"],
-    website: "https://santos-santorini.com",
+    website: "https://www.santos.rs",
     stack: "Next.js, Supabase, Resend, Ananas API, Sharp",
     outcome: "Storefront, korpa, checkout, CMS, admin, lager i marketplace integracije.",
   },

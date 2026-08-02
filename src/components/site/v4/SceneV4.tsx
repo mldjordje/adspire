@@ -50,22 +50,22 @@ type ShapeDef = {
 //      5 pipeline · 6 growth-chart · 7 "A" monogram
 // PALETTE: black void · white structure · electric/accent-blue fill (no grey).
 // Each particle shimmers between `color` (bright white/ice) and `color2`
-// (blue → accent-blue #2f6bff), additively lit on a near-black background.
+// (cobalt signal → liquid silver), additively lit on a near-black background.
 // Chapters shift how blue-dominant they are to tell the story; bloom makes the
-// accent blue glow. Bg is deep black-blue, never grey.
+// cold signal glow. Bg is deep ink-blue, never grey.
 // color = BLUE body (dominant tone, keeps the cloud reading blue even where
 // particles pile up additively); color2 = bright ice/white HIGHLIGHT end.
 // White-dominant tones average to silver-grey under additive blending — so
 // blue must be the base and white only the sparkle.
 const SHAPES: ShapeDef[] = [
-  { section: "hero", gen: 0, camZ: 8.6, camA: 0.0, camY: 0.0, x: 0.0, rot: 1.0, tilt: 0, alpha: 0.62, wave: 0, dive: 0.5, bg: [0.004, 0.008, 0.022], color: [0.32, 0.58, 1.0], color2: [0.62, 0.8, 1.0] },
-  { section: "manifesto", gen: 1, camZ: 8.4, camA: 0.55, camY: 0.5, x: 0.0, rot: 0.4, tilt: 0.2, alpha: 0.5, wave: 0, dive: 5.0, bg: [0.005, 0.01, 0.028], color: [0.24, 0.5, 1.0], color2: [0.6, 0.82, 1.0] },
-  { section: "projects", gen: 2, camZ: 8.2, camA: -0.5, camY: -0.35, x: 2.4, rot: 0.12, tilt: 0.08, alpha: 0.3, wave: 0, dive: 0.6, bg: [0.006, 0.012, 0.03], color: [0.36, 0.62, 1.0], color2: [0.66, 0.83, 1.0] },
-  { section: "services", gen: 3, camZ: 8.4, camA: 0.6, camY: 0.4, x: -2.8, rot: 0.18, tilt: 0, alpha: 0.22, wave: 0, dive: 5.2, bg: [0.005, 0.01, 0.03], color: [0.18, 0.42, 1.0], color2: [0.5, 0.76, 1.0] },
-  { section: "aiDemo", gen: 4, camZ: 8.4, camA: -0.55, camY: -0.3, x: 1.8, rot: 0.8, tilt: 0, alpha: 0.42, wave: 0, dive: 0.7, bg: [0.005, 0.011, 0.03], color: [0.28, 0.58, 1.0], color2: [0.6, 0.84, 1.0] },
-  { section: "process", gen: 5, camZ: 7.6, camA: 0.25, camY: 0.7, x: 0.0, rot: 0.06, tilt: 0.12, alpha: 0.55, wave: 0, dive: 0.6, bg: [0.005, 0.011, 0.03], color: [0.3, 0.56, 1.0], color2: [0.68, 0.87, 1.0] },
-  { section: "metrics", gen: 6, camZ: 8.2, camA: -0.3, camY: 0.45, x: 0.0, rot: 0.1, tilt: 0.18, alpha: 0.32, wave: 0, dive: 2.6, bg: [0.005, 0.011, 0.028], color: [0.34, 0.6, 1.0], color2: [0.66, 0.83, 1.0] },
-  { section: "cta", gen: 7, camZ: 7.0, camA: 0.0, camY: 0.0, x: 0.0, rot: 0.2, tilt: 0, alpha: 0.8, wave: 0, dive: 0.5, bg: [0.003, 0.007, 0.02], color: [0.42, 0.66, 1.0], color2: [0.85, 0.92, 1.0] },
+  { section: "hero", gen: 0, camZ: 8.5, camA: 0.0, camY: 0.0, x: 0.0, rot: 0.52, tilt: 0.08, alpha: 0.52, wave: 0, dive: 0.45, bg: [0.003, 0.005, 0.02], color: [0.28, 0.38, 0.95], color2: [0.82, 0.88, 1.0] },
+  { section: "manifesto", gen: 1, camZ: 8.8, camA: 0.42, camY: 0.34, x: 0.0, rot: 0.3, tilt: 0.14, alpha: 0.36, wave: 0, dive: 2.4, bg: [0.004, 0.006, 0.024], color: [0.18, 0.28, 0.75], color2: [0.7, 0.78, 1.0] },
+  { section: "projects", gen: 2, camZ: 8.6, camA: -0.38, camY: -0.22, x: 1.8, rot: 0.1, tilt: 0.06, alpha: 0.2, wave: 0, dive: 0.4, bg: [0.002, 0.004, 0.016], color: [0.36, 0.46, 0.9], color2: [0.92, 0.94, 1.0] },
+  { section: "services", gen: 3, camZ: 8.8, camA: 0.46, camY: 0.28, x: -2.1, rot: 0.14, tilt: 0, alpha: 0.18, wave: 0, dive: 2.6, bg: [0.004, 0.006, 0.022], color: [0.14, 0.22, 0.65], color2: [0.56, 0.68, 1.0] },
+  { section: "aiDemo", gen: 4, camZ: 8.7, camA: -0.42, camY: -0.22, x: 1.45, rot: 0.52, tilt: 0, alpha: 0.3, wave: 0, dive: 0.45, bg: [0.004, 0.006, 0.026], color: [0.3, 0.4, 0.9], color2: [0.76, 0.82, 1.0] },
+  { section: "process", gen: 5, camZ: 8.0, camA: 0.2, camY: 0.52, x: 0.0, rot: 0.05, tilt: 0.09, alpha: 0.38, wave: 0, dive: 0.45, bg: [0.004, 0.006, 0.024], color: [0.34, 0.46, 0.96], color2: [0.86, 0.9, 1.0] },
+  { section: "metrics", gen: 6, camZ: 8.6, camA: -0.24, camY: 0.32, x: 0.0, rot: 0.08, tilt: 0.12, alpha: 0.24, wave: 0, dive: 1.4, bg: [0.003, 0.005, 0.02], color: [0.38, 0.48, 0.9], color2: [0.8, 0.86, 1.0] },
+  { section: "cta", gen: 7, camZ: 7.5, camA: 0.0, camY: 0.0, x: 0.0, rot: 0.14, tilt: 0, alpha: 0.62, wave: 0, dive: 0.35, bg: [0.002, 0.003, 0.016], color: [0.46, 0.58, 1.0], color2: [0.92, 0.94, 1.0] },
 ];
 
 /** payload of the `v4:morph` event — the services index can take the cloud
@@ -119,54 +119,55 @@ function mulberry32(seed: number) {
 // Every form is abstract-legible: reads as premium particle art, but decodes
 // into a chapter of "we turn your idea into a growing digital product".
 
-/** HERO — the idea: a bright dense nucleus with service-electrons orbiting on
- *  tilted rings. "One idea radiating many capabilities." */
+/** HERO — the signal lens: a hollow iris wrapped by a continuous Möbius skin.
+ * It reads as one authored kinetic sculpture, not the familiar atom/sphere
+ * motif used by generic tech templates. */
 function genIdeaCore(n: number): Float32Array {
   const out = new Float32Array(n * 3);
   const rnd = mulberry32(101);
   const golden = Math.PI * (3 - Math.sqrt(5));
-  // (tiltX, tiltZ) for three orbital planes crossing the core
-  const planes = [
-    [0.15, 0.1],
-    [1.15, 0.55],
-    [2.05, -0.5],
-  ];
+
   for (let i = 0; i < n; i++) {
-    if (rnd() < 0.42) {
-      // glowing core sphere
-      const y = 1 - rnd() * 2;
-      const rad = Math.sqrt(Math.max(0, 1 - y * y));
+    const layer = rnd();
+    let x: number;
+    let y: number;
+    let z: number;
+
+    if (layer < 0.22) {
+      // Inner iris: a bright, hollow lenticular shell with a dark aperture.
+      const v = 1 - rnd() * 2;
       const th = golden * i;
-      const cr = 0.72;
-      out[i * 3] = Math.cos(th) * rad * cr + (rnd() - 0.5) * 0.1;
-      out[i * 3 + 1] = y * cr + (rnd() - 0.5) * 0.1;
-      out[i * 3 + 2] = Math.sin(th) * rad * cr + (rnd() - 0.5) * 0.1;
-    } else {
-      // orbiting electron ring on a tilted plane
-      const pl = planes[Math.floor(rnd() * planes.length)];
-      const R = 1.55 + Math.floor(rnd() * 3) * 0.24;
+      const shell = 0.64 + Math.pow(rnd(), 2.2) * 0.34;
+      const radial = Math.sqrt(Math.max(0, 1 - v * v)) * shell;
+      x = Math.cos(th) * radial * 1.16;
+      y = v * shell * 0.74;
+      z = Math.sin(th) * radial * 0.34;
+    } else if (layer < 0.84) {
+      // One continuous Möbius skin: broad enough to read as a surface, with
+      // an asymmetric three-lobed pulse that changes silhouette as it rotates.
       const a = rnd() * Math.PI * 2;
-      const tube = (rnd() - 0.5) * 0.14;
-      let x = Math.cos(a) * R + (rnd() - 0.5) * 0.05;
-      let y = tube;
-      let z = Math.sin(a) * R + (rnd() - 0.5) * 0.05;
-      // rotate the flat ring about X then Z into its plane
-      const cx = Math.cos(pl[0]);
-      const sx = Math.sin(pl[0]);
-      const y1 = y * cx - z * sx;
-      const z1 = y * sx + z * cx;
-      y = y1;
-      z = z1;
-      const cz = Math.cos(pl[1]);
-      const sz = Math.sin(pl[1]);
-      const x1 = x * cz - y * sz;
-      const y2 = x * sz + y * cz;
-      x = x1;
-      y = y2;
-      out[i * 3] = x;
-      out[i * 3 + 1] = y;
-      out[i * 3 + 2] = z;
+      const strip = (rnd() - 0.5) * 0.74;
+      const pulse = 1.72 + Math.sin(a * 3 + 0.45) * 0.18;
+      const edge = strip * Math.cos(a * 0.5);
+      x = (pulse + edge) * Math.cos(a);
+      y = (pulse + edge) * Math.sin(a) * 0.62;
+      z = strip * Math.sin(a * 0.5) * 1.22 + Math.cos(a * 3) * 0.1;
+    } else {
+      // Sparse counter-orbit gives the lens scale without recreating an atom.
+      const a = rnd() * Math.PI * 2;
+      const r = 2.2 + Math.sin(a * 2) * 0.12;
+      x = Math.cos(a) * r;
+      y = Math.sin(a) * r * 0.4;
+      z = Math.sin(a * 2) * 0.62 + (rnd() - 0.5) * 0.08;
     }
+
+    // A slight diagonal posture makes the hero feel placed by an art director.
+    const tilt = 0.24;
+    const cy = Math.cos(tilt);
+    const sy = Math.sin(tilt);
+    out[i * 3] = x * cy + z * sy + (rnd() - 0.5) * 0.035;
+    out[i * 3 + 1] = y + (rnd() - 0.5) * 0.035;
+    out[i * 3 + 2] = -x * sy + z * cy + (rnd() - 0.5) * 0.035;
   }
   return out;
 }
@@ -763,17 +764,17 @@ export function SceneV4() {
       // 1.8 buys visibly sharper edges than the old 1.6 cap while the
       // adaptive low-res drop below still protects the frame budget when the
       // cloud recedes behind content.
-      // Mobile has NO post-chain (bloom/godrays are desktop-only), so it can
-      // afford a crisp render: a 1.15 cap on a DPR-3 phone drew at ~1.15x then
-      // upscaled = the "360p" blur. Cap at 2 for a retina-sharp background.
-      const basePR = Math.min(window.devicePixelRatio, isMobile ? 2 : 1.8);
+      // Mobile now runs a lean bloom/vignette pass, so 1.35 DPR is the sweet
+      // spot: materially sharper than 1x, without multiplying fill-rate on a
+      // DPR-3 phone. Adaptive resolution still protects dense mid-page shots.
+      const basePR = Math.min(window.devicePixelRatio, isMobile ? 1.35 : 1.5);
       renderer.setPixelRatio(basePR);
       renderer.setSize(window.innerWidth, window.innerHeight);
 
       const scene = new THREE.Scene();
       // opaque bg matches the page — required for the bloom composer path
       // deep black-blue void: pure black would read flat, grey is banned
-      scene.background = new THREE.Color(0x03060e);
+      scene.background = new THREE.Color(0x02030a);
       const camera = new THREE.PerspectiveCamera(
         42,
         window.innerWidth / window.innerHeight,
@@ -783,7 +784,7 @@ export function SceneV4() {
       camera.position.z = SHAPES[0].camZ;
 
       // ── Morphing cloud — GPU-side, CPU only swaps targets ─────────────
-      const COUNT = isMobile ? 10000 : 24000;
+      const COUNT = isMobile ? 7000 : 16000;
       // indexed by ShapeDef.gen
       const shapes = [
         genIdeaCore(COUNT),
@@ -917,7 +918,7 @@ export function SceneV4() {
       neuralGeo.setAttribute("aSeed", new THREE.BufferAttribute(nlSeed, 1));
       const neuralMat = new THREE.ShaderMaterial({
         uniforms: {
-          uColor: { value: new THREE.Color(0.35, 0.72, 1.0) },
+          uColor: { value: new THREE.Color(0.32, 0.94, 0.74) },
           uOpacity: { value: 0 },
           uTime: { value: 0 },
         },
@@ -984,7 +985,7 @@ export function SceneV4() {
       }
       trailGeo.setAttribute("aFade", new THREE.BufferAttribute(trailFade, 1));
       const trailMat = new THREE.ShaderMaterial({
-        uniforms: { uColor: { value: new THREE.Color(0.88, 0.88, 0.95) } },
+        uniforms: { uColor: { value: new THREE.Color(0.78, 0.84, 1.0) } },
         transparent: true,
         depthWrite: false,
         blending: THREE.AdditiveBlending,
@@ -1014,7 +1015,7 @@ export function SceneV4() {
       headGeo.setAttribute("position", headPos);
       const headMat = new THREE.ShaderMaterial({
         uniforms: {
-          uColor: { value: new THREE.Color(0.95, 0.94, 0.9) },
+          uColor: { value: new THREE.Color(0.86, 0.9, 1.0) },
           uScale: { value: (isMobile ? 46 : 40) * basePR },
         },
         transparent: true,
@@ -1044,7 +1045,7 @@ export function SceneV4() {
 
       // ── Obsidian shards — faceted dark glass with fresnel rims ────────
       const shardUniforms = {
-        uColor: { value: new THREE.Color(0xbcd4ff) },
+        uColor: { value: new THREE.Color(0xc5d0ff) },
         uTime: { value: 0 },
       };
       const shardMat = new THREE.ShaderMaterial({
@@ -1058,13 +1059,13 @@ export function SceneV4() {
       shardGeo.computeVertexNormals();
       const debris: { mesh: InstanceType<typeof THREE.Mesh>; spin: number; orbit: number; baseY: number }[] = [];
       const dRnd = mulberry32(1234);
-      const DEBRIS_COUNT = isMobile ? 6 : 13;
+      const DEBRIS_COUNT = isMobile ? 2 : 5;
       for (let i = 0; i < DEBRIS_COUNT; i++) {
         const mesh = new THREE.Mesh(shardGeo, shardMat);
         const ang = dRnd() * Math.PI * 2;
         const r = 3.2 + dRnd() * 3.4;
         mesh.position.set(Math.cos(ang) * r, (dRnd() - 0.5) * 5, -1.5 - dRnd() * 5);
-        const s = 0.4 + dRnd() * 1.5;
+        const s = 0.3 + dRnd() * 0.9;
         // non-uniform scale — elongated shards, not platonic solids; wider
         // size spread = a few monoliths among slivers, reads more expensive
         mesh.scale.set(s * (0.45 + dRnd() * 0.5), s * (1.0 + dRnd() * 1.3), s * (0.45 + dRnd() * 0.5));
@@ -1093,13 +1094,13 @@ export function SceneV4() {
         }
       `;
       const nebDefs: { color: number; pos: [number, number, number]; s: number }[] = [
-        { color: 0x1e46a0, pos: [-5, 2.5, -10], s: 1.4 },
-        { color: 0x122f6e, pos: [6, -3, -12], s: 1.7 },
-        { color: 0x2f6bff, pos: [0, 4.5, -14], s: 1.9 },
+        { color: 0x17245f, pos: [-5, 2.5, -10], s: 1.4 },
+        { color: 0x0d1744, pos: [6, -3, -12], s: 1.7 },
+        { color: 0x7890ff, pos: [0, 4.5, -14], s: 1.9 },
       ];
       const nebulas = nebDefs.map((def, i) => {
         const mat = new THREE.ShaderMaterial({
-          uniforms: { uColor: { value: new THREE.Color(def.color) }, uOpacity: { value: 0.14 } },
+          uniforms: { uColor: { value: new THREE.Color(def.color) }, uOpacity: { value: 0.06 } },
           transparent: true,
           depthWrite: false,
           blending: THREE.AdditiveBlending,
@@ -1170,9 +1171,9 @@ export function SceneV4() {
         uTime: { value: 0 },
         uPointer: { value: new THREE.Vector2(0.5, 0.5) },
         uAspect: { value: window.innerWidth / window.innerHeight },
-        uColorLo: { value: new THREE.Color(0x0a1f4a) },
-        uColorHi: { value: new THREE.Color(0x2f6bff) },
-        uOpacity: { value: isMobile ? 0.42 : 0.5 },
+        uColorLo: { value: new THREE.Color(0x0b1232) },
+        uColorHi: { value: new THREE.Color(0x7890ff) },
+        uOpacity: { value: isMobile ? 0.18 : 0.22 },
         uEnergy: { value: 0 },
       };
       const inkMat = new THREE.ShaderMaterial({
@@ -1213,14 +1214,14 @@ export function SceneV4() {
       `;
       const ribbonGeo = new THREE.PlaneGeometry(30, 8);
       const ribbonDefs = [
-        { y: 2.6, z: -9.5, rz: 0.12, phase: 0, op: 0.085 },
-        { y: -3.4, z: -12.5, rz: -0.09, phase: 2.4, op: 0.065 },
+        { y: 2.6, z: -9.5, rz: 0.12, phase: 0, op: 0.045 },
+        { y: -3.4, z: -12.5, rz: -0.09, phase: 2.4, op: 0.03 },
       ];
       const ribbons = ribbonDefs.map((def) => {
         const mat = new THREE.ShaderMaterial({
           uniforms: {
-            uColorA: { value: new THREE.Color(0x4a7dff) },
-            uColorB: { value: new THREE.Color(0x2f6bff) },
+            uColorA: { value: new THREE.Color(0xb8c5ff) },
+            uColorB: { value: new THREE.Color(0x7890ff) },
             uOpacity: { value: def.op },
             uTime: { value: 0 },
             uPhase: { value: def.phase },
@@ -1237,6 +1238,83 @@ export function SceneV4() {
         mesh.renderOrder = -1;
         scene.add(mesh);
         return { mesh, mat, baseY: def.y };
+      });
+
+      // ── Side veils — a second WebGL language, intentionally not particles.
+      // Two translucent woven surfaces live just outside the central reading
+      // column. Scroll twists their folds; the pointer changes their tension.
+      // Normal alpha blending keeps them satin/glass, never another glow cloud.
+      const VEIL_VERT = /* glsl */ `
+        uniform float uTime;
+        uniform float uScroll;
+        uniform float uPointer;
+        uniform float uSide;
+        varying vec2 vUv;
+        varying float vFold;
+        void main() {
+          vUv = uv;
+          vec3 p = position;
+          float longFold = sin(p.y * 0.72 + uTime * 0.22 + uScroll * 9.0 + uSide * 1.6);
+          float crossFold = sin(p.x * 1.45 - uTime * 0.16 + uScroll * 5.0);
+          float pointerTension = uPointer * uSide;
+          p.z += longFold * (0.34 + abs(pointerTension) * 0.12) + crossFold * 0.15;
+          p.x += sin(p.y * 0.38 + uScroll * 6.283) * 0.14 * uSide;
+          p.x += pointerTension * (0.16 + uv.y * 0.12);
+          vFold = longFold * 0.5 + crossFold * 0.25;
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(p, 1.0);
+        }
+      `;
+      const VEIL_FRAG = /* glsl */ `
+        uniform vec3 uColorA;
+        uniform vec3 uColorB;
+        uniform float uOpacity;
+        uniform float uEnergy;
+        varying vec2 vUv;
+        varying float vFold;
+        void main() {
+          float sideFade = smoothstep(0.0, 0.18, vUv.x) * smoothstep(1.0, 0.82, vUv.x);
+          float endFade = smoothstep(0.0, 0.12, vUv.y) * smoothstep(1.0, 0.88, vUv.y);
+          float ridge = pow(0.5 + 0.5 * vFold, 5.0);
+          float contour = smoothstep(0.955, 1.0, 0.5 + 0.5 * sin((vUv.y + vFold * 0.035) * 74.0));
+          vec3 color = mix(uColorA, uColorB, clamp(vUv.y + vFold * 0.12, 0.0, 1.0));
+          float alpha = sideFade * endFade
+            * (0.018 + ridge * 0.052 + contour * 0.026 + uEnergy * 0.018)
+            * uOpacity;
+          gl_FragColor = vec4(color, alpha);
+        }
+      `;
+      const veilGeo = new THREE.PlaneGeometry(5.4, 12.5, 28, 56);
+      const veilDefs = [
+        { side: -1, x: -6.15, z: -2.8, ry: 0.58, phase: 0.0 },
+        { side: 1, x: 6.15, z: -3.4, ry: -0.58, phase: 2.7 },
+      ];
+      const veils = veilDefs.map((def) => {
+        const mat = new THREE.ShaderMaterial({
+          uniforms: {
+            uTime: { value: def.phase },
+            uScroll: { value: 0 },
+            uPointer: { value: 0 },
+            uSide: { value: def.side },
+            uColorA: { value: new THREE.Color(0x263a92) },
+            uColorB: { value: new THREE.Color(0xc5d0ff) },
+            uOpacity: { value: isMobile ? 0.48 : 0.9 },
+            uEnergy: { value: 0 },
+          },
+          transparent: true,
+          depthWrite: false,
+          depthTest: true,
+          side: THREE.DoubleSide,
+          blending: THREE.NormalBlending,
+          vertexShader: VEIL_VERT,
+          fragmentShader: VEIL_FRAG,
+        });
+        const mesh = new THREE.Mesh(veilGeo, mat);
+        mesh.position.set(def.x, 0, def.z);
+        mesh.rotation.y = def.ry;
+        mesh.rotation.z = def.side * 0.055;
+        mesh.renderOrder = -1;
+        scene.add(mesh);
+        return { mesh, mat, baseX: def.x, baseRY: def.ry, side: def.side, phase: def.phase };
       });
 
       // ── Ambient starfield backdrop ────────────────────────────────────
@@ -1322,7 +1400,7 @@ export function SceneV4() {
       warpGeo.setAttribute("aEnd", new THREE.BufferAttribute(warpEnd, 1));
       warpGeo.setAttribute("aSeed", new THREE.BufferAttribute(warpSeed, 1));
       const warpMat = new THREE.ShaderMaterial({
-        uniforms: { uWarp: { value: 0 }, uColor: { value: new THREE.Color(0.5, 0.72, 1.0) } },
+        uniforms: { uWarp: { value: 0 }, uColor: { value: new THREE.Color(0.48, 0.58, 1.0) } },
         transparent: true,
         depthWrite: false,
         blending: THREE.AdditiveBlending,
@@ -1455,7 +1533,7 @@ export function SceneV4() {
       };
       for (let i = 0; i < STREAK_COUNT; i++) {
         const mat = new THREE.ShaderMaterial({
-          uniforms: { uColor: { value: new THREE.Color(0.42, 0.64, 1.0) }, uAlpha: { value: 0 } },
+          uniforms: { uColor: { value: new THREE.Color(0.38, 0.48, 0.95) }, uAlpha: { value: 0 } },
           transparent: true,
           depthWrite: false,
           blending: THREE.AdditiveBlending,
@@ -1484,8 +1562,8 @@ export function SceneV4() {
       const gridGeo = new THREE.PlaneGeometry(90, 46);
       const gridMat = new THREE.ShaderMaterial({
         uniforms: {
-          uColor: { value: new THREE.Color(0x2f6bff) },
-          uOpacity: { value: 0.12 },
+          uColor: { value: new THREE.Color(0x7890ff) },
+          uOpacity: { value: 0.035 },
           uTime: { value: 0 },
           uWarp: { value: 0 },
         },
@@ -1502,7 +1580,7 @@ export function SceneV4() {
           void main() {
             vec2 g = vec2(vUv.x * 60.0, vUv.y * 30.0);
             // grid streams toward the camera; warp slams the throttle
-            g.y -= uTime * 0.4 + uWarp * 3.0;
+            g.y -= uTime * 0.12 + uWarp * 1.4;
             vec2 f = abs(fract(g) - 0.5);
             float line = max(smoothstep(0.44, 0.5, f.x), smoothstep(0.44, 0.5, f.y));
             // energy pulse sweeping down the grid every few seconds
@@ -1538,7 +1616,7 @@ export function SceneV4() {
       // god-ray light source — small hot disc buried behind the cloud; the
       // post pass streaks volumetric shafts from it through the particles
       const sunMat = new THREE.MeshBasicMaterial({
-        color: 0xbfd6ff,
+        color: 0xdbe3ff,
         transparent: true,
         opacity: 0.85,
         depthWrite: false,
@@ -1554,7 +1632,7 @@ export function SceneV4() {
       // anamorphic flare — thin horizontal light bar across the core;
       // the cinema-lens signature on every bright source
       const flareMat = new THREE.ShaderMaterial({
-        uniforms: { uColor: { value: new THREE.Color(0.55, 0.75, 1.0) }, uOpacity: { value: 0.1 } },
+        uniforms: { uColor: { value: new THREE.Color(0.55, 0.65, 1.0) }, uOpacity: { value: 0.08 } },
         transparent: true,
         depthWrite: false,
         blending: THREE.AdditiveBlending,
@@ -1637,25 +1715,46 @@ export function SceneV4() {
       };
       window.addEventListener("v4:tint", onTint);
 
-      // touch drag steers the repulsion pocket — the finger parts the cloud
-      // exactly like the desktop cursor does. Horizontal swipe velocity also
-      // torques the sculpture: flick it and it spins like a globe
+      // Mobile-first direct manipulation. The page may keep scrolling, but
+      // every drag also grabs the sculpture: X rotates/pans it, Y tilts/lifts
+      // it, and release leaves physical angular momentum instead of stopping.
       let spinVel = 0;
       let lastTX: number | null = null;
+      let lastTY: number | null = null;
+      let touchActive = false;
+      let touchPitch = 0;
+      let touchPitchTarget = 0;
+      let touchPanX = 0;
+      let touchPanY = 0;
+      let touchPanTargetX = 0;
+      let touchPanTargetY = 0;
       const onTouchStart = (e: TouchEvent) => {
         const tch = e.touches[0];
-        if (tch) lastTX = tch.clientX;
+        if (!tch) return;
+        touchActive = true;
+        lastTX = tch.clientX;
+        lastTY = tch.clientY;
       };
       const onTouchMove = (e: TouchEvent) => {
         const tch = e.touches[0];
         if (!tch) return;
         targetMX = (tch.clientX / window.innerWidth - 0.5) * 2;
         targetMY = (tch.clientY / window.innerHeight - 0.5) * 2;
-        if (lastTX !== null) spinVel += (tch.clientX - lastTX) * 0.00011;
+        if (lastTX !== null && lastTY !== null) {
+          const dx = tch.clientX - lastTX;
+          const dy = tch.clientY - lastTY;
+          spinVel += dx * 0.00125;
+          touchPitchTarget = Math.max(-0.5, Math.min(0.5, touchPitchTarget + dy * 0.0028));
+          touchPanTargetX = Math.max(-1.35, Math.min(1.35, touchPanTargetX + dx * 0.007));
+          touchPanTargetY = Math.max(-0.9, Math.min(0.9, touchPanTargetY - dy * 0.004));
+        }
         lastTX = tch.clientX;
+        lastTY = tch.clientY;
       };
       const onTouchEnd = () => {
+        touchActive = false;
         lastTX = null;
+        lastTY = null;
       };
       const coarse = window.matchMedia("(pointer: coarse)").matches;
       if (coarse) {
@@ -1715,25 +1814,29 @@ export function SceneV4() {
       // freely; iOS needs a user-gesture permission we don't prompt for)
       const isTouch = window.matchMedia("(pointer: coarse)").matches;
       const onOrient = (e: DeviceOrientationEvent) => {
+        if (touchActive) return;
         if (e.gamma === null || e.beta === null) return;
         targetMX = Math.max(-1, Math.min(1, e.gamma / 28));
         targetMY = Math.max(-1, Math.min(1, (e.beta - 45) / 28));
       };
       if (isTouch) window.addEventListener("deviceorientation", onOrient, { passive: true });
 
-      // desktop gets a real bloom pass — tuned so only hot cores bloom,
-      // not the whole cloud (high threshold = crisp glow, no haze)
+      // Cinematic post chain. Mobile gets the lightweight cut: one LDR bloom
+      // plus vignette, no SMAA or chromatic pass. This keeps the "film" depth
+      // where most visitors actually are without paying desktop GPU cost.
       let composer: { render: () => void; setSize: (w: number, h: number) => void; dispose: () => void } | null = null;
       // lens pack: subtle chromatic fringing that breathes with scroll speed
       let caOffset: { set: (x: number, y: number) => void } | null = null;
       // live handle on bloom so morphs/shocks/warp can pulse it
       let bloomFx: { intensity: number } | null = null;
-      if (!isMobile) {
-        try {
-          const PP = await import("postprocessing");
-          if (disposed) return;
-          const c = new PP.EffectComposer(renderer, { frameBufferType: THREE.HalfFloatType });
-          c.addPass(new PP.RenderPass(scene, camera));
+      try {
+        const PP = await import("postprocessing");
+        if (disposed) return;
+        const c = new PP.EffectComposer(renderer, {
+          frameBufferType: isMobile ? THREE.UnsignedByteType : THREE.HalfFloatType,
+        });
+        c.addPass(new PP.RenderPass(scene, camera));
+        if (!isMobile) {
           // SMAA smooths shard edges and line layers — the "shot in 8K" edge
           try {
             const smaa = new PP.SMAAEffect({ preset: PP.SMAAPreset.HIGH });
@@ -1741,34 +1844,34 @@ export function SceneV4() {
           } catch {
             /* AA is decoration — skip if the preset API shifts */
           }
-          const bloom = new PP.BloomEffect({
-            intensity: 0.9,
-            // high threshold = only white-hot cores bloom; anything lower
-            // wraps the nucleus in the grey fog we just removed
-            luminanceThreshold: 0.56,
-            luminanceSmoothing: 0.3,
-            // mipmapBlur's LDR mip chain warm-shifts saturated blues — the
-            // "amber ring" around dense shapes. Kawase blur keeps hue true.
-            mipmapBlur: false,
-            radius: 0.68,
-          });
-          bloomFx = bloom;
+        }
+        const bloom = new PP.BloomEffect({
+          intensity: isMobile ? 0.74 : 0.9,
+          luminanceThreshold: isMobile ? 0.5 : 0.56,
+          luminanceSmoothing: isMobile ? 0.24 : 0.3,
+          mipmapBlur: false,
+          radius: isMobile ? 0.52 : 0.68,
+        });
+        bloomFx = bloom;
+        const vignette = new PP.VignetteEffect({
+          darkness: isMobile ? 0.62 : 0.52,
+          offset: isMobile ? 0.22 : 0.28,
+        });
+        if (isMobile) {
+          c.addPass(new PP.EffectPass(camera, bloom, vignette));
+        } else {
           const ca = new PP.ChromaticAberrationEffect({
             offset: new THREE.Vector2(0.0006, 0.0006),
             radialModulation: true,
             modulationOffset: 0.4,
           });
           caOffset = ca.offset;
-          const vignette = new PP.VignetteEffect({ darkness: 0.52, offset: 0.28 });
-          // NO god rays: the white volumetric wash read as warm-grey fog over
-          // the navy void and murdered the contrast. Bloom + anamorphic flare
-          // carry the light story now — crisp, blue, no milk.
           c.addPass(new PP.EffectPass(camera, bloom, ca, vignette));
-          c.setSize(window.innerWidth, window.innerHeight);
-          composer = c;
-        } catch {
-          composer = null; // effects are decoration — plain render is the fallback
         }
+        c.setSize(window.innerWidth, window.innerHeight);
+        composer = c;
+      } catch {
+        composer = null; // effects are decoration — plain render is the fallback
       }
       prog(0.85); // post chain built — first compile + frame still pending
 
@@ -1836,6 +1939,7 @@ export function SceneV4() {
       let smoothedProgress = 0;
       let lastScrollY = window.scrollY;
       let smoothedVel = 0;
+      let scrollImpulse = 0;
       let warp = 0;
       let prevAng = SHAPES[0].camA;
       let bank = 0;
@@ -1878,6 +1982,7 @@ export function SceneV4() {
         // segment changed → upload the two active shape targets once;
         // per-frame morphing happens entirely in the vertex shader
         if (seg !== currentSeg) {
+          const enteringNewChapter = currentSeg >= 0;
           currentSeg = seg;
           (tgtA.array as Float32Array).set(shapes[a.gen]);
           (tgtB.array as Float32Array).set(shapes[b.gen]);
@@ -1887,19 +1992,28 @@ export function SceneV4() {
           cloudUniforms.uWaveB.value = b.wave;
           // suppress a false arrival from the mix value jumping across segments
           prevRawMix = rawMix;
+          if (enteringNewChapter && isMobile) {
+            spinVel += seg % 2 === 0 ? 0.022 : -0.022;
+          }
         }
         cloudUniforms.uMix.value = rawMix;
 
         // arrival beat — the frame a morph settles, the scene acknowledges
         // it (flare pop, particle flash, bloom breath)
-        if (rawMix >= 0.9 && prevRawMix < 0.9) arrivalAt = t;
+        if (rawMix >= 0.9 && prevRawMix < 0.9) {
+          arrivalAt = t;
+          if (isMobile) fireShock(window.innerWidth * 0.5, window.innerHeight * 0.46);
+        }
         prevRawMix = rawMix;
 
         // scroll velocity agitates the cloud — fast scroll, restless particles
-        const dy = Math.abs(window.scrollY - lastScrollY);
+        const scrollDelta = window.scrollY - lastScrollY;
+        const dy = Math.abs(scrollDelta);
         lastScrollY = window.scrollY;
         smoothedVel += (Math.min(dy, 120) - smoothedVel) * 0.08;
-        cloudUniforms.uAgitation.value = Math.min(smoothedVel * 0.004, 0.45);
+        const impulseTarget = Math.max(-1, Math.min(1, scrollDelta / 72));
+        scrollImpulse += (impulseTarget - scrollImpulse) * (dy > 1 ? 0.16 : 0.06);
+        cloudUniforms.uAgitation.value = Math.min(smoothedVel * 0.0018, 0.18);
 
         // rotation — round shapes spin, flat shapes face the camera;
         // disc/surface shapes get a fixed downward-view tilt instead.
@@ -1909,22 +2023,36 @@ export function SceneV4() {
         const tilt = a.tilt + (b.tilt - a.tilt) * m;
         // swipe torque: horizontal flicks keep spinning the sculpture with
         // momentum, decaying like a struck globe
-        spinVel = Math.max(-0.05, Math.min(0.05, spinVel));
+        spinVel = Math.max(-0.12, Math.min(0.12, spinVel));
         spinOffset += spinVel;
-        spinVel *= 0.94;
-        cloud.rotation.y = t * 0.22 * rot + p * 2.4 * rot + spinOffset;
-        cloud.rotation.x = tilt + Math.sin(t * 0.14) * 0.08 * rot;
+        spinVel *= coarse ? 0.965 : 0.94;
+        touchPitch += (touchPitchTarget - touchPitch) * 0.12;
+        touchPanX += (touchPanTargetX - touchPanX) * 0.12;
+        touchPanY += (touchPanTargetY - touchPanY) * 0.12;
+        if (!touchActive) {
+          touchPitchTarget *= 0.982;
+          touchPanTargetX *= 0.978;
+          touchPanTargetY *= 0.978;
+        }
+        cloud.rotation.y = t * 0.22 * rot + p * 1.45 * rot + spinOffset;
+        cloud.rotation.x = tilt + Math.sin(t * 0.1) * 0.045 * rot + touchPitch;
+        cloud.rotation.z = Math.sin(t * 0.16) * 0.065 * rot + scrollImpulse * 0.045;
 
         // narrow viewports: side offsets would push the cloud off screen
         const xFactor = isMobile ? 0.35 : 1;
-        cloud.position.x += ((a.x + (b.x - a.x) * m) * xFactor - cloud.position.x) * 0.06;
+        cloud.position.x +=
+          ((a.x + (b.x - a.x) * m) * xFactor + touchPanX - cloud.position.x) * 0.08;
+        cloud.position.y += (touchPanY + Math.sin(t * 0.27) * 0.12 - cloud.position.y) * 0.08;
 
         mouseX += (targetMX - mouseX) * 0.05;
         mouseY += (targetMY - mouseY) * 0.05;
 
         // scroll velocity → hyperspace warp. Dead zone keeps a slow reading
         // scroll perfectly calm; a real flick punches the drive
-        const warpTarget = Math.min(Math.max((smoothedVel - 22) / 80, 0), 1);
+        const warpTarget = Math.min(
+          Math.max((smoothedVel - (isMobile ? 16 : 30)) / (isMobile ? 72 : 105), 0),
+          isMobile ? 0.72 : 0.54,
+        );
         warp += (warpTarget - warp) * (warpTarget > warp ? 0.09 : 0.05);
         cloudUniforms.uWarp.value = warp;
         warpMat.uniforms.uWarp.value = warp;
@@ -1948,20 +2076,32 @@ export function SceneV4() {
         // small = vertigo beat, large (manifesto, services) = a full
         // fly-through of the particle field. Hovered services nudge the
         // orbit so the scene "turns to look" at each one
-        const orbitR = a.camZ + (b.camZ - a.camZ) * m + Math.sin(t * 0.35) * 0.18 - morphE * a.dive;
+        const orbitR =
+          a.camZ + (b.camZ - a.camZ) * m
+          + Math.sin(t * 0.35) * 0.22
+          - morphE * a.dive
+          - Math.abs(scrollImpulse) * (isMobile ? 0.48 : 0.26);
         const ang = a.camA + (b.camA - a.camA) * m + ovAng * overrideMix;
         const craneY = a.camY + (b.camY - a.camY) * m;
-        camera.position.x += (Math.sin(ang) * orbitR * 0.62 + mouseX * 0.5 - camera.position.x) * 0.06;
-        camera.position.y += (craneY - mouseY * 0.35 - camera.position.y) * 0.06;
-        camera.position.z += (Math.cos(ang * 0.72) * orbitR - camera.position.z) * 0.06;
+        camera.position.x +=
+          (Math.sin(ang) * orbitR * 0.62
+            + mouseX * 0.58
+            + scrollImpulse * (isMobile ? 0.52 : 0.24)
+            - camera.position.x) * 0.075;
+        camera.position.y +=
+          (craneY - mouseY * 0.4 - scrollImpulse * (isMobile ? 0.3 : 0.16) - camera.position.y) * 0.075;
+        camera.position.z +=
+          (Math.cos(ang * 0.72) * orbitR - Math.abs(scrollImpulse) * 0.32 - camera.position.z) * 0.075;
         camera.position.z -= shockAge < 2 ? Math.exp(-shockAge * 3.2) * 0.3 : 0;
-        camera.fov += (42 + warp * 9 + morphE * 4 - camera.fov) * 0.1;
+        camera.fov +=
+          (42 + warp * (isMobile ? 6 : 4) + morphE * 2.2 + Math.abs(scrollImpulse) * 2.4 - camera.fov) * 0.1;
         camera.updateProjectionMatrix();
-        camera.lookAt(cloud.position.x * 0.4, 0, 0);
+        camera.lookAt(cloud.position.x * 0.42, cloud.position.y * 0.32, 0);
         // banking roll leans into the orbit swing — handheld cinema, not a tripod
-        bank += (Math.max(-0.055, Math.min(0.055, (ang - prevAng) * 30)) - bank) * 0.05;
+        bank +=
+          (Math.max(-0.03, Math.min(0.03, (ang - prevAng) * 12 + scrollImpulse * 0.022)) - bank) * 0.065;
         prevAng = ang;
-        camera.rotation.z = Math.sin(t * 0.1) * 0.012 + bank;
+        camera.rotation.z = Math.sin(t * 0.08) * 0.006 + bank;
 
         // project the cursor onto the z=0 plane the cloud lives around,
         // smoothed so the repulsion pocket glides after the hand
@@ -2027,7 +2167,7 @@ export function SceneV4() {
         }
 
         // chapter grading — the void itself shifts mood per section:
-        // warm black → rose (projects) → green-black (AI) → pure void (CTA)
+        // ink black → cobalt haze → near-black silver (CTA)
         tmpBg.setRGB(
           a.bg[0] + (b.bg[0] - a.bg[0]) * m,
           a.bg[1] + (b.bg[1] - a.bg[1]) * m,
@@ -2064,6 +2204,22 @@ export function SceneV4() {
           rb.mat.uniforms.uColorA.value.lerp(i === 0 ? tmpColor : tmpColorB, 0.01);
           rb.mat.uniforms.uColorB.value.lerp(tmpColorB, 0.008);
         }
+
+        // Woven side surfaces twist through the page as one continuous gesture.
+        // Their silhouette follows scroll; pointer motion only changes tension.
+        for (let i = 0; i < veils.length; i++) {
+          const veil = veils[i];
+          veil.mat.uniforms.uTime.value = t + veil.phase;
+          veil.mat.uniforms.uScroll.value = p;
+          veil.mat.uniforms.uPointer.value = mouseX;
+          veil.mat.uniforms.uEnergy.value += (warp - veil.mat.uniforms.uEnergy.value) * 0.08;
+          veil.mat.uniforms.uColorA.value.lerp(tmpColor, 0.012);
+          veil.mat.uniforms.uColorB.value.lerp(tmpColorB, 0.01);
+          veil.mesh.position.x = veil.baseX + Math.sin(t * 0.07 + veil.phase + p * 6.0) * 0.28;
+          veil.mesh.position.y = (p - 0.5) * 1.6 + Math.sin(t * 0.05 + veil.phase) * 0.22;
+          veil.mesh.rotation.y = veil.baseRY + mouseX * 0.07 + Math.sin(p * Math.PI * 2 + veil.phase) * 0.06;
+          veil.mesh.rotation.z = veil.side * (0.055 + Math.sin(p * Math.PI * 2) * 0.035);
+        }
         shardUniforms.uTime.value = t;
 
         // laser grid breathes with warp + arrival; sinks as the page scrolls
@@ -2071,16 +2227,16 @@ export function SceneV4() {
         gridMat.uniforms.uTime.value = t;
         gridMat.uniforms.uWarp.value = warp;
         gridMat.uniforms.uOpacity.value +=
-          (0.12 + warp * 0.34 + arrE * 0.22 - gridMat.uniforms.uOpacity.value) * 0.06;
+          (0.035 + warp * 0.08 + arrE * 0.05 - gridMat.uniforms.uOpacity.value) * 0.06;
         grid.position.y = -5.6 - p * 1.6;
         gridMat.uniforms.uColor.value.lerp(tmpColor, 0.02);
 
         // shards drift, tumble, and slide slowly against the scroll
         for (let i = 0; i < debris.length; i++) {
           const d = debris[i];
-          d.mesh.rotation.x = t * d.spin;
-          d.mesh.rotation.y = t * d.spin * 1.4;
-          d.mesh.position.y = d.baseY + Math.sin(t * d.orbit + i * 1.7) * 0.5 + p * 2.2;
+          d.mesh.rotation.x = t * d.spin * 0.35;
+          d.mesh.rotation.y = t * d.spin * 0.5;
+          d.mesh.position.y = d.baseY + Math.sin(t * d.orbit * 0.55 + i * 1.7) * 0.24 + p * 1.1;
         }
         shardUniforms.uColor.value.lerp(tmpColor, 0.04);
 
@@ -2160,19 +2316,19 @@ export function SceneV4() {
             continue;
           }
           s.mesh.position.lerpVectors(s.from, s.to, s.u);
-          s.mat.uniforms.uAlpha.value = Math.sin(Math.PI * s.u) * 0.5;
+          s.mat.uniforms.uAlpha.value = Math.sin(Math.PI * s.u) * 0.24;
         }
 
         // chromatic fringing widens under fast scroll + warp — lens, not glitch
         if (caOffset) {
-          const caAmt = Math.min(0.0005 + smoothedVel * 0.000018 + warp * 0.0011, 0.0034);
+          const caAmt = Math.min(0.00035 + smoothedVel * 0.000006 + warp * 0.00045, 0.0014);
           caOffset.set(caAmt, caAmt);
         }
 
         // morphs, shocks and warp read as light events — bloom breathes with them
         if (bloomFx) {
           bloomFx.intensity +=
-            (0.9 + morphE * 0.3 + warp * 0.65 + shockE * 0.55 + arrE * 0.4 - bloomFx.intensity) * 0.08;
+            (0.78 + morphE * 0.2 + warp * 0.18 + shockE * 0.3 + arrE * 0.22 - bloomFx.intensity) * 0.08;
         }
 
         if (composer) composer.render();
@@ -2223,6 +2379,8 @@ export function SceneV4() {
         inkMat.dispose();
         ribbonGeo.dispose();
         ribbons.forEach((r) => r.mat.dispose());
+        veilGeo.dispose();
+        veils.forEach((v) => v.mat.dispose());
         warpGeo.dispose();
         warpMat.dispose();
         neuralGeo.dispose();

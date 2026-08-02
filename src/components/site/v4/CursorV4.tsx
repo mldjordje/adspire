@@ -12,7 +12,12 @@ export function CursorV4() {
   const ringRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (window.matchMedia("(pointer: coarse)").matches) return;
+    if (
+      window.matchMedia("(pointer: coarse)").matches ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      return;
+    }
     const dot = dotRef.current;
     const ring = ringRef.current;
     if (!dot || !ring) return;

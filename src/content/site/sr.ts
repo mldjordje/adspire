@@ -223,7 +223,7 @@ const projects: ProjectItem[] = [
     name: "Santos & Santorini",
     category: "E-commerce",
     image: "/images/case-studies/santos-desktop.webp",
-    url: "https://santos-santorini.com",
+    url: "https://www.santos.rs",
     href: "/our-projects/santos-santorini-web-shop-admin-platforma",
     summary:
       "Web shop i admin platforma za premium modni brend, katalog, korpu, checkout, content i integracije.",

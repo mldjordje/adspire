@@ -1,6 +1,8 @@
 "use client";
 
 import { PageShellV4 } from "./PageShellV4";
+import { ClientLogosV4 } from "./ClientLogosV4";
+import type { LocaleCode } from "@/lib/site-config";
 import styles from "./ProjectsV4.module.css";
 
 /**
@@ -73,7 +75,7 @@ const PROJECTS: ProjectRow[] = [
   },
 ];
 
-export function ProjectsV4() {
+export function ProjectsV4({ locale = "sr" }: { locale?: LocaleCode }) {
   return (
     <PageShellV4
       eyebrow="Radovi / Case studies"
@@ -113,6 +115,8 @@ export function ProjectsV4() {
           </a>
         ))}
       </div>
+
+      <ClientLogosV4 locale={locale} />
 
       <section className={styles.cta} data-reveal>
         <h2 className={styles.ctaTitle}>Vaš sistem je sledeći.</h2>

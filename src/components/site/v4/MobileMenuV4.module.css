@@ -1,6 +1,5 @@
-/* ═══ V4 mobile menu — burger + fullscreen overlay ═══ */
+/* ═══ V4 navigation overlay — portalled outside the filtered header ═══ */
 
-/* visible only where the host nav hid its desktop links */
 .showLg,
 .showMd {
   display: none;
@@ -24,129 +23,289 @@
   width: 44px;
   height: 44px;
   display: flex;
+  flex: 0 0 auto;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 7px;
-  background: rgba(6, 6, 8, 0.35);
-  border: 1px solid rgba(242, 241, 236, 0.14);
-  border-radius: 999px;
-  cursor: pointer;
-  backdrop-filter: blur(8px);
   padding: 0;
+  color: #f6f7ff;
+  cursor: pointer;
+  background: rgba(7, 9, 20, 0.62);
+  border: 1px solid rgba(202, 211, 255, 0.2);
+  border-radius: 999px;
+  backdrop-filter: blur(10px);
 }
 
-@media (max-width: 480px) {
-  .burger {
-    width: 38px;
-    height: 38px;
-    flex: 0 0 auto;
-  }
-}
-
-.burger span {
+.burger span,
+.overlayClose span {
   display: block;
   width: 18px;
-  height: 2px;
-  background: #f2f1ec;
+  height: 1.5px;
+  background: currentColor;
   border-radius: 2px;
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .burgerOpen span:first-child {
-  transform: translateY(4.5px) rotate(45deg);
+  transform: translateY(4.25px) rotate(45deg);
 }
 
 .burgerOpen span:last-child {
-  transform: translateY(-4.5px) rotate(-45deg);
+  transform: translateY(-4.25px) rotate(-45deg);
 }
-
-/* ─── Overlay ─── */
 
 .overlay {
   position: fixed;
   inset: 0;
-  z-index: 96;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 110px 28px 34px;
-  /* no backdrop-filter: full-screen blur over a live WebGL canvas tanks
-     the compositor on mobile — near-solid ink does the same job */
-  background: rgba(4, 4, 7, 0.96);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.4s ease;
+  z-index: 200;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: clamp(26px, 6vh, 64px);
+  padding: clamp(22px, 3vw, 38px) clamp(22px, 5vw, 72px) clamp(26px, 4vw, 48px);
   overflow-y: auto;
+  color: #f6f7ff;
+  background:
+    radial-gradient(circle at 92% 8%, rgba(105, 130, 255, 0.2), transparent 31%),
+    radial-gradient(circle at 10% 90%, rgba(56, 74, 168, 0.13), transparent 34%),
+    #03040b;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-12px);
+  transition:
+    opacity 0.38s ease,
+    transform 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+    visibility 0s linear 0.55s;
 }
 
 .overlayOpen {
   opacity: 1;
+  visibility: visible;
   pointer-events: auto;
+  transform: translateY(0);
+  transition-delay: 0s;
 }
 
-.links {
+.overlayHead {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 20px;
+  align-items: center;
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgba(202, 211, 255, 0.16);
+}
+
+.overlayBrand {
+  font-family: var(--font-display-v4), system-ui, sans-serif;
+  font-size: clamp(18px, 3vw, 24px);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.overlayIndex {
+  color: rgba(220, 226, 255, 0.48);
+  font-size: 9px;
+  font-weight: 650;
+  letter-spacing: 0.22em;
+}
+
+.overlayClose {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  color: #f6f7ff;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(202, 211, 255, 0.2);
+  border-radius: 999px;
+}
+
+.overlayClose span {
+  position: absolute;
+}
+
+.overlayClose span:first-child {
+  transform: rotate(45deg);
+}
+
+.overlayClose span:last-child {
+  transform: rotate(-45deg);
+}
+
+.menuGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(190px, 0.6fr);
+  gap: clamp(42px, 8vw, 120px);
+  align-items: start;
+}
+
+.links,
+.sectionLinks {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 4px;
+  align-items: stretch;
 }
 
 .groupLabel {
-  margin: 14px 0 8px;
-  font-size: 10px;
+  margin: 0 0 14px;
+  color: #91a8ff;
+  font-size: 9px;
   font-weight: 700;
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: #f2efe6;
-}
-
-.groupLabel:first-child {
-  margin-top: 0;
 }
 
 .link {
+  display: grid;
+  grid-template-columns: 34px 1fr;
+  gap: 12px;
+  align-items: baseline;
+  padding: 7px 0;
+  color: #f6f7ff;
   font-family: var(--font-display-v4), system-ui, sans-serif;
-  font-weight: 700;
-  font-size: clamp(26px, 7.4vw, 40px);
-  line-height: 1.2;
-  letter-spacing: -0.01em;
-  color: #f2f1ec;
-  background: none;
-  border: none;
-  padding: 2px 0;
-  cursor: pointer;
-  text-decoration: none;
+  font-size: clamp(31px, 6.6vw, 74px);
+  font-weight: 760;
+  letter-spacing: -0.045em;
+  line-height: 0.96;
   text-align: left;
+  text-decoration: none;
   opacity: 0;
-  transform: translateY(16px);
-  transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s;
+  transform: translateY(18px);
+  transition:
+    color 0.3s,
+    opacity 0.45s ease,
+    transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.overlayOpen .link {
+.link > span {
+  color: rgba(186, 198, 255, 0.42);
+  font-family: system-ui, sans-serif;
+  font-size: 9px;
+  font-weight: 650;
+  letter-spacing: 0.12em;
+}
+
+.overlayOpen .link,
+.overlayOpen .sectionLink {
   opacity: 1;
   transform: translateY(0);
 }
 
-.link:active,
-.link:hover {
-  color: #f2efe6;
+.link:hover,
+.link:focus-visible {
+  color: #91a8ff;
+  outline: none;
+}
+
+.sectionLinks {
+  padding-top: 2px;
+}
+
+.sectionLink {
+  padding: 10px 0;
+  color: rgba(224, 229, 255, 0.72);
+  font-family: inherit;
+  font-size: clamp(14px, 2vw, 17px);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  line-height: 1.25;
+  text-align: left;
+  cursor: pointer;
+  background: none;
+  border: 0;
+  border-bottom: 1px solid rgba(202, 211, 255, 0.1);
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    color 0.3s,
+    opacity 0.4s ease,
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sectionLink:hover,
+.sectionLink:focus-visible {
+  color: #f6f7ff;
+  outline: none;
 }
 
 .contact {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px 22px;
-  padding-top: 22px;
-  border-top: 1px solid rgba(242, 241, 236, 0.12);
-  font-size: 14px;
+  gap: 10px 26px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(202, 211, 255, 0.14);
+  font-size: 13px;
 }
 
 .contact a {
-  color: rgba(242, 241, 236, 0.72);
+  color: rgba(224, 229, 255, 0.68);
   text-decoration: none;
 }
 
-.contact a:active {
-  color: #f2efe6;
+.contact a:hover,
+.contact a:focus-visible {
+  color: #f6f7ff;
+}
+
+@media (max-width: 680px) {
+  .burger {
+    width: 38px;
+    height: 38px;
+  }
+
+  .overlay {
+    gap: 28px;
+    padding: 18px 20px 24px;
+  }
+
+  .overlayHead {
+    grid-template-columns: 1fr auto;
+  }
+
+  .overlayIndex {
+    display: none;
+  }
+
+  .overlayClose {
+    width: 42px;
+    height: 42px;
+  }
+
+  .menuGrid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .link {
+    grid-template-columns: 26px 1fr;
+    padding: 4px 0;
+    font-size: clamp(30px, 10vw, 48px);
+  }
+
+  .sectionLinks {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 24px;
+  }
+
+  .sectionLinks .groupLabel {
+    grid-column: 1 / -1;
+  }
+
+  .contact {
+    font-size: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .overlay,
+  .link,
+  .sectionLink,
+  .burger span {
+    transition: none;
+  }
 }

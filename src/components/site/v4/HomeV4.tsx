@@ -5,9 +5,9 @@ import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import SplitType from "split-type";
 import styles from "./HomeV4.module.css";
+import { ClientLogosV4 } from "./ClientLogosV4";
 import { SceneV4 } from "./SceneV4";
 import { PreloaderV4 } from "./PreloaderV4";
 import { CursorV4 } from "./CursorV4";
@@ -30,11 +30,11 @@ import {
 
 // title = brand name (same across locales); cat/summary come from copy
 const PROJECTS = [
-  { title: "Dr Igić Clinic", image: "/images/case-studies/drigic-mobileview.webp", href: "/our-projects/dr-igic-web-aplikacija-za-estetske-klinike", accent: "#f2efe6", meta: "2025 · Next.js · Supabase · Booking" },
-  { title: "Prevoz Kop", image: "/images/case-studies/prevozkop-desktop.webp", href: "/our-projects/prevozkop-digitalni-prodajni-operativni-sistem", accent: "#2f6bff", meta: "2025 · Next.js · CRM · SEO" },
-  { title: "Santos & Santorini", image: "/images/case-studies/santos-desktop.webp", href: "/our-projects/santos-santorini-web-shop-admin-platforma", accent: "#5b8bff", meta: "2024 · E-commerce · Admin · Lager" },
-  { title: "TeachFromHome", image: "/images/case-studies/teachfromhome-desktop.webp", href: "/our-projects/teachfromhome-onboarding-sistem-za-remote-nastavnike", accent: "#2f6bff", meta: "2024 · Onboarding · Audio · Funnel" },
-  { title: "Doctor Barber", image: "/images/case-studies/doctorbarber.webp", href: "/our-projects/doctor-barber-online-booking-sistem", accent: "#f2efe6", meta: "2024 · Booking 24/7 · PWA" },
+  { title: "Dr Igić Clinic", image: "/images/case-studies/drigic-mobileview.webp", href: "/our-projects/dr-igic-web-aplikacija-za-estetske-klinike", accent: "#f3f5ff", meta: "2025 · Next.js · Supabase · Booking" },
+  { title: "Prevoz Kop", image: "/images/case-studies/prevozkop-desktop.webp", href: "/our-projects/prevozkop-digitalni-prodajni-operativni-sistem", accent: "#7890ff", meta: "2025 · Next.js · CRM · SEO" },
+  { title: "Santos & Santorini", image: "/images/case-studies/santos-desktop.webp", href: "/our-projects/santos-santorini-web-shop-admin-platforma", accent: "#b8c5ff", meta: "2024 · E-commerce · Admin · Lager" },
+  { title: "TeachFromHome", image: "/images/case-studies/teachfromhome-desktop.webp", href: "/our-projects/teachfromhome-onboarding-sistem-za-remote-nastavnike", accent: "#607cff", meta: "2024 · Onboarding · Audio · Funnel" },
+  { title: "Doctor Barber", image: "/images/case-studies/doctorbarber.webp", href: "/our-projects/doctor-barber-online-booking-sistem", accent: "#dce3ff", meta: "2024 · Booking 24/7 · PWA" },
 ];
 
 // section rail keys — labels come from copy.rail by index
@@ -47,14 +47,14 @@ const RAIL_KEYS = ["hero", "manifesto", "value", "projects", "services", "aiDemo
 //   4 neural · 5 pipeline · 6 growth · 7 "A". Each service morphs the cloud
 //   into the form that best pictures it.
 const SERVICES = [
-  { href: "/our-services/web-prezentacije", gen: 2, c1: [0.92, 0.91, 0.98], c2: [1, 0.96, 0.88] },
-  { href: "/our-services/e-commerce-web-shop", gen: 2, c1: [0.78, 0.79, 0.9], c2: [1, 0.97, 0.9] },
-  { href: "/our-services/mobilne-aplikacije", gen: 2, c1: [0.85, 0.84, 0.92], c2: [0.72, 0.74, 0.86] },
-  { href: "/our-services/cms-sistemi", gen: 1, c1: [0.62, 0.65, 0.75], c2: [0.85, 0.87, 0.95] },
-  { href: "/our-services/ai-integracije-automatizacija", gen: 4, c1: [0.4, 0.66, 1.0], c2: [0.85, 0.9, 1.0] },
-  { href: "/our-services/seo-digitalni-marketing", gen: 6, c1: [0.92, 0.88, 0.82], c2: [0.75, 0.77, 0.9] },
-  { href: "/our-services/cyber-security-gdpr", gen: 1, c1: [0.86, 0.78, 0.74], c2: [0.7, 0.72, 0.85] },
-  { href: "/our-services/interaktivne-web-tehnologije", gen: 0, c1: [0.78, 0.79, 0.9], c2: [0.95, 0.93, 0.88] },
+  { href: "/our-services/web-prezentacije", gen: 2, c1: [0.34, 0.46, 1], c2: [0.8, 0.86, 1] },
+  { href: "/our-services/e-commerce-web-shop", gen: 2, c1: [0.24, 0.34, 0.88], c2: [0.66, 0.74, 1] },
+  { href: "/our-services/mobilne-aplikacije", gen: 2, c1: [0.46, 0.58, 1], c2: [0.88, 0.91, 1] },
+  { href: "/our-services/cms-sistemi", gen: 1, c1: [0.2, 0.28, 0.72], c2: [0.58, 0.68, 0.96] },
+  { href: "/our-services/ai-integracije-automatizacija", gen: 4, c1: [0.38, 0.5, 1], c2: [0.76, 0.82, 1] },
+  { href: "/our-services/seo-digitalni-marketing", gen: 6, c1: [0.28, 0.4, 0.92], c2: [0.7, 0.78, 1] },
+  { href: "/our-services/cyber-security-gdpr", gen: 1, c1: [0.22, 0.3, 0.78], c2: [0.64, 0.72, 0.98] },
+  { href: "/our-services/interaktivne-web-tehnologije", gen: 0, c1: [0.5, 0.62, 1], c2: [0.92, 0.94, 1] },
 ];
 
 // num/suffix are locale-agnostic; label comes from copy.metrics by index
@@ -102,7 +102,7 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
   useEffect(() => {
     // eslint-disable-next-line no-console
     console.log(
-      "%cADSPIRE %c— OBSIDIAN v4\n%cRučno kodirano u Nišu. WebGL, GSAP, 24.000 čestica.\nTražiš ovakav sajt? djordje@adspire.rs",
+      "%cADSPIRE %c— OBSIDIAN v4\n%cRučno kodirano u Nišu. WebGL, GSAP, 16.000 čestica.\nTražiš ovakav sajt? djordje@adspire.rs",
       "font-size:20px;font-weight:800;color:#f2efe6",
       "font-size:20px;font-weight:300;color:#f2f1ec",
       "font-size:12px;color:#8a8a92",
@@ -137,7 +137,7 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduced) return;
 
-    gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+    gsap.registerPlugin(ScrollTrigger);
 
     const q = gsap.utils.selector(root);
     const ctx = gsap.context(() => {
@@ -178,58 +178,31 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
       window.addEventListener("v4:ready", playIntro, { once: true });
       const introFallback = window.setTimeout(playIntro, 2600);
 
-      // ── Hero scroll-out: title lines drift apart at different speeds.
-      // Targets .heroLine wrappers, NOT the chars the intro animates —
-      // sharing transform channels between the two tweens corrupts state.
-      q<HTMLElement>(`.${styles.heroLine}`).forEach((line, i) => {
-        gsap.to(line, {
-          yPercent: -(14 + i * 14),
-          autoAlpha: 0,
-          ease: "power1.in",
-          scrollTrigger: {
-            trigger: q(`.${styles.hero}`)[0],
-            start: "top top",
-            end: "75% top",
-            scrub: 0.6,
-          },
-        });
-      });
+      // The hero exits as one composed frame so the particle scene keeps focus.
       gsap.to(q(`.${styles.heroInner}`)[0], {
-        yPercent: 14,
-        scale: 0.9,
+        yPercent: -6,
+        scale: 0.96,
         autoAlpha: 0,
-        ease: "none",
+        ease: "power1.in",
         scrollTrigger: {
           trigger: q(`.${styles.hero}`)[0],
-          start: "20% top",
-          end: "85% top",
-          scrub: 0.6,
+          start: "18% top",
+          end: "78% top",
+          scrub: 0.9,
         },
       });
 
-      // ── Marquee: infinite loop + velocity skew ──────────────────────
+      // ── Marquee: one slow editorial movement ────────────────────────
       const marqueeRows = q<HTMLElement>(`.${styles.marqueeRow}`);
       marqueeRows.forEach((row, i) => {
         const dir = i % 2 === 0 ? -1 : 1;
         gsap.to(row, {
           xPercent: dir * 50,
           repeat: -1,
-          duration: 28,
+          duration: 52,
           ease: "none",
         });
       });
-      const marqueeWrap = q(`.${styles.marquee}`)[0];
-      if (marqueeWrap) {
-        ScrollTrigger.create({
-          trigger: marqueeWrap,
-          start: "top bottom",
-          end: "bottom top",
-          onUpdate: (self) => {
-            const skew = gsap.utils.clamp(-8, 8, self.getVelocity() / -220);
-            gsap.to(marqueeRows, { skewX: skew, duration: 0.4, overwrite: "auto" });
-          },
-        });
-      }
 
       // ── Manifesto: free scroll-through word-fill (no pin — the page never
       // locks here, so the visitor scrubs the background freely) ───────────
@@ -271,33 +244,13 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
           },
         });
 
-        // scroll velocity leans the screenshots — shader-style smear on DOM
-        const velImgs = q<HTMLElement>(`.${styles.projectImg}`);
-        if (velImgs.length) {
-          ScrollTrigger.create({
-            trigger: projectsSection,
-            start: "top top",
-            end: () => `+=${getDistance()}`,
-            onUpdate: (self) => {
-              const v = gsap.utils.clamp(-6, 6, self.getVelocity() / -260);
-              gsap.to(velImgs, {
-                skewX: v * 0.7,
-                scale: 1 + Math.min(Math.abs(v) * 0.006, 0.035),
-                duration: 0.45,
-                ease: "power2.out",
-                overwrite: "auto",
-              });
-            },
-          });
-        }
-
-        // inner parallax on each screenshot
+        // Restrained parallax adds depth without distorting the work.
         q<HTMLElement>(`.${styles.projectImg}`).forEach((img) => {
           gsap.fromTo(
             img,
-            { xPercent: -6 },
+            { xPercent: -2 },
             {
-              xPercent: 6,
+              xPercent: 2,
               ease: "none",
               scrollTrigger: {
                 trigger: img,
@@ -329,45 +282,23 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
           );
         }
 
-        // cinematic letterbox bars scrub shut as the film strip approaches…
-        const bars = q<HTMLElement>(`.${styles.letterbox}`);
-        if (bars.length) {
-          ScrollTrigger.create({
-            trigger: projectsSection,
-            start: "top 90%",
-            end: "top top",
-            scrub: 0.3,
-            onUpdate: (self) => gsap.set(bars, { scaleY: self.progress }),
-          });
-          // …and scrub open again once the next section takes over
-          const servicesSection = q<HTMLElement>(`.${styles.services}`)[0];
-          if (servicesSection) {
-            ScrollTrigger.create({
-              trigger: servicesSection,
-              start: "top 85%",
-              end: "top 35%",
-              scrub: 0.3,
-              onUpdate: (self) => gsap.set(bars, { scaleY: 1 - self.progress }),
-            });
-          }
-        }
-
-        // each project re-tints the particle cloud to its accent while it
-        // holds the frame; leaving the strip hands the palette back
+        // The horizontal chapter shifts the sculpture's material tone per case.
         q<HTMLElement>(`.${styles.projectPanel}`).forEach((panel, i) => {
           ScrollTrigger.create({
             trigger: panel,
             containerAnimation: horizontal,
-            start: "left 70%",
-            end: "right 30%",
+            start: "left 68%",
+            end: "right 32%",
             onToggle: (self) => {
-              if (self.isActive) {
-                window.dispatchEvent(
-                  new CustomEvent("v4:tint", {
-                    detail: { color: hexTo01(PROJECTS[i].accent), color2: [1, 0.96, 0.88] },
-                  }),
-                );
-              }
+              if (!self.isActive) return;
+              window.dispatchEvent(
+                new CustomEvent("v4:tint", {
+                  detail: {
+                    color: hexTo01(PROJECTS[i].accent),
+                    color2: [0.84, 1, 0.94],
+                  },
+                }),
+              );
             },
           });
         });
@@ -380,26 +311,6 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
               window.dispatchEvent(new CustomEvent("v4:tint", { detail: null }));
             }
           },
-        });
-
-        // per-panel content stagger as each project enters the frame
-        q<HTMLElement>(`.${styles.projectPanel}`).forEach((panel) => {
-          const bits = panel.querySelectorAll(
-            `.${styles.projectCat}, .${styles.projectMetaRow}, .${styles.projectTitle}, .${styles.projectSummary}, .${styles.projectLink}`,
-          );
-          gsap.from(bits, {
-            y: 44,
-            autoAlpha: 0,
-            stagger: 0.07,
-            duration: 0.7,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: panel,
-              containerAnimation: horizontal,
-              start: "left 72%",
-              once: true,
-            },
-          });
         });
       }
 
@@ -416,8 +327,7 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
         });
       });
 
-      // touch devices have no hover — scroll drives the same experience:
-      // the row crossing the center band lights up and morphs the cloud
+      // On touch, the centered service becomes the active WebGL sculpture.
       if (window.matchMedia("(pointer: coarse)").matches && svcRows.length) {
         svcRows.forEach((row, i) => {
           ScrollTrigger.create({
@@ -425,30 +335,16 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
             start: "top 62%",
             end: "bottom 38%",
             onToggle: (self) => {
-              if (self.isActive) {
-                row.classList.add(styles.svcRowActive);
-                const s = SERVICES[i];
-                window.dispatchEvent(
-                  new CustomEvent("v4:morph", {
-                    detail: { gen: s.gen, color: s.c1, color2: s.c2 },
-                  }),
-                );
-              } else {
-                row.classList.remove(styles.svcRowActive);
-              }
+              row.classList.toggle(styles.svcRowActive, self.isActive);
+              if (!self.isActive) return;
+              const s = SERVICES[i];
+              window.dispatchEvent(
+                new CustomEvent("v4:morph", {
+                  detail: { gen: s.gen, color: s.c1, color2: s.c2 },
+                }),
+              );
             },
           });
-        });
-        // leaving the section hands the cloud back to the scroll shapes
-        ScrollTrigger.create({
-          trigger: q(`.${styles.services}`)[0],
-          start: "top 62%",
-          end: "bottom 38%",
-          onToggle: (self) => {
-            if (!self.isActive) {
-              window.dispatchEvent(new CustomEvent("v4:morph", { detail: null }));
-            }
-          },
         });
       }
 
@@ -509,18 +405,18 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
         });
       });
 
-      // ── Generic reveals: lines by default, chars for big titles ─────
+      // ── Generic reveals: words for display type, lines for body copy
       q<HTMLElement>("[data-reveal]").forEach((el) => {
         if (el.dataset.reveal === "chars") {
-          const s = new SplitType(el, { types: "words, chars" });
-          if (!s.chars?.length) return;
+          const s = new SplitType(el, { types: "words" });
+          if (!s.words?.length) return;
           el.style.overflow = "hidden";
-          gsap.from(s.chars, {
-            y: "1.1em",
-            rotate: 6,
-            duration: 0.8,
-            stagger: 0.035,
-            ease: "power4.out",
+          gsap.from(s.words, {
+            y: "0.75em",
+            autoAlpha: 0,
+            duration: 0.95,
+            stagger: 0.055,
+            ease: "expo.out",
             scrollTrigger: { trigger: el, start: "top 85%", once: true },
           });
           return;
@@ -542,51 +438,16 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
         });
       });
 
-      // ── Scramble/decode hover on marked links ───────────────────────
-      const GLYPHS = "!<>-_\\/[]{}—=+*^?#ABCDEFGHIKLMNOPRSTUVZ0123456789";
-      q<HTMLElement>("[data-scramble]").forEach((el) => {
-        const original = el.textContent ?? "";
-        let frame = 0;
-        let rafId = 0;
-        const run = () => {
-          frame++;
-          const reveal = Math.floor(frame / 2);
-          el.textContent = original
-            .split("")
-            .map((ch, i) => {
-              if (ch === " " || i < reveal) return original[i];
-              return GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
-            })
-            .join("");
-          if (reveal < original.length) rafId = requestAnimationFrame(run);
-          else el.textContent = original;
-        };
-        const onEnter = () => {
-          cancelAnimationFrame(rafId);
-          frame = 0;
-          rafId = requestAnimationFrame(run);
-        };
-        el.addEventListener("mouseenter", onEnter);
-      });
-
-      // ── CTA: giant text zoom + magnetic button ─────────────────────
+      // ── CTA: one deliberate entrance, then the section stays calm
       const ctaTitle = q<HTMLElement>(`.${styles.ctaTitle}`)[0];
       if (ctaTitle) {
-        gsap.fromTo(
-          ctaTitle,
-          { scale: 0.82, autoAlpha: 0.25 },
-          {
-            scale: 1,
-            autoAlpha: 1,
-            ease: "none",
-            scrollTrigger: {
-              trigger: q(`.${styles.cta}`)[0],
-              start: "top 90%",
-              end: "top 25%",
-              scrub: 0.5,
-            },
-          },
-        );
+        gsap.from(ctaTitle, {
+          y: 48,
+          autoAlpha: 0,
+          duration: 1.1,
+          ease: "expo.out",
+          scrollTrigger: { trigger: ctaTitle, start: "top 82%", once: true },
+        });
       }
 
       // ── Section rail tracking ───────────────────────────────────────
@@ -641,11 +502,11 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
     };
     const unlockObserver = new MutationObserver(trySync);
     unlockObserver.observe(htmlEl, { attributes: true, attributeFilter: ["class"] });
-    // belt-and-suspenders: force a sync past the preloader hard cap (6s) + lift
+    // Force a sync just past the shortened preloader hard cap + lift.
     const syncFallback = window.setTimeout(() => {
       unlockObserver.disconnect();
       syncScroll();
-    }, 7200);
+    }, 4700);
     trySync(); // handle an already-unlocked page (e.g. hot reload)
     // late-loading project screenshots shift layout → refresh on window load too
     window.addEventListener("load", syncScroll);
@@ -653,15 +514,15 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
     // magnetic buttons (outside gsap.context — plain listeners)
     const magnets = Array.from(root.querySelectorAll<HTMLElement>("[data-magnetic]"));
     const magnetCleanups = magnets.map((el) => {
-      const strength = 0.35;
+      const strength = 0.12;
       const onMove = (e: MouseEvent) => {
         const r = el.getBoundingClientRect();
         const mx = e.clientX - (r.left + r.width / 2);
         const my = e.clientY - (r.top + r.height / 2);
-        gsap.to(el, { x: mx * strength, y: my * strength, duration: 0.4, ease: "power3.out" });
+        gsap.to(el, { x: mx * strength, y: my * strength, duration: 0.55, ease: "power3.out" });
       };
       const onLeave = () => {
-        gsap.to(el, { x: 0, y: 0, duration: 0.7, ease: "elastic.out(1, 0.4)" });
+        gsap.to(el, { x: 0, y: 0, duration: 0.65, ease: "power3.out" });
       };
       el.addEventListener("mousemove", onMove);
       el.addEventListener("mouseleave", onLeave);
@@ -671,69 +532,7 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
       };
     });
 
-    // hero chars repel from the cursor — signature interactive detail
-    const repelCleanups: (() => void)[] = [];
-    if (!window.matchMedia("(pointer: coarse)").matches) {
-      const heroEl = root.querySelector<HTMLElement>(`.${styles.hero}`);
-      const chars = Array.from(root.querySelectorAll<HTMLElement>("h1 .char"));
-      if (heroEl && chars.length) {
-        const movers = chars.map((ch) => ({
-          el: ch,
-          qx: gsap.quickTo(ch, "x", { duration: 0.5, ease: "power3.out" }),
-          qr: gsap.quickTo(ch, "rotate", { duration: 0.5, ease: "power3.out" }),
-        }));
-        const RADIUS = 130;
-        // cache untransformed char centers — reading live rects on every
-        // pointermove both thrashes layout and feeds the repel offset back
-        // into its own distance check
-        let centers: { cx: number; cy: number }[] | null = null;
-        const buildCenters = () => {
-          centers = movers.map((m) => {
-            const r = m.el.getBoundingClientRect();
-            return { cx: r.left + r.width / 2, cy: r.top + r.height / 2 };
-          });
-        };
-        const invalidateCenters = () => {
-          centers = null;
-        };
-        window.addEventListener("scroll", invalidateCenters, { passive: true });
-        window.addEventListener("resize", invalidateCenters);
-        const onRepel = (e: PointerEvent) => {
-          if (!centers) buildCenters();
-          for (let i = 0; i < movers.length; i++) {
-            const m = movers[i];
-            const c = centers![i];
-            const dx = c.cx - e.clientX;
-            const dy = c.cy - e.clientY;
-            const dist = Math.hypot(dx, dy);
-            if (dist < RADIUS) {
-              const force = (1 - dist / RADIUS) * 26;
-              m.qx(Math.sign(dx || 1) * force);
-              m.qr(Math.sign(dx || 1) * force * 0.28);
-            } else {
-              m.qx(0);
-              m.qr(0);
-            }
-          }
-        };
-        const onRepelLeave = () => {
-          movers.forEach((m) => {
-            m.qx(0);
-            m.qr(0);
-          });
-        };
-        heroEl.addEventListener("pointermove", onRepel);
-        heroEl.addEventListener("pointerleave", onRepelLeave);
-        repelCleanups.push(() => {
-          heroEl.removeEventListener("pointermove", onRepel);
-          heroEl.removeEventListener("pointerleave", onRepelLeave);
-          window.removeEventListener("scroll", invalidateCenters);
-          window.removeEventListener("resize", invalidateCenters);
-        });
-      }
-    }
-
-    // 3D tilt on project screenshots (desktop pointers only)
+    // Subtle project tilt is a hover detail, never a competing animation.
     const tiltCleanups: (() => void)[] = [];
     if (!window.matchMedia("(pointer: coarse)").matches) {
       root.querySelectorAll<HTMLElement>(`.${styles.projectMedia}`).forEach((media) => {
@@ -742,15 +541,15 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
           const nx = (e.clientX - r.left) / r.width - 0.5;
           const ny = (e.clientY - r.top) / r.height - 0.5;
           gsap.to(media, {
-            rotateY: nx * 10,
-            rotateX: ny * -8,
-            transformPerspective: 900,
-            duration: 0.5,
+            rotateY: nx * 3,
+            rotateX: ny * -2,
+            transformPerspective: 1200,
+            duration: 0.7,
             ease: "power2.out",
           });
         };
         const onLeave = () => {
-          gsap.to(media, { rotateX: 0, rotateY: 0, duration: 0.8, ease: "elastic.out(1, 0.5)" });
+          gsap.to(media, { rotateX: 0, rotateY: 0, duration: 0.8, ease: "power3.out" });
         };
         media.addEventListener("mousemove", onMove);
         media.addEventListener("mouseleave", onLeave);
@@ -761,31 +560,15 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
       });
     }
 
-    // services index: hover forces the particle cloud into that service's
-    // shape + palette, and a glass preview panel glides after the cursor
-    const svcCleanups: (() => void)[] = [];
+    // Service rows directly sculpt the scene; the interface itself stays quiet.
+    const svcMorphCleanups: (() => void)[] = [];
     if (!window.matchMedia("(pointer: coarse)").matches) {
       const list = root.querySelector<HTMLElement>(`.${styles.svcList}`);
-      const panel = root.querySelector<HTMLElement>(`.${styles.svcPanel}`);
-      const panelDesc = panel?.querySelector<HTMLElement>(`.${styles.svcPanelDesc}`);
       const rows = Array.from(root.querySelectorAll<HTMLElement>(`.${styles.svcRow}`));
-      if (list && panel && panelDesc && rows.length) {
-        const px = gsap.quickTo(panel, "x", { duration: 0.45, ease: "power3.out" });
-        const py = gsap.quickTo(panel, "y", { duration: 0.45, ease: "power3.out" });
-        const onListMove = (e: PointerEvent) => {
-          px(e.clientX + 28);
-          py(e.clientY - panel.offsetHeight / 2);
-        };
-        const clearMorph = () => {
-          panel.classList.remove(styles.svcPanelOn);
-          window.dispatchEvent(new CustomEvent("v4:morph", { detail: null }));
-        };
-        const enterFns = rows.map((row, i) => {
-          const s = SERVICES[i];
+      if (list && rows.length) {
+        const rowCleanups = rows.map((row, i) => {
           const onEnter = () => {
-            panelDesc.textContent = t.services.items[i].desc;
-            panel.style.setProperty("--sa", "#2f6bff");
-            panel.classList.add(styles.svcPanelOn);
+            const s = SERVICES[i];
             window.dispatchEvent(
               new CustomEvent("v4:morph", {
                 detail: { gen: s.gen, color: s.c1, color2: s.c2 },
@@ -795,11 +578,12 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
           row.addEventListener("pointerenter", onEnter);
           return () => row.removeEventListener("pointerenter", onEnter);
         });
-        list.addEventListener("pointermove", onListMove, { passive: true });
+        const clearMorph = () => {
+          window.dispatchEvent(new CustomEvent("v4:morph", { detail: null }));
+        };
         list.addEventListener("pointerleave", clearMorph);
-        svcCleanups.push(() => {
-          enterFns.forEach((fn) => fn());
-          list.removeEventListener("pointermove", onListMove);
+        svcMorphCleanups.push(() => {
+          rowCleanups.forEach((fn) => fn());
           list.removeEventListener("pointerleave", clearMorph);
           clearMorph();
         });
@@ -825,24 +609,18 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
       ctx.revert();
       magnetCleanups.forEach((fn) => fn());
       tiltCleanups.forEach((fn) => fn());
-      repelCleanups.forEach((fn) => fn());
-      svcCleanups.forEach((fn) => fn());
+      svcMorphCleanups.forEach((fn) => fn());
       spotCleanups.forEach((fn) => fn());
     };
   }, []);
 
-  // nav/rail jump — JS-driven (ScrollToPlugin) so it works regardless of the
-  // browser's native smooth-scroll support; autoKill hands control back to the
-  // user's wheel mid-flight
+  // Keep section navigation native and deterministic. The explicit header
+  // offset avoids landing underneath the fixed navigation on touch devices.
   const scrollToSection = (el: HTMLElement) => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      el.scrollIntoView();
-      return;
-    }
-    gsap.to(window, {
-      scrollTo: { y: el, autoKill: true },
-      duration: 1.1,
-      ease: "power3.inOut",
+    const top = el.getBoundingClientRect().top + window.scrollY - 76;
+    window.scrollTo({
+      top: Math.max(0, top),
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
     });
   };
 
@@ -852,9 +630,8 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
       <CursorV4 />
       <SceneV4 />
       <div className={styles.grain} aria-hidden="true" />
+      <div className={styles.cinemaFrame} aria-hidden="true" />
       <div className={styles.pageProgress} aria-hidden="true" />
-      <div className={`${styles.letterbox} ${styles.letterboxTop}`} aria-hidden="true" />
-      <div className={`${styles.letterbox} ${styles.letterboxBottom}`} aria-hidden="true" />
       <div ref={curtainRef} className={styles.curtain} aria-hidden="true">
         <span className={styles.curtainLogo}>
           ADSPIRE<span className={styles.navLogoDot}>.</span>
@@ -866,13 +643,34 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
         <a className={styles.navLogo} href={localePath("/", locale)} data-cursor="on">
           ADSPIRE<span className={styles.navLogoDot}>.</span>
         </a>
-        <div className={styles.navHud} aria-hidden="true">
-          <span className={styles.navHudDot} />
-          <span>NIŠ&nbsp;·&nbsp;{clock}</span>
-          <span className={styles.navHudSep}>—</span>
-          <span className={styles.navHudLabel}>{t.rail[activeSection]}</span>
-        </div>
+        <nav className={styles.desktopNav} aria-label="Glavna navigacija">
+          {[
+            { key: "projects", label: t.rail[3] },
+            { key: "services", label: t.rail[4] },
+            { key: "process", label: t.rail[6] },
+          ].map((item) => (
+            <button
+              key={item.key}
+              className={styles.desktopNavItem}
+              onClick={() => {
+                const el = rootRef.current?.querySelector<HTMLElement>(`.${styles[item.key]}`);
+                if (el) scrollToSection(el);
+              }}
+            >
+              {item.label}
+            </button>
+          ))}
+          <Link className={styles.desktopNavItem} href={localePath("/about-us", locale)}>
+            {locale === "sr" ? "O nama" : locale === "de" ? "Über uns" : "About"}
+          </Link>
+        </nav>
         <div className={styles.navRight}>
+          <div className={styles.navHud} aria-hidden="true">
+            <span className={styles.navHudDot} />
+            <span>NIŠ&nbsp;·&nbsp;{clock}</span>
+            <span className={styles.navHudSep}>—</span>
+            <span className={styles.navHudLabel}>{t.rail[activeSection]}</span>
+          </div>
           <div className={styles.langSwitch} role="group" aria-label="Language">
             {locales.map((lc) => (
               <Link
@@ -950,6 +748,10 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
                 {t.hero.ctaGhost}
               </a>
             </div>
+            <div className={styles.sceneGestureHint} aria-hidden="true">
+              <span className={styles.sceneGestureIcon}>↔</span>
+              <span>DRAG / ROTATE</span>
+            </div>
           </div>
           <div className={styles.heroScrollHint} aria-hidden="true">
             <span>{t.hero.scroll}</span>
@@ -977,6 +779,8 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
             ))}
           </p>
         </section>
+
+        <ClientLogosV4 locale={locale} />
 
         {/* ── 03b · Value props — šta tačno plaćate ── */}
         <section className={styles.value}>
@@ -1060,7 +864,7 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
                 className={styles.svcRow}
                 href={s.href}
                 data-cursor="on"
-                style={{ "--sa": "#2f6bff" } as React.CSSProperties}
+                style={{ "--sa": "#7890ff" } as React.CSSProperties}
               >
                 <span className={styles.svcNum}>{String(i + 1).padStart(2, "0")}</span>
                 <span className={styles.svcTitleWrap} aria-hidden="true">
@@ -1081,10 +885,6 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
                 </span>
               </a>
             ))}
-          </div>
-          <div className={styles.svcPanel} aria-hidden="true">
-            <p className={styles.svcPanelDesc} />
-            <span className={styles.svcPanelCta}>{t.services.panelCta}</span>
           </div>
         </section>
 
