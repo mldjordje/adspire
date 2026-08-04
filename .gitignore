@@ -5,3 +5,12 @@ node_modules
 Adspire - Srpska Dijaspora Outreach.json
 new-videos/
 public/new-videos/
+
+# Environment — nikad u git.
+.env
+.env.*
+!.env.example
+
+.vercel
+.env*
+tsconfig.tsbuildinfo

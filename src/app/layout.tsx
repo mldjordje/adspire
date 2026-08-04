@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import "@/app/globals.css";
+import { AttributionCapture } from "@/components/analytics/AttributionCapture";
 import { JsonLd } from "@/components/site/JsonLd";
 import { organizationJsonLd, webSiteJsonLd } from "@/lib/seo/jsonld";
 import { getSiteUrl } from "@/lib/seo/site";
@@ -72,6 +73,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       </head>
       <body>
         <JsonLd data={[organizationJsonLd(), webSiteJsonLd()]} />
+        <AttributionCapture />
         {children}
         <Analytics />
       </body>

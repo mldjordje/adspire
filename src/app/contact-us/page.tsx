@@ -17,7 +17,7 @@ export const metadata: Metadata = pageMetadata({
 export default function ContactPage() {
   return (
     <div className={v4FontClass}>
-      <ContactV4 />
+      <ContactV4 locale={defaultLocale} />
     </div>
   );
 }

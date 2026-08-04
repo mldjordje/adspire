@@ -8,10 +8,18 @@
     "postbuild": "next-sitemap",
     "start": "next start",
     "lint": "next lint",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
     "sitemap": "next-sitemap",
-    "check-wp": "node scripts/check-wordpress.mjs"
+    "check-wp": "node scripts/check-wordpress.mjs",
+    "db:migrate": "node --env-file-if-exists=.env.local scripts/db-migrate.mjs",
+    "os:user": "node --env-file-if-exists=.env.local scripts/os-create-user.mjs",
+    "os:import-clients": "node --env-file-if-exists=.env.local scripts/import-clients.mjs"
   },
   "dependencies": {
+    "@neondatabase/serverless": "^1.1.0",
+    "@pdf-lib/fontkit": "^1.1.1",
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.6.1",
     "@splinetool/react-spline": "^4.1.0",
@@ -33,20 +41,28 @@
     "next-i18next": "^13.2.2",
     "next-sitemap": "^4.2.3",
     "nodemailer": "^7.0.3",
+    "pdf-lib": "^1.17.1",
     "postprocessing": "^6.39.1",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "react-i18next": "^12.3.1",
     "sass": "^1.66.1",
+    "server-only": "^0.0.1",
     "sharp": "^0.32.5",
     "split-type": "^0.3.3",
     "swiper": "^10.2.0",
     "three": "^0.184.0",
     "typescript": "^5.9.3",
-    "vanilla-tilt": "^1.8.1"
+    "vanilla-tilt": "^1.8.1",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^7.0.0",
+    "@testing-library/react": "^16.3.2",
     "@types/chroma-js": "^2.4.0",
-    "@types/nodemailer": "^6.4.17"
+    "@types/nodemailer": "^6.4.17",
+    "@vitejs/plugin-react": "^6.0.5",
+    "jsdom": "^29.1.1",
+    "vitest": "^4.1.10"
   }
 }

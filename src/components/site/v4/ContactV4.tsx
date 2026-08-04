@@ -1,40 +1,63 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { PageShellV4 } from "./PageShellV4";
+import { getContactCopy, MARKETS, SERVICES } from "./contactCopy";
+import {
+  captureFirstTouch,
+  createRequestId,
+  getSubmissionAttribution,
+} from "@/lib/crm/clientAttribution";
+import { defaultLocale, type LocaleCode } from "@/lib/site-config";
 import styles from "./ContactV4.module.css";
 
 /**
- * Contact page — OBSIDIAN styled form posting to /api/contact, plus direct
- * channels and what-happens-next reassurance.
+ * Contact page — OBSIDIAN styled qualification form posting to /api/leads,
+ * plus direct channels and what-happens-next reassurance.
  */
 
-const STEPS = [
-  { num: "01", text: "Javimo se u roku od 24h — bez auto-odgovora." },
-  { num: "02", text: "Kratak poziv od 30 minuta da razumemo cilj i rok." },
-  { num: "03", text: "Klikabilan prototip i jasna cena — pre ugovora." },
-];
+type Props = { locale?: LocaleCode };
 
-export function ContactV4() {
+export function ContactV4({ locale = defaultLocale }: Props) {
+  const t = getContactCopy(locale);
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  // One id per form instance so a double click cannot create two leads.
+  const requestIdRef = useRef<string>("");
+
+  useEffect(() => {
+    captureFirstTouch();
+    requestIdRef.current = createRequestId();
+  }, []);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const form = new FormData(event.currentTarget);
+    const formEl = event.currentTarget;
+    const form = new FormData(formEl);
     setStatus("sending");
     try {
-      const res = await fetch("/api/contact", {
+      const res = await fetch("/api/leads", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          name: String(form.get("name") ?? ""),
+          fullName: String(form.get("fullName") ?? ""),
           email: String(form.get("email") ?? ""),
-          subject: String(form.get("subject") ?? "") || String(form.get("phone") ?? ""),
+          company: String(form.get("company") ?? ""),
+          phone: String(form.get("phone") ?? ""),
+          market: String(form.get("market") ?? "rs"),
+          service: String(form.get("service") ?? "other"),
           message: String(form.get("message") ?? ""),
+          budgetRange: String(form.get("budgetRange") ?? ""),
+          timeline: String(form.get("timeline") ?? ""),
+          consent: form.get("consent") === "on",
+          website: String(form.get("website") ?? ""),
+          requestId: requestIdRef.current || createRequestId(),
+          attribution: getSubmissionAttribution(),
         }),
       });
       if (!res.ok) throw new Error("Failed");
-      event.currentTarget.reset();
+      formEl.reset();
+      // New id for the next submission, otherwise the retry is deduplicated.
+      requestIdRef.current = createRequestId();
       setStatus("success");
     } catch {
       setStatus("error");
@@ -43,76 +66,145 @@ export function ContactV4() {
 
   return (
     <PageShellV4
-      eyebrow="Kontakt / Hajde da počnemo"
+      eyebrow={t.eyebrow}
       title={
         <>
-          RECI CILJ,
+          {t.title[0]}
           <br />
-          VRAĆAMO PLAN<span className={styles.dot}>.</span>
+          {t.title[1]}
+          <span className={styles.dot}>.</span>
         </>
       }
-      intro="Besplatan poziv od 30 minuta. Kažemo vam tačno šta bi vam donelo najviše klijenata ili uštedelo najviše vremena — pre nego što potrošite dinar."
+      intro={t.intro}
     >
       <section className={styles.wrap} data-reveal>
         <div className={styles.grid}>
           {/* Left — direct channels */}
           <aside className={styles.side}>
             <div className={styles.channel}>
-              <span className={styles.channelLabel}>Email</span>
+              <span className={styles.channelLabel}>{t.channels.email}</span>
               <a className={styles.channelValue} href="mailto:djordje@adspire.rs" data-cursor="on">
                 djordje@adspire.rs
               </a>
             </div>
             <div className={styles.channel}>
-              <span className={styles.channelLabel}>Telefon</span>
+              <span className={styles.channelLabel}>{t.channels.phone}</span>
               <a className={styles.channelValue} href="tel:+381601491491" data-cursor="on">
                 +381 60 149 149 1
               </a>
             </div>
             <div className={styles.channel}>
-              <span className={styles.channelLabel}>Lokacija</span>
-              <span className={styles.channelValue}>Niš, Srbija</span>
+              <span className={styles.channelLabel}>{t.channels.location}</span>
+              <span className={styles.channelValue}>{t.locationValue}</span>
             </div>
             <div className={styles.channel}>
-              <span className={styles.channelLabel}>Jezici</span>
+              <span className={styles.channelLabel}>{t.channels.languages}</span>
               <span className={styles.channelValue}>SR · EN · DE</span>
             </div>
 
             <div className={styles.steps}>
-              {STEPS.map((s) => (
-                <div key={s.num} className={styles.step}>
-                  <span className={styles.stepNum}>{s.num}</span>
-                  <span className={styles.stepText}>{s.text}</span>
+              {t.steps.map((text, i) => (
+                <div key={text} className={styles.step}>
+                  <span className={styles.stepNum}>{`0${i + 1}`}</span>
+                  <span className={styles.stepText}>{text}</span>
                 </div>
               ))}
             </div>
           </aside>
 
-          {/* Right — form */}
+          {/* Right — qualification form */}
           <form className={styles.form} onSubmit={handleSubmit}>
             <div className={styles.formRow}>
               <label className={styles.field}>
-                <span>Ime i prezime</span>
-                <input type="text" name="name" required />
+                <span>{t.labels.fullName}</span>
+                <input type="text" name="fullName" autoComplete="name" required />
               </label>
               <label className={styles.field}>
-                <span>Firma / projekat</span>
-                <input type="text" name="subject" />
+                <span>{t.labels.company}</span>
+                <input type="text" name="company" autoComplete="organization" />
               </label>
             </div>
+
             <div className={styles.formRow}>
               <label className={styles.field}>
-                <span>Email</span>
-                <input type="email" name="email" required />
+                <span>{t.labels.email}</span>
+                <input type="email" name="email" autoComplete="email" required />
               </label>
               <label className={styles.field}>
-                <span>Telefon</span>
-                <input type="tel" name="phone" />
+                <span>{t.labels.phone}</span>
+                <input type="tel" name="phone" autoComplete="tel" />
               </label>
             </div>
+
+            <div className={styles.formRow}>
+              <label className={styles.field}>
+                <span>{t.labels.service}</span>
+                <select name="service" defaultValue="booking" required>
+                  {SERVICES.map((service) => (
+                    <option key={service} value={service}>
+                      {t.services[service]}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label className={styles.field}>
+                <span>{t.labels.market}</span>
+                <select name="market" defaultValue={locale === "de" ? "dach" : "rs"} required>
+                  {MARKETS.map((market) => (
+                    <option key={market} value={market}>
+                      {t.markets[market]}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </div>
+
+            <div className={styles.formRow}>
+              <label className={styles.field}>
+                <span>{t.labels.budget}</span>
+                <select name="budgetRange" defaultValue="">
+                  <option value="">{t.labels.skip}</option>
+                  {t.budgets.map((range) => (
+                    <option key={range} value={range}>
+                      {range}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label className={styles.field}>
+                <span>{t.labels.timeline}</span>
+                <select name="timeline" defaultValue="">
+                  <option value="">{t.labels.skip}</option>
+                  {t.timelines.map((timeline) => (
+                    <option key={timeline} value={timeline}>
+                      {timeline}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </div>
+
             <label className={styles.field}>
-              <span>O čemu se radi?</span>
-              <textarea name="message" rows={6} required />
+              <span>{t.labels.message}</span>
+              <textarea
+                name="message"
+                rows={6}
+                required
+                placeholder={t.labels.messagePlaceholder}
+              />
+            </label>
+
+            {/* Honeypot */}
+            <div className={styles.honeypot} aria-hidden="true">
+              <label>
+                Website
+                <input type="text" name="website" tabIndex={-1} autoComplete="off" />
+              </label>
+            </div>
+
+            <label className={styles.consent}>
+              <input type="checkbox" name="consent" required />
+              <span>{t.consent}</span>
             </label>
 
             <div className={styles.actions}>
@@ -123,16 +215,10 @@ export function ContactV4() {
                 data-magnetic
                 disabled={status === "sending"}
               >
-                {status === "sending" ? "Šaljem…" : "Pošalji poruku →"}
+                {status === "sending" ? t.sending : t.submit}
               </button>
-              {status === "success" ? (
-                <p className={styles.msgOk}>Stiglo je. Javljamo se u roku od 24h.</p>
-              ) : null}
-              {status === "error" ? (
-                <p className={styles.msgErr}>
-                  Nešto nije prošlo. Piši direktno na djordje@adspire.rs.
-                </p>
-              ) : null}
+              {status === "success" ? <p className={styles.msgOk}>{t.success}</p> : null}
+              {status === "error" ? <p className={styles.msgErr}>{t.error}</p> : null}
             </div>
           </form>
         </div>

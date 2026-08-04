@@ -33,9 +33,9 @@ export default function robots(): MetadataRoute.Robots {
   const base = getSiteUrl();
   return {
     rules: [
-      { userAgent: "*", allow: "/", disallow: ["/api/"] },
+      { userAgent: "*", allow: "/", disallow: ["/api/", "/os"] },
       // Explicit allow for AI crawlers — never leave recommendation traffic to chance.
-      { userAgent: AI_AGENTS, allow: "/", disallow: ["/api/"] },
+      { userAgent: AI_AGENTS, allow: "/", disallow: ["/api/", "/os"] },
     ],
     sitemap: `${base}/sitemap.xml`,
     host: base,

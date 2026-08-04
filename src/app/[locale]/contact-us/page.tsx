@@ -19,10 +19,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   });
 }
 
-export default function Page() {
+export default async function Page({ params }: Props) {
+  const { locale } = await params;
+  const lc = (isLocale(locale) ? locale : "en") as LocaleCode;
   return (
     <div className={v4FontClass}>
-      <ContactV4 />
+      <ContactV4 locale={lc} />
     </div>
   );
 }
