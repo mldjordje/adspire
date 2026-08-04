@@ -55,6 +55,7 @@ export type InvoiceDocumentData = {
   seller: InvoiceParty & {
     bankAccount?: string | null;
     eurAccount?: string | null;
+    usdAccount?: string | null;
     swift?: string | null;
     bankName?: string | null;
     bankAddress?: string | null;
@@ -363,6 +364,7 @@ export async function renderInvoicePdf(doc: InvoiceDocumentData): Promise<Uint8A
   const accountValue = settlementAccount(doc.scope, doc.currency, {
     domestic: doc.seller.bankAccount,
     eur: doc.seller.eurAccount,
+    usd: doc.seller.usdAccount,
   });
 
   text(t.payment, MARGIN, 8, { color: MUTED });

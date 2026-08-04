@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  accountForCurrency,
   addDays,
   belgradeToday,
   invoiceNumber,
@@ -65,14 +66,29 @@ describe("payment reference", () => {
 });
 
 describe("settlementAccount", () => {
-  const accounts = { domestic: "170-1234-56", eur: "RS35170…" };
+  const accounts = { domestic: "170-1234-56", eur: "RS35-EUR", usd: "RS35-USD" };
 
   it("keeps a domestic payment in dinars even when the invoice is in EUR", () => {
     expect(settlementAccount("domestic", "EUR", accounts)).toBe("170-1234-56");
   });
 
-  it("gives a foreign buyer the foreign account", () => {
-    expect(settlementAccount("foreign", "EUR", accounts)).toBe("RS35170…");
+  it("gives a foreign buyer the account for the invoiced currency", () => {
+    expect(settlementAccount("foreign", "EUR", accounts)).toBe("RS35-EUR");
+    // A dollar invoice must not name the euro account: the buyer's bank would
+    // convert on the way in and charge for it.
+    expect(settlementAccount("foreign", "USD", accounts)).toBe("RS35-USD");
+    expect(settlementAccount("foreign", "RSD", accounts)).toBe("170-1234-56");
+  });
+
+  it("falls back rather than printing no account at all", () => {
+    expect(settlementAccount("foreign", "USD", { domestic: "170-1234-56" })).toBe(
+      "170-1234-56",
+    );
+    expect(accountForCurrency("GBP", accounts)).toBe("RS35-EUR");
+  });
+
+  it("treats a blank account as missing", () => {
+    expect(accountForCurrency("USD", { usd: "   " })).toBeNull();
   });
 });
 

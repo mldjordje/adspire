@@ -14,6 +14,7 @@ export type SettingsRow = {
   mb: string | null;
   bank_account: string | null;
   eur_account: string | null;
+  usd_account: string | null;
   swift: string | null;
   bank_name: string | null;
   bank_address: string | null;
@@ -26,7 +27,7 @@ export type SettingsRow = {
 };
 
 const COLUMNS = `company_name, address, city, country, email, phone, pib, mb,
-  bank_account, eur_account, swift, bank_name, bank_address,
+  bank_account, eur_account, usd_account, swift, bank_name, bank_address,
   vat_note_domestic, vat_note_foreign, payment_method, invoice_due_days,
   payment_reference_model, invoice_seq_offset`;
 
@@ -50,7 +51,7 @@ export type SettingsUpdate = Partial<Omit<SettingsRow, "invoice_due_days" | "inv
  *  so the only safe source for one is this list — never a key off a form. */
 const UPDATABLE = new Set([
   "company_name", "address", "city", "country", "email", "phone", "pib", "mb",
-  "bank_account", "eur_account", "swift", "bank_name", "bank_address",
+  "bank_account", "eur_account", "usd_account", "swift", "bank_name", "bank_address",
   "vat_note_domestic", "vat_note_foreign", "payment_method", "invoice_due_days",
   "payment_reference_model", "invoice_seq_offset",
 ]);

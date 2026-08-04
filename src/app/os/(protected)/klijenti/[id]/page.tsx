@@ -4,6 +4,7 @@ import { ClientForm } from "@/components/os/ClientForm";
 import { formatDate, InvoiceStatusBadge, money } from "@/components/os/billingUi";
 import { addSubscriptionAction, toggleSubscriptionAction } from "@/lib/billing/actions";
 import { getClient, listSubscriptions } from "@/lib/billing/clients";
+import { CURRENCIES } from "@/lib/invoices/rules";
 import { listInvoices } from "@/lib/invoices/queries";
 
 export const dynamic = "force-dynamic";
@@ -105,8 +106,11 @@ export default async function ClientDetailPage({
           <label>
             Valuta
             <select name="currency" defaultValue="RSD">
-              <option value="RSD">RSD</option>
-              <option value="EUR">EUR</option>
+              {CURRENCIES.map((code) => (
+                <option key={code} value={code}>
+                  {code}
+                </option>
+              ))}
             </select>
           </label>
           <div className="os-form__wide">

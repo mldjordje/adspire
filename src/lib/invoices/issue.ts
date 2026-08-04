@@ -10,6 +10,7 @@ import {
   itemTotals,
   paymentReferenceFor,
   referenceModel,
+  settlementAccount,
   type InvoiceItemInput,
   type InvoiceKind,
   type InvoiceScope,
@@ -84,6 +85,7 @@ function sellerFrom(settings: SettingsRow) {
     mb: settings.mb,
     bankAccount: settings.bank_account,
     eurAccount: settings.eur_account,
+    usdAccount: settings.usd_account,
     swift: settings.swift,
     bankName: settings.bank_name,
     bankAddress: settings.bank_address,
@@ -146,8 +148,21 @@ export async function issueInvoice(input: IssueInvoiceInput): Promise<IssuedInvo
   const currency = input.currency.trim().toUpperCase() || "RSD";
   const { lines, total } = itemTotals(input.items);
 
-  if (scope === "domestic" && !settings.bank_account) {
-    throw new InvoiceConfigurationError("Unesi tekući račun u Podešavanjima pre izdavanja.");
+  // The account is resolved once, here, and frozen on the row: it is what the
+  // PDF prints and what the client will pay into, so it must not change later
+  // because a setting was edited. Refusing to issue is the right failure —
+  // an invoice with no account on it is one the client cannot pay.
+  const account = settlementAccount(scope, currency, {
+    domestic: settings.bank_account,
+    eur: settings.eur_account,
+    usd: settings.usd_account,
+  });
+  if (!account) {
+    throw new InvoiceConfigurationError(
+      scope === "domestic"
+        ? "Unesi tekući račun u Podešavanjima pre izdavanja."
+        : `Unesi račun za ${currency} u Podešavanjima pre izdavanja.`,
+    );
   }
 
   const rate = await getMiddleRate(currency);
@@ -194,8 +209,7 @@ export async function issueInvoice(input: IssueInvoiceInput): Promise<IssuedInvo
              -- document is not yet a tax document.
              ${input.kind === "proforma" ? "PR-" : ""} || next_seq.seq || '/' || ${year}::text,
              ${issueDate}::date, ${supplyDate}::date, ${dueDate}::date,
-             ${settings.city}, ${settings.payment_method},
-             ${scope === "domestic" ? settings.bank_account : (settings.eur_account ?? settings.bank_account)},
+             ${settings.city}, ${settings.payment_method}, ${account},
              ${currency}, ${total}, ${totalRsd}, ${rate?.rate ?? null}, ${rate?.date ?? null}::date,
              ${JSON.stringify(buyer)}::jsonb, ${vatNote},
              ${input.periodLabel}, ${input.note}

@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { createInvoiceAction } from "@/lib/billing/actions";
+import { CURRENCIES } from "@/lib/invoices/rules";
 import { money } from "./billingUi";
 
 export type InvoiceFormClient = {
@@ -97,8 +98,11 @@ export function InvoiceForm({
       <label>
         Valuta
         <select name="currency" value={currency} onChange={(e) => setCurrency(e.target.value)}>
-          <option value="RSD">RSD</option>
-          <option value="EUR">EUR</option>
+          {CURRENCIES.map((code) => (
+            <option key={code} value={code}>
+              {code}
+            </option>
+          ))}
         </select>
       </label>
       <label>

@@ -83,6 +83,36 @@ export function paymentReferenceFor(
   return `${mod97CheckDigits(body)}${body}`;
 }
 
+export type SellerAccounts = {
+  domestic?: string | null;
+  eur?: string | null;
+  usd?: string | null;
+};
+
+const clean = (value: string | null | undefined) => value?.trim() || null;
+
+/** The account that can receive a given currency. A dollar invoice must not
+ *  print the euro account: the buyer's bank would convert on the way in and
+ *  charge both sides for a conversion nobody agreed to. */
+export function accountForCurrency(
+  currency: string,
+  accounts: SellerAccounts,
+): string | null {
+  switch (currency.trim().toUpperCase()) {
+    case "RSD":
+      return clean(accounts.domestic);
+    case "EUR":
+      return clean(accounts.eur);
+    case "USD":
+      return clean(accounts.usd);
+    default:
+      // An unfamiliar currency has no dedicated account; the foreign-currency
+      // one is the closest thing to right, and the alternative is an invoice
+      // with no account on it at all.
+      return clean(accounts.eur) ?? clean(accounts.usd);
+  }
+}
+
 /**
  * Which account the buyer actually pays into.
  *
@@ -95,14 +125,17 @@ export function paymentReferenceFor(
 export function settlementAccount(
   scope: InvoiceScope,
   currency: string,
-  accounts: { domestic?: string | null; eur?: string | null },
+  accounts: SellerAccounts,
 ): string | null {
-  const clean = (value: string | null | undefined) => value?.trim() || null;
-  if (scope === "domestic") return clean(accounts.domestic) ?? clean(accounts.eur);
-  return currency.trim().toUpperCase() === "RSD"
-    ? clean(accounts.domestic)
-    : (clean(accounts.eur) ?? clean(accounts.domestic));
+  if (scope === "domestic") {
+    return clean(accounts.domestic) ?? accountForCurrency(currency, accounts);
+  }
+  return accountForCurrency(currency, accounts) ?? clean(accounts.domestic);
 }
+
+/** The currencies the UI offers and the document knows how to settle. */
+export const CURRENCIES = ["RSD", "EUR", "USD"] as const;
+export type Currency = (typeof CURRENCIES)[number];
 
 export type InvoiceItemInput = {
   name: string;

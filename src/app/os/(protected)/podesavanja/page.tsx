@@ -63,8 +63,12 @@ export default async function SettingsPage({
             <input name="bank_account" defaultValue={settings.bank_account ?? ""} />
           </label>
           <label>
-            Devizni račun / IBAN
+            Devizni račun EUR / IBAN
             <input name="eur_account" defaultValue={settings.eur_account ?? ""} />
+          </label>
+          <label>
+            Devizni račun USD / IBAN
+            <input name="usd_account" defaultValue={settings.usd_account ?? ""} />
           </label>
           <label>
             SWIFT/BIC

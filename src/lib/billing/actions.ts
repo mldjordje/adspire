@@ -181,6 +181,7 @@ export async function saveSettingsAction(formData: FormData) {
     mb: optional(formData, "mb"),
     bank_account: optional(formData, "bank_account"),
     eur_account: optional(formData, "eur_account"),
+    usd_account: optional(formData, "usd_account"),
     swift: optional(formData, "swift"),
     bank_name: optional(formData, "bank_name"),
     bank_address: optional(formData, "bank_address"),
