@@ -41,6 +41,9 @@ export function InvoiceForm({
   const [nextKey, setNextKey] = useState(1);
 
   const client = clients.find((c) => c.id === clientId);
+  // Maintenance is billed for the month being issued in; typing "08/2026" every
+  // month is the kind of small friction that makes invoicing get postponed.
+  const currentPeriod = `${today.slice(5, 7)}/${today.slice(0, 4)}`;
   const total = useMemo(
     () => rows.reduce((sum, row) => sum + decimal(row.quantity) * decimal(row.unitPrice), 0),
     [rows],
@@ -119,7 +122,7 @@ export function InvoiceForm({
       </label>
       <label>
         Period (za održavanje)
-        <input name="periodLabel" placeholder="07/2026" />
+        <input name="periodLabel" defaultValue={currentPeriod} placeholder="07/2026" />
       </label>
       <label className="os-form__wide">
         Napomena na dokumentu
@@ -127,9 +130,9 @@ export function InvoiceForm({
       </label>
 
       <div className="os-form__wide">
-        <h3>Stavke</h3>
+        <h3 className="os-h3">Stavke</h3>
         {client && client.subscriptions.length > 0 ? (
-          <button className="os-btn os-btn--ghost" type="button" onClick={fillFromSubscriptions}>
+          <button className="os-btn os-btn--ghost os-btn--sm" type="button" onClick={fillFromSubscriptions}>
             Popuni iz pretplata ({client.subscriptions.length})
           </button>
         ) : null}
@@ -196,16 +199,20 @@ export function InvoiceForm({
         </div>
 
         <p style={{ marginTop: 12 }}>
-          <button className="os-btn os-btn--ghost" type="button" onClick={addRow}>
+          <button className="os-btn os-btn--ghost os-btn--sm" type="button" onClick={addRow}>
             Dodaj stavku
           </button>
         </p>
 
-        <p className="os-total">Ukupno: {money(total, currency)}</p>
-
-        <button className="os-btn" type="submit">
-          Izdaj dokument
-        </button>
+        {/* Sticky: the total and the irreversible button stay in view while the
+            item rows are being typed, which is when a wrong figure is caught. */}
+        <div className="os-issuebar">
+          <span className="os-total">Ukupno: {money(total, currency)}</span>
+          <button className="os-btn" type="submit" disabled={total <= 0}>
+            Izdaj dokument
+          </button>
+          <span className="os-note">Broj se dodeljuje odmah i ne može se menjati.</span>
+        </div>
       </div>
     </form>
   );

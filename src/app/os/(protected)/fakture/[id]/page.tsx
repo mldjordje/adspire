@@ -3,7 +3,12 @@ import { notFound } from "next/navigation";
 import { formatDate, InvoiceStatusBadge, money } from "@/components/os/billingUi";
 import { formatDateTime } from "@/components/os/leadUi";
 import { Timeline } from "@/components/os/Timeline";
-import { sendInvoiceAction, setInvoiceStatusAction } from "@/lib/billing/actions";
+import {
+  convertProformaAction,
+  sendInvoiceAction,
+  setInvoiceStatusAction,
+} from "@/lib/billing/actions";
+import { belgradeToday } from "@/lib/invoices/rules";
 import { getInvoiceDetail } from "@/lib/invoices/queries";
 import { listMessagesForInvoice } from "@/lib/messages/store";
 
@@ -22,21 +27,31 @@ const MAIL_FLASH: Record<string, { tone: "ok" | "bad"; text: string }> = {
   "not-found": { tone: "bad", text: "Dokument nije pronađen." },
 };
 
+const DOC_FLASH: Record<string, { tone: "ok" | "bad"; text: string }> = {
+  "iz-predracuna": {
+    tone: "ok",
+    text: "Račun je izdat iz predračuna. Proveri datum prometa pre slanja.",
+  },
+  stornirano: { tone: "bad", text: "Stornirani predračun se ne pretvara u račun." },
+};
+
 export default async function InvoiceDetailPage({
   params,
   searchParams,
 }: {
   params: Promise<{ id: string }>;
-  searchParams: Promise<{ mail?: string }>;
+  searchParams: Promise<{ mail?: string; doc?: string }>;
 }) {
-  const [{ id }, { mail }] = await Promise.all([params, searchParams]);
+  const [{ id }, { mail, doc }] = await Promise.all([params, searchParams]);
   const invoice = await getInvoiceDetail(id);
   if (!invoice) notFound();
 
   const messages = await listMessagesForInvoice(id).catch(() => []);
-  const flash = mail ? MAIL_FLASH[mail] : undefined;
-  const title = invoice.kind === "proforma" ? "Predračun" : "Račun";
+  const flash = (mail ? MAIL_FLASH[mail] : undefined) ?? (doc ? DOC_FLASH[doc] : undefined);
+  const proforma = invoice.kind === "proforma";
+  const title = proforma ? "Predračun" : "Račun";
   const recipient = invoice.buyer.email ?? null;
+  const today = belgradeToday().iso;
 
   return (
     <>
@@ -104,6 +119,39 @@ export default async function InvoiceDetailPage({
           dokumentom, jer je broj već dodeljen.
         </p>
       </section>
+
+      {proforma && invoice.status !== "cancelled" ? (
+        <section className="os-section os-section--focus">
+          <h2>Račun po ovom predračunu</h2>
+          {invoice.converted ? (
+            <p>
+              Već izdat:{" "}
+              <Link href={`/os/fakture/${invoice.converted.id}`}>{invoice.converted.number}</Link>
+            </p>
+          ) : (
+            <form action={convertProformaAction} className="os-inline">
+              <input type="hidden" name="id" value={invoice.id} />
+              <label className="os-inline__field">
+                Datum prometa
+                <input type="date" name="supplyDate" defaultValue={today} />
+              </label>
+              <button className="os-btn" type="submit">
+                Napravi račun
+              </button>
+              <span className="os-note">
+                Preuzima kupca, stavke, valutu i period. Broj računa se dodeljuje iz svoje serije.
+              </span>
+            </form>
+          )}
+        </section>
+      ) : null}
+
+      {invoice.source ? (
+        <p className="os-note" style={{ margin: "-8px 0 20px" }}>
+          Izdato po predračunu{" "}
+          <Link href={`/os/fakture/${invoice.source.id}`}>{invoice.source.number}</Link>
+        </p>
+      ) : null}
 
       {messages.length > 0 ? (
         <section className="os-section">

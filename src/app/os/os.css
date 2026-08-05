@@ -1052,6 +1052,119 @@ a.os-card:hover {
   color: #33393f;
 }
 
+/* ─── Pipeline board ─── */
+
+.os-board {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(210px, 1fr);
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  align-items: start;
+}
+
+.os-board__col {
+  background: var(--os-surface);
+  border: 1px solid var(--os-line);
+  border-radius: var(--os-radius);
+  box-shadow: var(--os-shadow);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.os-board__col > header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--os-muted);
+}
+
+.os-board__count {
+  min-width: 20px;
+  text-align: center;
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: #eef0f3;
+  color: var(--os-text);
+  font-size: 11px;
+}
+
+.os-board__empty {
+  margin: 0;
+  color: #b4bac4;
+}
+
+.os-lead-card {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 11px;
+  border: 1px solid var(--os-line);
+  border-radius: 9px;
+  text-decoration: none;
+  color: inherit;
+  background: #fcfcfd;
+}
+
+.os-lead-card:hover {
+  border-color: var(--os-accent);
+  background: var(--os-accent-soft);
+}
+
+.os-lead-card strong {
+  font-weight: 650;
+}
+
+.os-lead-card span {
+  font-size: 12px;
+  color: var(--os-muted);
+}
+
+.os-lead-card__foot {
+  font-size: 11px;
+}
+
+/* ─── Issue bar (new document) ─── */
+
+.os-issuebar {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+  padding: 12px 0 4px;
+  background: linear-gradient(to top, var(--os-surface) 70%, rgba(255, 255, 255, 0));
+}
+
+.os-issuebar .os-total {
+  margin: 0;
+}
+
+.os-inline__field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--os-muted);
+  flex: 0 1 auto;
+}
+
+.os-inline__field input {
+  flex: none;
+}
+
 /* ─── Responsive, workspace layer ─── */
 
 @media (max-width: 1080px) {

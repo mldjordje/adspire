@@ -42,6 +42,8 @@ export type IssueInvoiceInput = {
   note: string | null;
   /** Overrides the client's stored billing details, for a one-off buyer. */
   buyer?: InvoiceParty | null;
+  /** The proforma this document settles, when it was issued from one. */
+  sourceInvoiceId?: string | null;
 };
 
 export type IssuedInvoice = { id: string; number: string };
@@ -199,7 +201,7 @@ export async function issueInvoice(input: IssueInvoiceInput): Promise<IssuedInvo
         client_id, kind, scope, invoice_year, invoice_seq, number,
         issue_date, supply_date, due_date, place, payment_method, bank_account,
         currency, total, total_rsd, fx_rate, fx_date, buyer, vat_note,
-        period_label, note
+        period_label, note, source_invoice_id
       )
       select ${input.clientId}::uuid, ${input.kind}::invoice_kind, ${scope},
              ${year}, next_seq.seq,
@@ -212,7 +214,7 @@ export async function issueInvoice(input: IssueInvoiceInput): Promise<IssuedInvo
              ${settings.city}, ${settings.payment_method}, ${account},
              ${currency}, ${total}, ${totalRsd}, ${rate?.rate ?? null}, ${rate?.date ?? null}::date,
              ${JSON.stringify(buyer)}::jsonb, ${vatNote},
-             ${input.periodLabel}, ${input.note}
+             ${input.periodLabel}, ${input.note}, ${input.sourceInvoiceId ?? null}::uuid
       from next_seq
       returning id, number
     ), new_items as (

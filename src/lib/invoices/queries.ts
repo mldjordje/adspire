@@ -77,8 +77,14 @@ export async function listInvoices(options: { clientId?: string; limit?: number 
   return rows.map(toRow);
 }
 
+export type InvoiceLink = { id: string; number: string; kind: InvoiceKind };
+
 export type InvoiceDetail = InvoiceListRow & {
   sentAt: string | null;
+  /** The proforma this invoice settles. */
+  source: InvoiceLink | null;
+  /** The invoice issued out of this proforma, if one already was. */
+  converted: InvoiceLink | null;
   scope: InvoiceScope;
   supplyDate: string | null;
   place: string;
@@ -101,10 +107,12 @@ export async function getInvoiceDetail(id: string): Promise<InvoiceDetail | null
 
   const extra = (await sql`
     select scope, supply_date::text, place, payment_method, bank_account, total_rsd,
-           fx_rate, vat_note, note, paid_at::text, sent_at::text, client_id, buyer
+           fx_rate, vat_note, note, paid_at::text, sent_at::text, client_id, buyer,
+           source_invoice_id
     from invoices where id = ${id}
   `) as {
     sent_at: string | null;
+    source_invoice_id: string | null;
     scope: InvoiceScope;
     supply_date: string | null;
     place: string;
@@ -125,9 +133,19 @@ export async function getInvoiceDetail(id: string): Promise<InvoiceDetail | null
   `) as { name: string; quantity: string; unit_price: string; total: string }[];
 
   const meta = extra[0];
+
+  const [sourceRows, convertedRows] = await Promise.all([
+    meta.source_invoice_id
+      ? (sql`select id, number, kind from invoices where id = ${meta.source_invoice_id}`)
+      : Promise.resolve([]),
+    sql`select id, number, kind from invoices where source_invoice_id = ${id} limit 1`,
+  ]);
+
   return {
     ...toRow(rows[0]),
     sentAt: meta.sent_at,
+    source: (sourceRows as InvoiceLink[])[0] ?? null,
+    converted: (convertedRows as InvoiceLink[])[0] ?? null,
     scope: meta.scope,
     supplyDate: meta.supply_date?.slice(0, 10) ?? null,
     place: meta.place,

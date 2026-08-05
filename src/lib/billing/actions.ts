@@ -5,9 +5,11 @@ import { redirect } from "next/navigation";
 import { getSql } from "@/lib/db";
 import { InvoiceConfigurationError, issueInvoice } from "@/lib/invoices/issue";
 import { sendInvoiceMail } from "@/lib/invoices/notify";
-import { belgradeToday, invoiceScope, type InvoiceKind } from "@/lib/invoices/rules";
+import type { InvoiceParty } from "@/lib/invoices/pdf";
+import { getInvoiceDetail } from "@/lib/invoices/queries";
+import { addDays, belgradeToday, invoiceScope, type InvoiceKind } from "@/lib/invoices/rules";
 import { getSession } from "@/lib/os/session";
-import { updateSettings } from "@/lib/os/settings";
+import { getSettings, updateSettings } from "@/lib/os/settings";
 import {
   createClient,
   createSubscription,
@@ -147,6 +149,57 @@ export async function createInvoiceAction(formData: FormData) {
 
   revalidatePath("/os/fakture");
   redirect(`/os/fakture/${invoiceId}`);
+}
+
+/**
+ * Issues the račun that settles a predračun.
+ *
+ * Copies the frozen buyer, lines, currency and period rather than re-reading
+ * the client: the invoice must agree with the paper the buyer already holds,
+ * even if the client record changed in between. Only the dates are new — the
+ * promet is the day the work was delivered, which is what the invoice states
+ * and the proforma never did.
+ *
+ * Converting twice is refused by finding the existing invoice instead: two
+ * numbers for one job is a bookkeeping error nobody notices until inspection.
+ */
+export async function convertProformaAction(formData: FormData) {
+  await requireSession();
+  const id = text(formData, "id");
+  if (!id) return;
+
+  const proforma = await getInvoiceDetail(id);
+  if (!proforma || proforma.kind !== "proforma") return;
+
+  if (proforma.converted) redirect(`/os/fakture/${proforma.converted.id}`);
+  if (proforma.status === "cancelled") redirect(`/os/fakture/${id}?doc=stornirano`);
+
+  const settings = await getSettings();
+  const today = belgradeToday().iso;
+  const supplyDate = optional(formData, "supplyDate") ?? today;
+
+  const issued = await issueInvoice({
+    clientId: proforma.clientId,
+    kind: "invoice",
+    scope: proforma.scope,
+    issueDate: today,
+    supplyDate,
+    dueDate: addDays(today, settings.invoice_due_days),
+    currency: proforma.currency,
+    items: proforma.items.map((item) => ({
+      name: item.name,
+      quantity: item.quantity,
+      unitPrice: item.unitPrice,
+    })),
+    periodLabel: proforma.periodLabel,
+    note: proforma.note,
+    buyer: proforma.buyer as InvoiceParty,
+    sourceInvoiceId: proforma.id,
+  });
+
+  revalidatePath("/os/fakture");
+  revalidatePath(`/os/fakture/${id}`);
+  redirect(`/os/fakture/${issued.id}?doc=iz-predracuna`);
 }
 
 /**
