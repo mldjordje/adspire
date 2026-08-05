@@ -55,6 +55,7 @@ export default async function InvoicesPage() {
                   <th>Rok</th>
                   <th>Iznos</th>
                   <th>Status</th>
+                  <th>Poslato</th>
                   <th>PDF</th>
                 </tr>
               </thead>
@@ -74,6 +75,15 @@ export default async function InvoicesPage() {
                         status={invoice.status}
                         overdue={Boolean(invoice.dueDate && invoice.dueDate < today)}
                       />
+                    </td>
+                    <td>
+                      {invoice.sentAt ? (
+                        formatDate(invoice.sentAt)
+                      ) : invoice.status === "cancelled" ? (
+                        "—"
+                      ) : (
+                        <span className="os-badge os-badge--muted">nije poslato</span>
+                      )}
                     </td>
                     <td>
                       <a href={`/api/os/fakture/${invoice.id}/pdf`}>preuzmi</a>

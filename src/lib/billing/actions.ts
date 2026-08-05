@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { getSql } from "@/lib/db";
 import { InvoiceConfigurationError, issueInvoice } from "@/lib/invoices/issue";
+import { sendInvoiceMail } from "@/lib/invoices/notify";
 import { belgradeToday, invoiceScope, type InvoiceKind } from "@/lib/invoices/rules";
 import { getSession } from "@/lib/os/session";
 import { updateSettings } from "@/lib/os/settings";
@@ -146,6 +147,32 @@ export async function createInvoiceAction(formData: FormData) {
 
   revalidatePath("/os/fakture");
   redirect(`/os/fakture/${invoiceId}`);
+}
+
+/**
+ * Sends the document to the buyer with its PDF attached.
+ *
+ * `sent_at` is written only on success, so the screen never claims a delivery
+ * that did not happen; the failed attempt is still in the correspondence log
+ * with its reason.
+ */
+export async function sendInvoiceAction(formData: FormData) {
+  const session = await requireSession();
+  const id = text(formData, "id");
+  if (!id) return;
+
+  const result = await sendInvoiceMail(id, { createdBy: session.email });
+
+  if (result.ok) {
+    const sql = getSql();
+    await sql`update invoices set sent_at = now(), updated_at = now() where id = ${id}`;
+  }
+
+  revalidatePath("/os/fakture");
+  revalidatePath(`/os/fakture/${id}`);
+  redirect(
+    `/os/fakture/${id}?mail=${result.ok ? "poslato" : result.reason}`,
+  );
 }
 
 export async function setInvoiceStatusAction(formData: FormData) {

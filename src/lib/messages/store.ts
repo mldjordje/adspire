@@ -1,7 +1,7 @@
 import "server-only";
 
 import { getSql } from "@/lib/db";
-import { deliverMail } from "@/lib/mail";
+import { deliverMail, type MailAttachment } from "@/lib/mail";
 import { mailReplyTo } from "@/lib/env";
 
 /**
@@ -67,6 +67,7 @@ export type LogMessageInput = {
   leadId?: string | null;
   inquiryId?: string | null;
   clientId?: string | null;
+  invoiceId?: string | null;
   direction?: "out" | "in";
   channel?: string;
   toEmail?: string | null;
@@ -83,10 +84,11 @@ export async function logMessage(input: LogMessageInput): Promise<void> {
   const sql = getSql();
   await sql`
     insert into messages (
-      lead_id, inquiry_id, client_id, direction, channel, to_email, subject,
-      body, status, provider, provider_id, error, created_by
+      lead_id, inquiry_id, client_id, invoice_id, direction, channel, to_email,
+      subject, body, status, provider, provider_id, error, created_by
     ) values (
       ${input.leadId ?? null}, ${input.inquiryId ?? null}, ${input.clientId ?? null},
+      ${input.invoiceId ?? null},
       ${input.direction ?? "out"}, ${input.channel ?? "email"}, ${input.toEmail ?? null},
       ${input.subject ?? null}, ${input.body}, ${input.status ?? "sent"},
       ${input.provider ?? null}, ${input.providerId ?? null}, ${input.error ?? null},
@@ -102,6 +104,10 @@ export type SendAndLogInput = {
   leadId?: string | null;
   inquiryId?: string | null;
   clientId?: string | null;
+  invoiceId?: string | null;
+  cc?: string | null;
+  bcc?: string | null;
+  attachments?: MailAttachment[];
   createdBy?: string | null;
 };
 
@@ -114,13 +120,18 @@ export async function sendAndLog(input: SendAndLogInput): Promise<SendAndLogResu
     subject: input.subject,
     text: input.body,
     replyTo: mailReplyTo() ?? undefined,
+    cc: input.cc,
+    bcc: input.bcc,
+    attachments: input.attachments,
   });
 
   await logMessage({
     leadId: input.leadId,
     inquiryId: input.inquiryId,
     clientId: input.clientId,
-    toEmail: input.to,
+    invoiceId: input.invoiceId,
+    // The Cc is part of who was told, so it belongs in the record.
+    toEmail: input.cc ? `${input.to}, ${input.cc}` : input.to,
     subject: input.subject,
     body: input.body,
     status: result.ok ? "sent" : result.provider === null ? "skipped" : "failed",
@@ -141,6 +152,18 @@ export async function listMessagesForLead(leadId: string, limit = 50): Promise<M
   const rows = (await sql.query(
     `${SELECT} where lead_id = $1 order by created_at desc limit $2`,
     [leadId, limit],
+  )) as RawMessage[];
+  return rows.map(toRow);
+}
+
+export async function listMessagesForInvoice(
+  invoiceId: string,
+  limit = 20,
+): Promise<MessageRow[]> {
+  const sql = getSql();
+  const rows = (await sql.query(
+    `${SELECT} where invoice_id = $1 order by created_at desc limit $2`,
+    [invoiceId, limit],
   )) as RawMessage[];
   return rows.map(toRow);
 }

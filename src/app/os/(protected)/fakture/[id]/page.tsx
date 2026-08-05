@@ -1,44 +1,81 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { formatDate, InvoiceStatusBadge, money } from "@/components/os/billingUi";
-import { setInvoiceStatusAction } from "@/lib/billing/actions";
+import { formatDateTime } from "@/components/os/leadUi";
+import { Timeline } from "@/components/os/Timeline";
+import { sendInvoiceAction, setInvoiceStatusAction } from "@/lib/billing/actions";
 import { getInvoiceDetail } from "@/lib/invoices/queries";
+import { listMessagesForInvoice } from "@/lib/messages/store";
 
 export const dynamic = "force-dynamic";
 
+const MAIL_FLASH: Record<string, { tone: "ok" | "bad"; text: string }> = {
+  poslato: { tone: "ok", text: "Dokument je poslat klijentu, sa PDF-om u prilogu." },
+  "no-email": {
+    tone: "bad",
+    text: "Klijent nema mejl adresu. Upiši je na kartici klijenta, pa pošalji ponovo.",
+  },
+  "send-failed": {
+    tone: "bad",
+    text: "Slanje nije uspelo. Razlog je zapisan u prepisci ispod.",
+  },
+  "not-found": { tone: "bad", text: "Dokument nije pronađen." },
+};
+
 export default async function InvoiceDetailPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ id: string }>;
+  searchParams: Promise<{ mail?: string }>;
 }) {
-  const { id } = await params;
+  const [{ id }, { mail }] = await Promise.all([params, searchParams]);
   const invoice = await getInvoiceDetail(id);
   if (!invoice) notFound();
 
+  const messages = await listMessagesForInvoice(id).catch(() => []);
+  const flash = mail ? MAIL_FLASH[mail] : undefined;
   const title = invoice.kind === "proforma" ? "Predračun" : "Račun";
+  const recipient = invoice.buyer.email ?? null;
 
   return (
     <>
-      <p className="os-sub">
+      <p className="os-crumbs">
         <Link href="/os/fakture">← Fakture</Link>
       </p>
       <h1 className="os-h1">
         {title} {invoice.number} <InvoiceStatusBadge status={invoice.status} />
+        {invoice.sentAt ? <span className="os-badge">Poslato</span> : null}
       </h1>
       <p className="os-sub">
         {invoice.clientName} · {money(invoice.total, invoice.currency)}
+        {invoice.sentAt ? ` · poslato ${formatDateTime(invoice.sentAt)}` : ""}
       </p>
 
+      {flash ? (
+        <p className={`os-flash is-${flash.tone}`} role="status">
+          {flash.text}
+        </p>
+      ) : null}
+
       <section className="os-section">
-        <p className="os-stageform">
-          <a className="os-btn" href={`/api/os/fakture/${invoice.id}/pdf`}>
+        <div className="os-actions">
+          <a className="os-btn os-btn--ghost os-btn--sm" href={`/api/os/fakture/${invoice.id}/pdf`}>
             Preuzmi PDF
           </a>
+          {invoice.status !== "cancelled" ? (
+            <form action={sendInvoiceAction}>
+              <input type="hidden" name="id" value={invoice.id} />
+              <button className="os-btn os-btn--sm" type="submit">
+                {invoice.sentAt ? "Pošalji ponovo" : `Pošalji ${title.toLowerCase()} klijentu`}
+              </button>
+            </form>
+          ) : null}
           {invoice.status !== "paid" ? (
             <form action={setInvoiceStatusAction}>
               <input type="hidden" name="id" value={invoice.id} />
               <input type="hidden" name="status" value="paid" />
-              <button className="os-btn os-btn--ghost" type="submit">
+              <button className="os-btn os-btn--ghost os-btn--sm" type="submit">
                 Označi kao plaćeno
               </button>
             </form>
@@ -46,7 +83,7 @@ export default async function InvoiceDetailPage({
             <form action={setInvoiceStatusAction}>
               <input type="hidden" name="id" value={invoice.id} />
               <input type="hidden" name="status" value="issued" />
-              <button className="os-btn os-btn--ghost" type="submit">
+              <button className="os-btn os-btn--ghost os-btn--sm" type="submit">
                 Vrati na neplaćeno
               </button>
             </form>
@@ -55,17 +92,25 @@ export default async function InvoiceDetailPage({
             <form action={setInvoiceStatusAction}>
               <input type="hidden" name="id" value={invoice.id} />
               <input type="hidden" name="status" value="cancelled" />
-              <button className="os-btn os-btn--ghost" type="submit">
+              <button className="os-btn os-btn--ghost os-btn--sm" type="submit">
                 Storniraj
               </button>
             </form>
           ) : null}
-        </p>
-        <p className="os-note">
-          Dokument se ne menja posle izdavanja — greška se ispravlja storniranjem i novim
+        </div>
+        <p className="os-note" style={{ marginTop: 12 }}>
+          Šalje se na <strong>{recipient ?? "— klijent nema mejl —"}</strong>, kopija ide na tvoju
+          adresu. Dokument se ne menja posle izdavanja — greška se ispravlja storniranjem i novim
           dokumentom, jer je broj već dodeljen.
         </p>
       </section>
+
+      {messages.length > 0 ? (
+        <section className="os-section">
+          <h2>Prepiska o ovom dokumentu</h2>
+          <Timeline messages={messages} activities={[]} />
+        </section>
+      ) : null}
 
       <section className="os-section">
         <h2>Stavke</h2>

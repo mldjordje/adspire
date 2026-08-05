@@ -10,6 +10,9 @@ export type InvoiceListRow = {
   number: string;
   kind: InvoiceKind;
   status: InvoiceStatus;
+  /** null means the client has never received it — the most common reason an
+   *  invoice goes unpaid is that it was never sent. */
+  sentAt: string | null;
   issueDate: string;
   dueDate: string | null;
   currency: string;
@@ -25,6 +28,7 @@ type RawList = {
   status: InvoiceStatus;
   issue_date: string;
   due_date: string | null;
+  sent_at: string | null;
   currency: string;
   total: string;
   client_name: string | null;
@@ -37,6 +41,7 @@ const toRow = (raw: RawList): InvoiceListRow => ({
   number: raw.number,
   kind: raw.kind,
   status: raw.status,
+  sentAt: raw.sent_at,
   issueDate: raw.issue_date.slice(0, 10),
   dueDate: raw.due_date?.slice(0, 10) ?? null,
   currency: raw.currency,
@@ -51,7 +56,7 @@ const toRow = (raw: RawList): InvoiceListRow => ({
 // objects and shift the calendar day — see the note in src/lib/db.ts.
 const LIST_SELECT = `
   select i.id, i.number, i.kind, i.status, i.issue_date::text, i.due_date::text,
-         i.currency, i.total, c.company_name as client_name,
+         i.sent_at::text, i.currency, i.total, c.company_name as client_name,
          i.buyer->>'companyName' as buyer_name, i.period_label
   from invoices i
   left join clients c on c.id = i.client_id
@@ -73,6 +78,7 @@ export async function listInvoices(options: { clientId?: string; limit?: number 
 }
 
 export type InvoiceDetail = InvoiceListRow & {
+  sentAt: string | null;
   scope: InvoiceScope;
   supplyDate: string | null;
   place: string;
@@ -95,9 +101,10 @@ export async function getInvoiceDetail(id: string): Promise<InvoiceDetail | null
 
   const extra = (await sql`
     select scope, supply_date::text, place, payment_method, bank_account, total_rsd,
-           fx_rate, vat_note, note, paid_at::text, client_id, buyer
+           fx_rate, vat_note, note, paid_at::text, sent_at::text, client_id, buyer
     from invoices where id = ${id}
   `) as {
+    sent_at: string | null;
     scope: InvoiceScope;
     supply_date: string | null;
     place: string;
@@ -120,6 +127,7 @@ export async function getInvoiceDetail(id: string): Promise<InvoiceDetail | null
   const meta = extra[0];
   return {
     ...toRow(rows[0]),
+    sentAt: meta.sent_at,
     scope: meta.scope,
     supplyDate: meta.supply_date?.slice(0, 10) ?? null,
     place: meta.place,

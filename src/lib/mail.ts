@@ -16,12 +16,24 @@ import { mailReplyTo, readResendEnv, readSmtpEnv } from "@/lib/env";
  * boolean for the callers that only care whether it left.
  */
 
+export type MailAttachment = {
+  filename: string;
+  /** PDF bytes. Base64-encoded for Resend, passed through for nodemailer. */
+  content: Buffer;
+  contentType?: string;
+};
+
 export type MailInput = {
   to: string;
   subject: string;
   /** Plain text. Rendered into simple HTML so line breaks survive every client. */
   text: string;
   replyTo?: string;
+  cc?: string | null;
+  /** A copy for the owner. SMTP leaves nothing in the cPanel "Sent" folder, so
+   *  a Bcc to self is the only way a sent document also lands in webmail. */
+  bcc?: string | null;
+  attachments?: MailAttachment[];
 };
 
 export type MailResult = {
@@ -58,10 +70,16 @@ async function sendViaResend(input: MailInput): Promise<MailResult | null> {
       body: JSON.stringify({
         from: resend.from,
         to: [input.to],
+        cc: input.cc ? [input.cc] : undefined,
+        bcc: input.bcc ? [input.bcc] : undefined,
         subject: input.subject,
         text: input.text,
         html: toHtml(input.text),
         reply_to: input.replyTo ?? mailReplyTo() ?? undefined,
+        attachments: input.attachments?.map((file) => ({
+          filename: file.filename,
+          content: file.content.toString("base64"),
+        })),
       }),
     });
 
@@ -101,10 +119,17 @@ async function sendViaSmtp(input: MailInput): Promise<MailResult | null> {
     const info = await transporter.sendMail({
       from: `"Adspire Digital" <${smtp.user}>`,
       to: input.to,
+      cc: input.cc ?? undefined,
+      bcc: input.bcc ?? undefined,
       replyTo: input.replyTo ?? mailReplyTo() ?? undefined,
       subject: input.subject,
       text: input.text,
       html: toHtml(input.text),
+      attachments: input.attachments?.map((file) => ({
+        filename: file.filename,
+        content: file.content,
+        contentType: file.contentType ?? "application/pdf",
+      })),
     });
 
     return { ok: true, provider: "smtp", id: info.messageId ?? null, error: null };
