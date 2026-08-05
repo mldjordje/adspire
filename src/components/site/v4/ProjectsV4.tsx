@@ -123,7 +123,7 @@ export function ProjectsV4({ locale = "sr" }: { locale?: LocaleCode }) {
         <p className={styles.ctaText}>
           Ispričajte nam problem — vraćamo konkretan predlog i prototip za 48h.
         </p>
-        <a className={styles.ctaButton} href="/contact-us" data-cursor="on" data-magnetic>
+        <a className={styles.ctaButton} href="/upit" data-cursor="on" data-magnetic>
           Zakaži besplatan poziv →
         </a>
       </section>

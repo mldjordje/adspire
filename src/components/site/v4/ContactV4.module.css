@@ -54,6 +54,36 @@ a.channelValue:hover {
   color: var(--accent);
 }
 
+.briefCta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px 18px;
+  border: 1px solid rgba(47, 107, 255, 0.5);
+  border-radius: 14px;
+  background: rgba(47, 107, 255, 0.1);
+  text-decoration: none;
+  transition: background 0.3s, border-color 0.3s;
+}
+
+.briefCta:hover {
+  background: rgba(47, 107, 255, 0.2);
+  border-color: #2f6bff;
+}
+
+.briefCtaLabel {
+  font-family: var(--font-d);
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--ink);
+}
+
+.briefCtaBody {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink-dim);
+}
+
 .steps {
   display: flex;
   flex-direction: column;

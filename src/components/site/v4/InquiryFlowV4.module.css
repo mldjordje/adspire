@@ -1,0 +1,507 @@
+/* ═══ Upit — service brief form ═══ */
+
+.wrap {
+  --blue: #2f6bff;
+  --blue-soft: rgba(47, 107, 255, 0.16);
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: clamp(20px, 4vh, 50px) clamp(20px, 4vw, 56px) clamp(60px, 10vh, 120px);
+}
+
+.dot {
+  color: var(--blue);
+}
+
+.eyebrow {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--blue);
+}
+
+/* ─── Form shell ─── */
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(26px, 3.4vh, 40px);
+  padding: clamp(24px, 3vw, 44px);
+  background: linear-gradient(150deg, #14141c, #0a0a0f);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+}
+
+.progress {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.progressTrack {
+  flex: 1;
+  height: 2px;
+  background: var(--line);
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 2px;
+  background: var(--blue);
+  transition: width 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.progressValue {
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-dim);
+}
+
+.block {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(14px, 1.8vh, 20px);
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.legend {
+  padding: 0;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.counter {
+  color: var(--ink-dim);
+  letter-spacing: 0.08em;
+}
+
+.restored {
+  margin: 0;
+  padding: 12px 16px;
+  border: 1px solid var(--line);
+  border-left: 2px solid var(--blue);
+  border-radius: 12px;
+  font-size: 13px;
+  color: var(--ink-dim);
+}
+
+.linkBtn {
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--blue);
+  font-size: 13px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* ─── Service picker ─── */
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border: 1px solid var(--blue);
+  border-radius: 999px;
+  background: var(--blue-soft);
+  color: var(--ink);
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.chip:hover {
+  background: rgba(47, 107, 255, 0.28);
+}
+
+.search {
+  background: rgba(6, 6, 8, 0.6);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px 16px;
+  color: var(--ink);
+  font-family: var(--font-b);
+  font-size: 14px;
+}
+
+.search:focus {
+  outline: none;
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px var(--blue-soft);
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 12px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: left;
+  padding: 16px 18px;
+  background: rgba(6, 6, 8, 0.6);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  cursor: pointer;
+  transition: border-color 0.3s, background 0.3s, opacity 0.3s;
+}
+
+.card:hover:not(:disabled) {
+  border-color: rgba(47, 107, 255, 0.5);
+}
+
+.card:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.cardActive {
+  border-color: var(--blue);
+  background: var(--blue-soft);
+}
+
+.cardTitle {
+  font-family: var(--font-d);
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--ink);
+}
+
+.cardSummary {
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--ink-dim);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ─── Buyer type toggle ─── */
+
+.toggle {
+  display: inline-flex;
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  align-self: flex-start;
+}
+
+.toggleBtn {
+  min-height: 40px;
+  padding: 0 22px;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink-dim);
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+}
+
+.toggleActive {
+  background: var(--blue);
+  color: #f6f8ff;
+}
+
+/* ─── Fields ─── */
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(14px, 1.6vw, 20px);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.field > span {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+
+.field input,
+.field textarea,
+.field select {
+  background: rgba(6, 6, 8, 0.6);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 14px 16px;
+  color: var(--ink);
+  font-family: var(--font-b);
+  font-size: 15px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  resize: vertical;
+}
+
+.field select {
+  appearance: none;
+  cursor: pointer;
+  background-image: linear-gradient(45deg, transparent 50%, var(--ink-dim) 50%),
+    linear-gradient(135deg, var(--ink-dim) 50%, transparent 50%);
+  background-position: calc(100% - 20px) 22px, calc(100% - 14px) 22px;
+  background-size: 6px 6px;
+  background-repeat: no-repeat;
+  padding-right: 40px;
+}
+
+.field select option {
+  background: #06060a;
+  color: var(--ink);
+}
+
+.field input:focus,
+.field textarea:focus,
+.field select:focus {
+  outline: none;
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px var(--blue-soft);
+}
+
+.field [aria-invalid="true"] {
+  border-color: #ff6b6b;
+}
+
+.hint {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.5;
+  font-style: normal;
+  color: var(--ink-dim);
+}
+
+.error {
+  margin: 0;
+  font-size: 12.5px;
+  font-style: normal;
+  color: #ff8a8a;
+}
+
+/* Honeypot — off-screen, never focusable, invisible to real users. */
+.honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.consent input {
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  flex: none;
+  accent-color: var(--blue);
+  cursor: pointer;
+}
+
+.consent span {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink-dim);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: 0.04em;
+  color: #f6f8ff;
+  background: var(--blue);
+  border: none;
+  border-radius: 999px;
+  padding: 16px 34px;
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow: 0 0 34px rgba(47, 107, 255, 0.35);
+  transition: box-shadow 0.3s, background 0.3s, opacity 0.3s;
+}
+
+.submit:hover {
+  box-shadow: 0 0 60px rgba(47, 107, 255, 0.55);
+  background: #4a7dff;
+}
+
+.submit:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px 30px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--ink);
+  font-size: 15px;
+  text-decoration: none;
+  transition: border-color 0.3s, color 0.3s;
+}
+
+.ghost:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+}
+
+/* ─── Sent ─── */
+
+.sent {
+  padding: clamp(26px, 3vw, 48px);
+  background: linear-gradient(150deg, #14141c, #0a0a0f);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+}
+
+.sentTitle {
+  margin: 14px 0 0;
+  font-family: var(--font-d);
+  font-weight: 700;
+  font-size: clamp(28px, 4vw, 46px);
+  color: var(--ink);
+}
+
+.sentBody {
+  margin: 16px 0 0;
+  max-width: 56ch;
+  line-height: 1.6;
+  color: var(--ink-dim);
+}
+
+.steps {
+  list-style: none;
+  margin: clamp(22px, 3vh, 32px) 0 0;
+  padding: clamp(22px, 3vh, 30px) 0 0;
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.steps li {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.stepNum {
+  font-family: var(--font-d);
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  color: var(--blue);
+  padding-top: 2px;
+}
+
+.stepText {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--ink-dim);
+}
+
+.sentActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin: clamp(24px, 3vh, 34px) 0 18px;
+}
+
+/* ─── Sticky send bar (phones only) ─── */
+
+.stickyBar {
+  display: none;
+}
+
+/* ─── Mobile ─── */
+
+@media (max-width: 720px) {
+  .row {
+    grid-template-columns: 1fr;
+  }
+
+  .form {
+    /* Room for the bar, so it never covers the consent checkbox. */
+    padding-bottom: 20px;
+  }
+
+  /* Sticky, not fixed: the page shell animates its sections with a transform,
+     and a transformed ancestor makes `position: fixed` resolve against that
+     element instead of the viewport — the bar would sit thousands of pixels
+     down the page. Sticky is unaffected by that. */
+  .stickyBar {
+    position: sticky;
+    bottom: 12px;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 14px;
+    background: rgba(8, 8, 12, 0.94);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+  }
+
+  .stickyProgress {
+    font-size: 13px;
+    color: var(--ink-dim);
+  }
+
+  .stickySubmit {
+    flex: 0 0 auto;
+    padding: 13px 26px;
+    border: none;
+    border-radius: 999px;
+    background: var(--blue);
+    color: #f6f8ff;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .stickySubmit:disabled {
+    opacity: 0.6;
+    cursor: wait;
+  }
+}

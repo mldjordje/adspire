@@ -29,13 +29,18 @@ const AI_AGENTS = [
   "Diffbot",
 ];
 
+// The brief itself (/upit) is a landing page and stays indexable. What must
+// never be crawled: the private status link that is a buyer's credential, and
+// the client account behind it.
+const PRIVATE = ["/api/", "/os", "/upit/status/", "/nalog"];
+
 export default function robots(): MetadataRoute.Robots {
   const base = getSiteUrl();
   return {
     rules: [
-      { userAgent: "*", allow: "/", disallow: ["/api/", "/os"] },
+      { userAgent: "*", allow: "/", disallow: PRIVATE },
       // Explicit allow for AI crawlers — never leave recommendation traffic to chance.
-      { userAgent: AI_AGENTS, allow: "/", disallow: ["/api/", "/os"] },
+      { userAgent: AI_AGENTS, allow: "/", disallow: PRIVATE },
     ],
     sitemap: `${base}/sitemap.xml`,
     host: base,

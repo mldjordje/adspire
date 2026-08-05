@@ -2,12 +2,17 @@ import Link from "next/link";
 import { LeadTable, STATUS_LABELS } from "@/components/os/leadUi";
 import { getDashboardData } from "@/lib/crm/queries";
 import { getBillingSummary } from "@/lib/invoices/queries";
+import { getInquirySummary } from "@/lib/inquiries/store";
 import { money } from "@/components/os/billingUi";
 
 export const dynamic = "force-dynamic";
 
 export default async function OsDashboardPage() {
-  const [data, billing] = await Promise.all([getDashboardData(), getBillingSummary()]);
+  const [data, billing, inquiries] = await Promise.all([
+    getDashboardData(),
+    getBillingSummary(),
+    getInquirySummary(),
+  ]);
   const stageMax = Math.max(1, ...data.byStage.map((s) => s.count));
 
   return (
@@ -33,6 +38,26 @@ export default async function OsDashboardPage() {
           <div className="os-card__value">{data.open}</div>
         </div>
       </div>
+
+      <section className="os-section">
+        <h2>
+          Upiti <Link href="/os/upiti">→ svi upiti</Link>
+        </h2>
+        <div className="os-cards">
+          <div className={`os-card${inquiries.waiting > 0 ? " os-card--alert" : ""}`}>
+            <div className="os-card__label">Čeka ponudu</div>
+            <div className="os-card__value">{inquiries.waiting}</div>
+          </div>
+          <div className="os-card">
+            <div className="os-card__label">Ponuda poslata</div>
+            <div className="os-card__value">{inquiries.quoted}</div>
+          </div>
+          <div className="os-card">
+            <div className="os-card__label">Prihvaćeno</div>
+            <div className="os-card__value">{inquiries.accepted}</div>
+          </div>
+        </div>
+      </section>
 
       <section className="os-section">
         <h2>

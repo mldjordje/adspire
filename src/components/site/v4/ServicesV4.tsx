@@ -198,7 +198,7 @@ export function ServicesV4() {
           Zakažite besplatan poziv. Kažemo vam tačno šta bi vam donelo najviše — pre nego što
           potrošite dinar.
         </p>
-        <a className={styles.ctaButton} href="/contact-us" data-cursor="on" data-magnetic>
+        <a className={styles.ctaButton} href="/upit" data-cursor="on" data-magnetic>
           Zakaži besplatan poziv →
         </a>
       </section>

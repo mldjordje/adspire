@@ -13,6 +13,9 @@ export type ContactCopy = {
   channels: { email: string; phone: string; location: string; languages: string };
   locationValue: string;
   steps: string[];
+  /** Cross-link to the brief at /upit: this page is for questions, that one is
+   *  the path to a written quote. */
+  briefCta: { label: string; body: string };
   labels: {
     fullName: string;
     company: string;
@@ -44,6 +47,10 @@ const sr: ContactCopy = {
     "Besplatan poziv od 30 minuta. Kažemo vam tačno šta bi vam donelo najviše klijenata ili uštedelo najviše vremena — pre nego što potrošite dinar.",
   channels: { email: "Email", phone: "Telefon", location: "Lokacija", languages: "Jezici" },
   locationValue: "Niš, Srbija",
+  briefCta: {
+    label: "Popuni upit →",
+    body: "Znaš već šta ti treba? Upit daje konkretan brief — cena i rok stižu na mejl, bez naloga.",
+  },
   steps: [
     "Javimo se u roku od 24h — bez auto-odgovora.",
     "Kratak poziv od 30 minuta da razumemo cilj i rok.",
@@ -93,6 +100,10 @@ const en: ContactCopy = {
     "A free 30-minute call. We tell you exactly what would bring the most clients or save the most time — before you spend a cent.",
   channels: { email: "Email", phone: "Phone", location: "Location", languages: "Languages" },
   locationValue: "Niš, Serbia",
+  briefCta: {
+    label: "Send a brief →",
+    body: "Already know what you need? The brief gets you a written price and timeline by email — no account.",
+  },
   steps: [
     "We reply within 24h — no autoresponders.",
     "A short 30-minute call to understand the goal and the deadline.",
@@ -148,6 +159,10 @@ const de: ContactCopy = {
     "Ein kostenloses 30-Minuten-Gespräch. Wir sagen Ihnen genau, was die meisten Kunden bringt oder die meiste Zeit spart — bevor Sie einen Cent ausgeben.",
   channels: { email: "E-Mail", phone: "Telefon", location: "Standort", languages: "Sprachen" },
   locationValue: "Niš, Serbien",
+  briefCta: {
+    label: "Anfrage senden →",
+    body: "Sie wissen schon, was Sie brauchen? Die Anfrage bringt Preis und Termin per E-Mail — ohne Konto.",
+  },
   steps: [
     "Wir antworten innerhalb von 24 Stunden — ohne Autoresponder.",
     "Ein kurzes 30-Minuten-Gespräch zu Ziel und Termin.",

@@ -4,6 +4,7 @@ import { logout } from "@/app/os/login/actions";
 const LINKS = [
   ["/os", "Pregled"],
   ["/os/leads", "Leadovi"],
+  ["/os/upiti", "Upiti"],
   ["/os/pipeline", "Pipeline"],
   ["/os/klijenti", "Klijenti"],
   ["/os/fakture", "Fakture"],

@@ -19,6 +19,7 @@ const PAGES = [
   { href: "/our-services", label: "Usluge" },
   { href: "/about-us", label: "O nama" },
   { href: "/blog", label: "Blog" },
+  { href: "/upit", label: "Zatraži ponudu" },
   { href: "/contact-us", label: "Kontakt" },
 ];
 

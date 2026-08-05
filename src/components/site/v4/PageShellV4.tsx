@@ -24,6 +24,7 @@ const FOOTER_LINKS = [
   { href: "/our-services", label: "Usluge" },
   { href: "/about-us", label: "O nama" },
   { href: "/blog", label: "Blog" },
+  { href: "/upit", label: "Upit" },
   { href: "/contact-us", label: "Kontakt" },
 ];
 
@@ -142,8 +143,8 @@ export function PageShellV4({ eyebrow, title, intro, children }: PageShellProps)
           <a href="/about-us" data-cursor="on">O nama</a>
         </nav>
         <div className={styles.navRight}>
-          <a className={styles.navCta} href="/contact-us" data-cursor="on" data-magnetic>
-            Kontakt<span className={styles.navClock}> · NIŠ {clock}</span>
+          <a className={styles.navCta} href="/upit" data-cursor="on" data-magnetic>
+            Zatraži ponudu<span className={styles.navClock}> · NIŠ {clock}</span>
           </a>
           <MobileMenuV4 breakpoint="md" />
         </div>

@@ -14,3 +14,15 @@ public/new-videos/
 .vercel
 .env*
 tsconfig.tsbuildinfo
+
+# Local agent / tooling scratch — never part of the product.
+.agents/
+.claw/
+.continue/
+graphify-out/
+skills-lock.json
+
+# Working screenshots and exports kept at the repo root.
+*.png
+!public/**/*.png
+!src/**/*.png

@@ -46,8 +46,15 @@ export function ServiceDetailV4({ service, catalog }: ServiceDetailV4Props) {
               </span>
             ))}
           </div>
-          <a className={styles.panelButton} href="/contact-us" data-cursor="on" data-magnetic>
-            Zatrazi predlog
+          {/* The brief, with this service already ticked — a price needs the
+              scope, and the contact form does not ask for it. */}
+          <a
+            className={styles.panelButton}
+            href={`/upit/${service.slug}`}
+            data-cursor="on"
+            data-magnetic
+          >
+            Zatrazi ponudu
           </a>
         </aside>
       </section>
@@ -77,8 +84,8 @@ export function ServiceDetailV4({ service, catalog }: ServiceDetailV4Props) {
       <section className={styles.cta} data-reveal>
         <h2>Da li je ovo prava usluga za vas?</h2>
         <p>Posaljite nam cilj i trenutni problem. Vracamo konkretan plan, rok i prvi prototip.</p>
-        <a href="/contact-us" data-cursor="on" data-magnetic>
-          Zakazi besplatan poziv
+        <a href={`/upit/${service.slug}`} data-cursor="on" data-magnetic>
+          Posalji upit
         </a>
       </section>
     </PageShellV4>

@@ -6,6 +6,13 @@ module.exports = {
   autoLastmod: false,
   exclude: [
     "/api/*",
+    "/os",
+    "/os/*",
+    // A status link is a credential, and the account is per-buyer. Neither is
+    // a page anyone can reach without one.
+    "/upit/status/*",
+    "/nalog",
+    "/nalog/*",
     "/404",
     "/500",
     "/robots.txt",
@@ -67,6 +74,7 @@ module.exports = {
       "/blog",
       "/our-projects",
       "/our-services",
+      "/upit",
       "/izrada-sajta-i-aplikacija-nis",
     ].includes(cleanPath);
 

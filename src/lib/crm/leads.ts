@@ -1,11 +1,40 @@
 import "server-only";
 
 import { getSql } from "@/lib/db";
-import type { LeadSubmission } from "./validation";
 
 export type LeadIntakeResult = {
   leadId: string;
   created: boolean;
+};
+
+/**
+ * What the funnel needs to record one submission.
+ *
+ * Structural rather than tied to the contact form's `LeadSubmission`: the upit
+ * form (src/lib/inquiries) asks a different set of questions and still has to
+ * land in the same pipeline, so both callers build this shape instead of the
+ * brief being copied into a second, parallel intake.
+ */
+export type LeadIntakeInput = {
+  requestId: string;
+  fullName: string;
+  email: string;
+  company?: string;
+  phone?: string;
+  market: string;
+  service: string;
+  message: string;
+  budgetRange?: string | null;
+  timeline?: string | null;
+  attribution: {
+    landingPage?: string | null;
+    referrer?: string | null;
+    utmSource?: string | null;
+    utmMedium?: string | null;
+    utmCampaign?: string | null;
+    utmContent?: string | null;
+    utmTerm?: string | null;
+  };
 };
 
 /**
@@ -21,7 +50,7 @@ export type LeadIntakeResult = {
  * contact row without a lead if the last insert fails — a stray contact, not a
  * lost or duplicated lead.
  */
-export async function createLeadIntake(submission: LeadSubmission): Promise<LeadIntakeResult> {
+export async function createLeadIntake(submission: LeadIntakeInput): Promise<LeadIntakeResult> {
   const sql = getSql();
   const attribution = submission.attribution ?? {};
 

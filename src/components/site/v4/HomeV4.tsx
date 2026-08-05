@@ -685,7 +685,7 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
               </Link>
             ))}
           </div>
-          <a className={styles.navCta} href="/contact-us" data-cursor="on" data-magnetic data-scramble>
+          <a className={styles.navCta} href="/upit" data-cursor="on" data-magnetic data-scramble>
             {t.nav.cta}
           </a>
           <MobileMenuV4

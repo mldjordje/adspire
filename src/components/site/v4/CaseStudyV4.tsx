@@ -146,7 +146,7 @@ export function CaseStudyV4({ project, content }: CaseStudyV4Props) {
         <h2 className={styles.ctaTitle}>{content.ctaTitle || "Želiš sličan sistem?"}</h2>
         {content.ctaText ? <p className={styles.ctaText}>{content.ctaText}</p> : null}
         <div className={styles.ctaActions}>
-          <a className={styles.ctaButton} href="/contact-us" data-cursor="on" data-magnetic>
+          <a className={styles.ctaButton} href="/upit" data-cursor="on" data-magnetic>
             Zakaži besplatan poziv →
           </a>
           <a className={styles.ctaGhost} href="/our-projects" data-cursor="on">

@@ -102,6 +102,12 @@ export function ContactV4({ locale = defaultLocale }: Props) {
               <span className={styles.channelValue}>SR · EN · DE</span>
             </div>
 
+            {/* This page answers questions; a priced brief lives at /upit. */}
+            <a className={styles.briefCta} href="/upit" data-cursor="on">
+              <span className={styles.briefCtaLabel}>{t.briefCta.label}</span>
+              <span className={styles.briefCtaBody}>{t.briefCta.body}</span>
+            </a>
+
             <div className={styles.steps}>
               {t.steps.map((text, i) => (
                 <div key={text} className={styles.step}>
