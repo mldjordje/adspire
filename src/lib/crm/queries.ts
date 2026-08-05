@@ -11,9 +11,11 @@ export type LeadListRow = {
   service: string;
   fullName: string;
   email: string;
+  phone: string | null;
   company: string | null;
   source: string | null;
   landingPage: string | null;
+  followUpOn: string | null;
 };
 
 export type DashboardData = {
@@ -35,14 +37,17 @@ type RawLead = {
   utm_source: string | null;
   referrer: string | null;
   landing_page: string | null;
+  follow_up_on: string | null;
   full_name: string | null;
   email: string | null;
+  phone: string | null;
   company_name: string | null;
 };
 
 const LEAD_SELECT = `
   select l.id, l.created_at::text, l.status, l.market, l.service, l.utm_source,
-         l.referrer, l.landing_page, ct.full_name, ct.email, co.name as company_name
+         l.referrer, l.landing_page, l.follow_up_on::text,
+         ct.full_name, ct.email, ct.phone, co.name as company_name
   from leads l
   left join contacts ct on ct.id = l.contact_id
   left join companies co on co.id = l.company_id
@@ -57,9 +62,11 @@ function toRow(raw: RawLead): LeadListRow {
     service: raw.service,
     fullName: raw.full_name ?? "—",
     email: raw.email ?? "—",
+    phone: raw.phone ?? null,
     company: raw.company_name,
     source: raw.utm_source ?? (raw.referrer ? "referral" : "direct"),
     landingPage: raw.landing_page,
+    followUpOn: raw.follow_up_on,
   };
 }
 
@@ -109,31 +116,50 @@ export async function getDashboardData(): Promise<DashboardData> {
 }
 
 export async function listLeads(
-  options: { status?: LeadStatus; limit?: number } = {},
+  options: { status?: LeadStatus; query?: string; limit?: number } = {},
 ): Promise<LeadListRow[]> {
   const sql = getSql();
   const limit = options.limit ?? 100;
-  const rows = options.status
-    ? ((await sql.query(
-        `${LEAD_SELECT} where l.status = $1 order by l.created_at desc limit $2`,
-        [options.status, limit],
-      )) as RawLead[])
-    : ((await sql.query(
-        `${LEAD_SELECT} order by l.created_at desc limit $1`,
-        [limit],
-      )) as RawLead[]);
+
+  // Built by hand because the filters are optional and the driver has no
+  // query builder. Values stay parameterised — never interpolated.
+  const where: string[] = [];
+  const values: (string | number)[] = [];
+
+  if (options.status) {
+    values.push(options.status);
+    where.push(`l.status = $${values.length}`);
+  }
+  const search = options.query?.trim();
+  if (search) {
+    values.push(`%${search.toLowerCase()}%`);
+    const p = `$${values.length}`;
+    where.push(
+      `(lower(ct.full_name) like ${p} or lower(ct.email) like ${p}
+        or lower(coalesce(co.name, '')) like ${p} or lower(l.message) like ${p})`,
+    );
+  }
+
+  values.push(limit);
+  const rows = (await sql.query(
+    `${LEAD_SELECT}
+     ${where.length ? `where ${where.join(" and ")}` : ""}
+     order by l.created_at desc limit $${values.length}`,
+    values,
+  )) as RawLead[];
   return rows.map(toRow);
 }
 
 export type LeadDetail = LeadListRow & {
   message: string;
-  phone: string | null;
   budgetRange: string | null;
   timeline: string | null;
   referrer: string | null;
   utmMedium: string | null;
   utmCampaign: string | null;
   requestId: string;
+  /** The brief this lead came from, when it came through `/upit`. */
+  inquiry: { id: string; reference: string } | null;
   activities: { id: string; type: string; body: string | null; createdAt: string }[];
 };
 
@@ -142,7 +168,7 @@ export async function getLeadDetail(id: string): Promise<LeadDetail | null> {
   const rows = (await sql`
     select l.id, l.created_at::text, l.status, l.market, l.service, l.utm_source,
            l.referrer, l.landing_page, l.message, l.budget_range, l.timeline,
-           l.utm_medium, l.utm_campaign, l.request_id,
+           l.utm_medium, l.utm_campaign, l.request_id, l.follow_up_on::text,
            ct.full_name, ct.email, ct.phone, co.name as company_name
     from leads l
     left join contacts ct on ct.id = l.contact_id
@@ -155,22 +181,32 @@ export async function getLeadDetail(id: string): Promise<LeadDetail | null> {
     utm_medium: string | null;
     utm_campaign: string | null;
     request_id: string;
-    phone: string | null;
   })[];
 
   const raw = rows[0];
   if (!raw) return null;
 
-  const activities = (await sql`
-    select id, type, body, created_at::text from activities
-    where lead_id = ${id} order by created_at desc limit 50
-  `) as { id: string; type: string; body: string | null; created_at: string }[];
+  const [rawActivities, rawInquiries] = await Promise.all([
+    sql`
+      select id, type, body, created_at::text from activities
+      where lead_id = ${id} order by created_at desc limit 50
+    `,
+    sql`select id, reference from inquiries where lead_id = ${id} limit 1`,
+  ]);
+
+  const activities = rawActivities as {
+    id: string;
+    type: string;
+    body: string | null;
+    created_at: string;
+  }[];
+  const inquiries = rawInquiries as { id: string; reference: string }[];
 
   return {
     ...toRow(raw),
     message: raw.message,
-    phone: raw.phone,
     budgetRange: raw.budget_range,
+    inquiry: inquiries[0] ?? null,
     timeline: raw.timeline,
     referrer: raw.referrer,
     utmMedium: raw.utm_medium,

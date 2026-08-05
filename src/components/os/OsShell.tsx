@@ -1,17 +1,16 @@
 import Link from "next/link";
 import { logout } from "@/app/os/login/actions";
+import { OsNav, type NavCounts } from "./OsNav";
 
-const LINKS = [
-  ["/os", "Pregled"],
-  ["/os/leads", "Leadovi"],
-  ["/os/upiti", "Upiti"],
-  ["/os/pipeline", "Pipeline"],
-  ["/os/klijenti", "Klijenti"],
-  ["/os/fakture", "Fakture"],
-  ["/os/podesavanja", "Podešavanja"],
-] as const;
-
-export function OsShell({ children }: { children: React.ReactNode }) {
+export function OsShell({
+  counts,
+  email,
+  children,
+}: {
+  counts: NavCounts;
+  email: string | null;
+  children: React.ReactNode;
+}) {
   return (
     <div className="os">
       <div className="os-shell">
@@ -19,18 +18,17 @@ export function OsShell({ children }: { children: React.ReactNode }) {
           <Link href="/os" className="os-brand">
             ADSPIRE <span>OS</span>
           </Link>
-          <nav>
-            {LINKS.map(([href, label]) => (
-              <Link key={href} href={href}>
-                {label}
-              </Link>
-            ))}
-          </nav>
-          <form action={logout}>
-            <button className="os-btn os-btn--ghost" type="submit">
-              Odjavi se
-            </button>
-          </form>
+
+          <OsNav counts={counts} />
+
+          <div className="os-sidebar__foot">
+            {email ? <span className="os-sidebar__user">{email}</span> : null}
+            <form action={logout}>
+              <button className="os-btn os-btn--ghost os-btn--sm" type="submit">
+                Odjavi se
+              </button>
+            </form>
+          </div>
         </aside>
         <main className="os-main">{children}</main>
       </div>

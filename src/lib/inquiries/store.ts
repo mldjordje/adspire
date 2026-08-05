@@ -57,6 +57,7 @@ export type InquiryRow = {
   quoted_at: string | null;
   responded_at: string | null;
   decline_reason: string | null;
+  follow_up_on: string | null;
   created_at: string;
 };
 
@@ -66,7 +67,8 @@ const SELECT_COLUMNS = `
   business_name, business_description, brief, budget_eur::float8 as budget_eur,
   status, quoted_amount::float8 as quoted_amount, currency, turnaround_days,
   quote_valid_until::text as quote_valid_until, quote_note, admin_note,
-  quoted_at, responded_at, decline_reason, created_at
+  quoted_at, responded_at, decline_reason, follow_up_on::text as follow_up_on,
+  created_at
 `;
 
 /** DACH is the second market the site sells into — see docs/plan-adspire-2026-h2.md.
@@ -219,11 +221,40 @@ export async function getInquiryById(id: string): Promise<InquiryRow | null> {
   return rows[0] ?? null;
 }
 
-export async function listInquiries(limit = 100): Promise<InquiryRow[]> {
+export async function listInquiries(
+  options: { status?: InquiryStatus; query?: string; limit?: number } | number = {},
+): Promise<InquiryRow[]> {
   const sql = getSql();
+  const opts = typeof options === "number" ? { limit: options } : options;
+  const limit = opts.limit ?? 200;
+
+  const where: string[] = [];
+  const values: (string | number)[] = [];
+
+  if (opts.status) {
+    values.push(opts.status);
+    where.push(`status = $${values.length}`);
+  }
+  const search = opts.query?.trim();
+  if (search) {
+    values.push(`%${search.toLowerCase()}%`);
+    const p = `$${values.length}`;
+    where.push(
+      `(lower(reference) like ${p} or lower(full_name) like ${p} or lower(email) like ${p}
+        or lower(business_name) like ${p} or lower(coalesce(company_name, '')) like ${p})`,
+    );
+  }
+
+  values.push(limit);
   return (await sql.query(
-    `select ${SELECT_COLUMNS} from inquiries order by created_at desc limit $1`,
-    [limit],
+    `select ${SELECT_COLUMNS} from inquiries
+     ${where.length ? `where ${where.join(" and ")}` : ""}
+     order by
+       -- Unanswered briefs first: they are the only rows with a deadline.
+       case when status = 'submitted' then 0 when status = 'quoted' then 1 else 2 end,
+       created_at desc
+     limit $${values.length}`,
+    values,
   )) as InquiryRow[];
 }
 

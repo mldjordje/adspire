@@ -94,31 +94,41 @@ export async function notifyOwnerOfInquiry(
   });
 }
 
+/** The quote's subject and body, exported so `/os` can log and preview exactly
+ *  what the buyer received. */
+export function quoteMailSubject(inquiry: InquiryRow): string {
+  return `Ponuda za upit ${inquiry.reference} — ${serviceTitles(inquiry.services).join(" + ")}`;
+}
+
+export function quoteMailBody(inquiry: InquiryRow): string {
+  const titles = serviceTitles(inquiry.services);
+  return [
+    `Zdravo ${inquiry.full_name.split(" ")[0]},`,
+    "",
+    `Evo procene za: ${titles.join(" + ")}.`,
+    "",
+    `Cena: ${inquiry.quoted_amount != null ? money(inquiry.quoted_amount, inquiry.currency) : "—"}`,
+    ...(inquiry.turnaround_days ? [`Rok izrade: ${inquiry.turnaround_days} dana`] : []),
+    ...(inquiry.quote_valid_until ? [`Ponuda važi do: ${inquiry.quote_valid_until}`] : []),
+    ...(inquiry.quote_note ? ["", inquiry.quote_note] : []),
+    "",
+    "Prihvati ili odbij ovde:",
+    statusUrl(inquiry.access_token),
+    "",
+    "Ako nešto ne stoji, samo odgovori na ovaj mejl — menjamo obim dok ne bude tačno.",
+    "",
+    "Đorđe Milovanović",
+    "Adspire Digital",
+  ].join("\n");
+}
+
 /** The quote itself. Sent when the owner prices the brief in `/os`. */
 export async function notifyBuyerOfQuote(inquiry: InquiryRow): Promise<boolean> {
-  const titles = serviceTitles(inquiry.services);
   return sendMail({
     to: inquiry.email,
     replyTo: "djordje@adspire.rs",
-    subject: `Ponuda za upit ${inquiry.reference} — ${titles.join(" + ")}`,
-    text: [
-      `Zdravo ${inquiry.full_name.split(" ")[0]},`,
-      "",
-      `Evo procene za: ${titles.join(" + ")}.`,
-      "",
-      `Cena: ${inquiry.quoted_amount != null ? money(inquiry.quoted_amount, inquiry.currency) : "—"}`,
-      ...(inquiry.turnaround_days ? [`Rok izrade: ${inquiry.turnaround_days} dana`] : []),
-      ...(inquiry.quote_valid_until ? [`Ponuda važi do: ${inquiry.quote_valid_until}`] : []),
-      ...(inquiry.quote_note ? ["", inquiry.quote_note] : []),
-      "",
-      "Prihvati ili odbij ovde:",
-      statusUrl(inquiry.access_token),
-      "",
-      "Ako nešto ne stoji, samo odgovori na ovaj mejl — menjamo obim dok ne bude tačno.",
-      "",
-      "Đorđe Milovanović",
-      "Adspire Digital",
-    ].join("\n"),
+    subject: quoteMailSubject(inquiry),
+    text: quoteMailBody(inquiry),
   });
 }
 

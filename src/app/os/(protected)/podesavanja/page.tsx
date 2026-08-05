@@ -1,5 +1,6 @@
 import { saveSettingsAction } from "@/lib/billing/actions";
 import { getSettings } from "@/lib/os/settings";
+import { mailTransportStatus } from "@/lib/mail";
 
 export const dynamic = "force-dynamic";
 
@@ -9,11 +10,42 @@ export default async function SettingsPage({
   searchParams: Promise<{ saved?: string }>;
 }) {
   const [settings, { saved }] = await Promise.all([getSettings(), searchParams]);
+  const mail = mailTransportStatus();
 
   return (
     <>
       <h1 className="os-h1">Podešavanja</h1>
       <p className="os-sub">Ovo se štampa na svakom dokumentu.</p>
+
+      <section className="os-section">
+        <h2>Mejl</h2>
+        {mail.provider === null ? (
+          <p className="os-alert" role="alert">
+            Nijedan transport nije podešen — `/os` ne može da pošalje ni ponudu ni odgovor.
+            Popuni <code>RESEND_API_KEY</code> + <code>RESEND_FROM</code> ili <code>SMTP_*</code> u
+            okruženju.
+          </p>
+        ) : (
+          <dl className="os-kv">
+            <dt>Transport</dt>
+            <dd>
+              <span className="os-badge">{mail.provider === "resend" ? "Resend" : "cPanel SMTP"}</span>
+            </dd>
+            <dt>Šalje se sa</dt>
+            <dd>
+              <code>{mail.from}</code>
+            </dd>
+            <dt>Odgovori stižu na</dt>
+            <dd>
+              <code>{mail.replyTo ?? "—"}</code>
+            </dd>
+          </dl>
+        )}
+        <p className="os-note" style={{ marginTop: 12 }}>
+          Transport se menja u okruženju (Vercel → Environment Variables), ne ovde: ključ ne sme
+          u bazu. Postupak je u <code>docs/mail-resend-cpanel.md</code>.
+        </p>
+      </section>
 
       {saved ? <p className="os-note">Sačuvano.</p> : null}
 
