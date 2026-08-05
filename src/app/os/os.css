@@ -1165,6 +1165,22 @@ a.os-card:hover {
   flex: none;
 }
 
+.os-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--os-muted);
+  flex: 0 0 auto;
+}
+
+.os-check input {
+  width: auto;
+  flex: none;
+  accent-color: var(--os-accent);
+}
+
 /* ─── Responsive, workspace layer ─── */
 
 @media (max-width: 1080px) {

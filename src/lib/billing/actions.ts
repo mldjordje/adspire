@@ -18,6 +18,7 @@ import {
   updateClient,
   type ClientInput,
 } from "./clients";
+import { currentPeriod, issueRecurringForClient, runRecurring } from "./recurring";
 
 /** Server actions are public endpoints. Every one of them starts here. */
 async function requireSession() {
@@ -200,6 +201,50 @@ export async function convertProformaAction(formData: FormData) {
   revalidatePath("/os/fakture");
   revalidatePath(`/os/fakture/${id}`);
   redirect(`/os/fakture/${issued.id}?doc=iz-predracuna`);
+}
+
+/**
+ * Monthly maintenance run, from the review screen.
+ *
+ * Sending is opt-in per run: the checkbox is unticked by default because a
+ * wrong figure that was only issued can be cancelled quietly, and one that has
+ * been mailed cannot be unmailed.
+ */
+export async function runRecurringAction(formData: FormData) {
+  const session = await requireSession();
+  const period = text(formData, "period") || currentPeriod();
+  const send = formData.get("send") !== null;
+
+  const outcomes = await runRecurring(period, { send, createdBy: session.email });
+  const issued = outcomes.filter((row) => row.status === "issued").length;
+  const failed = outcomes.filter((row) => row.status === "failed").length;
+  const mailed = outcomes.filter((row) => row.mailed).length;
+
+  revalidatePath("/os/fakture");
+  redirect(
+    `/os/fakture/mesecno?period=${period}&izdato=${issued}&greska=${failed}&poslato=${mailed}`,
+  );
+}
+
+/** One client, one currency — the per-row button on the same screen. */
+export async function issueRecurringClientAction(formData: FormData) {
+  const session = await requireSession();
+  const clientId = text(formData, "clientId");
+  const currency = text(formData, "currency") || "RSD";
+  const period = text(formData, "period") || currentPeriod();
+  const send = formData.get("send") !== null;
+  if (!clientId) return;
+
+  const outcome = await issueRecurringForClient(clientId, currency, period, {
+    send,
+    createdBy: session.email,
+  });
+
+  revalidatePath("/os/fakture");
+  if (outcome?.status === "issued" && outcome.invoiceId) {
+    redirect(`/os/fakture/${outcome.invoiceId}?doc=pretplata`);
+  }
+  redirect(`/os/fakture/mesecno?period=${period}&greska=${outcome ? 1 : 0}`);
 }
 
 /**

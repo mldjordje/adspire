@@ -92,6 +92,9 @@ export default async function InvoicesPage({
               Traži
             </button>
           </form>
+          <Link className="os-btn os-btn--ghost os-btn--sm" href="/os/fakture/mesecno">
+            Mesečne pretplate
+          </Link>
           <Link className="os-btn os-btn--sm" href="/os/fakture/nova">
             Novi dokument
           </Link>
