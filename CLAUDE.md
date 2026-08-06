@@ -5,7 +5,7 @@
 
 ## Kontekst
 
-Adspire Digital, Niš. Đorđe Milovanović je jedini u firmi. Ima 13 živih klijentskih
+Adspire Digital, Niš. Đorđe Mladenović je jedini u firmi. Ima 13 živih klijentskih
 sistema, ali radi samo na preporuku — sajt je živ ~2 godine i doneo je 0 klijenata.
 Cilj: sajt kao prodajni kanal + šira ponuda + ponavljajući prihod.
 

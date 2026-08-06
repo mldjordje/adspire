@@ -24,7 +24,7 @@ const document = {
   items: lines,
   total,
   seller: {
-    companyName: "Đorđe Milovanović PR Informacione usluge Adspire Niš",
+    companyName: "Đorđe Mladenović PR Informacione usluge Adspire Niš",
     address: "Dimitrija Leka 66",
     city: "Niš",
     country: "Srbija",

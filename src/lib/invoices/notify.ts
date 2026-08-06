@@ -95,7 +95,7 @@ export async function sendInvoiceMail(
       : []),
     "Ako nešto nije u redu na dokumentu, samo odgovorite na ovaj mejl.",
     "",
-    "Đorđe Milovanović",
+    "Đorđe Mladenović",
     "Adspire Digital · adspire.rs",
     "+381 60 149 149 1",
   ].join("\n");

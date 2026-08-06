@@ -25,7 +25,7 @@ export type ReplyTemplate = {
 
 const signature = [
   "",
-  "Đorđe Milovanović",
+  "Đorđe Mladenović",
   "Adspire Digital · adspire.rs",
   "+381 60 149 149 1",
 ].join("\n");

@@ -46,7 +46,7 @@ export function GET() {
 
 ## O agenciji
 
-Adspire Digital je razvojna i tehnološka agencija iz Niša, Srbija. Osnivač i tehnički direktor: Đorđe Milovanović.
+Adspire Digital je razvojna i tehnološka agencija iz Niša, Srbija. Osnivač i tehnički direktor: Đorđe Mladenović.
 
 Kontakt: ${ORGANIZATION.email} | ${ORGANIZATION.telephone}
 Adresa: ${ORGANIZATION.address.streetAddress}, ${ORGANIZATION.address.addressLocality} ${ORGANIZATION.address.postalCode}, ${ORGANIZATION.address.addressCountry}

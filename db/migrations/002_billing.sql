@@ -21,7 +21,7 @@ exception when duplicate_object then null; end $$;
 -- One row, id = 1. Holds the issuer's own details and the document defaults.
 create table if not exists settings (
   id int primary key default 1,
-  company_name text not null default 'Đorđe Milovanović PR Informacione usluge Adspire Niš',
+  company_name text not null default 'Đorđe Mladenović PR Informacione usluge Adspire Niš',
   address text,
   city text not null default 'Niš',
   country text not null default 'Srbija',

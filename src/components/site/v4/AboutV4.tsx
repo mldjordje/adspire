@@ -108,7 +108,7 @@ export function AboutV4() {
           </div>
           <div className={styles.founderBody}>
             <span className={styles.founderRole}>Osnivač i tehnički direktor</span>
-            <h3 className={styles.founderName}>Đorđe Milovanović</h3>
+            <h3 className={styles.founderName}>Đorđe Mladenović</h3>
             <p className={styles.founderBio}>
               Vodim Adspire od strategije do produkcije. Pišem kod, projektujem sisteme i sedim na
               pozivima sa klijentima — jer verujem da najbolji proizvod nastaje kada ista osoba
