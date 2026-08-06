@@ -253,13 +253,18 @@ export async function issueRecurringClientAction(formData: FormData) {
  * `sent_at` is written only on success, so the screen never claims a delivery
  * that did not happen; the failed attempt is still in the correspondence log
  * with its reason.
+ *
+ * `correction=1` sends the same document again, worded as a replacement. It
+ * exists because the PDF re-renders from current issuer settings: a typo in
+ * Podešavanja is fixed by resending, not by cancelling a correct invoice.
  */
 export async function sendInvoiceAction(formData: FormData) {
   const session = await requireSession();
   const id = text(formData, "id");
   if (!id) return;
 
-  const result = await sendInvoiceMail(id, { createdBy: session.email });
+  const correction = text(formData, "correction") === "1";
+  const result = await sendInvoiceMail(id, { createdBy: session.email, correction });
 
   if (result.ok) {
     const sql = getSql();
@@ -269,7 +274,9 @@ export async function sendInvoiceAction(formData: FormData) {
   revalidatePath("/os/fakture");
   revalidatePath(`/os/fakture/${id}`);
   redirect(
-    `/os/fakture/${id}?mail=${result.ok ? "poslato" : result.reason}`,
+    `/os/fakture/${id}?mail=${
+      result.ok ? (correction ? "ispravljeno" : "poslato") : result.reason
+    }`,
   );
 }
 

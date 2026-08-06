@@ -38,7 +38,7 @@ export type InvoiceMailResult =
 
 export async function sendInvoiceMail(
   invoiceId: string,
-  options: { createdBy?: string | null } = {},
+  options: { createdBy?: string | null; correction?: boolean } = {},
 ): Promise<InvoiceMailResult> {
   const invoice = await getInvoiceDetail(invoiceId);
   if (!invoice) return { ok: false, reason: "not-found" };
@@ -63,14 +63,24 @@ export async function sendInvoiceMail(
     referenceModel(settings.payment_reference_model),
   );
 
-  const subject = `${label} ${invoice.number} — ${settings.company_name.split(" PR ")[0] || "Adspire Digital"}`;
+  // A correction goes out under the same number: the PDF is re-rendered from
+  // the row plus the current issuer details, so a fixed setting reaches the
+  // buyer without cancelling a document whose figures were never wrong. Both
+  // subject and first line say so, or the client files two copies of one debt.
+  const correction = options.correction === true;
+  const issuer = settings.company_name.split(" PR ")[0] || "Adspire Digital";
+  const subject = `${correction ? `Ispravljen ${label.toLowerCase()}` : label} ${invoice.number} — ${issuer}`;
 
   const body = [
     `Poštovani,`,
     "",
-    `u prilogu je ${label.toLowerCase()} ${invoice.number}${
-      invoice.periodLabel ? ` za period ${invoice.periodLabel}` : ""
-    }.`,
+    correction
+      ? `u prilogu je ispravljen ${label.toLowerCase()} ${invoice.number}${
+          invoice.periodLabel ? ` za period ${invoice.periodLabel}` : ""
+        }. Na prethodno poslatoj verziji su bili netačni podaci izdavaoca; broj dokumenta, iznos i stavke su nepromenjeni. Ovaj dokument zamenjuje prethodni — prethodni obrišite.`
+      : `u prilogu je ${label.toLowerCase()} ${invoice.number}${
+          invoice.periodLabel ? ` za period ${invoice.periodLabel}` : ""
+        }.`,
     "",
     `Iznos: ${money(invoice.total, invoice.currency)}`,
     ...(invoice.totalRsd && invoice.currency !== "RSD"

@@ -16,6 +16,10 @@ export const dynamic = "force-dynamic";
 
 const MAIL_FLASH: Record<string, { tone: "ok" | "bad"; text: string }> = {
   poslato: { tone: "ok", text: "Dokument je poslat klijentu, sa PDF-om u prilogu." },
+  ispravljeno: {
+    tone: "ok",
+    text: "Ispravljena verzija je poslata — isti broj, novi PDF, mejl kaže da zamenjuje prethodni.",
+  },
   "no-email": {
     tone: "bad",
     text: "Klijent nema mejl adresu. Upiši je na kartici klijenta, pa pošalji ponovo.",
@@ -86,6 +90,15 @@ export default async function InvoiceDetailPage({
               </button>
             </form>
           ) : null}
+          {invoice.status !== "cancelled" && invoice.sentAt ? (
+            <form action={sendInvoiceAction}>
+              <input type="hidden" name="id" value={invoice.id} />
+              <input type="hidden" name="correction" value="1" />
+              <button className="os-btn os-btn--ghost os-btn--sm" type="submit">
+                Pošalji ispravljenu verziju
+              </button>
+            </form>
+          ) : null}
           {invoice.status !== "paid" ? (
             <form action={setInvoiceStatusAction}>
               <input type="hidden" name="id" value={invoice.id} />
@@ -115,8 +128,10 @@ export default async function InvoiceDetailPage({
         </div>
         <p className="os-note" style={{ marginTop: 12 }}>
           Šalje se na <strong>{recipient ?? "— klijent nema mejl —"}</strong>, kopija ide na tvoju
-          adresu. Dokument se ne menja posle izdavanja — greška se ispravlja storniranjem i novim
-          dokumentom, jer je broj već dodeljen.
+          adresu. Iznos i stavke se ne menjaju posle izdavanja — greška u njima se ispravlja
+          storniranjem i novim dokumentom, jer je broj već dodeljen. Ako su bili pogrešni tvoji
+          podaci u Podešavanjima, ispravi ih tamo pa pošalji ispravljenu verziju: PDF se iscrtava
+          iznova, broj ostaje isti.
         </p>
       </section>
 
