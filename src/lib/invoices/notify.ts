@@ -18,6 +18,16 @@ import { paymentReferenceFor, referenceModel } from "./rules";
  * Everything a payer needs is in the body as well as the attachment: half of
  * small-business Serbia pays from a phone without opening the PDF, and an
  * account number they have to hunt for is a payment that arrives a week late.
+ *
+ * Which of the three letters goes out follows the document, because they ask
+ * for different things:
+ *
+ *   - a PREDRAČUN asks to be paid, so it leads with the account and the amount;
+ *   - an unpaid RAČUN does the same, and says the work is already delivered;
+ *   - a settled RAČUN asks for nothing. The money is in — the letter thanks the
+ *     client, states that it is for their books, and says plainly not to pay
+ *     twice. Repeating an account number under a paid invoice is how a client
+ *     ends up paying it again.
  */
 
 const money = (amount: number, currency: string) =>
@@ -58,6 +68,7 @@ export async function sendInvoiceMail(
 
   const proforma = invoice.kind === "proforma";
   const label = proforma ? "Predračun" : "Račun";
+  const settled = !proforma && invoice.status === "paid";
   const reference = paymentReferenceFor(
     invoice.number,
     referenceModel(settings.payment_reference_model),
@@ -69,35 +80,69 @@ export async function sendInvoiceMail(
   // subject and first line say so, or the client files two copies of one debt.
   const correction = options.correction === true;
   const issuer = settings.company_name.split(" PR ")[0] || "Adspire Digital";
-  const subject = `${correction ? `Ispravljen ${label.toLowerCase()}` : label} ${invoice.number} — ${issuer}`;
+  const period = invoice.periodLabel ? ` za period ${invoice.periodLabel}` : "";
 
-  const body = [
-    `Poštovani,`,
-    "",
-    correction
-      ? `u prilogu je ispravljen ${label.toLowerCase()} ${invoice.number}${
-          invoice.periodLabel ? ` za period ${invoice.periodLabel}` : ""
-        }. Na prethodno poslatoj verziji su bili netačni podaci izdavaoca; broj dokumenta, iznos i stavke su nepromenjeni. Ovaj dokument zamenjuje prethodni — prethodni obrišite.`
-      : `u prilogu je ${label.toLowerCase()} ${invoice.number}${
-          invoice.periodLabel ? ` za period ${invoice.periodLabel}` : ""
-        }.`,
-    "",
+  const subject = correction
+    ? `Ispravljen ${label.toLowerCase()} ${invoice.number} — ${issuer}`
+    : settled
+      ? `Račun ${invoice.number} — hvala na uplati`
+      : `${label} ${invoice.number} — ${issuer}`;
+
+  const amount = [
     `Iznos: ${money(invoice.total, invoice.currency)}`,
     ...(invoice.totalRsd && invoice.currency !== "RSD"
       ? [`Protivvrednost: ${money(invoice.totalRsd, "RSD")}`]
       : []),
+  ];
+
+  const howToPay = [
     `Rok plaćanja: ${date(invoice.dueDate)}`,
     `Račun: ${invoice.bankAccount ?? "—"}`,
     reference ? `Poziv na broj: ${reference}` : `Svrha uplate: ${invoice.number}`,
+  ];
+
+  const opening = correction
+    ? [
+        `u prilogu je ispravljen ${label.toLowerCase()} ${invoice.number}${period}. Na prethodno poslatoj verziji su bili netačni podaci izdavaoca; broj dokumenta, iznos i stavke su nepromenjeni. Ovaj dokument zamenjuje prethodni — prethodni obrišite.`,
+        "",
+        ...amount,
+        ...(invoice.status === "paid" ? [] : howToPay),
+      ]
+    : settled
+      ? [
+          `hvala na uplati — evidentirana je${
+            invoice.paidAt ? ` ${date(invoice.paidAt)}` : ""
+          }. U prilogu je račun ${invoice.number}${period}, za vaše knjigovodstvo.`,
+          "",
+          ...amount,
+          ...(invoice.paidAt ? [`Plaćeno: ${date(invoice.paidAt)}`] : []),
+          ...(invoice.source ? [`Po predračunu: ${invoice.source.number}`] : []),
+          "",
+          "Ovaj račun ne treba plaćati ponovo — izmiren je u celosti.",
+        ]
+      : [
+          `u prilogu je ${label.toLowerCase()} ${invoice.number}${period}.`,
+          "",
+          ...amount,
+          ...howToPay,
+          "",
+          ...(proforma
+            ? ["Čim uplata bude evidentirana, šaljem račun."]
+            : ["Posao je isporučen; račun je u prilogu i plaća se do gore navedenog roka."]),
+        ];
+
+  const body = [
+    "Poštovani,",
     "",
-    ...(proforma
-      ? ["Po evidentiranoj uplati šaljem račun.", ""]
-      : []),
-    "Ako nešto nije u redu na dokumentu, samo odgovorite na ovaj mejl.",
+    ...opening,
     "",
-    "Đorđe Mladenović",
-    "Adspire Digital · adspire.rs",
-    "+381 60 149 149 1",
+    settled
+      ? "Hvala na saradnji — javite se slobodno kad zatreba bilo šta oko sajta."
+      : "Ako nešto nije u redu na dokumentu, samo odgovorite na ovaj mejl.",
+    "",
+    settings.responsible_person ?? "Đorđe Mladenović",
+    `${issuer} · adspire.rs`,
+    ...(settings.phone ? [settings.phone] : []),
   ].join("\n");
 
   const result = await sendAndLog({

@@ -45,6 +45,7 @@ const document = {
   paymentPurpose: "34/2026",
   vatNote: "PDV nije obračunat u skladu sa članom 33. Zakona o PDV.",
   note: null,
+  responsiblePerson: "Đorđe Mladenović",
 };
 
 describe("renderInvoicePdf", () => {
@@ -73,5 +74,20 @@ describe("renderInvoicePdf", () => {
     });
 
     expect(Buffer.from(bytes.slice(0, 5)).toString()).toBe("%PDF-");
+  });
+
+  it("renders a settled invoice raised against a proforma", async () => {
+    const bytes = await renderInvoicePdf({
+      ...document,
+      dueDate: null,
+      paidOn: new Date("2026-08-05T12:00:00Z"),
+      sourceNote: "Izdato po predračunu br. PR-6/2026 od 03.08.2026.",
+    });
+
+    expect(Buffer.from(bytes.slice(0, 5)).toString()).toBe("%PDF-");
+
+    if (process.env.INVOICE_PDF_PAID_OUT) {
+      await writeFile(process.env.INVOICE_PDF_PAID_OUT, Buffer.from(bytes));
+    }
   });
 });

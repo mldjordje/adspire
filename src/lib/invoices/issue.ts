@@ -3,7 +3,12 @@ import "server-only";
 import { getSql } from "@/lib/db";
 import { getSettings, type SettingsRow } from "@/lib/os/settings";
 import { getMiddleRate } from "./fx";
-import { renderInvoicePdf, type InvoiceDocumentData, type InvoiceParty } from "./pdf";
+import {
+  formatDate as formatDay,
+  renderInvoicePdf,
+  type InvoiceDocumentData,
+  type InvoiceParty,
+} from "./pdf";
 import {
   addDays,
   belgradeToday,
@@ -44,6 +49,10 @@ export type IssueInvoiceInput = {
   buyer?: InvoiceParty | null;
   /** The proforma this document settles, when it was issued from one. */
   sourceInvoiceId?: string | null;
+  /** Set when the money is already in. The document is issued `paid`, with no
+   *  due date: an invoice raised against a settled proforma must not go out
+   *  asking to be paid a second time. */
+  paidAt?: string | null;
   /** 'YYYY-MM' when this is the recurring maintenance invoice for that month.
    *  Unique per client and currency, which is what stops a double run. */
   recurringPeriod?: string | null;
@@ -175,13 +184,25 @@ export async function issueInvoice(input: IssueInvoiceInput): Promise<IssuedInvo
 
   const issueDate = input.issueDate || belgradeToday().iso;
   const year = Number(issueDate.slice(0, 4));
-  const dueDate = input.dueDate || addDays(issueDate, settings.invoice_due_days);
+  const paidAt = input.paidAt ?? null;
+  const dueDate = paidAt ? null : input.dueDate || addDays(issueDate, settings.invoice_due_days);
   // A proforma has no supply yet. An invoice with no stated promet date is the
   // one missing a mandatory element, so it falls back to the issue date rather
   // than to null — for same-day work the two genuinely coincide.
   const supplyDate =
     input.kind === "invoice" ? (input.supplyDate || issueDate) : null;
   const vatNote = scope === "foreign" ? settings.vat_note_foreign : settings.vat_note_domestic;
+
+  // The seeded placeholder must never reach a buyer. The note naming why VAT
+  // was not charged is a mandatory element for an issuer outside the VAT
+  // system, and a document that prints "POPUNITI SA KNJIGOVOĐOM" instead is
+  // both incomplete and embarrassing — refusing to issue is the cheap failure,
+  // since the number has not been allocated yet.
+  if (!vatNote.trim() || vatNote.includes("POPUNITI")) {
+    throw new InvoiceConfigurationError(
+      "PDV napomena nije popunjena u Podešavanjima. Bez nje dokumentu fali obavezan element — upiši formulaciju koju je dao knjigovođa.",
+    );
+  }
 
   // Number and row are written in ONE statement, so the MAX and the INSERT
   // cannot be separated by another issue. Two concurrent callers can still read
@@ -204,7 +225,8 @@ export async function issueInvoice(input: IssueInvoiceInput): Promise<IssuedInvo
         client_id, kind, scope, invoice_year, invoice_seq, number,
         issue_date, supply_date, due_date, place, payment_method, bank_account,
         currency, total, total_rsd, fx_rate, fx_date, buyer, vat_note,
-        period_label, note, source_invoice_id, recurring_period
+        period_label, note, source_invoice_id, recurring_period,
+        status, paid_at
       )
       select ${input.clientId}::uuid, ${input.kind}::invoice_kind, ${scope},
              ${year}, next_seq.seq,
@@ -218,7 +240,8 @@ export async function issueInvoice(input: IssueInvoiceInput): Promise<IssuedInvo
              ${currency}, ${total}, ${totalRsd}, ${rate?.rate ?? null}, ${rate?.date ?? null}::date,
              ${JSON.stringify(buyer)}::jsonb, ${vatNote},
              ${input.periodLabel}, ${input.note}, ${input.sourceInvoiceId ?? null}::uuid,
-             ${input.recurringPeriod ?? null}
+             ${input.recurringPeriod ?? null},
+             ${paidAt ? "paid" : "issued"}::invoice_status, ${paidAt}::timestamptz
       from next_seq
       returning id, number
     ), new_items as (
@@ -259,9 +282,26 @@ type StoredInvoiceRow = {
   buyer: InvoiceParty;
   vat_note: string;
   note: string | null;
+  paid_at: string | null;
+  source_number: string | null;
+  source_issue_date: string | null;
 };
 
 const asDate = (iso: string | null) => (iso ? new Date(`${iso.slice(0, 10)}T12:00:00Z`) : null);
+
+/** A timestamptz down to the Belgrade calendar day it fell on. `paid_at` is an
+ *  instant, and the PDF prints a date: a payment recorded at 00:30 local is
+ *  22:30 UTC the day before, so reading the UTC day would print yesterday. */
+const asBelgradeDay = (timestamp: string | null) => {
+  if (!timestamp) return null;
+  const iso = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Europe/Belgrade",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(new Date(timestamp));
+  return asDate(iso);
+};
 
 /** Re-renders an issued document from its stored snapshot. The only renderer
  *  the download route uses, so what the client downloads today is what the row
@@ -271,10 +311,14 @@ export async function renderStoredInvoice(
 ): Promise<{ bytes: Uint8Array; number: string } | null> {
   const sql = getSql();
   const rows = (await sql`
-    select id, kind, scope, number, issue_date::text, supply_date::text,
-           due_date::text, place, payment_method, bank_account, currency, total,
-           total_rsd, fx_rate, fx_date::text, buyer, vat_note, note
-    from invoices where id = ${invoiceId}
+    select i.id, i.kind, i.scope, i.number, i.issue_date::text, i.supply_date::text,
+           i.due_date::text, i.place, i.payment_method, i.bank_account, i.currency,
+           i.total, i.total_rsd, i.fx_rate, i.fx_date::text, i.buyer, i.vat_note,
+           i.note, i.paid_at::text,
+           src.number as source_number, src.issue_date::text as source_issue_date
+    from invoices i
+    left join invoices src on src.id = i.source_invoice_id
+    where i.id = ${invoiceId}
   `) as StoredInvoiceRow[];
   const row = rows[0];
   if (!row) return null;
@@ -288,6 +332,7 @@ export async function renderStoredInvoice(
   const settings = await getSettings();
   const seller = sellerFrom(settings);
   const totalRsd = row.total_rsd ? Number(row.total_rsd) : null;
+  const sourceDate = row.source_issue_date ? asDate(row.source_issue_date) : null;
 
   const bytes = await renderInvoicePdf({
     kind: row.kind,
@@ -296,6 +341,7 @@ export async function renderStoredInvoice(
     issueDate: asDate(row.issue_date)!,
     supplyDate: asDate(row.supply_date),
     dueDate: asDate(row.due_date),
+    paidOn: asBelgradeDay(row.paid_at),
     placeOfIssue: row.place,
     paymentMethod: row.payment_method,
     currency: row.currency,
@@ -327,6 +373,16 @@ export async function renderStoredInvoice(
     }),
     vatNote: row.vat_note,
     note: row.note,
+    sourceNote: row.source_number
+      ? row.scope === "foreign"
+        ? `Issued against proforma invoice No. ${row.source_number}${
+            sourceDate ? ` dated ${formatDay(sourceDate)}` : ""
+          }.`
+        : `Izdato po predračunu br. ${row.source_number}${
+            sourceDate ? ` od ${formatDay(sourceDate)}` : ""
+          }.`
+      : null,
+    responsiblePerson: settings.responsible_person,
   });
 
   return { bytes, number: row.number };

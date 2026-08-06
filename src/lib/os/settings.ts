@@ -5,6 +5,8 @@ import { getSql } from "@/lib/db";
 /** The single issuer row (id = 1). Every document renders from it. */
 export type SettingsRow = {
   company_name: string;
+  /** Odgovorno lice — printed on every document. See migration 009. */
+  responsible_person: string | null;
   address: string | null;
   city: string;
   country: string;
@@ -26,7 +28,7 @@ export type SettingsRow = {
   invoice_seq_offset: number;
 };
 
-const COLUMNS = `company_name, address, city, country, email, phone, pib, mb,
+const COLUMNS = `company_name, responsible_person, address, city, country, email, phone, pib, mb,
   bank_account, eur_account, usd_account, swift, bank_name, bank_address,
   vat_note_domestic, vat_note_foreign, payment_method, invoice_due_days,
   payment_reference_model, invoice_seq_offset`;
@@ -50,7 +52,7 @@ export type SettingsUpdate = Partial<Omit<SettingsRow, "invoice_due_days" | "inv
 /** Whitelist for the update below. A column name cannot be a bound parameter,
  *  so the only safe source for one is this list — never a key off a form. */
 const UPDATABLE = new Set([
-  "company_name", "address", "city", "country", "email", "phone", "pib", "mb",
+  "company_name", "responsible_person", "address", "city", "country", "email", "phone", "pib", "mb",
   "bank_account", "eur_account", "usd_account", "swift", "bank_name", "bank_address",
   "vat_note_domestic", "vat_note_foreign", "payment_method", "invoice_due_days",
   "payment_reference_model", "invoice_seq_offset",

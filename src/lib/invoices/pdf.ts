@@ -44,6 +44,10 @@ export type InvoiceDocumentData = {
    *  invoice, and not the same as the issue date. A proforma has none. */
   supplyDate: Date | null;
   dueDate: Date | null;
+  /** The day the money arrived. Set on a document that is already settled, and
+   *  it replaces the payment block: a paid invoice that still shows a due date
+   *  and an account number reads as a second demand for the same money. */
+  paidOn?: Date | null;
   placeOfIssue: string | null;
   paymentMethod: string;
   currency: string;
@@ -68,6 +72,14 @@ export type InvoiceDocumentData = {
   settlementNote?: string | null;
   vatNote: string;
   note?: string | null;
+  /** "Po predračunu br. PR-6/2026 od 03.08.2026." on an invoice that settles
+   *  one. Not a mandatory element, but without it the buyer holds two documents
+   *  for one job with no visible link between them. */
+  sourceNote?: string | null;
+  /** Odgovorno lice. An electronically issued document carries no signature, so
+   *  naming who issued it is what makes it a verodostojna isprava — see
+   *  migration 009. */
+  responsiblePerson?: string | null;
 };
 
 const A4 = { width: 595.28, height: 841.89 };
@@ -87,6 +99,9 @@ const LABELS = {
     place: "Mesto izdavanja",
     supply: "Datum prometa",
     due: "Rok plaćanja",
+    paid: "Plaćeno dana",
+    paidStamp: "PLAĆENO",
+    responsible: "Odgovorno lice",
     buyer: "Kupac",
     description: "Naziv",
     qty: "Kol.",
@@ -94,6 +109,7 @@ const LABELS = {
     total: "Iznos",
     grandTotal: "UKUPNO ZA UPLATU",
     payment: "Podaci za uplatu",
+    settled: "Podaci o plaćanju",
     recipient: "Primalac",
     account: "Račun",
     method: "Način plaćanja",
@@ -107,6 +123,7 @@ const LABELS = {
       `Obračunato po srednjem kursu NBS ${rate} RSD na dan ${date}.`,
     proformaNote:
       "Ovo je predračun i ne predstavlja poresku ispravu. Račun se izdaje nakon evidentirane uplate.",
+    paidNote: "Račun je izmiren u celosti. Ne treba ga plaćati ponovo.",
     footer: "Dokument je izdat elektronski i punovažan je bez pečata i potpisa.",
   },
   en: {
@@ -117,6 +134,9 @@ const LABELS = {
     place: "Place of issue",
     supply: "Date of supply",
     due: "Payment due",
+    paid: "Paid on",
+    paidStamp: "PAID",
+    responsible: "Issued by",
     buyer: "Customer",
     description: "Description",
     qty: "Qty",
@@ -124,6 +144,7 @@ const LABELS = {
     total: "Amount",
     grandTotal: "TOTAL DUE",
     payment: "Payment details",
+    settled: "Settlement",
     recipient: "Beneficiary",
     account: "Account / IBAN",
     method: "Payment method",
@@ -137,6 +158,7 @@ const LABELS = {
       `RSD equivalent at the NBS middle rate ${rate} on ${date}.`,
     proformaNote:
       "This is a proforma invoice and is not a tax document. The invoice follows once payment is received.",
+    paidNote: "This invoice has been settled in full. No payment is due.",
     footer: "Issued electronically; valid without signature or stamp.",
   },
 } as const;
@@ -169,7 +191,9 @@ function quantity(value: number): string {
     : value.toLocaleString("sr-RS", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 
-function formatDate(date: Date): string {
+/** "31.07.2026." — the form every date on the document takes. Exported so the
+ *  sentences composed outside this file (the proforma reference) match. */
+export function formatDate(date: Date): string {
   const d = String(date.getUTCDate()).padStart(2, "0");
   const m = String(date.getUTCMonth() + 1).padStart(2, "0");
   return `${d}.${m}.${date.getUTCFullYear()}.`;
@@ -272,7 +296,13 @@ export async function renderInvoicePdf(doc: InvoiceDocumentData): Promise<Uint8A
     doc.placeOfIssue ? `${t.place}: ${doc.placeOfIssue}` : null,
     `${t.issued}: ${formatDate(doc.issueDate)}`,
     doc.supplyDate ? `${t.supply}: ${formatDate(doc.supplyDate)}` : null,
-    doc.dueDate ? `${t.due}: ${formatDate(doc.dueDate)}` : null,
+    // A settled document states when it was paid instead of when it is due.
+    // Both at once is a contradiction the buyer has to resolve by asking.
+    doc.paidOn
+      ? `${t.paid}: ${formatDate(doc.paidOn)}`
+      : doc.dueDate
+        ? `${t.due}: ${formatDate(doc.dueDate)}`
+        : null,
   ]) {
     if (!line) continue;
     text(line, right, 9, { align: "right", color: MUTED });
@@ -337,6 +367,14 @@ export async function renderInvoicePdf(doc: InvoiceDocumentData): Promise<Uint8A
   text(t.grandTotal, columns.price, 11, { font: bold, align: "right" });
   text(money(doc.total, doc.currency), columns.total, 13, { font: bold, align: "right" });
   y -= 16;
+  if (doc.paidOn) {
+    text(`${t.paidStamp} · ${formatDate(doc.paidOn)}`, columns.total, 10, {
+      font: bold,
+      align: "right",
+      color: ACCENT,
+    });
+    y -= 14;
+  }
   if (doc.rsd) {
     text(money(doc.rsd.amount, "RSD"), columns.total, 10, { align: "right", color: MUTED });
     y -= 13;
@@ -367,29 +405,40 @@ export async function renderInvoicePdf(doc: InvoiceDocumentData): Promise<Uint8A
     usd: doc.seller.usdAccount,
   });
 
-  text(t.payment, MARGIN, 8, { color: MUTED });
+  const settled = Boolean(doc.paidOn);
+
+  text(settled ? t.settled : t.payment, MARGIN, 8, { color: MUTED });
   y -= 15;
-  const payRows: [string, string | null | undefined][] = [
-    [t.recipient, doc.seller.companyName ?? doc.seller.name],
-    [t.account, accountValue],
-    [t.method, doc.paymentMethod],
-    ...(doc.scope === "foreign"
-      ? ([
-          ["SWIFT/BIC", doc.seller.swift],
-          ["Bank", doc.seller.bankName],
-          ["Bank address", doc.seller.bankAddress],
-        ] as [string, string | null | undefined][])
-      : []),
-    // The model line only appears next to a reference that actually has check
-    // digits — a "Poziv na broj" the bank refuses is worse than none.
-    ...(doc.reference
-      ? ([
-          [t.model, "97"],
-          [t.reference, doc.reference],
-        ] as [string, string | null | undefined][])
-      : []),
-    [t.purpose, doc.paymentPurpose],
-  ];
+  // A settled document keeps the recipient and the account — the buyer's
+  // bookkeeping reconciles against them — and drops everything that instructs a
+  // payment: the reference, the purpose and the dinar settlement note.
+  const payRows: [string, string | null | undefined][] = settled
+    ? [
+        [t.recipient, doc.seller.companyName ?? doc.seller.name],
+        [t.account, accountValue],
+        [t.paid, doc.paidOn ? formatDate(doc.paidOn) : null],
+      ]
+    : [
+        [t.recipient, doc.seller.companyName ?? doc.seller.name],
+        [t.account, accountValue],
+        [t.method, doc.paymentMethod],
+        ...(doc.scope === "foreign"
+          ? ([
+              ["SWIFT/BIC", doc.seller.swift],
+              ["Bank", doc.seller.bankName],
+              ["Bank address", doc.seller.bankAddress],
+            ] as [string, string | null | undefined][])
+          : []),
+        // The model line only appears next to a reference that actually has
+        // check digits — a "Poziv na broj" the bank refuses is worse than none.
+        ...(doc.reference
+          ? ([
+              [t.model, "97"],
+              [t.reference, doc.reference],
+            ] as [string, string | null | undefined][])
+          : []),
+        [t.purpose, doc.paymentPurpose],
+      ];
   for (const [label, value] of payRows) {
     if (!value) continue;
     text(`${label}:`, MARGIN, 9, { color: MUTED });
@@ -397,7 +446,7 @@ export async function renderInvoicePdf(doc: InvoiceDocumentData): Promise<Uint8A
     y -= 14;
   }
 
-  if (doc.settlementNote) {
+  if (doc.settlementNote && !settled) {
     y -= 2;
     for (const line of wrap(doc.settlementNote, regular, 8.5, contentWidth)) {
       text(line, MARGIN, 8.5, { color: MUTED });
@@ -410,6 +459,8 @@ export async function renderInvoicePdf(doc: InvoiceDocumentData): Promise<Uint8A
   // ---- notes ---------------------------------------------------------------
   for (const note of [
     doc.kind === "proforma" ? t.proformaNote : null,
+    doc.sourceNote,
+    settled ? t.paidNote : null,
     doc.note ? `${t.note}: ${doc.note}` : null,
     doc.vatNote,
   ]) {
@@ -426,6 +477,14 @@ export async function renderInvoicePdf(doc: InvoiceDocumentData): Promise<Uint8A
   y = MARGIN + 14;
   rule(y + 12);
   text(t.footer, MARGIN, 8, { color: MUTED });
+  // Naming the issuer is what stands in for the signature the footer says the
+  // document does not need.
+  if (doc.responsiblePerson) {
+    text(`${t.responsible}: ${doc.responsiblePerson}`, right, 8, {
+      align: "right",
+      color: MUTED,
+    });
+  }
 
   return pdf.save();
 }

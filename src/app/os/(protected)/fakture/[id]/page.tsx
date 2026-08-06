@@ -36,6 +36,12 @@ const DOC_FLASH: Record<string, { tone: "ok" | "bad"; text: string }> = {
     tone: "ok",
     text: "Račun je izdat iz predračuna. Proveri datum prometa pre slanja.",
   },
+  "iz-predracuna-placeno": {
+    tone: "ok",
+    text:
+      "Račun je izdat iz predračuna i označen kao plaćen — nema rok plaćanja ni podatke za uplatu, " +
+      "a mejl klijentu se zahvaljuje na uplati. Proveri datum prometa pre slanja.",
+  },
   stornirano: { tone: "bad", text: "Stornirani predračun se ne pretvara u račun." },
 };
 
@@ -51,7 +57,11 @@ export default async function InvoiceDetailPage({
   if (!invoice) notFound();
 
   const messages = await listMessagesForInvoice(id).catch(() => []);
-  const flash = (mail ? MAIL_FLASH[mail] : undefined) ?? (doc ? DOC_FLASH[doc] : undefined);
+  // An unrecognised `doc` value is a configuration error thrown while issuing —
+  // the message itself, so it is shown rather than swallowed.
+  const flash =
+    (mail ? MAIL_FLASH[mail] : undefined) ??
+    (doc ? (DOC_FLASH[doc] ?? { tone: "bad" as const, text: doc }) : undefined);
   const proforma = invoice.kind === "proforma";
   const title = proforma ? "Predračun" : "Račun";
   const recipient = invoice.buyer.email ?? null;
@@ -150,11 +160,16 @@ export default async function InvoiceDetailPage({
                 Datum prometa
                 <input type="date" name="supplyDate" defaultValue={today} />
               </label>
+              <label className="os-inline__field">
+                <input type="checkbox" name="paid" defaultChecked /> Klijent je već uplatio
+              </label>
               <button className="os-btn" type="submit">
                 Napravi račun
               </button>
               <span className="os-note">
                 Preuzima kupca, stavke, valutu i period. Broj računa se dodeljuje iz svoje serije.
+                Kad je uplaćeno, račun ide bez roka plaćanja i bez podataka za uplatu — samo sa
+                datumom uplate — i predračun se zatvara. Otkači kvačicu ako novac još nije stigao.
               </span>
             </form>
           )}
@@ -212,8 +227,10 @@ export default async function InvoiceDetailPage({
           <dd>{formatDate(invoice.issueDate)}</dd>
           <dt>Datum prometa</dt>
           <dd>{formatDate(invoice.supplyDate)}</dd>
-          <dt>Rok plaćanja</dt>
-          <dd>{formatDate(invoice.dueDate)}</dd>
+          <dt>{invoice.paidAt ? "Plaćeno" : "Rok plaćanja"}</dt>
+          <dd>
+            {invoice.paidAt ? formatDateTime(invoice.paidAt) : formatDate(invoice.dueDate)}
+          </dd>
           <dt>Mesto izdavanja</dt>
           <dd>{invoice.place}</dd>
           <dt>Način plaćanja</dt>

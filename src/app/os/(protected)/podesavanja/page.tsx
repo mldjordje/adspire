@@ -49,10 +49,13 @@ export default async function SettingsPage({
 
       {saved ? <p className="os-note">Sačuvano.</p> : null}
 
-      {settings.vat_note_domestic.includes("POPUNITI") ? (
+      {settings.vat_note_domestic.includes("POPUNITI") ||
+      settings.vat_note_foreign.includes("POPUNITI") ? (
         <p className="os-alert" role="alert">
-          PDV napomena nije popunjena. Dok stoji ovako, računu fali obavezan element — tačnu
-          formulaciju daje knjigovođa.
+          PDV napomena nije popunjena. Dok stoji ovako, izdavanje dokumenta je blokirano — bez te
+          rečenice računu fali obavezan element. Uobičajena formulacija za izdavaoca van sistema
+          PDV je <em>„PDV nije obračunat u skladu sa članom 33. Zakona o PDV."</em>; tačnu potvrdi
+          kod knjigovođe.
         </p>
       ) : null}
 
@@ -61,6 +64,14 @@ export default async function SettingsPage({
           <label className="os-form__wide">
             Naziv izdavaoca
             <input name="company_name" defaultValue={settings.company_name} required />
+          </label>
+          <label>
+            Odgovorno lice
+            <input
+              name="responsible_person"
+              defaultValue={settings.responsible_person ?? ""}
+              placeholder="Đorđe Mladenović"
+            />
           </label>
           <label>
             Adresa
@@ -158,6 +169,16 @@ export default async function SettingsPage({
             </button>
           </div>
         </form>
+      </section>
+
+      <section className="os-section">
+        <h2>Odgovorno lice</h2>
+        <p className="os-note">
+          Štampa se u podnožju svakog dokumenta i potpisuje se ispod svakog mejla. Elektronski
+          izdat račun ne traži pečat ni svojeručni potpis, ali mora da kaže ko ga je izdao —
+          fusnota koja tvrdi da je punovažan bez potpisa, a ne imenuje nikoga, taj uslov ne
+          ispunjava.
+        </p>
       </section>
 
       <section className="os-section">

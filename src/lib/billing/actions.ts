@@ -163,6 +163,12 @@ export async function createInvoiceAction(formData: FormData) {
  *
  * Converting twice is refused by finding the existing invoice instead: two
  * numbers for one job is a bookkeeping error nobody notices until inspection.
+ *
+ * The usual case is that the money has already arrived — that is what triggers
+ * the conversion — so the invoice is issued settled: no due date, no payment
+ * instructions, and the proforma is closed at the same time. The screen still
+ * offers the unpaid path, because a račun raised before payment is legitimate
+ * and dating one as paid would be a false record.
  */
 export async function convertProformaAction(formData: FormData) {
   await requireSession();
@@ -179,28 +185,51 @@ export async function convertProformaAction(formData: FormData) {
   const today = belgradeToday().iso;
   const supplyDate = optional(formData, "supplyDate") ?? today;
 
-  const issued = await issueInvoice({
-    clientId: proforma.clientId,
-    kind: "invoice",
-    scope: proforma.scope,
-    issueDate: today,
-    supplyDate,
-    dueDate: addDays(today, settings.invoice_due_days),
-    currency: proforma.currency,
-    items: proforma.items.map((item) => ({
-      name: item.name,
-      quantity: item.quantity,
-      unitPrice: item.unitPrice,
-    })),
-    periodLabel: proforma.periodLabel,
-    note: proforma.note,
-    buyer: proforma.buyer as InvoiceParty,
-    sourceInvoiceId: proforma.id,
-  });
+  // The proforma's own paid_at wins when it has one: the invoice must state the
+  // day the money actually arrived, not the day the paperwork caught up.
+  const paid = formData.get("paid") !== null;
+  const paidAt = paid ? (proforma.paidAt ?? new Date().toISOString()) : null;
+
+  let issued: { id: string };
+  try {
+    issued = await issueInvoice({
+      clientId: proforma.clientId,
+      kind: "invoice",
+      scope: proforma.scope,
+      issueDate: today,
+      supplyDate,
+      dueDate: paidAt ? null : addDays(today, settings.invoice_due_days),
+      currency: proforma.currency,
+      items: proforma.items.map((item) => ({
+        name: item.name,
+        quantity: item.quantity,
+        unitPrice: item.unitPrice,
+      })),
+      periodLabel: proforma.periodLabel,
+      note: proforma.note,
+      buyer: proforma.buyer as InvoiceParty,
+      sourceInvoiceId: proforma.id,
+      paidAt,
+    });
+  } catch (error) {
+    if (error instanceof InvoiceConfigurationError) {
+      redirect(`/os/fakture/${id}?doc=${encodeURIComponent(error.message)}`);
+    }
+    throw error;
+  }
+
+  // A settled invoice leaves no open proforma behind it.
+  if (paidAt && proforma.status !== "paid") {
+    const sql = getSql();
+    await sql`
+      update invoices set status = 'paid', paid_at = ${paidAt}, updated_at = now()
+      where id = ${id}
+    `;
+  }
 
   revalidatePath("/os/fakture");
   revalidatePath(`/os/fakture/${id}`);
-  redirect(`/os/fakture/${issued.id}?doc=iz-predracuna`);
+  redirect(`/os/fakture/${issued.id}?doc=${paidAt ? "iz-predracuna-placeno" : "iz-predracuna"}`);
 }
 
 /**
@@ -304,6 +333,7 @@ export async function saveSettingsAction(formData: FormData) {
 
   await updateSettings({
     company_name: text(formData, "company_name"),
+    responsible_person: optional(formData, "responsible_person"),
     address: optional(formData, "address"),
     city: text(formData, "city") || "Niš",
     country: text(formData, "country") || "Srbija",
