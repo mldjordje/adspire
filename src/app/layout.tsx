@@ -11,21 +11,25 @@ const siteUrl = getSiteUrl();
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://adspire.rs"),
   title: {
-    default: "Adspire Digital | Web agencija Niš",
+    // "Web agencija" is the word an informed buyer uses; "IT firma" is the word
+    // everyone else searches. Carrying both costs nothing and the narrower title
+    // was not ranking for either.
+    default: "Adspire Digital | IT firma i web agencija iz Niša",
     template: "%s | Adspire Digital",
   },
   description:
-    "Adspire Digital iz Niša — web platforme, mobilne aplikacije, poslovni sistemi, e-commerce, PWA, AI automatizacija i SaaS razvoj. Kontakt: djordje@adspire.rs, +381 60 149 149 1.",
+    "IT firma iz Niša. Pravimo sajtove, aplikacije i programe po meri za firme — web shopovi, sistemi za zakazivanje, interna evidencija i AI automatizacija. Kontakt: djordje@adspire.rs, +381 60 149 149 1.",
   keywords: [
     "Adspire",
     "Adspire Digital",
+    "IT firma Niš",
     "web agencija Niš",
     "izrada sajta Niš",
-    "Next.js Srbija",
-    "PWA razvoj",
+    "izrada aplikacija Niš",
+    "rezervacioni sistemi Niš",
+    "programiranje Niš",
     "e-commerce razvoj",
     "AI automatizacija",
-    "SaaS razvoj",
   ],
   authors: [{ name: "Adspire Digital", url: siteUrl }],
   creator: "Adspire Digital",
@@ -34,17 +38,17 @@ export const metadata: Metadata = {
     locale: "sr_RS",
     url: siteUrl,
     siteName: "Adspire Digital",
-    title: "Adspire Digital | Web agencija Niš",
+    title: "Adspire Digital | IT firma i web agencija iz Niša",
     description:
-      "Razvojni i tehnološki partner iz Niša: web, aplikacije, e-commerce, AI, SEO i hosting.",
+      "IT firma iz Niša: sajtovi, aplikacije, web shopovi, sistemi za zakazivanje i AI automatizacija.",
     // og/twitter image comes from src/app/opengraph-image.tsx (real 1200x630
     // card) — the old /images/logo.png here was 100x100 and broke share previews
   },
   twitter: {
     card: "summary_large_image",
-    title: "Adspire Digital | Web agencija Niš",
+    title: "Adspire Digital | IT firma i web agencija iz Niša",
     description:
-      "Razvojni i tehnološki partner iz Niša: web, aplikacije, e-commerce, AI, SEO i hosting.",
+      "IT firma iz Niša: sajtovi, aplikacije, web shopovi, sistemi za zakazivanje i AI automatizacija.",
   },
   robots: { index: true, follow: true },
 };

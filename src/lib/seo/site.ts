@@ -55,6 +55,8 @@ export const ORGANIZATION = {
     latitude: 43.3209,
     longitude: 21.8958,
   },
+  // Plain-language first, jargon second: the buyer searching "it firma u nisu"
+  // does not search "razvojni i tehnološki partner".
   description:
-    "Adspire Digital iz Niša — razvojni i tehnološki partner za web platforme, mobilne aplikacije (PWA i native), e-commerce, interne poslovne sisteme, AI automatizaciju, SaaS, SEO i hosting.",
+    "Adspire Digital je IT firma iz Niša. Pravimo sajtove, aplikacije i programe po meri za firme — web shopove, sisteme za zakazivanje, internu evidenciju, AI automatizaciju, SaaS, SEO i hosting.",
 } as const;

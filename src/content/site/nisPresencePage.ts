@@ -29,6 +29,15 @@ export const nisPresencePage = {
     { text: "SEO, performanse i digitalni marketing uz zdrav kod", href: "/our-services/seo-digitalni-marketing" },
     { text: "SaaS proizvodi i subscription platforme", href: "/our-services/saas-razvoj" },
   ],
+  // Sibling local pages. Each answers a different way of asking, so the entry
+  // point matches the words the visitor actually used.
+  siblingsHeading: "Ako tražiš nešto određeno",
+  siblings: [
+    { text: "IT firma u Nišu — šta radimo, a šta ne", href: "/it-firma-nis" },
+    { text: "Izrada aplikacija u Nišu — mobilne, web i interne", href: "/izrada-aplikacija-nis" },
+    { text: "Rezervacioni sistemi u Nišu — zakazivanje za salone, klinike i servise", href: "/rezervacioni-sistemi-nis" },
+    { text: "Koliko košta izrada sajta — rasponi po tipu projekta", href: "/cena-izrade-sajta" },
+  ],
   contextHeading: "Kontekst na tržištu Niša",
   contextBody:
     "U Nišu i regionu postoje različiti tipovi ponuđača — od velikih softverskih kuća do studija usmerenih na jednostavnije prezentacije. Adspire se pozicioniše kao boutique full-stack partner: jedan tim koji spaja strategiju, dizajn, development i rast, posebno kada su vam potrebni brzina isporuke, čist kod, Next.js/React ekosistem, ili kombinacija sajta, aplikacije i internog sistema.",

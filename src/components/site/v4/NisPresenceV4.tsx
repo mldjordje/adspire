@@ -45,6 +45,17 @@ export function NisPresenceV4() {
           </p>
         </section>
 
+        <section className={styles.block} aria-labelledby="sib-heading">
+          <h2 id="sib-heading" className={styles.h2}>{p.siblingsHeading}</h2>
+          <ul className={styles.list}>
+            {p.siblings.map((item) => (
+              <li key={item.href}>
+                <Link className={styles.inlineLink} href={item.href}>{item.text}</Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+
         <section className={styles.block} aria-labelledby="ctx-heading">
           <h2 id="ctx-heading" className={styles.h2}>{p.contextHeading}</h2>
           <p className={styles.text}>{p.contextBody}</p>

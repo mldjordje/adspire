@@ -8,7 +8,11 @@ export function organizationJsonLd() {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
     "@id": `${base()}/#organization`,
+    // Wikidata's "software company" — the entity a search or answer engine
+    // resolves "IT firma" to. ProfessionalService alone does not say which trade.
+    additionalType: "https://www.wikidata.org/wiki/Q1058914",
     name: ORGANIZATION.name,
+    alternateName: ["Adspire", "Adspire Digital Niš", "Adspire IT firma Niš"],
     url: ORGANIZATION.url,
     email: ORGANIZATION.email,
     telephone: ORGANIZATION.telephone,

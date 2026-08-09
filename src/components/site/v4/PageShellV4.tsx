@@ -24,6 +24,7 @@ const FOOTER_LINKS = [
   { href: "/our-services", label: "Usluge" },
   { href: "/about-us", label: "O nama" },
   { href: "/blog", label: "Blog" },
+  { href: "/it-firma-nis", label: "Niš" },
   { href: "/vodici", label: "Vodiči" },
   { href: "/cena-izrade-sajta", label: "Cene" },
   { href: "/upit", label: "Upit" },
