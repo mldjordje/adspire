@@ -1,9 +1,8 @@
 import type { MetadataRoute } from "next";
 import { getSiteUrl } from "@/lib/seo/site";
 
-// AI answer-engine + search crawlers we explicitly welcome. Being named (and
-// allowed) is how ChatGPT / Claude / Perplexity / Gemini / Copilot are permitted
-// to crawl, ground on, and recommend Adspire when people ask for our services.
+// AI answer-engine and search crawlers that may use public pages for retrieval.
+// An allow rule only permits crawling; it does not guarantee inclusion or citation.
 const AI_AGENTS = [
   "GPTBot",
   "OAI-SearchBot",
@@ -39,7 +38,7 @@ export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
       { userAgent: "*", allow: "/", disallow: PRIVATE },
-      // Explicit allow for AI crawlers — never leave recommendation traffic to chance.
+      // Explicitly mirror the public/private boundary for known AI crawlers.
       { userAgent: AI_AGENTS, allow: "/", disallow: PRIVATE },
     ],
     sitemap: `${base}/sitemap.xml`,

@@ -12,6 +12,14 @@ export function organizationJsonLd() {
     // resolves "IT firma" to. ProfessionalService alone does not say which trade.
     additionalType: "https://www.wikidata.org/wiki/Q1058914",
     name: ORGANIZATION.name,
+    legalName: ORGANIZATION.legalName,
+    taxID: ORGANIZATION.taxId,
+    foundingDate: ORGANIZATION.foundingDate,
+    identifier: {
+      "@type": "PropertyValue",
+      propertyID: "Matični broj",
+      value: ORGANIZATION.registrationNumber,
+    },
     alternateName: ["Adspire", "Adspire Digital Niš", "Adspire IT firma Niš"],
     url: ORGANIZATION.url,
     email: ORGANIZATION.email,
@@ -145,17 +153,12 @@ export function serviceJsonLd(entry: ServiceCatalogEntry, title: string) {
     "@context": "https://schema.org",
     "@type": "Service",
     "@id": `${url}#service`,
-    name: title,
+    name: entry.h1Sr ?? title,
     description: entry.metaDescriptionSr,
     url,
     provider: { "@id": `${base()}/#organization` },
     areaServed: { "@type": "Country", name: "Serbia" },
     serviceType: entry.keywordSr,
-    offers: {
-      "@type": "Offer",
-      url,
-      availability: "https://schema.org/InStock",
-    },
   };
 }
 

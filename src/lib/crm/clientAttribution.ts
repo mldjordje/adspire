@@ -20,11 +20,23 @@ function readCurrentTouch(): NormalizedAttribution {
     utmCampaign: params.get("utm_campaign"),
     utmContent: params.get("utm_content"),
     utmTerm: params.get("utm_term"),
+    gclid: params.get("gclid"),
+    gbraid: params.get("gbraid"),
+    wbraid: params.get("wbraid"),
+    msclkid: params.get("msclkid"),
   });
 }
 
 function hasCampaign(touch: NormalizedAttribution) {
-  return Boolean(touch.utmSource || touch.utmMedium || touch.utmCampaign);
+  return Boolean(
+    touch.utmSource ||
+    touch.utmMedium ||
+    touch.utmCampaign ||
+    touch.gclid ||
+    touch.gbraid ||
+    touch.wbraid ||
+    touch.msclkid,
+  );
 }
 
 /** Call once per page load. Safe to call repeatedly. */

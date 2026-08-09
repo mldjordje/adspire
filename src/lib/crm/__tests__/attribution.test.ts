@@ -10,6 +10,7 @@ describe("normalizeAttribution", () => {
         utmSource: " Google ",
         utmMedium: "CPC",
         utmCampaign: "Booking-DE",
+        gclid: "test-click-id",
         ignored: "secret",
       }),
     ).toEqual({
@@ -20,6 +21,10 @@ describe("normalizeAttribution", () => {
       utmCampaign: "booking-de",
       utmContent: null,
       utmTerm: null,
+      gclid: "test-click-id",
+      gbraid: null,
+      wbraid: null,
+      msclkid: null,
     });
   });
 

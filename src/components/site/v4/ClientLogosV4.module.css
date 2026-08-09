@@ -5,9 +5,7 @@
   padding: clamp(76px, 10vw, 148px) clamp(20px, 4vw, 56px);
   overflow: hidden;
   color: #f6f7ff;
-  background:
-    radial-gradient(circle at 82% 16%, rgba(93, 118, 255, 0.08), transparent 31%),
-    linear-gradient(180deg, #03040a 0%, #050711 100%);
+  background: transparent;
   border-block: 1px solid rgba(190, 202, 255, 0.13);
 }
 
@@ -65,7 +63,7 @@
   border-bottom: 1px solid rgba(190, 202, 255, 0.14);
   background:
     linear-gradient(135deg, rgba(255, 255, 255, 0.018), transparent 58%),
-    rgba(255, 255, 255, 0.006);
+    rgba(3, 4, 10, 0.18);
   transition:
     background-color 420ms cubic-bezier(0.2, 0.8, 0.2, 1),
     border-color 420ms cubic-bezier(0.2, 0.8, 0.2, 1);

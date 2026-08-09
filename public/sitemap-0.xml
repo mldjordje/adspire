@@ -44,8 +44,11 @@
 <url><loc>https://adspire.rs/our-services/web-prezentacije</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
 <url><loc>https://adspire.rs/our-services</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
 <url><loc>https://adspire.rs</loc><changefreq>weekly</changefreq><priority>1</priority></url>
+<url><loc>https://adspire.rs/politika-kolacica</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://adspire.rs/politika-privatnosti</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
 <url><loc>https://adspire.rs/rezervacioni-sistemi-nis</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
 <url><loc>https://adspire.rs/sajt-ne-donosi-upite</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://adspire.rs/uslovi-koriscenja</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
 <url><loc>https://adspire.rs/vodici</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
 <url><loc>https://adspire.rs/wordpress-ili-custom-sajt</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
 </urlset>

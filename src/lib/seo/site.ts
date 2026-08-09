@@ -40,7 +40,10 @@ export function getOrgSameAs(): string[] {
 
 export const ORGANIZATION = {
   name: "Adspire Digital",
-  legalName: "Adspire Digital",
+  legalName: "Đorđe Mladenović PR Informacione usluge Adspire Niš",
+  taxId: "114723739",
+  registrationNumber: "67804961",
+  foundingDate: "2024-11-14",
   url: getSiteUrl(),
   email: "djordje@adspire.rs",
   telephone: "+381601491491",

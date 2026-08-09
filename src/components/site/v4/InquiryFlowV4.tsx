@@ -8,6 +8,7 @@ import {
   createRequestId,
   getSubmissionAttribution,
 } from "@/lib/crm/clientAttribution";
+import { trackLeadSubmitted } from "@/lib/analytics/events";
 import { COUNTRIES, DEFAULT_COUNTRY } from "@/lib/inquiries/countries";
 import { clearDraft, readDraft, saveDraft } from "@/lib/inquiries/draft";
 import type { InquiryService } from "@/lib/inquiries/catalog";
@@ -330,6 +331,11 @@ export function InquiryFlowV4({
         setError(data.message ?? "Slanje nije uspelo. Pokušaj ponovo.");
         return;
       }
+      trackLeadSubmitted({
+        source: "inquiry",
+        service: selected.join(","),
+        requestId: data.reference,
+      });
       setSent({ reference: data.reference, statusPath: data.statusPath });
       clearDraft();
       window.scrollTo({ top: 0, behavior: "smooth" });

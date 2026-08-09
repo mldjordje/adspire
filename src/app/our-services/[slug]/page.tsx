@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: ServiceDetailPageProps): Prom
     };
   }
 
-  const title = `${service.title} | Adspire Digital`;
+  const title = catalog.seoTitleSr ?? `${service.title} | Adspire Digital`;
   const description = catalog.metaDescriptionSr;
   const keywords = [
     ...catalog.searchPhrasesSr,

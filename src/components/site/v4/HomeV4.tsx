@@ -59,7 +59,7 @@ const SERVICES = [
 
 // num/suffix are locale-agnostic; label comes from copy.metrics by index
 const METRICS = [
-  { num: 100, suffix: "" },
+  { num: 13, suffix: "" },
   { num: 5, suffix: "+" },
   { num: 48, suffix: "h" },
   { num: 24, suffix: "/7" },
@@ -1026,6 +1026,9 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
                   <>
                     <a href="/vodici" data-cursor="on">Vodiči</a>
                     <a href="/cena-izrade-sajta" data-cursor="on">Cene</a>
+                    <a href="/politika-privatnosti" data-cursor="on">Privatnost</a>
+                    <a href="/politika-kolacica" data-cursor="on">Kolačići</a>
+                    <a href="/uslovi-koriscenja" data-cursor="on">Uslovi</a>
                   </>
                 )}
                 <a href="/contact-us" data-cursor="on">{t.footer.map[3]}</a>

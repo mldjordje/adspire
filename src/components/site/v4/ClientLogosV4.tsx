@@ -31,7 +31,9 @@ const CLIENTS: Client[] = [
   { name: "Kopex MIN", href: "https://kopexmin.rs", logo: "/images/clients/kopex-min-authentic.png" },
   { name: "Salon Srđan", href: "https://frizerskisalonsrdjan.com", logo: "/images/clients/salon-srdjan-authentic.png", zoom: true },
   { name: "ProTruck", href: "https://protruck.rs", logo: "/images/clients/protruck-authentic.png", direct: true, zoom: true },
-  { name: "Restoran Madera", href: "https://restoranmadera.rs", kind: "Hospitality platform" },
+  // The production domain is currently offline, so this remains evidence in
+  // the project grid without sending visitors to a broken external URL.
+  { name: "Restoran Madera", kind: "Hospitality platform" },
   { name: "Santos & Santorini", href: "https://santos.rs", logo: "/images/clients/santos-dark-authentic.png", direct: true },
   { name: "ML Group", href: "https://mlgroup.rs", logo: "/images/clients/ml-group-authentic.png", direct: true, zoom: true },
   { name: "Mergentheim Demo Hub", kind: "12 connected landing experiences" },

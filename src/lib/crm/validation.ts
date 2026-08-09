@@ -11,6 +11,10 @@ export const attributionSchema = z.object({
   utmCampaign: z.string().trim().max(200).nullable().optional(),
   utmContent: z.string().trim().max(200).nullable().optional(),
   utmTerm: z.string().trim().max(200).nullable().optional(),
+  gclid: z.string().trim().max(500).nullable().optional(),
+  gbraid: z.string().trim().max(500).nullable().optional(),
+  wbraid: z.string().trim().max(500).nullable().optional(),
+  msclkid: z.string().trim().max(500).nullable().optional(),
 });
 
 export const leadSubmissionSchema = z.object({

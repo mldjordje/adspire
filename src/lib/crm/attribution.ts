@@ -19,6 +19,10 @@ export function normalizeAttribution(input: UnknownRecord) {
     utmCampaign: clean(input.utmCampaign, true),
     utmContent: clean(input.utmContent, true),
     utmTerm: clean(input.utmTerm, true),
+    gclid: clean(input.gclid),
+    gbraid: clean(input.gbraid),
+    wbraid: clean(input.wbraid),
+    msclkid: clean(input.msclkid),
   };
 }
 

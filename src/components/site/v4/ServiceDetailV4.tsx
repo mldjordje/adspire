@@ -20,13 +20,14 @@ function splitKeywordList(value: string) {
 
 export function ServiceDetailV4({ service, catalog }: ServiceDetailV4Props) {
   const tags = splitKeywordList(catalog.keywordSr);
+  const pageTitle = catalog.h1Sr ?? service.title;
 
   return (
     <PageShellV4
       eyebrow="Usluga / Adspire Digital"
       title={
         <>
-          {service.title.toUpperCase()}
+          {pageTitle.toUpperCase()}
           <span className={styles.dot}>.</span>
         </>
       }
@@ -34,7 +35,7 @@ export function ServiceDetailV4({ service, catalog }: ServiceDetailV4Props) {
     >
       <section className={styles.overview} data-reveal>
         <div className={styles.copy}>
-          <span className={styles.label}>Sta resavamo</span>
+          <span className={styles.label}>Šta rešavamo</span>
           <p>{catalog.aiSummarySr}</p>
         </div>
         <aside className={styles.panel}>
@@ -54,7 +55,7 @@ export function ServiceDetailV4({ service, catalog }: ServiceDetailV4Props) {
             data-cursor="on"
             data-magnetic
           >
-            Zatrazi ponudu
+            Zatraži ponudu
           </a>
         </aside>
       </section>
@@ -68,8 +69,37 @@ export function ServiceDetailV4({ service, catalog }: ServiceDetailV4Props) {
         ))}
       </section>
 
+      {catalog.bestFor && catalog.deliverables ? (
+        <section className={styles.details} data-reveal>
+          <div className={styles.detailCard}>
+            <h2>Za koga ima smisla</h2>
+            <ul>{catalog.bestFor.map((item) => <li key={item}>{item}</li>)}</ul>
+          </div>
+          <div className={styles.detailCard}>
+            <h2>Šta dobijate</h2>
+            <ul>{catalog.deliverables.map((item) => <li key={item}>{item}</li>)}</ul>
+          </div>
+        </section>
+      ) : null}
+
+      {catalog.proof?.length ? (
+        <section className={styles.proof} data-reveal>
+          <span className={styles.label}>Dokazi iz produkcije</span>
+          <h2>Relevantni projekti</h2>
+          <div className={styles.proofGrid}>
+            {catalog.proof.map((item) => (
+              <a key={item.href} href={item.href} className={styles.proofCard} data-cursor="on">
+                <strong>{item.title}</strong>
+                <span>{item.result}</span>
+                <small>Pogledaj studiju slučaja →</small>
+              </a>
+            ))}
+          </div>
+        </section>
+      ) : null}
+
       <section className={styles.faq} data-reveal>
-        <h2>Najcesca pitanja</h2>
+        <h2>Najčešća pitanja</h2>
         {catalog.faqItems.map((item, index) => (
           <details key={item.q} className={styles.faqItem} open={index === 0}>
             <summary>
@@ -83,9 +113,9 @@ export function ServiceDetailV4({ service, catalog }: ServiceDetailV4Props) {
 
       <section className={styles.cta} data-reveal>
         <h2>Da li je ovo prava usluga za vas?</h2>
-        <p>Posaljite nam cilj i trenutni problem. Vracamo konkretan plan, rok i prvi prototip.</p>
+        <p>Pošaljite nam cilj i trenutni problem. Vraćamo konkretan plan, rok i prvi prototip.</p>
         <a href={`/upit/${service.slug}`} data-cursor="on" data-magnetic>
-          Posalji upit
+          Pošalji upit
         </a>
       </section>
     </PageShellV4>

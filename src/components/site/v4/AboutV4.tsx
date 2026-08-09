@@ -9,9 +9,9 @@ import styles from "./AboutV4.module.css";
  */
 
 const METRICS = [
-  { num: "5+", label: "Produkcijskih sistema, live" },
+  { num: "13", label: "Klijentskih sistema u produkciji" },
   { num: "48h", label: "Od brifa do prototipa" },
-  { num: "100", label: "Lighthouse — Core Web Vitals" },
+  { num: "5", label: "Javnih studija slučaja" },
   { num: "3", label: "Jezika — SR · EN · DE" },
 ];
 

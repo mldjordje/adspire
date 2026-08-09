@@ -170,6 +170,12 @@ const nextConfig = {
     );
 
     return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.adspire.rs" }],
+        destination: "https://adspire.rs/:path*",
+        permanent: true,
+      },
       // Legacy Serbian route scheme → current English scheme.
       ...legacyServiceRedirects,
       ...localeRedirects("/usluge/:slug*", "/our-services"),

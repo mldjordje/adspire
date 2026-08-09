@@ -29,6 +29,9 @@ const FOOTER_LINKS = [
   { href: "/cena-izrade-sajta", label: "Cene" },
   { href: "/upit", label: "Upit" },
   { href: "/contact-us", label: "Kontakt" },
+  { href: "/politika-privatnosti", label: "Privatnost" },
+  { href: "/politika-kolacica", label: "Kolačići" },
+  { href: "/uslovi-koriscenja", label: "Uslovi" },
 ];
 
 export function PageShellV4({ eyebrow, title, intro, children }: PageShellProps) {

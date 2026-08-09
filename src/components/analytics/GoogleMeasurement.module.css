@@ -1,0 +1,50 @@
+.banner {
+  position: fixed;
+  z-index: 10000;
+  right: 18px;
+  bottom: 18px;
+  display: grid;
+  width: min(460px, calc(100vw - 36px));
+  gap: 18px;
+  padding: 20px;
+  border: 1px solid rgba(242, 241, 236, 0.24);
+  background: rgba(10, 11, 15, 0.97);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+  color: rgba(242, 241, 236, 0.82);
+  font-family: Arial, sans-serif;
+}
+
+.banner p {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.banner a {
+  color: #f2f1ec;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.actions button {
+  min-width: 94px;
+  padding: 11px 16px;
+  border: 1px solid rgba(242, 241, 236, 0.3);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.reject {
+  background: transparent;
+  color: #f2f1ec;
+}
+
+.accept {
+  background: #f2efe6;
+  color: #0a0b0f;
+}

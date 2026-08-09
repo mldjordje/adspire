@@ -9,6 +9,7 @@ import {
   getSubmissionAttribution,
 } from "@/lib/crm/clientAttribution";
 import { defaultLocale, type LocaleCode } from "@/lib/site-config";
+import { trackLeadSubmitted } from "@/lib/analytics/events";
 import styles from "./ContactV4.module.css";
 
 /**
@@ -55,6 +56,12 @@ export function ContactV4({ locale = defaultLocale }: Props) {
         }),
       });
       if (!res.ok) throw new Error("Failed");
+      const result = (await res.json()) as { requestId?: string };
+      trackLeadSubmitted({
+        source: "contact",
+        service: String(form.get("service") ?? "other"),
+        requestId: result.requestId,
+      });
       formEl.reset();
       // New id for the next submission, otherwise the retry is deduplicated.
       requestIdRef.current = createRequestId();
