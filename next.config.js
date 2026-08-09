@@ -128,6 +128,10 @@ const nextConfig = {
     return config;
   },
   async redirects() {
+    // The locale segment must be an actual locale. Unconstrained ":locale"
+    // matched any first segment, so /usluge/web-pozivnice-za-veselja was read
+    // as locale="usluge" and bounced to /usluge/usluge/... — a 404 where a
+    // two-year-old indexed URL used to be.
     const localeRedirects = (source, destination) => [
       {
         source,
@@ -135,18 +139,58 @@ const nextConfig = {
         permanent: true,
       },
       {
-        source: `/:locale${source}`,
-        destination: `/:locale${destination}`,
+        source: `/:locale(en|de)${source}`,
+        destination: destination === "/" ? "/:locale" : `/:locale${destination}`,
         permanent: true,
       },
     ];
 
+    // Pre-redesign Serbian URLs. They are still in Google's index and still
+    // hold whatever link equity the site earned; without these they answer 404
+    // and that equity is discarded instead of passed to the current route.
+    const LEGACY_SERVICE_SLUGS = {
+      "performance-marketing": "seo-digitalni-marketing",
+      "digitalni-marketing": "seo-digitalni-marketing",
+      "seo-optimizacija": "seo-digitalni-marketing",
+      "izrada-sajtova": "web-prezentacije",
+      "izrada-web-sajtova": "web-prezentacije",
+      "web-dizajn": "web-prezentacije",
+      "web-pozivnice-za-veselja": "web-prezentacije",
+      "web-shop": "e-commerce-web-shop",
+      "online-prodavnica": "e-commerce-web-shop",
+      "mobilne-aplikacije": "mobilne-aplikacije",
+      "veb-aplikacije": "interne-poslovne-aplikacije",
+      "ai-automatizacija": "ai-integracije-automatizacija",
+      "hosting": "hosting-infrastruktura",
+      "zakazivanje": "sistemi-za-zakazivanje",
+    };
+
+    const legacyServiceRedirects = Object.entries(LEGACY_SERVICE_SLUGS).flatMap(
+      ([from, to]) => localeRedirects(`/usluge/${from}`, `/our-services/${to}`)
+    );
+
     return [
-      ...localeRedirects("/web-pozivnice-za-veselja", "/usluge/web-pozivnice-za-veselja"),
+      // Legacy Serbian route scheme → current English scheme.
+      ...legacyServiceRedirects,
+      ...localeRedirects("/usluge/:slug*", "/our-services"),
+      ...localeRedirects("/usluge", "/our-services"),
+      ...localeRedirects("/kontakt", "/contact-us"),
+      ...localeRedirects("/o-nama", "/about-us"),
+      ...localeRedirects("/reference", "/our-projects"),
+      ...localeRedirects("/radovi", "/our-projects"),
+      ...localeRedirects("/cenovnik", "/our-services"),
+      ...localeRedirects("/web-pozivnice-za-veselja", "/our-services/web-prezentacije"),
+
+      // Leftover theme-template routes that never became real pages.
       ...localeRedirects("/our-story", "/about-us"),
-      ...localeRedirects("/our-teams", "/team-single"),
+      ...localeRedirects("/our-teams", "/about-us"),
+      ...localeRedirects("/team-single", "/about-us"),
       ...localeRedirects("/client-feedback", "/about-us"),
       ...localeRedirects("/service-single", "/our-services"),
+      ...localeRedirects("/portfolio", "/our-projects"),
+      ...localeRedirects("/project-single", "/our-projects"),
+      ...localeRedirects("/blog-single", "/blog"),
+      ...localeRedirects("/404-error", "/"),
       ...localeRedirects("/index-light", "/"),
       ...localeRedirects("/index-two", "/"),
       ...localeRedirects("/index-two-light", "/"),
