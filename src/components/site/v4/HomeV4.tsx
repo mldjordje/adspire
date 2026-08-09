@@ -1020,6 +1020,14 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
                 <a href="/our-projects" data-cursor="on">{t.footer.map[0]}</a>
                 <a href="/our-services" data-cursor="on">{t.footer.map[1]}</a>
                 <a href="/blog" data-cursor="on">{t.footer.map[2]}</a>
+                {/* Serbian only — the pricing guide has no en/de translation yet,
+                    and a footer link into Serbian copy from /en would read as broken. */}
+                {locale === "sr" && (
+                  <>
+                    <a href="/vodici" data-cursor="on">Vodiči</a>
+                    <a href="/cena-izrade-sajta" data-cursor="on">Cene</a>
+                  </>
+                )}
                 <a href="/contact-us" data-cursor="on">{t.footer.map[3]}</a>
               </div>
               <div className={styles.footerCol}>

@@ -1,0 +1,185 @@
+.dot {
+  color: var(--blue);
+}
+
+.body {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: clamp(30px, 6vh, 70px) clamp(20px, 4vw, 48px) clamp(60px, 10vh, 120px);
+  display: grid;
+  gap: clamp(40px, 6vh, 72px);
+}
+
+.h2 {
+  font-family: var(--font-d);
+  font-weight: 800;
+  font-size: clamp(24px, 3.4vw, 40px);
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+  color: var(--accent);
+  margin: 0 0 22px;
+}
+
+.text {
+  font-size: clamp(15px, 1.6vw, 18px);
+  line-height: 1.7;
+  color: rgba(242, 239, 230, 0.78);
+  margin: 0;
+}
+
+.intro {
+  composes: text;
+  margin: 0 0 26px;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.list li {
+  font-size: clamp(15px, 1.6vw, 18px);
+  line-height: 1.55;
+  color: rgba(242, 239, 230, 0.78);
+  padding-left: 20px;
+  position: relative;
+}
+
+.list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.65em;
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--blue);
+}
+
+/* Price rows read as a table on desktop, stack on phones. */
+.rangeGrid {
+  display: grid;
+  gap: 2px;
+  border-top: 1px solid rgba(242, 239, 230, 0.14);
+}
+
+.rangeRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 6px 24px;
+  align-items: baseline;
+  padding: 20px 0;
+  border-bottom: 1px solid rgba(242, 239, 230, 0.14);
+}
+
+.rangeLabel {
+  font-family: var(--font-d);
+  font-weight: 700;
+  font-size: clamp(17px, 2vw, 21px);
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color 0.25s, border-color 0.25s;
+}
+
+.rangeLabel:hover {
+  color: var(--blue-bright);
+  border-bottom-color: var(--blue);
+}
+
+.rangePrice {
+  font-family: var(--font-d);
+  font-weight: 800;
+  font-size: clamp(16px, 1.9vw, 20px);
+  color: var(--blue-bright);
+  white-space: nowrap;
+  text-align: right;
+}
+
+.rangeNote {
+  grid-column: 1 / -1;
+  font-size: clamp(14px, 1.5vw, 16px);
+  line-height: 1.6;
+  color: rgba(242, 239, 230, 0.62);
+  margin: 4px 0 0;
+}
+
+@media (max-width: 560px) {
+  .rangeRow {
+    grid-template-columns: 1fr;
+  }
+
+  .rangePrice {
+    text-align: left;
+  }
+}
+
+.faqList {
+  display: grid;
+  gap: 26px;
+}
+
+.faqQ {
+  font-family: var(--font-d);
+  font-weight: 700;
+  font-size: clamp(17px, 2vw, 21px);
+  color: var(--accent);
+  margin: 0 0 10px;
+}
+
+.faqA {
+  composes: text;
+}
+
+.inlineLink {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid var(--blue);
+  transition: color 0.25s;
+}
+
+.inlineLink:hover {
+  color: var(--blue-bright);
+}
+
+.cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.ctaPrimary,
+.ctaSecondary {
+  display: inline-block;
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: 0.03em;
+  border-radius: 999px;
+  padding: 16px 34px;
+  text-decoration: none;
+  transition: box-shadow 0.3s, background 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.ctaPrimary {
+  color: #ffffff;
+  background: linear-gradient(90deg, var(--blue), var(--blue-bright));
+  box-shadow: 0 0 40px var(--blue-glow);
+}
+
+.ctaPrimary:hover {
+  box-shadow: 0 0 70px var(--blue-glow);
+}
+
+.ctaSecondary {
+  color: var(--accent);
+  border: 1px solid rgba(242, 239, 230, 0.24);
+}
+
+.ctaSecondary:hover {
+  color: #04070a;
+  background: var(--accent);
+  border-color: var(--accent);
+}
