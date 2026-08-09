@@ -12,7 +12,22 @@ export function getSiteUrl() {
 const VERIFIED_PROFILES = [
   // Google Knowledge Graph id for the verified Adspire Digital business profile.
   "https://www.google.com/search?kgmid=/g/11x1sn7rg5",
+  "https://www.instagram.com/adspire.rs/",
 ];
+
+/**
+ * Đorđe's personal profiles. They belong to the founder Person node, not to the
+ * Organization — a personal LinkedIn listed as the company's sameAs is a claim
+ * Google cannot verify, while founder → Person → sameAs is one it can.
+ */
+export const FOUNDER = {
+  name: "Đorđe Mladenović",
+  jobTitle: "Osnivač i lead developer",
+  sameAs: [
+    "https://www.linkedin.com/in/djordje-mladenovic-a546562a2/",
+    "https://github.com/mldjordje",
+  ],
+} as const;
 
 /** Extra profiles (LinkedIn, Instagram, …) — env: NEXT_PUBLIC_ORG_SAME_AS="https://...,https://..." */
 export function getOrgSameAs(): string[] {

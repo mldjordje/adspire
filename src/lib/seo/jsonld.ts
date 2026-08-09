@@ -1,4 +1,4 @@
-import { ORGANIZATION, getOrgSameAs, getSiteUrl } from "@/lib/seo/site";
+import { FOUNDER, ORGANIZATION, getOrgSameAs, getSiteUrl } from "@/lib/seo/site";
 import { serviceCatalog, type ServiceCatalogEntry } from "@/data/serviceCatalog";
 
 const base = () => getSiteUrl();
@@ -52,6 +52,15 @@ export function organizationJsonLd() {
           },
         },
       })),
+    },
+    founder: {
+      "@type": "Person",
+      "@id": `${base()}/#founder`,
+      name: FOUNDER.name,
+      jobTitle: FOUNDER.jobTitle,
+      url: `${base()}/about-us`,
+      worksFor: { "@id": `${base()}/#organization` },
+      sameAs: [...FOUNDER.sameAs],
     },
     ...(getOrgSameAs().length > 0 ? { sameAs: getOrgSameAs() } : {}),
   };
