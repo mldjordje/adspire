@@ -152,10 +152,15 @@ const nextConfig = {
       "performance-marketing": "seo-digitalni-marketing",
       "digitalni-marketing": "seo-digitalni-marketing",
       "seo-optimizacija": "seo-digitalni-marketing",
+      "seo-i-sadrzaj": "seo-digitalni-marketing",
+      "drustvene-mreze-i-sadrzaj": "seo-digitalni-marketing",
+      "analitika-i-cro": "seo-digitalni-marketing",
       "izrada-sajtova": "web-prezentacije",
       "izrada-web-sajtova": "web-prezentacije",
       "web-dizajn": "web-prezentacije",
+      "brending-i-identitet": "web-prezentacije",
       "web-pozivnice-za-veselja": "web-prezentacije",
+      "e-commerce": "e-commerce-web-shop",
       "web-shop": "e-commerce-web-shop",
       "online-prodavnica": "e-commerce-web-shop",
       "mobilne-aplikacije": "mobilne-aplikacije",
@@ -163,6 +168,7 @@ const nextConfig = {
       "ai-automatizacija": "ai-integracije-automatizacija",
       "hosting": "hosting-infrastruktura",
       "zakazivanje": "sistemi-za-zakazivanje",
+      "booking-sistemi": "sistemi-za-zakazivanje",
     };
 
     const legacyServiceRedirects = Object.entries(LEGACY_SERVICE_SLUGS).flatMap(
@@ -178,6 +184,9 @@ const nextConfig = {
       },
       // Legacy Serbian route scheme → current English scheme.
       ...legacyServiceRedirects,
+      ...localeRedirects("/index.html", "/"),
+      ...localeRedirects("/izrada-sajtova-srbija", "/our-services/web-prezentacije"),
+      ...localeRedirects("/izrada-sajtova-nis", "/izrada-sajta-i-aplikacija-nis"),
       ...localeRedirects("/usluge/:slug*", "/our-services"),
       ...localeRedirects("/usluge", "/our-services"),
       ...localeRedirects("/kontakt", "/contact-us"),
