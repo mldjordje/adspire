@@ -56,7 +56,6 @@ export function PageShellV4({ eyebrow, title, intro, children }: PageShellProps)
     const root = rootRef.current;
     const curtain = curtainRef.current;
     if (!root) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     let disposed = false;
     let ctxRevert: (() => void) | null = null;

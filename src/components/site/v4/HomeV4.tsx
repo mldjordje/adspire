@@ -79,6 +79,14 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [clock, setClock] = useState("");
   const [activeSection, setActiveSection] = useState(0);
+  // the scene reports the first real grab; the drag prompt retires after it
+  const [grabbed, setGrabbed] = useState(false);
+
+  useEffect(() => {
+    const onGrab = () => setGrabbed(true);
+    window.addEventListener("v4:grabbed", onGrab, { once: true });
+    return () => window.removeEventListener("v4:grabbed", onGrab);
+  }, []);
   const curtainRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
   const pathname = usePathname() ?? "/";
@@ -134,9 +142,6 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
   useEffect(() => {
     const root = rootRef.current;
     if (!root) return;
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduced) return;
-
     gsap.registerPlugin(ScrollTrigger);
 
     const q = gsap.utils.selector(root);
@@ -620,7 +625,7 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
     const top = el.getBoundingClientRect().top + window.scrollY - 76;
     window.scrollTo({
       top: Math.max(0, top),
-      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+      behavior: "smooth",
     });
   };
 
@@ -643,26 +648,32 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
         <a className={styles.navLogo} href={localePath("/", locale)} data-cursor="on">
           ADSPIRE<span className={styles.navLogoDot}>.</span>
         </a>
-        <nav className={styles.desktopNav} aria-label="Glavna navigacija">
+        {/* Real pages, not in-page anchors. The header used to scroll to
+            landing sections only, which left every actual route — services,
+            work, pricing, guides — reachable from the footer alone.
+            `/cena-izrade-sajta` has no localized route yet, so it is SR-only. */}
+        <nav
+          className={styles.desktopNav}
+          aria-label={
+            locale === "sr" ? "Glavna navigacija" : locale === "de" ? "Hauptnavigation" : "Main navigation"
+          }
+        >
           {[
-            { key: "projects", label: t.rail[3] },
-            { key: "services", label: t.rail[4] },
-            { key: "process", label: t.rail[6] },
+            { href: "/our-services", label: t.nav.links.services },
+            { href: "/our-projects", label: t.nav.links.work },
+            ...(locale === "sr" ? [{ href: "/cena-izrade-sajta", label: t.nav.links.pricing }] : []),
+            { href: "/blog", label: t.nav.links.blog },
+            { href: "/about-us", label: t.nav.links.about },
           ].map((item) => (
-            <button
-              key={item.key}
+            <Link
+              key={item.href}
               className={styles.desktopNavItem}
-              onClick={() => {
-                const el = rootRef.current?.querySelector<HTMLElement>(`.${styles[item.key]}`);
-                if (el) scrollToSection(el);
-              }}
+              href={localePath(item.href, locale)}
+              data-cursor="on"
             >
               {item.label}
-            </button>
+            </Link>
           ))}
-          <Link className={styles.desktopNavItem} href={localePath("/about-us", locale)}>
-            {locale === "sr" ? "O nama" : locale === "de" ? "Über uns" : "About"}
-          </Link>
         </nav>
         <div className={styles.navRight}>
           <div className={styles.navHud} aria-hidden="true">
@@ -748,9 +759,13 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
                 {t.hero.ctaGhost}
               </a>
             </div>
-            <div className={styles.sceneGestureHint} aria-hidden="true">
+            <div
+              className={styles.sceneGestureHint}
+              data-grabbed={grabbed ? "true" : undefined}
+              aria-hidden="true"
+            >
               <span className={styles.sceneGestureIcon}>↔</span>
-              <span>DRAG / ROTATE</span>
+              <span>{t.hero.drag}</span>
             </div>
           </div>
           <div className={styles.heroScrollHint} aria-hidden="true">

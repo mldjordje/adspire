@@ -42,7 +42,6 @@ export function ObsidianShard() {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     let disposed = false;
     let cleanup: (() => void) | null = null;

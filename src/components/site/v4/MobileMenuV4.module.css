@@ -300,12 +300,3 @@
     font-size: 12px;
   }
 }
-
-@media (prefers-reduced-motion: reduce) {
-  .overlay,
-  .link,
-  .sectionLink,
-  .burger span {
-    transition: none;
-  }
-}

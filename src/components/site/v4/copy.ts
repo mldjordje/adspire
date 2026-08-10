@@ -7,7 +7,12 @@ import type { LocaleCode } from "@/lib/site-config";
  */
 
 export type V4Copy = {
-  nav: { cta: string };
+  nav: {
+    cta: string;
+    /** header links to real pages — `pricing` is SR-only, there is no
+     *  localized /cena-izrade-sajta route yet */
+    links: { services: string; work: string; pricing: string; blog: string; about: string };
+  };
   rail: string[]; // hero, manifesto, value, projects, services, aiDemo, process, faq, cta
   hero: {
     badge: string;
@@ -17,6 +22,8 @@ export type V4Copy = {
     ctaGhost: string;
     trust: [string, string, string];
     scroll: string;
+    /** affordance for the draggable sculpture — hidden once actually used */
+    drag: string;
   };
   marquee: string;
   manifesto: string;
@@ -81,7 +88,10 @@ export type V4Copy = {
 };
 
 const sr: V4Copy = {
-  nav: { cta: "Pokreni projekat" },
+  nav: {
+    cta: "Pokreni projekat",
+    links: { services: "Usluge", work: "Radovi", pricing: "Cene", blog: "Blog", about: "O nama" },
+  },
   rail: ["Početak", "Manifest", "Vrednost", "Radovi", "Usluge", "AI demo", "Proces", "FAQ", "Kontakt"],
   hero: {
     badge: "Web · Aplikacije · AI — Niš",
@@ -91,6 +101,7 @@ const sr: V4Copy = {
     ctaGhost: "Pogledaj radove",
     trust: ["13 sistema u produkciji", "5 javnih studija slučaja", "Prototip za 48h"],
     scroll: "skroluj",
+    drag: "prevuci · zavrti scenu",
   },
   marquee: "WEB · APLIKACIJE · E-COMMERCE · AI · WEBGL · DIZAJN · ",
   manifesto:
@@ -242,7 +253,10 @@ const sr: V4Copy = {
 };
 
 const en: V4Copy = {
-  nav: { cta: "Start a project" },
+  nav: {
+    cta: "Start a project",
+    links: { services: "Services", work: "Work", pricing: "Pricing", blog: "Blog", about: "About" },
+  },
   rail: ["Start", "Manifesto", "Value", "Work", "Services", "AI demo", "Process", "FAQ", "Contact"],
   hero: {
     badge: "Web · Apps · AI — Niš",
@@ -252,6 +266,7 @@ const en: V4Copy = {
     ctaGhost: "See our work",
     trust: ["13 production systems", "5 public case studies", "Prototype in 48h"],
     scroll: "scroll",
+    drag: "drag · spin the scene",
   },
   marquee: "WEB · APPS · E-COMMERCE · AI · WEBGL · DESIGN · ",
   manifesto:
@@ -403,7 +418,10 @@ const en: V4Copy = {
 };
 
 const de: V4Copy = {
-  nav: { cta: "Projekt starten" },
+  nav: {
+    cta: "Projekt starten",
+    links: { services: "Leistungen", work: "Arbeiten", pricing: "Preise", blog: "Blog", about: "Über uns" },
+  },
   rail: ["Start", "Manifest", "Mehrwert", "Arbeiten", "Leistungen", "KI-Demo", "Prozess", "FAQ", "Kontakt"],
   hero: {
     badge: "Web · Apps · KI — Niš",
@@ -413,6 +431,7 @@ const de: V4Copy = {
     ctaGhost: "Arbeiten ansehen",
     trust: ["13 Produktivsysteme", "5 öffentliche Fallstudien", "Prototyp in 48 h"],
     scroll: "scrollen",
+    drag: "ziehen · Szene drehen",
   },
   marquee: "WEB · APPS · E-COMMERCE · KI · WEBGL · DESIGN · ",
   manifesto:

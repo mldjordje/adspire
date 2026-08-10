@@ -112,7 +112,6 @@ export function EventHorizonV4() {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     // Mobile: decorative event-horizon shader — skip the WebGL rAF loop on
     // low-end phones to protect the main thread (mobile Lighthouse).
     if (window.matchMedia("(max-width: 767px)").matches) return;
@@ -206,36 +205,24 @@ export function EventHorizonV4() {
       raf = requestAnimationFrame(tick);
     };
 
-    if (reduced) {
-      // one still frame — the black hole poses instead of spinning
-      frame();
-    } else {
-      const io = new IntersectionObserver(
-        (entries) => {
-          const on = entries.some((en) => en.isIntersecting);
-          if (on && !visible) {
-            visible = true;
-            raf = requestAnimationFrame(tick);
-          } else if (!on) {
-            visible = false;
-            cancelAnimationFrame(raf);
-          }
-        },
-        { rootMargin: "120px" },
-      );
-      io.observe(canvas);
-      return () => {
-        io.disconnect();
-        cancelAnimationFrame(raf);
-        window.removeEventListener("resize", resize);
-        window.removeEventListener("pointermove", onMove);
-        window.removeEventListener("pointerdown", onDown);
-        gl.deleteProgram(prog);
-        gl.deleteBuffer(buf);
-      };
-    }
+    const io = new IntersectionObserver(
+      (entries) => {
+        const on = entries.some((en) => en.isIntersecting);
+        if (on && !visible) {
+          visible = true;
+          raf = requestAnimationFrame(tick);
+        } else if (!on) {
+          visible = false;
+          cancelAnimationFrame(raf);
+        }
+      },
+      { rootMargin: "120px" },
+    );
+    io.observe(canvas);
 
     return () => {
+      io.disconnect();
+      cancelAnimationFrame(raf);
       window.removeEventListener("resize", resize);
       window.removeEventListener("pointermove", onMove);
       window.removeEventListener("pointerdown", onDown);
