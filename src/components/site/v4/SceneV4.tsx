@@ -1372,29 +1372,51 @@ const SHARD_FRAG = /* glsl */ `
   varying float vTravel;
   varying float vEdge;
   void main() {
-    float ndv = abs(dot(normalize(vN), normalize(vV)));
-    // tight fresnel = a thin hard rim of light on each facet edge
-    float fres = pow(1.0 - ndv, 3.0);
-    // slow light band crawling across the glass — obsidian catches light
-    float band = 0.5 + 0.5 * sin(vPos.y * 9.0 + uTime * 0.6 + vSeed * 6.283);
-    // rare, hard glint — a sparse flash reads more expensive than constant shine
-    float glint = pow(band, 14.0) * pow(ndv, 3.0) * 0.7;
-    vec3 base = vec3(0.004, 0.008, 0.024);
-    // Locked to the brand accent (#2f6bff). The grazing edge lifts toward a
-    // brighter blue, NOT toward white — a white rim on 88 shards averages out
-    // to the silver haze that made the field read grey.
-    vec3 rim = mix(uColor, vec3(0.18, 0.42, 1.0), 0.7);
-    rim = mix(rim, vec3(0.42, 0.64, 1.0), pow(fres, 3.5));
-    vec3 col = base + rim * fres * (1.0 + band * 0.6) + vec3(0.5, 0.7, 1.0) * glint;
+    vec3 N = normalize(vN);
+    vec3 V = normalize(vV);
+    float ndv = clamp(dot(N, V), 0.0, 1.0);
+
+    // A two-light studio rig, in view space so it follows the camera like a
+    // product shot. Fresnel alone only ever draws an outline — cut facets
+    // need directional light before they read as surfaces with an angle,
+    // and that was why the field looked like glowing paper.
+    vec3 keyDir = normalize(vec3(-0.55, 0.72, 0.42));
+    vec3 fillDir = normalize(vec3(0.62, -0.38, 0.35));
+    float key = max(dot(N, keyDir), 0.0);
+    float fill = max(dot(N, fillDir), 0.0);
+
+    // hard Blinn speculars — the per-facet glint that reads as cut glass
+    float spec = pow(max(dot(N, normalize(keyDir + V)), 0.0), 90.0);
+    float spec2 = pow(max(dot(N, normalize(fillDir + V)), 0.0), 42.0);
+
+    float fres = pow(1.0 - ndv, 3.4);
+
+    // Beer-Lambert-ish interior: darkest where the line of sight passes
+    // through the most glass, lifting toward the silhouette. This is the
+    // thickness cue that separates a solid from a shell.
+    vec3 body = mix(vec3(0.005, 0.011, 0.036), uColor * 0.45, (1.0 - ndv) * 0.72);
+    // faint internal striation so large facets are never dead flat
+    float grain = 0.5 + 0.5 * sin(vPos.y * 24.0 + vSeed * 6.283 + uTime * 0.25);
+
+    vec3 col = body * (0.9 + grain * 0.2);
+    col += uColor * key * 0.55;
+    col += mix(uColor, vec3(0.3, 0.5, 1.0), 0.5) * fill * 0.26;
+    col += vec3(0.62, 0.78, 1.0) * spec * 1.3;
+    col += uColor * spec2 * 0.45;
+    col += mix(uColor, vec3(0.42, 0.66, 1.0), 0.6) * fres * 0.85;
+
     // shards in transit run hotter, so the eye follows the flight and the
     // parked structure reads as the calm state
-    col += rim * vTravel * 0.5;
+    col += uColor * vTravel * 0.35;
     // launch and landing each get a bloom — bright, still blue
     col += vec3(0.4, 0.62, 1.0) * vEdge * 0.8;
     // crystallisation flash — the frame a formation lands, the facets ring
-    col += rim * uArrival * 0.5;
-    // per-shard opacity variance keeps the field from looking printed
-    float a = (0.18 + fres * 0.55 + glint + vEdge * 0.5) * uAlpha * (0.75 + vSeed * 0.5);
+    col += uColor * uArrival * 0.4;
+
+    // Nearly opaque. Additive blending was what made these ghosts: every
+    // overlap summed to a brighter smear instead of one shard occluding
+    // another, so the field never had solidity.
+    float a = clamp(0.62 + fres * 0.38 + spec, 0.0, 1.0) * clamp(uAlpha, 0.0, 1.0);
     gl_FragColor = vec4(col, a);
   }
 `;
@@ -1560,6 +1582,8 @@ export function SceneV4() {
       const cloud = new THREE.Points(cloudGeo, cloudMat);
       // real positions live in the shader — never let three cull on stale bounds
       cloud.frustumCulled = false;
+      // after the shard field, so particles are depth-tested against solids
+      cloud.renderOrder = 2;
       scene.add(cloud);
 
       // ── Neural constellation — synapse lines between the AI shape's nodes,
@@ -1768,21 +1792,30 @@ export function SceneV4() {
         const mat = new THREE.ShaderMaterial({
           uniforms: { ...shardCommon, uAlpha: { value: baseAlpha } },
           transparent: true,
-          depthWrite: false,
-          blending: THREE.AdditiveBlending,
+          // depth write ON: shards occlude each other and the particles
+          // behind them, which is what gives the field real depth. Additive
+          // + no depth was why overlaps used to smear into one bright haze.
+          depthWrite: true,
+          blending: THREE.NormalBlending,
           vertexShader: SHARD_VERT,
           fragmentShader: SHARD_FRAG,
         });
 
         const mesh = new THREE.Mesh(geo, mat);
         mesh.frustumCulled = false;
+        // draw before the additive cloud so the depth buffer is already laid
+        // down when the particles are tested against it
+        mesh.renderOrder = 1;
         scene.add(mesh);
         shardFields.push({ geo, mat, mesh, count, tgtA, tgtB, dirA, dirB, homes, baseAlpha });
       };
 
-      buildShardField(new THREE.IcosahedronGeometry(0.085, 0), isMobile ? 14 : 40, 1234, 1.0, 1.0);
-      buildShardField(new THREE.OctahedronGeometry(0.075, 0), isMobile ? 12 : 32, 4211, 0.95, 0.9);
-      buildShardField(new THREE.TetrahedronGeometry(0.115, 0), isMobile ? 6 : 16, 8807, 1.25, 0.85);
+      // detail 1 on the two carrying fields: 80 and 32 facets instead of 20
+      // and 8, so each shard catches several speculars at once. At 88
+      // instances that is still under 5k triangles.
+      buildShardField(new THREE.IcosahedronGeometry(0.095, 1), isMobile ? 14 : 40, 1234, 1.0, 1.0);
+      buildShardField(new THREE.OctahedronGeometry(0.085, 1), isMobile ? 12 : 32, 4211, 0.95, 0.92);
+      buildShardField(new THREE.TetrahedronGeometry(0.125, 0), isMobile ? 6 : 16, 8807, 1.25, 0.88);
 
       // ── Shared soft-glow quad — a plane with a radial falloff. The ink
       // field, the core glow and the anamorphic flare all draw on it ────
@@ -1820,6 +1853,8 @@ export function SceneV4() {
         uniform vec3 uColorHi;
         uniform float uOpacity;
         uniform float uEnergy;    // scroll/warp lifts the plasma
+        // click ripples: xy = centre in uv, z = age in seconds (<0 = free slot)
+        uniform vec3 uRipples[3];
         varying vec2 vUv;
 
         float hash(vec2 p) {
@@ -1848,6 +1883,21 @@ export function SceneV4() {
           // own so the background is alive on a still page.
           vec2 idle = vec2(cos(uTime * 0.07), sin(uTime * 0.053)) * 0.16;
           vec2 pull = (uPointer - 0.5) * (0.35 + uEnergy * 0.5) + idle;
+
+          // Click ripples. Each one is an expanding ring that both lights the
+          // plasma and drags the noise field outward as it passes, so the
+          // void visibly answers a press instead of only drifting past it.
+          float ring = 0.0;
+          for (int i = 0; i < 3; i++) {
+            vec3 rp = uRipples[i];
+            if (rp.z < 0.0) continue;
+            float dist = distance(vUv, rp.xy);
+            float radius = rp.z * 0.38;
+            float band = exp(-pow((dist - radius) * 13.0, 2.0)) * exp(-rp.z * 1.35);
+            ring += band;
+            pull += normalize(vUv - rp.xy + 0.0001) * band * 0.12;
+          }
+
           float n = fbm(uv * 2.2 + drift + pull);
           float n2 = fbm(uv * 3.9 - drift * 1.4 - pull * 0.6);
           float ink = smoothstep(0.34, 0.86, n * 0.6 + n2 * 0.4);
@@ -1855,9 +1905,12 @@ export function SceneV4() {
           float veins = pow(ink, 4.0);
           vec3 col = mix(uColorLo, uColorHi, ink) * ink;
           col += uColorHi * veins * (0.6 + uEnergy * 0.9);
+          // the ring itself glows, brighter than the ambient plasma so the
+          // response is unmistakable without lighting the whole frame
+          col += mix(uColorHi, vec3(0.24, 0.44, 1.0), 0.6) * ring * 1.6;
           // radial falloff keeps the frame edges dark (no flat wash)
           float vig = smoothstep(1.15, 0.25, length(vUv - 0.5) * 1.3);
-          gl_FragColor = vec4(col, ink * vig * uOpacity * (1.0 + uEnergy * 0.6));
+          gl_FragColor = vec4(col, (ink + ring * 0.8) * vig * uOpacity * (1.0 + uEnergy * 0.6));
         }
       `;
       // Deliberately NOT the accent. The backdrop used to run the same
@@ -1872,6 +1925,18 @@ export function SceneV4() {
         uColorHi: { value: new THREE.Color(0x1e2c63) },
         uOpacity: { value: isMobile ? 0.13 : 0.16 },
         uEnergy: { value: 0 },
+        uRipples: {
+          value: [new THREE.Vector3(0, 0, -1), new THREE.Vector3(0, 0, -1), new THREE.Vector3(0, 0, -1)],
+        },
+      };
+      // round-robin ripple slots — a fourth press recycles the oldest
+      const rippleAge: number[] = [-99, -99, -99];
+      const RIPPLE_LIFE = 3.4;
+      let rippleSlot = 0;
+      const spawnRipple = (uvx: number, uvy: number, now: number) => {
+        inkUniforms.uRipples.value[rippleSlot].set(uvx, uvy, 0);
+        rippleAge[rippleSlot] = now;
+        rippleSlot = (rippleSlot + 1) % inkUniforms.uRipples.value.length;
       };
       const inkMat = new THREE.ShaderMaterial({
         uniforms: inkUniforms,
@@ -2062,6 +2127,15 @@ export function SceneV4() {
       };
       window.addEventListener("v4:tint", onTint);
 
+      // The hero shows a "drag to spin" prompt until the visitor actually
+      // does it once; fired from both the touch and the mouse path.
+      let grabbedOnce = false;
+      const notifyGrabbed = () => {
+        if (grabbedOnce) return;
+        grabbedOnce = true;
+        window.dispatchEvent(new CustomEvent("v4:grabbed"));
+      };
+
       // Mobile-first direct manipulation. The page may keep scrolling, but
       // every drag also grabs the sculpture: X rotates/pans it, Y tilts/lifts
       // it, and release leaves physical angular momentum instead of stopping.
@@ -2090,6 +2164,7 @@ export function SceneV4() {
         if (lastTX !== null && lastTY !== null) {
           const dx = tch.clientX - lastTX;
           const dy = tch.clientY - lastTY;
+          if (Math.abs(dx) + Math.abs(dy) > 2) notifyGrabbed();
           spinVel += dx * 0.00125;
           touchPitchTarget = Math.max(-0.5, Math.min(0.5, touchPitchTarget + dy * 0.0028));
           touchPanTargetX = Math.max(-1.35, Math.min(1.35, touchPanTargetX + dx * 0.007));
@@ -2108,6 +2183,55 @@ export function SceneV4() {
         window.addEventListener("touchstart", onTouchStart, { passive: true });
         window.addEventListener("touchmove", onTouchMove, { passive: true });
         window.addEventListener("touchend", onTouchEnd, { passive: true });
+      }
+
+      // Desktop direct manipulation. Touch could already grab the sculpture;
+      // a mouse could only nudge it via parallax, so on the device most
+      // visitors use, the scene was something to watch rather than handle.
+      // Drags that begin on a link, button or field are left alone — the page
+      // must stay usable, and text selection still belongs to the text.
+      let dragging = false;
+      let dragMoved = false;
+      let lastDX = 0;
+      let lastDY = 0;
+      const INTERACTIVE = "a,button,input,textarea,select,label,[role='button'],[contenteditable]";
+      const onDragStart = (e: PointerEvent) => {
+        if (e.pointerType !== "mouse" || e.button !== 0) return;
+        const el = e.target as HTMLElement | null;
+        if (el?.closest?.(INTERACTIVE)) return;
+        dragging = true;
+        dragMoved = false;
+        lastDX = e.clientX;
+        lastDY = e.clientY;
+      };
+      const onDragMove = (e: PointerEvent) => {
+        if (!dragging) return;
+        const dx = e.clientX - lastDX;
+        const dy = e.clientY - lastDY;
+        lastDX = e.clientX;
+        lastDY = e.clientY;
+        if (Math.abs(dx) + Math.abs(dy) > 2 && !dragMoved) {
+          dragMoved = true;
+          notifyGrabbed();
+        }
+        // same machinery the touch path drives, so release momentum, damping
+        // and clamping all behave identically across input types
+        spinVel += dx * 0.0011;
+        touchPitchTarget = Math.max(-0.5, Math.min(0.5, touchPitchTarget + dy * 0.0022));
+        touchPanTargetX = Math.max(-1.35, Math.min(1.35, touchPanTargetX + dx * 0.005));
+        touchPanTargetY = Math.max(-0.9, Math.min(0.9, touchPanTargetY - dy * 0.003));
+        document.documentElement.classList.add("v4-dragging");
+      };
+      const onDragEnd = () => {
+        if (!dragging) return;
+        dragging = false;
+        document.documentElement.classList.remove("v4-dragging");
+      };
+      if (!coarse) {
+        window.addEventListener("pointerdown", onDragStart, { passive: true });
+        window.addEventListener("pointermove", onDragMove, { passive: true });
+        window.addEventListener("pointerup", onDragEnd, { passive: true });
+        window.addEventListener("pointercancel", onDragEnd, { passive: true });
       }
 
       // press-and-hold gathers the swarm to the pointer (uAttract ramps in
@@ -2129,9 +2253,15 @@ export function SceneV4() {
           .addScaledVector(dir, tt);
         shockAt = (performance.now() - startTime) / 1000;
       };
-      const onPress = () => {
+      const onPress = (e: PointerEvent) => {
         holdOn = true;
         holdT0 = performance.now();
+        // the backdrop answers the press: a ring expands from where it landed
+        spawnRipple(
+          e.clientX / window.innerWidth,
+          1 - e.clientY / window.innerHeight,
+          (performance.now() - startTime) / 1000,
+        );
       };
       const onRelease = (e: PointerEvent) => {
         if (!holdOn) return;
@@ -2408,8 +2538,15 @@ export function SceneV4() {
         warp += (warpTarget - warp) * (warpTarget > warp ? 0.09 : 0.05);
         cloudUniforms.uWarp.value = warp;
 
-        // press-and-hold gathers the swarm; ramp eases so it feels magnetic
-        const attractOn = holdOn && performance.now() - holdT0 > 260;
+        // ripples age out; a negative age frees the slot in the shader
+        for (let i = 0; i < inkUniforms.uRipples.value.length; i++) {
+          const age = t - rippleAge[i];
+          inkUniforms.uRipples.value[i].z = age >= 0 && age < RIPPLE_LIFE ? age : -1;
+        }
+
+        // press-and-hold gathers the swarm; ramp eases so it feels magnetic.
+        // A drag is a different gesture — it must not also trigger the pull.
+        const attractOn = holdOn && !dragMoved && performance.now() - holdT0 > 260;
         attract += ((attractOn ? 1 : 0) - attract) * 0.09;
         cloudUniforms.uAttract.value = attract;
 
@@ -2650,6 +2787,11 @@ export function SceneV4() {
         window.removeEventListener("touchstart", onTouchStart);
         window.removeEventListener("touchmove", onTouchMove);
         window.removeEventListener("touchend", onTouchEnd);
+        window.removeEventListener("pointerdown", onDragStart);
+        window.removeEventListener("pointermove", onDragMove);
+        window.removeEventListener("pointerup", onDragEnd);
+        window.removeEventListener("pointercancel", onDragEnd);
+        document.documentElement.classList.remove("v4-dragging");
         window.removeEventListener("pointerdown", onPress);
         window.removeEventListener("pointerup", onRelease);
         window.removeEventListener("pointercancel", onPressCancel);

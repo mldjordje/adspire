@@ -75,6 +75,12 @@
   cursor: none;
 }
 
+/* While the visitor is turning the sculpture, stop the drag from painting a
+   text selection across whatever copy it passes over. */
+:global(html.v4-dragging) .root {
+  user-select: none;
+}
+
 /* ─── Fixed layers ─────────────────────────────────────────── */
 
 .scene {
@@ -742,8 +748,30 @@
   flex-wrap: wrap;
 }
 
+/* Affordance for the draggable sculpture. Desktop can now grab the scene
+   too, and an interaction nobody knows about may as well not exist. */
 .sceneGestureHint {
-  display: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 24px;
+  color: rgba(202, 211, 255, 0.42);
+  font-size: 9px;
+  font-weight: 650;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  transition: opacity 0.7s ease;
+}
+
+/* once the visitor has actually grabbed it the prompt has done its job —
+   leaving it up is nagging */
+.sceneGestureHint[data-grabbed="true"] {
+  opacity: 0;
+}
+
+.sceneGestureIcon {
+  font-size: 13px;
+  color: var(--blue-bright);
 }
 
 .btnPrimary {

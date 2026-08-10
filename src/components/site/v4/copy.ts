@@ -22,6 +22,8 @@ export type V4Copy = {
     ctaGhost: string;
     trust: [string, string, string];
     scroll: string;
+    /** affordance for the draggable sculpture — hidden once actually used */
+    drag: string;
   };
   marquee: string;
   manifesto: string;
@@ -99,6 +101,7 @@ const sr: V4Copy = {
     ctaGhost: "Pogledaj radove",
     trust: ["13 sistema u produkciji", "5 javnih studija slučaja", "Prototip za 48h"],
     scroll: "skroluj",
+    drag: "prevuci · zavrti scenu",
   },
   marquee: "WEB · APLIKACIJE · E-COMMERCE · AI · WEBGL · DIZAJN · ",
   manifesto:
@@ -263,6 +266,7 @@ const en: V4Copy = {
     ctaGhost: "See our work",
     trust: ["13 production systems", "5 public case studies", "Prototype in 48h"],
     scroll: "scroll",
+    drag: "drag · spin the scene",
   },
   marquee: "WEB · APPS · E-COMMERCE · AI · WEBGL · DESIGN · ",
   manifesto:
@@ -427,6 +431,7 @@ const de: V4Copy = {
     ctaGhost: "Arbeiten ansehen",
     trust: ["13 Produktivsysteme", "5 öffentliche Fallstudien", "Prototyp in 48 h"],
     scroll: "scrollen",
+    drag: "ziehen · Szene drehen",
   },
   marquee: "WEB · APPS · E-COMMERCE · KI · WEBGL · DESIGN · ",
   manifesto:

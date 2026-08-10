@@ -209,6 +209,45 @@ pravac za ovaj sloj — obrazloži i predloži.
 
 ---
 
+- **Kvalitet shardova + interaktivnost (2026-08-10).** Đorđe: „nedovoljno kvalitetan i
+  detaljan izgled", „implementiraj interaktivnost za pozadinu", „visitor mora da može
+  da rotira i kontroliše elemente".
+
+  - Shardovi su bili **aditivni sa samo fresnel rubom** — zato su izgledali kao svetleći
+    papir. Sad: dvo-svetlosni studijski rig u view space-u (key + fill), dva oštra Blinn
+    speculara, Beer-Lambert unutrašnjost (tamno gde se gleda kroz najviše stakla),
+    fina unutrašnja štrafta. **`NormalBlending` + `depthWrite: true`** — shardovi sad
+    zaklanjaju jedan drugog i čestice iza sebe; aditivno slaganje je bilo ono što ih je
+    pretvaralo u razmaz. Geometrija na detail 1 (80 i 32 faseta umesto 20 i 8).
+  - **Ink field prima klik** — do 3 talasa (`uRipples[3]`), svaki širi prsten koji i
+    osvetljava plazmu i vuče noise polje za sobom.
+  - **Drag-to-rotate na desktopu.** Do sada je samo touch mogao da uhvati skulpturu.
+    Miš vozi isti `spinVel`/`touchPitch` mehanizam, pa su momentum i prigušenje
+    identični. Drag koji počne na linku/dugmetu/polju se ne otima. `html.v4-dragging`
+    gasi selekciju teksta.
+  - **Affordance.** `sceneGestureHint` je postojao ali je bio `display: none` na
+    desktopu i hardkodiran na engleskom. Sad je vidljiv, lokalizovan (`t.hero.drag`) i
+    **gasi se posle prvog stvarnog hvatanja** (`v4:grabbed`).
+
+### Otvoreno: raspored UI/UX da scena dođe do izražaja
+
+Ovo **nije** urađeno — traži Đorđevu odluku jer dira raspored sadržaja, ne vizuelni sloj.
+
+1. **Hero mora da ima prazan prostor.** Trenutno naslov + dva CTA + trust red + dva
+   hint-a zauzimaju sredinu ekrana, tačno tamo gde je skulptura. Predlog: naslov levo
+   poravnat i spušten, desna trećina potpuno prazna — skulptura dobija scenu.
+2. **Naizmenično poravnanje po sekcijama.** Sadržaj levo / desno u smeni, pa `SHAPES[].x`
+   (koji već pomera oblak u stranu) ima gde da ga pomeri. Sad se sadržaj i oblak biju
+   za isti centar.
+3. **Jedna sekcija bez teksta.** Između `process` i `metrics` — samo skulptura, puna
+   visina ekrana, bez ijedne reči. To je trenutak koji sajt čini skupim; sad ga nema.
+4. **Pauza u scrollu na formaciji.** Kratak `ScrollTrigger` pin (~40vh) na hero i CTA
+   dok formacija stoji sklopljena, da se pročita pre nego što se raspadne.
+5. **Kontrole eksplicitno.** Mali HUD u uglu: reset pogleda + „auto-rotate on/off".
+   Ako je poenta da posetilac kontroliše scenu, kontrola treba da bude vidljiva.
+
+---
+
 ## Predlog: SHARD FIELD v2 — geometrija koja se formira uz čestice
 
 Naručio Đorđe (2026-08-10): geometrijski oblici u pozadini treba da **i sami formiraju

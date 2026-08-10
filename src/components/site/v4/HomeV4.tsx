@@ -79,6 +79,14 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [clock, setClock] = useState("");
   const [activeSection, setActiveSection] = useState(0);
+  // the scene reports the first real grab; the drag prompt retires after it
+  const [grabbed, setGrabbed] = useState(false);
+
+  useEffect(() => {
+    const onGrab = () => setGrabbed(true);
+    window.addEventListener("v4:grabbed", onGrab, { once: true });
+    return () => window.removeEventListener("v4:grabbed", onGrab);
+  }, []);
   const curtainRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
   const pathname = usePathname() ?? "/";
@@ -751,9 +759,13 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
                 {t.hero.ctaGhost}
               </a>
             </div>
-            <div className={styles.sceneGestureHint} aria-hidden="true">
+            <div
+              className={styles.sceneGestureHint}
+              data-grabbed={grabbed ? "true" : undefined}
+              aria-hidden="true"
+            >
               <span className={styles.sceneGestureIcon}>↔</span>
-              <span>DRAG / ROTATE</span>
+              <span>{t.hero.drag}</span>
             </div>
           </div>
           <div className={styles.heroScrollHint} aria-hidden="true">
