@@ -139,7 +139,6 @@ export default function ProjectPlanesV4({
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     // Mobile: skip this second WebGL surface. Leaving the effect early means the
     // DOM <img> planes are never hidden (opacity stays 1) so they render as plain
     // static screenshots — no shader context, no per-frame rect reads on low-end

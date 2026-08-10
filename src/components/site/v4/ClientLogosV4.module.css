@@ -228,11 +228,3 @@
     font-size: clamp(19px, 7vw, 29px);
   }
 }
-
-@media (prefers-reduced-motion: reduce) {
-  .client,
-  .client::before,
-  .logo {
-    transition: none;
-  }
-}

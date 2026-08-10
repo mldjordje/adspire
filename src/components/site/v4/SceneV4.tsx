@@ -41,6 +41,12 @@ type ShapeDef = {
   dive: number;
   /** scene background grade for this chapter — mood shifts per section */
   bg: [number, number, number];
+  /** shard field for this chapter — the formation itself is authored in
+   *  `buildShardForms` (indexed by `gen`); these two grade it per section:
+   *  shardAlpha = opacity, drops where real content is the star
+   *  shardSpread = formation scale, so a structure can crowd in or stand off */
+  shardAlpha: number;
+  shardSpread: number;
   color: [number, number, number];
   /** second palette tone — particles blend between the two by seed */
   color2: [number, number, number];
@@ -58,14 +64,14 @@ type ShapeDef = {
 // White-dominant tones average to silver-grey under additive blending — so
 // blue must be the base and white only the sparkle.
 const SHAPES: ShapeDef[] = [
-  { section: "hero", gen: 0, camZ: 8.5, camA: 0.0, camY: 0.0, x: 0.0, rot: 0.52, tilt: 0.08, alpha: 0.52, wave: 0, dive: 0.45, bg: [0.003, 0.005, 0.02], color: [0.28, 0.38, 0.95], color2: [0.82, 0.88, 1.0] },
-  { section: "manifesto", gen: 1, camZ: 8.8, camA: 0.42, camY: 0.34, x: 0.0, rot: 0.3, tilt: 0.14, alpha: 0.36, wave: 0, dive: 2.4, bg: [0.004, 0.006, 0.024], color: [0.18, 0.28, 0.75], color2: [0.7, 0.78, 1.0] },
-  { section: "projects", gen: 2, camZ: 8.6, camA: -0.38, camY: -0.22, x: 1.8, rot: 0.1, tilt: 0.06, alpha: 0.2, wave: 0, dive: 0.4, bg: [0.002, 0.004, 0.016], color: [0.36, 0.46, 0.9], color2: [0.92, 0.94, 1.0] },
-  { section: "services", gen: 3, camZ: 8.8, camA: 0.46, camY: 0.28, x: -2.1, rot: 0.14, tilt: 0, alpha: 0.18, wave: 0, dive: 2.6, bg: [0.004, 0.006, 0.022], color: [0.14, 0.22, 0.65], color2: [0.56, 0.68, 1.0] },
-  { section: "aiDemo", gen: 4, camZ: 8.7, camA: -0.42, camY: -0.22, x: 1.45, rot: 0.52, tilt: 0, alpha: 0.3, wave: 0, dive: 0.45, bg: [0.004, 0.006, 0.026], color: [0.3, 0.4, 0.9], color2: [0.76, 0.82, 1.0] },
-  { section: "process", gen: 5, camZ: 8.0, camA: 0.2, camY: 0.52, x: 0.0, rot: 0.05, tilt: 0.09, alpha: 0.38, wave: 0, dive: 0.45, bg: [0.004, 0.006, 0.024], color: [0.34, 0.46, 0.96], color2: [0.86, 0.9, 1.0] },
-  { section: "metrics", gen: 6, camZ: 8.6, camA: -0.24, camY: 0.32, x: 0.0, rot: 0.08, tilt: 0.12, alpha: 0.24, wave: 0, dive: 1.4, bg: [0.003, 0.005, 0.02], color: [0.38, 0.48, 0.9], color2: [0.8, 0.86, 1.0] },
-  { section: "cta", gen: 7, camZ: 7.5, camA: 0.0, camY: 0.0, x: 0.0, rot: 0.14, tilt: 0, alpha: 0.62, wave: 0, dive: 0.35, bg: [0.002, 0.003, 0.016], color: [0.46, 0.58, 1.0], color2: [0.92, 0.94, 1.0] },
+  { section: "hero", gen: 0, camZ: 8.5, camA: 0.0, camY: 0.0, x: 0.0, rot: 0.52, tilt: 0.08, alpha: 0.52, wave: 0, dive: 0.45, bg: [0.003, 0.005, 0.02], shardAlpha: 1.0, shardSpread: 1.0, color: [0.28, 0.38, 0.95], color2: [0.82, 0.88, 1.0] },
+  { section: "manifesto", gen: 1, camZ: 8.8, camA: 0.42, camY: 0.34, x: 0.0, rot: 0.3, tilt: 0.14, alpha: 0.36, wave: 0, dive: 2.4, bg: [0.004, 0.006, 0.024], shardAlpha: 0.95, shardSpread: 1.05, color: [0.18, 0.28, 0.75], color2: [0.7, 0.78, 1.0] },
+  { section: "projects", gen: 2, camZ: 8.6, camA: -0.38, camY: -0.22, x: 1.8, rot: 0.1, tilt: 0.06, alpha: 0.2, wave: 0, dive: 0.4, bg: [0.002, 0.004, 0.016], shardAlpha: 0.45, shardSpread: 1.15, color: [0.36, 0.46, 0.9], color2: [0.92, 0.94, 1.0] },
+  { section: "services", gen: 3, camZ: 8.8, camA: 0.46, camY: 0.28, x: -2.1, rot: 0.14, tilt: 0, alpha: 0.18, wave: 0, dive: 2.6, bg: [0.004, 0.006, 0.022], shardAlpha: 0.62, shardSpread: 1.1, color: [0.14, 0.22, 0.65], color2: [0.56, 0.68, 1.0] },
+  { section: "aiDemo", gen: 4, camZ: 8.7, camA: -0.42, camY: -0.22, x: 1.45, rot: 0.52, tilt: 0, alpha: 0.3, wave: 0, dive: 0.45, bg: [0.004, 0.006, 0.026], shardAlpha: 0.9, shardSpread: 1.0, color: [0.3, 0.4, 0.9], color2: [0.76, 0.82, 1.0] },
+  { section: "process", gen: 5, camZ: 8.0, camA: 0.2, camY: 0.52, x: 0.0, rot: 0.05, tilt: 0.09, alpha: 0.38, wave: 0, dive: 0.45, bg: [0.004, 0.006, 0.024], shardAlpha: 0.85, shardSpread: 0.95, color: [0.34, 0.46, 0.96], color2: [0.86, 0.9, 1.0] },
+  { section: "metrics", gen: 6, camZ: 8.6, camA: -0.24, camY: 0.32, x: 0.0, rot: 0.08, tilt: 0.12, alpha: 0.24, wave: 0, dive: 1.4, bg: [0.003, 0.005, 0.02], shardAlpha: 0.7, shardSpread: 1.0, color: [0.38, 0.48, 0.9], color2: [0.8, 0.86, 1.0] },
+  { section: "cta", gen: 7, camZ: 7.5, camA: 0.0, camY: 0.0, x: 0.0, rot: 0.14, tilt: 0, alpha: 0.62, wave: 0, dive: 0.35, bg: [0.002, 0.003, 0.016], shardAlpha: 1.2, shardSpread: 1.0, color: [0.46, 0.58, 1.0], color2: [0.92, 0.94, 1.0] },
 ];
 
 /** payload of the `v4:morph` event — the services index can take the cloud
@@ -683,16 +689,571 @@ const CLOUD_FRAG = /* glsl */ `
   }
 `;
 
-// dark-glass fresnel — the debris becomes actual obsidian shards
+// ─── Shard formations ────────────────────────────────────────────────────────
+// The shard field gets its own scroll scene, separate from the particle cloud.
+// Where the cloud morphs volumetric masses, these are *built structures* —
+// rings, a lattice wall, a gate, a geodesic cage. Each shard is given a home
+// AND the direction its long axis should point, so an arrived formation reads
+// as assembled hardware instead of scattered debris.
+//
+//   0 hero      armillary rings      4 aiDemo   geodesic cage
+//   1 manifesto lattice wall         5 process  double helix
+//   2 projects  gate / portal        6 metrics  ascending columns
+//   3 services  radial burst         7 cta      "A" monogram
+//
+// Shards sit at radius ~3–5, outside the particle cloud, so the two layers
+// read as separate depths rather than one mush.
+
+type ShardForm = { pos: Float32Array; dir: Float32Array };
+
+/** deterministic shuffle — lets the three shard meshes each take a slice that
+ *  is spread across the whole structure instead of owning one corner of it */
+function shuffledIndices(n: number, seed: number): number[] {
+  const out = Array.from({ length: n }, (_, i) => i);
+  const rnd = mulberry32(seed);
+  for (let i = n - 1; i > 0; i--) {
+    const j = Math.floor(rnd() * (i + 1));
+    const tmp = out[i];
+    out[i] = out[j];
+    out[j] = tmp;
+  }
+  return out;
+}
+
+function rotX(v: number[], a: number) {
+  const c = Math.cos(a);
+  const s = Math.sin(a);
+  const y = v[1] * c - v[2] * s;
+  v[2] = v[1] * s + v[2] * c;
+  v[1] = y;
+}
+
+function rotY(v: number[], a: number) {
+  const c = Math.cos(a);
+  const s = Math.sin(a);
+  const x = v[0] * c + v[2] * s;
+  v[2] = -v[0] * s + v[2] * c;
+  v[0] = x;
+}
+
+function emptyForm(n: number): ShardForm {
+  return { pos: new Float32Array(n * 3), dir: new Float32Array(n * 3) };
+}
+
+/** write one shard's home + long-axis direction */
+function put(f: ShardForm, i: number, p: number[], d: number[]) {
+  f.pos[i * 3] = p[0];
+  f.pos[i * 3 + 1] = p[1];
+  f.pos[i * 3 + 2] = p[2];
+  const l = Math.hypot(d[0], d[1], d[2]) || 1;
+  f.dir[i * 3] = d[0] / l;
+  f.dir[i * 3 + 1] = d[1] / l;
+  f.dir[i * 3 + 2] = d[2] / l;
+}
+
+/** HERO — armillary sphere: three tilted rings, shards laid tangent so the
+ *  ring reads as a machined band rather than beads on a string */
+function formRings(n: number): ShardForm {
+  const f = emptyForm(n);
+  const rnd = mulberry32(31);
+  const rings = [
+    { r: 3.2, tilt: 0.08, yaw: 0.0 },
+    { r: 4.0, tilt: 1.18, yaw: 0.55 },
+    { r: 4.7, tilt: 0.6, yaw: -0.95 },
+  ];
+  const per = Math.ceil(n / rings.length);
+  for (let i = 0; i < n; i++) {
+    const ring = rings[i % rings.length];
+    const a = (Math.floor(i / rings.length) / per) * Math.PI * 2;
+    const p = [Math.cos(a) * ring.r, (rnd() - 0.5) * 0.12, Math.sin(a) * ring.r];
+    const d = [-Math.sin(a), 0, Math.cos(a)];
+    rotX(p, ring.tilt);
+    rotY(p, ring.yaw);
+    rotX(d, ring.tilt);
+    rotY(d, ring.yaw);
+    put(f, i, p, d);
+  }
+  return f;
+}
+
+/** MANIFESTO — lattice wall: an architectural grid facing the camera with
+ *  cells punched out, plus horizontal members so it reads as structure */
+function formLattice(n: number): ShardForm {
+  const f = emptyForm(n);
+  const COLS = 16;
+  const ROWS = 9;
+  const cells = shuffledIndices(COLS * ROWS, 512);
+  const rnd = mulberry32(77);
+  for (let i = 0; i < n; i++) {
+    const cell = cells[i % cells.length];
+    const cx = cell % COLS;
+    const cy = Math.floor(cell / COLS);
+    const p = [
+      (cx - (COLS - 1) / 2) * 0.62,
+      (cy - (ROWS - 1) / 2) * 0.64,
+      -0.6 + (rnd() - 0.5) * 0.7,
+    ];
+    // every fourth member lies flat — verticals alone read as a picket fence
+    const d = i % 4 === 0 ? [1, 0, 0] : [0, 1, 0];
+    put(f, i, p, d);
+  }
+  return f;
+}
+
+/** PROJECTS — gate: two columns and a lintel framing the screenshots, so the
+ *  shards surround the content instead of sitting on top of it */
+function formGate(n: number): ShardForm {
+  const f = emptyForm(n);
+  const rnd = mulberry32(133);
+  const lintel = Math.floor(n * 0.22);
+  const perCol = Math.ceil((n - lintel) / 2);
+  for (let i = 0; i < n; i++) {
+    let p: number[];
+    let d: number[];
+    if (i < lintel) {
+      const t = i / Math.max(lintel - 1, 1);
+      p = [(t - 0.5) * 8.4, 3.9, (rnd() - 0.5) * 0.6];
+      d = [1, 0, 0];
+    } else {
+      const k = i - lintel;
+      const side = k < perCol ? -1 : 1;
+      const t = (k % perCol) / Math.max(perCol - 1, 1);
+      p = [side * 4.2, -3.6 + t * 7.3, (rnd() - 0.5) * 0.6];
+      d = [0, 1, 0];
+    }
+    put(f, i, p, d);
+  }
+  return f;
+}
+
+/** SERVICES — radial burst: spokes from a hub, every shard pointing outward.
+ *  Same read as the service list itself: one core, many branches */
+function formBurst(n: number): ShardForm {
+  const f = emptyForm(n);
+  const ARMS = 7;
+  const rnd = mulberry32(404);
+  const per = Math.ceil(n / ARMS);
+  for (let i = 0; i < n; i++) {
+    const arm = i % ARMS;
+    const t = Math.floor(i / ARMS) / Math.max(per - 1, 1);
+    const a = (arm / ARMS) * Math.PI * 2 + t * 0.24;
+    // density falls off outward — the hub stays the visual anchor
+    const r = 1.1 + Math.pow(t, 0.72) * 3.7;
+    const p = [Math.cos(a) * r, Math.sin(a) * r, (rnd() - 0.5) * 1.1];
+    put(f, i, p, [Math.cos(a), Math.sin(a), 0]);
+  }
+  return f;
+}
+
+/** AI DEMO — geodesic cage: shards ride the edges of an icosahedron, a
+ *  wireframe shell around the neural cloud */
+function formCage(n: number): ShardForm {
+  const f = emptyForm(n);
+  const phi = (1 + Math.sqrt(5)) / 2;
+  const raw = [
+    [0, 1, phi], [0, -1, phi], [0, 1, -phi], [0, -1, -phi],
+    [1, phi, 0], [-1, phi, 0], [1, -phi, 0], [-1, -phi, 0],
+    [phi, 0, 1], [-phi, 0, 1], [phi, 0, -1], [-phi, 0, -1],
+  ];
+  const R = 3.9;
+  const verts = raw.map((v) => {
+    const l = Math.hypot(v[0], v[1], v[2]);
+    return [(v[0] / l) * R, (v[1] / l) * R, (v[2] / l) * R];
+  });
+  // icosahedron edge length for this radius; a small epsilon catches all 30
+  const edgeLen = 2 * R * Math.sin(Math.PI / 5) * 0.62;
+  const edges: number[][] = [];
+  for (let i = 0; i < verts.length; i++) {
+    for (let j = i + 1; j < verts.length; j++) {
+      const dx = verts[i][0] - verts[j][0];
+      const dy = verts[i][1] - verts[j][1];
+      const dz = verts[i][2] - verts[j][2];
+      if (Math.hypot(dx, dy, dz) < edgeLen * 1.9) edges.push([i, j]);
+    }
+  }
+  // lanes, not a modulo — a wrapping step would drop the tail of the field
+  // exactly on top of the head and silently lose those shards
+  const lanes = Math.ceil(n / edges.length);
+  for (let i = 0; i < n; i++) {
+    const e = edges[i % edges.length];
+    const lane = Math.floor(i / edges.length);
+    const t = 0.16 + ((lane + 0.5) / lanes) * 0.68;
+    const A = verts[e[0]];
+    const B = verts[e[1]];
+    put(
+      f,
+      i,
+      [A[0] + (B[0] - A[0]) * t, A[1] + (B[1] - A[1]) * t, A[2] + (B[2] - A[2]) * t],
+      [B[0] - A[0], B[1] - A[1], B[2] - A[2]],
+    );
+  }
+  return f;
+}
+
+/** PROCESS — double helix: two strands travelling one axis. The automation
+ *  chapter gets the only formation with a direction of flow */
+function formHelix(n: number): ShardForm {
+  const f = emptyForm(n);
+  const TURNS = 2.6;
+  const R = 2.3;
+  for (let i = 0; i < n; i++) {
+    const strand = i % 2;
+    const t = Math.floor(i / 2) / Math.max(Math.ceil(n / 2) - 1, 1);
+    const ang = t * Math.PI * 2 * TURNS + strand * Math.PI;
+    const p = [(t - 0.5) * 9.2, Math.cos(ang) * R, Math.sin(ang) * R];
+    // tangent of the helix — shards lie along the direction of travel
+    const dAng = Math.PI * 2 * TURNS;
+    const d = [9.2, -Math.sin(ang) * R * dAng, Math.cos(ang) * R * dAng];
+    rotY(p, 0.42);
+    rotX(p, 0.18);
+    rotY(d, 0.42);
+    rotX(d, 0.18);
+    put(f, i, p, d);
+  }
+  return f;
+}
+
+/** METRICS — ascending columns: stacked bars on a baseline. The numbers
+ *  chapter literally gets a bar chart built out of glass */
+function formColumns(n: number): ShardForm {
+  const f = emptyForm(n);
+  const BARS = 7;
+  const rnd = mulberry32(909);
+  const heights = [0.3, 0.46, 0.4, 0.62, 0.74, 0.88, 1.0];
+  const per = Math.ceil(n / BARS);
+  for (let i = 0; i < n; i++) {
+    const bar = i % BARS;
+    const t = Math.floor(i / BARS) / Math.max(per - 1, 1);
+    const h = heights[bar] * 6.4;
+    const p = [(bar - (BARS - 1) / 2) * 1.22, -3.2 + t * h, (rnd() - 0.5) * 0.8];
+    put(f, i, p, [0, 1, 0]);
+  }
+  return f;
+}
+
+/** CTA — the "A" monogram: two legs and a crossbar. The last thing the
+ *  visitor sees the field build is the brand mark */
+function formMonogram(n: number): ShardForm {
+  const f = emptyForm(n);
+  const rnd = mulberry32(1717);
+  const apex = [0, 3.9];
+  const legL = [-2.9, -3.5];
+  const legR = [2.9, -3.5];
+  const bar = Math.floor(n * 0.2);
+  const perLeg = Math.ceil((n - bar) / 2);
+  for (let i = 0; i < n; i++) {
+    let p: number[];
+    let d: number[];
+    if (i < bar) {
+      const t = i / Math.max(bar - 1, 1);
+      p = [-1.35 + t * 2.7, -0.5, (rnd() - 0.5) * 0.5];
+      d = [1, 0, 0];
+    } else {
+      const k = i - bar;
+      const left = k < perLeg;
+      const foot = left ? legL : legR;
+      const t = (k % perLeg) / Math.max(perLeg - 1, 1);
+      p = [foot[0] + (apex[0] - foot[0]) * t, foot[1] + (apex[1] - foot[1]) * t, (rnd() - 0.5) * 0.5];
+      d = [apex[0] - foot[0], apex[1] - foot[1], 0];
+    }
+    put(f, i, p, d);
+  }
+  return f;
+}
+
+/** SERVICES 2 — logarithmic spiral: three arms winding out of the hub. The
+ *  burst's answer — same centre, but growth instead of radiation */
+function formSpiral(n: number): ShardForm {
+  const f = emptyForm(n);
+  const ARMS = 3;
+  const per = Math.ceil(n / ARMS);
+  for (let i = 0; i < n; i++) {
+    const arm = i % ARMS;
+    const t = Math.floor(i / ARMS) / Math.max(per - 1, 1);
+    const th = t * 5.4;
+    const r = Math.min(0.75 * Math.exp(0.34 * th), 4.9);
+    const a = th + (arm / ARMS) * Math.PI * 2;
+    // tangent of a log spiral — the shard lies along the curve, not across it
+    const dr = 0.34 * r;
+    const d = [dr * Math.cos(a) - r * Math.sin(a), dr * Math.sin(a) + r * Math.cos(a), 0];
+    put(f, i, [Math.cos(a) * r, Math.sin(a) * r, (t - 0.5) * 1.4], d);
+  }
+  return f;
+}
+
+/** METRICS 2 — ring tower: stacked rings with a waist, each turned against
+ *  the last. Reads as a machined column, the most "built" object in the set */
+function formRingTower(n: number): ShardForm {
+  const f = emptyForm(n);
+  const RINGS = 8;
+  const per = Math.ceil(n / RINGS);
+  for (let i = 0; i < n; i++) {
+    const ring = i % RINGS;
+    const k = Math.floor(i / RINGS);
+    const y = -3.4 + (ring / (RINGS - 1)) * 6.8;
+    // waist — a straight cylinder reads cheap, a curved profile reads turned
+    const r = 2.0 + Math.pow(Math.abs(ring / (RINGS - 1) - 0.5) * 2, 1.7) * 1.9;
+    const a = (k / per) * Math.PI * 2 + ring * 0.42;
+    put(f, i, [Math.cos(a) * r, y, Math.sin(a) * r], [-Math.sin(a), 0, Math.cos(a)]);
+  }
+  return f;
+}
+
+/** PROCESS 2 — wave grid: a plane of shards riding a standing wave, each one
+ *  tilted into the slope so the surface reads as a solid sheet */
+function formWave(n: number): ShardForm {
+  const f = emptyForm(n);
+  const COLS = 15;
+  const rows = Math.ceil(n / COLS);
+  for (let i = 0; i < n; i++) {
+    const cx = i % COLS;
+    const cy = Math.floor(i / COLS);
+    const x = (cx - (COLS - 1) / 2) * 0.66;
+    const z = (cy - (rows - 1) / 2) * 0.72;
+    const ph = x * 0.85 + z * 0.5;
+    const y = Math.sin(ph) * 1.25;
+    // slope of the surface along x — shards lie in the sheet, not through it
+    put(f, i, [x, y, z], [1, Math.cos(ph) * 0.85 * 1.25, 0]);
+  }
+  return f;
+}
+
+/** HERO 2 — sphere shell: a fibonacci-spaced shell of shards all pointing
+ *  outward, the field's calmest, most symmetric state */
+function formShell(n: number): ShardForm {
+  const f = emptyForm(n);
+  const golden = Math.PI * (3 - Math.sqrt(5));
+  const R = 4.05;
+  for (let i = 0; i < n; i++) {
+    const y = 1 - (i / Math.max(n - 1, 1)) * 2;
+    const rad = Math.sqrt(Math.max(1 - y * y, 0));
+    const th = golden * i;
+    const p = [Math.cos(th) * rad * R, y * R, Math.sin(th) * rad * R];
+    put(f, i, p, [p[0], p[1], p[2]]);
+  }
+  return f;
+}
+
+/** PROJECTS 2 — vault: concentric arcs receding into depth. The gate opens
+ *  into a corridor; the camera is inside architecture, not looking at it */
+function formVault(n: number): ShardForm {
+  const f = emptyForm(n);
+  const ARCS = 5;
+  const per = Math.ceil(n / ARCS);
+  for (let i = 0; i < n; i++) {
+    const arc = i % ARCS;
+    const t = Math.floor(i / ARCS) / Math.max(per - 1, 1);
+    // arcs shrink as they recede — forced perspective down the corridor
+    const r = 4.4 - arc * 0.42;
+    const z = -3.4 + arc * 1.75;
+    const a = 0.12 + t * (Math.PI - 0.24);
+    put(f, i, [Math.cos(a) * r, Math.sin(a) * r - 1.4, z], [-Math.sin(a), Math.cos(a), 0]);
+  }
+  return f;
+}
+
+/** MANIFESTO 2 — cube frame: the twelve edges of a box. Pure structure, the
+ *  hardest-edged formation in the set */
+function formCube(n: number): ShardForm {
+  const f = emptyForm(n);
+  const S = 2.85;
+  const c: number[][] = [];
+  for (let xi = -1; xi <= 1; xi += 2) {
+    for (let yi = -1; yi <= 1; yi += 2) {
+      for (let zi = -1; zi <= 1; zi += 2) c.push([xi * S, yi * S, zi * S]);
+    }
+  }
+  const edges: number[][] = [];
+  for (let i = 0; i < c.length; i++) {
+    for (let j = i + 1; j < c.length; j++) {
+      // corners that differ on exactly one axis share an edge
+      let diff = 0;
+      for (let k = 0; k < 3; k++) if (Math.abs(c[i][k] - c[j][k]) > 0.001) diff++;
+      if (diff === 1) edges.push([i, j]);
+    }
+  }
+  const lanes = Math.ceil(n / edges.length);
+  for (let i = 0; i < n; i++) {
+    const e = edges[i % edges.length];
+    const lane = Math.floor(i / edges.length);
+    const t = 0.1 + ((lane + 0.5) / lanes) * 0.8;
+    const A = c[e[0]];
+    const B = c[e[1]];
+    put(
+      f,
+      i,
+      [A[0] + (B[0] - A[0]) * t, A[1] + (B[1] - A[1]) * t, A[2] + (B[2] - A[2]) * t],
+      [B[0] - A[0], B[1] - A[1], B[2] - A[2]],
+    );
+  }
+  return f;
+}
+
+/** AI DEMO 2 — funnel: a cone spiralling toward the lens. The only formation
+ *  that reaches at the visitor rather than sitting in front of them */
+function formFunnel(n: number): ShardForm {
+  const f = emptyForm(n);
+  for (let i = 0; i < n; i++) {
+    const t = i / Math.max(n - 1, 1);
+    const r = 4.6 * (1 - t) + 0.45;
+    const a = t * Math.PI * 2 * 3.2;
+    const z = -3.6 + t * 7.2;
+    const dr = -4.6;
+    const da = Math.PI * 2 * 3.2;
+    put(
+      f,
+      i,
+      [Math.cos(a) * r, Math.sin(a) * r, z],
+      [dr * Math.cos(a) - r * Math.sin(a) * da, dr * Math.sin(a) + r * Math.cos(a) * da, 7.2],
+    );
+  }
+  return f;
+}
+
+/** indexed by SHARD_ORDER, not by ShapeDef.gen — the shard field runs its own
+ *  scene at twice the cloud's rate */
+function buildShardForms(n: number): ShardForm[] {
+  return [
+    formRings(n),
+    formLattice(n),
+    formGate(n),
+    formBurst(n),
+    formCage(n),
+    formHelix(n),
+    formColumns(n),
+    formMonogram(n),
+    formSpiral(n),
+    formRingTower(n),
+    formWave(n),
+    formShell(n),
+    formVault(n),
+    formCube(n),
+    formFunnel(n),
+  ];
+}
+
+/**
+ * The shard scene's running order — two formations per scroll section, so the
+ * background geometry rebuilds itself fifteen times across the landing while
+ * the particle cloud morphs eight. Each pair is a statement and its answer:
+ * rings → shell, gate → vault, burst → spiral. The last thing the visitor
+ * watches the field assemble is the monogram.
+ */
+const SHARD_ORDER = [
+  0, 11, // hero:      armillary rings → sphere shell
+  1, 13, // manifesto: lattice wall → cube frame
+  2, 12, // projects:  gate → vault
+  3, 8,  // services:  radial burst → logarithmic spiral
+  4, 14, // aiDemo:    geodesic cage → funnel
+  5, 10, // process:   double helix → wave grid
+  6, 9,  // metrics:   columns → ring tower
+  7,     // cta:       the "A" monogram
+];
+
+// Instanced obsidian shards. Every instance carries the home AND long-axis
+// direction of the formation it belongs to on either side of the current
+// scroll segment, so the whole field assembles, holds, travels and re-assembles
+// on the GPU — the CPU only swaps targets when the segment changes.
 const SHARD_VERT = /* glsl */ `
+  attribute vec3 aTgtA;
+  attribute vec3 aTgtB;
+  attribute vec3 aDirA;
+  attribute vec3 aDirB;
+  attribute vec3 aScatter;
+  attribute vec3 aScale;
+  attribute vec3 aAxis;
+  attribute float aSeed;
+  attribute float aOrder;
+
+  uniform float uTime;
+  uniform float uMix;
+  uniform float uSpread;
+
   varying vec3 vN;
   varying vec3 vV;
   varying vec3 vPos;
+  varying float vSeed;
+  varying float vTravel;
+  varying float vEdge;
+
+  mat3 axisRot(vec3 axis, float a) {
+    float s = sin(a);
+    float c = cos(a);
+    float t = 1.0 - c;
+    vec3 n = normalize(axis);
+    return mat3(
+      t * n.x * n.x + c,       t * n.x * n.y + s * n.z, t * n.x * n.z - s * n.y,
+      t * n.x * n.y - s * n.z, t * n.y * n.y + c,       t * n.y * n.z + s * n.x,
+      t * n.x * n.z + s * n.y, t * n.y * n.z - s * n.x, t * n.z * n.z + c
+    );
+  }
+
   void main() {
-    vN = normalize(normalMatrix * normal);
-    vec4 mv = modelViewMatrix * vec4(position, 1.0);
+    // A formation must be READ, not glimpsed. The plateau parks the field for
+    // the first and last stretch of every beat and compresses the whole
+    // journey into the middle — assemble, hold, fly, re-assemble.
+    //
+    // The delay is driven by aOrder (the shard's index along the structure it
+    // is building), not by noise: the field dismantles and re-assembles as a
+    // wave running through the form. Random stagger looks like debris; an
+    // ordered one looks choreographed.
+    float d0 = aOrder * 0.26 + aSeed * 0.05;
+    float e = smoothstep(0.24 + d0, 0.64 + d0, uMix);
+
+    // bell that peaks halfway between two formations
+    float travel = 4.0 * e * (1.0 - e);
+
+    // ease-out-back: the shard overshoots its slot and settles back into it,
+    // the single cheapest cue that something has real mass
+    float c1 = 0.94;
+    float t1 = e - 1.0;
+    float ep = 1.0 + (c1 + 1.0) * t1 * t1 * t1 + c1 * t1 * t1;
+
+    // Curved flight. A straight lerp between two structures always reads as a
+    // slide; a quadratic bezier through an offset control point reads as an
+    // arc, and every shard takes a different one.
+    vec3 ctrl = (aTgtA + aTgtB) * 0.5 + aScatter * (1.5 + aSeed * 2.4);
+    vec3 home = mix(mix(aTgtA, ctrl, ep), mix(ctrl, aTgtB, ep), ep) * uSpread;
+    // idle breathing so a parked formation is never frozen
+    home += aScatter * sin(uTime * (0.24 + aSeed * 0.4) + aSeed * 21.0) * 0.05;
+
+    // Orientation. In flight the shard aligns to its own velocity down the
+    // bezier and stretches along it — a streak, not a tumbling rock. The lock
+    // is squared so alignment snaps late: shards streak most of the way over,
+    // then whip into the formation's facing in the last moment.
+    vec3 vel = 2.0 * (1.0 - ep) * (ctrl - aTgtA) + 2.0 * ep * (aTgtB - ctrl);
+    vec3 flight = normalize(vel + vec3(0.0, 0.0001, 0.0));
+
+    // opposite facings can cancel mid-blend — fall back to the destination
+    vec3 dsum = mix(aDirA, aDirB, e);
+    float dlen = length(dsum);
+    vec3 dirNow = dlen > 0.02 ? dsum / dlen : normalize(aDirB + vec3(0.0, 0.0001, 0.0));
+
+    float lock = 1.0 - travel;
+    vec3 want = normalize(mix(flight, dirNow, lock * lock));
+
+    vec3 upv = abs(want.y) > 0.95 ? vec3(1.0, 0.0, 0.0) : vec3(0.0, 1.0, 0.0);
+    vec3 tanA = normalize(cross(upv, want));
+    mat3 basis = mat3(tanA, want, cross(want, tanA));
+
+    // stretched thin along the direction of travel, thinned across it
+    vec3 sc = aScale * vec3(1.0 - travel * 0.42, 1.0 + travel * 2.4, 1.0 - travel * 0.42);
+    // twirl about its own long axis, plus a wobble that only exists in flight
+    mat3 twirl = axisRot(vec3(0.0, 1.0, 0.0), uTime * (0.18 + aSeed * 0.34) + aSeed * 6.283);
+    mat3 wobble = axisRot(aAxis, travel * 1.3 * (0.4 + aSeed));
+    mat3 local = wobble * twirl;
+
+    vec3 vert = basis * (local * (position * sc));
+    vec3 nrm = basis * (local * normal);
+
+    vec4 mv = modelViewMatrix * vec4(home + vert, 1.0);
+    vN = normalize(normalMatrix * nrm);
     vV = normalize(-mv.xyz);
     vPos = position;
+    vSeed = aSeed;
+    vTravel = travel;
+    // narrow band just off the plateau — one flash on launch, one on landing
+    vEdge = smoothstep(0.0, 0.10, travel) * smoothstep(0.34, 0.10, travel);
     gl_Position = projectionMatrix * mv;
   }
 `;
@@ -700,22 +1261,39 @@ const SHARD_VERT = /* glsl */ `
 const SHARD_FRAG = /* glsl */ `
   uniform vec3 uColor;
   uniform float uTime;
+  uniform float uAlpha;
+  uniform float uArrival;
   varying vec3 vN;
   varying vec3 vV;
   varying vec3 vPos;
+  varying float vSeed;
+  varying float vTravel;
+  varying float vEdge;
   void main() {
     float ndv = abs(dot(normalize(vN), normalize(vV)));
-    // tighter fresnel = a thin hard rim of light on each facet edge
-    float fres = pow(1.0 - ndv, 3.2);
+    // tight fresnel = a thin hard rim of light on each facet edge
+    float fres = pow(1.0 - ndv, 3.0);
     // slow light band crawling across the glass — obsidian catches light
-    float band = 0.5 + 0.5 * sin(vPos.y * 7.0 + uTime * 0.7);
-    // facets aligned with the lens flash a white-hot specular glint
-    float glint = pow(band, 9.0) * pow(ndv, 3.0) * 0.6;
-    vec3 base = vec3(0.006, 0.012, 0.03);
-    // rim locked to electric blue — the shards carry the accent, not grey
-    vec3 rim = mix(uColor, vec3(0.18, 0.42, 1.0), 0.55);
-    vec3 col = base + rim * fres * (1.0 + band * 0.7) + vec3(0.8, 0.9, 1.0) * glint;
-    gl_FragColor = vec4(col, 0.4 + fres * 0.6);
+    float band = 0.5 + 0.5 * sin(vPos.y * 9.0 + uTime * 0.6 + vSeed * 6.283);
+    // rare, hard glint — a sparse flash reads more expensive than constant shine
+    float glint = pow(band, 14.0) * pow(ndv, 3.0) * 0.7;
+    vec3 base = vec3(0.004, 0.008, 0.024);
+    // thin film: cobalt at grazing angles, ice only at the very edge. Blue
+    // stays the body, white stays the sparkle — the decided palette
+    vec3 rim = mix(uColor, vec3(0.18, 0.42, 1.0), 0.5);
+    rim = mix(rim, vec3(0.74, 0.84, 1.0), pow(fres, 3.5));
+    vec3 col = base + rim * fres * (1.0 + band * 0.6) + vec3(0.82, 0.9, 1.0) * glint;
+    // shards in transit run hotter, so the eye follows the flight and the
+    // parked structure reads as the calm state
+    col += rim * vTravel * 0.5;
+    // the launch and the landing each get a hard white bloom — the two frames
+    // that sell the whole move
+    col += vec3(0.78, 0.86, 1.0) * vEdge * 0.9;
+    // crystallisation flash — the frame a formation lands, the facets ring
+    col += rim * uArrival * 0.5;
+    // per-shard opacity variance keeps the field from looking printed
+    float a = (0.18 + fres * 0.55 + glint + vEdge * 0.5) * uAlpha * (0.75 + vSeed * 0.5);
+    gl_FragColor = vec4(col, a);
   }
 `;
 
@@ -728,7 +1306,6 @@ export function SceneV4() {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let disposed = false;
     let cleanup: (() => void) | null = null;
 
@@ -736,29 +1313,30 @@ export function SceneV4() {
     const prog = (p: number) =>
       window.dispatchEvent(new CustomEvent("v4:scene-progress", { detail: p }));
 
-    // Reduced-motion users (any device) get the static CSS backdrop instead of the
-    // live sim. Everyone else — mobile included — gets the signature morphing
-    // particle kernel; it's the visual that sets this site apart, so it stays.
-    // Mobile is kept affordable by fewer particles + a capped pixel ratio below,
-    // and the postprocessing composer is already desktop-only.
-    if (reduced) {
-      canvas.classList.add(styles.sceneStatic);
-      prog(1);
-      return;
-    }
-
+    // Every device gets the live morphing kernel — it's the visual that sets this
+    // site apart. Mobile stays affordable via fewer particles + a capped pixel
+    // ratio below, and the postprocessing composer is already desktop-only.
     (async () => {
       const THREE = await import("three");
       if (disposed) return;
       prog(0.35);
 
       const isMobile = window.matchMedia("(max-width: 767px)").matches;
-      const renderer = new THREE.WebGLRenderer({
-        canvas,
-        antialias: false,
-        alpha: true,
-        powerPreference: "high-performance",
-      });
+      // No WebGL (blocked, blacklisted driver, exhausted contexts) is the only
+      // case that falls back — the static gradient keeps the hero legible.
+      let renderer: InstanceType<typeof THREE.WebGLRenderer>;
+      try {
+        renderer = new THREE.WebGLRenderer({
+          canvas,
+          antialias: false,
+          alpha: true,
+          powerPreference: "high-performance",
+        });
+      } catch {
+        canvas.classList.add(styles.sceneStatic);
+        prog(1);
+        return;
+      }
       // cap desktop DPR at 1.8 (not 2): a full 2x draw = 4x the fragment work
       // through the whole post-chain, which is what makes scroll stutter.
       // 1.8 buys visibly sharper edges than the old 1.6 cap while the
@@ -1043,36 +1621,147 @@ export function SceneV4() {
       scene.add(flyHeads);
       const flyTmp = [0, 0, 0];
 
-      // ── Obsidian shards — faceted dark glass with fresnel rims ────────
-      const shardUniforms = {
-        uColor: { value: new THREE.Color(0xc5d0ff) },
+      // ── Shard field — the background geometry's own scroll scene ───────
+      // One body of shards, drawn as three meshes only so the silhouettes vary
+      // (blades / chips / slabs). All three ride the cloud's transform and all
+      // three pull from ONE formation per chapter, sliced through a shuffle, so
+      // the structure they build is a single composition instead of three
+      // overlapping clouds. Every shard knows where it belongs in the next
+      // formation and which way to face once it lands.
+      const SHARD_TOTAL = isMobile ? 44 : 132;
+      const shardForms = buildShardForms(SHARD_TOTAL);
+      const shardPerm = shuffledIndices(SHARD_TOTAL, 77);
+      let shardTaken = 0;
+
+      const shardColor = new THREE.Color(0xc5d0ff);
+      const shardCommon = {
         uTime: { value: 0 },
+        uColor: { value: shardColor },
+        uArrival: { value: 0 },
+        uMix: { value: 0 },
+        uSpread: { value: 1 },
       };
-      const shardMat = new THREE.ShaderMaterial({
-        uniforms: shardUniforms,
-        transparent: true,
-        vertexShader: SHARD_VERT,
-        fragmentShader: SHARD_FRAG,
-      });
-      // detail-0 icosahedron is already non-indexed → per-face normals → crisp facets
-      const shardGeo = new THREE.IcosahedronGeometry(0.26, 0);
-      shardGeo.computeVertexNormals();
-      const debris: { mesh: InstanceType<typeof THREE.Mesh>; spin: number; orbit: number; baseY: number }[] = [];
-      const dRnd = mulberry32(1234);
-      const DEBRIS_COUNT = isMobile ? 2 : 5;
-      for (let i = 0; i < DEBRIS_COUNT; i++) {
-        const mesh = new THREE.Mesh(shardGeo, shardMat);
-        const ang = dRnd() * Math.PI * 2;
-        const r = 3.2 + dRnd() * 3.4;
-        mesh.position.set(Math.cos(ang) * r, (dRnd() - 0.5) * 5, -1.5 - dRnd() * 5);
-        const s = 0.3 + dRnd() * 0.9;
-        // non-uniform scale — elongated shards, not platonic solids; wider
-        // size spread = a few monoliths among slivers, reads more expensive
-        mesh.scale.set(s * (0.45 + dRnd() * 0.5), s * (1.0 + dRnd() * 1.3), s * (0.45 + dRnd() * 0.5));
-        mesh.rotation.set(dRnd() * Math.PI, dRnd() * Math.PI, dRnd() * Math.PI);
+
+      type ShardField = {
+        geo: InstanceType<typeof THREE.InstancedBufferGeometry>;
+        mat: InstanceType<typeof THREE.ShaderMaterial>;
+        mesh: InstanceType<typeof THREE.Mesh>;
+        count: number;
+        tgtA: InstanceType<typeof THREE.InstancedBufferAttribute>;
+        tgtB: InstanceType<typeof THREE.InstancedBufferAttribute>;
+        dirA: InstanceType<typeof THREE.InstancedBufferAttribute>;
+        dirB: InstanceType<typeof THREE.InstancedBufferAttribute>;
+        /** this field's slice of every chapter formation, [gen][pos|dir] */
+        homes: { pos: Float32Array; dir: Float32Array }[];
+        baseAlpha: number;
+      };
+      const shardFields: ShardField[] = [];
+      const shardGeos: InstanceType<typeof THREE.BufferGeometry>[] = [];
+
+      const buildShardField = (
+        base: InstanceType<typeof THREE.BufferGeometry>,
+        count: number,
+        seed: number,
+        sizeMul: number,
+        baseAlpha: number,
+      ) => {
+        // detail-0 polyhedra are non-indexed → per-face normals → crisp facets
+        base.computeVertexNormals();
+        shardGeos.push(base);
+
+        const geo = new THREE.InstancedBufferGeometry();
+        type Attr = InstanceType<typeof THREE.BufferAttribute>;
+        geo.setAttribute("position", base.getAttribute("position") as Attr);
+        geo.setAttribute("normal", base.getAttribute("normal") as Attr);
+        geo.instanceCount = count;
+
+        // this field's slots in the shared formation, spread across the whole
+        // structure rather than owning one contiguous corner of it
+        const slots = shardPerm.slice(shardTaken, shardTaken + count);
+        shardTaken += count;
+        // the shard's index along the structure, which drives the assembly
+        // wave — the generators emit in structural order, so this is a real
+        // position in the form, not a shuffled one
+        const order = new Float32Array(count);
+        for (let i = 0; i < count; i++) order[i] = slots[i] / SHARD_TOTAL;
+        const homes = shardForms.map((form) => {
+          const pos = new Float32Array(count * 3);
+          const dir = new Float32Array(count * 3);
+          for (let i = 0; i < count; i++) {
+            const s = slots[i];
+            pos[i * 3] = form.pos[s * 3];
+            pos[i * 3 + 1] = form.pos[s * 3 + 1];
+            pos[i * 3 + 2] = form.pos[s * 3 + 2];
+            dir[i * 3] = form.dir[s * 3];
+            dir[i * 3 + 1] = form.dir[s * 3 + 1];
+            dir[i * 3 + 2] = form.dir[s * 3 + 2];
+          }
+          return { pos, dir };
+        });
+
+        const r = mulberry32(seed);
+        const scatter = new Float32Array(count * 3);
+        const scale = new Float32Array(count * 3);
+        const axis = new Float32Array(count * 3);
+        const seeds = new Float32Array(count);
+
+        for (let i = 0; i < count; i++) {
+          const th = r() * Math.PI * 2;
+          const ph = Math.acos(r() * 2 - 1);
+          scatter[i * 3] = Math.sin(ph) * Math.cos(th);
+          scatter[i * 3 + 1] = Math.sin(ph) * Math.sin(th);
+          scatter[i * 3 + 2] = Math.cos(ph);
+
+          // elongated slivers, not platonic solids — a wide size spread puts a
+          // few monoliths among the blades and reads more expensive
+          const s = sizeMul * (0.72 + r() * 0.85);
+          scale[i * 3] = s * (0.4 + r() * 0.45);
+          scale[i * 3 + 1] = s * (1.1 + r() * 1.6);
+          scale[i * 3 + 2] = s * (0.4 + r() * 0.45);
+
+          const ax = r() * 2 - 1;
+          const ay = r() * 2 - 1;
+          const az = r() * 2 - 1;
+          const al = Math.hypot(ax, ay, az) || 1;
+          axis[i * 3] = ax / al;
+          axis[i * 3 + 1] = ay / al;
+          axis[i * 3 + 2] = az / al;
+
+          seeds[i] = r();
+        }
+
+        const tgtA = new THREE.InstancedBufferAttribute(new Float32Array(homes[0].pos), 3);
+        const tgtB = new THREE.InstancedBufferAttribute(new Float32Array(homes[0].pos), 3);
+        const dirA = new THREE.InstancedBufferAttribute(new Float32Array(homes[0].dir), 3);
+        const dirB = new THREE.InstancedBufferAttribute(new Float32Array(homes[0].dir), 3);
+        geo.setAttribute("aTgtA", tgtA);
+        geo.setAttribute("aTgtB", tgtB);
+        geo.setAttribute("aDirA", dirA);
+        geo.setAttribute("aDirB", dirB);
+        geo.setAttribute("aScatter", new THREE.InstancedBufferAttribute(scatter, 3));
+        geo.setAttribute("aScale", new THREE.InstancedBufferAttribute(scale, 3));
+        geo.setAttribute("aAxis", new THREE.InstancedBufferAttribute(axis, 3));
+        geo.setAttribute("aSeed", new THREE.InstancedBufferAttribute(seeds, 1));
+        geo.setAttribute("aOrder", new THREE.InstancedBufferAttribute(order, 1));
+
+        const mat = new THREE.ShaderMaterial({
+          uniforms: { ...shardCommon, uAlpha: { value: baseAlpha } },
+          transparent: true,
+          depthWrite: false,
+          blending: THREE.AdditiveBlending,
+          vertexShader: SHARD_VERT,
+          fragmentShader: SHARD_FRAG,
+        });
+
+        const mesh = new THREE.Mesh(geo, mat);
+        mesh.frustumCulled = false;
         scene.add(mesh);
-        debris.push({ mesh, spin: 0.15 + dRnd() * 0.4, orbit: 0.2 + dRnd() * 0.5, baseY: mesh.position.y });
-      }
+        shardFields.push({ geo, mat, mesh, count, tgtA, tgtB, dirA, dirB, homes, baseAlpha });
+      };
+
+      buildShardField(new THREE.IcosahedronGeometry(0.075, 0), isMobile ? 20 : 60, 1234, 1.0, 1.0);
+      buildShardField(new THREE.OctahedronGeometry(0.065, 0), isMobile ? 16 : 48, 4211, 0.92, 0.9);
+      buildShardField(new THREE.TetrahedronGeometry(0.105, 0), isMobile ? 8 : 24, 8807, 1.2, 0.82);
 
       // ── Nebula depth layer — huge soft color pools far behind ─────────
       const nebGeo = new THREE.PlaneGeometry(16, 16);
@@ -1897,6 +2586,12 @@ export function SceneV4() {
         dustUniforms.uScale.value = (isMobile ? 46 : 40) * pr;
         headMat.uniforms.uScale.value = (isMobile ? 46 : 40) * pr;
         starMat.uniforms.uPR.value = pr;
+        // thin the shard field where the cloud already recedes behind content —
+        // instanceCount is free to change, no buffers are reallocated
+        for (let i = 0; i < shardFields.length; i++) {
+          const f = shardFields[i];
+          f.geo.instanceCount = lowRes ? Math.ceil(f.count * 0.6) : f.count;
+        }
       };
 
       let raf = 0;
@@ -1948,6 +2643,7 @@ export function SceneV4() {
       let stops = measureStops();
       let measuredHeight = document.documentElement.scrollHeight;
       let currentSeg = -1;
+      let currentBeat = -1;
 
       let lastT = 0;
       const tick = () => {
@@ -2220,8 +2916,6 @@ export function SceneV4() {
           veil.mesh.rotation.y = veil.baseRY + mouseX * 0.07 + Math.sin(p * Math.PI * 2 + veil.phase) * 0.06;
           veil.mesh.rotation.z = veil.side * (0.055 + Math.sin(p * Math.PI * 2) * 0.035);
         }
-        shardUniforms.uTime.value = t;
-
         // laser grid breathes with warp + arrival; sinks as the page scrolls
         // so it never crowds the mid-page content sections
         gridMat.uniforms.uTime.value = t;
@@ -2231,14 +2925,48 @@ export function SceneV4() {
         grid.position.y = -5.6 - p * 1.6;
         gridMat.uniforms.uColor.value.lerp(tmpColor, 0.02);
 
-        // shards drift, tumble, and slide slowly against the scroll
-        for (let i = 0; i < debris.length; i++) {
-          const d = debris[i];
-          d.mesh.rotation.x = t * d.spin * 0.35;
-          d.mesh.rotation.y = t * d.spin * 0.5;
-          d.mesh.position.y = d.baseY + Math.sin(t * d.orbit * 0.55 + i * 1.7) * 0.24 + p * 1.1;
+        // Shard field. Every mesh rides the cloud's transform so the shared
+        // formation stays one rigid structure that the scroll turns, and the
+        // shards read as a layer standing off the particle mass rather than
+        // three separate swarms.
+        //
+        // The field runs at twice the cloud's rate: two formations per section,
+        // fifteen builds across the landing. The background geometry gets its
+        // own rhythm instead of echoing the particle morph.
+        const half = rawMix >= 0.5 ? 1 : 0;
+        const beat = Math.min(seg * 2 + half, SHARD_ORDER.length - 2);
+        if (beat !== currentBeat) {
+          currentBeat = beat;
+          const fa = SHARD_ORDER[beat];
+          const fb = SHARD_ORDER[beat + 1];
+          for (let i = 0; i < shardFields.length; i++) {
+            const f = shardFields[i];
+            (f.tgtA.array as Float32Array).set(f.homes[fa].pos);
+            (f.tgtB.array as Float32Array).set(f.homes[fb].pos);
+            (f.dirA.array as Float32Array).set(f.homes[fa].dir);
+            (f.dirB.array as Float32Array).set(f.homes[fb].dir);
+            f.tgtA.needsUpdate = true;
+            f.tgtB.needsUpdate = true;
+            f.dirA.needsUpdate = true;
+            f.dirB.needsUpdate = true;
+          }
         }
-        shardUniforms.uColor.value.lerp(tmpColor, 0.04);
+
+        shardCommon.uTime.value = t;
+        shardCommon.uMix.value = rawMix * 2.0 - half;
+        shardCommon.uArrival.value = arrE;
+        shardCommon.uSpread.value = a.shardSpread + (b.shardSpread - a.shardSpread) * m;
+        shardColor.lerp(tmpColor, 0.04);
+        const shardAlpha = a.shardAlpha + (b.shardAlpha - a.shardAlpha) * m;
+        for (let i = 0; i < shardFields.length; i++) {
+          const f = shardFields[i];
+          const uA = f.mat.uniforms.uAlpha;
+          uA.value += (shardAlpha * f.baseAlpha - uA.value) * 0.06;
+          // rotate with the sculpture but at a fraction of its rate — the
+          // structure holds its own axis instead of smearing with the cloud
+          f.mesh.rotation.set(cloud.rotation.x * 0.4, cloud.rotation.y * 0.55, cloud.rotation.z * 0.4);
+          f.mesh.position.copy(cloud.position);
+        }
 
         // neural constellation lights only while the AI shape holds the
         // stage (scroll or hover-override); squared so it settles in late,
@@ -2340,14 +3068,7 @@ export function SceneV4() {
         raf = requestAnimationFrame(tick);
       };
 
-      if (reduced) {
-        cloudUniforms.uIntro.value = 1; // no intro animation — land assembled
-        if (composer) composer.render();
-        else renderer.render(scene, camera);
-        prog(1);
-      } else {
-        raf = requestAnimationFrame(tick);
-      }
+      raf = requestAnimationFrame(tick);
 
       cleanup = () => {
         cancelAnimationFrame(raf);
@@ -2371,8 +3092,11 @@ export function SceneV4() {
         cloudMat.dispose();
         starGeo.dispose();
         starMat.dispose();
-        shardGeo.dispose();
-        shardMat.dispose();
+        shardGeos.forEach((g) => g.dispose());
+        shardFields.forEach((f) => {
+          f.geo.dispose();
+          f.mat.dispose();
+        });
         nebGeo.dispose();
         nebulas.forEach((n) => n.mat.dispose());
         inkGeo.dispose();

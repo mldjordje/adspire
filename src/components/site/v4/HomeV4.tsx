@@ -134,9 +134,6 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
   useEffect(() => {
     const root = rootRef.current;
     if (!root) return;
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduced) return;
-
     gsap.registerPlugin(ScrollTrigger);
 
     const q = gsap.utils.selector(root);
@@ -620,7 +617,7 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
     const top = el.getBoundingClientRect().top + window.scrollY - 76;
     window.scrollTo({
       top: Math.max(0, top),
-      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+      behavior: "smooth",
     });
   };
 

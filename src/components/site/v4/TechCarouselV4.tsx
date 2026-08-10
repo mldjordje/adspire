@@ -30,7 +30,6 @@ export function TechCarouselV4() {
     const wrap = wrapRef.current;
     const track = trackRef.current;
     if (!wrap || !track) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     let offset = 0;
     let velocity = -0.6; // idle drift, px/frame

@@ -18,13 +18,6 @@ export function PreloaderV4() {
   const fillRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduced) {
-      window.dispatchEvent(new CustomEvent("v4:ready"));
-      setGone(true);
-      return;
-    }
-
     const root = rootRef.current;
     const count = countRef.current;
     const fill = fillRef.current;
