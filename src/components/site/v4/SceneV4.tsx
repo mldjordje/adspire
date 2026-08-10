@@ -64,14 +64,14 @@ type ShapeDef = {
 // White-dominant tones average to silver-grey under additive blending — so
 // blue must be the base and white only the sparkle.
 const SHAPES: ShapeDef[] = [
-  { section: "hero", gen: 0, camZ: 8.5, camA: 0.0, camY: 0.0, x: 0.0, rot: 0.52, tilt: 0.08, alpha: 0.52, wave: 0, dive: 0.45, bg: [0.003, 0.005, 0.02], shardAlpha: 1.0, shardSpread: 1.0, color: [0.28, 0.38, 0.95], color2: [0.82, 0.88, 1.0] },
-  { section: "manifesto", gen: 1, camZ: 8.8, camA: 0.42, camY: 0.34, x: 0.0, rot: 0.3, tilt: 0.14, alpha: 0.36, wave: 0, dive: 2.4, bg: [0.004, 0.006, 0.024], shardAlpha: 0.95, shardSpread: 1.05, color: [0.18, 0.28, 0.75], color2: [0.7, 0.78, 1.0] },
-  { section: "projects", gen: 2, camZ: 8.6, camA: -0.38, camY: -0.22, x: 1.8, rot: 0.1, tilt: 0.06, alpha: 0.2, wave: 0, dive: 0.4, bg: [0.002, 0.004, 0.016], shardAlpha: 0.45, shardSpread: 1.15, color: [0.36, 0.46, 0.9], color2: [0.92, 0.94, 1.0] },
-  { section: "services", gen: 3, camZ: 8.8, camA: 0.46, camY: 0.28, x: -2.1, rot: 0.14, tilt: 0, alpha: 0.18, wave: 0, dive: 2.6, bg: [0.004, 0.006, 0.022], shardAlpha: 0.62, shardSpread: 1.1, color: [0.14, 0.22, 0.65], color2: [0.56, 0.68, 1.0] },
-  { section: "aiDemo", gen: 4, camZ: 8.7, camA: -0.42, camY: -0.22, x: 1.45, rot: 0.52, tilt: 0, alpha: 0.3, wave: 0, dive: 0.45, bg: [0.004, 0.006, 0.026], shardAlpha: 0.9, shardSpread: 1.0, color: [0.3, 0.4, 0.9], color2: [0.76, 0.82, 1.0] },
-  { section: "process", gen: 5, camZ: 8.0, camA: 0.2, camY: 0.52, x: 0.0, rot: 0.05, tilt: 0.09, alpha: 0.38, wave: 0, dive: 0.45, bg: [0.004, 0.006, 0.024], shardAlpha: 0.85, shardSpread: 0.95, color: [0.34, 0.46, 0.96], color2: [0.86, 0.9, 1.0] },
-  { section: "metrics", gen: 6, camZ: 8.6, camA: -0.24, camY: 0.32, x: 0.0, rot: 0.08, tilt: 0.12, alpha: 0.24, wave: 0, dive: 1.4, bg: [0.003, 0.005, 0.02], shardAlpha: 0.7, shardSpread: 1.0, color: [0.38, 0.48, 0.9], color2: [0.8, 0.86, 1.0] },
-  { section: "cta", gen: 7, camZ: 7.5, camA: 0.0, camY: 0.0, x: 0.0, rot: 0.14, tilt: 0, alpha: 0.62, wave: 0, dive: 0.35, bg: [0.002, 0.003, 0.016], shardAlpha: 1.2, shardSpread: 1.0, color: [0.46, 0.58, 1.0], color2: [0.92, 0.94, 1.0] },
+  { section: "hero", gen: 0, camZ: 8.5, camA: 0.0, camY: 0.0, x: 0.0, rot: 0.52, tilt: 0.08, alpha: 0.52, wave: 0, dive: 0.45, bg: [0.003, 0.005, 0.02], shardAlpha: 1.0, shardSpread: 1.0, color: [0.16, 0.36, 1.0], color2: [0.45, 0.63, 1.0] },
+  { section: "manifesto", gen: 1, camZ: 8.8, camA: 0.42, camY: 0.34, x: 0.0, rot: 0.3, tilt: 0.14, alpha: 0.36, wave: 0, dive: 2.4, bg: [0.004, 0.006, 0.024], shardAlpha: 0.95, shardSpread: 1.02, color: [0.11, 0.26, 0.88], color2: [0.33, 0.52, 1.0] },
+  { section: "projects", gen: 2, camZ: 8.6, camA: -0.38, camY: -0.22, x: 1.8, rot: 0.1, tilt: 0.06, alpha: 0.2, wave: 0, dive: 0.4, bg: [0.002, 0.004, 0.016], shardAlpha: 0.45, shardSpread: 1.12, color: [0.2, 0.42, 1.0], color2: [0.5, 0.67, 1.0] },
+  { section: "services", gen: 3, camZ: 8.8, camA: 0.46, camY: 0.28, x: -2.1, rot: 0.14, tilt: 0, alpha: 0.18, wave: 0, dive: 2.6, bg: [0.004, 0.006, 0.022], shardAlpha: 0.62, shardSpread: 1.08, color: [0.09, 0.22, 0.8], color2: [0.28, 0.46, 1.0] },
+  { section: "aiDemo", gen: 4, camZ: 8.7, camA: -0.42, camY: -0.22, x: 1.45, rot: 0.52, tilt: 0, alpha: 0.3, wave: 0, dive: 0.45, bg: [0.004, 0.006, 0.026], shardAlpha: 0.9, shardSpread: 1.0, color: [0.18, 0.4, 1.0], color2: [0.47, 0.64, 1.0] },
+  { section: "process", gen: 5, camZ: 8.0, camA: 0.2, camY: 0.52, x: 0.0, rot: 0.05, tilt: 0.09, alpha: 0.38, wave: 0, dive: 0.45, bg: [0.004, 0.006, 0.024], shardAlpha: 0.85, shardSpread: 0.95, color: [0.2, 0.44, 1.0], color2: [0.5, 0.66, 1.0] },
+  { section: "metrics", gen: 6, camZ: 8.6, camA: -0.24, camY: 0.32, x: 0.0, rot: 0.08, tilt: 0.12, alpha: 0.24, wave: 0, dive: 1.4, bg: [0.003, 0.005, 0.02], shardAlpha: 0.7, shardSpread: 1.0, color: [0.22, 0.45, 1.0], color2: [0.51, 0.67, 1.0] },
+  { section: "cta", gen: 7, camZ: 7.5, camA: 0.0, camY: 0.0, x: 0.0, rot: 0.14, tilt: 0, alpha: 0.62, wave: 0, dive: 0.35, bg: [0.002, 0.003, 0.016], shardAlpha: 1.2, shardSpread: 1.0, color: [0.26, 0.5, 1.0], color2: [0.58, 0.74, 1.0] },
 ];
 
 /** payload of the `v4:morph` event — the services index can take the cloud
@@ -672,10 +672,12 @@ const CLOUD_FRAG = /* glsl */ `
     // so the cloud shimmers instead of sitting in a frozen gradient
     vec3 base = mix(uColor, uColorB,
       fract(vSeed * 0.618 + sin(uTime * 0.25 + vSeed * 6.0) * 0.07));
-    vec3 col = base + vec3(0.16, 0.32, 0.62) * core + base * 0.2 * sin(vSeed);
-    // particles in flight (or near the cursor) ignite — electric blue with a
-    // white-hot tip, never warm/grey. Blue-weighted so glow stays saturated.
-    col += vec3(0.55, 0.78, 1.0) * vGlow * 0.5;
+    // Core tint stays blue-dominant. Anything with matched R/G/B here is a
+    // grey vote, and with thousands of additive sprites the greys win.
+    vec3 col = base + vec3(0.1, 0.3, 0.72) * core + base * 0.2 * sin(vSeed);
+    // particles in flight (or near the cursor) ignite — accent blue, not a
+    // white tip. Bloom supplies the white on the hot cores by itself.
+    col += vec3(0.24, 0.52, 1.0) * vGlow * 0.6;
     // fake depth-of-field: particles swirling right up to the lens dissolve
     // instead of turning into hard discs
     float nearFade = smoothstep(1.0, 2.6, vDepth);
@@ -1150,6 +1152,98 @@ const SHARD_ORDER = [
   7,     // cta:       the "A" monogram
 ];
 
+/**
+ * Chain the formations so consecutive ones are index-matched by proximity.
+ *
+ * This is the difference between a structure MORPHING and a swarm reshuffling.
+ * Authored independently, slot 12 of the gate and slot 12 of the vault are
+ * unrelated points, so every shard crosses the whole scene to reach a spot
+ * some other shard just left — a hundred paths cancelling out into noise.
+ *
+ * Walking SHARD_ORDER and greedily re-indexing each formation to the nearest
+ * free slot in the previous one means each shard makes the shortest move it
+ * can. The eye can then follow individual shards, and the field reads as one
+ * object rearranging itself.
+ */
+function chainForms(forms: ShardForm[], order: number[], n: number) {
+  for (let k = 1; k < order.length; k++) {
+    const prev = forms[order[k - 1]];
+    const cur = forms[order[k]];
+    const used = new Uint8Array(n);
+    const pos = new Float32Array(n * 3);
+    const dir = new Float32Array(n * 3);
+    for (let i = 0; i < n; i++) {
+      const px = prev.pos[i * 3];
+      const py = prev.pos[i * 3 + 1];
+      const pz = prev.pos[i * 3 + 2];
+      let best = -1;
+      let bestD = Infinity;
+      for (let j = 0; j < n; j++) {
+        if (used[j]) continue;
+        const dx = cur.pos[j * 3] - px;
+        const dy = cur.pos[j * 3 + 1] - py;
+        const dz = cur.pos[j * 3 + 2] - pz;
+        const d2 = dx * dx + dy * dy + dz * dz;
+        if (d2 < bestD) {
+          bestD = d2;
+          best = j;
+        }
+      }
+      used[best] = 1;
+      pos[i * 3] = cur.pos[best * 3];
+      pos[i * 3 + 1] = cur.pos[best * 3 + 1];
+      pos[i * 3 + 2] = cur.pos[best * 3 + 2];
+      dir[i * 3] = cur.dir[best * 3];
+      dir[i * 3 + 1] = cur.dir[best * 3 + 1];
+      dir[i * 3 + 2] = cur.dir[best * 3 + 2];
+    }
+
+    // Greedy is first-come-first-served: the shards matched last get whatever
+    // slots are left and can end up crossing the entire scene. Those few long
+    // stragglers are exactly what reads as randomness, so pair-swap them out.
+    const d2 = (ax: number, ay: number, az: number, bx: number, by: number, bz: number) => {
+      const dx = ax - bx;
+      const dy = ay - by;
+      const dz = az - bz;
+      return dx * dx + dy * dy + dz * dz;
+    };
+    for (let pass = 0; pass < 6; pass++) {
+      let swaps = 0;
+      for (let i = 0; i < n; i++) {
+        for (let j = i + 1; j < n; j++) {
+          const pix = prev.pos[i * 3];
+          const piy = prev.pos[i * 3 + 1];
+          const piz = prev.pos[i * 3 + 2];
+          const pjx = prev.pos[j * 3];
+          const pjy = prev.pos[j * 3 + 1];
+          const pjz = prev.pos[j * 3 + 2];
+          const now =
+            d2(pix, piy, piz, pos[i * 3], pos[i * 3 + 1], pos[i * 3 + 2]) +
+            d2(pjx, pjy, pjz, pos[j * 3], pos[j * 3 + 1], pos[j * 3 + 2]);
+          const swapped =
+            d2(pix, piy, piz, pos[j * 3], pos[j * 3 + 1], pos[j * 3 + 2]) +
+            d2(pjx, pjy, pjz, pos[i * 3], pos[i * 3 + 1], pos[i * 3 + 2]);
+          if (swapped < now - 1e-6) {
+            for (let k = 0; k < 3; k++) {
+              const tp = pos[i * 3 + k];
+              pos[i * 3 + k] = pos[j * 3 + k];
+              pos[j * 3 + k] = tp;
+              const td = dir[i * 3 + k];
+              dir[i * 3 + k] = dir[j * 3 + k];
+              dir[j * 3 + k] = td;
+            }
+            swaps++;
+          }
+        }
+      }
+      if (!swaps) break;
+    }
+
+    cur.pos.set(pos);
+    cur.dir.set(dir);
+  }
+}
+
 // Instanced obsidian shards. Every instance carries the home AND long-axis
 // direction of the formation it belongs to on either side of the current
 // scroll segment, so the whole field assembles, holds, travels and re-assembles
@@ -1163,11 +1257,11 @@ const SHARD_VERT = /* glsl */ `
   attribute vec3 aScale;
   attribute vec3 aAxis;
   attribute float aSeed;
-  attribute float aOrder;
 
   uniform float uTime;
   uniform float uMix;
   uniform float uSpread;
+  uniform float uWaveMode;
 
   varying vec3 vN;
   varying vec3 vV;
@@ -1193,29 +1287,36 @@ const SHARD_VERT = /* glsl */ `
     // the first and last stretch of every beat and compresses the whole
     // journey into the middle — assemble, hold, fly, re-assemble.
     //
-    // The delay is driven by aOrder (the shard's index along the structure it
-    // is building), not by noise: the field dismantles and re-assembles as a
-    // wave running through the form. Random stagger looks like debris; an
-    // ordered one looks choreographed.
-    float d0 = aOrder * 0.26 + aSeed * 0.05;
-    float e = smoothstep(0.24 + d0, 0.64 + d0, uMix);
+    // The delay comes from where the shard is GOING, not from noise, so the
+    // structure builds as a sweep: bottom-up on one beat, centre-outward on
+    // the next. Noise-staggered shards look like debris; a swept one looks
+    // choreographed, and that difference is most of "premium".
+    float ordY = clamp((aTgtB.y + 4.6) / 9.2, 0.0, 1.0);
+    float ordR = clamp(length(aTgtB) / 5.6, 0.0, 1.0);
+    float d0 = mix(ordY, ordR, uWaveMode) * 0.22 + aSeed * 0.04;
+    float e = smoothstep(0.30 + d0, 0.66 + d0, uMix);
 
     // bell that peaks halfway between two formations
     float travel = 4.0 * e * (1.0 - e);
 
-    // ease-out-back: the shard overshoots its slot and settles back into it,
-    // the single cheapest cue that something has real mass
-    float c1 = 0.94;
+    // ease-out-back — a slight overshoot past the slot before settling into
+    // it reads as mass. Kept gentle: on a whole field, a big overshoot is
+    // a twitch, not weight.
+    float c1 = 0.5;
     float t1 = e - 1.0;
     float ep = 1.0 + (c1 + 1.0) * t1 * t1 * t1 + c1 * t1 * t1;
 
-    // Curved flight. A straight lerp between two structures always reads as a
-    // slide; a quadratic bezier through an offset control point reads as an
-    // arc, and every shard takes a different one.
-    vec3 ctrl = (aTgtA + aTgtB) * 0.5 + aScatter * (1.5 + aSeed * 2.4);
+    // Curved flight. A straight lerp reads as a slide, but a randomly offset
+    // arc per shard reads as noise — so every shard bows the SAME way, away
+    // from the centre of the scene, by an amount set by how far it has to go.
+    // The field swells outward as one body and settles into the next form.
+    vec3 mid = (aTgtA + aTgtB) * 0.5;
+    vec3 outward = normalize(mid + vec3(0.0, 0.0001, 0.0));
+    float span = length(aTgtB - aTgtA);
+    vec3 ctrl = mid + outward * span * 0.3 + aScatter * span * 0.05;
     vec3 home = mix(mix(aTgtA, ctrl, ep), mix(ctrl, aTgtB, ep), ep) * uSpread;
     // idle breathing so a parked formation is never frozen
-    home += aScatter * sin(uTime * (0.24 + aSeed * 0.4) + aSeed * 21.0) * 0.05;
+    home += aScatter * sin(uTime * (0.2 + aSeed * 0.3) + aSeed * 21.0) * 0.03;
 
     // Orientation. In flight the shard aligns to its own velocity down the
     // bezier and stretches along it — a streak, not a tumbling rock. The lock
@@ -1237,10 +1338,11 @@ const SHARD_VERT = /* glsl */ `
     mat3 basis = mat3(tanA, want, cross(want, tanA));
 
     // stretched thin along the direction of travel, thinned across it
-    vec3 sc = aScale * vec3(1.0 - travel * 0.42, 1.0 + travel * 2.4, 1.0 - travel * 0.42);
-    // twirl about its own long axis, plus a wobble that only exists in flight
-    mat3 twirl = axisRot(vec3(0.0, 1.0, 0.0), uTime * (0.18 + aSeed * 0.34) + aSeed * 6.283);
-    mat3 wobble = axisRot(aAxis, travel * 1.3 * (0.4 + aSeed));
+    vec3 sc = aScale * vec3(1.0 - travel * 0.4, 1.0 + travel * 2.2, 1.0 - travel * 0.4);
+    // Slow twirl about its own long axis. Fast spin on 88 objects is visual
+    // noise; slow is what reads as heavy glass.
+    mat3 twirl = axisRot(vec3(0.0, 1.0, 0.0), uTime * (0.1 + aSeed * 0.16) + aSeed * 6.283);
+    mat3 wobble = axisRot(aAxis, travel * 0.6 * (0.4 + aSeed));
     mat3 local = wobble * twirl;
 
     vec3 vert = basis * (local * (position * sc));
@@ -1278,17 +1380,17 @@ const SHARD_FRAG = /* glsl */ `
     // rare, hard glint — a sparse flash reads more expensive than constant shine
     float glint = pow(band, 14.0) * pow(ndv, 3.0) * 0.7;
     vec3 base = vec3(0.004, 0.008, 0.024);
-    // thin film: cobalt at grazing angles, ice only at the very edge. Blue
-    // stays the body, white stays the sparkle — the decided palette
-    vec3 rim = mix(uColor, vec3(0.18, 0.42, 1.0), 0.5);
-    rim = mix(rim, vec3(0.74, 0.84, 1.0), pow(fres, 3.5));
-    vec3 col = base + rim * fres * (1.0 + band * 0.6) + vec3(0.82, 0.9, 1.0) * glint;
+    // Locked to the brand accent (#2f6bff). The grazing edge lifts toward a
+    // brighter blue, NOT toward white — a white rim on 88 shards averages out
+    // to the silver haze that made the field read grey.
+    vec3 rim = mix(uColor, vec3(0.18, 0.42, 1.0), 0.7);
+    rim = mix(rim, vec3(0.42, 0.64, 1.0), pow(fres, 3.5));
+    vec3 col = base + rim * fres * (1.0 + band * 0.6) + vec3(0.5, 0.7, 1.0) * glint;
     // shards in transit run hotter, so the eye follows the flight and the
     // parked structure reads as the calm state
     col += rim * vTravel * 0.5;
-    // the launch and the landing each get a hard white bloom — the two frames
-    // that sell the whole move
-    col += vec3(0.78, 0.86, 1.0) * vEdge * 0.9;
+    // launch and landing each get a bloom — bright, still blue
+    col += vec3(0.4, 0.62, 1.0) * vEdge * 0.8;
     // crystallisation flash — the frame a formation lands, the facets ring
     col += rim * uArrival * 0.5;
     // per-shard opacity variance keeps the field from looking printed
@@ -1628,8 +1730,20 @@ export function SceneV4() {
       // the structure they build is a single composition instead of three
       // overlapping clouds. Every shard knows where it belongs in the next
       // formation and which way to face once it lands.
-      const SHARD_TOTAL = isMobile ? 44 : 132;
+      // Fewer and bigger. 132 small pieces read as confetti scattered behind
+      // the content; ~88 larger ones read as objects, and an object is what
+      // has to look expensive.
+      const SHARD_TOTAL = isMobile ? 32 : 88;
       const shardForms = buildShardForms(SHARD_TOTAL);
+      // pair the formations up by proximity before anything else touches them
+      chainForms(shardForms, SHARD_ORDER, SHARD_TOTAL);
+      // The structures are authored at radius ~3.5–6; the particle sculpture
+      // spans about ±2.5. Pulling them in makes the shards read as a frame
+      // built around the cloud instead of a separate ring floating past it.
+      const SHARD_FIT = 0.78;
+      for (const form of shardForms) {
+        for (let i = 0; i < form.pos.length; i++) form.pos[i] *= SHARD_FIT;
+      }
       const shardPerm = shuffledIndices(SHARD_TOTAL, 77);
       let shardTaken = 0;
 
@@ -1640,6 +1754,9 @@ export function SceneV4() {
         uArrival: { value: 0 },
         uMix: { value: 0 },
         uSpread: { value: 1 },
+        // 0 = the form builds bottom-up, 1 = centre-outward. Alternating per
+        // beat keeps the sweep from becoming its own repetitive tic.
+        uWaveMode: { value: 0 },
       };
 
       type ShardField = {
@@ -1679,11 +1796,6 @@ export function SceneV4() {
         // structure rather than owning one contiguous corner of it
         const slots = shardPerm.slice(shardTaken, shardTaken + count);
         shardTaken += count;
-        // the shard's index along the structure, which drives the assembly
-        // wave — the generators emit in structural order, so this is a real
-        // position in the form, not a shuffled one
-        const order = new Float32Array(count);
-        for (let i = 0; i < count; i++) order[i] = slots[i] / SHARD_TOTAL;
         const homes = shardForms.map((form) => {
           const pos = new Float32Array(count * 3);
           const dir = new Float32Array(count * 3);
@@ -1714,9 +1826,9 @@ export function SceneV4() {
 
           // elongated slivers, not platonic solids — a wide size spread puts a
           // few monoliths among the blades and reads more expensive
-          const s = sizeMul * (0.72 + r() * 0.85);
+          const s = sizeMul * (0.95 + r() * 1.1);
           scale[i * 3] = s * (0.4 + r() * 0.45);
-          scale[i * 3 + 1] = s * (1.1 + r() * 1.6);
+          scale[i * 3 + 1] = s * (1.2 + r() * 1.7);
           scale[i * 3 + 2] = s * (0.4 + r() * 0.45);
 
           const ax = r() * 2 - 1;
@@ -1742,7 +1854,6 @@ export function SceneV4() {
         geo.setAttribute("aScale", new THREE.InstancedBufferAttribute(scale, 3));
         geo.setAttribute("aAxis", new THREE.InstancedBufferAttribute(axis, 3));
         geo.setAttribute("aSeed", new THREE.InstancedBufferAttribute(seeds, 1));
-        geo.setAttribute("aOrder", new THREE.InstancedBufferAttribute(order, 1));
 
         const mat = new THREE.ShaderMaterial({
           uniforms: { ...shardCommon, uAlpha: { value: baseAlpha } },
@@ -1759,9 +1870,9 @@ export function SceneV4() {
         shardFields.push({ geo, mat, mesh, count, tgtA, tgtB, dirA, dirB, homes, baseAlpha });
       };
 
-      buildShardField(new THREE.IcosahedronGeometry(0.075, 0), isMobile ? 20 : 60, 1234, 1.0, 1.0);
-      buildShardField(new THREE.OctahedronGeometry(0.065, 0), isMobile ? 16 : 48, 4211, 0.92, 0.9);
-      buildShardField(new THREE.TetrahedronGeometry(0.105, 0), isMobile ? 8 : 24, 8807, 1.2, 0.82);
+      buildShardField(new THREE.IcosahedronGeometry(0.085, 0), isMobile ? 14 : 40, 1234, 1.0, 1.0);
+      buildShardField(new THREE.OctahedronGeometry(0.075, 0), isMobile ? 12 : 32, 4211, 0.95, 0.9);
+      buildShardField(new THREE.TetrahedronGeometry(0.115, 0), isMobile ? 6 : 16, 8807, 1.25, 0.85);
 
       // ── Nebula depth layer — huge soft color pools far behind ─────────
       const nebGeo = new THREE.PlaneGeometry(16, 16);
@@ -2937,6 +3048,7 @@ export function SceneV4() {
         const beat = Math.min(seg * 2 + half, SHARD_ORDER.length - 2);
         if (beat !== currentBeat) {
           currentBeat = beat;
+          shardCommon.uWaveMode.value = beat % 2;
           const fa = SHARD_ORDER[beat];
           const fb = SHARD_ORDER[beat + 1];
           for (let i = 0; i < shardFields.length; i++) {
@@ -2962,9 +3074,10 @@ export function SceneV4() {
           const f = shardFields[i];
           const uA = f.mat.uniforms.uAlpha;
           uA.value += (shardAlpha * f.baseAlpha - uA.value) * 0.06;
-          // rotate with the sculpture but at a fraction of its rate — the
-          // structure holds its own axis instead of smearing with the cloud
-          f.mesh.rotation.set(cloud.rotation.x * 0.4, cloud.rotation.y * 0.55, cloud.rotation.z * 0.4);
+          // Locked to the sculpture's own transform. Rotating at a different
+          // rate was what made the two layers look like separate things
+          // sharing a screen instead of one object.
+          f.mesh.rotation.copy(cloud.rotation);
           f.mesh.position.copy(cloud.position);
         }
 
