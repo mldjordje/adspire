@@ -187,7 +187,6 @@ const nextConfig = {
       ...localeRedirects("/index.html", "/"),
       ...localeRedirects("/izrada-sajtova-srbija", "/our-services/web-prezentacije"),
       ...localeRedirects("/izrada-sajtova-nis", "/izrada-sajta-i-aplikacija-nis"),
-      ...localeRedirects("/usluge/:slug*", "/our-services"),
       ...localeRedirects("/usluge", "/our-services"),
       ...localeRedirects("/kontakt", "/contact-us"),
       ...localeRedirects("/o-nama", "/about-us"),
