@@ -2367,3 +2367,68 @@
   }
 }
 
+
+/* ─── Staging the sculpture ────────────────────────────────────
+   The scene lives in the middle of the viewport, and the copy used to sit
+   right on top of it behind a heavy dark vignette — the type won, but only
+   by blanketing the thing it was competing with. On desktop the copy now
+   takes one side and hands the other to the sculpture, alternating down the
+   page so the composition keeps moving. `SHAPES[].x` swings the cloud toward
+   whichever side was left empty. Below 1024px everything stays centred: a
+   phone has no side to give away. */
+
+@media (min-width: 1024px) {
+  .hero {
+    justify-content: flex-start;
+  }
+
+  .heroInner {
+    text-align: left;
+    max-width: 620px;
+    margin-left: clamp(0px, 3vw, 64px);
+  }
+
+  /* vignette follows the copy instead of covering the whole frame */
+  .heroInner::before {
+    inset: -20% -40% -20% -60%;
+    background: radial-gradient(
+      ellipse 70% 60% at 34% 50%,
+      rgba(2, 5, 12, 0.94),
+      rgba(2, 5, 12, 0.6) 50%,
+      transparent 78%
+    );
+  }
+
+  .heroCtas,
+  .heroTrust {
+    justify-content: flex-start;
+  }
+
+  .manifesto {
+    justify-content: flex-end;
+  }
+
+  .manifestoText {
+    max-width: 700px;
+    margin-right: clamp(0px, 3vw, 64px);
+  }
+
+  .manifesto::before {
+    background: radial-gradient(ellipse 60% 60% at 72% 50%, rgba(6, 6, 8, 0.86), transparent 76%);
+  }
+
+  .processHead,
+  .processTrack {
+    margin-left: 0;
+    margin-right: auto;
+  }
+
+  .process::before {
+    background: radial-gradient(
+      ellipse 58% 78% at 26% 55%,
+      rgba(6, 6, 8, 0.88),
+      rgba(6, 6, 8, 0.35) 58%,
+      transparent 80%
+    );
+  }
+}

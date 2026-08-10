@@ -64,13 +64,13 @@ type ShapeDef = {
 // White-dominant tones average to silver-grey under additive blending — so
 // blue must be the base and white only the sparkle.
 const SHAPES: ShapeDef[] = [
-  { section: "hero", gen: 0, camZ: 8.5, camA: 0.0, camY: 0.0, x: 0.0, rot: 0.52, tilt: 0.08, alpha: 0.52, wave: 0, dive: 0.45, bg: [0.002, 0.003, 0.009], shardAlpha: 1.0, shardSpread: 1.0, color: [0.16, 0.36, 1.0], color2: [0.45, 0.63, 1.0] },
-  { section: "manifesto", gen: 1, camZ: 8.8, camA: 0.42, camY: 0.34, x: 0.0, rot: 0.3, tilt: 0.14, alpha: 0.36, wave: 0, dive: 2.4, bg: [0.003, 0.004, 0.011], shardAlpha: 0.95, shardSpread: 1.02, color: [0.11, 0.26, 0.88], color2: [0.33, 0.52, 1.0] },
+  { section: "hero", gen: 0, camZ: 8.5, camA: 0.0, camY: 0.0, x: 1.9, rot: 0.52, tilt: 0.08, alpha: 0.52, wave: 0, dive: 0.45, bg: [0.002, 0.003, 0.009], shardAlpha: 1.0, shardSpread: 1.0, color: [0.16, 0.36, 1.0], color2: [0.45, 0.63, 1.0] },
+  { section: "manifesto", gen: 1, camZ: 8.8, camA: 0.42, camY: 0.34, x: -1.9, rot: 0.3, tilt: 0.14, alpha: 0.36, wave: 0, dive: 1.15, bg: [0.003, 0.004, 0.011], shardAlpha: 0.95, shardSpread: 1.02, color: [0.11, 0.26, 0.88], color2: [0.33, 0.52, 1.0] },
   { section: "projects", gen: 2, camZ: 8.6, camA: -0.38, camY: -0.22, x: 1.8, rot: 0.1, tilt: 0.06, alpha: 0.2, wave: 0, dive: 0.4, bg: [0.002, 0.002, 0.007], shardAlpha: 0.45, shardSpread: 1.12, color: [0.2, 0.42, 1.0], color2: [0.5, 0.67, 1.0] },
-  { section: "services", gen: 3, camZ: 8.8, camA: 0.46, camY: 0.28, x: -2.1, rot: 0.14, tilt: 0, alpha: 0.18, wave: 0, dive: 2.6, bg: [0.003, 0.004, 0.010], shardAlpha: 0.62, shardSpread: 1.08, color: [0.09, 0.22, 0.8], color2: [0.28, 0.46, 1.0] },
+  { section: "services", gen: 3, camZ: 8.8, camA: 0.46, camY: 0.28, x: -2.1, rot: 0.14, tilt: 0, alpha: 0.18, wave: 0, dive: 1.25, bg: [0.003, 0.004, 0.010], shardAlpha: 0.62, shardSpread: 1.08, color: [0.09, 0.22, 0.8], color2: [0.28, 0.46, 1.0] },
   { section: "aiDemo", gen: 4, camZ: 8.7, camA: -0.42, camY: -0.22, x: 1.45, rot: 0.52, tilt: 0, alpha: 0.3, wave: 0, dive: 0.45, bg: [0.003, 0.004, 0.012], shardAlpha: 0.9, shardSpread: 1.0, color: [0.18, 0.4, 1.0], color2: [0.47, 0.64, 1.0] },
-  { section: "process", gen: 5, camZ: 8.0, camA: 0.2, camY: 0.52, x: 0.0, rot: 0.05, tilt: 0.09, alpha: 0.38, wave: 0, dive: 0.45, bg: [0.003, 0.004, 0.011], shardAlpha: 0.85, shardSpread: 0.95, color: [0.2, 0.44, 1.0], color2: [0.5, 0.66, 1.0] },
-  { section: "metrics", gen: 6, camZ: 8.6, camA: -0.24, camY: 0.32, x: 0.0, rot: 0.08, tilt: 0.12, alpha: 0.24, wave: 0, dive: 1.4, bg: [0.002, 0.003, 0.009], shardAlpha: 0.7, shardSpread: 1.0, color: [0.22, 0.45, 1.0], color2: [0.51, 0.67, 1.0] },
+  { section: "process", gen: 5, camZ: 8.0, camA: 0.2, camY: 0.52, x: 1.7, rot: 0.05, tilt: 0.09, alpha: 0.38, wave: 0, dive: 0.45, bg: [0.003, 0.004, 0.011], shardAlpha: 0.85, shardSpread: 0.95, color: [0.2, 0.44, 1.0], color2: [0.5, 0.66, 1.0] },
+  { section: "metrics", gen: 6, camZ: 8.6, camA: -0.24, camY: 0.32, x: 0.0, rot: 0.08, tilt: 0.12, alpha: 0.24, wave: 0, dive: 0.85, bg: [0.002, 0.003, 0.009], shardAlpha: 0.7, shardSpread: 1.0, color: [0.22, 0.45, 1.0], color2: [0.51, 0.67, 1.0] },
   { section: "cta", gen: 7, camZ: 7.5, camA: 0.0, camY: 0.0, x: 0.0, rot: 0.14, tilt: 0, alpha: 0.62, wave: 0, dive: 0.35, bg: [0.001, 0.002, 0.007], shardAlpha: 1.2, shardSpread: 1.0, color: [0.26, 0.5, 1.0], color2: [0.58, 0.74, 1.0] },
 ];
 
@@ -1293,11 +1293,17 @@ const SHARD_VERT = /* glsl */ `
     // choreographed, and that difference is most of "premium".
     float ordY = clamp((aTgtB.y + 4.6) / 9.2, 0.0, 1.0);
     float ordR = clamp(length(aTgtB) / 5.6, 0.0, 1.0);
-    float d0 = mix(ordY, ordR, uWaveMode) * 0.22 + aSeed * 0.04;
-    float e = smoothstep(0.30 + d0, 0.66 + d0, uMix);
+    float d0 = mix(ordY, ordR, uWaveMode) * 0.20 + aSeed * 0.035;
+    float raw = smoothstep(0.34 + d0, 0.70 + d0, uMix);
+    // smootherstep on top: zero acceleration at both ends, so a shard eases
+    // out of its slot and settles into the next instead of snapping away.
+    // The old curve started hard, which is what made the whole field feel
+    // aggressive rather than directed.
+    float e = raw * raw * raw * (raw * (raw * 6.0 - 15.0) + 10.0);
 
-    // bell that peaks halfway between two formations
-    float travel = 4.0 * e * (1.0 - e);
+    // bell that peaks halfway between two formations, flattened so the
+    // middle of the move is a glide and not a lunge
+    float travel = pow(4.0 * e * (1.0 - e), 1.35);
 
     // ease-out-back — a slight overshoot past the slot before settling into
     // it reads as mass. Kept gentle: on a whole field, a big overshoot is
@@ -1337,8 +1343,10 @@ const SHARD_VERT = /* glsl */ `
     vec3 tanA = normalize(cross(upv, want));
     mat3 basis = mat3(tanA, want, cross(want, tanA));
 
-    // stretched thin along the direction of travel, thinned across it
-    vec3 sc = aScale * vec3(1.0 - travel * 0.4, 1.0 + travel * 2.2, 1.0 - travel * 0.4);
+    // A hint of stretch along the direction of travel. It used to more than
+    // triple the length, which read as a streaking gimmick rather than a
+    // heavy object being moved.
+    vec3 sc = aScale * vec3(1.0 - travel * 0.16, 1.0 + travel * 0.55, 1.0 - travel * 0.16);
     // Slow twirl about its own long axis. Fast spin on 88 objects is visual
     // noise; slow is what reads as heavy glass.
     mat3 twirl = axisRot(vec3(0.0, 1.0, 0.0), uTime * (0.1 + aSeed * 0.16) + aSeed * 6.283);
@@ -1371,52 +1379,82 @@ const SHARD_FRAG = /* glsl */ `
   varying float vSeed;
   varying float vTravel;
   varying float vEdge;
+
+  /**
+   * The studio the glass stands in.
+   *
+   * Glass has almost no colour of its own — what you read as "glass" is a
+   * room reflected and refracted through it. Lit with plain directional
+   * terms it can only ever look like shaded plastic, which is exactly what
+   * the previous pass produced. So instead of lights, this returns the
+   * environment seen in a direction: a dark stage carrying one big white
+   * softbox as the key, a broad accent-blue fill, and a narrow hot kicker
+   * raking from behind to separate the silhouette. Cheap, procedural, and
+   * it moves correctly as each shard tumbles.
+   */
+  vec3 studioEnv(vec3 d) {
+    float key = pow(max(dot(d, normalize(vec3(-0.5, 0.78, 0.38))), 0.0), 7.0);
+    float fill = pow(max(dot(d, normalize(vec3(0.72, -0.22, 0.5))), 0.0), 2.6);
+    float kick = pow(max(dot(d, normalize(vec3(0.18, 0.3, -0.94))), 0.0), 22.0);
+    // stage gradient: dark floor lifting to a faintly lit ceiling
+    float amb = 0.5 + 0.5 * d.y;
+    vec3 col = vec3(0.004, 0.009, 0.028) * amb;
+    col += vec3(0.88, 0.94, 1.0) * key * 1.45;
+    col += uColor * fill * 0.6;
+    col += vec3(0.5, 0.72, 1.0) * kick * 2.1;
+    return col;
+  }
+
   void main() {
     vec3 N = normalize(vN);
     vec3 V = normalize(vV);
     float ndv = clamp(dot(N, V), 0.0, 1.0);
 
-    // A two-light studio rig, in view space so it follows the camera like a
-    // product shot. Fresnel alone only ever draws an outline — cut facets
-    // need directional light before they read as surfaces with an angle,
-    // and that was why the field looked like glowing paper.
-    vec3 keyDir = normalize(vec3(-0.55, 0.72, 0.42));
-    vec3 fillDir = normalize(vec3(0.62, -0.38, 0.35));
-    float key = max(dot(N, keyDir), 0.0);
-    float fill = max(dot(N, fillDir), 0.0);
+    // Schlick, with glass F0 (~0.05 at IOR 1.5). The whole reason glass
+    // reads as glass is that it is nearly transparent head-on and turns
+    // into a mirror at grazing angles.
+    float f0 = 0.05;
+    float fres = f0 + (1.0 - f0) * pow(1.0 - ndv, 5.0);
 
-    // hard Blinn speculars — the per-facet glint that reads as cut glass
-    float spec = pow(max(dot(N, normalize(keyDir + V)), 0.0), 90.0);
-    float spec2 = pow(max(dot(N, normalize(fillDir + V)), 0.0), 42.0);
+    vec3 reflCol = studioEnv(reflect(-V, N));
 
-    float fres = pow(1.0 - ndv, 3.4);
+    // Refraction with three slightly different indices, one per channel.
+    // That split is dispersion — the faint rainbow at the edges of real
+    // glass, and the single strongest cue that this is not plastic.
+    float ior = 1.47;
+    vec3 rR = refract(-V, N, 1.0 / (ior - 0.014));
+    vec3 rG = refract(-V, N, 1.0 / ior);
+    vec3 rB = refract(-V, N, 1.0 / (ior + 0.014));
+    vec3 refrCol = vec3(studioEnv(rR).r, studioEnv(rG).g, studioEnv(rB).b);
 
-    // Beer-Lambert-ish interior: darkest where the line of sight passes
-    // through the most glass, lifting toward the silhouette. This is the
-    // thickness cue that separates a solid from a shell.
-    vec3 body = mix(vec3(0.005, 0.011, 0.036), uColor * 0.45, (1.0 - ndv) * 0.72);
-    // faint internal striation so large facets are never dead flat
-    float grain = 0.5 + 0.5 * sin(vPos.y * 24.0 + vSeed * 6.283 + uTime * 0.25);
+    // Beer-Lambert absorption along the path through the glass. Red is
+    // absorbed fastest and blue survives, so thick parts of the shard go
+    // deep accent-blue on their own — the tint is physical, not painted on.
+    float thick = (1.0 - ndv) * 1.9 + 0.35;
+    refrCol *= exp(-vec3(2.2, 1.5, 0.6) * thick);
 
-    vec3 col = body * (0.9 + grain * 0.2);
-    col += uColor * key * 0.55;
-    col += mix(uColor, vec3(0.3, 0.5, 1.0), 0.5) * fill * 0.26;
-    col += vec3(0.62, 0.78, 1.0) * spec * 1.3;
-    col += uColor * spec2 * 0.45;
-    col += mix(uColor, vec3(0.42, 0.66, 1.0), 0.6) * fres * 0.85;
+    vec3 col = mix(refrCol, reflCol, fres);
 
-    // shards in transit run hotter, so the eye follows the flight and the
-    // parked structure reads as the calm state
-    col += uColor * vTravel * 0.35;
-    // launch and landing each get a bloom — bright, still blue
-    col += vec3(0.4, 0.62, 1.0) * vEdge * 0.8;
-    // crystallisation flash — the frame a formation lands, the facets ring
-    col += uColor * uArrival * 0.4;
+    // direct hits off the softboxes — the hard sparkle on a cut edge
+    vec3 H1 = normalize(normalize(vec3(-0.5, 0.78, 0.38)) + V);
+    vec3 H2 = normalize(normalize(vec3(0.18, 0.3, -0.94)) + V);
+    col += vec3(0.95, 0.97, 1.0) * pow(max(dot(N, H1), 0.0), 220.0) * 2.2;
+    col += vec3(0.55, 0.74, 1.0) * pow(max(dot(N, H2), 0.0), 90.0) * 1.1;
 
-    // Nearly opaque. Additive blending was what made these ghosts: every
-    // overlap summed to a brighter smear instead of one shard occluding
-    // another, so the field never had solidity.
-    float a = clamp(0.62 + fres * 0.38 + spec, 0.0, 1.0) * clamp(uAlpha, 0.0, 1.0);
+    // internal flaw lines — real glass is never optically perfect, and the
+    // imperfection is most of what makes it look expensive
+    float flaw = pow(abs(sin(vPos.y * 26.0 + vPos.x * 11.0 + vSeed * 6.283)), 30.0);
+    col += vec3(0.4, 0.6, 1.0) * flaw * 0.28 * (1.0 - ndv);
+
+    // scene events, kept subtle — the glass should not turn into a lamp
+    col += uColor * vTravel * 0.18;
+    col += vec3(0.4, 0.62, 1.0) * vEdge * 0.35;
+    col += uColor * uArrival * 0.22;
+
+    // Grazing angles are where glass is most opaque; head-on you look
+    // through it. Driving alpha off fresnel is what stops the field from
+    // reading as a wall of dark chips.
+    float a = clamp(0.3 + fres * 0.75 + flaw * 0.2, 0.0, 1.0) * clamp(uAlpha, 0.0, 1.0);
     gl_FragColor = vec4(col, a);
   }
 `;
@@ -1792,10 +1830,11 @@ export function SceneV4() {
         const mat = new THREE.ShaderMaterial({
           uniforms: { ...shardCommon, uAlpha: { value: baseAlpha } },
           transparent: true,
-          // depth write ON: shards occlude each other and the particles
-          // behind them, which is what gives the field real depth. Additive
-          // + no depth was why overlaps used to smear into one bright haze.
-          depthWrite: true,
+          // Glass has to be seen through, so no depth write — writing depth
+          // turned the field into opaque dark chips punching holes in the
+          // cloud. Normal blending still keeps overlaps from summing into
+          // the bright smear that additive gave.
+          depthWrite: false,
           blending: THREE.NormalBlending,
           vertexShader: SHARD_VERT,
           fragmentShader: SHARD_FRAG,
@@ -2461,6 +2500,18 @@ export function SceneV4() {
         const rawMix = Math.min(Math.max((p - stops[seg]) / span, 0), 1);
         const m = rawMix * rawMix * (3 - 2 * rawMix);
 
+        // The shard field's own beat, hoisted above the camera because the
+        // camera is now cut to it: two formations per section, and the lens
+        // holds while one is parked and moves while the field travels.
+        const half = rawMix >= 0.5 ? 1 : 0;
+        const beat = Math.min(seg * 2 + half, SHARD_ORDER.length - 2);
+        const mixBeat = rawMix * 2 - half;
+        // CPU mirror of the shader's travel bell, without the per-shard
+        // stagger — one number describing where the whole field is in its move
+        const rawBeat = Math.min(Math.max((mixBeat - 0.34) / 0.36, 0), 1);
+        const easedBeat = rawBeat * rawBeat * rawBeat * (rawBeat * (rawBeat * 6 - 15) + 10);
+        const travelBeat = Math.pow(4 * easedBeat * (1 - easedBeat), 1.35);
+
         // segment changed → upload the two active shape targets once;
         // per-frame morphing happens entirely in the vertex shader
         if (seg !== currentSeg) {
@@ -2564,32 +2615,60 @@ export function SceneV4() {
         // small = vertigo beat, large (manifesto, services) = a full
         // fly-through of the particle field. Hovered services nudge the
         // orbit so the scene "turns to look" at each one
+        // Shot design. A held frame is never truly locked off — a slow push
+        // in on the hold, a lateral truck across the move, and a long
+        // breathing float underneath, all at different periods so they never
+        // line up into an obvious loop.
+        const beatHold = 1 - travelBeat; // 1 while a formation is parked
+        // slow push: the lens creeps toward the sculpture through every hold,
+        // then gives the distance back as the field breaks apart
+        const push = beatHold * 0.55;
+        // truck: the camera slides sideways across the transition, so the
+        // formation change is covered by a move rather than watched head-on
+        const truck = Math.sin(mixBeat * Math.PI) * 0.85 * (beat % 2 === 0 ? 1 : -1);
+
         const orbitR =
           a.camZ + (b.camZ - a.camZ) * m
-          + Math.sin(t * 0.35) * 0.22
-          - morphE * a.dive
+          + Math.sin(t * 0.21) * 0.3
+          + Math.sin(t * 0.077) * 0.22
+          - push
+          - morphE * a.dive * 0.55
           - Math.abs(scrollImpulse) * (isMobile ? 0.48 : 0.26);
         const ang = a.camA + (b.camA - a.camA) * m + ovAng * overrideMix;
         const craneY = a.camY + (b.camY - a.camY) * m;
+        // Slower easing = heavier camera. At 0.075 the rig snapped to every
+        // target; a film camera carries its own inertia into the next mark.
+        const ease = 0.042;
         camera.position.x +=
           (Math.sin(ang) * orbitR * 0.62
-            + mouseX * 0.58
+            + truck
+            + mouseX * 0.5
             + scrollImpulse * (isMobile ? 0.52 : 0.24)
-            - camera.position.x) * 0.075;
+            - camera.position.x) * ease;
         camera.position.y +=
-          (craneY - mouseY * 0.4 - scrollImpulse * (isMobile ? 0.3 : 0.16) - camera.position.y) * 0.075;
+          (craneY
+            + Math.sin(t * 0.058) * 0.16
+            - mouseY * 0.34
+            - scrollImpulse * (isMobile ? 0.3 : 0.16)
+            - camera.position.y) * ease;
         camera.position.z +=
-          (Math.cos(ang * 0.72) * orbitR - Math.abs(scrollImpulse) * 0.32 - camera.position.z) * 0.075;
+          (Math.cos(ang * 0.72) * orbitR - Math.abs(scrollImpulse) * 0.32 - camera.position.z) * ease;
         camera.position.z -= shockAge < 2 ? Math.exp(-shockAge * 3.2) * 0.3 : 0;
-        camera.fov +=
-          (42 + warp * (isMobile ? 6 : 4) + morphE * 2.2 + Math.abs(scrollImpulse) * 2.4 - camera.fov) * 0.1;
+        // Focal length is a storytelling tool: longer lens (lower fov) while a
+        // formation holds, so it compresses and sits still like a portrait,
+        // opening wider through the move to sell the travel.
+        const fovTarget =
+          40.5 + travelBeat * 3.4 + warp * (isMobile ? 6 : 4) + morphE * 1.4
+          + Math.abs(scrollImpulse) * 2.4;
+        camera.fov += (fovTarget - camera.fov) * 0.06;
         camera.updateProjectionMatrix();
         camera.lookAt(cloud.position.x * 0.42, cloud.position.y * 0.32, 0);
-        // banking roll leans into the orbit swing — handheld cinema, not a tripod
+        // banking roll leans into the orbit swing — handheld cinema, not a
+        // tripod. Two slow periods keep the drift from reading as a loop.
         bank +=
-          (Math.max(-0.03, Math.min(0.03, (ang - prevAng) * 12 + scrollImpulse * 0.022)) - bank) * 0.065;
+          (Math.max(-0.03, Math.min(0.03, (ang - prevAng) * 12 + scrollImpulse * 0.022)) - bank) * 0.05;
         prevAng = ang;
-        camera.rotation.z = Math.sin(t * 0.08) * 0.006 + bank;
+        camera.rotation.z = Math.sin(t * 0.061) * 0.007 + Math.sin(t * 0.023) * 0.004 + bank;
 
         // project the cursor onto the z=0 plane the cloud lives around,
         // smoothed so the repulsion pocket glides after the hand
@@ -2684,8 +2763,6 @@ export function SceneV4() {
         // The field runs at twice the cloud's rate: two formations per section,
         // fifteen builds across the landing. The background geometry gets its
         // own rhythm instead of echoing the particle morph.
-        const half = rawMix >= 0.5 ? 1 : 0;
-        const beat = Math.min(seg * 2 + half, SHARD_ORDER.length - 2);
         if (beat !== currentBeat) {
           currentBeat = beat;
           shardCommon.uWaveMode.value = beat % 2;
@@ -2705,7 +2782,7 @@ export function SceneV4() {
         }
 
         shardCommon.uTime.value = t;
-        shardCommon.uMix.value = rawMix * 2.0 - half;
+        shardCommon.uMix.value = mixBeat;
         shardCommon.uArrival.value = arrE;
         shardCommon.uSpread.value = a.shardSpread + (b.shardSpread - a.shardSpread) * m;
         shardColor.lerp(tmpColor, 0.04);

@@ -229,14 +229,38 @@ pravac za ovaj sloj — obrazloži i predloži.
     desktopu i hardkodiran na engleskom. Sad je vidljiv, lokalizovan (`t.hero.drag`) i
     **gasi se posle prvog stvarnog hvatanja** (`v4:grabbed`).
 
-### Otvoreno: raspored UI/UX da scena dođe do izražaja
+- **Staklo, kamera i raspored (2026-08-10, drugi krug).** Đorđe: shardovi „izgledaju još
+  jeftinije", tranzicije „mnogo agresivne, nije cinematic", traži „expensive vibe" i
+  više rada kamerom.
 
-Ovo **nije** urađeno — traži Đorđevu odluku jer dira raspored sadržaja, ne vizuelni sloj.
+  - **Prethodni pokušaj (key/fill + Blinn) je bio pogrešan pravac.** Staklo nema svoju
+    boju — ono što se čita kao staklo je *soba koja se u njemu ogleda i prelama*. Sa
+    običnim direkcionim svetlom može da izgleda samo kao osenčena plastika, i tako je i
+    izgledalo. Sad: proceduralni `studioEnv()` (beli softbox kao key, akcentni fill,
+    uzak vreo kicker otpozadi), **Schlick fresnel** sa staklenim F0, **refrakcija sa tri
+    IOR-a po kanalu** = disperzija, **Beer-Lambert apsorpcija** po debljini (crveno se
+    guta najbrže, plavo preživi — tint je fizički, ne naslikan), unutrašnje linije mane.
+  - `depthWrite` vraćen na `false`. Sa `true` su shardovi postali neprozirni tamni
+    čipovi koji buše rupe u oblaku — to je bio glavni uzrok „još jeftinije".
+  - **Tranzicije smirene:** smootherstep (nulto ubrzanje na oba kraja), spljošten bell,
+    rastezanje sa ×3.2 na ×1.55, blesak sa 0.8 na 0.35, `dive` 2.4/2.6 → 1.15/1.25.
+  - **Kamera je sad režirana:** spor *push in* dok formacija stoji, bočni *truck* preko
+    prelaza (smer se menja po beatu), duži objektiv na holdu a širi u pokretu, easing
+    0.075 → 0.042 (teža glava), dva spora perioda na bank/roll da drift ne ulazi u
+    očigledan loop.
+  - **Raspored:** hero levo, manifesto desno, proces levo (≥1024px), `SHAPES[].x` gura
+    skulpturu u oslobođenu stranu (hero +1.9, manifesto −1.9, proces +1.7). Vinjete
+    ispod teksta više ne pokrivaju ceo kadar nego prate kopiju. Ispod 1024px sve ostaje
+    centrirano. Izmereno na 1280: hero 90→710, manifesto 450→1150, `overflowX = 0`.
 
-1. **Hero mora da ima prazan prostor.** Trenutno naslov + dva CTA + trust red + dva
+### Otvoreno: ostatak UI/UX predloga
+
+Ovo **nije** urađeno — traži Đorđevu odluku jer dira sadržaj.
+
+1. ~~Hero prazan prostor~~ — URAĐENO.
    hint-a zauzimaju sredinu ekrana, tačno tamo gde je skulptura. Predlog: naslov levo
    poravnat i spušten, desna trećina potpuno prazna — skulptura dobija scenu.
-2. **Naizmenično poravnanje po sekcijama.** Sadržaj levo / desno u smeni, pa `SHAPES[].x`
+2. ~~Naizmenično poravnanje~~ — URAĐENO za hero/manifesto/proces.
    (koji već pomera oblak u stranu) ima gde da ga pomeri. Sad se sadržaj i oblak biju
    za isti centar.
 3. **Jedna sekcija bez teksta.** Između `process` i `metrics` — samo skulptura, puna
