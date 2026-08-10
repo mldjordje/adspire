@@ -64,14 +64,14 @@ type ShapeDef = {
 // White-dominant tones average to silver-grey under additive blending — so
 // blue must be the base and white only the sparkle.
 const SHAPES: ShapeDef[] = [
-  { section: "hero", gen: 0, camZ: 8.5, camA: 0.0, camY: 0.0, x: 0.0, rot: 0.52, tilt: 0.08, alpha: 0.52, wave: 0, dive: 0.45, bg: [0.003, 0.005, 0.02], shardAlpha: 1.0, shardSpread: 1.0, color: [0.16, 0.36, 1.0], color2: [0.45, 0.63, 1.0] },
-  { section: "manifesto", gen: 1, camZ: 8.8, camA: 0.42, camY: 0.34, x: 0.0, rot: 0.3, tilt: 0.14, alpha: 0.36, wave: 0, dive: 2.4, bg: [0.004, 0.006, 0.024], shardAlpha: 0.95, shardSpread: 1.02, color: [0.11, 0.26, 0.88], color2: [0.33, 0.52, 1.0] },
-  { section: "projects", gen: 2, camZ: 8.6, camA: -0.38, camY: -0.22, x: 1.8, rot: 0.1, tilt: 0.06, alpha: 0.2, wave: 0, dive: 0.4, bg: [0.002, 0.004, 0.016], shardAlpha: 0.45, shardSpread: 1.12, color: [0.2, 0.42, 1.0], color2: [0.5, 0.67, 1.0] },
-  { section: "services", gen: 3, camZ: 8.8, camA: 0.46, camY: 0.28, x: -2.1, rot: 0.14, tilt: 0, alpha: 0.18, wave: 0, dive: 2.6, bg: [0.004, 0.006, 0.022], shardAlpha: 0.62, shardSpread: 1.08, color: [0.09, 0.22, 0.8], color2: [0.28, 0.46, 1.0] },
-  { section: "aiDemo", gen: 4, camZ: 8.7, camA: -0.42, camY: -0.22, x: 1.45, rot: 0.52, tilt: 0, alpha: 0.3, wave: 0, dive: 0.45, bg: [0.004, 0.006, 0.026], shardAlpha: 0.9, shardSpread: 1.0, color: [0.18, 0.4, 1.0], color2: [0.47, 0.64, 1.0] },
-  { section: "process", gen: 5, camZ: 8.0, camA: 0.2, camY: 0.52, x: 0.0, rot: 0.05, tilt: 0.09, alpha: 0.38, wave: 0, dive: 0.45, bg: [0.004, 0.006, 0.024], shardAlpha: 0.85, shardSpread: 0.95, color: [0.2, 0.44, 1.0], color2: [0.5, 0.66, 1.0] },
-  { section: "metrics", gen: 6, camZ: 8.6, camA: -0.24, camY: 0.32, x: 0.0, rot: 0.08, tilt: 0.12, alpha: 0.24, wave: 0, dive: 1.4, bg: [0.003, 0.005, 0.02], shardAlpha: 0.7, shardSpread: 1.0, color: [0.22, 0.45, 1.0], color2: [0.51, 0.67, 1.0] },
-  { section: "cta", gen: 7, camZ: 7.5, camA: 0.0, camY: 0.0, x: 0.0, rot: 0.14, tilt: 0, alpha: 0.62, wave: 0, dive: 0.35, bg: [0.002, 0.003, 0.016], shardAlpha: 1.2, shardSpread: 1.0, color: [0.26, 0.5, 1.0], color2: [0.58, 0.74, 1.0] },
+  { section: "hero", gen: 0, camZ: 8.5, camA: 0.0, camY: 0.0, x: 0.0, rot: 0.52, tilt: 0.08, alpha: 0.52, wave: 0, dive: 0.45, bg: [0.002, 0.003, 0.009], shardAlpha: 1.0, shardSpread: 1.0, color: [0.16, 0.36, 1.0], color2: [0.45, 0.63, 1.0] },
+  { section: "manifesto", gen: 1, camZ: 8.8, camA: 0.42, camY: 0.34, x: 0.0, rot: 0.3, tilt: 0.14, alpha: 0.36, wave: 0, dive: 2.4, bg: [0.003, 0.004, 0.011], shardAlpha: 0.95, shardSpread: 1.02, color: [0.11, 0.26, 0.88], color2: [0.33, 0.52, 1.0] },
+  { section: "projects", gen: 2, camZ: 8.6, camA: -0.38, camY: -0.22, x: 1.8, rot: 0.1, tilt: 0.06, alpha: 0.2, wave: 0, dive: 0.4, bg: [0.002, 0.002, 0.007], shardAlpha: 0.45, shardSpread: 1.12, color: [0.2, 0.42, 1.0], color2: [0.5, 0.67, 1.0] },
+  { section: "services", gen: 3, camZ: 8.8, camA: 0.46, camY: 0.28, x: -2.1, rot: 0.14, tilt: 0, alpha: 0.18, wave: 0, dive: 2.6, bg: [0.003, 0.004, 0.010], shardAlpha: 0.62, shardSpread: 1.08, color: [0.09, 0.22, 0.8], color2: [0.28, 0.46, 1.0] },
+  { section: "aiDemo", gen: 4, camZ: 8.7, camA: -0.42, camY: -0.22, x: 1.45, rot: 0.52, tilt: 0, alpha: 0.3, wave: 0, dive: 0.45, bg: [0.003, 0.004, 0.012], shardAlpha: 0.9, shardSpread: 1.0, color: [0.18, 0.4, 1.0], color2: [0.47, 0.64, 1.0] },
+  { section: "process", gen: 5, camZ: 8.0, camA: 0.2, camY: 0.52, x: 0.0, rot: 0.05, tilt: 0.09, alpha: 0.38, wave: 0, dive: 0.45, bg: [0.003, 0.004, 0.011], shardAlpha: 0.85, shardSpread: 0.95, color: [0.2, 0.44, 1.0], color2: [0.5, 0.66, 1.0] },
+  { section: "metrics", gen: 6, camZ: 8.6, camA: -0.24, camY: 0.32, x: 0.0, rot: 0.08, tilt: 0.12, alpha: 0.24, wave: 0, dive: 1.4, bg: [0.002, 0.003, 0.009], shardAlpha: 0.7, shardSpread: 1.0, color: [0.22, 0.45, 1.0], color2: [0.51, 0.67, 1.0] },
+  { section: "cta", gen: 7, camZ: 7.5, camA: 0.0, camY: 0.0, x: 0.0, rot: 0.14, tilt: 0, alpha: 0.62, wave: 0, dive: 0.35, bg: [0.001, 0.002, 0.007], shardAlpha: 1.2, shardSpread: 1.0, color: [0.26, 0.5, 1.0], color2: [0.58, 0.74, 1.0] },
 ];
 
 /** payload of the `v4:morph` event — the services index can take the cloud
@@ -1454,7 +1454,7 @@ export function SceneV4() {
       const scene = new THREE.Scene();
       // opaque bg matches the page — required for the bloom composer path
       // deep black-blue void: pure black would read flat, grey is banned
-      scene.background = new THREE.Color(0x02030a);
+      scene.background = new THREE.Color(0x010207);
       const camera = new THREE.PerspectiveCamera(
         42,
         window.innerWidth / window.innerHeight,
@@ -1633,96 +1633,6 @@ export function SceneV4() {
       neuralLines.frustumCulled = false;
       scene.add(neuralLines);
 
-      // ── Fireflies — a handful of bright motes on elliptical orbits around
-      // the sculpture, each dragging a fading light-trail. Constant life even
-      // when the visitor stops scrolling ───────────────────────────────────
-      const FLY_N = isMobile ? 6 : 7;
-      const TRAIL = 10;
-      const flyRnd = mulberry32(6161);
-      const flyDefs = Array.from({ length: FLY_N }, () => ({
-        rx: 2.7 + flyRnd() * 1.7,
-        ry: 1.1 + flyRnd() * 1.2,
-        sp: 0.14 + flyRnd() * 0.17,
-        ph: flyRnd() * Math.PI * 2,
-        zw: 1.1 + flyRnd() * 0.9,
-      }));
-      const flyPoint = (f: (typeof flyDefs)[number], tt: number, out: number[]) => {
-        out[0] = Math.cos(tt * f.sp + f.ph) * f.rx;
-        out[1] = Math.sin(tt * f.sp * 0.83 + f.ph) * f.ry;
-        out[2] = Math.sin(tt * f.sp * 1.31 + f.ph * 2.0) * f.zw;
-      };
-      // trail: (TRAIL-1) segments per fly, rebuilt on CPU each frame (tiny)
-      const trailGeo = new THREE.BufferGeometry();
-      const trailPos = new THREE.BufferAttribute(new Float32Array(FLY_N * (TRAIL - 1) * 2 * 3), 3);
-      trailPos.setUsage(THREE.DynamicDrawUsage);
-      trailGeo.setAttribute("position", trailPos);
-      const trailFade = new Float32Array(FLY_N * (TRAIL - 1) * 2);
-      for (let f = 0; f < FLY_N; f++) {
-        for (let k = 0; k < TRAIL - 1; k++) {
-          trailFade[(f * (TRAIL - 1) + k) * 2] = 1 - k / TRAIL;
-          trailFade[(f * (TRAIL - 1) + k) * 2 + 1] = 1 - (k + 1) / TRAIL;
-        }
-      }
-      trailGeo.setAttribute("aFade", new THREE.BufferAttribute(trailFade, 1));
-      const trailMat = new THREE.ShaderMaterial({
-        uniforms: { uColor: { value: new THREE.Color(0.78, 0.84, 1.0) } },
-        transparent: true,
-        depthWrite: false,
-        blending: THREE.AdditiveBlending,
-        vertexShader: /* glsl */ `
-          attribute float aFade;
-          varying float vF;
-          void main() {
-            vF = aFade;
-            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-          }
-        `,
-        fragmentShader: /* glsl */ `
-          uniform vec3 uColor;
-          varying float vF;
-          void main() {
-            gl_FragColor = vec4(uColor, vF * vF * 0.55);
-          }
-        `,
-      });
-      const flyTrails = new THREE.LineSegments(trailGeo, trailMat);
-      flyTrails.frustumCulled = false;
-      scene.add(flyTrails);
-      // heads — hot dots the bloom pass catches
-      const headGeo = new THREE.BufferGeometry();
-      const headPos = new THREE.BufferAttribute(new Float32Array(FLY_N * 3), 3);
-      headPos.setUsage(THREE.DynamicDrawUsage);
-      headGeo.setAttribute("position", headPos);
-      const headMat = new THREE.ShaderMaterial({
-        uniforms: {
-          uColor: { value: new THREE.Color(0.86, 0.9, 1.0) },
-          uScale: { value: (isMobile ? 46 : 40) * basePR },
-        },
-        transparent: true,
-        depthWrite: false,
-        blending: THREE.AdditiveBlending,
-        vertexShader: /* glsl */ `
-          uniform float uScale;
-          void main() {
-            vec4 mv = modelViewMatrix * vec4(position, 1.0);
-            gl_PointSize = 2.6 * uScale / -mv.z;
-            gl_Position = projectionMatrix * mv;
-          }
-        `,
-        fragmentShader: /* glsl */ `
-          uniform vec3 uColor;
-          void main() {
-            float d = distance(gl_PointCoord, vec2(0.5));
-            if (d > 0.5) discard;
-            gl_FragColor = vec4(uColor + vec3(0.4), exp(-d * d * 18.0));
-          }
-        `,
-      });
-      const flyHeads = new THREE.Points(headGeo, headMat);
-      flyHeads.frustumCulled = false;
-      scene.add(flyHeads);
-      const flyTmp = [0, 0, 0];
-
       // ── Shard field — the background geometry's own scroll scene ───────
       // One body of shards, drawn as three meshes only so the silhouettes vary
       // (blades / chips / slabs). All three ride the cloud's transform and all
@@ -1874,9 +1784,17 @@ export function SceneV4() {
       buildShardField(new THREE.OctahedronGeometry(0.075, 0), isMobile ? 12 : 32, 4211, 0.95, 0.9);
       buildShardField(new THREE.TetrahedronGeometry(0.115, 0), isMobile ? 6 : 16, 8807, 1.25, 0.85);
 
-      // ── Nebula depth layer — huge soft color pools far behind ─────────
-      const nebGeo = new THREE.PlaneGeometry(16, 16);
-      const NEB_FRAG = /* glsl */ `
+      // ── Shared soft-glow quad — a plane with a radial falloff. The ink
+      // field, the core glow and the anamorphic flare all draw on it ────
+      const glowGeo = new THREE.PlaneGeometry(16, 16);
+      const GLOW_VERT = /* glsl */ `
+        varying vec2 vUv;
+        void main() {
+          vUv = uv;
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+      `;
+      const GLOW_FRAG = /* glsl */ `
         uniform vec3 uColor;
         uniform float uOpacity;
         varying vec2 vUv;
@@ -1886,34 +1804,6 @@ export function SceneV4() {
           gl_FragColor = vec4(uColor, a * a * uOpacity);
         }
       `;
-      const NEB_VERT = /* glsl */ `
-        varying vec2 vUv;
-        void main() {
-          vUv = uv;
-          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-        }
-      `;
-      const nebDefs: { color: number; pos: [number, number, number]; s: number }[] = [
-        { color: 0x17245f, pos: [-5, 2.5, -10], s: 1.4 },
-        { color: 0x0d1744, pos: [6, -3, -12], s: 1.7 },
-        { color: 0x7890ff, pos: [0, 4.5, -14], s: 1.9 },
-      ];
-      const nebulas = nebDefs.map((def, i) => {
-        const mat = new THREE.ShaderMaterial({
-          uniforms: { uColor: { value: new THREE.Color(def.color) }, uOpacity: { value: 0.06 } },
-          transparent: true,
-          depthWrite: false,
-          blending: THREE.AdditiveBlending,
-          vertexShader: NEB_VERT,
-          fragmentShader: NEB_FRAG,
-        });
-        const mesh = new THREE.Mesh(nebGeo, mat);
-        mesh.position.set(def.pos[0], def.pos[1], def.pos[2]);
-        mesh.scale.setScalar(def.s);
-        mesh.renderOrder = -1;
-        scene.add(mesh);
-        return { mesh, mat, baseY: def.pos[1], baseX: def.pos[0], phase: i * 2.1 };
-      });
 
       // ── Ink field — interactive plasma void (ported from dropz's ambient
       // fbm drift). A single huge plane far behind everything; a two-octave
@@ -1953,8 +1843,11 @@ export function SceneV4() {
           vec2 uv = vUv;
           uv.x *= uAspect;
           vec2 drift = vec2(uTime * 0.015, uTime * 0.011);
-          // the cursor drags the field — a slow gravitational pull
-          vec2 pull = (uPointer - 0.5) * (0.35 + uEnergy * 0.5);
+          // The cursor drags the field, but the void must keep moving when
+          // nobody is touching it — an idle orbit walks the pull point on its
+          // own so the background is alive on a still page.
+          vec2 idle = vec2(cos(uTime * 0.07), sin(uTime * 0.053)) * 0.16;
+          vec2 pull = (uPointer - 0.5) * (0.35 + uEnergy * 0.5) + idle;
           float n = fbm(uv * 2.2 + drift + pull);
           float n2 = fbm(uv * 3.9 - drift * 1.4 - pull * 0.6);
           float ink = smoothstep(0.34, 0.86, n * 0.6 + n2 * 0.4);
@@ -1967,13 +1860,17 @@ export function SceneV4() {
           gl_FragColor = vec4(col, ink * vig * uOpacity * (1.0 + uEnergy * 0.6));
         }
       `;
+      // Deliberately NOT the accent. The backdrop used to run the same
+      // #7890ff as the cloud and the shards, so the foreground had nothing to
+      // stand out against and the whole frame flattened into one blue haze.
+      // Deep desaturated navy here, accent blue only on the objects.
       const inkUniforms = {
         uTime: { value: 0 },
         uPointer: { value: new THREE.Vector2(0.5, 0.5) },
         uAspect: { value: window.innerWidth / window.innerHeight },
-        uColorLo: { value: new THREE.Color(0x0b1232) },
-        uColorHi: { value: new THREE.Color(0x7890ff) },
-        uOpacity: { value: isMobile ? 0.18 : 0.22 },
+        uColorLo: { value: new THREE.Color(0x04061a) },
+        uColorHi: { value: new THREE.Color(0x1e2c63) },
+        uOpacity: { value: isMobile ? 0.13 : 0.16 },
         uEnergy: { value: 0 },
       };
       const inkMat = new THREE.ShaderMaterial({
@@ -1982,7 +1879,7 @@ export function SceneV4() {
         depthWrite: false,
         depthTest: false,
         blending: THREE.AdditiveBlending,
-        vertexShader: NEB_VERT,
+        vertexShader: GLOW_VERT,
         fragmentShader: INK_FRAG,
       });
       const inkField = new THREE.Mesh(inkGeo, inkMat);
@@ -1990,132 +1887,6 @@ export function SceneV4() {
       inkField.renderOrder = -3; // behind nebulas (-1) and everything else
       inkField.frustumCulled = false;
       scene.add(inkField);
-
-      // ── Aurora ribbons — two vast silk bands undulating far behind the
-      // cloud; the volumetric depth cue that makes the void feel expensive ──
-      const RIB_FRAG = /* glsl */ `
-        uniform vec3 uColorA;
-        uniform vec3 uColorB;
-        uniform float uOpacity;
-        uniform float uTime;
-        uniform float uPhase;
-        varying vec2 vUv;
-        void main() {
-          // slow traveling wave bends the band; a second harmonic keeps it organic
-          float flow = sin(vUv.x * 6.283 + uTime * 0.14 + uPhase
-            + sin(vUv.x * 13.9 - uTime * 0.21 + uPhase) * 0.55);
-          float band = exp(-pow((vUv.y - 0.5 - flow * 0.16) * 4.6, 2.0));
-          // soft second ribbon ghosting above the first
-          float band2 = exp(-pow((vUv.y - 0.62 - flow * 0.22) * 7.0, 2.0)) * 0.5;
-          float edge = smoothstep(0.0, 0.16, vUv.x) * smoothstep(1.0, 0.84, vUv.x);
-          vec3 col = mix(uColorA, uColorB, clamp(vUv.x + flow * 0.25, 0.0, 1.0));
-          gl_FragColor = vec4(col, (band + band2) * edge * uOpacity);
-        }
-      `;
-      const ribbonGeo = new THREE.PlaneGeometry(30, 8);
-      const ribbonDefs = [
-        { y: 2.6, z: -9.5, rz: 0.12, phase: 0, op: 0.045 },
-        { y: -3.4, z: -12.5, rz: -0.09, phase: 2.4, op: 0.03 },
-      ];
-      const ribbons = ribbonDefs.map((def) => {
-        const mat = new THREE.ShaderMaterial({
-          uniforms: {
-            uColorA: { value: new THREE.Color(0xb8c5ff) },
-            uColorB: { value: new THREE.Color(0x7890ff) },
-            uOpacity: { value: def.op },
-            uTime: { value: 0 },
-            uPhase: { value: def.phase },
-          },
-          transparent: true,
-          depthWrite: false,
-          blending: THREE.AdditiveBlending,
-          vertexShader: NEB_VERT,
-          fragmentShader: RIB_FRAG,
-        });
-        const mesh = new THREE.Mesh(ribbonGeo, mat);
-        mesh.position.set(0, def.y, def.z);
-        mesh.rotation.z = def.rz;
-        mesh.renderOrder = -1;
-        scene.add(mesh);
-        return { mesh, mat, baseY: def.y };
-      });
-
-      // ── Side veils — a second WebGL language, intentionally not particles.
-      // Two translucent woven surfaces live just outside the central reading
-      // column. Scroll twists their folds; the pointer changes their tension.
-      // Normal alpha blending keeps them satin/glass, never another glow cloud.
-      const VEIL_VERT = /* glsl */ `
-        uniform float uTime;
-        uniform float uScroll;
-        uniform float uPointer;
-        uniform float uSide;
-        varying vec2 vUv;
-        varying float vFold;
-        void main() {
-          vUv = uv;
-          vec3 p = position;
-          float longFold = sin(p.y * 0.72 + uTime * 0.22 + uScroll * 9.0 + uSide * 1.6);
-          float crossFold = sin(p.x * 1.45 - uTime * 0.16 + uScroll * 5.0);
-          float pointerTension = uPointer * uSide;
-          p.z += longFold * (0.34 + abs(pointerTension) * 0.12) + crossFold * 0.15;
-          p.x += sin(p.y * 0.38 + uScroll * 6.283) * 0.14 * uSide;
-          p.x += pointerTension * (0.16 + uv.y * 0.12);
-          vFold = longFold * 0.5 + crossFold * 0.25;
-          gl_Position = projectionMatrix * modelViewMatrix * vec4(p, 1.0);
-        }
-      `;
-      const VEIL_FRAG = /* glsl */ `
-        uniform vec3 uColorA;
-        uniform vec3 uColorB;
-        uniform float uOpacity;
-        uniform float uEnergy;
-        varying vec2 vUv;
-        varying float vFold;
-        void main() {
-          float sideFade = smoothstep(0.0, 0.18, vUv.x) * smoothstep(1.0, 0.82, vUv.x);
-          float endFade = smoothstep(0.0, 0.12, vUv.y) * smoothstep(1.0, 0.88, vUv.y);
-          float ridge = pow(0.5 + 0.5 * vFold, 5.0);
-          float contour = smoothstep(0.955, 1.0, 0.5 + 0.5 * sin((vUv.y + vFold * 0.035) * 74.0));
-          vec3 color = mix(uColorA, uColorB, clamp(vUv.y + vFold * 0.12, 0.0, 1.0));
-          float alpha = sideFade * endFade
-            * (0.018 + ridge * 0.052 + contour * 0.026 + uEnergy * 0.018)
-            * uOpacity;
-          gl_FragColor = vec4(color, alpha);
-        }
-      `;
-      const veilGeo = new THREE.PlaneGeometry(5.4, 12.5, 28, 56);
-      const veilDefs = [
-        { side: -1, x: -6.15, z: -2.8, ry: 0.58, phase: 0.0 },
-        { side: 1, x: 6.15, z: -3.4, ry: -0.58, phase: 2.7 },
-      ];
-      const veils = veilDefs.map((def) => {
-        const mat = new THREE.ShaderMaterial({
-          uniforms: {
-            uTime: { value: def.phase },
-            uScroll: { value: 0 },
-            uPointer: { value: 0 },
-            uSide: { value: def.side },
-            uColorA: { value: new THREE.Color(0x263a92) },
-            uColorB: { value: new THREE.Color(0xc5d0ff) },
-            uOpacity: { value: isMobile ? 0.48 : 0.9 },
-            uEnergy: { value: 0 },
-          },
-          transparent: true,
-          depthWrite: false,
-          depthTest: true,
-          side: THREE.DoubleSide,
-          blending: THREE.NormalBlending,
-          vertexShader: VEIL_VERT,
-          fragmentShader: VEIL_FRAG,
-        });
-        const mesh = new THREE.Mesh(veilGeo, mat);
-        mesh.position.set(def.x, 0, def.z);
-        mesh.rotation.y = def.ry;
-        mesh.rotation.z = def.side * 0.055;
-        mesh.renderOrder = -1;
-        scene.add(mesh);
-        return { mesh, mat, baseX: def.x, baseRY: def.ry, side: def.side, phase: def.phase };
-      });
 
       // ── Ambient starfield backdrop ────────────────────────────────────
       const STARS = isMobile ? 720 : 900;
@@ -2174,240 +1945,16 @@ export function SceneV4() {
       const stars = new THREE.Points(starGeo, starMat);
       scene.add(stars);
 
-      // ── Hyperspace streaks — invisible at rest; fast scrolling stretches
-      // hidden stars into light-lines racing past the camera. Scroll speed
-      // becomes literal speed ──────────────────────────────────────────────
-      const WARP_N = isMobile ? 150 : 220;
-      const wRnd = mulberry32(8811);
-      const warpPos = new Float32Array(WARP_N * 2 * 3);
-      const warpEnd = new Float32Array(WARP_N * 2);
-      const warpSeed = new Float32Array(WARP_N * 2);
-      for (let i = 0; i < WARP_N; i++) {
-        const x = (wRnd() - 0.5) * 26;
-        const y = (wRnd() - 0.5) * 16;
-        const z = -13 + wRnd() * 15;
-        const sd = wRnd();
-        for (let v = 0; v < 2; v++) {
-          warpPos[(i * 2 + v) * 3] = x;
-          warpPos[(i * 2 + v) * 3 + 1] = y;
-          warpPos[(i * 2 + v) * 3 + 2] = z;
-          warpEnd[i * 2 + v] = v;
-          warpSeed[i * 2 + v] = sd;
-        }
-      }
-      const warpGeo = new THREE.BufferGeometry();
-      warpGeo.setAttribute("position", new THREE.BufferAttribute(warpPos, 3));
-      warpGeo.setAttribute("aEnd", new THREE.BufferAttribute(warpEnd, 1));
-      warpGeo.setAttribute("aSeed", new THREE.BufferAttribute(warpSeed, 1));
-      const warpMat = new THREE.ShaderMaterial({
-        uniforms: { uWarp: { value: 0 }, uColor: { value: new THREE.Color(0.48, 0.58, 1.0) } },
-        transparent: true,
-        depthWrite: false,
-        blending: THREE.AdditiveBlending,
-        vertexShader: /* glsl */ `
-          attribute float aEnd;
-          attribute float aSeed;
-          uniform float uWarp;
-          varying float vA;
-          void main() {
-            vec3 pos = position;
-            // tail vertex streaks toward the lens — perspective turns the
-            // z-stretch into radial speed-lines from the vanishing point
-            pos.z += aEnd * uWarp * (1.6 + aSeed * 4.2);
-            vA = uWarp * (0.22 + aSeed * 0.45) * (1.0 - aEnd * 0.85);
-            gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
-          }
-        `,
-        fragmentShader: /* glsl */ `
-          uniform vec3 uColor;
-          varying float vA;
-          void main() {
-            gl_FragColor = vec4(uColor, vA);
-          }
-        `,
-      });
-      const warpLines = new THREE.LineSegments(warpGeo, warpMat);
-      warpLines.frustumCulled = false;
-      scene.add(warpLines);
-
-      // ── Foreground glass shrapnel — angular slivers drifting in front of
-      // the cloud; the third depth layer that sells the parallax. Blades,
-      // not discs: soft grey bokeh circles read cheap on the dark void ──
-      const DUST = isMobile ? 48 : 90;
-      const dustRnd = mulberry32(3131);
-      const dustPos = new Float32Array(DUST * 3);
-      const dustSize = new Float32Array(DUST);
-      const dustSeed = new Float32Array(DUST);
-      for (let i = 0; i < DUST; i++) {
-        dustPos[i * 3] = (dustRnd() - 0.5) * 15;
-        dustPos[i * 3 + 1] = (dustRnd() - 0.5) * 9;
-        dustPos[i * 3 + 2] = 2.2 + dustRnd() * 3.4; // between cloud and camera
-        dustSize[i] = 10 + dustRnd() * 30;
-        dustSeed[i] = dustRnd() * 100;
-      }
-      const dustGeo = new THREE.BufferGeometry();
-      dustGeo.setAttribute("position", new THREE.BufferAttribute(dustPos, 3));
-      dustGeo.setAttribute("aSize", new THREE.BufferAttribute(dustSize, 1));
-      dustGeo.setAttribute("aSeed", new THREE.BufferAttribute(dustSeed, 1));
-      const dustUniforms = {
-        uColor: { value: new THREE.Color(SHAPES[0].color[0], SHAPES[0].color[1], SHAPES[0].color[2]) },
-        uOpacity: { value: 0.14 },
-        uTime: { value: 0 },
-        uScale: { value: (isMobile ? 46 : 40) * basePR },
-      };
-      const dustMat = new THREE.ShaderMaterial({
-        uniforms: dustUniforms,
-        transparent: true,
-        depthWrite: false,
-        blending: THREE.AdditiveBlending,
-        vertexShader: /* glsl */ `
-          attribute float aSize;
-          attribute float aSeed;
-          uniform float uTime;
-          uniform float uScale;
-          varying float vSeed;
-          void main() {
-            vSeed = aSeed;
-            vec3 pos = position;
-            pos.y += sin(uTime * 0.11 + aSeed * 6.283) * 0.5;
-            pos.x += cos(uTime * 0.08 + aSeed * 4.71) * 0.4;
-            vec4 mv = modelViewMatrix * vec4(pos, 1.0);
-            gl_PointSize = aSize * uScale / -mv.z;
-            gl_Position = projectionMatrix * mv;
-          }
-        `,
-        fragmentShader: /* glsl */ `
-          uniform vec3 uColor;
-          uniform float uOpacity;
-          uniform float uTime;
-          varying float vSeed;
-          void main() {
-            // each sprite is a slowly tumbling glass sliver — sharp diamond
-            // silhouette with a hot electric edge, faceted two-tone fill
-            vec2 uv = gl_PointCoord - 0.5;
-            float ang = vSeed * 6.283 + uTime * (0.05 + fract(vSeed * 7.31) * 0.08);
-            float ca = cos(ang);
-            float sa = sin(ang);
-            uv = mat2(ca, -sa, sa, ca) * uv;
-            // elongated diamond metric — a blade, not a disc
-            float dx = abs(uv.x) * 1.15 + abs(uv.y) * 3.4;
-            float body = 1.0 - smoothstep(0.3, 0.34, dx);
-            if (body <= 0.0) discard;
-            // silhouette rim runs hotter than the fill = lit glass edge
-            float edge = smoothstep(0.18, 0.32, dx) * body;
-            // hard facet split across the long axis catches the key light
-            float facet = 0.55 + 0.45 * step(0.0, uv.x * uv.y);
-            vec3 col = uColor * (0.4 + facet * 0.5) + vec3(0.35, 0.55, 1.0) * edge * 1.5;
-            gl_FragColor = vec4(col, (body * 0.42 + edge * 1.1) * uOpacity);
-          }
-        `,
-      });
-      const dust = new THREE.Points(dustGeo, dustMat);
-      dust.frustumCulled = false;
-      scene.add(dust);
-
-      // ── Shooting streaks — a thin light occasionally crosses the deep bg ──
-      const streakGeo = new THREE.PlaneGeometry(3.2, 0.028);
-      const STREAK_COUNT = isMobile ? 2 : 3;
-      const stRnd = mulberry32(5151);
-      const streaks: {
-        mesh: InstanceType<typeof THREE.Mesh>;
-        mat: InstanceType<typeof THREE.ShaderMaterial>;
-        from: InstanceType<typeof THREE.Vector3>;
-        to: InstanceType<typeof THREE.Vector3>;
-        u: number;
-        wait: number;
-        dur: number;
-      }[] = [];
-      const streakSpawn = (s: (typeof streaks)[number], first: boolean) => {
-        const x = -10 + stRnd() * 6;
-        const y = 1.5 + stRnd() * 4;
-        const ang = -0.32 - stRnd() * 0.3;
-        const len = 11 + stRnd() * 5;
-        s.from.set(x, y, -8 - stRnd() * 3);
-        s.to.set(x + Math.cos(ang) * len, y + Math.sin(ang) * len, s.from.z);
-        s.mesh.rotation.z = ang;
-        s.u = 0;
-        s.dur = 1.1 + stRnd() * 0.7;
-        s.wait = first ? 2 + stRnd() * 6 : 4 + stRnd() * 9;
-      };
-      for (let i = 0; i < STREAK_COUNT; i++) {
-        const mat = new THREE.ShaderMaterial({
-          uniforms: { uColor: { value: new THREE.Color(0.38, 0.48, 0.95) }, uAlpha: { value: 0 } },
-          transparent: true,
-          depthWrite: false,
-          blending: THREE.AdditiveBlending,
-          vertexShader: NEB_VERT,
-          fragmentShader: /* glsl */ `
-            uniform vec3 uColor;
-            uniform float uAlpha;
-            varying vec2 vUv;
-            void main() {
-              float tail = pow(vUv.x, 2.4);
-              float edge = smoothstep(0.5, 0.06, abs(vUv.y - 0.5));
-              gl_FragColor = vec4(uColor + vec3(0.5), tail * edge * uAlpha);
-            }
-          `,
-        });
-        const mesh = new THREE.Mesh(streakGeo, mat);
-        scene.add(mesh);
-        const s = { mesh, mat, from: new THREE.Vector3(), to: new THREE.Vector3(), u: 0, wait: 0, dur: 1.3 };
-        streakSpawn(s, true);
-        streaks.push(s);
-      }
-
-      // ── Laser grid floor — a vast perspective tech-grid buried far below
-      // the sculpture; hard right angles anchor the void and surge with
-      // scroll warp. The angular counterweight to all the particle glow ──
-      const gridGeo = new THREE.PlaneGeometry(90, 46);
-      const gridMat = new THREE.ShaderMaterial({
-        uniforms: {
-          uColor: { value: new THREE.Color(0x7890ff) },
-          uOpacity: { value: 0.035 },
-          uTime: { value: 0 },
-          uWarp: { value: 0 },
-        },
-        transparent: true,
-        depthWrite: false,
-        blending: THREE.AdditiveBlending,
-        vertexShader: NEB_VERT,
-        fragmentShader: /* glsl */ `
-          uniform vec3 uColor;
-          uniform float uOpacity;
-          uniform float uTime;
-          uniform float uWarp;
-          varying vec2 vUv;
-          void main() {
-            vec2 g = vec2(vUv.x * 60.0, vUv.y * 30.0);
-            // grid streams toward the camera; warp slams the throttle
-            g.y -= uTime * 0.12 + uWarp * 1.4;
-            vec2 f = abs(fract(g) - 0.5);
-            float line = max(smoothstep(0.44, 0.5, f.x), smoothstep(0.44, 0.5, f.y));
-            // energy pulse sweeping down the grid every few seconds
-            float pulse = exp(-pow(fract(vUv.y * 3.0 - uTime * 0.07) * 6.0 - 1.2, 2.0)) * 0.5;
-            float fadeX = smoothstep(0.0, 0.3, vUv.x) * smoothstep(1.0, 0.7, vUv.x);
-            float fadeY = smoothstep(0.02, 0.3, vUv.y) * smoothstep(1.0, 0.6, vUv.y);
-            float a = line * (0.55 + pulse) * fadeX * fadeY * uOpacity;
-            gl_FragColor = vec4(uColor + vec3(0.25, 0.4, 0.9) * pulse, a);
-          }
-        `,
-      });
-      const grid = new THREE.Mesh(gridGeo, gridMat);
-      grid.rotation.x = -Math.PI / 2;
-      grid.position.set(0, -5.6, -6);
-      grid.renderOrder = -1;
-      scene.add(grid);
-
       // ── Core glow — the cloud reads as lit from within ────────────────
       const coreMat = new THREE.ShaderMaterial({
         uniforms: { uColor: { value: new THREE.Color(SHAPES[0].color[0], SHAPES[0].color[1], SHAPES[0].color[2]) }, uOpacity: { value: 0.13 } },
         transparent: true,
         depthWrite: false,
         blending: THREE.AdditiveBlending,
-        vertexShader: NEB_VERT,
-        fragmentShader: NEB_FRAG,
+        vertexShader: GLOW_VERT,
+        fragmentShader: GLOW_FRAG,
       });
-      const core = new THREE.Mesh(nebGeo, coreMat);
+      const core = new THREE.Mesh(glowGeo, coreMat);
       core.position.set(0, 0, -2.2);
       core.scale.setScalar(0.5);
       core.renderOrder = -1;
@@ -2436,10 +1983,10 @@ export function SceneV4() {
         transparent: true,
         depthWrite: false,
         blending: THREE.AdditiveBlending,
-        vertexShader: NEB_VERT,
-        fragmentShader: NEB_FRAG,
+        vertexShader: GLOW_VERT,
+        fragmentShader: GLOW_FRAG,
       });
-      const flare = new THREE.Mesh(nebGeo, flareMat);
+      const flare = new THREE.Mesh(glowGeo, flareMat);
       flare.position.set(0, 0, -2.1);
       flare.scale.set(0.9, 0.045, 1);
       flare.renderOrder = -1;
@@ -2694,8 +2241,6 @@ export function SceneV4() {
         renderer.setSize(window.innerWidth, window.innerHeight);
         composer?.setSize(window.innerWidth, window.innerHeight);
         cloudUniforms.uScale.value = (isMobile ? 46 : 40) * pr;
-        dustUniforms.uScale.value = (isMobile ? 46 : 40) * pr;
-        headMat.uniforms.uScale.value = (isMobile ? 46 : 40) * pr;
         starMat.uniforms.uPR.value = pr;
         // thin the shard field where the cloud already recedes behind content —
         // instanceCount is free to change, no buffers are reallocated
@@ -2862,7 +2407,6 @@ export function SceneV4() {
         );
         warp += (warpTarget - warp) * (warpTarget > warp ? 0.09 : 0.05);
         cloudUniforms.uWarp.value = warp;
-        warpMat.uniforms.uWarp.value = warp;
 
         // press-and-hold gathers the swarm; ramp eases so it feels magnetic
         const attractOn = holdOn && performance.now() - holdT0 > 260;
@@ -2991,50 +2535,9 @@ export function SceneV4() {
         inkUniforms.uTime.value = t;
         inkUniforms.uPointer.value.set(0.5 + mouseX * 0.5, 0.5 - mouseY * 0.5);
         inkUniforms.uEnergy.value = warp;
-        inkUniforms.uColorHi.value.lerp(tmpColor, 0.02);
+        // the backdrop does NOT take the section palette — that is what made
+        // it the same hue as the objects sitting on it
         inkField.position.x = cloud.position.x * 0.3;
-
-        // nebulas drift slowly and take on the section palette
-        for (let i = 0; i < nebulas.length; i++) {
-          const nb = nebulas[i];
-          nb.mesh.position.y = nb.baseY + Math.sin(t * 0.05 + nb.phase) * 0.9 + p * 1.4;
-          nb.mesh.position.x = nb.baseX + Math.cos(t * 0.04 + nb.phase) * 0.7;
-          if (i === 0) nb.mat.uniforms.uColor.value.lerp(tmpColor, 0.005);
-        }
-
-        // aurora ribbons breathe, drift with scroll, and slowly re-dye
-        // themselves in the section palette
-        for (let i = 0; i < ribbons.length; i++) {
-          const rb = ribbons[i];
-          rb.mat.uniforms.uTime.value = t;
-          rb.mesh.position.y = rb.baseY + Math.sin(t * 0.045 + i * 2.2) * 0.6 + p * 2.0;
-          rb.mat.uniforms.uColorA.value.lerp(i === 0 ? tmpColor : tmpColorB, 0.01);
-          rb.mat.uniforms.uColorB.value.lerp(tmpColorB, 0.008);
-        }
-
-        // Woven side surfaces twist through the page as one continuous gesture.
-        // Their silhouette follows scroll; pointer motion only changes tension.
-        for (let i = 0; i < veils.length; i++) {
-          const veil = veils[i];
-          veil.mat.uniforms.uTime.value = t + veil.phase;
-          veil.mat.uniforms.uScroll.value = p;
-          veil.mat.uniforms.uPointer.value = mouseX;
-          veil.mat.uniforms.uEnergy.value += (warp - veil.mat.uniforms.uEnergy.value) * 0.08;
-          veil.mat.uniforms.uColorA.value.lerp(tmpColor, 0.012);
-          veil.mat.uniforms.uColorB.value.lerp(tmpColorB, 0.01);
-          veil.mesh.position.x = veil.baseX + Math.sin(t * 0.07 + veil.phase + p * 6.0) * 0.28;
-          veil.mesh.position.y = (p - 0.5) * 1.6 + Math.sin(t * 0.05 + veil.phase) * 0.22;
-          veil.mesh.rotation.y = veil.baseRY + mouseX * 0.07 + Math.sin(p * Math.PI * 2 + veil.phase) * 0.06;
-          veil.mesh.rotation.z = veil.side * (0.055 + Math.sin(p * Math.PI * 2) * 0.035);
-        }
-        // laser grid breathes with warp + arrival; sinks as the page scrolls
-        // so it never crowds the mid-page content sections
-        gridMat.uniforms.uTime.value = t;
-        gridMat.uniforms.uWarp.value = warp;
-        gridMat.uniforms.uOpacity.value +=
-          (0.035 + warp * 0.08 + arrE * 0.05 - gridMat.uniforms.uOpacity.value) * 0.06;
-        grid.position.y = -5.6 - p * 1.6;
-        gridMat.uniforms.uColor.value.lerp(tmpColor, 0.02);
 
         // Shard field. Every mesh rides the cloud's transform so the shared
         // formation stays one rigid structure that the scroll turns, and the
@@ -3096,33 +2599,6 @@ export function SceneV4() {
         neuralLines.position.copy(cloud.position);
         neuralMat.uniforms.uColor.value.lerp(tmpColorB, 0.04);
 
-        // fireflies — heads plus analytic trails (positions sampled back in
-        // time along the same orbit, so no history buffer is needed)
-        for (let f = 0; f < FLY_N; f++) {
-          for (let k = 0; k < TRAIL - 1; k++) {
-            const vbase = (f * (TRAIL - 1) + k) * 2;
-            flyPoint(flyDefs[f], t - k * 0.09, flyTmp);
-            trailPos.setXYZ(vbase, flyTmp[0], flyTmp[1], flyTmp[2]);
-            flyPoint(flyDefs[f], t - (k + 1) * 0.09, flyTmp);
-            trailPos.setXYZ(vbase + 1, flyTmp[0], flyTmp[1], flyTmp[2]);
-          }
-          flyPoint(flyDefs[f], t, flyTmp);
-          headPos.setXYZ(f, flyTmp[0], flyTmp[1], flyTmp[2]);
-        }
-        trailPos.needsUpdate = true;
-        headPos.needsUpdate = true;
-        flyTrails.position.x = cloud.position.x;
-        flyHeads.position.x = cloud.position.x;
-        trailMat.uniforms.uColor.value.lerp(tmpColorB, 0.03);
-        headMat.uniforms.uColor.value.lerp(tmpColorB, 0.03);
-
-        // glass shrapnel: counter-parallax against the camera = depth; palette
-        // follows the section's primary blue so the slivers stay electric
-        dustUniforms.uTime.value = t;
-        dustUniforms.uColor.value.lerp(tmpColor, 0.03);
-        dust.position.x = -mouseX * 0.9;
-        dust.position.y = mouseY * 0.6 + p * 1.8;
-
         // core glow trails the cloud and breathes with the camera dolly
         core.position.x += (cloud.position.x * 0.6 - core.position.x) * 0.05;
         core.scale.setScalar(0.5 * (1 + Math.sin(t * 0.5) * 0.09));
@@ -3142,23 +2618,6 @@ export function SceneV4() {
           0.9 * (1 + Math.sin(t * 0.7) * 0.18) + cloudUniforms.uOpacity.value * 0.5 + arrE * 1.6;
         flareMat.uniforms.uColor.value.lerp(tmpColor, 0.06);
         flareMat.uniforms.uOpacity.value = coreMat.uniforms.uOpacity.value * 0.85 + arrE * 0.25;
-
-        // shooting streaks: wait → cross the deep background → re-arm
-        for (let i = 0; i < streaks.length; i++) {
-          const s = streaks[i];
-          if (s.wait > 0) {
-            s.wait -= dt;
-            s.mat.uniforms.uAlpha.value = 0;
-            continue;
-          }
-          s.u += dt / s.dur;
-          if (s.u >= 1) {
-            streakSpawn(s, false);
-            continue;
-          }
-          s.mesh.position.lerpVectors(s.from, s.to, s.u);
-          s.mat.uniforms.uAlpha.value = Math.sin(Math.PI * s.u) * 0.24;
-        }
 
         // chromatic fringing widens under fast scroll + warp — lens, not glitch
         if (caOffset) {
@@ -3210,28 +2669,11 @@ export function SceneV4() {
           f.geo.dispose();
           f.mat.dispose();
         });
-        nebGeo.dispose();
-        nebulas.forEach((n) => n.mat.dispose());
+        glowGeo.dispose();
         inkGeo.dispose();
         inkMat.dispose();
-        ribbonGeo.dispose();
-        ribbons.forEach((r) => r.mat.dispose());
-        veilGeo.dispose();
-        veils.forEach((v) => v.mat.dispose());
-        warpGeo.dispose();
-        warpMat.dispose();
         neuralGeo.dispose();
         neuralMat.dispose();
-        trailGeo.dispose();
-        trailMat.dispose();
-        headGeo.dispose();
-        headMat.dispose();
-        dustGeo.dispose();
-        dustMat.dispose();
-        streakGeo.dispose();
-        streaks.forEach((s) => s.mat.dispose());
-        gridGeo.dispose();
-        gridMat.dispose();
         coreMat.dispose();
         flareMat.dispose();
         sunGeo.dispose();

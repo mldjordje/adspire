@@ -178,6 +178,37 @@ pravac za ovaj sloj — obrazloži i predloži.
 
 ---
 
+- **Pozadina prorešetana (2026-08-10).** Đorđe: „previše slojeva radi odjednom".
+  `SceneV4` je imao **13 vizuelnih slojeva**; ostalo ih je **6**.
+
+  | ostaje | obrisano |
+  |---|---|
+  | particle cloud | nebule (3 bazena) |
+  | shard field | aurora trake |
+  | ink field (pozadina) | bočni velovi |
+  | starfield | hyperspace streaks |
+  | core glow + flare | foreground prašina (shardovi rade taj posao) |
+  | neural constellation | shooting streaks, laserski grid, fireflies |
+
+  `NEB_VERT`/`NEB_FRAG`/`nebGeo` nisu bili samo nebulini — dele ih core glow i flare,
+  pa su izvučeni u `glowGeo` + `GLOW_VERT`/`GLOW_FRAG`.
+
+  **Pozadina je namerno van akcenta.** Ink field je ranije vozio isti `#7890ff` kao
+  oblak i shardovi, pa se sve stapalo u jednu plavu izmaglicu — sad je duboko
+  nezasićeno mornarsko (`0x04061a` → `0x1e2c63`), `SHAPES[].bg` prepolovljen, scene
+  background `0x010207`. **Ink više ne uzima paletu sekcije** — to je bio uzrok.
+
+- **`SilkV4` idle motion.** Tkanina se ranije pomerala skoro isključivo pod kursorom.
+  Dodat drugi „džep" koji sam luta po lissajous putanji i pojačava se tačno onoliko
+  koliko kursorov slabi, plus disanje same teksture.
+
+- **Header vodi na prave stranice (2026-08-10).** Bio je 3 dugmeta koja skroluju po
+  landingu + „O nama"; sve stvarne rute su bile dostupne samo iz futera. Sad:
+  Usluge / Radovi / Cene / Blog / O nama, lokalizovano preko `t.nav.links`.
+  `Cene` je **samo SR** — `/cena-izrade-sajta` nema lokalizovanu rutu.
+
+---
+
 ## Predlog: SHARD FIELD v2 — geometrija koja se formira uz čestice
 
 Naručio Đorđe (2026-08-10): geometrijski oblici u pozadini treba da **i sami formiraju

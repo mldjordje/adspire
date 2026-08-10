@@ -7,7 +7,12 @@ import type { LocaleCode } from "@/lib/site-config";
  */
 
 export type V4Copy = {
-  nav: { cta: string };
+  nav: {
+    cta: string;
+    /** header links to real pages — `pricing` is SR-only, there is no
+     *  localized /cena-izrade-sajta route yet */
+    links: { services: string; work: string; pricing: string; blog: string; about: string };
+  };
   rail: string[]; // hero, manifesto, value, projects, services, aiDemo, process, faq, cta
   hero: {
     badge: string;
@@ -81,7 +86,10 @@ export type V4Copy = {
 };
 
 const sr: V4Copy = {
-  nav: { cta: "Pokreni projekat" },
+  nav: {
+    cta: "Pokreni projekat",
+    links: { services: "Usluge", work: "Radovi", pricing: "Cene", blog: "Blog", about: "O nama" },
+  },
   rail: ["Početak", "Manifest", "Vrednost", "Radovi", "Usluge", "AI demo", "Proces", "FAQ", "Kontakt"],
   hero: {
     badge: "Web · Aplikacije · AI — Niš",
@@ -242,7 +250,10 @@ const sr: V4Copy = {
 };
 
 const en: V4Copy = {
-  nav: { cta: "Start a project" },
+  nav: {
+    cta: "Start a project",
+    links: { services: "Services", work: "Work", pricing: "Pricing", blog: "Blog", about: "About" },
+  },
   rail: ["Start", "Manifesto", "Value", "Work", "Services", "AI demo", "Process", "FAQ", "Contact"],
   hero: {
     badge: "Web · Apps · AI — Niš",
@@ -403,7 +414,10 @@ const en: V4Copy = {
 };
 
 const de: V4Copy = {
-  nav: { cta: "Projekt starten" },
+  nav: {
+    cta: "Projekt starten",
+    links: { services: "Leistungen", work: "Arbeiten", pricing: "Preise", blog: "Blog", about: "Über uns" },
+  },
   rail: ["Start", "Manifest", "Mehrwert", "Arbeiten", "Leistungen", "KI-Demo", "Prozess", "FAQ", "Kontakt"],
   hero: {
     badge: "Web · Apps · KI — Niš",

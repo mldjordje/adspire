@@ -640,26 +640,32 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
         <a className={styles.navLogo} href={localePath("/", locale)} data-cursor="on">
           ADSPIRE<span className={styles.navLogoDot}>.</span>
         </a>
-        <nav className={styles.desktopNav} aria-label="Glavna navigacija">
+        {/* Real pages, not in-page anchors. The header used to scroll to
+            landing sections only, which left every actual route — services,
+            work, pricing, guides — reachable from the footer alone.
+            `/cena-izrade-sajta` has no localized route yet, so it is SR-only. */}
+        <nav
+          className={styles.desktopNav}
+          aria-label={
+            locale === "sr" ? "Glavna navigacija" : locale === "de" ? "Hauptnavigation" : "Main navigation"
+          }
+        >
           {[
-            { key: "projects", label: t.rail[3] },
-            { key: "services", label: t.rail[4] },
-            { key: "process", label: t.rail[6] },
+            { href: "/our-services", label: t.nav.links.services },
+            { href: "/our-projects", label: t.nav.links.work },
+            ...(locale === "sr" ? [{ href: "/cena-izrade-sajta", label: t.nav.links.pricing }] : []),
+            { href: "/blog", label: t.nav.links.blog },
+            { href: "/about-us", label: t.nav.links.about },
           ].map((item) => (
-            <button
-              key={item.key}
+            <Link
+              key={item.href}
               className={styles.desktopNavItem}
-              onClick={() => {
-                const el = rootRef.current?.querySelector<HTMLElement>(`.${styles[item.key]}`);
-                if (el) scrollToSection(el);
-              }}
+              href={localePath(item.href, locale)}
+              data-cursor="on"
             >
               {item.label}
-            </button>
+            </Link>
           ))}
-          <Link className={styles.desktopNavItem} href={localePath("/about-us", locale)}>
-            {locale === "sr" ? "O nama" : locale === "de" ? "Über uns" : "About"}
-          </Link>
         </nav>
         <div className={styles.navRight}>
           <div className={styles.navHud} aria-hidden="true">

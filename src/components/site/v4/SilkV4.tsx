@@ -46,16 +46,27 @@ float fbm(vec2 p) {
 
 void main() {
   vec2 uv = (gl_FragCoord.xy - 0.5 * uRes) / uRes.y;
-  float t = uTime * 0.05;
+  float t = uTime * 0.075;
 
   // cursor influence — a soft pocket that pushes and lights the folds
   vec2 duv = uv - uMouse;
   float inf = exp(-dot(duv, duv) * 9.0) * uMouseI;
 
+  // Idle life. Without this the fabric only really moves under the cursor,
+  // so a visitor who is reading rather than pointing sees a still image. A
+  // second pocket wanders the frame on a slow lissajous and fades in exactly
+  // as the cursor's influence fades out, so the two never fight.
+  vec2 iuv = vec2(cos(uTime * 0.11) * 0.62, sin(uTime * 0.083) * 0.42);
+  vec2 iduv = uv - iuv;
+  float idle = exp(-dot(iduv, iduv) * 5.0) * (1.0 - uMouseI) * 0.85;
+
   // two layers of domain-warped fbm — silk folds
   vec2 q = vec2(fbm(uv * 1.6 + t), fbm(uv * 1.6 - t * 0.7 + 3.1));
   q += normalize(duv + 0.0001) * inf * 0.55;
-  float f = fbm(uv * 1.8 + q * 1.4 + vec2(t * 0.6, -t * 0.4));
+  q += normalize(iduv + 0.0001) * idle * 0.4;
+  // the whole weave also breathes, so the folds themselves keep shifting
+  float breath = sin(uTime * 0.13) * 0.12;
+  float f = fbm(uv * (1.8 + breath) + q * 1.4 + vec2(t * 0.6, -t * 0.4));
 
   vec3 deep = vec3(0.016, 0.016, 0.03);
   // two-blue palette only — no cyan/violet
@@ -67,8 +78,10 @@ void main() {
   col += blueDeep * smoothstep(0.55, 1.0, fbm(uv * 2.4 - q)) * 0.45;
   // fine sheen lines along the folds
   col += vec3(0.5, 0.62, 1.0) * pow(abs(sin(f * 14.0 + t * 3.0)), 24.0) * 0.06;
-  // cursor glow rides on top of the fabric
+  // cursor glow rides on top of the fabric; the idle pocket gets a dimmer
+  // version of the same light so the page never sits completely dead
   col += vec3(0.24, 0.44, 0.95) * inf * 0.45;
+  col += vec3(0.2, 0.38, 0.9) * idle * 0.22;
 
   // vignette
   col *= 1.0 - dot(uv, uv) * 0.7;
