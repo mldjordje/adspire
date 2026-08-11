@@ -22,11 +22,8 @@ module.exports = {
     "/server-sitemap.xml",
     "/sr",
     "/sr/*",
-    // Prefixed inner pages render Serbian copy (only HomeV4 reads the locale),
-    // so they are noindex in pageMetadata and must not be advertised here.
-    // /en and /de themselves stay — the home route is genuinely localized.
-    "/en/*",
-    "/de/*",
+    // Prefixed inner pages are filtered in transform(), not here — a blanket
+    // "/en/*" would also drop the localized /ai subtree. See TRANSLATED_PREFIXED.
     // Preview route for the V4 design, now shipped at "/" — pure duplicate.
     "/v4",
     "/web-pozivnice-za-veselja",
@@ -62,6 +59,17 @@ module.exports = {
   priority: 0.7,
   transform: async (config, path) => {
     const cleanPath = path.split("?")[0].split("#")[0];
+
+    // Most prefixed inner routes still render Serbian copy, so pageMetadata marks
+    // them noindex; advertising them here would contradict that. Only routes that
+    // are localized end to end — body and chrome — may be listed. This list must
+    // stay in step with TRANSLATED_PATHS/TRANSLATED_PREFIXES in src/lib/seo/metadata.ts.
+    const TRANSLATED_PREFIXED = [/^\/(en|de)$/, /^\/(en|de)\/ai(\/|$)/];
+    const isPrefixed = /^\/(en|de)(\/|$)/.test(cleanPath);
+    if (isPrefixed && !TRANSLATED_PREFIXED.some((re) => re.test(cleanPath))) {
+      return null;
+    }
+
     const isHome = cleanPath === "/";
     const isServicePage =
       cleanPath.startsWith("/usluge/") ||

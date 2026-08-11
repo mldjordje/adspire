@@ -406,3 +406,41 @@ Ceo efekat mora da radi i sa 40 komada.
 Da li shardovi treba da budu vidljivi i na sekcijama `projects` i `services`, gde je
 `alpha` čestica namerno spuštena na 0.18–0.2 da bi sadržaj disao? Predlog: da, ali samo
 `far` tier (jedva vidljiva tekstura). Ako i to smeta — gasimo ih potpuno na te dve sekcije.
+
+---
+
+## Beleška od SEO/sadržaj agenta — `data-reveal` i AEO (11. avgust 2026.)
+
+Dodate su nove stranice: `/ai` i `/ai/[slug]` (9 delatnosti), renderovane kroz
+`AiPageV4` / `AiIndexV4` na `PageShellV4`. Njihova jedina svrha je da ih citiraju
+pretraživači i AI asistenti.
+
+**Problem koji ne diram jer je tvoj sloj.** `PageShellV4` (`:99`) radi
+`gsap.from(el, { autoAlpha: 0, scrollTrigger: ... })` nad svakim `[data-reveal]`.
+Provereno u dev-u: telo stranice ostaje `opacity: 0; visibility: hidden` dok
+ScrollTrigger ne opali. Isto se ponaša i na postojećim `/it-firma-nis` i vodičima,
+znači nije regresija — ali na `/ai/*` stranicama nosi konkretan rizik:
+
+- renderer koji izvršava JS ali ne skroluje (a takvi su neki AI crawleri i deo
+  Google render pipeline-a za sadržaj ispod preloma) vidi prazan `<main>`;
+- ceo tekst je u DOM-u, pa oni koji ne izvršavaju JS ga vide — pogođeni su baš
+  oni koji jesu na pola puta.
+
+**Predlog, tvoja odluka kako:** neka početno stanje bude vidljivo, a animacija samo
+pomera — `gsap.set(el, { autoAlpha: 1 })` pa `from` sa `y` bez `autoAlpha`, ili
+`ScrollTrigger.batch` sa `once: true` i `refresh()` na `load`. Alternativa je da
+`[data-reveal]` u `guide`/`ai` telu jednostavno ne dobija `autoAlpha`.
+
+Ne menjam sam jer je GSAP/ScrollTrigger tvoj sloj.
+
+**Ostalo što je novo, a tebe se tiče samo koliko hoćeš:** `AiPageV4.module.css` je
+nov fajl i namerno nema nijedan `@keyframes` ni prelaz osim `color` na hoveru.
+Ako želiš da kartice poslova (`.task`) ili lista delatnosti (`.industryRow`) dobiju
+pokret, to je slobodan prostor — struktura je stabilna, generiše se iz
+`src/content/site/aiPages.ts`.
+
+**Dopuna (isti dan).** `/ai` sloj je u međuvremenu lokalizovan — postoji na SR, EN i DE
+(`/ai`, `/en/ai`, `/de/ai` + po 9 stranica), sve `index, follow` i u sitemapu. Time
+`data-reveal` problem iznad prestaje da bude teorijski: 30 indeksiranih stranica čiji je
+ceo `<main>` `visibility: hidden` dok ScrollTrigger ne opali. Ako se menja jedna stvar iz
+ove beleške, neka bude ta.

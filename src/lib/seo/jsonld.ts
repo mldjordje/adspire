@@ -99,7 +99,13 @@ export function webSiteJsonLd() {
   };
 }
 
-export function webPageAboutOrganizationJsonLd(path: string, title: string, description: string) {
+export function webPageAboutOrganizationJsonLd(
+  path: string,
+  title: string,
+  description: string,
+  /** BCP 47 tag. Only prefixed-locale pages pass it; the site is Serbian by default. */
+  inLanguage = "sr-RS",
+) {
   const url = `${base()}${path.startsWith("/") ? path : `/${path}`}`;
   return {
     "@type": "WebPage",
@@ -110,7 +116,7 @@ export function webPageAboutOrganizationJsonLd(path: string, title: string, desc
     isPartOf: { "@id": `${base()}/#website` },
     about: { "@id": `${base()}/#organization` },
     primaryImageOfPage: { "@type": "ImageObject", url: `${base()}/images/logo.png` },
-    inLanguage: "sr-RS",
+    inLanguage,
   };
 }
 

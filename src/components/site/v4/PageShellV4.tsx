@@ -5,36 +5,35 @@ import styles from "./PageShellV4.module.css";
 import { CursorV4 } from "./CursorV4";
 import { SilkV4 } from "./SilkV4";
 import { MobileMenuV4 } from "./MobileMenuV4";
+import { getShellCopy } from "./shellCopy";
+import { defaultLocale, localePath, type LocaleCode } from "@/lib/site-config";
 
 /**
  * Shared OBSIDIAN chrome for inner pages (Services, About, Contact...).
  * Lighter than the homepage: silk shader background instead of the full
  * particle scene, same nav / cursor / curtain / footer language.
+ *
+ * `locale` only affects chrome. A page that passes it must also render
+ * localized body copy, otherwise it is a translated frame around Serbian text.
  */
 
 type PageShellProps = {
   eyebrow: string;
   title: React.ReactNode;
   intro?: string;
+  locale?: LocaleCode;
   children: React.ReactNode;
 };
 
-const FOOTER_LINKS = [
-  { href: "/our-projects", label: "Projekti" },
-  { href: "/our-services", label: "Usluge" },
-  { href: "/about-us", label: "O nama" },
-  { href: "/blog", label: "Blog" },
-  { href: "/it-firma-nis", label: "Niš" },
-  { href: "/vodici", label: "Vodiči" },
-  { href: "/cena-izrade-sajta", label: "Cene" },
-  { href: "/upit", label: "Upit" },
-  { href: "/contact-us", label: "Kontakt" },
-  { href: "/politika-privatnosti", label: "Privatnost" },
-  { href: "/politika-kolacica", label: "Kolačići" },
-  { href: "/uslovi-koriscenja", label: "Uslovi" },
-];
-
-export function PageShellV4({ eyebrow, title, intro, children }: PageShellProps) {
+export function PageShellV4({
+  eyebrow,
+  title,
+  intro,
+  locale = defaultLocale,
+  children,
+}: PageShellProps) {
+  const copy = getShellCopy(locale);
+  const href = (path: string) => localePath(path, locale);
   const rootRef = useRef<HTMLDivElement>(null);
   const curtainRef = useRef<HTMLDivElement>(null);
   const [clock, setClock] = useState("");
@@ -139,19 +138,22 @@ export function PageShellV4({ eyebrow, title, intro, children }: PageShellProps)
       <div className={styles.grain} aria-hidden="true" />
 
       <header className={styles.nav}>
-        <a className={styles.navLogo} href="/" data-cursor="on">
+        <a className={styles.navLogo} href={href("/")} data-cursor="on">
           ADSPIRE<span className={styles.navDot}>.</span>
         </a>
         <nav className={styles.navLinks}>
-          <a href="/our-services" data-cursor="on">Usluge</a>
-          <a href="/our-projects" data-cursor="on">Projekti</a>
-          <a href="/about-us" data-cursor="on">O nama</a>
+          {copy.navLinks.map((link) => (
+            <a key={link.href} href={href(link.href)} data-cursor="on">
+              {link.label}
+            </a>
+          ))}
         </nav>
         <div className={styles.navRight}>
-          <a className={styles.navCta} href="/upit" data-cursor="on" data-magnetic>
-            Zatraži ponudu<span className={styles.navClock}> · NIŠ {clock}</span>
+          <a className={styles.navCta} href={href("/upit")} data-cursor="on" data-magnetic>
+            {copy.navCta}
+            <span className={styles.navClock}> · {copy.clockCity} {clock}</span>
           </a>
-          <MobileMenuV4 breakpoint="md" />
+          <MobileMenuV4 breakpoint="md" locale={locale} />
         </div>
       </header>
 
@@ -167,19 +169,19 @@ export function PageShellV4({ eyebrow, title, intro, children }: PageShellProps)
 
       <footer className={styles.footer}>
         <div className={styles.footerTop}>
-          <a className={styles.footerBrand} href="/" data-cursor="on">
+          <a className={styles.footerBrand} href={href("/")} data-cursor="on">
             ADSPIRE<span className={styles.navDot}>.</span>
           </a>
           <nav className={styles.footerLinks}>
-            {FOOTER_LINKS.map((l) => (
-              <a key={l.href} href={l.href} data-cursor="on">
+            {copy.footerLinks.map((l) => (
+              <a key={l.href} href={href(l.href)} data-cursor="on">
                 {l.label}
               </a>
             ))}
           </nav>
         </div>
         <div className={styles.footerBottom}>
-          <span>© 2026 Adspire Digital — Niš, Srbija</span>
+          <span>{copy.footerRights}</span>
           <a href="mailto:djordje@adspire.rs" data-cursor="on">djordje@adspire.rs</a>
           <a href="tel:+381601491491" data-cursor="on">+381 60 149 149 1</a>
         </div>

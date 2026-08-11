@@ -1,0 +1,158 @@
+/* Only the parts a guide page does not already have. Everything shared with the
+   guides (body, h2, text, list, proof, faq, cta) stays in GuideV4.module.css. */
+
+/* The extractable answer. It reads as a pulled-out lead so a human sees the
+   same block an answer engine lifts. */
+.answer {
+  border-left: 2px solid var(--blue);
+  padding: 4px 0 4px 22px;
+  font-size: clamp(17px, 1.9vw, 21px);
+  line-height: 1.65;
+  color: rgba(242, 239, 230, 0.9);
+  margin: 0;
+}
+
+/* One card per job. The three lines are fixed on purpose — problem, what it
+   does, what ships — so no page can drift into a feature list. */
+.taskGrid {
+  display: grid;
+  gap: 2px;
+  border-top: 1px solid rgba(242, 239, 230, 0.14);
+}
+
+.task {
+  padding: 22px 0;
+  border-bottom: 1px solid rgba(242, 239, 230, 0.14);
+}
+
+.taskName {
+  font-family: var(--font-d);
+  font-weight: 700;
+  font-size: clamp(17px, 2vw, 21px);
+  color: var(--accent);
+  margin: 0 0 12px;
+}
+
+.taskLine {
+  display: grid;
+  grid-template-columns: 92px 1fr;
+  gap: 14px;
+  font-size: clamp(14px, 1.5vw, 16px);
+  line-height: 1.6;
+  margin: 0 0 8px;
+}
+
+.taskLine:last-child {
+  margin-bottom: 0;
+}
+
+.taskLabel {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(242, 239, 230, 0.42);
+  padding-top: 3px;
+}
+
+.taskProblem {
+  color: rgba(242, 239, 230, 0.62);
+}
+
+.taskSolution {
+  color: rgba(242, 239, 230, 0.86);
+}
+
+.taskDelivery {
+  color: var(--blue-bright);
+}
+
+@media (max-width: 620px) {
+  .taskLine {
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+
+  .taskLabel {
+    padding-top: 0;
+  }
+}
+
+/* Numbered introduction process. */
+.steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 20px;
+  counter-reset: ai-step;
+}
+
+.step {
+  display: grid;
+  grid-template-columns: 34px 1fr;
+  gap: 16px;
+}
+
+.stepIndex {
+  font-family: var(--font-d);
+  font-weight: 800;
+  font-size: 15px;
+  color: var(--blue-bright);
+  padding-top: 3px;
+}
+
+.stepName {
+  font-family: var(--font-d);
+  font-weight: 700;
+  font-size: clamp(16px, 1.8vw, 19px);
+  color: var(--accent);
+  margin: 0 0 6px;
+}
+
+.stepText {
+  font-size: clamp(14px, 1.5vw, 16px);
+  line-height: 1.6;
+  color: rgba(242, 239, 230, 0.7);
+  margin: 0;
+}
+
+/* Hub: one row per industry. A grid of cards would hide how many there are. */
+.industryGrid {
+  display: grid;
+  gap: 2px;
+  border-top: 1px solid rgba(242, 239, 230, 0.14);
+}
+
+.industryRow {
+  display: block;
+  padding: 20px 0;
+  border-bottom: 1px solid rgba(242, 239, 230, 0.14);
+  text-decoration: none;
+}
+
+.industryName {
+  font-family: var(--font-d);
+  font-weight: 700;
+  font-size: clamp(18px, 2.2vw, 24px);
+  color: var(--accent);
+  margin: 0 0 6px;
+  transition: color 0.25s;
+}
+
+.industryRow:hover .industryName {
+  color: var(--blue-bright);
+}
+
+.industryNote {
+  font-size: clamp(14px, 1.5vw, 16px);
+  line-height: 1.6;
+  color: rgba(242, 239, 230, 0.62);
+  margin: 0 0 10px;
+}
+
+.industryTasks {
+  font-size: 13px;
+  line-height: 1.6;
+  color: rgba(242, 239, 230, 0.42);
+  margin: 0;
+}

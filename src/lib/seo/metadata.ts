@@ -28,8 +28,16 @@ const OG_LOCALE: Record<LocaleCode, string> = {
  */
 const TRANSLATED_PATHS = new Set<string>(["/"]);
 
+/**
+ * Whole subtrees that are localized. `/ai` and every `/ai/<industry>` page
+ * exist in all three languages including their chrome, so the prefix is
+ * cheaper and safer to maintain than listing ten paths.
+ */
+const TRANSLATED_PREFIXES = ["/ai"];
+
 export function isTranslatedPath(path: string): boolean {
-  return TRANSLATED_PATHS.has(path);
+  if (TRANSLATED_PATHS.has(path)) return true;
+  return TRANSLATED_PREFIXES.some((prefix) => path === prefix || path.startsWith(`${prefix}/`));
 }
 
 /** hreflang map (sr/en/de + x-default → sr) for a default-locale (unprefixed) path. */

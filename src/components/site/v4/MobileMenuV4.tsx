@@ -3,6 +3,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import styles from "./MobileMenuV4.module.css";
+import { getShellCopy } from "./shellCopy";
+import { defaultLocale, localePath, type LocaleCode } from "@/lib/site-config";
 
 /**
  * Shared OBSIDIAN mobile menu — burger + fullscreen overlay.
@@ -13,23 +15,16 @@ import styles from "./MobileMenuV4.module.css";
 
 type SectionLink = { label: string; onSelect: () => void };
 
-const PAGES = [
-  { href: "/", label: "Početna" },
-  { href: "/our-projects", label: "Projekti" },
-  { href: "/our-services", label: "Usluge" },
-  { href: "/about-us", label: "O nama" },
-  { href: "/blog", label: "Blog" },
-  { href: "/upit", label: "Zatraži ponudu" },
-  { href: "/contact-us", label: "Kontakt" },
-];
-
 export function MobileMenuV4({
   sections,
   breakpoint = "lg",
+  locale = defaultLocale,
 }: {
   sections?: SectionLink[];
   breakpoint?: "lg" | "md";
+  locale?: LocaleCode;
 }) {
+  const copy = getShellCopy(locale);
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const closeRef = useRef<HTMLButtonElement>(null);
@@ -60,7 +55,7 @@ export function MobileMenuV4({
     <div className={bpClass}>
       <button
         className={`${styles.burger} ${open ? styles.burgerOpen : ""}`}
-        aria-label={open ? "Zatvori meni" : "Otvori meni"}
+        aria-label={open ? copy.menuClose : copy.menuOpen}
         aria-expanded={open}
         aria-controls="v4-mobile-menu"
         onClick={() => setOpen((v) => !v)}
@@ -82,19 +77,19 @@ export function MobileMenuV4({
               <div className={styles.overlayHead}>
                 <span className={styles.overlayBrand}>ADSPIRE.</span>
                 <span className={styles.overlayIndex}>NAV / 2026</span>
-                <button ref={closeRef} className={styles.overlayClose} onClick={close} aria-label="Zatvori meni">
+                <button ref={closeRef} className={styles.overlayClose} onClick={close} aria-label={copy.menuClose}>
                   <span />
                   <span />
                 </button>
               </div>
               <div className={styles.menuGrid}>
-                <nav className={styles.links} aria-label="Stranice">
-                  <span className={styles.groupLabel}>Stranice</span>
-                  {PAGES.map((p, i) => (
+                <nav className={styles.links} aria-label={copy.menuPagesLabel}>
+                  <span className={styles.groupLabel}>{copy.menuPagesLabel}</span>
+                  {copy.menuPages.map((p, i) => (
                     <a
                       key={p.href}
                       className={styles.link}
-                      href={p.href}
+                      href={localePath(p.href, locale)}
                       style={{ transitionDelay: open ? `${0.04 + i * 0.04}s` : "0s" }}
                       onClick={close}
                     >
@@ -104,8 +99,8 @@ export function MobileMenuV4({
                   ))}
                 </nav>
                 {sections?.length ? (
-                  <nav className={styles.sectionLinks} aria-label="Sekcije na početnoj strani">
-                    <span className={styles.groupLabel}>Na ovoj strani</span>
+                  <nav className={styles.sectionLinks} aria-label={copy.menuSectionsLabel}>
+                    <span className={styles.groupLabel}>{copy.menuSectionsLabel}</span>
                     {sections.map((s, i) => (
                       <button
                         key={s.label}
