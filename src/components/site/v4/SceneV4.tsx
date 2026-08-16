@@ -1257,6 +1257,10 @@ const SHARD_VERT = /* glsl */ `
   attribute vec3 aScale;
   attribute vec3 aAxis;
   attribute float aSeed;
+  // per-vertex barycentric, so the fragment stage can find a facet edge
+  // without derivatives — GL_OES_standard_derivatives is unavailable to an
+  // ES 1.00 shader on this WebGL2 context, verified by compiling it
+  attribute vec3 aBary;
 
   uniform float uTime;
   uniform float uMix;
@@ -1266,6 +1270,7 @@ const SHARD_VERT = /* glsl */ `
   varying vec3 vN;
   varying vec3 vV;
   varying vec3 vPos;
+  varying vec3 vBary;
   varying float vSeed;
   varying float vTravel;
   varying float vEdge;
@@ -1361,6 +1366,7 @@ const SHARD_VERT = /* glsl */ `
     vV = normalize(-mv.xyz);
     vPos = position;
     vSeed = aSeed;
+    vBary = aBary;
     vTravel = travel;
     // narrow band just off the plateau — one flash on launch, one on landing
     vEdge = smoothstep(0.0, 0.10, travel) * smoothstep(0.34, 0.10, travel);
@@ -1376,9 +1382,36 @@ const SHARD_FRAG = /* glsl */ `
   varying vec3 vN;
   varying vec3 vV;
   varying vec3 vPos;
+  varying vec3 vBary;
   varying float vSeed;
   varying float vTravel;
   varying float vEdge;
+
+  float hash21(vec2 p) {
+    p = fract(p * vec2(443.897, 441.423));
+    p += dot(p, p + 19.19);
+    return fract(p.x * p.y);
+  }
+
+  /**
+   * A rectangular softbox with a hard edge, projected in direction space.
+   *
+   * This is the part that decides whether the glass looks bought or made. A
+   * pow() lobe can only produce a round gradient blob, and a round gradient
+   * blob is the signature of shaded plastic. Every real studio puts a strip
+   * with a visible RIM in the surface, and the eye reads that straight edge
+   * sliding across a facet as "this is a reflection", not "this is shading".
+   */
+  float softbox(vec3 d, vec3 fwd, vec2 half_, float soft) {
+    float f = dot(d, fwd);
+    if (f <= 0.02) return 0.0;
+    vec3 right = normalize(cross(fwd, vec3(0.0, 1.0, 0.0)));
+    vec3 up = cross(right, fwd);
+    vec2 uv = vec2(dot(d, right), dot(d, up)) / f;
+    // inverted, not flipped edges: smoothstep is undefined when edge0 > edge1
+    vec2 e = 1.0 - smoothstep(half_ - soft, half_ + soft, abs(uv));
+    return e.x * e.y;
+  }
 
   /**
    * The studio the glass stands in.
@@ -1387,21 +1420,33 @@ const SHARD_FRAG = /* glsl */ `
    * room reflected and refracted through it. Lit with plain directional
    * terms it can only ever look like shaded plastic, which is exactly what
    * the previous pass produced. So instead of lights, this returns the
-   * environment seen in a direction: a dark stage carrying one big white
-   * softbox as the key, a broad accent-blue fill, and a narrow hot kicker
-   * raking from behind to separate the silhouette. Cheap, procedural, and
+   * environment seen in a direction: a dark stage carrying two hard-edged
+   * softboxes, a broad accent-blue fill, a narrow hot kicker raking from
+   * behind, a horizon line and the void's own stars. Cheap, procedural, and
    * it moves correctly as each shard tumbles.
    */
   vec3 studioEnv(vec3 d) {
-    float key = pow(max(dot(d, normalize(vec3(-0.5, 0.78, 0.38))), 0.0), 7.0);
+    if (dot(d, d) < 1e-6) return vec3(0.0);
+    // key: wide horizontal strip overhead. rim: tall narrow strip camera-right
+    float key = softbox(d, normalize(vec3(-0.42, 0.8, 0.42)), vec2(0.46, 0.11), 0.05);
+    float rim = softbox(d, normalize(vec3(0.68, 0.3, 0.66)), vec2(0.08, 0.44), 0.055);
     float fill = pow(max(dot(d, normalize(vec3(0.72, -0.22, 0.5))), 0.0), 2.6);
     float kick = pow(max(dot(d, normalize(vec3(0.18, 0.3, -0.94))), 0.0), 22.0);
     // stage gradient: dark floor lifting to a faintly lit ceiling
     float amb = 0.5 + 0.5 * d.y;
     vec3 col = vec3(0.004, 0.009, 0.028) * amb;
-    col += vec3(0.88, 0.94, 1.0) * key * 1.45;
-    col += uColor * fill * 0.6;
+    col += vec3(0.92, 0.96, 1.0) * key * 2.4;
+    col += vec3(0.58, 0.76, 1.0) * rim * 1.6;
+    col += uColor * fill * 0.55;
     col += vec3(0.5, 0.72, 1.0) * kick * 2.1;
+    // the horizon where the stage floor meets the void — one straight line in
+    // the environment gives every curved facet something to bend
+    col += vec3(0.22, 0.34, 0.7) * smoothstep(0.075, 0.0, abs(d.y + 0.12)) * 0.6;
+    // and the starfield the void actually holds: sparse high-frequency points
+    // so a reflection has grain instead of being one smooth ramp
+    vec2 sph = vec2(atan(d.z, d.x) * 0.9159, d.y * 1.9);
+    float star = hash21(floor(sph * 46.0));
+    col += vec3(0.72, 0.84, 1.0) * smoothstep(0.988, 1.0, star) * 1.9;
     return col;
   }
 
@@ -1441,6 +1486,27 @@ const SHARD_FRAG = /* glsl */ `
     col += vec3(0.95, 0.97, 1.0) * pow(max(dot(N, H1), 0.0), 220.0) * 2.2;
     col += vec3(0.55, 0.74, 1.0) * pow(max(dot(N, H2), 0.0), 90.0) * 1.1;
 
+    // Total internal reflection: light that fails to leave bounces once more
+    // inside the stone. This is the depth you see INSIDE a cut gem, and its
+    // absence is why a faceted solid reads as a hollow shell.
+    // refract() returns 0 under total internal reflection — fall back to the
+    // mirror direction so the bounce still has somewhere to look
+    vec3 tirDir = dot(rG, rG) > 1e-6 ? reflect(rG, N) : reflect(-V, N);
+    col += studioEnv(tirDir) * (1.0 - fres) * 0.22 * exp(-thick * 0.7);
+
+    // Facet borders, straight off the barycentric coordinate: a cut edge is
+    // where one of the three weights runs out. Bevels are what catch light on
+    // real glass, and the missing bevel is most of why a faceted solid reads
+    // as flat plastic.
+    float facet = 1.0 - smoothstep(0.0, 0.14, min(min(vBary.x, vBary.y), vBary.z));
+    col += vec3(0.86, 0.93, 1.0) * facet * (0.3 + fres * 0.95);
+
+    // Thin-film interference at grazing angles — the oil-slick shift on a
+    // coated edge. Keeps the rim from being a plain white outline.
+    float film = pow(1.0 - ndv, 3.0);
+    vec3 irid = 0.5 + 0.5 * cos(6.2831 * (vec3(0.0, 0.33, 0.67) + film * 2.4 + vSeed * 1.7));
+    col += irid * film * 0.2;
+
     // internal flaw lines — real glass is never optically perfect, and the
     // imperfection is most of what makes it look expensive
     float flaw = pow(abs(sin(vPos.y * 26.0 + vPos.x * 11.0 + vSeed * 6.283)), 30.0);
@@ -1454,7 +1520,8 @@ const SHARD_FRAG = /* glsl */ `
     // Grazing angles are where glass is most opaque; head-on you look
     // through it. Driving alpha off fresnel is what stops the field from
     // reading as a wall of dark chips.
-    float a = clamp(0.3 + fres * 0.75 + flaw * 0.2, 0.0, 1.0) * clamp(uAlpha, 0.0, 1.0);
+    float a = clamp(0.3 + fres * 0.75 + flaw * 0.2 + facet * 0.28, 0.0, 1.0)
+      * clamp(uAlpha, 0.0, 1.0);
     gl_FragColor = vec4(col, a);
   }
 `;
@@ -1525,7 +1592,9 @@ export function SceneV4() {
         0.1,
         60,
       );
-      camera.position.z = SHAPES[0].camZ;
+      // starts back on its entrance mark so the first move is a push in, not
+      // a pull out — see `introCam` in the loop
+      camera.position.z = SHAPES[0].camZ + 4.6;
 
       // ── Morphing cloud — GPU-side, CPU only swaps targets ─────────────
       const COUNT = isMobile ? 7000 : 16000;
@@ -1766,6 +1835,12 @@ export function SceneV4() {
         type Attr = InstanceType<typeof THREE.BufferAttribute>;
         geo.setAttribute("position", base.getAttribute("position") as Attr);
         geo.setAttribute("normal", base.getAttribute("normal") as Attr);
+        // barycentric per triangle — the polyhedra are non-indexed, so every
+        // face owns its three vertices and the pattern just repeats
+        const vertCount = (base.getAttribute("position") as Attr).count;
+        const bary = new Float32Array(vertCount * 3);
+        for (let i = 0; i < vertCount; i++) bary[i * 3 + (i % 3)] = 1;
+        geo.setAttribute("aBary", new THREE.BufferAttribute(bary, 3));
         geo.instanceCount = count;
 
         // this field's slots in the shared formation, spread across the whole
@@ -1856,6 +1931,10 @@ export function SceneV4() {
       // detail 1 on the two carrying fields: 80 and 32 facets instead of 20
       // and 8, so each shard catches several speculars at once. At 88
       // instances that is still under 5k triangles.
+      // Facet count stays coarse on purpose: subdividing turns a cut shard
+      // into a smooth pebble. Big faces are fine — what was missing is
+      // something with structure for them to reflect, which is the studio
+      // rewrite above, not more triangles.
       buildShardField(new THREE.IcosahedronGeometry(0.095, 1), isMobile ? 14 : 40, 1234, 1.0, 1.0);
       buildShardField(new THREE.OctahedronGeometry(0.085, 1), isMobile ? 12 : 32, 4211, 0.95, 0.92);
       buildShardField(new THREE.TetrahedronGeometry(0.125, 0), isMobile ? 6 : 16, 8807, 1.25, 0.88);
@@ -2046,7 +2125,10 @@ export function SceneV4() {
             float spike = (pow(max(0.0, 1.0 - abs(gl_PointCoord.x - 0.5) * 2.0), 16.0)
               + pow(max(0.0, 1.0 - abs(gl_PointCoord.y - 0.5) * 2.0), 16.0)) * step(0.7, vTw);
             vec3 col = vec3(0.72, 0.84, 1.0) + vec3(0.22, 0.14, 0.06) * core;
-            float a = (halo * 0.55 + core + spike * 0.6) * vA * uFade;
+            // 0.72: additive points used to land on an opaque near-black
+            // clear. Over a transparent one they carry their own alpha to
+            // the compositor and the field read a stop hot.
+            float a = (halo * 0.55 + core + spike * 0.6) * vA * uFade * 0.72;
             gl_FragColor = vec4(col + spike * 0.35, a);
           }
         `,
@@ -2610,6 +2692,20 @@ export function SceneV4() {
         attract += ((attractOn ? 1 : 0) - attract) * 0.09;
         cloudUniforms.uAttract.value = attract;
 
+        // intro blooms open over ~2s once the preloader lifts
+        introMix += ((introOn ? 1 : 0) - introMix) * 0.03;
+        cloudUniforms.uIntro.value = introMix;
+        // Nothing is on screen until the curtain is gone: the preloader is
+        // opaque now, so the formation has to be built in front of the
+        // visitor rather than revealed already finished. Squared so the
+        // field stays dark through the first beats and then rushes in.
+        const introGate = Math.min(1, introMix * 1.14);
+        const introFade = introGate * introGate;
+        // …and the rig arrives with it. Cubic ease-out off a long lens pulled
+        // back: the shot settles onto its mark as the mass crystallises,
+        // instead of already sitting there waiting.
+        const introCam = 1 - Math.pow(1 - introGate, 3);
+
         // shared event energies: mid-morph beat + decaying shock impulse +
         // arrival flash the moment a shape settles
         const morphE = rawMix * (1 - rawMix) * 4;
@@ -2642,7 +2738,8 @@ export function SceneV4() {
           + Math.sin(t * 0.077) * 0.22
           - push
           - morphE * a.dive * 0.55
-          - Math.abs(scrollImpulse) * (isMobile ? 0.48 : 0.26);
+          - Math.abs(scrollImpulse) * (isMobile ? 0.48 : 0.26)
+          + (1 - introCam) * 4.6;
         const ang = a.camA + (b.camA - a.camA) * m + ovAng * overrideMix;
         const craneY = a.camY + (b.camY - a.camY) * m;
         // Slower easing = heavier camera. At 0.075 the rig snapped to every
@@ -2668,8 +2765,10 @@ export function SceneV4() {
         // opening wider through the move to sell the travel.
         const fovTarget =
           40.5 + travelBeat * 3.4 + warp * (isMobile ? 6 : 4) + morphE * 1.4
-          + Math.abs(scrollImpulse) * 2.4;
-        camera.fov += (fovTarget - camera.fov) * 0.06;
+          + Math.abs(scrollImpulse) * 2.4
+          // long lens on the entrance, breathing open onto the working focal
+          - (1 - introCam) * 7.5;
+        camera.fov += (fovTarget - camera.fov) * (introCam < 0.999 ? 0.03 : 0.06);
         camera.updateProjectionMatrix();
         camera.lookAt(cloud.position.x * 0.42, cloud.position.y * 0.32, 0);
         // banking roll leans into the orbit swing — handheld cinema, not a
@@ -2677,7 +2776,11 @@ export function SceneV4() {
         bank +=
           (Math.max(-0.03, Math.min(0.03, (ang - prevAng) * 12 + scrollImpulse * 0.022)) - bank) * 0.05;
         prevAng = ang;
-        camera.rotation.z = Math.sin(t * 0.061) * 0.007 + Math.sin(t * 0.023) * 0.004 + bank;
+        camera.rotation.z =
+          Math.sin(t * 0.061) * 0.007 + Math.sin(t * 0.023) * 0.004 + bank
+          // a touch of roll unwinding through the entrance — the rig settles
+          // level, which is what makes the arrival read as a camera move
+          + (1 - introCam) * 0.055;
 
         // project the cursor onto the z=0 plane the cloud lives around,
         // smoothed so the repulsion pocket glides after the hand
@@ -2703,16 +2806,6 @@ export function SceneV4() {
         ovBlend += (ovBlendTarget - ovBlend) * 0.08;
         cloudUniforms.uOvBlend.value = ovBlend;
         ovAng += (ovAngTarget - ovAng) * 0.06;
-
-        // intro blooms open over ~2s once the preloader lifts
-        introMix += ((introOn ? 1 : 0) - introMix) * 0.03;
-        cloudUniforms.uIntro.value = introMix;
-        // Nothing is on screen until the curtain is gone: the preloader is
-        // opaque now, so the formation has to be built in front of the
-        // visitor rather than revealed already finished. Squared so the
-        // field stays dark through the first beats and then rushes in.
-        const introGate = Math.min(1, introMix * 1.14);
-        const introFade = introGate * introGate;
 
         // live shockwave clock; -1 parks the ring
         cloudUniforms.uShockT.value = shockAt >= 0 && t - shockAt < 3 ? t - shockAt : -1;
@@ -2774,7 +2867,7 @@ export function SceneV4() {
         inkUniforms.uTime.value = t;
         inkUniforms.uPointer.value.set(0.5 + mouseX * 0.5, 0.5 - mouseY * 0.5);
         inkUniforms.uEnergy.value = warp;
-        inkUniforms.uOpacity.value = (isMobile ? 0.13 : 0.16) * introFade;
+        inkUniforms.uOpacity.value = (isMobile ? 0.095 : 0.115) * introFade;
         // the backdrop does NOT take the section palette — that is what made
         // it the same hue as the objects sitting on it
         inkField.position.x = cloud.position.x * 0.3;
@@ -2846,7 +2939,7 @@ export function SceneV4() {
         // god-ray sun rides the core; rays fade back where content leads
         sun.position.x = core.position.x;
         sun.scale.setScalar(1 + Math.sin(t * 0.45) * 0.12 + arrE * 0.5);
-        sunMat.opacity = (0.35 + cloudUniforms.uOpacity.value * 0.6) * introFade;
+        sunMat.opacity = (0.2 + cloudUniforms.uOpacity.value * 0.42) * introFade;
         sunMat.color.lerp(tmpColor, 0.05);
 
         // anamorphic bar rides the core, stretching as it breathes;

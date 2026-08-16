@@ -94,7 +94,13 @@
   inset: 0;
   z-index: -2;
   pointer-events: none;
-  background: var(--v4-void, var(--bg));
+  /* The composer's vignette can only darken pixels the renderer painted, and
+     with a transparent clear the void is no longer one of them — the frame
+     lost its corners and the whole screen read a stop brighter. Painted here
+     instead, plus the matching pass on `.cinemaFrame` over the canvas. */
+  background:
+    radial-gradient(ellipse 80% 78% at 50% 46%, transparent 38%, rgba(0, 0, 0, 0.62) 100%),
+    var(--v4-void, var(--bg));
 }
 
 .scene {
@@ -133,8 +139,10 @@
   z-index: 0;
   pointer-events: none;
   background:
-    linear-gradient(180deg, rgba(1, 2, 9, 0.32), transparent 16%, transparent 82%, rgba(1, 2, 9, 0.44)),
-    radial-gradient(ellipse 86% 72% at 50% 46%, transparent 48%, rgba(1, 2, 10, 0.34) 100%);
+    linear-gradient(180deg, rgba(1, 2, 9, 0.42), transparent 16%, transparent 80%, rgba(1, 2, 9, 0.54)),
+    /* carries the corner falloff the composer used to own — this one sits
+       over the canvas, so it darkens the stars and the haze too */
+    radial-gradient(ellipse 84% 70% at 50% 46%, transparent 40%, rgba(1, 2, 10, 0.58) 100%);
   box-shadow:
     inset 0 1px rgba(196, 207, 255, 0.07),
     inset 0 -1px rgba(196, 207, 255, 0.05);
