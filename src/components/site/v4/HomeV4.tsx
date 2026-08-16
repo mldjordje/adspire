@@ -117,6 +117,17 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
     );
   }, []);
 
+  // The root no longer paints the void (it would cover the hero title, which
+  // sits at z-index -1 under the sculpture), so the page ground has to come
+  // from the document itself — otherwise overscroll flashes browser white.
+  useEffect(() => {
+    const prev = document.body.style.backgroundColor;
+    document.body.style.backgroundColor = "#02030a";
+    return () => {
+      document.body.style.backgroundColor = prev;
+    };
+  }, []);
+
   // curtain page transition for internal navigation
   useEffect(() => {
     const root = rootRef.current;
@@ -148,25 +159,68 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
     const ctx = gsap.context(() => {
       // ── Hero intro (fires when preloader lifts) ─────────────────────
       const heroTitle = q<HTMLElement>(`.${styles.heroTitle}`)[0];
-      // words,chars — words stay atomic so char inline-blocks can't wrap mid-word
-      const split = heroTitle ? new SplitType(heroTitle, { types: "words, chars" }) : null;
+      // words only: the line spans are overflow-hidden masks, so whole words
+      // rising out of them reads calmer than 40 characters firing separately
+      const split = heroTitle ? new SplitType(heroTitle, { types: "words" }) : null;
+      const heroLines = q<HTMLElement>(`.${styles.heroLine}`);
+
+      // SplitType wraps every word in an inline-block, and an inline-block can
+      // neither wrap nor hyphenate — so a word wider than its column (German
+      // "DURCHSCHNITT" on a phone) walks straight off the screen no matter
+      // what the CSS says. Scale the title until the widest word fits.
+      const fitTitle = () => {
+        const words = split?.words as HTMLElement[] | undefined;
+        if (!heroTitle || !words?.length) return;
+        heroTitle.style.fontSize = "";
+        const col = heroTitle.parentElement?.clientWidth ?? 0;
+        if (!col) return;
+        let widest = 0;
+        for (const w of words) widest = Math.max(widest, w.scrollWidth);
+        if (widest > col) {
+          const base = parseFloat(getComputedStyle(heroTitle).fontSize);
+          heroTitle.style.fontSize = `${Math.floor(base * (col / widest))}px`;
+        }
+      };
+      fitTitle();
+      // webfont metrics differ from the fallback's — remeasure once Syne lands
+      document.fonts?.ready.then(fitTitle).catch(() => {});
+      // observe the column, not the window: the fit depends on the column's
+      // width, and that also moves on orientation change and zoom
+      let fitting = false;
+      const fitObserver = new ResizeObserver(() => {
+        if (fitting) return;
+        fitting = true;
+        fitTitle();
+        fitting = false;
+      });
+      if (heroTitle?.parentElement) fitObserver.observe(heroTitle.parentElement);
+      window.addEventListener("resize", fitTitle);
 
       const intro = gsap.timeline({ paused: true });
-      if (split?.chars?.length) {
+      if (split?.words?.length) {
         // em-based y, not yPercent — percent transforms on these inline-block
-        // chars get resolved against glyph width and corrupt X
-        intro.from(split.chars, {
+        // words get resolved against glyph width and corrupt X
+        intro.from(split.words, {
           y: "1.15em",
-          stagger: 0.028,
-          duration: 1.1,
-          ease: "power4.out",
+          stagger: 0.075,
+          duration: 1.3,
+          ease: "expo.out",
         });
+        // the block settles as one object while the words land — a title that
+        // arrives, not one that merely appears
+        intro.from(
+          heroTitle,
+          { scale: 1.07, filter: "blur(12px)", duration: 1.5, ease: "expo.out" },
+          0,
+        );
+        // masks did their job; drop them so the legibility shadow isn't clipped
+        intro.set(heroLines, { overflow: "visible" });
       }
       intro
         .from(
           q(`.${styles.heroBadge}, .${styles.heroCtas}`),
           { y: 26, autoAlpha: 0, stagger: 0.09, duration: 0.8, ease: "power3.out" },
-          "-=0.55",
+          "-=0.75",
         )
         .from(
           q(`.${styles.heroScrollHint}, .${styles.nav}`),
@@ -184,18 +238,27 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
       const introFallback = window.setTimeout(playIntro, 2600);
 
       // The hero exits as one composed frame so the particle scene keeps focus.
-      gsap.to(q(`.${styles.heroInner}`)[0], {
-        yPercent: -6,
-        scale: 0.96,
-        autoAlpha: 0,
-        ease: "power1.in",
-        scrollTrigger: {
-          trigger: q(`.${styles.hero}`)[0],
-          start: "18% top",
-          end: "78% top",
-          scrub: 0.9,
+      // Driven on the children, not on `.heroInner`: a transform there would
+      // open a stacking context and drag the title (z-index -1) back in front
+      // of the sculpture.
+      gsap.to(
+        [
+          heroTitle,
+          ...q(`.${styles.heroBadge}, .${styles.heroCtas}, .${styles.sceneGestureHint}`),
+        ].filter(Boolean),
+        {
+          yPercent: -6,
+          scale: 0.96,
+          autoAlpha: 0,
+          ease: "power1.in",
+          scrollTrigger: {
+            trigger: q(`.${styles.hero}`)[0],
+            start: "18% top",
+            end: "78% top",
+            scrub: 0.9,
+          },
         },
-      });
+      );
 
       // ── Marquee: one slow editorial movement ────────────────────────
       const marqueeRows = q<HTMLElement>(`.${styles.marqueeRow}`);
@@ -485,6 +548,8 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
 
       return () => {
         window.removeEventListener("v4:ready", playIntro);
+        fitObserver.disconnect();
+        window.removeEventListener("resize", fitTitle);
         window.clearTimeout(introFallback);
         split?.revert();
       };
@@ -633,6 +698,8 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
     <div ref={rootRef} className={styles.root} data-standalone-page="v4">
       <PreloaderV4 />
       <CursorV4 />
+      {/* the void, graded per section by SceneV4 via `--v4-void` */}
+      <div className={styles.sceneBackdrop} aria-hidden="true" />
       <SceneV4 />
       <div className={styles.grain} aria-hidden="true" />
       <div className={styles.cinemaFrame} aria-hidden="true" />

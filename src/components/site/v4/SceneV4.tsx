@@ -1512,9 +1512,13 @@ export function SceneV4() {
       renderer.setSize(window.innerWidth, window.innerHeight);
 
       const scene = new THREE.Scene();
-      // opaque bg matches the page — required for the bloom composer path
-      // deep black-blue void: pure black would read flat, grey is banned
-      scene.background = new THREE.Color(0x010207);
+      // The void is painted by CSS (`--v4-void` on `.sceneBackdrop`), not by
+      // the renderer, so the canvas stays transparent. That is what lets the
+      // hero title sit BEHIND the sculpture (z-index -1) and still read
+      // against the ground — an opaque clear would swallow it.
+      scene.background = null;
+      renderer.setClearColor(0x000000, 0);
+      renderer.setClearAlpha(0);
       const camera = new THREE.PerspectiveCamera(
         42,
         window.innerWidth / window.innerHeight,
@@ -2008,7 +2012,7 @@ export function SceneV4() {
       for (let i = 0; i < STARS; i++) starTw[i] = starRnd();
       starGeo.setAttribute("aTw", new THREE.BufferAttribute(starTw, 1));
       const starMat = new THREE.ShaderMaterial({
-        uniforms: { uTime: { value: 0 }, uPR: { value: basePR } },
+        uniforms: { uTime: { value: 0 }, uPR: { value: basePR }, uFade: { value: 0 } },
         transparent: true,
         depthWrite: false,
         blending: THREE.AdditiveBlending,
@@ -2029,6 +2033,7 @@ export function SceneV4() {
           }
         `,
         fragmentShader: /* glsl */ `
+          uniform float uFade;
           varying float vA;
           varying float vTw;
           void main() {
@@ -2041,7 +2046,7 @@ export function SceneV4() {
             float spike = (pow(max(0.0, 1.0 - abs(gl_PointCoord.x - 0.5) * 2.0), 16.0)
               + pow(max(0.0, 1.0 - abs(gl_PointCoord.y - 0.5) * 2.0), 16.0)) * step(0.7, vTw);
             vec3 col = vec3(0.72, 0.84, 1.0) + vec3(0.22, 0.14, 0.06) * core;
-            float a = (halo * 0.55 + core + spike * 0.6) * vA;
+            float a = (halo * 0.55 + core + spike * 0.6) * vA * uFade;
             gl_FragColor = vec4(col + spike * 0.35, a);
           }
         `,
@@ -2449,6 +2454,10 @@ export function SceneV4() {
       const tmpColor = new THREE.Color();
       const tmpColorB = new THREE.Color();
       const tmpBg = new THREE.Color();
+      // live void colour, pushed to CSS instead of to the renderer clear
+      const voidColor = new THREE.Color(SHAPES[0].bg[0], SHAPES[0].bg[1], SHAPES[0].bg[2]);
+      const voidOut = new THREE.Color();
+      let voidTick = 0;
       const pointerNdc = new THREE.Vector3();
       const pointerWorld = new THREE.Vector3();
       const prevPointer = new THREE.Vector3(0, 0, 0);
@@ -2698,6 +2707,12 @@ export function SceneV4() {
         // intro blooms open over ~2s once the preloader lifts
         introMix += ((introOn ? 1 : 0) - introMix) * 0.03;
         cloudUniforms.uIntro.value = introMix;
+        // Nothing is on screen until the curtain is gone: the preloader is
+        // opaque now, so the formation has to be built in front of the
+        // visitor rather than revealed already finished. Squared so the
+        // field stays dark through the first beats and then rushes in.
+        const introGate = Math.min(1, introMix * 1.14);
+        const introFade = introGate * introGate;
 
         // live shockwave clock; -1 parks the ring
         cloudUniforms.uShockT.value = shockAt >= 0 && t - shockAt < 3 ? t - shockAt : -1;
@@ -2721,7 +2736,7 @@ export function SceneV4() {
         if (tintMix > 0.001) tmpColorB.lerp(tintColorB, tintMix * 0.85);
         cloudUniforms.uColorB.value.lerp(tmpColorB, 0.08);
         const baseAlpha = a.alpha + (b.alpha - a.alpha) * m;
-        const alpha = baseAlpha + (0.72 - baseAlpha) * overrideMix;
+        const alpha = (baseAlpha + (0.72 - baseAlpha) * overrideMix) * introFade;
         cloudUniforms.uOpacity.value += (alpha - cloudUniforms.uOpacity.value) * 0.08;
         cloudUniforms.uTime.value = t;
 
@@ -2740,17 +2755,26 @@ export function SceneV4() {
           a.bg[1] + (b.bg[1] - a.bg[1]) * m,
           a.bg[2] + (b.bg[2] - a.bg[2]) * m,
         );
-        (scene.background as InstanceType<typeof THREE.Color>).lerp(tmpBg, 0.04);
+        voidColor.lerp(tmpBg, 0.04);
+        // ~10x/s is plenty for a colour that moves over whole sections, and
+        // it keeps a string alloc + style write off the per-frame path
+        if (++voidTick % 6 === 0) {
+          voidOut.copy(voidColor).convertLinearToSRGB();
+          document.documentElement.style.setProperty("--v4-void", `#${voidOut.getHexString()}`);
+        }
 
         stars.rotation.y = t * 0.008;
         stars.position.y = p * 2.5;
         starMat.uniforms.uTime.value = t;
+        // starfield leads the formation in — it lights first, then the mass
+        starMat.uniforms.uFade.value = introGate;
 
         // ink field: living plasma void follows the cursor + section palette,
         // and surges with scroll energy (warp) so fast scrolling ignites it
         inkUniforms.uTime.value = t;
         inkUniforms.uPointer.value.set(0.5 + mouseX * 0.5, 0.5 - mouseY * 0.5);
         inkUniforms.uEnergy.value = warp;
+        inkUniforms.uOpacity.value = (isMobile ? 0.13 : 0.16) * introFade;
         // the backdrop does NOT take the section palette — that is what made
         // it the same hue as the objects sitting on it
         inkField.position.x = cloud.position.x * 0.3;
@@ -2786,7 +2810,7 @@ export function SceneV4() {
         shardCommon.uArrival.value = arrE;
         shardCommon.uSpread.value = a.shardSpread + (b.shardSpread - a.shardSpread) * m;
         shardColor.lerp(tmpColor, 0.04);
-        const shardAlpha = a.shardAlpha + (b.shardAlpha - a.shardAlpha) * m;
+        const shardAlpha = (a.shardAlpha + (b.shardAlpha - a.shardAlpha) * m) * introFade;
         for (let i = 0; i < shardFields.length; i++) {
           const f = shardFields[i];
           const uA = f.mat.uniforms.uAlpha;
@@ -2817,12 +2841,12 @@ export function SceneV4() {
         core.position.x += (cloud.position.x * 0.6 - core.position.x) * 0.05;
         core.scale.setScalar(0.5 * (1 + Math.sin(t * 0.5) * 0.09));
         coreMat.uniforms.uColor.value.lerp(tmpColor, 0.06);
-        coreMat.uniforms.uOpacity.value = 0.1 + cloudUniforms.uOpacity.value * 0.08;
+        coreMat.uniforms.uOpacity.value = (0.1 + cloudUniforms.uOpacity.value * 0.08) * introFade;
 
         // god-ray sun rides the core; rays fade back where content leads
         sun.position.x = core.position.x;
         sun.scale.setScalar(1 + Math.sin(t * 0.45) * 0.12 + arrE * 0.5);
-        sunMat.opacity = 0.35 + cloudUniforms.uOpacity.value * 0.6;
+        sunMat.opacity = (0.35 + cloudUniforms.uOpacity.value * 0.6) * introFade;
         sunMat.color.lerp(tmpColor, 0.05);
 
         // anamorphic bar rides the core, stretching as it breathes;
