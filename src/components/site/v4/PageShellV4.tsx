@@ -5,7 +5,7 @@ import styles from "./PageShellV4.module.css";
 import { CursorV4 } from "./CursorV4";
 import { SilkV4 } from "./SilkV4";
 import { MobileMenuV4 } from "./MobileMenuV4";
-import { getShellCopy } from "./shellCopy";
+import { getShellCopy, type ShellCopy } from "./shellCopy";
 import { defaultLocale, localePath, type LocaleCode } from "@/lib/site-config";
 
 /**
@@ -15,6 +15,11 @@ import { defaultLocale, localePath, type LocaleCode } from "@/lib/site-config";
  *
  * `locale` only affects chrome. A page that passes it must also render
  * localized body copy, otherwise it is a translated frame around Serbian text.
+ *
+ * `copyOverride` is for standalone pages outside the sr/en/de subtree (e.g.
+ * /white-label) that want English chrome text without the /en/* href prefix
+ * — that prefix only resolves for the handful of routes actually translated
+ * under [locale], and would 404 on the rest.
  */
 
 type PageShellProps = {
@@ -22,6 +27,7 @@ type PageShellProps = {
   title: React.ReactNode;
   intro?: string;
   locale?: LocaleCode;
+  copyOverride?: ShellCopy;
   children: React.ReactNode;
 };
 
@@ -30,10 +36,11 @@ export function PageShellV4({
   title,
   intro,
   locale = defaultLocale,
+  copyOverride,
   children,
 }: PageShellProps) {
-  const copy = getShellCopy(locale);
-  const href = (path: string) => localePath(path, locale);
+  const copy = copyOverride ?? getShellCopy(locale);
+  const href = (path: string) => (copyOverride ? path : localePath(path, locale));
   const rootRef = useRef<HTMLDivElement>(null);
   const curtainRef = useRef<HTMLDivElement>(null);
   const [clock, setClock] = useState("");

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { PageShellV4 } from "./PageShellV4";
+import { getShellCopy } from "./shellCopy";
 import type { PartnerPage } from "@/content/site/partnerPage";
 // Same layout language as the guides — a partner page is the same shape of
 // document, so it reuses their stylesheet rather than duplicating it.
@@ -16,7 +17,7 @@ type Props = { page: PartnerPage };
 /** Renders the white-label partner page on the OBSIDIAN chrome. English copy only. */
 export function PartnerV4({ page }: Props) {
   return (
-    <PageShellV4 eyebrow={page.eyebrow} title={page.h1} intro={page.lead}>
+    <PageShellV4 eyebrow={page.eyebrow} title={page.h1} intro={page.lead} copyOverride={getShellCopy("en")}>
       <div className={styles.body} data-reveal>
         {page.sections.map((section, index) => (
           <section key={section.heading} aria-labelledby={sectionId(index)}>

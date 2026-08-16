@@ -54,6 +54,14 @@
   text-wrap: balance;
 }
 
+/* SplitType wraps the hero title into one span per word, then one per char
+   inside that. Each char becomes its own inline box, so word-break: keep-all
+   above does nothing — the browser is free to wrap between any two char
+   boxes. Pin the word wrapper itself so a break can only land between words. */
+.root :global(.word) {
+  white-space: nowrap;
+}
+
 .silk {
   position: fixed;
   inset: 0;
