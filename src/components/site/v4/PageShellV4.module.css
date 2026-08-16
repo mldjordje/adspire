@@ -45,11 +45,13 @@
   color: inherit;
 }
 
-/* Wide Syne display type — never break a word mid-glyph on inner pages either. */
+/* Wide Syne display type — never break a word mid-glyph on inner pages either,
+   and balance wraps so a heading never leaves one orphan word on its own line. */
 .root :where(h1, h2, h3) {
   overflow-wrap: normal;
   word-break: keep-all;
   hyphens: none;
+  text-wrap: balance;
 }
 
 .silk {
