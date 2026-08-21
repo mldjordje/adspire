@@ -92,13 +92,6 @@ export function InvoiceForm({
         </select>
       </label>
       <label>
-        Vrsta
-        <select name="kind" defaultValue="invoice">
-          <option value="invoice">Račun</option>
-          <option value="proforma">Predračun</option>
-        </select>
-      </label>
-      <label>
         Valuta
         <select name="currency" value={currency} onChange={(e) => setCurrency(e.target.value)}>
           {CURRENCIES.map((code) => (

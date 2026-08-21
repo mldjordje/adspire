@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic";
  *  hundred rows, and a query per filter buys nothing. */
 const FILTERS = [
   { key: "sve", label: "Sve" },
-  { key: "racuni", label: "Računi" },
+  // Legacy: no new predračun can be issued, so this tab empties itself out.
   { key: "predracuni", label: "Predračuni" },
   { key: "neplaceno", label: "Neplaćeno" },
   { key: "van-roka", label: "Van roka" },
@@ -35,8 +35,6 @@ export default async function InvoicesPage({
   const rows = invoices
     .filter((invoice) => {
       switch (active) {
-        case "racuni":
-          return invoice.kind === "invoice";
         case "predracuni":
           return invoice.kind === "proforma";
         case "neplaceno":
@@ -179,11 +177,10 @@ export default async function InvoicesPage({
                   return (
                       <tr key={invoice.id} className={overdue ? "is-stale" : undefined}>
                         <td>
-                          {/* The "PR-" prefix is part of the stored number itself. */}
                           <Link href={`/os/fakture/${invoice.id}`}>{invoice.number}</Link>
-                          <div className="os-note">
-                            {invoice.kind === "proforma" ? "predračun" : "račun"}
-                          </div>
+                          {invoice.kind === "proforma" ? (
+                            <div className="os-note">predračun</div>
+                          ) : null}
                         </td>
                         <td>{invoice.clientName}</td>
                         <td>{formatDate(invoice.issueDate)}</td>

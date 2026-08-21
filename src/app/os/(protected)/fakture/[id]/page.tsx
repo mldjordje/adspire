@@ -3,12 +3,12 @@ import { notFound } from "next/navigation";
 import { formatDate, InvoiceStatusBadge, money } from "@/components/os/billingUi";
 import { formatDateTime } from "@/components/os/leadUi";
 import { Timeline } from "@/components/os/Timeline";
+import { belgradeToday } from "@/lib/invoices/rules";
 import {
   convertProformaAction,
   sendInvoiceAction,
   setInvoiceStatusAction,
 } from "@/lib/billing/actions";
-import { belgradeToday } from "@/lib/invoices/rules";
 import { getInvoiceDetail } from "@/lib/invoices/queries";
 import { listMessagesForInvoice } from "@/lib/messages/store";
 
@@ -63,7 +63,9 @@ export default async function InvoiceDetailPage({
     (mail ? MAIL_FLASH[mail] : undefined) ??
     (doc ? (DOC_FLASH[doc] ?? { tone: "bad" as const, text: doc }) : undefined);
   const proforma = invoice.kind === "proforma";
-  const title = proforma ? "Predračun" : "Račun";
+  // The letter follows the document status, so it is stated before sending —
+  // a thank-you note on an unpaid invoice is a payment that never arrives.
+  const settled = !proforma && invoice.status === "paid";
   const recipient = invoice.buyer.email ?? null;
   const today = belgradeToday().iso;
 
@@ -73,7 +75,7 @@ export default async function InvoiceDetailPage({
         <Link href="/os/fakture">← Fakture</Link>
       </p>
       <h1 className="os-h1">
-        {title} {invoice.number} <InvoiceStatusBadge status={invoice.status} />
+        {proforma ? "Predračun" : "Račun"} {invoice.number} <InvoiceStatusBadge status={invoice.status} />
         {invoice.sentAt ? <span className="os-badge">Poslato</span> : null}
       </h1>
       <p className="os-sub">
@@ -96,7 +98,7 @@ export default async function InvoiceDetailPage({
             <form action={sendInvoiceAction}>
               <input type="hidden" name="id" value={invoice.id} />
               <button className="os-btn os-btn--sm" type="submit">
-                {invoice.sentAt ? "Pošalji ponovo" : `Pošalji ${title.toLowerCase()} klijentu`}
+                {invoice.sentAt ? "Pošalji ponovo" : "Pošalji račun klijentu"}
               </button>
             </form>
           ) : null}
@@ -136,6 +138,11 @@ export default async function InvoiceDetailPage({
             </form>
           ) : null}
         </div>
+        <p className={`os-flash is-${settled ? "bad" : "ok"}`} style={{ marginTop: 12 }}>
+          {settled
+            ? "Mejl se zahvaljuje na uplati i izričito kaže da se ne plaća ponovo — ne traži uplatu, i nema rok ni podatke za plaćanje. Ako novac NIJE stigao, prvo vrati dokument na neplaćeno."
+            : "Mejl traži uplatu: iznos, rok, račun i poziv na broj su u telu poruke, ne samo u PDF-u."}
+        </p>
         <p className="os-note" style={{ marginTop: 12 }}>
           Šalje se na <strong>{recipient ?? "— klijent nema mejl —"}</strong>, kopija ide na tvoju
           adresu. Iznos i stavke se ne menjaju posle izdavanja — greška u njima se ispravlja
@@ -161,15 +168,16 @@ export default async function InvoiceDetailPage({
                 <input type="date" name="supplyDate" defaultValue={today} />
               </label>
               <label className="os-inline__field">
-                <input type="checkbox" name="paid" defaultChecked /> Klijent je već uplatio
+                <input type="checkbox" name="paid" /> Klijent je već uplatio
               </label>
               <button className="os-btn" type="submit">
                 Napravi račun
               </button>
               <span className="os-note">
                 Preuzima kupca, stavke, valutu i period. Broj računa se dodeljuje iz svoje serije.
-                Kad je uplaćeno, račun ide bez roka plaćanja i bez podataka za uplatu — samo sa
-                datumom uplate — i predračun se zatvara. Otkači kvačicu ako novac još nije stigao.
+                Čekiraj kvačicu samo ako je novac stvarno stigao: tada račun ide bez roka plaćanja
+                i bez podataka za uplatu, a mejl se zahvaljuje na uplati. Bez kvačice račun traži
+                uplatu, sa rokom i podacima za plaćanje.
               </span>
             </form>
           )}

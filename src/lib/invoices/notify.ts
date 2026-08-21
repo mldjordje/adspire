@@ -66,9 +66,8 @@ export async function sendInvoiceMail(
   ]);
   if (!rendered) return { ok: false, reason: "not-found" };
 
-  const proforma = invoice.kind === "proforma";
-  const label = proforma ? "Predračun" : "Račun";
-  const settled = !proforma && invoice.status === "paid";
+  const label = "Račun";
+  const settled = invoice.status === "paid";
   const reference = paymentReferenceFor(
     invoice.number,
     referenceModel(settings.payment_reference_model),
@@ -116,7 +115,6 @@ export async function sendInvoiceMail(
           "",
           ...amount,
           ...(invoice.paidAt ? [`Plaćeno: ${date(invoice.paidAt)}`] : []),
-          ...(invoice.source ? [`Po predračunu: ${invoice.source.number}`] : []),
           "",
           "Ovaj račun ne treba plaćati ponovo — izmiren je u celosti.",
         ]
@@ -126,9 +124,7 @@ export async function sendInvoiceMail(
           ...amount,
           ...howToPay,
           "",
-          ...(proforma
-            ? ["Čim uplata bude evidentirana, šaljem račun."]
-            : ["Posao je isporučen; račun je u prilogu i plaća se do gore navedenog roka."]),
+          "Posao je isporučen; račun je u prilogu i plaća se do gore navedenog roka.",
         ];
 
   const body = [

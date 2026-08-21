@@ -7,7 +7,7 @@ import { InvoiceConfigurationError, issueInvoice } from "@/lib/invoices/issue";
 import { sendInvoiceMail } from "@/lib/invoices/notify";
 import type { InvoiceParty } from "@/lib/invoices/pdf";
 import { getInvoiceDetail } from "@/lib/invoices/queries";
-import { addDays, belgradeToday, invoiceScope, type InvoiceKind } from "@/lib/invoices/rules";
+import { addDays, belgradeToday, invoiceScope } from "@/lib/invoices/rules";
 import { getSession } from "@/lib/os/session";
 import { getSettings, updateSettings } from "@/lib/os/settings";
 import {
@@ -105,7 +105,6 @@ export async function createInvoiceAction(formData: FormData) {
   await requireSession();
 
   const clientId = optional(formData, "clientId");
-  const kind = (text(formData, "kind") === "proforma" ? "proforma" : "invoice") as InvoiceKind;
 
   // Parallel arrays, in DOM order: the three inputs of one row always share an
   // index, so a blank name is the signal that the row was never filled in.
@@ -130,7 +129,7 @@ export async function createInvoiceAction(formData: FormData) {
   try {
     const issued = await issueInvoice({
       clientId,
-      kind,
+      kind: "invoice",
       scope: invoiceScope(client?.country),
       issueDate: text(formData, "issueDate") || today,
       supplyDate: optional(formData, "supplyDate"),
@@ -153,7 +152,11 @@ export async function createInvoiceAction(formData: FormData) {
 }
 
 /**
- * Issues the račun that settles a predračun.
+ * Issues the račun that settles one of the legacy predračuni.
+ *
+ * Predračuni are no longer issued (Đorđe is not in the VAT system, so the
+ * client only ever needs the račun). This closes out the ones already sent and
+ * retires itself once none are left.
  *
  * Copies the frozen buyer, lines, currency and period rather than re-reading
  * the client: the invoice must agree with the paper the buyer already holds,

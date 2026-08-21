@@ -75,7 +75,7 @@ export async function notifyOwnerOfInquiry(
       `${submission.fullName} (${submission.email}${submission.phone ? `, ${submission.phone}` : ""})`,
       `Usluge: ${titles.join(" + ")}`,
       `Naručilac: ${buyer}${submission.companyName ? ` — ${submission.companyName}` : ""}`,
-      `Zemlja: ${submission.country}${domestic ? "" : " — inostrani predračun (EN, IBAN/SWIFT)"}`,
+      `Zemlja: ${submission.country}${domestic ? "" : " — inostrana faktura (EN, IBAN/SWIFT)"}`,
       ...(submission.buyerType === "company" && domestic
         ? [`PIB: ${submission.pib} · MB: ${submission.mb}`]
         : []),
