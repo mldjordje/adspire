@@ -37,7 +37,7 @@ export function FaqV4() {
           <span className={styles.ctaLabel}>Nema odgovora koji trazite?</span>
           <h2 className={styles.ctaTitle}>Posaljite kratak opis projekta.</h2>
         </div>
-        <a className={styles.ctaButton} href="/contact-us" data-cursor="on" data-magnetic>
+        <a className={styles.ctaButton} href="/contact-us" data-cta="faq-kontakt" data-cursor="on" data-magnetic>
           Kontaktiraj nas
         </a>
       </section>

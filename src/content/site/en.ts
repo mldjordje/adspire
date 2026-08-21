@@ -198,6 +198,18 @@ const projectText: Array<Pick<ProjectItem, "category" | "summary" | "outcome">> 
     outcome: "Applications land in a measurable funnel with clear status, not an inbox.",
   },
   {
+    category: "Billing + appointments",
+    summary:
+      "Platform for an AI video studio: packages and payment, purchased hours in the client account, appointments, invoices and site content from the admin.",
+    outcome: "Sales, billing and scheduling run in one system instead of a spreadsheet.",
+  },
+  {
+    category: "WebGL + booking",
+    summary:
+      "Site with a WebGL opening and the studio system behind it: enquiries with reference images, a calendar per artist, deposits and a monthly payment overview.",
+    outcome: "Enquiries stop getting lost in DMs and the calendar becomes the only source of truth.",
+  },
+  {
     category: "Booking system",
     summary:
       "Booking app for a barber studio with a public site, online appointments, a client account and an admin calendar.",

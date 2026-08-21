@@ -137,7 +137,7 @@ export function AboutV4() {
       {/* CTA */}
       <section className={styles.cta} data-reveal>
         <h2 className={styles.ctaTitle}>Hajde da napravimo nešto veliko.</h2>
-        <a className={styles.ctaButton} href="/contact-us" data-cursor="on" data-magnetic>
+        <a className={styles.ctaButton} href="/contact-us" data-cta="about-kontakt" data-cursor="on" data-magnetic>
           Zakaži besplatan poziv →
         </a>
       </section>

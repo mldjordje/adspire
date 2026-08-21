@@ -151,7 +151,7 @@ export function InquiryStatusV4({ inquiry }: { inquiry: InquiryView }) {
 
         {current === "accepted" ? (
           <p className={status.result}>
-            Ponuda je prihvaćena. Javljamo se sa predračunom i planom starta — obično isti dan.
+            Ponuda je prihvaćena. Javljamo se sa fakturom i planom starta — obično isti dan.
           </p>
         ) : null}
         {current === "declined" ? (

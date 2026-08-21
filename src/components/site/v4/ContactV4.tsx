@@ -110,7 +110,7 @@ export function ContactV4({ locale = defaultLocale }: Props) {
             </div>
 
             {/* This page answers questions; a priced brief lives at /upit. */}
-            <a className={styles.briefCta} href="/upit" data-cursor="on">
+            <a className={styles.briefCta} href="/upit" data-cta="kontakt-brief" data-cursor="on">
               <span className={styles.briefCtaLabel}>{t.briefCta.label}</span>
               <span className={styles.briefCtaBody}>{t.briefCta.body}</span>
             </a>
@@ -126,7 +126,7 @@ export function ContactV4({ locale = defaultLocale }: Props) {
           </aside>
 
           {/* Right — qualification form */}
-          <form className={styles.form} onSubmit={handleSubmit}>
+          <form className={styles.form} data-form="kontakt" onSubmit={handleSubmit}>
             <div className={styles.formRow}>
               <label className={styles.field}>
                 <span>{t.labels.fullName}</span>

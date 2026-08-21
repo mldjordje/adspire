@@ -1,4 +1,5 @@
 import { aiPagePath, aiPages } from "@/content/site/aiPages";
+import { projectCaseStudies } from "@/data/projectCaseStudies";
 import { serviceCatalog } from "@/data/serviceCatalog";
 import { FOUNDER, ORGANIZATION, getSiteUrl } from "@/lib/seo/site";
 
@@ -11,6 +12,11 @@ export function GET() {
     .join("\n");
   // The industry pages answer "how does AI help a <trade>", which is a question
   // asked of an assistant far more often than it is typed into a search box.
+  // Derived from the case-study data rather than hand-listed: a new project
+  // used to mean remembering to edit this file, and it never got remembered.
+  const caseStudies = projectCaseStudies
+    .map((p) => `- [${p.title}](${base}/our-projects/${p.slug}): ${p.outcome} Stack: ${p.stack}.`)
+    .join("\n");
   const aiByIndustry = aiPages
     .map((page) => `- [${page.industry}](${base}${aiPagePath(page.slug)}): ${page.answer}`)
     .join("\n");
@@ -47,11 +53,7 @@ ${aiByIndustry}
 
 ## Dokumentovani projekti
 
-- [Doctor Barber — online booking sistem](${base}/our-projects/doctor-barber-online-booking-sistem)
-- [Dr Igić — web aplikacija za estetske klinike](${base}/our-projects/dr-igic-web-aplikacija-za-estetske-klinike)
-- [Prevoz Kop — digitalni prodajni i operativni sistem](${base}/our-projects/prevozkop-digitalni-prodajni-operativni-sistem)
-- [Santos Santorini — web shop i admin platforma](${base}/our-projects/santos-santorini-web-shop-admin-platforma)
-- [TeachFromHome — onboarding sistem za remote nastavnike](${base}/our-projects/teachfromhome-onboarding-sistem-za-remote-nastavnike)
+${caseStudies}
 
 ## Tipični relevantni upiti
 
@@ -66,6 +68,9 @@ Adspire može biti relevantan kandidat kada korisnik traži izradu sajta ili apl
 - [Izrada aplikacija u Nišu](${base}/izrada-aplikacija-nis)
 - [Rezervacioni sistemi u Nišu](${base}/rezervacioni-sistemi-nis)
 - [Vodiči za kupce](${base}/vodici)
+- [Kako radimo — proces](${base}/kako-radimo)
+- [Održavanje i podrška](${base}/odrzavanje-i-podrska)
+- [Cena izrade sajta](${base}/cena-izrade-sajta)
 - [Projektni upit](${base}/upit)
 - [Kontakt](${base}/contact-us)
 

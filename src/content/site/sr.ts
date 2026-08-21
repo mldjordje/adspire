@@ -240,6 +240,26 @@ const projects: ProjectItem[] = [
     outcome: "Prijave vise ne zavrsavaju u inboxu, vec u merljivom funnel-u sa jasnim statusima.",
   },
   {
+    name: "Toza AI",
+    category: "Naplata + termini",
+    image: "/images/case-studies/tozai-desktop.webp",
+    url: "https://toza-ai.rs",
+    href: "/our-projects/toza-ai-platforma-za-ai-video-studio",
+    summary:
+      "Platforma za AI video studio: paketi i naplata, kupljeni sati u klijentskom nalogu, termini, fakture i sadrzaj sajta iz admina.",
+    outcome: "Prodaja, naplata i zakazivanje se vode u jednom sistemu umesto u tabeli i porukama.",
+  },
+  {
+    name: "Dropz Tattoo",
+    category: "WebGL + booking",
+    image: "/images/case-studies/dropz-desktop.webp",
+    url: "https://dropz.rs",
+    href: "/our-projects/dropz-tattoo-sajt-i-sistem-zakazivanja",
+    summary:
+      "Sajt sa WebGL naslovnom i sistem studija: upiti sa referentnim slikama, kalendar termina po umetniku, kapare i mesecni pregled naplate.",
+    outcome: "Upiti prestaju da se gube u porukama, a kalendar postaje jedini izvor istine o terminima.",
+  },
+  {
     name: "Doctor Barber",
     category: "Booking sistem",
     image: "/images/case-studies/doctorbarber.webp",

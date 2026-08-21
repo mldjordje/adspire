@@ -3,6 +3,7 @@ import { Analytics } from "@vercel/analytics/next";
 import "@/app/globals.css";
 import { AttributionCapture } from "@/components/analytics/AttributionCapture";
 import { GoogleMeasurement } from "@/components/analytics/GoogleMeasurement";
+import { SiteAnalytics } from "@/components/analytics/SiteAnalytics";
 import { JsonLd } from "@/components/site/JsonLd";
 import { organizationJsonLd, webSiteJsonLd } from "@/lib/seo/jsonld";
 import { getSiteUrl } from "@/lib/seo/site";
@@ -79,6 +80,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <body>
         <JsonLd data={[organizationJsonLd(), webSiteJsonLd()]} />
         <AttributionCapture />
+        <SiteAnalytics />
         {children}
         <Analytics />
         <GoogleMeasurement />

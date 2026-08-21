@@ -1,0 +1,106 @@
+/* Conversion bar for long reading pages. Deliberately quiet: one line of text,
+   one button, one dismiss. No motion beyond a fade — the effects layer is
+   somebody else's file and a bar that jumps is a bar people close. */
+
+.bar {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 18px;
+  z-index: 60;
+  width: min(680px, calc(100vw - 24px));
+
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  padding: 12px 12px 12px 20px;
+  border-radius: 14px;
+  border: 1px solid rgba(242, 241, 236, 0.14);
+  background: rgba(10, 10, 12, 0.82);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
+
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 240ms ease, visibility 240ms ease;
+}
+
+.bar[data-shown="true"] {
+  opacity: 1;
+  visibility: visible;
+}
+
+.text {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.35;
+  color: rgba(242, 241, 236, 0.78);
+}
+
+.text strong {
+  display: block;
+  color: #f2f1ec;
+  font-weight: 600;
+}
+
+.cta {
+  flex: none;
+  padding: 11px 18px;
+  border-radius: 999px;
+  background: #2f6bff;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.cta:hover {
+  background: #1f57e0;
+}
+
+.close {
+  flex: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  border: 1px solid rgba(242, 241, 236, 0.16);
+  background: transparent;
+  color: rgba(242, 241, 236, 0.6);
+  font: inherit;
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: #f2f1ec;
+  border-color: rgba(242, 241, 236, 0.4);
+}
+
+@media (max-width: 560px) {
+  .bar {
+    gap: 10px;
+    padding: 10px 10px 10px 14px;
+    bottom: 10px;
+  }
+
+  .text {
+    font-size: 12.5px;
+  }
+
+  /* The lead line is context on desktop and clutter on a phone — the button
+     and the bold promise carry it alone. */
+  .text span {
+    display: none;
+  }
+
+  .cta {
+    padding: 10px 14px;
+    font-size: 12.5px;
+  }
+}

@@ -64,8 +64,28 @@ const PROJECTS: ProjectRow[] = [
     accent: "#d8d6e4",
   },
   {
-    slug: "doctor-barber-online-booking-sistem",
+    slug: "toza-ai-platforma-za-ai-video-studio",
     index: "05",
+    title: "Toza AI",
+    category: "Naplata + termini",
+    outcome: "Paketi, naplata, sati u nalogu, termini, fakture i sadržaj sajta u jednom sistemu.",
+    stack: "Next.js · Neon · Google OAuth · pdf-lib",
+    image: "/images/case-studies/tozai-desktop.webp",
+    accent: "#b9bac9",
+  },
+  {
+    slug: "dropz-tattoo-sajt-i-sistem-zakazivanja",
+    index: "06",
+    title: "Dropz Tattoo",
+    category: "WebGL + booking",
+    outcome: "WebGL naslovna, upiti sa referencama, kalendar termina, kapare i mesečni pregled naplate.",
+    stack: "Next.js · Neon · Three.js · FullCalendar",
+    image: "/images/case-studies/dropz-desktop.webp",
+    accent: "#d8d6e4",
+  },
+  {
+    slug: "doctor-barber-online-booking-sistem",
+    index: "07",
     title: "Doctor Barber",
     category: "Booking sistem",
     outcome: "Javni sajt, online zakazivanje, klijentski nalog, admin kalendar i notifikacije.",
@@ -123,7 +143,7 @@ export function ProjectsV4({ locale = "sr" }: { locale?: LocaleCode }) {
         <p className={styles.ctaText}>
           Ispričajte nam problem — vraćamo konkretan predlog i prototip za 48h.
         </p>
-        <a className={styles.ctaButton} href="/upit" data-cursor="on" data-magnetic>
+        <a className={styles.ctaButton} href="/upit" data-cta="projekti-upit" data-cursor="on" data-magnetic>
           Zakaži besplatan poziv →
         </a>
       </section>

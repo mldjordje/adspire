@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { PageShellV4 } from "./PageShellV4";
+import { StickyCtaV4 } from "./StickyCtaV4";
 import type { Guide } from "@/content/site/guides";
 import { guides } from "@/content/site/guides";
 import styles from "./GuideV4.module.css";
@@ -26,6 +27,11 @@ export function GuideV4({ guide }: Props) {
 
   return (
     <PageShellV4 eyebrow={guide.eyebrow} title={guide.h1} intro={guide.lead}>
+      <StickyCtaV4
+        ctaLabel={guide.cta.label}
+        ctaHref={guide.cta.href}
+        trackingLabel={`sticky:${guide.path}`}
+      />
       <div className={styles.body} data-reveal>
         {guide.sections.map((section, index) => (
           <section key={section.heading} aria-labelledby={sectionId(index)}>

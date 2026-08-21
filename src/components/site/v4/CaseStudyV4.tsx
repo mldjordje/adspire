@@ -2,6 +2,7 @@
 
 import type { ProjectCaseStudy } from "@/data/projectCaseStudies";
 import { PageShellV4 } from "./PageShellV4";
+import { StickyCtaV4 } from "./StickyCtaV4";
 import styles from "./CaseStudyV4.module.css";
 
 type CaseStudyContent = {
@@ -31,6 +32,11 @@ export function CaseStudyV4({ project, content }: CaseStudyV4Props) {
       title={content.heroTitle}
       intro={content.heroSubtitle}
     >
+      <StickyCtaV4
+        title="Želiš sličan sistem za svoj posao?"
+        ctaLabel="Opiši svoj slučaj"
+        trackingLabel={`sticky:case:${project.slug}`}
+      />
       {/* Meta bar */}
       <section className={styles.meta} data-reveal>
         <div className={styles.metaItem}>
@@ -146,7 +152,7 @@ export function CaseStudyV4({ project, content }: CaseStudyV4Props) {
         <h2 className={styles.ctaTitle}>{content.ctaTitle || "Želiš sličan sistem?"}</h2>
         {content.ctaText ? <p className={styles.ctaText}>{content.ctaText}</p> : null}
         <div className={styles.ctaActions}>
-          <a className={styles.ctaButton} href="/upit" data-cursor="on" data-magnetic>
+          <a className={styles.ctaButton} href="/upit" data-cta="case-study-upit" data-cursor="on" data-magnetic>
             Zakaži besplatan poziv →
           </a>
           <a className={styles.ctaGhost} href="/our-projects" data-cursor="on">

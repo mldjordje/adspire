@@ -763,7 +763,7 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
               </Link>
             ))}
           </div>
-          <a className={styles.navCta} href="/upit" data-cursor="on" data-magnetic data-scramble>
+          <a className={styles.navCta} href="/upit" data-cta="nav-upit" data-cursor="on" data-magnetic data-scramble>
             {t.nav.cta}
           </a>
           <MobileMenuV4
@@ -819,7 +819,7 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
               </span>
             </h1>
             <div className={styles.heroCtas}>
-              <a className={styles.btnPrimary} href="/contact-us" data-cursor="on" data-magnetic>
+              <a className={styles.btnPrimary} href="/contact-us" data-cta="hero-kontakt" data-cursor="on" data-magnetic>
                 {t.hero.ctaPrimary}
               </a>
               <a className={styles.btnGhost} href="/our-projects" data-cursor="on" data-scramble>
@@ -1107,6 +1107,9 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
                 {locale === "sr" && (
                   <>
                     <a href="/vodici" data-cursor="on">Vodiči</a>
+                    <a href="/kako-radimo" data-cursor="on">Kako radimo</a>
+                    <a href="/odrzavanje-i-podrska" data-cursor="on">Održavanje</a>
+                    <a href="/besplatan-pregled-sajta" data-cta="footer-pregled" data-cursor="on">Besplatan pregled sajta</a>
                     <a href="/cena-izrade-sajta" data-cursor="on">Cene</a>
                     <a href="/politika-privatnosti" data-cursor="on">Privatnost</a>
                     <a href="/politika-kolacica" data-cursor="on">Kolačići</a>

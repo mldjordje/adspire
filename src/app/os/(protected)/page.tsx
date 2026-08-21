@@ -4,6 +4,7 @@ import { getDashboardData } from "@/lib/crm/queries";
 import { getBillingSummary } from "@/lib/invoices/queries";
 import { getInquirySummary } from "@/lib/inquiries/store";
 import { getWorkQueue, type WorkItem } from "@/lib/os/workqueue";
+import { getAnalyticsOverview } from "@/lib/analytics/queries";
 import { money } from "@/components/os/billingUi";
 
 export const dynamic = "force-dynamic";
@@ -28,11 +29,14 @@ const itemsLabel = (count: number) => {
 };
 
 export default async function OsDashboardPage() {
-  const [data, billing, inquiries, queue] = await Promise.all([
+  const [data, billing, inquiries, queue, traffic] = await Promise.all([
     getDashboardData(),
     getBillingSummary(),
     getInquirySummary(),
     getWorkQueue(),
+    // Newest table on the newest migration: an unmigrated database must not
+    // take the whole dashboard down with it.
+    getAnalyticsOverview(7).catch(() => null),
   ]);
   const stageMax = Math.max(1, ...data.byStage.map((s) => s.count));
 
@@ -118,6 +122,34 @@ export default async function OsDashboardPage() {
           </div>
         </div>
       </section>
+
+      {traffic ? (
+        <section className="os-section">
+          <h2>
+            Sajt, 7 dana <Link href="/os/analitika">→ analitika</Link>
+          </h2>
+          <div className="os-cards os-cards--tight">
+            <div className="os-card">
+              <div className="os-card__label">Posete</div>
+              <div className="os-card__value">{traffic.sessions}</div>
+            </div>
+            <div className="os-card">
+              <div className="os-card__label">Počeli formu</div>
+              <div className="os-card__value">{traffic.formStarts}</div>
+            </div>
+            {/* Traffic with zero briefs is only alarming once there is enough
+                of it to mean something. */}
+            <div className={`os-card${traffic.sessions > 30 && traffic.formSubmits === 0 ? " os-card--alert" : ""}`}>
+              <div className="os-card__label">Poslali upit</div>
+              <div className="os-card__value">{traffic.formSubmits}</div>
+            </div>
+            <div className="os-card">
+              <div className="os-card__label">Klik na mejl/telefon</div>
+              <div className="os-card__value">{traffic.contactIntents}</div>
+            </div>
+          </div>
+        </section>
+      ) : null}
 
       <div className="os-grid2">
         <section className="os-section">

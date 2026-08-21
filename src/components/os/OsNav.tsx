@@ -43,6 +43,7 @@ export function OsNav({ counts }: { counts: NavCounts }) {
         { href: "/os/upiti", label: "Upiti", count: counts.waitingInquiries, alert: true },
         { href: "/os/leads", label: "Leadovi", count: counts.newLeads },
         { href: "/os/pipeline", label: "Pipeline" },
+        { href: "/os/analitika", label: "Analitika" },
       ],
     },
     {

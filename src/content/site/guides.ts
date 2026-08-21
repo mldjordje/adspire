@@ -1,3 +1,5 @@
+import { migrationGuide, timelineGuide } from "./guidesExtra";
+
 /**
  * Problem-intent landing pages.
  *
@@ -690,6 +692,8 @@ const webShopGuide: Guide = {
 
 export const guides = [
   bookingGuide,
+  timelineGuide,
+  migrationGuide,
   webShopGuide,
   beyondExcelGuide,
   chatbotGuide,

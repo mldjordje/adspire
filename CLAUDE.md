@@ -1,6 +1,6 @@
 # Adspire — instrukcije za agente
 
-**Prvo pročitaj `docs/HANDOFF-2026-07-31.md`.** Tu je gde smo stali, šta je urađeno,
+**Prvo pročitaj `docs/HANDOFF-2026-08-21.md`, pa `docs/HANDOFF-2026-07-31.md`.** Tu je gde smo stali, šta je urađeno,
 šta je blokirano i šta je sledeće.
 
 ## Kontekst

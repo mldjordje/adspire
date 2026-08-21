@@ -395,7 +395,7 @@ export function InquiryFlowV4({
 
   return (
     <section className={styles.wrap} data-reveal>
-      <form className={styles.form} onSubmit={submit} noValidate>
+      <form className={styles.form} data-form="upit" onSubmit={submit} noValidate>
         <div className={styles.progress} aria-hidden>
           <div className={styles.progressTrack}>
             <div className={styles.progressFill} style={{ width: `${progress}%` }} />
@@ -551,7 +551,7 @@ export function InquiryFlowV4({
               </select>
               {domestic ? null : (
                 <em className={styles.hint}>
-                  Predračun stiže na engleskom, sa IBAN/SWIFT podacima.
+                  Faktura stiže na engleskom, sa IBAN/SWIFT podacima.
                 </em>
               )}
               {errorFor("country") ? <em className={styles.error}>{errors.country}</em> : null}
@@ -562,7 +562,7 @@ export function InquiryFlowV4({
           {form.buyerType === "company" ? (
             <>
               <p className={styles.hint}>
-                Podaci za račun trebaju nam samo ako prihvatiš ponudu — tada predračun ide odmah,
+                Podaci za račun trebaju nam samo ako prihvatiš ponudu — tada faktura ide odmah,
                 bez dodatnog dopisivanja.
               </p>
               <div className={styles.row}>

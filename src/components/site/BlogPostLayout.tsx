@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { BlogPost, BlogSection } from "@/data/blogPosts";
+import { StickyCtaV4 } from "@/components/site/v4/StickyCtaV4";
 
 function Section({ s }: { s: BlogSection }) {
   switch (s.type) {
@@ -34,6 +35,12 @@ type Props = {
 export function BlogPostLayout({ post, related }: Props) {
   return (
     <div className="bp-root">
+      {/* A post is long enough that the CTA at its foot only reaches finishers. */}
+      <StickyCtaV4
+        title="Imaš sličan problem u svom poslu?"
+        ctaLabel="Pošalji upit"
+        trackingLabel={`sticky:blog:${post.slug}`}
+      />
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
       <header className="bp-hero">
         <div className="bp-hero__inner">

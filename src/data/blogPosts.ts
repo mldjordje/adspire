@@ -1,3 +1,5 @@
+import { EXTRA_BLOG_POSTS } from "./blogPostsExtra";
+
 export type BlogSection =
   | { type: "p"; text: string }
   | { type: "h2"; text: string }
@@ -18,7 +20,7 @@ export type BlogPost = {
   relatedSlugs?: string[];
 };
 
-export const BLOG_POSTS: BlogPost[] = [
+const CORE_BLOG_POSTS: BlogPost[] = [
   {
     slug: "web-sistemi-spremni-za-rast",
     title: "Kako gradimo web sisteme koji podnose kampanje i skaliranje",
@@ -256,6 +258,9 @@ export const BLOG_POSTS: BlogPost[] = [
     ],
   },
 ];
+
+/** Newest first: the index reads top-down and the newest work should lead it. */
+export const BLOG_POSTS: BlogPost[] = [...EXTRA_BLOG_POSTS, ...CORE_BLOG_POSTS];
 
 export function getPostBySlug(slug: string): BlogPost | undefined {
   return BLOG_POSTS.find((p) => p.slug === slug);

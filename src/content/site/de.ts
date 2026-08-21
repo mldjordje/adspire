@@ -199,6 +199,18 @@ const projectText: Array<Pick<ProjectItem, "category" | "summary" | "outcome">> 
     outcome: "Bewerbungen landen im messbaren Funnel mit klaren Status, nicht im Postfach.",
   },
   {
+    category: "Abrechnung + Termine",
+    summary:
+      "Plattform für ein KI-Video-Studio: Pakete und Zahlung, gekaufte Stunden im Kundenkonto, Termine, Rechnungen und Seiteninhalte aus dem Admin.",
+    outcome: "Verkauf, Abrechnung und Terminvergabe laufen in einem System statt in einer Tabelle.",
+  },
+  {
+    category: "WebGL + Buchung",
+    summary:
+      "Website mit WebGL-Auftakt und dem Studio-System dahinter: Anfragen mit Referenzbildern, Kalender pro Artist, Anzahlungen und monatliche Zahlungsübersicht.",
+    outcome: "Anfragen gehen nicht mehr in DMs verloren, der Kalender ist die einzige Wahrheit.",
+  },
+  {
     category: "Buchungssystem",
     summary:
       "Buchungs-App für ein Barbershop mit Website, Online-Terminen, Kundenkonto und Admin-Kalender.",

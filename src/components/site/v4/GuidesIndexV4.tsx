@@ -39,7 +39,7 @@ export function GuidesIndexV4() {
         </section>
 
         <div className={styles.cta}>
-          <Link className={styles.ctaPrimary} href="/upit">Pošalji opis posla</Link>
+          <Link className={styles.ctaPrimary} href="/upit" data-cta="vodici-upit">Pošalji opis posla</Link>
           <Link className={styles.ctaSecondary} href="/our-services">Pogledaj usluge</Link>
         </div>
       </div>
