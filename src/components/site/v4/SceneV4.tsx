@@ -65,13 +65,13 @@ type ShapeDef = {
 // blue must be the base and white only the sparkle.
 const SHAPES: ShapeDef[] = [
   { section: "hero", gen: 0, camZ: 8.5, camA: 0.0, camY: 0.0, x: 1.9, rot: 0.52, tilt: 0.08, alpha: 0.52, wave: 0, dive: 0.45, bg: [0.002, 0.003, 0.009], shardAlpha: 1.0, shardSpread: 1.0, color: [0.16, 0.36, 1.0], color2: [0.45, 0.63, 1.0] },
-  { section: "manifesto", gen: 1, camZ: 8.8, camA: 0.42, camY: 0.34, x: -1.9, rot: 0.3, tilt: 0.14, alpha: 0.36, wave: 0, dive: 1.15, bg: [0.003, 0.004, 0.011], shardAlpha: 0.95, shardSpread: 1.02, color: [0.11, 0.26, 0.88], color2: [0.33, 0.52, 1.0] },
-  { section: "projects", gen: 2, camZ: 8.6, camA: -0.38, camY: -0.22, x: 1.8, rot: 0.1, tilt: 0.06, alpha: 0.2, wave: 0, dive: 0.4, bg: [0.002, 0.002, 0.007], shardAlpha: 0.45, shardSpread: 1.12, color: [0.2, 0.42, 1.0], color2: [0.5, 0.67, 1.0] },
-  { section: "services", gen: 3, camZ: 8.8, camA: 0.46, camY: 0.28, x: -2.1, rot: 0.14, tilt: 0, alpha: 0.18, wave: 0, dive: 1.25, bg: [0.003, 0.004, 0.010], shardAlpha: 0.62, shardSpread: 1.08, color: [0.09, 0.22, 0.8], color2: [0.28, 0.46, 1.0] },
-  { section: "aiDemo", gen: 4, camZ: 8.7, camA: -0.42, camY: -0.22, x: 1.45, rot: 0.52, tilt: 0, alpha: 0.3, wave: 0, dive: 0.45, bg: [0.003, 0.004, 0.012], shardAlpha: 0.9, shardSpread: 1.0, color: [0.18, 0.4, 1.0], color2: [0.47, 0.64, 1.0] },
-  { section: "process", gen: 5, camZ: 8.0, camA: 0.2, camY: 0.52, x: 1.7, rot: 0.05, tilt: 0.09, alpha: 0.38, wave: 0, dive: 0.45, bg: [0.003, 0.004, 0.011], shardAlpha: 0.85, shardSpread: 0.95, color: [0.2, 0.44, 1.0], color2: [0.5, 0.66, 1.0] },
-  { section: "metrics", gen: 6, camZ: 8.6, camA: -0.24, camY: 0.32, x: 0.0, rot: 0.08, tilt: 0.12, alpha: 0.24, wave: 0, dive: 0.85, bg: [0.002, 0.003, 0.009], shardAlpha: 0.7, shardSpread: 1.0, color: [0.22, 0.45, 1.0], color2: [0.51, 0.67, 1.0] },
-  { section: "cta", gen: 7, camZ: 7.5, camA: 0.0, camY: 0.0, x: 0.0, rot: 0.14, tilt: 0, alpha: 0.62, wave: 0, dive: 0.35, bg: [0.001, 0.002, 0.007], shardAlpha: 1.2, shardSpread: 1.0, color: [0.26, 0.5, 1.0], color2: [0.58, 0.74, 1.0] },
+  { section: "manifesto", gen: 1, camZ: 10.6, camA: 0.42, camY: 0.34, x: -1.9, rot: 0.3, tilt: 0.14, alpha: 0.36, wave: 0, dive: 1.15, bg: [0.003, 0.004, 0.011], shardAlpha: 0.95, shardSpread: 1.02, color: [0.11, 0.26, 0.88], color2: [0.33, 0.52, 1.0] },
+  { section: "projects", gen: 2, camZ: 7.4, camA: -0.38, camY: -0.22, x: 1.8, rot: 0.1, tilt: 0.06, alpha: 0.2, wave: 0, dive: 0.4, bg: [0.002, 0.002, 0.007], shardAlpha: 0.45, shardSpread: 1.12, color: [0.2, 0.42, 1.0], color2: [0.5, 0.67, 1.0] },
+  { section: "services", gen: 3, camZ: 10.2, camA: 0.46, camY: 0.28, x: -2.1, rot: 0.14, tilt: 0, alpha: 0.18, wave: 0, dive: 1.25, bg: [0.003, 0.004, 0.010], shardAlpha: 0.62, shardSpread: 1.08, color: [0.09, 0.22, 0.8], color2: [0.28, 0.46, 1.0] },
+  { section: "aiDemo", gen: 4, camZ: 7.0, camA: -0.42, camY: -0.22, x: 1.45, rot: 0.52, tilt: 0, alpha: 0.3, wave: 0, dive: 0.45, bg: [0.003, 0.004, 0.012], shardAlpha: 0.9, shardSpread: 1.0, color: [0.18, 0.4, 1.0], color2: [0.47, 0.64, 1.0] },
+  { section: "process", gen: 5, camZ: 9.4, camA: 0.2, camY: 0.52, x: 1.7, rot: 0.05, tilt: 0.09, alpha: 0.38, wave: 0, dive: 0.45, bg: [0.003, 0.004, 0.011], shardAlpha: 0.85, shardSpread: 0.95, color: [0.2, 0.44, 1.0], color2: [0.5, 0.66, 1.0] },
+  { section: "metrics", gen: 6, camZ: 8.0, camA: -0.24, camY: 0.32, x: 0.0, rot: 0.08, tilt: 0.12, alpha: 0.24, wave: 0, dive: 0.85, bg: [0.002, 0.003, 0.009], shardAlpha: 0.7, shardSpread: 1.0, color: [0.22, 0.45, 1.0], color2: [0.51, 0.67, 1.0] },
+  { section: "cta", gen: 7, camZ: 7.2, camA: 0.0, camY: 0.0, x: 0.0, rot: 0.14, tilt: 0, alpha: 0.62, wave: 0, dive: 0.35, bg: [0.001, 0.002, 0.007], shardAlpha: 1.2, shardSpread: 1.0, color: [0.26, 0.5, 1.0], color2: [0.58, 0.74, 1.0] },
 ];
 
 /** payload of the `v4:morph` event — the services index can take the cloud
