@@ -649,11 +649,11 @@
   position: absolute;
   inset: -18% -28%;
   background: radial-gradient(
-    ellipse 62% 58% at 50% 50%,
-    rgba(2, 5, 12, 0.96),
-    rgba(2, 5, 12, 0.68) 52%,
-    rgba(2, 5, 12, 0.14) 76%,
-    transparent 86%
+    ellipse 68% 64% at 50% 50%,
+    rgba(2, 5, 12, 0.97),
+    rgba(2, 5, 12, 0.82) 54%,
+    rgba(2, 5, 12, 0.34) 78%,
+    transparent 92%
   );
   z-index: -1;
   pointer-events: none;
@@ -768,10 +768,12 @@
 }
 
 .heroLineOutline {
-  /* faint fill keeps the outline word readable over the moving particles;
-     the type now sits behind the glass, so the stroke carries more weight */
-  color: rgba(247, 247, 243, 0.07);
-  -webkit-text-stroke: 1px rgba(247, 247, 243, 0.85);
+  /* A 0.07 fill is effectively transparent, so the word was carried by the
+     hairline alone — and the sculpture passes right behind it. Over a moving
+     bright field an outline with no body reads as noise. Enough fill to hold
+     the shape, a heavier stroke, and it still reads as the outlined word. */
+  color: rgba(247, 247, 243, 0.26);
+  -webkit-text-stroke: 1.6px rgba(247, 247, 243, 0.95);
 }
 
 .heroAccentDot {

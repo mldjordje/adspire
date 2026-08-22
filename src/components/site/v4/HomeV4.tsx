@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import gsap from "gsap";
@@ -218,8 +218,17 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
       }
       intro
         .from(
-          q(`.${styles.heroBadge}, .${styles.heroCtas}`),
-          { y: 26, autoAlpha: 0, stagger: 0.09, duration: 0.8, ease: "power3.out" },
+          q(`.${styles.heroBadge}, .${styles.heroSub}, .${styles.heroTrust}, .${styles.heroCtas}`),
+          {
+            y: 26,
+            autoAlpha: 0,
+            // a touch of blur burning off as each block lands — the same
+            // treatment the title gets, so the hero reads as one move
+            filter: "blur(9px)",
+            stagger: 0.11,
+            duration: 0.9,
+            ease: "expo.out",
+          },
           "-=0.75",
         )
         .from(
@@ -244,7 +253,9 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
       gsap.to(
         [
           heroTitle,
-          ...q(`.${styles.heroBadge}, .${styles.heroCtas}, .${styles.sceneGestureHint}`),
+          ...q(
+            `.${styles.heroBadge}, .${styles.heroSub}, .${styles.heroTrust}, .${styles.heroCtas}, .${styles.sceneGestureHint}`,
+          ),
         ].filter(Boolean),
         {
           yPercent: -6,
@@ -818,6 +829,21 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
                 {t.hero.title[2]}<span className={styles.heroAccentDot}>.</span>
               </span>
             </h1>
+            {/* The headline is a slogan — on its own a visitor learns nothing
+                about what this company does. These two blocks were written in
+                copy.ts for all three locales and styled in the stylesheet, but
+                never rendered, so the first screen carried no offer and no
+                proof. They are what answers "what do you do" and "why you"
+                inside the first few seconds. */}
+            <p className={styles.heroSub}>{t.hero.sub}</p>
+            <p className={styles.heroTrust}>
+              {t.hero.trust.map((item, i) => (
+                <Fragment key={item}>
+                  {i > 0 && <span className={styles.heroTrustSep} aria-hidden="true" />}
+                  <span>{item}</span>
+                </Fragment>
+              ))}
+            </p>
             <div className={styles.heroCtas}>
               <a className={styles.btnPrimary} href="/contact-us" data-cta="hero-kontakt" data-cursor="on" data-magnetic>
                 {t.hero.ctaPrimary}
