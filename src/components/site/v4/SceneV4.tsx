@@ -1274,7 +1274,6 @@ const SHARD_VERT = /* glsl */ `
   varying float vSeed;
   varying float vTravel;
   varying float vEdge;
-  varying float vDepth;
 
   mat3 axisRot(vec3 axis, float a) {
     float s = sin(a);
@@ -1365,7 +1364,6 @@ const SHARD_VERT = /* glsl */ `
     vec4 mv = modelViewMatrix * vec4(home + vert, 1.0);
     vN = normalize(normalMatrix * nrm);
     vV = normalize(-mv.xyz);
-    vDepth = -mv.z;
     vPos = position;
     vSeed = aSeed;
     vBary = aBary;
@@ -1381,16 +1379,6 @@ const SHARD_FRAG = /* glsl */ `
   uniform float uTime;
   uniform float uAlpha;
   uniform float uArrival;
-  // Depth of field, faked in-shader. A real DepthOfFieldEffect is not an
-  // option here: every material in this scene runs depthWrite:false (the
-  // glass has to be seen through), so the depth buffer a post pass would
-  // sample is empty and it would blur the whole frame uniformly. Instead
-  // each shard knows its own distance from the focal plane and drops the
-  // high-frequency terms — speculars, facet borders, star grain — as it
-  // goes out of focus. Not true bokeh, but defocus is mostly the ABSENCE
-  // of high frequencies, and the eye reads the separation the same way.
-  uniform float uFocus;   // view-space distance to the plane in focus
-  uniform float uCoC;     // 1 / depth range that stays sharp
   varying vec3 vN;
   varying vec3 vV;
   varying vec3 vPos;
@@ -1398,7 +1386,6 @@ const SHARD_FRAG = /* glsl */ `
   varying float vSeed;
   varying float vTravel;
   varying float vEdge;
-  varying float vDepth;
 
   float hash21(vec2 p) {
     p = fract(p * vec2(443.897, 441.423));
@@ -1438,7 +1425,7 @@ const SHARD_FRAG = /* glsl */ `
    * behind, a horizon line and the void's own stars. Cheap, procedural, and
    * it moves correctly as each shard tumbles.
    */
-  vec3 studioEnv(vec3 d, float grain) {
+  vec3 studioEnv(vec3 d) {
     if (dot(d, d) < 1e-6) return vec3(0.0);
     // key: wide horizontal strip overhead. rim: tall narrow strip camera-right
     float key = softbox(d, normalize(vec3(-0.42, 0.8, 0.42)), vec2(0.46, 0.11), 0.05);
@@ -1459,7 +1446,7 @@ const SHARD_FRAG = /* glsl */ `
     // so a reflection has grain instead of being one smooth ramp
     vec2 sph = vec2(atan(d.z, d.x) * 0.9159, d.y * 1.9);
     float star = hash21(floor(sph * 46.0));
-    col += vec3(0.72, 0.84, 1.0) * smoothstep(0.988, 1.0, star) * 1.9 * grain;
+    col += vec3(0.72, 0.84, 1.0) * smoothstep(0.988, 1.0, star) * 1.9;
     return col;
   }
 
@@ -1468,29 +1455,22 @@ const SHARD_FRAG = /* glsl */ `
     vec3 V = normalize(vV);
     float ndv = clamp(dot(N, V), 0.0, 1.0);
 
-    // 0 = dead sharp on the focal plane, 1 = fully defocused. Squared so the
-    // sharp zone has a real plateau instead of softening the moment a shard
-    // drifts a hair off the plane.
-    float coc = clamp(abs(vDepth - uFocus) * uCoC, 0.0, 1.0);
-    coc *= coc;
-    float sharp = 1.0 - coc;
-
     // Schlick, with glass F0 (~0.05 at IOR 1.5). The whole reason glass
     // reads as glass is that it is nearly transparent head-on and turns
     // into a mirror at grazing angles.
     float f0 = 0.05;
     float fres = f0 + (1.0 - f0) * pow(1.0 - ndv, 5.0);
 
-    vec3 reflCol = studioEnv(reflect(-V, N), sharp);
+    vec3 reflCol = studioEnv(reflect(-V, N));
 
     // Refraction with three slightly different indices, one per channel.
     // That split is dispersion — the faint rainbow at the edges of real
     // glass, and the single strongest cue that this is not plastic.
     float ior = 1.47;
-    vec3 rR = refract(-V, N, 1.0 / (ior - 0.005));
+    vec3 rR = refract(-V, N, 1.0 / (ior - 0.014));
     vec3 rG = refract(-V, N, 1.0 / ior);
-    vec3 rB = refract(-V, N, 1.0 / (ior + 0.005));
-    vec3 refrCol = vec3(studioEnv(rR, sharp).r, studioEnv(rG, sharp).g, studioEnv(rB, sharp).b);
+    vec3 rB = refract(-V, N, 1.0 / (ior + 0.014));
+    vec3 refrCol = vec3(studioEnv(rR).r, studioEnv(rG).g, studioEnv(rB).b);
 
     // Beer-Lambert absorption along the path through the glass. Red is
     // absorbed fastest and blue survives, so thick parts of the shard go
@@ -1503,8 +1483,8 @@ const SHARD_FRAG = /* glsl */ `
     // direct hits off the softboxes — the hard sparkle on a cut edge
     vec3 H1 = normalize(normalize(vec3(-0.5, 0.78, 0.38)) + V);
     vec3 H2 = normalize(normalize(vec3(0.18, 0.3, -0.94)) + V);
-    col += vec3(0.95, 0.97, 1.0) * pow(max(dot(N, H1), 0.0), mix(220.0, 26.0, coc)) * mix(2.2, 0.7, coc);
-    col += vec3(0.55, 0.74, 1.0) * pow(max(dot(N, H2), 0.0), mix(90.0, 16.0, coc)) * mix(1.1, 0.45, coc);
+    col += vec3(0.95, 0.97, 1.0) * pow(max(dot(N, H1), 0.0), 220.0) * 2.2;
+    col += vec3(0.55, 0.74, 1.0) * pow(max(dot(N, H2), 0.0), 90.0) * 1.1;
 
     // Total internal reflection: light that fails to leave bounces once more
     // inside the stone. This is the depth you see INSIDE a cut gem, and its
@@ -1512,25 +1492,25 @@ const SHARD_FRAG = /* glsl */ `
     // refract() returns 0 under total internal reflection — fall back to the
     // mirror direction so the bounce still has somewhere to look
     vec3 tirDir = dot(rG, rG) > 1e-6 ? reflect(rG, N) : reflect(-V, N);
-    col += studioEnv(tirDir, sharp) * (1.0 - fres) * 0.22 * exp(-thick * 0.7);
+    col += studioEnv(tirDir) * (1.0 - fres) * 0.22 * exp(-thick * 0.7);
 
     // Facet borders, straight off the barycentric coordinate: a cut edge is
     // where one of the three weights runs out. Bevels are what catch light on
     // real glass, and the missing bevel is most of why a faceted solid reads
     // as flat plastic.
-    float facet = 1.0 - smoothstep(0.0, mix(0.14, 0.42, coc), min(min(vBary.x, vBary.y), vBary.z));
-    col += vec3(0.86, 0.93, 1.0) * facet * (0.3 + fres * 0.95) * mix(1.0, 0.35, coc);
+    float facet = 1.0 - smoothstep(0.0, 0.14, min(min(vBary.x, vBary.y), vBary.z));
+    col += vec3(0.86, 0.93, 1.0) * facet * (0.3 + fres * 0.95);
 
     // Thin-film interference at grazing angles — the oil-slick shift on a
     // coated edge. Keeps the rim from being a plain white outline.
     float film = pow(1.0 - ndv, 3.0);
-    vec3 irid = 0.5 + 0.5 * cos(6.2831 * (vec3(0.55, 0.62, 0.72) + film * 0.55));
-    col += irid * film * 0.14;
+    vec3 irid = 0.5 + 0.5 * cos(6.2831 * (vec3(0.0, 0.33, 0.67) + film * 2.4 + vSeed * 1.7));
+    col += irid * film * 0.2;
 
     // internal flaw lines — real glass is never optically perfect, and the
     // imperfection is most of what makes it look expensive
-    float flaw = pow(abs(sin(vPos.y * 26.0 + vPos.x * 11.0 + vSeed * 6.283)), mix(30.0, 8.0, coc));
-    col += vec3(0.4, 0.6, 1.0) * flaw * 0.28 * (1.0 - ndv) * mix(1.0, 0.4, coc);
+    float flaw = pow(abs(sin(vPos.y * 26.0 + vPos.x * 11.0 + vSeed * 6.283)), 30.0);
+    col += vec3(0.4, 0.6, 1.0) * flaw * 0.28 * (1.0 - ndv);
 
     // scene events, kept subtle — the glass should not turn into a lamp
     col += uColor * vTravel * 0.18;
@@ -1541,7 +1521,7 @@ const SHARD_FRAG = /* glsl */ `
     // through it. Driving alpha off fresnel is what stops the field from
     // reading as a wall of dark chips.
     float a = clamp(0.3 + fres * 0.75 + flaw * 0.2 + facet * 0.28, 0.0, 1.0)
-      * clamp(uAlpha, 0.0, 1.0) * mix(1.0, 0.62, coc);
+      * clamp(uAlpha, 0.0, 1.0);
     gl_FragColor = vec4(col, a);
   }
 `;
@@ -1822,12 +1802,6 @@ export function SceneV4() {
         // 0 = the form builds bottom-up, 1 = centre-outward. Alternating per
         // beat keeps the sweep from becoming its own repetitive tic.
         uWaveMode: { value: 0 },
-        // Focal plane, driven per frame from the camera. Parked on the
-        // sculpture at the origin by default; the beat handler racks it
-        // forward on a chapter change so the frame refocuses like a lens
-        // being pulled rather than cutting.
-        uFocus: { value: 8.0 },
-        uCoC: { value: isMobile ? 0.16 : 0.22 },
       };
 
       type ShardField = {
@@ -2486,35 +2460,8 @@ export function SceneV4() {
           darkness: isMobile ? 0.62 : 0.52,
           offset: isMobile ? 0.22 : 0.28,
         });
-        // ── The grade. Everything above renders HDR: the softboxes, the
-        // speculars and the bloom all push well past 1.0. Without a tone
-        // curve the buffer just CLIPS them, which is why highlights read as
-        // flat white holes instead of hot light — the single loudest "this is
-        // a render" tell. ACES rolls the overshoot off through colour the way
-        // film stock does, so a blown specular stays blue on its way to white.
-        // Must sit AFTER bloom: bloom has to sample the real HDR values, not
-        // the compressed ones.
-        const tone = new PP.ToneMappingEffect({
-          mode: PP.ToneMappingMode.ACES_FILMIC,
-        });
-        // Post-tone trim: crush the black point a touch and pull saturation
-        // back, so the frame lands cool-neutral instead of candy blue.
-        const grade = new PP.BrightnessContrastEffect({
-          brightness: -0.02,
-          contrast: 0.14,
-        });
-        const sat = new PP.HueSaturationEffect({ saturation: -0.08 });
-        // Film grain. A pure digital gradient is the other giveaway — real
-        // footage always carries noise, and ~3% of it over the whole frame is
-        // what the eye reads as "shot" rather than "computed". Also breaks up
-        // banding in the void's dark ramps for free.
-        const grain = new PP.NoiseEffect({
-          blendFunction: PP.BlendFunction.OVERLAY,
-          premultiply: true,
-        });
-        grain.blendMode.opacity.value = isMobile ? 0.022 : 0.034;
         if (isMobile) {
-          c.addPass(new PP.EffectPass(camera, bloom, tone, grade, sat, vignette, grain));
+          c.addPass(new PP.EffectPass(camera, bloom, vignette));
         } else {
           const ca = new PP.ChromaticAberrationEffect({
             offset: new THREE.Vector2(0.0006, 0.0006),
@@ -2522,18 +2469,12 @@ export function SceneV4() {
             modulationOffset: 0.4,
           });
           caOffset = ca.offset;
-          c.addPass(new PP.EffectPass(camera, bloom, ca, tone, grade, sat, vignette, grain));
+          c.addPass(new PP.EffectPass(camera, bloom, ca, vignette));
         }
         c.setSize(window.innerWidth, window.innerHeight);
         composer = c;
       } catch {
         composer = null; // effects are decoration — plain render is the fallback
-        // The tone curve is NOT decoration though: without it the fallback
-        // path clips every highlight to white. Set it on the renderer here
-        // only — when the composer exists it owns the mapping instead, and
-        // running both would compress the range twice.
-        renderer.toneMapping = THREE.ACESFilmicToneMapping;
-        renderer.toneMappingExposure = 1.1;
       }
       prog(0.85); // post chain built — first compile + frame still pending
 
@@ -2595,10 +2536,6 @@ export function SceneV4() {
       const tmpColor = new THREE.Color();
       const tmpColorB = new THREE.Color();
       const tmpBg = new THREE.Color();
-      // focal-plane bookkeeping: scratch vector for the camera-space transform
-      // of the sculpture, plus the rack that a chapter change kicks
-      const focusPt = new THREE.Vector3();
-      let focusKick = 0;
       // live void colour, pushed to CSS instead of to the renderer clear
       const voidColor = new THREE.Color(SHAPES[0].bg[0], SHAPES[0].bg[1], SHAPES[0].bg[2]);
       const voidOut = new THREE.Color();
@@ -2946,9 +2883,6 @@ export function SceneV4() {
         if (beat !== currentBeat) {
           currentBeat = beat;
           shardCommon.uWaveMode.value = beat % 2;
-          // rack the focus long on the cut; it eases back over the next
-          // second, so the new formation resolves INTO focus
-          focusKick = 5.2;
           const fa = SHARD_ORDER[beat];
           const fb = SHARD_ORDER[beat + 1];
           for (let i = 0; i < shardFields.length; i++) {
@@ -2965,11 +2899,6 @@ export function SceneV4() {
         }
 
         shardCommon.uTime.value = t;
-        // The plane in focus is wherever the sculpture actually is in camera
-        // space — not a constant, because the camera moves through the scroll.
-        focusPt.copy(cloud.position).applyMatrix4(camera.matrixWorldInverse);
-        focusKick *= 0.94;
-        shardCommon.uFocus.value += (-focusPt.z + focusKick - shardCommon.uFocus.value) * 0.08;
         shardCommon.uMix.value = mixBeat;
         shardCommon.uArrival.value = arrE;
         shardCommon.uSpread.value = a.shardSpread + (b.shardSpread - a.shardSpread) * m;
