@@ -489,14 +489,39 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
         if (el.dataset.reveal === "chars") {
           const s = new SplitType(el, { types: "words" });
           if (!s.words?.length) return;
-          el.style.overflow = "hidden";
+          // Each word gets its own mask instead of one clip on the whole
+          // heading. The old `el.style.overflow = "hidden"` was never taken
+          // off again, so every section title spent the rest of its life with
+          // its legibility shadow cut away at the box edge — the hero already
+          // fixes exactly this for its own lines.
+          const wraps: HTMLElement[] = [];
+          s.words.forEach((word) => {
+            const wrap = document.createElement("span");
+            wrap.style.display = "inline-block";
+            wrap.style.overflow = "hidden";
+            // keeps the mask on the baseline so descenders aren't shaved
+            wrap.style.verticalAlign = "bottom";
+            word.parentNode?.insertBefore(wrap, word);
+            wrap.appendChild(word);
+            wraps.push(wrap);
+          });
           gsap.from(s.words, {
-            y: "0.75em",
-            autoAlpha: 0,
-            duration: 0.95,
-            stagger: 0.055,
+            // em, never percent: a percent transform on an inline-block word
+            // resolves against glyph WIDTH and corrupts X
+            y: "1.05em",
+            // No autoAlpha. A mask that also fades reads soft and generic —
+            // letting the edge do the work is what makes the reveal feel cut
+            // rather than dissolved. The blur burning off is the same signal
+            // the hero uses, so the whole page shares one language.
+            filter: "blur(7px)",
+            duration: 1.05,
+            stagger: 0.07,
             ease: "expo.out",
             scrollTrigger: { trigger: el, start: "top 85%", once: true },
+            onComplete: () => {
+              // masks are done; let the shadow breathe again
+              wraps.forEach((w) => { w.style.overflow = "visible"; });
+            },
           });
           return;
         }
@@ -508,12 +533,16 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
           line.parentNode?.insertBefore(wrap, line);
           wrap.appendChild(line);
         });
+        const lineWraps = s.lines.map((line) => line.parentElement as HTMLElement);
         gsap.from(s.lines, {
           y: "1.15em",
           duration: 0.9,
           stagger: 0.08,
           ease: "power4.out",
           scrollTrigger: { trigger: el, start: "top 85%", once: true },
+          onComplete: () => {
+            lineWraps.forEach((w) => { if (w) w.style.overflow = "visible"; });
+          },
         });
       });
 
