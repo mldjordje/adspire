@@ -1467,16 +1467,20 @@ const SHARD_FRAG = /* glsl */ `
     // That split is dispersion — the faint rainbow at the edges of real
     // glass, and the single strongest cue that this is not plastic.
     float ior = 1.47;
-    vec3 rR = refract(-V, N, 1.0 / (ior - 0.014));
+    vec3 rR = refract(-V, N, 1.0 / (ior - 0.005));
     vec3 rG = refract(-V, N, 1.0 / ior);
-    vec3 rB = refract(-V, N, 1.0 / (ior + 0.014));
+    vec3 rB = refract(-V, N, 1.0 / (ior + 0.005));
     vec3 refrCol = vec3(studioEnv(rR).r, studioEnv(rG).g, studioEnv(rB).b);
 
     // Beer-Lambert absorption along the path through the glass. Red is
     // absorbed fastest and blue survives, so thick parts of the shard go
     // deep accent-blue on their own — the tint is physical, not painted on.
-    float thick = (1.0 - ndv) * 1.9 + 0.35;
-    refrCol *= exp(-vec3(2.2, 1.5, 0.6) * thick);
+    float thick = (1.0 - ndv) * 2.3 + 0.35;
+    // Heavier on red and green than before. The field is many low-alpha
+    // bodies stacked over a dark void, and with a shallow curve every one of
+    // them washed toward grey haze; pulling red down hard sends thick glass
+    // to navy instead, which is what gives the stack depth rather than fog.
+    refrCol *= exp(-vec3(3.4, 2.15, 0.5) * thick);
 
     vec3 col = mix(refrCol, reflCol, fres);
 
@@ -1498,14 +1502,23 @@ const SHARD_FRAG = /* glsl */ `
     // where one of the three weights runs out. Bevels are what catch light on
     // real glass, and the missing bevel is most of why a faceted solid reads
     // as flat plastic.
-    float facet = 1.0 - smoothstep(0.0, 0.14, min(min(vBary.x, vBary.y), vBary.z));
-    col += vec3(0.86, 0.93, 1.0) * facet * (0.3 + fres * 0.95);
+    // A 0.14 band drew a bright line down every triangle, which is a
+    // wireframe, and a wireframe is the loudest "untextured 3D asset" tell
+    // there is. Real cut glass has no lines on it — an edge is visible only
+    // where it catches the room. Narrow it to a true bevel and let fresnel
+    // alone carry it, so edges glint at grazing angles and vanish head-on.
+    float facet = 1.0 - smoothstep(0.0, 0.035, min(min(vBary.x, vBary.y), vBary.z));
+    col += vec3(0.86, 0.93, 1.0) * facet * fres * 0.55;
 
     // Thin-film interference at grazing angles — the oil-slick shift on a
     // coated edge. Keeps the rim from being a plain white outline.
     float film = pow(1.0 - ndv, 3.0);
-    vec3 irid = 0.5 + 0.5 * cos(6.2831 * (vec3(0.0, 0.33, 0.67) + film * 2.4 + vSeed * 1.7));
-    col += irid * film * 0.2;
+    // vSeed used to sweep the phase through the whole hue circle, so every
+    // shard picked its own colour and the field read as confetti. One arc,
+    // no per-instance offset: the tint still shifts across a facet, but the
+    // frame keeps a single hue.
+    vec3 irid = 0.5 + 0.5 * cos(6.2831 * (vec3(0.55, 0.62, 0.72) + film * 0.55));
+    col += irid * film * 0.14;
 
     // internal flaw lines — real glass is never optically perfect, and the
     // imperfection is most of what makes it look expensive
@@ -1520,7 +1533,7 @@ const SHARD_FRAG = /* glsl */ `
     // Grazing angles are where glass is most opaque; head-on you look
     // through it. Driving alpha off fresnel is what stops the field from
     // reading as a wall of dark chips.
-    float a = clamp(0.3 + fres * 0.75 + flaw * 0.2 + facet * 0.28, 0.0, 1.0)
+    float a = clamp(0.26 + fres * 0.82 + flaw * 0.16 + facet * 0.10, 0.0, 1.0)
       * clamp(uAlpha, 0.0, 1.0);
     gl_FragColor = vec4(col, a);
   }
@@ -1877,10 +1890,15 @@ export function SceneV4() {
 
           // elongated slivers, not platonic solids — a wide size spread puts a
           // few monoliths among the blades and reads more expensive
+          // A dominant Y against two small axes builds a capsule, and a
+          // capsule is a pill — rounded, soft, cheap. Broken glass is a
+          // PLATE: two axes with real area and a third that is nearly flat.
+          // Edge-on those plates almost vanish and then flash as they turn,
+          // which is the behaviour that reads as expensive material.
           const s = sizeMul * (0.95 + r() * 1.1);
-          scale[i * 3] = s * (0.4 + r() * 0.45);
-          scale[i * 3 + 1] = s * (1.2 + r() * 1.7);
-          scale[i * 3 + 2] = s * (0.4 + r() * 0.45);
+          scale[i * 3] = s * (0.68 + r() * 0.85);
+          scale[i * 3 + 1] = s * (1.0 + r() * 1.25);
+          scale[i * 3 + 2] = s * (0.13 + r() * 0.15);
 
           const ax = r() * 2 - 1;
           const ay = r() * 2 - 1;
@@ -1935,8 +1953,12 @@ export function SceneV4() {
       // into a smooth pebble. Big faces are fine — what was missing is
       // something with structure for them to reflect, which is the studio
       // rewrite above, not more triangles.
-      buildShardField(new THREE.IcosahedronGeometry(0.095, 1), isMobile ? 14 : 40, 1234, 1.0, 1.0);
-      buildShardField(new THREE.OctahedronGeometry(0.085, 1), isMobile ? 12 : 32, 4211, 0.95, 0.92);
+      // Detail 0, not 1. Subdividing rounds a cut stone into a pebble — the
+      // comment above says so and the geometry then did the opposite. Twenty
+      // big flat faces give the room something to reflect in straight planes,
+      // which is what a cut gem actually is.
+      buildShardField(new THREE.IcosahedronGeometry(0.095, 0), isMobile ? 14 : 40, 1234, 1.0, 1.0);
+      buildShardField(new THREE.OctahedronGeometry(0.085, 0), isMobile ? 12 : 32, 4211, 0.95, 0.92);
       buildShardField(new THREE.TetrahedronGeometry(0.125, 0), isMobile ? 6 : 16, 8807, 1.25, 0.88);
 
       // ── Shared soft-glow quad — a plane with a radial falloff. The ink
