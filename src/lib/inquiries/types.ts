@@ -66,7 +66,35 @@ export const MIN = {
   businessName: 2,
   businessDescription: 30,
   idea: 50,
+  /** The quick form asks for one sentence, not a brief. Fifty characters is a
+   *  wall for someone who only wants to ask whether a thing is possible. */
+  quickIdea: 20,
 } as const;
+
+/**
+ * Which form a brief arrived through.
+ *
+ * 'full'  — /upit: everything needed to write and send a quote in one pass.
+ * 'quick' — /upit/brzo: name, mail, business, service, one sentence. Built for
+ *           a cold visitor off an ad, who will abandon rather than look up a
+ *           company registration number to ask a question.
+ *
+ * Both land in the same table and the same queue. The difference is what is
+ * missing, which is why `/os` shows it: a quick upit is answered with a
+ * question, a full one with a price.
+ */
+export const INTAKE_MODES = ["full", "quick"] as const;
+
+export type IntakeMode = (typeof INTAKE_MODES)[number];
+
+export function isIntakeMode(value: unknown): value is IntakeMode {
+  return typeof value === "string" && (INTAKE_MODES as readonly string[]).includes(value);
+}
+
+export const INTAKE_LABEL: Record<IntakeMode, string> = {
+  full: "Pun brief",
+  quick: "Brzi upit",
+};
 
 /** The answers that are specific to a brief. Stored in `inquiries.brief`
  *  because they are free-form and belong to nothing else. */

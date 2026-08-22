@@ -46,6 +46,7 @@ export type InquiryRow = {
   business_name: string;
   business_description: string;
   brief: InquiryBrief;
+  intake: string;
   budget_eur: number | null;
   status: InquiryStatus;
   quoted_amount: number | null;
@@ -64,7 +65,7 @@ export type InquiryRow = {
 const SELECT_COLUMNS = `
   id, reference, access_token, lead_id, portal_user_id, services, buyer_type,
   full_name, email, phone, company_name, pib, mb, address, city, country,
-  business_name, business_description, brief, budget_eur::float8 as budget_eur,
+  business_name, business_description, brief, budget_eur::float8 as budget_eur, intake,
   status, quoted_amount::float8 as quoted_amount, currency, turnaround_days,
   quote_valid_until::text as quote_valid_until, quote_note, admin_note,
   quoted_at, responded_at, decline_reason, follow_up_on::text as follow_up_on,
@@ -157,7 +158,7 @@ export async function createInquiry(
       reference, access_token, lead_id, portal_user_id, contact_id, company_id,
       services, buyer_type, full_name, email, phone,
       company_name, pib, mb, address, city, country,
-      business_name, business_description, brief, budget_eur,
+      business_name, business_description, brief, budget_eur, intake,
       request_id, landing_page, referrer, utm_source, utm_medium, utm_campaign,
       utm_content, utm_term, consent_at
     ) values (
@@ -167,9 +168,9 @@ export async function createInquiry(
       ${submission.services}::text[], ${submission.buyerType}, ${submission.fullName},
       ${submission.email}, ${submission.phone || null},
       ${submission.companyName || null}, ${submission.pib || null}, ${submission.mb || null},
-      ${submission.address || null}, ${submission.city || null}, ${submission.country},
+      ${submission.address || null}, ${submission.city || null}, ${submission.country || null},
       ${submission.businessName}, ${submission.businessDescription},
-      ${JSON.stringify(brief)}::jsonb, ${submission.budgetEur},
+      ${JSON.stringify(brief)}::jsonb, ${submission.budgetEur}, ${submission.intake},
       ${submission.requestId}, ${attribution.landingPage ?? null},
       ${attribution.referrer ?? null}, ${attribution.utmSource ?? null},
       ${attribution.utmMedium ?? null}, ${attribution.utmCampaign ?? null},

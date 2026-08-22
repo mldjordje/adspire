@@ -76,8 +76,20 @@ export function GuideV4({ guide }: Props) {
         </section>
 
         <div className={styles.cta}>
-          <Link className={styles.ctaPrimary} href={guide.cta.href}>{guide.cta.label}</Link>
-          <Link className={styles.ctaSecondary} href={guide.secondaryCta.href}>
+          {/* Tagged because a guide is an ad landing: without data-cta the
+              click is invisible in /os/analitika. */}
+          <Link
+            className={styles.ctaPrimary}
+            href={guide.cta.href}
+            data-cta={`vodic-primarni:${guide.path}`}
+          >
+            {guide.cta.label}
+          </Link>
+          <Link
+            className={styles.ctaSecondary}
+            href={guide.secondaryCta.href}
+            data-cta={`vodic-sekundarni:${guide.path}`}
+          >
             {guide.secondaryCta.label}
           </Link>
         </div>

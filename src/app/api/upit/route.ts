@@ -6,7 +6,7 @@ import { normalizeAttribution } from "@/lib/crm/attribution";
 import { checkRateLimit } from "@/lib/crm/rateLimit";
 import { createInquiry } from "@/lib/inquiries/store";
 import { notifyBuyerOfInquiry, notifyOwnerOfInquiry } from "@/lib/inquiries/notify";
-import { inquirySubmissionSchema } from "@/lib/inquiries/validation";
+import { parseInquirySubmission } from "@/lib/inquiries/validation";
 import { getPortalSession } from "@/lib/portal/session";
 import { upsertPortalUser } from "@/lib/portal/users";
 
@@ -45,7 +45,7 @@ export async function POST(request: Request) {
   let parsed;
   try {
     const raw = (await request.json()) as Record<string, unknown>;
-    parsed = inquirySubmissionSchema.parse({
+    parsed = parseInquirySubmission({
       ...raw,
       requestId: typeof raw.requestId === "string" && raw.requestId ? raw.requestId : requestId,
       attribution: normalizeAttribution((raw.attribution as Record<string, unknown>) ?? {}),
