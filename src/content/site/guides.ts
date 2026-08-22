@@ -138,7 +138,12 @@ const bookingGuide: Guide = {
       a: "Oba su moguća; u praksi SMS i Viber/WhatsApp imaju znatno veću stopu čitanja od mejla za podsetnik na termin. SMS ima trošak po poruci, pa se obično kombinuje.",
     },
   ],
-  cta: { label: "Opiši kako zakazuješ sada", href: "/upit" },
+  // The ad landing for the booking niche. A cold visitor off a paid click gets
+  // the five-field form, not the brief that asks a company for its PIB.
+  cta: {
+    label: "Pitaj u pet polja — odgovor isti dan",
+    href: "/upit/brzo?usluga=sistemi-za-zakazivanje",
+  },
   secondaryCta: { label: "Usluga: sistemi za zakazivanje", href: "/our-services/sistemi-za-zakazivanje" },
 };
 

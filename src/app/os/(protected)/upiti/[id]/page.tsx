@@ -19,6 +19,8 @@ import { listMessagesForInquiry } from "@/lib/messages/store";
 import {
   BUYER_TYPE_LABEL,
   INQUIRY_STATUS_LABEL,
+  INTAKE_LABEL,
+  isIntakeMode,
   INQUIRY_STATUSES,
   isTimeframe,
   TIMEFRAME_LABEL,
@@ -77,6 +79,12 @@ export default async function OsUpitDetailPage({
               }`}
             >
               {INQUIRY_STATUS_LABEL[upit.status]}
+            </span>{" "}
+            {/* A quick upit is missing the billing block and the business
+                description on purpose — the badge is the reminder to answer it
+                with a question rather than a finished quote. */}
+            <span className="os-badge">
+              {INTAKE_LABEL[isIntakeMode(upit.intake) ? upit.intake : "full"]}
             </span>
           </h1>
           <p className="os-sub">
@@ -187,8 +195,17 @@ export default async function OsUpitDetailPage({
                 <p className="os-longtext">{upit.brief.wishes}</p>
               </>
             ) : null}
-            <h3 className="os-h3">O biznisu</h3>
-            <p className="os-longtext">{upit.business_description}</p>
+            {upit.business_description ? (
+              <>
+                <h3 className="os-h3">O biznisu</h3>
+                <p className="os-longtext">{upit.business_description}</p>
+              </>
+            ) : (
+              <p className="os-note">
+                Brzi upit — opis biznisa, podaci za fakturu i rok nisu traženi na formi.
+                Pitaj ih u odgovoru.
+              </p>
+            )}
           </section>
 
           <section className="os-section">

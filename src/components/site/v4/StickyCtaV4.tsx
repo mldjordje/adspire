@@ -30,11 +30,11 @@ type Props = {
 };
 
 export function StickyCtaV4({
-  title = "Reci šta ti treba — dobićeš ponudu sa fiksnom cenom.",
-  note = "Odgovor obično isti dan.",
-  ctaLabel = "Pošalji upit",
-  ctaHref = "/upit",
-  trackingLabel = "sticky-upit",
+  title = "Reci u jednoj rečenici šta ti treba.",
+  note = "Pet polja, bez naloga. Odgovaram lično, obično isti radni dan.",
+  ctaLabel = "Postavi pitanje",
+  ctaHref = "/upit/brzo",
+  trackingLabel = "sticky-upit-brzo",
 }: Props) {
   const [shown, setShown] = useState(false);
   const [dismissed, setDismissed] = useState(true);

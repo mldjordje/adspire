@@ -16,6 +16,12 @@ export type ShellLink = { href: string; label: string };
 export type ShellCopy = {
   navLinks: ShellLink[];
   navCta: string;
+  /**
+   * Where the nav button goes. NOT run through localePath(): the brief is a
+   * Serbian-only flow, so /en/upit and /de/upit were 404s. English and German
+   * visitors are sent to the contact page, which is localised.
+   */
+  navCtaHref: string;
   /** Prefixes the clock in the nav CTA, e.g. " · NIŠ 14:20". */
   clockCity: string;
   footerLinks: ShellLink[];
@@ -35,6 +41,9 @@ const sr: ShellCopy = {
     { href: "/about-us", label: "O nama" },
   ],
   navCta: "Zatraži ponudu",
+  // The short form is the default ask everywhere. The full brief is one link
+  // away for whoever wants a price without a conversation first.
+  navCtaHref: "/upit/brzo",
   clockCity: "NIŠ",
   footerLinks: [
     { href: "/our-projects", label: "Projekti" },
@@ -48,7 +57,8 @@ const sr: ShellCopy = {
     { href: "/odrzavanje-i-podrska", label: "Održavanje" },
     { href: "/besplatan-pregled-sajta", label: "Besplatan pregled" },
     { href: "/cena-izrade-sajta", label: "Cene" },
-    { href: "/upit", label: "Upit" },
+    { href: "/upit/brzo", label: "Brzi upit" },
+    { href: "/upit", label: "Pun brief" },
     { href: "/contact-us", label: "Kontakt" },
     { href: "/politika-privatnosti", label: "Privatnost" },
     { href: "/politika-kolacica", label: "Kolačići" },
@@ -67,6 +77,7 @@ const sr: ShellCopy = {
     { href: "/about-us", label: "O nama" },
     { href: "/blog", label: "Blog" },
     { href: "/kako-radimo", label: "Kako radimo" },
+    { href: "/upit/brzo", label: "Postavi pitanje" },
     { href: "/upit", label: "Zatraži ponudu" },
     { href: "/contact-us", label: "Kontakt" },
   ],
@@ -80,6 +91,7 @@ const en: ShellCopy = {
     { href: "/about-us", label: "About" },
   ],
   navCta: "Request a quote",
+  navCtaHref: "/contact-us",
   clockCity: "NIŠ",
   footerLinks: [
     { href: "/our-projects", label: "Work" },
@@ -118,6 +130,7 @@ const de: ShellCopy = {
     { href: "/about-us", label: "Über uns" },
   ],
   navCta: "Angebot anfordern",
+  navCtaHref: "/contact-us",
   clockCity: "NIŠ",
   footerLinks: [
     { href: "/our-projects", label: "Projekte" },

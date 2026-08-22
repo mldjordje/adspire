@@ -97,7 +97,7 @@ const sr: V4Copy = {
     badge: "Web · Aplikacije · AI — Niš",
     title: ["NIKO NE PAMTI", "PROSEČAN", "SAJT"],
     sub: "Ručno kodirani sajtovi i AI sistemi koji pretvaraju posetioce u klijente.",
-    ctaPrimary: "Zakaži besplatan poziv",
+    ctaPrimary: "Postavi pitanje — odgovor isti dan",
     ctaGhost: "Pogledaj radove",
     trust: ["13 sistema u produkciji", "5 javnih studija slučaja", "Prototip za 48h"],
     scroll: "skroluj",

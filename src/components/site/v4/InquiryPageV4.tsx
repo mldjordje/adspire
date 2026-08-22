@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { PageShellV4 } from "./PageShellV4";
 import { InquiryFlowV4 } from "./InquiryFlowV4";
 import { getInquiryServices } from "@/lib/inquiries/catalog";
@@ -47,6 +49,16 @@ export async function InquiryPageV4({
       }
       intro="Bez naloga i bez obaveze. Popuni brief, a cena i rok stižu na tvoj mejl — obično u roku od dva radna dana."
     >
+      {/* The long brief is the right form only for someone who has decided.
+          Anyone still weighing it up is offered the five-field version instead
+          of quietly abandoning this one. */}
+      <p className={styles.restored}>
+        Ovo je pun brief — popuni ga ako želiš cenu i rok odmah. Ako samo imaš pitanje,{" "}
+        <Link className={styles.linkBtn} href="/upit/brzo" data-cta="upit-puni-ka-brzom">
+          pošalji brzi upit u pet polja
+        </Link>
+        .
+      </p>
       <InquiryFlowV4 services={services} initialSlugs={initialSlugs} buyer={buyer} />
     </PageShellV4>
   );

@@ -4,6 +4,7 @@ import { serviceTitles } from "@/lib/inquiries/catalog";
 import { listInquiries } from "@/lib/inquiries/store";
 import {
   INQUIRY_STATUS_LABEL,
+  INTAKE_LABEL,
   INQUIRY_STATUSES,
   isInquiryStatus,
   type InquiryStatus,
@@ -119,6 +120,11 @@ export default async function OsUpitiPage({
                       </td>
                       <td>
                         <Link href={`/os/upiti/${row.id}`}>{row.reference}</Link>
+                        {/* Only the short intake is flagged: the long brief is
+                            the norm and a badge on every row says nothing. */}
+                        {row.intake === "quick" ? (
+                          <div className="os-note">{INTAKE_LABEL.quick}</div>
+                        ) : null}
                       </td>
                       <td>
                         {row.full_name}
