@@ -28,6 +28,10 @@ type PageShellProps = {
   intro?: string;
   locale?: LocaleCode;
   copyOverride?: ShellCopy;
+  /** Replaces the default silk shader — a page may bring its own background. */
+  background?: React.ReactNode;
+  /** Rendered inside the hero, under the intro (CTAs, stat strip, ...). */
+  heroExtra?: React.ReactNode;
   children: React.ReactNode;
 };
 
@@ -37,6 +41,8 @@ export function PageShellV4({
   intro,
   locale = defaultLocale,
   copyOverride,
+  background,
+  heroExtra,
   children,
 }: PageShellProps) {
   const copy = copyOverride ?? getShellCopy(locale);
@@ -140,7 +146,7 @@ export function PageShellV4({
     <div ref={rootRef} className={styles.root} data-standalone-page="v4-inner">
       <CursorV4 />
       <div className={styles.silk}>
-        <SilkV4 opacity={0.4} />
+        {background ?? <SilkV4 opacity={0.4} />}
       </div>
       <div className={styles.grain} aria-hidden="true" />
 
@@ -176,6 +182,7 @@ export function PageShellV4({
           <span className={styles.heroEyebrow}>{eyebrow}</span>
           <h1 className={styles.heroTitle}>{title}</h1>
           {intro ? <p className={styles.heroIntro}>{intro}</p> : null}
+          {heroExtra}
         </section>
 
         {children}

@@ -8,6 +8,13 @@
   --ink-faint: rgba(242, 241, 236, 0.32);
   --accent: #f2efe6;
   --accent-2: #b9bac9;
+  /* Trust-blue accents. Inner-page CSS (guides, service detail) already reads
+     these; without the definitions here they resolved to nothing and bullets
+     and gradient buttons rendered transparent. */
+  --blue: #7890ff;
+  --blue-bright: #b8c5ff;
+  --blue-deep: #0b1232;
+  --blue-glow: rgba(120, 144, 255, 0.32);
   --line: rgba(242, 241, 236, 0.1);
   --font-d: var(--font-display-v4), system-ui, sans-serif;
   --font-b: var(--font-body-v4), system-ui, sans-serif;

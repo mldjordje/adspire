@@ -1,17 +1,46 @@
 import type { Metadata } from "next";
 import { JsonLd } from "@/components/site/JsonLd";
-import { GuideV4 } from "@/components/site/v4/GuideV4";
+import { BookingLandingV4 } from "@/components/site/v4/BookingLandingV4";
 import { v4FontClass } from "@/components/site/v4/fonts";
-import { bookingSystemsGuide as guide } from "@/content/site/guides";
-import { guideJsonLd, guideMetadata } from "@/lib/seo/guide";
+import {
+  bookingFaq,
+  bookingHero,
+  bookingSeo,
+} from "@/content/site/bookingLandingPage";
+import {
+  breadcrumbJsonLd,
+  faqPageJsonLd,
+  webPageAboutOrganizationJsonLd,
+} from "@/lib/seo/jsonld";
+import { absoluteUrl, pageMetadata } from "@/lib/seo/metadata";
 
-export const metadata: Metadata = guideMetadata(guide);
+export const metadata: Metadata = pageMetadata({
+  path: bookingSeo.path,
+  title: bookingSeo.title,
+  description: bookingSeo.metaDescription,
+  keywords: [...bookingSeo.keywords],
+});
 
-export default function BookingGuidePage() {
+export default function BookingLandingPage() {
   return (
     <div className={v4FontClass}>
-      <JsonLd data={guideJsonLd(guide)} />
-      <GuideV4 guide={guide} />
+      <JsonLd
+        data={[
+          webPageAboutOrganizationJsonLd(
+            bookingSeo.path,
+            `${bookingSeo.title} | Adspire Digital`,
+            bookingSeo.metaDescription,
+          ),
+          breadcrumbJsonLd([
+            { name: "Početna", path: "/" },
+            { name: bookingHero.title, path: bookingSeo.path },
+          ]),
+          // The answers are what answer engines quote; leaving them only in the
+          // accordion makes them invisible to anything that does not render.
+          faqPageJsonLd(bookingFaq.items, absoluteUrl(bookingSeo.path)),
+        ]}
+      />
+      <BookingLandingV4 />
     </div>
   );
 }

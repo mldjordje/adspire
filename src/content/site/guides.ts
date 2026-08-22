@@ -102,7 +102,7 @@ const bookingGuide: Guide = {
       ],
     },
   ],
-  proofHeading: "Rađeno u produkciji",
+  proofHeading: "Gotovi sistemi",
   proof: [
     {
       label: "Doctor Barber",
@@ -477,7 +477,7 @@ const beyondExcelGuide: Guide = {
       ],
     },
   ],
-  proofHeading: "Rađeno u produkciji",
+  proofHeading: "Gotovi sistemi",
   proof: [
     {
       label: "Prevoz Kop",
@@ -660,7 +660,7 @@ const webShopGuide: Guide = {
       ],
     },
   ],
-  proofHeading: "Rađeno u produkciji",
+  proofHeading: "Gotovi sistemi",
   proof: [
     {
       label: "Santos & Santorini",
