@@ -763,7 +763,17 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
               </Link>
             ))}
           </div>
-          <a className={styles.navCta} href="/upit" data-cta="nav-upit" data-cursor="on" data-magnetic data-scramble>
+          {/* The brief is a Serbian-only flow, so /upit was the wrong target
+              for en/de — the short form for Serbian, the localised contact page
+              for the rest. */}
+          <a
+            className={styles.navCta}
+            href={locale === "sr" ? "/upit/brzo" : localePath("/contact-us", locale)}
+            data-cta="nav-upit"
+            data-cursor="on"
+            data-magnetic
+            data-scramble
+          >
             {t.nav.cta}
           </a>
           <MobileMenuV4
@@ -819,7 +829,15 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
               </span>
             </h1>
             <div className={styles.heroCtas}>
-              <a className={styles.btnPrimary} href="/contact-us" data-cta="hero-kontakt" data-cursor="on" data-magnetic>
+              {/* Writing one sentence is less to ask of a stranger than
+                  booking a call, so Serbian visitors get the short form. */}
+              <a
+                className={styles.btnPrimary}
+                href={locale === "sr" ? "/upit/brzo" : localePath("/contact-us", locale)}
+                data-cta={locale === "sr" ? "hero-upit-brzo" : "hero-kontakt"}
+                data-cursor="on"
+                data-magnetic
+              >
                 {t.hero.ctaPrimary}
               </a>
               <a className={styles.btnGhost} href="/our-projects" data-cursor="on" data-scramble>

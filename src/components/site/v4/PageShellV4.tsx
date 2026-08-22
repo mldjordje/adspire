@@ -156,7 +156,14 @@ export function PageShellV4({
           ))}
         </nav>
         <div className={styles.navRight}>
-          <a className={styles.navCta} href={href("/upit")} data-cursor="on" data-magnetic>
+          {/* Not localised on purpose — see navCtaHref in shellCopy. */}
+          <a
+            className={styles.navCta}
+            href={copy.navCtaHref}
+            data-cta="nav-upit"
+            data-cursor="on"
+            data-magnetic
+          >
             {copy.navCta}
             <span className={styles.navClock}> · {copy.clockCity} {clock}</span>
           </a>
