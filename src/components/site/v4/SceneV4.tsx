@@ -2571,6 +2571,15 @@ export function SceneV4() {
       let prevRawMix = 0;
       let smoothedProgress = 0;
       let lastScrollY = window.scrollY;
+      // The camera is driven off scroll VELOCITY, and a native wheel delivers
+      // ~100px per notch. Read straight, one notch saturates the impulse and
+      // the rig takes a full jolt per tick. This is the position the scene
+      // actually flies to: it chases the browser's, so the deltas the camera
+      // sees are continuous instead of a staircase. Done here rather than
+      // with a smooth-scroll library because this loop already runs every
+      // frame — a second smoothing system would also drag every pinned
+      // ScrollTrigger onto the frame budget alongside the particle field.
+      let smoothScrollY = window.scrollY;
       let smoothedVel = 0;
       let scrollImpulse = 0;
       let warp = 0;
@@ -2598,9 +2607,16 @@ export function SceneV4() {
           stops = measureStops();
         }
 
+        // Exponential decay on dt, not a fixed per-frame fraction. A flat
+        // 0.07 converges half as fast at 30fps as it does at 120, which is
+        // what makes a heavy frame read as the whole scene bogging down.
+        const approach = (rate: number) => 1 - Math.exp(-rate * dt);
+
+        smoothScrollY += (window.scrollY - smoothScrollY) * approach(11);
+
         const max = doc.scrollHeight - window.innerHeight;
-        const raw = max > 0 ? window.scrollY / max : 0;
-        smoothedProgress += (raw - smoothedProgress) * 0.07;
+        const raw = max > 0 ? smoothScrollY / max : 0;
+        smoothedProgress += (raw - smoothedProgress) * approach(4.3);
         const p = smoothedProgress;
 
         // segment + eased mix
@@ -2653,12 +2669,14 @@ export function SceneV4() {
         prevRawMix = rawMix;
 
         // scroll velocity agitates the cloud — fast scroll, restless particles
-        const scrollDelta = window.scrollY - lastScrollY;
-        const dy = Math.abs(scrollDelta);
-        lastScrollY = window.scrollY;
-        smoothedVel += (Math.min(dy, 120) - smoothedVel) * 0.08;
-        const impulseTarget = Math.max(-1, Math.min(1, scrollDelta / 72));
-        scrollImpulse += (impulseTarget - scrollImpulse) * (dy > 1 ? 0.16 : 0.06);
+        const scrollDelta = smoothScrollY - lastScrollY;
+        lastScrollY = smoothScrollY;
+        // px per second, so the feel does not change with frame rate
+        const scrollVel = dt > 0 ? scrollDelta / dt : 0;
+        const dy = Math.abs(scrollVel) / 60; // back to per-60fps-frame units
+        smoothedVel += (Math.min(dy, 120) - smoothedVel) * approach(5);
+        const impulseTarget = Math.max(-1, Math.min(1, scrollVel / 2600));
+        scrollImpulse += (impulseTarget - scrollImpulse) * approach(dy > 1 ? 9 : 3.6);
         cloudUniforms.uAgitation.value = Math.min(smoothedVel * 0.0018, 0.18);
 
         // rotation — round shapes spin, flat shapes face the camera;

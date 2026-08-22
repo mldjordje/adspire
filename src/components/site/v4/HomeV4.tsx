@@ -5,7 +5,6 @@ import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Lenis from "@studio-freight/lenis";
 import SplitType from "split-type";
 import styles from "./HomeV4.module.css";
 import { ClientLogosV4 } from "./ClientLogosV4";
@@ -155,33 +154,6 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
     const root = rootRef.current;
     if (!root) return;
     gsap.registerPlugin(ScrollTrigger);
-
-    // ── Smooth scroll ──────────────────────────────────────────────────
-    // SceneV4 reads window.scrollY every frame and turns the delta into
-    // camera impulse, clamped as `scrollDelta / 72`. A native wheel arrives
-    // in ~100px notches, so ONE notch saturated that impulse and the rig
-    // took a full jolt per tick — which is why the scene read stepped and
-    // hurried instead of filmic. Lenis interpolates the scroll position, so
-    // the deltas the camera sees become small and continuous. The rig itself
-    // is unchanged; it was only ever being fed a staircase.
-    const lenis = new Lenis({
-      // heavier than the v3 rig's 0.09 — this scene is carrying a camera
-      lerp: 0.075,
-      smoothWheel: true,
-      // a notch moves slightly less page, so a chapter takes a real gesture
-      wheelMultiplier: 0.9,
-    });
-    // ScrollTrigger has to read Lenis' position, not the browser's raw one,
-    // or every pinned section drifts against the scene
-    lenis.on("scroll", ScrollTrigger.update);
-    const lenisRaf = (time: number) => lenis.raf(time * 1000);
-    gsap.ticker.add(lenisRaf);
-    // lag smoothing freezes the ticker after a stall, which desyncs Lenis
-    // from ScrollTrigger and lands the page at the wrong offset
-    gsap.ticker.lagSmoothing(0);
-    // the preloader holds the page locked — don't let wheel events bank
-    // scroll distance behind it and then dump it all on unlock
-    if (document.documentElement.classList.contains("v4-locked")) lenis.stop();
 
     const q = gsap.utils.selector(root);
     const ctx = gsap.context(() => {
@@ -596,7 +568,6 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
       if (htmlEl.classList.contains("v4-locked")) return;
       unlockObserver.disconnect();
       window.clearTimeout(syncFallback);
-      lenis.start();
       syncScroll();
     };
     const unlockObserver = new MutationObserver(trySync);
@@ -705,9 +676,6 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
       unlockObserver.disconnect();
       window.removeEventListener("load", syncScroll);
       window.clearTimeout(syncFallback);
-      gsap.ticker.remove(lenisRaf);
-      gsap.ticker.lagSmoothing(500, 33);
-      lenis.destroy();
       ctx.revert();
       magnetCleanups.forEach((fn) => fn());
       tiltCleanups.forEach((fn) => fn());
