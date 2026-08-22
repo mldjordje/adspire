@@ -76,9 +76,12 @@ export function PricingGuideV4() {
           </div>
         </section>
 
+        {/* data-cta is what SiteAnalytics listens for — without it these two
+            buttons are invisible in the funnel, and this is the page paid
+            search lands on, so they are the clicks being paid for. */}
         <div className={styles.cta}>
-          <Link className={styles.ctaPrimary} href={p.cta.href}>{p.cta.label}</Link>
-          <Link className={styles.ctaSecondary} href={p.secondaryCta.href}>{p.secondaryCta.label}</Link>
+          <Link className={styles.ctaPrimary} href={p.cta.href} data-cta="cena-primarni">{p.cta.label}</Link>
+          <Link className={styles.ctaSecondary} href={p.secondaryCta.href} data-cta="cena-sekundarni">{p.secondaryCta.label}</Link>
         </div>
 
         <section aria-labelledby="related-heading">

@@ -58,16 +58,49 @@ function localeOf(path: string): "sr" | "en" | "de" {
   return "sr";
 }
 
-function campaign() {
+const CAMPAIGN_KEY = "adspire_campaign";
+
+type Campaign = {
+  utmSource: string | null;
+  utmMedium: string | null;
+  utmCampaign: string | null;
+};
+
+const EMPTY_CAMPAIGN: Campaign = { utmSource: null, utmMedium: null, utmCampaign: null };
+
+/**
+ * The campaign that owns this visit — sticky for the whole tab.
+ *
+ * WHY IT IS STORED. Ad traffic lands on a tagged URL and converts somewhere
+ * else: `/?utm_source=google` first, the form on `/kontakt` two clicks later.
+ * Reading the query string alone tagged the page_view and then lost the
+ * submit, because by then the parameters are gone from the URL. The funnel
+ * query groups per row, so those submits counted as 'direktno' and every paid
+ * campaign read as zero conversions — the one number the spend is judged on.
+ *
+ * First touch wins: a visitor arriving from an ad and later clicking an
+ * internal link with its own tag is still that ad's visit.
+ */
+function campaign(): Campaign {
   try {
     const params = new URLSearchParams(window.location.search);
-    return {
+    const current: Campaign = {
       utmSource: params.get("utm_source"),
       utmMedium: params.get("utm_medium"),
       utmCampaign: params.get("utm_campaign"),
     };
+
+    const stored = window.sessionStorage.getItem(CAMPAIGN_KEY);
+    if (stored) return JSON.parse(stored) as Campaign;
+
+    if (current.utmSource || current.utmMedium || current.utmCampaign) {
+      window.sessionStorage.setItem(CAMPAIGN_KEY, JSON.stringify(current));
+    }
+    return current;
   } catch {
-    return { utmSource: null, utmMedium: null, utmCampaign: null };
+    // Blocked storage or a malformed query string: the event still reports,
+    // it just cannot carry the campaign past the landing page.
+    return EMPTY_CAMPAIGN;
   }
 }
 
