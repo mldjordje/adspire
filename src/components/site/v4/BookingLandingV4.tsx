@@ -148,25 +148,20 @@ export function BookingLandingV4() {
             </div>
             {bookingContrast.rows.map((row) => (
               <div key={row.before} className={styles.contrastRow}>
-                <p className={styles.before}>{row.before}</p>
-                <p className={styles.after}>{row.after}</p>
+                {/* The column headers are off on narrow screens, so each side
+                    carries its own label there — dimming alone did not read as
+                    "before" to anyone who had not seen the desktop layout. */}
+                <div className={styles.before}>
+                  <span className={styles.sideLabel}>{bookingContrast.beforeTitle}</span>
+                  <p className={styles.sideText}>{row.before}</p>
+                </div>
+                <div className={styles.after}>
+                  <span className={styles.sideLabel}>{bookingContrast.afterTitle}</span>
+                  <p className={styles.sideText}>{row.after}</p>
+                </div>
               </div>
             ))}
           </div>
-        </section>
-
-        {/* ─── Capabilities ─── */}
-        <section id="sta-preuzima" className={styles.section} data-reveal>
-          <SectionHead {...bookingCapabilities} />
-          <ol className={styles.cards}>
-            {bookingCapabilities.items.map((item, i) => (
-              <li key={item.title} className={styles.card}>
-                <span className={styles.cardNum}>{String(i + 1).padStart(2, "0")}</span>
-                <h3 className={styles.cardTitle}>{item.title}</h3>
-                <p className={styles.cardBody}>{item.body}</p>
-              </li>
-            ))}
-          </ol>
         </section>
 
         {/* ─── Proof ─── */}
@@ -202,14 +197,18 @@ export function BookingLandingV4() {
           </div>
         </section>
 
-        {/* ─── Rules the system has to learn ─── */}
-        <section id="pravila" className={styles.section} data-reveal>
-          <SectionHead {...bookingRules} />
-          <ul className={styles.checkList}>
-            {bookingRules.items.map((item) => (
-              <li key={item}>{item}</li>
+        {/* ─── Capabilities ─── */}
+        <section id="sta-preuzima" className={styles.section} data-reveal>
+          <SectionHead {...bookingCapabilities} />
+          <ol className={styles.cards}>
+            {bookingCapabilities.items.map((item, i) => (
+              <li key={item.title} className={styles.card}>
+                <span className={styles.cardNum}>{String(i + 1).padStart(2, "0")}</span>
+                <h3 className={styles.cardTitle}>{item.title}</h3>
+                <p className={styles.cardBody}>{item.body}</p>
+              </li>
             ))}
-          </ul>
+          </ol>
         </section>
 
         {/* ─── Process ─── */}
@@ -224,6 +223,26 @@ export function BookingLandingV4() {
               </li>
             ))}
           </ol>
+        </section>
+
+        {/* ─── Pricing drivers ─── */}
+        <section id="cena" className={styles.section} data-reveal>
+          <SectionHead {...bookingPricing} />
+          <ul className={styles.drivers}>
+            {bookingPricing.drivers.map((driver) => (
+              <li key={driver.title} className={styles.driver}>
+                <h3 className={styles.driverTitle}>{driver.title}</h3>
+                <p className={styles.driverBody}>{driver.body}</p>
+              </li>
+            ))}
+          </ul>
+          <p className={styles.note}>
+            {bookingPricing.note}{" "}
+            <Link className={styles.inlineLink} href={bookingPricing.linkHref}>
+              {bookingPricing.linkLabel}
+            </Link>
+            .
+          </p>
         </section>
 
         {/* ─── SaaS vs custom ─── */}
@@ -254,24 +273,14 @@ export function BookingLandingV4() {
           <p className={styles.verdict}>{bookingCompare.verdict}</p>
         </section>
 
-        {/* ─── Pricing drivers ─── */}
-        <section id="cena" className={styles.section} data-reveal>
-          <SectionHead {...bookingPricing} />
-          <ul className={styles.drivers}>
-            {bookingPricing.drivers.map((driver) => (
-              <li key={driver.title} className={styles.driver}>
-                <h3 className={styles.driverTitle}>{driver.title}</h3>
-                <p className={styles.driverBody}>{driver.body}</p>
-              </li>
+        {/* ─── Rules the system has to learn ─── */}
+        <section id="pravila" className={styles.section} data-reveal>
+          <SectionHead {...bookingRules} />
+          <ul className={styles.checkList}>
+            {bookingRules.items.map((item) => (
+              <li key={item}>{item}</li>
             ))}
           </ul>
-          <p className={styles.note}>
-            {bookingPricing.note}{" "}
-            <Link className={styles.inlineLink} href={bookingPricing.linkHref}>
-              {bookingPricing.linkLabel}
-            </Link>
-            .
-          </p>
         </section>
 
         {/* ─── Mistakes + the people problem ─── */}

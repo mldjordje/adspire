@@ -255,22 +255,84 @@
   border-top: 1px solid rgba(242, 241, 236, 0.08);
 }
 
+/* Each side is a marker column plus its text, so the ✗ / ✓ stays put when the
+   sentence wraps to two lines instead of drifting into the copy. */
 .before,
 .after {
-  margin: 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  column-gap: 12px;
   padding: clamp(16px, 2.4vw, 24px) clamp(16px, 2.4vw, 28px);
+}
+
+.before::before,
+.after::before {
+  grid-row: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  margin-top: 1px;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.before::before {
+  content: "✕";
+  color: rgba(242, 241, 236, 0.55);
+  background: rgba(242, 241, 236, 0.06);
+  border: 1px solid rgba(242, 241, 236, 0.16);
+}
+
+.after::before {
+  content: "✓";
+  color: #0a0d1c;
+  background: var(--blue-bright);
+  border: 1px solid var(--blue-bright);
+}
+
+.sideText {
+  margin: 0;
   font-size: clamp(14px, 1.5vw, 16.5px);
   line-height: 1.6;
 }
 
-.before {
-  color: rgba(242, 241, 236, 0.5);
+.before .sideText {
+  color: rgba(242, 241, 236, 0.55);
+}
+
+.after .sideText {
+  color: var(--ink);
+  font-weight: 500;
 }
 
 .after {
-  color: var(--ink);
   background: rgba(120, 144, 255, 0.07);
   border-left: 1px solid rgba(120, 144, 255, 0.2);
+}
+
+/* The per-row label duplicates the column header, so it only earns its place
+   once the headers are gone. */
+.sideLabel {
+  display: none;
+  grid-column: 2;
+  margin-bottom: 6px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.before .sideLabel {
+  color: var(--ink-faint);
+}
+
+.after .sideLabel {
+  color: var(--blue-bright);
 }
 
 @media (max-width: 720px) {
@@ -282,8 +344,12 @@
     grid-template-columns: 1fr;
   }
 
+  .sideLabel {
+    display: block;
+  }
+
   .before {
-    padding-bottom: 6px;
+    padding-bottom: 14px;
   }
 
   .after {

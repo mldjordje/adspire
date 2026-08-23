@@ -44,14 +44,20 @@ export const bookingHero = {
   ] as BookingStat[],
 };
 
+/**
+ * Order is the reading order for someone who arrived from an ad after
+ * searching for a booking system: they already want the thing, so proof that
+ * it exists and what it costs come before the long "how it could go wrong"
+ * material. The section markup in BookingLandingV4 follows this list.
+ */
 export const bookingNav: BookingNavItem[] = [
   { id: "dan-danas", label: "Kako sad izgleda" },
-  { id: "sta-preuzima", label: "Šta preuzima" },
   { id: "gotovi-sistemi", label: "Gotovi sistemi" },
-  { id: "pravila", label: "Vaša pravila" },
-  { id: "tok", label: "Kako ide posao" },
-  { id: "platforma-ili-sistem", label: "Platforma ili sistem" },
+  { id: "sta-preuzima", label: "Šta preuzima" },
+  { id: "tok", label: "Rok i tok" },
   { id: "cena", label: "Cena" },
+  { id: "platforma-ili-sistem", label: "Platforma ili sistem" },
+  { id: "pravila", label: "Vaša pravila" },
   { id: "greske", label: "Greške" },
   { id: "pitanja", label: "Pitanja" },
 ];
@@ -158,6 +164,28 @@ export const bookingProof = {
       cta: "Studija slučaja",
     },
     {
+      name: "Prevoz Kop",
+      sector: "Betonska baza · Niš",
+      note: "Najrazuđeniji admin u portfoliju: upiti i ponude, proizvodi, radnici, vozila i termini isporuke betona. Dokaz da zakazivanje ne mora da bude stolica u salonu — može biti mikser u devet ujutru.",
+      href: "/our-projects/prevozkop-digitalni-prodajni-operativni-sistem",
+      cta: "Studija slučaja",
+    },
+    {
+      name: "Toza AI",
+      sector: "AI video studio",
+      note: "Paketi, naplata, sati u nalogu, termini i fakture u jednom sistemu. Klijent kupi sate za rad jedan na jedan, pa ih zakazuje iz svog naloga — termin i naplata su ista stvar, ne dve.",
+      href: "/our-projects/toza-ai-platforma-za-ai-video-studio",
+      cta: "Studija slučaja",
+    },
+    {
+      name: "Stan na dan Niš",
+      sector: "Izdavanje apartmana · Niš",
+      note: "Rezervacija po datumima umesto po satu: dolazak, odlazak, broj gostiju i provera dostupnosti, uz self check-in. Isti kalendar, druga jedinica mere — noć umesto pola sata.",
+      href: "https://nis-apartmani.rs",
+      cta: "nis-apartmani.rs",
+      external: true,
+    },
+    {
       name: "Dropz Tattoo",
       sector: "Tattoo studio",
       note: "WebGL naslovna, upiti sa referentnim slikama, kalendar termina, kapare i mesečni pregled naplate. Zakazivanje tetovaže ne liči na zakazivanje šišanja — i sistem to zna.",
@@ -181,7 +209,7 @@ export const bookingProof = {
       external: true,
     },
     {
-      name: "Eduka · DentalX",
+      name: "Eduka",
       sector: "Stomatološka edukacija",
       note: "Prijave na kurseve i polaznici na jednom mestu. Ista logika kao termin: ograničen broj mesta, potvrda i evidencija ko je došao.",
       href: "https://eduka.co.rs",
