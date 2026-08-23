@@ -143,6 +143,8 @@ export const bookingCapabilities = {
   ],
 };
 
+/** `image` is a screenshot of the real screen; a card without one still links
+ *  to a live system, it just has no shot yet. */
 export const bookingProof = {
   eyebrow: "Dokaz",
   title: "Gotovi sistemi",
@@ -151,6 +153,7 @@ export const bookingProof = {
   items: [
     {
       name: "Doctor Barber",
+      image: "/images/case-studies/doctorbarber.webp",
       sector: "Berbernica · Niš",
       note: "Javni sajt, online zakazivanje, klijentski nalog, admin kalendar i notifikacije. Radi kao PWA, pa se sa telefona otvara kao aplikacija.",
       href: "/our-projects/doctor-barber-online-booking-sistem",
@@ -158,6 +161,7 @@ export const bookingProof = {
     },
     {
       name: "Dr Igić",
+      image: "/images/case-studies/drigic-mobileview.webp",
       sector: "Estetska klinika",
       note: "Zakazivanje spojeno sa evidencijom pacijenata — termin i karton nisu dva odvojena sveta. Najveći sistem u portfoliju.",
       href: "/our-projects/dr-igic-web-aplikacija-za-estetske-klinike",
@@ -165,6 +169,7 @@ export const bookingProof = {
     },
     {
       name: "Prevoz Kop",
+      image: "/images/case-studies/prevozkop-desktop.webp",
       sector: "Betonska baza · Niš",
       note: "Najrazuđeniji admin u portfoliju: upiti i ponude, proizvodi, radnici, vozila i termini isporuke betona. Dokaz da zakazivanje ne mora da bude stolica u salonu — može biti mikser u devet ujutru.",
       href: "/our-projects/prevozkop-digitalni-prodajni-operativni-sistem",
@@ -172,6 +177,7 @@ export const bookingProof = {
     },
     {
       name: "Toza AI",
+      image: "/images/case-studies/tozai-desktop.webp",
       sector: "AI video studio",
       note: "Paketi, naplata, sati u nalogu, termini i fakture u jednom sistemu. Klijent kupi sate za rad jedan na jedan, pa ih zakazuje iz svog naloga — termin i naplata su ista stvar, ne dve.",
       href: "/our-projects/toza-ai-platforma-za-ai-video-studio",
@@ -187,6 +193,7 @@ export const bookingProof = {
     },
     {
       name: "Dropz Tattoo",
+      image: "/images/case-studies/dropz-desktop.webp",
       sector: "Tattoo studio",
       note: "WebGL naslovna, upiti sa referentnim slikama, kalendar termina, kapare i mesečni pregled naplate. Zakazivanje tetovaže ne liči na zakazivanje šišanja — i sistem to zna.",
       href: "/our-projects/dropz-tattoo-sajt-i-sistem-zakazivanja",
@@ -382,6 +389,19 @@ export const bookingFaq = {
       a: "Zakazivanje se dodaje na postojeći sajt ako je tehnički zdrav. Ako nije, kažemo to otvoreno pre nego što se posao započne.",
     },
   ],
+};
+
+/**
+ * A salon owner between two clients will not fill in a form — they call. The
+ * form was the only way to reach us from this page, which quietly discarded
+ * every visitor who wanted to talk instead of type.
+ */
+export const bookingDirect = {
+  label: "Ili odmah, bez forme:",
+  phone: { label: "060 149 149 1", href: "tel:+381601491491" },
+  whatsapp: { label: "WhatsApp", href: "https://wa.me/381601491491" },
+  viber: { label: "Viber", href: "viber://chat?number=%2B381601491491" },
+  note: "Javlja se Đorđe. Ako je usred posla, uzvraća isti dan.",
 };
 
 export const bookingFinalCta = {

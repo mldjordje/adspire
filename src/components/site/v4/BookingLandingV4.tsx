@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { PageShellV4 } from "./PageShellV4";
 import { StickyCtaV4 } from "./StickyCtaV4";
@@ -9,6 +10,7 @@ import styles from "./BookingLandingV4.module.css";
 import {
   bookingCapabilities,
   bookingCompare,
+  bookingDirect,
   bookingContrast,
   bookingFaq,
   bookingFinalCta,
@@ -103,6 +105,24 @@ export function BookingLandingV4() {
               {bookingHero.secondary.label}
             </a>
           </div>
+          <p className={styles.direct}>
+            <span className={styles.directLabel}>{bookingDirect.label}</span>
+            <a className={styles.directLink} href={bookingDirect.phone.href} data-cta="zakazivanje-hero-telefon">
+              {bookingDirect.phone.label}
+            </a>
+            <a
+              className={styles.directLink}
+              href={bookingDirect.whatsapp.href}
+              target="_blank"
+              rel="noreferrer noopener"
+              data-cta="zakazivanje-hero-whatsapp"
+            >
+              {bookingDirect.whatsapp.label}
+            </a>
+            <a className={styles.directLink} href={bookingDirect.viber.href} data-cta="zakazivanje-hero-viber">
+              {bookingDirect.viber.label}
+            </a>
+          </p>
           <dl className={styles.stats}>
             {bookingHero.stats.map((stat) => (
               <div key={stat.label} className={styles.stat}>
@@ -170,6 +190,19 @@ export function BookingLandingV4() {
           <div className={styles.proofGrid}>
             {bookingProof.items.map((item) => (
               <article key={item.name} className={styles.proofCard}>
+                {/* A salon owner does not read a description of an admin panel.
+                    Cards without a screenshot yet simply skip it. */}
+                {"image" in item && item.image ? (
+                  <div className={styles.proofShot}>
+                    <Image
+                      src={item.image}
+                      alt={`${item.name} — snimak ekrana`}
+                      fill
+                      sizes="(max-width: 720px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      className={styles.proofImg}
+                    />
+                  </div>
+                ) : null}
                 <span className={styles.proofSector}>{item.sector}</span>
                 <h3 className={styles.proofName}>{item.name}</h3>
                 <p className={styles.proofNote}>{item.note}</p>
@@ -341,7 +374,27 @@ export function BookingLandingV4() {
               {bookingFinalCta.secondary.label}
             </Link>
           </div>
-          <p className={styles.reassure}>{bookingFinalCta.reassure}</p>
+          <p className={styles.direct}>
+            <span className={styles.directLabel}>{bookingDirect.label}</span>
+            <a className={styles.directLink} href={bookingDirect.phone.href} data-cta="zakazivanje-kraj-telefon">
+              {bookingDirect.phone.label}
+            </a>
+            <a
+              className={styles.directLink}
+              href={bookingDirect.whatsapp.href}
+              target="_blank"
+              rel="noreferrer noopener"
+              data-cta="zakazivanje-kraj-whatsapp"
+            >
+              {bookingDirect.whatsapp.label}
+            </a>
+            <a className={styles.directLink} href={bookingDirect.viber.href} data-cta="zakazivanje-kraj-viber">
+              {bookingDirect.viber.label}
+            </a>
+          </p>
+          <p className={styles.reassure}>
+            {bookingFinalCta.reassure} {bookingDirect.note}
+          </p>
         </section>
 
         <p className={styles.related}>
