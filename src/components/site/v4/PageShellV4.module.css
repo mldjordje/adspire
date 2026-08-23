@@ -166,7 +166,8 @@
   color: var(--accent);
 }
 
-@media (max-width: 860px) {
+/* Seven links no longer fit beside the logo and the CTA under 1024px. */
+@media (max-width: 1023px) {
   .navLinks {
     display: none;
   }
@@ -228,9 +229,22 @@
   margin: 20px 0 0;
 }
 
+/* The reveal animation masks the heading with overflow:hidden, which clips
+   horizontally too — a single word wider than the column loses its last
+   letters ("Zakazivanj"). SplitType puts every word in an inline-block, so it
+   never wraps on its own; capping the width gives the line breaker somewhere
+   to go instead. German compounds make this the rule, not the edge case. */
+.heroTitle :global(.word) {
+  max-width: 100%;
+  /* SplitType sets nowrap + keep-all on every word, so a word wider than the
+     column can only overflow. Undoing that lets it break as a last resort. */
+  white-space: normal;
+  word-break: break-word;
+}
+
 @media (max-width: 480px) {
   .heroTitle {
-    font-size: clamp(34px, 10.5vw, 48px);
+    font-size: clamp(28px, 8.8vw, 48px);
     letter-spacing: -0.02em;
   }
 }

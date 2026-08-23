@@ -1,14 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { PageShellV4 } from "./PageShellV4";
 import { StickyCtaV4 } from "./StickyCtaV4";
-import { BookingAuroraV4 } from "./BookingAuroraV4";
+import { AuroraV4 } from "./AuroraV4";
 import styles from "./BookingLandingV4.module.css";
 import {
   bookingCapabilities,
   bookingCompare,
+  bookingDirect,
   bookingContrast,
   bookingFaq,
   bookingFinalCta,
@@ -88,7 +90,7 @@ export function BookingLandingV4() {
       eyebrow={bookingHero.eyebrow}
       title={bookingHero.title}
       intro={bookingHero.lead}
-      background={<BookingAuroraV4 />}
+      background={<AuroraV4 />}
       heroExtra={
         <div className={styles.heroExtra}>
           <div className={styles.heroActions}>
@@ -103,6 +105,24 @@ export function BookingLandingV4() {
               {bookingHero.secondary.label}
             </a>
           </div>
+          <p className={styles.direct}>
+            <span className={styles.directLabel}>{bookingDirect.label}</span>
+            <a className={styles.directLink} href={bookingDirect.phone.href} data-cta="zakazivanje-hero-telefon">
+              {bookingDirect.phone.label}
+            </a>
+            <a
+              className={styles.directLink}
+              href={bookingDirect.whatsapp.href}
+              target="_blank"
+              rel="noreferrer noopener"
+              data-cta="zakazivanje-hero-whatsapp"
+            >
+              {bookingDirect.whatsapp.label}
+            </a>
+            <a className={styles.directLink} href={bookingDirect.viber.href} data-cta="zakazivanje-hero-viber">
+              {bookingDirect.viber.label}
+            </a>
+          </p>
           <dl className={styles.stats}>
             {bookingHero.stats.map((stat) => (
               <div key={stat.label} className={styles.stat}>
@@ -148,25 +168,20 @@ export function BookingLandingV4() {
             </div>
             {bookingContrast.rows.map((row) => (
               <div key={row.before} className={styles.contrastRow}>
-                <p className={styles.before}>{row.before}</p>
-                <p className={styles.after}>{row.after}</p>
+                {/* The column headers are off on narrow screens, so each side
+                    carries its own label there — dimming alone did not read as
+                    "before" to anyone who had not seen the desktop layout. */}
+                <div className={styles.before}>
+                  <span className={styles.sideLabel}>{bookingContrast.beforeTitle}</span>
+                  <p className={styles.sideText}>{row.before}</p>
+                </div>
+                <div className={styles.after}>
+                  <span className={styles.sideLabel}>{bookingContrast.afterTitle}</span>
+                  <p className={styles.sideText}>{row.after}</p>
+                </div>
               </div>
             ))}
           </div>
-        </section>
-
-        {/* ─── Capabilities ─── */}
-        <section id="sta-preuzima" className={styles.section} data-reveal>
-          <SectionHead {...bookingCapabilities} />
-          <ol className={styles.cards}>
-            {bookingCapabilities.items.map((item, i) => (
-              <li key={item.title} className={styles.card}>
-                <span className={styles.cardNum}>{String(i + 1).padStart(2, "0")}</span>
-                <h3 className={styles.cardTitle}>{item.title}</h3>
-                <p className={styles.cardBody}>{item.body}</p>
-              </li>
-            ))}
-          </ol>
         </section>
 
         {/* ─── Proof ─── */}
@@ -175,6 +190,19 @@ export function BookingLandingV4() {
           <div className={styles.proofGrid}>
             {bookingProof.items.map((item) => (
               <article key={item.name} className={styles.proofCard}>
+                {/* A salon owner does not read a description of an admin panel.
+                    Cards without a screenshot yet simply skip it. */}
+                {"image" in item && item.image ? (
+                  <div className={styles.proofShot}>
+                    <Image
+                      src={item.image}
+                      alt={`${item.name} — snimak ekrana`}
+                      fill
+                      sizes="(max-width: 720px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      className={styles.proofImg}
+                    />
+                  </div>
+                ) : null}
                 <span className={styles.proofSector}>{item.sector}</span>
                 <h3 className={styles.proofName}>{item.name}</h3>
                 <p className={styles.proofNote}>{item.note}</p>
@@ -202,14 +230,18 @@ export function BookingLandingV4() {
           </div>
         </section>
 
-        {/* ─── Rules the system has to learn ─── */}
-        <section id="pravila" className={styles.section} data-reveal>
-          <SectionHead {...bookingRules} />
-          <ul className={styles.checkList}>
-            {bookingRules.items.map((item) => (
-              <li key={item}>{item}</li>
+        {/* ─── Capabilities ─── */}
+        <section id="sta-preuzima" className={styles.section} data-reveal>
+          <SectionHead {...bookingCapabilities} />
+          <ol className={styles.cards}>
+            {bookingCapabilities.items.map((item, i) => (
+              <li key={item.title} className={styles.card}>
+                <span className={styles.cardNum}>{String(i + 1).padStart(2, "0")}</span>
+                <h3 className={styles.cardTitle}>{item.title}</h3>
+                <p className={styles.cardBody}>{item.body}</p>
+              </li>
             ))}
-          </ul>
+          </ol>
         </section>
 
         {/* ─── Process ─── */}
@@ -224,6 +256,26 @@ export function BookingLandingV4() {
               </li>
             ))}
           </ol>
+        </section>
+
+        {/* ─── Pricing drivers ─── */}
+        <section id="cena" className={styles.section} data-reveal>
+          <SectionHead {...bookingPricing} />
+          <ul className={styles.drivers}>
+            {bookingPricing.drivers.map((driver) => (
+              <li key={driver.title} className={styles.driver}>
+                <h3 className={styles.driverTitle}>{driver.title}</h3>
+                <p className={styles.driverBody}>{driver.body}</p>
+              </li>
+            ))}
+          </ul>
+          <p className={styles.note}>
+            {bookingPricing.note}{" "}
+            <Link className={styles.inlineLink} href={bookingPricing.linkHref}>
+              {bookingPricing.linkLabel}
+            </Link>
+            .
+          </p>
         </section>
 
         {/* ─── SaaS vs custom ─── */}
@@ -254,24 +306,14 @@ export function BookingLandingV4() {
           <p className={styles.verdict}>{bookingCompare.verdict}</p>
         </section>
 
-        {/* ─── Pricing drivers ─── */}
-        <section id="cena" className={styles.section} data-reveal>
-          <SectionHead {...bookingPricing} />
-          <ul className={styles.drivers}>
-            {bookingPricing.drivers.map((driver) => (
-              <li key={driver.title} className={styles.driver}>
-                <h3 className={styles.driverTitle}>{driver.title}</h3>
-                <p className={styles.driverBody}>{driver.body}</p>
-              </li>
+        {/* ─── Rules the system has to learn ─── */}
+        <section id="pravila" className={styles.section} data-reveal>
+          <SectionHead {...bookingRules} />
+          <ul className={styles.checkList}>
+            {bookingRules.items.map((item) => (
+              <li key={item}>{item}</li>
             ))}
           </ul>
-          <p className={styles.note}>
-            {bookingPricing.note}{" "}
-            <Link className={styles.inlineLink} href={bookingPricing.linkHref}>
-              {bookingPricing.linkLabel}
-            </Link>
-            .
-          </p>
         </section>
 
         {/* ─── Mistakes + the people problem ─── */}
@@ -332,7 +374,27 @@ export function BookingLandingV4() {
               {bookingFinalCta.secondary.label}
             </Link>
           </div>
-          <p className={styles.reassure}>{bookingFinalCta.reassure}</p>
+          <p className={styles.direct}>
+            <span className={styles.directLabel}>{bookingDirect.label}</span>
+            <a className={styles.directLink} href={bookingDirect.phone.href} data-cta="zakazivanje-kraj-telefon">
+              {bookingDirect.phone.label}
+            </a>
+            <a
+              className={styles.directLink}
+              href={bookingDirect.whatsapp.href}
+              target="_blank"
+              rel="noreferrer noopener"
+              data-cta="zakazivanje-kraj-whatsapp"
+            >
+              {bookingDirect.whatsapp.label}
+            </a>
+            <a className={styles.directLink} href={bookingDirect.viber.href} data-cta="zakazivanje-kraj-viber">
+              {bookingDirect.viber.label}
+            </a>
+          </p>
+          <p className={styles.reassure}>
+            {bookingFinalCta.reassure} {bookingDirect.note}
+          </p>
         </section>
 
         <p className={styles.related}>

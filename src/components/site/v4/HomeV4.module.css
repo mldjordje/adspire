@@ -477,13 +477,30 @@
   min-width: 74px;
 }
 
-@media (max-width: 1320px) {
+/* The nav pill is absolutely centred, so it runs under the HUD long before
+   1320px — measured overlap was ~54px at 1440 even with five links. The HUD is
+   decoration; it only earns its place once the pill clears it. */
+@media (max-width: 1800px) {
   .navHud {
     display: none;
   }
 }
 
-@media (max-width: 1023px) {
+/* The centred pill and the right-hand block meet around 1280px once the nav
+   carries booking, pricing and contact. Tighten the items instead of dropping
+   pages that were unreachable to begin with. */
+@media (max-width: 1319px) {
+  .desktopNav {
+    gap: 0;
+  }
+
+  .desktopNavItem {
+    padding: 8px 7px;
+    letter-spacing: 0.1em;
+  }
+}
+
+@media (max-width: 1199px) {
   .desktopNav {
     display: none;
   }

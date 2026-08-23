@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import { AuroraV4 } from "@/components/site/v4/AuroraV4";
 import { PageShellV4 } from "@/components/site/v4/PageShellV4";
 import { QuickInquiryV4 } from "@/components/site/v4/QuickInquiryV4";
 import { v4FontClass } from "@/components/site/v4/fonts";
@@ -49,6 +50,8 @@ export default async function BrziUpitPage({ searchParams }: Props) {
           </>
         }
         intro="Pet polja, bez naloga i bez obaveze. Napiši u jednoj rečenici šta te muči i javljam se lično — obično isti radni dan. Podatke za ponudu tražim tek kad se dogovorimo da ima smisla."
+        // Ads land here, so it gets the same shader as the booking landing.
+        background={<AuroraV4 />}
       >
       {/* The mirror of the link on /upit: whoever already knows what they want
           should not have to go through a reply to get a price. */}

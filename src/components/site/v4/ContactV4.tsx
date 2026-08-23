@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { AuroraV4 } from "./AuroraV4";
 import { PageShellV4 } from "./PageShellV4";
 import { getContactCopy, MARKETS, SERVICES } from "./contactCopy";
 import {
@@ -83,6 +84,8 @@ export function ContactV4({ locale = defaultLocale }: Props) {
         </>
       }
       intro={t.intro}
+      // Money pages get the aurora; the rest of the site keeps the cheaper silk.
+      background={<AuroraV4 />}
     >
       <section className={styles.wrap} data-reveal>
         <div className={styles.grid}>

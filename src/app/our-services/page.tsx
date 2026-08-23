@@ -1,19 +1,20 @@
 import type { Metadata } from "next";
 import { JsonLd } from "@/components/site/JsonLd";
-import { getSiteContent } from "@/content/site";
 import { serviceSlugs } from "@/data/serviceCatalog";
 import { itemListServicesJsonLd } from "@/lib/seo/jsonld";
 import { pageMetadata } from "@/lib/seo/metadata";
 import { defaultLocale } from "@/lib/site-config";
 import { ServicesV4 } from "@/components/site/v4/ServicesV4";
+import { getServicesCopy } from "@/components/site/v4/servicesCopy";
 import { v4FontClass } from "@/components/site/v4/fonts";
 
-const servicesPage = getSiteContent(defaultLocale).servicesPage;
+// Same source as the page body, so the SERP entry and the page cannot drift.
+const t = getServicesCopy(defaultLocale);
 
 export const metadata: Metadata = pageMetadata({
   path: "/our-services",
-  title: "Usluge",
-  description: servicesPage.hero.description,
+  title: t.metaTitle,
+  description: t.metaDescription,
   keywords: [
     "usluge web razvoj",
     "Adspire usluge",

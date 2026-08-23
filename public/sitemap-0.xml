@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+<url><loc>https://adspire.rs/de/about-us</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://adspire.rs/en/about-us</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
 <url><loc>https://adspire.rs/de/ai/auto-servisi-i-prodaja</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
 <url><loc>https://adspire.rs/de/ai/knjigovodstvo-i-usluzne-firme</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
 <url><loc>https://adspire.rs/de/ai/nekretnine-i-izdavanje</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
@@ -20,6 +22,38 @@
 <url><loc>https://adspire.rs/en/ai/web-shop-i-trgovina</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
 <url><loc>https://adspire.rs/de/ai</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
 <url><loc>https://adspire.rs/en/ai</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://adspire.rs/de/our-services/ai-integracije-automatizacija</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://adspire.rs/de/our-services/ai-preporuka</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://adspire.rs/de/our-services/business-intelligence-analitika</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://adspire.rs/de/our-services/cms-sistemi</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://adspire.rs/de/our-services/cyber-security-gdpr</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://adspire.rs/de/our-services/e-commerce-web-shop</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://adspire.rs/de/our-services/hosting-infrastruktura</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://adspire.rs/de/our-services/industrijska-resenja</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://adspire.rs/de/our-services/interaktivne-web-tehnologije</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://adspire.rs/de/our-services/interne-poslovne-aplikacije</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://adspire.rs/de/our-services/mobilne-aplikacije</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://adspire.rs/de/our-services/saas-razvoj</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://adspire.rs/de/our-services/seo-digitalni-marketing</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://adspire.rs/de/our-services/sistemi-za-zakazivanje</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://adspire.rs/de/our-services/web-prezentacije</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://adspire.rs/en/our-services/ai-integracije-automatizacija</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://adspire.rs/en/our-services/ai-preporuka</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://adspire.rs/en/our-services/business-intelligence-analitika</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://adspire.rs/en/our-services/cms-sistemi</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://adspire.rs/en/our-services/cyber-security-gdpr</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://adspire.rs/en/our-services/e-commerce-web-shop</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://adspire.rs/en/our-services/hosting-infrastruktura</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://adspire.rs/en/our-services/industrijska-resenja</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://adspire.rs/en/our-services/interaktivne-web-tehnologije</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://adspire.rs/en/our-services/interne-poslovne-aplikacije</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://adspire.rs/en/our-services/mobilne-aplikacije</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://adspire.rs/en/our-services/saas-razvoj</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://adspire.rs/en/our-services/seo-digitalni-marketing</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://adspire.rs/en/our-services/sistemi-za-zakazivanje</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://adspire.rs/en/our-services/web-prezentacije</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://adspire.rs/de/our-services</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://adspire.rs/en/our-services</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
 <url><loc>https://adspire.rs/de</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
 <url><loc>https://adspire.rs/en</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
 <url><loc>https://adspire.rs/about-us</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>

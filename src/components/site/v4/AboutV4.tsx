@@ -1,82 +1,61 @@
 "use client";
 
 import { PageShellV4 } from "./PageShellV4";
+import { getAboutCopy } from "./aboutCopy";
 import styles from "./AboutV4.module.css";
+import { defaultLocale, localePath, type LocaleCode } from "@/lib/site-config";
 
 /**
  * About page — story, principles, founder, metrics. Positioning: development
- * partner from Niš whose job is making clients money and saving them time.
+ * partner from Nis whose job is making clients money and saving them time.
+ *
+ * Copy lives in aboutCopy so /en and /de serve their own language.
  */
-
-const METRICS = [
-  { num: "13", label: "Klijentskih sistema u produkciji" },
-  { num: "48h", label: "Od brifa do prototipa" },
-  { num: "5", label: "Javnih studija slučaja" },
-  { num: "3", label: "Jezika — SR · EN · DE" },
-];
-
-const PRINCIPLES = [
-  {
-    num: "01",
-    title: "Rezultat, ne dekor",
-    desc: "Sajt bez upita je trošak. Merimo uspeh brojem klijenata i ušteđenih sati, ne lepotom.",
-  },
-  {
-    num: "02",
-    title: "Jedan tim, ceo put",
-    desc: "Od strategije preko dizajna do koda i održavanja — bez prebacivanja odgovornosti i bez podizvođača.",
-  },
-  {
-    num: "03",
-    title: "Bez šablona",
-    desc: "Svaki sistem gradimo za konkretan biznis. Nema kupljenih tema ni copy-paste rešenja.",
-  },
-  {
-    num: "04",
-    title: "Transparentno",
-    desc: "Prototip pre ugovora, nedeljni demo, jasna cena. Uvek znate gde je projekat i šta plaćate.",
-  },
-];
 
 const STACK = [
   "Next.js", "React", "TypeScript", "Node.js", "PostgreSQL", "Supabase",
   "Three.js / WebGL", "React Native", "n8n", "Claude / GPT", "Stripe", "Vercel",
 ];
 
-export function AboutV4() {
+/** Splits a story paragraph on the {em} marker so one word can be bolded. */
+function StoryParagraph({ text, emphasis }: { text: string; emphasis: string }) {
+  const [before, after] = text.split("{em}");
+  if (after === undefined) return <p>{text}</p>;
+  return (
+    <p>
+      {before}
+      <strong>{emphasis}</strong>
+      {after}
+    </p>
+  );
+}
+
+export function AboutV4({ locale = defaultLocale }: { locale?: LocaleCode }) {
+  const t = getAboutCopy(locale);
+
   return (
     <PageShellV4
-      eyebrow="O nama / Ko smo"
+      locale={locale}
+      eyebrow={t.eyebrow}
       title={
         <>
-          RAZVOJNI PARTNER
+          {t.title[0]}
           <br />
-          IZ NIŠA<span className={styles.dot}>.</span>
+          {t.title[1]}<span className={styles.dot}>.</span>
         </>
       }
-      intro="Adspire Digital je studio za web, aplikacije i AI automatizaciju. Naš posao je jednostavan: da vam donesemo više klijenata i vratimo sate koje danas trošite na ručni rad."
+      intro={t.intro}
     >
       {/* Story */}
       <section className={styles.story} data-reveal>
         <div className={styles.storyGrid}>
           <div className={styles.storyText}>
-            <p>
-              Počeli smo sa jednim uverenjem: većina firmi ne treba još jedan lep sajt — treba im
-              sistem koji <strong>radi</strong>. Koji dovodi upite dok spavaju, koji im skida
-              papirologiju s vrata, koji prodaje bez dodatnog zaposlenog.
-            </p>
-            <p>
-              Zato ne pravimo brošure. Pravimo digitalne proizvode — sajtove koji konvertuju,
-              interne aplikacije koje vlasnicima i menadžerima vraćaju vreme, i AI sisteme koji
-              automatizuju ono što se ponavlja.
-            </p>
-            <p>
-              Baza nam je Niš, ali radimo sa klijentima iz cele Srbije, regiona i Nemačke — na
-              srpskom, engleskom i nemačkom.
-            </p>
+            {t.story.map((paragraph) => (
+              <StoryParagraph key={paragraph} text={paragraph} emphasis={t.storyEmphasis} />
+            ))}
           </div>
           <div className={styles.metrics}>
-            {METRICS.map((m) => (
+            {t.metrics.map((m) => (
               <div key={m.label} className={styles.metric}>
                 <span className={styles.metricNum}>{m.num}</span>
                 <span className={styles.metricLabel}>{m.label}</span>
@@ -88,9 +67,9 @@ export function AboutV4() {
 
       {/* Principles */}
       <section className={styles.principles} data-reveal>
-        <h2 className={styles.sectionTitle}>Kako razmišljamo</h2>
+        <h2 className={styles.sectionTitle}>{t.principlesTitle}</h2>
         <div className={styles.principlesGrid}>
-          {PRINCIPLES.map((p) => (
+          {t.principles.map((p) => (
             <div key={p.num} className={styles.principle}>
               <span className={styles.principleNum}>{p.num}</span>
               <h3 className={styles.principleTitle}>{p.title}</h3>
@@ -100,20 +79,16 @@ export function AboutV4() {
         </div>
       </section>
 
-      {/* Founder */}
+      {/* Founder — name and contact are identity, never translated */}
       <section className={styles.founder} data-reveal>
         <div className={styles.founderCard}>
           <div className={styles.founderAvatar} aria-hidden="true">
             ĐM
           </div>
           <div className={styles.founderBody}>
-            <span className={styles.founderRole}>Osnivač i tehnički direktor</span>
+            <span className={styles.founderRole}>{t.founderRole}</span>
             <h3 className={styles.founderName}>Đorđe Mladenović</h3>
-            <p className={styles.founderBio}>
-              Vodim Adspire od strategije do produkcije. Pišem kod, projektujem sisteme i sedim na
-              pozivima sa klijentima — jer verujem da najbolji proizvod nastaje kada ista osoba
-              razume i biznis i tehnologiju.
-            </p>
+            <p className={styles.founderBio}>{t.founderBio}</p>
             <div className={styles.founderLinks}>
               <a href="mailto:djordje@adspire.rs" data-cursor="on">djordje@adspire.rs</a>
               <a href="tel:+381601491491" data-cursor="on">+381 60 149 149 1</a>
@@ -124,7 +99,7 @@ export function AboutV4() {
 
       {/* Stack marquee */}
       <section className={styles.stack} data-reveal>
-        <h2 className={styles.sectionTitle}>Stack koji nosi produkciju</h2>
+        <h2 className={styles.sectionTitle}>{t.stackTitle}</h2>
         <div className={styles.stackTags}>
           {STACK.map((s) => (
             <span key={s} className={styles.stackTag}>
@@ -136,9 +111,15 @@ export function AboutV4() {
 
       {/* CTA */}
       <section className={styles.cta} data-reveal>
-        <h2 className={styles.ctaTitle}>Hajde da napravimo nešto veliko.</h2>
-        <a className={styles.ctaButton} href="/contact-us" data-cta="about-kontakt" data-cursor="on" data-magnetic>
-          Zakaži besplatan poziv →
+        <h2 className={styles.ctaTitle}>{t.ctaTitle}</h2>
+        <a
+          className={styles.ctaButton}
+          href={localePath("/contact-us", locale)}
+          data-cta="about-kontakt"
+          data-cursor="on"
+          data-magnetic
+        >
+          {t.ctaButton}
         </a>
       </section>
     </PageShellV4>

@@ -9,6 +9,7 @@ import { serviceJsonLd, faqPageJsonLd } from "@/lib/seo/jsonld";
 import { pageMetadata } from "@/lib/seo/metadata";
 import { getSiteUrl } from "@/lib/seo/site";
 import { isLocale, localePath, prefixedLocales, type LocaleCode } from "@/lib/site-config";
+import { getServiceDetailTranslation } from "@/content/site/serviceDetail.i18n";
 
 type Props = { params: Promise<{ locale: string; slug: string }> };
 
@@ -21,10 +22,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const lc = (isLocale(locale) ? locale : "en") as LocaleCode;
   const service = findServiceBySlug(slug, lc);
   if (!service) return { title: "404" };
+  // Same source as the body, so a translated page never carries a Serbian SERP entry.
+  const t = getServiceDetailTranslation(slug, lc);
   return pageMetadata({
     path: `/our-services/${slug}`,
-    title: service.title,
-    description: service.summary,
+    title: t?.h1 ?? service.title,
+    description: t?.intro ?? service.summary,
     locale: lc,
   });
 }
@@ -39,18 +42,30 @@ export default async function Page({ params }: Props) {
     notFound();
   }
 
+  const t = getServiceDetailTranslation(slug, lc);
+  const localizedPath = localePath(`/our-services/${slug}`, lc);
+
   return (
     <div className={v4FontClass}>
       <JsonLd
         data={[
-          serviceJsonLd(catalog, service.title),
-          faqPageJsonLd(
-            catalog.faqItems,
-            `${getSiteUrl()}${localePath(`/our-services/${slug}`, lc)}`,
+          serviceJsonLd(
+            catalog,
+            service.title,
+            t
+              ? {
+                  path: localizedPath,
+                  name: t.h1,
+                  description: t.intro,
+                  serviceType: t.tags.join(", "),
+                }
+              : undefined,
           ),
+          // The answers a crawler quotes must be in the page's own language.
+          faqPageJsonLd(t?.faq ?? catalog.faqItems, `${getSiteUrl()}${localizedPath}`),
         ]}
       />
-      <ServiceDetailV4 service={service} catalog={catalog} />
+      <ServiceDetailV4 service={service} catalog={catalog} locale={lc} />
     </div>
   );
 }

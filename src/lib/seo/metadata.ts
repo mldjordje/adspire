@@ -26,14 +26,16 @@ const OG_LOCALE: Record<LocaleCode, string> = {
  * routes stay out of both the index and the hreflang map until their component
  * consumes getSiteContent(locale). Add a path here once that is true of it.
  */
-const TRANSLATED_PATHS = new Set<string>(["/"]);
+const TRANSLATED_PATHS = new Set<string>(["/", "/about-us"]);
 
 /**
  * Whole subtrees that are localized. `/ai` and every `/ai/<industry>` page
  * exist in all three languages including their chrome, so the prefix is
- * cheaper and safer to maintain than listing ten paths.
+ * cheaper and safer to maintain than listing ten paths. `/our-services` joined
+ * once every catalog slug had an en and de entry in serviceDetail.i18n — the
+ * prefix is only safe while that stays true, which serviceDetail.test.ts checks.
  */
-const TRANSLATED_PREFIXES = ["/ai"];
+const TRANSLATED_PREFIXES = ["/ai", "/our-services"];
 
 export function isTranslatedPath(path: string): boolean {
   if (TRANSLATED_PATHS.has(path)) return true;

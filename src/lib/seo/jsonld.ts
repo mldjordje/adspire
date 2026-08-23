@@ -153,18 +153,27 @@ export function faqPageJsonLd(
   };
 }
 
-export function serviceJsonLd(entry: ServiceCatalogEntry, title: string) {
-  const url = `${base()}/our-services/${entry.slug}`;
+/**
+ * `localized` lets a translated page describe itself at its own URL. Without it
+ * the German page would publish a Serbian Service node, which is worse than no
+ * node at all — it tells the crawler the page is about something it is not.
+ */
+export function serviceJsonLd(
+  entry: ServiceCatalogEntry,
+  title: string,
+  localized?: { path: string; name: string; description: string; serviceType?: string },
+) {
+  const url = `${base()}${localized?.path ?? `/our-services/${entry.slug}`}`;
   return {
     "@context": "https://schema.org",
     "@type": "Service",
     "@id": `${url}#service`,
-    name: entry.h1Sr ?? title,
-    description: entry.metaDescriptionSr,
+    name: localized?.name ?? entry.h1Sr ?? title,
+    description: localized?.description ?? entry.metaDescriptionSr,
     url,
     provider: { "@id": `${base()}/#organization` },
     areaServed: { "@type": "Country", name: "Serbia" },
-    serviceType: entry.keywordSr,
+    serviceType: localized?.serviceType ?? entry.keywordSr,
   };
 }
 

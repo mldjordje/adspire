@@ -64,7 +64,12 @@ module.exports = {
     // them noindex; advertising them here would contradict that. Only routes that
     // are localized end to end — body and chrome — may be listed. This list must
     // stay in step with TRANSLATED_PATHS/TRANSLATED_PREFIXES in src/lib/seo/metadata.ts.
-    const TRANSLATED_PREFIXED = [/^\/(en|de)$/, /^\/(en|de)\/ai(\/|$)/];
+    const TRANSLATED_PREFIXED = [
+      /^\/(en|de)$/,
+      /^\/(en|de)\/ai(\/|$)/,
+      /^\/(en|de)\/about-us$/,
+      /^\/(en|de)\/our-services(\/|$)/,
+    ];
     const isPrefixed = /^\/(en|de)(\/|$)/.test(cleanPath);
     if (isPrefixed && !TRANSLATED_PREFIXED.some((re) => re.test(cleanPath))) {
       return null;

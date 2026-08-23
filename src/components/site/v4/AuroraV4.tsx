@@ -3,10 +3,11 @@
 import { useEffect, useRef } from "react";
 
 /**
- * Aurora shader for the booking landing page — raw WebGL fullscreen quad, no
- * three.js. Deliberately heavier than SilkV4: layered aurora curtains over a
- * drifting starfield, a horizon bloom and a scanning light band, so the page
- * that ads point at does not look like every other inner page.
+ * Aurora shader background — raw WebGL fullscreen quad, no three.js.
+ * Deliberately heavier than SilkV4: layered aurora curtains over a drifting
+ * starfield, a horizon bloom and a scanning light band. Reserved for the pages
+ * where the visitor decides to buy (booking landing, pricing, contact, the
+ * short brief) — everything else keeps the cheaper silk.
  *
  * Reacts to two inputs the visitor actually produces: the pointer (a warm
  * pocket that bends the curtains) and scroll progress (the horizon sinks and
@@ -154,7 +155,7 @@ type Props = {
   scale?: number;
 };
 
-export function BookingAuroraV4({ scale = 0.45 }: Props) {
+export function AuroraV4({ scale = 0.45 }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {

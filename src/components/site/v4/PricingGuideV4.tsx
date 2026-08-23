@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { AuroraV4 } from "./AuroraV4";
 import { PageShellV4 } from "./PageShellV4";
 import { pricingGuidePage as p } from "@/content/site/pricingGuidePage";
 import styles from "./PricingGuideV4.module.css";
@@ -16,6 +17,8 @@ export function PricingGuideV4() {
       eyebrow="Cene i obim posla"
       title={p.h1}
       intro={p.lead}
+      // Money pages get the aurora; the rest of the site keeps the cheaper silk.
+      background={<AuroraV4 />}
     >
       <div className={styles.body} data-reveal>
         <section aria-labelledby="ranges-heading">
