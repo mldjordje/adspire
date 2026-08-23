@@ -11,7 +11,7 @@ export type V4Copy = {
     cta: string;
     /** header links to real pages — `pricing` is SR-only, there is no
      *  localized /cena-izrade-sajta route yet */
-    links: { services: string; work: string; pricing: string; blog: string; about: string };
+    links: { services: string; work: string; pricing: string; blog: string; about: string; booking: string; contact: string };
   };
   rail: string[]; // hero, manifesto, value, projects, services, aiDemo, process, faq, cta
   hero: {
@@ -90,7 +90,7 @@ export type V4Copy = {
 const sr: V4Copy = {
   nav: {
     cta: "Pokreni projekat",
-    links: { services: "Usluge", work: "Radovi", pricing: "Cene", blog: "Blog", about: "O nama" },
+    links: { services: "Usluge", work: "Radovi", pricing: "Cene", blog: "Blog", about: "O nama", booking: "Zakazivanje", contact: "Kontakt" },
   },
   rail: ["Početak", "Manifest", "Vrednost", "Radovi", "Usluge", "AI demo", "Proces", "FAQ", "Kontakt"],
   hero: {
@@ -255,7 +255,7 @@ const sr: V4Copy = {
 const en: V4Copy = {
   nav: {
     cta: "Start a project",
-    links: { services: "Services", work: "Work", pricing: "Pricing", blog: "Blog", about: "About" },
+    links: { services: "Services", work: "Work", pricing: "Pricing", blog: "Blog", about: "About", booking: "Booking", contact: "Contact" },
   },
   rail: ["Start", "Manifesto", "Value", "Work", "Services", "AI demo", "Process", "FAQ", "Contact"],
   hero: {
@@ -420,7 +420,7 @@ const en: V4Copy = {
 const de: V4Copy = {
   nav: {
     cta: "Projekt starten",
-    links: { services: "Leistungen", work: "Arbeiten", pricing: "Preise", blog: "Blog", about: "Über uns" },
+    links: { services: "Leistungen", work: "Arbeiten", pricing: "Preise", blog: "Blog", about: "Über uns", booking: "Buchung", contact: "Kontakt" },
   },
   rail: ["Start", "Manifest", "Mehrwert", "Arbeiten", "Leistungen", "KI-Demo", "Prozess", "FAQ", "Kontakt"],
   hero: {

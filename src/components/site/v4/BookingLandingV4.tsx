@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { PageShellV4 } from "./PageShellV4";
 import { StickyCtaV4 } from "./StickyCtaV4";
-import { BookingAuroraV4 } from "./BookingAuroraV4";
+import { AuroraV4 } from "./AuroraV4";
 import styles from "./BookingLandingV4.module.css";
 import {
   bookingCapabilities,
@@ -88,7 +88,7 @@ export function BookingLandingV4() {
       eyebrow={bookingHero.eyebrow}
       title={bookingHero.title}
       intro={bookingHero.lead}
-      background={<BookingAuroraV4 />}
+      background={<AuroraV4 />}
       heroExtra={
         <div className={styles.heroExtra}>
           <div className={styles.heroActions}>

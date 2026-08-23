@@ -17,7 +17,12 @@ export type ServiceCatalogEntry = {
   bestFor?: string[];
   deliverables?: string[];
   proof?: { title: string; href: string; result: string }[];
-  secondaryHref?: string;
+  /**
+   * A dedicated landing page that goes deeper than this catalog entry. The
+   * booking landing had no route into it from anywhere in the site chrome or
+   * from its own service page, which is where a buyer actually looks for it.
+   */
+  deepDive?: { href: string; label: string };
   faqItems: { q: string; a: string }[];
 };
 
@@ -600,7 +605,10 @@ export const serviceCatalog: ServiceCatalogEntry[] = [
       { title: "Doctor Barber", href: "/our-projects/doctor-barber-online-booking-sistem", result: "Online termini i admin kalendar umesto ručnog dogovaranja." },
       { title: "Dr Igić", href: "/our-projects/dr-igic-web-aplikacija-za-estetske-klinike", result: "Booking i upravljanje klijentima za estetsku kliniku." },
     ],
-    secondaryHref: "/our-projects/dr-igic-web-aplikacija-za-estetske-klinike",
+    deepDive: {
+      href: "/online-zakazivanje-za-salone-i-klinike",
+      label: "Detaljno: online zakazivanje za salone i klinike",
+    },
     faqItems: [
       { q: "Kome je namenjen sistem za zakazivanje?", a: "Svima koji rade po terminima: klinike i ordinacije, stomatolozi, fizioterapeuti, frizerski i kozmetički saloni, berberi, tattoo studiji, teretane i treneri, auto servisi, advokati i konsultanti." },
       { q: "Koliko košta sistem za zakazivanje?", a: "Standardni sistem (online zakazivanje, podsetnici, admin kalendar) kreće od 900€ jer polazimo od dokazane osnove — ne razvijamo od nule. Rešenja po meri sa evidencijom tretmana i naplatom od 2.000€." },

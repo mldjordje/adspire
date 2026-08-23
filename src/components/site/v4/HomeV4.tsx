@@ -768,9 +768,17 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
           {[
             { href: "/our-services", label: t.nav.links.services },
             { href: "/our-projects", label: t.nav.links.work },
-            ...(locale === "sr" ? [{ href: "/cena-izrade-sajta", label: t.nav.links.pricing }] : []),
+            ...(locale === "sr"
+              ? [
+                  // The booking landing is the paid-traffic page and had no
+                  // route into it from anywhere in the chrome.
+                  { href: "/online-zakazivanje-za-salone-i-klinike", label: t.nav.links.booking },
+                  { href: "/cena-izrade-sajta", label: t.nav.links.pricing },
+                ]
+              : []),
             { href: "/blog", label: t.nav.links.blog },
             { href: "/about-us", label: t.nav.links.about },
+            { href: "/contact-us", label: t.nav.links.contact },
           ].map((item) => (
             <Link
               key={item.href}

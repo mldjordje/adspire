@@ -166,7 +166,8 @@
   color: var(--accent);
 }
 
-@media (max-width: 860px) {
+/* Seven links no longer fit beside the logo and the CTA under 1024px. */
+@media (max-width: 1023px) {
   .navLinks {
     display: none;
   }

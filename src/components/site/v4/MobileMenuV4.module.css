@@ -5,13 +5,15 @@
   display: none;
 }
 
-@media (max-width: 1023px) {
+/* Matches HomeV4/PageShellV4: the desktop pill stops fitting beside the
+   logo and the CTA before 1150px, so the burger takes over there. */
+@media (max-width: 1199px) {
   .showLg {
     display: block;
   }
 }
 
-@media (max-width: 860px) {
+@media (max-width: 1023px) {
   .showMd {
     display: block;
   }
