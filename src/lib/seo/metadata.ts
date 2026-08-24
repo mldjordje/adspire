@@ -11,6 +11,14 @@ export function absoluteUrl(path: string): string {
   return `${base}${normalized}`;
 }
 
+/**
+ * app/opengraph-image.tsx only covers the route it sits in — every nested
+ * segment shipped without og:image, so /contact-us, /faq and the /en and /de
+ * homes all shared with no thumbnail at all. Naming the generated card here
+ * gives every page that uses this helper a real 1200x630 preview.
+ */
+const OG_CARD = { url: "/opengraph-image", width: 1200, height: 630, alt: "Adspire Digital" };
+
 const OG_LOCALE: Record<LocaleCode, string> = {
   sr: "sr_RS",
   en: "en_US",
@@ -92,10 +100,13 @@ export function pageMetadata({
       title: socialTitle,
       description,
       locale: OG_LOCALE[locale],
+      images: [OG_CARD],
     },
     twitter: {
+      card: "summary_large_image",
       title: socialTitle,
       description,
+      images: [OG_CARD.url],
     },
   };
 }

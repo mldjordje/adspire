@@ -50,11 +50,13 @@ export async function generateMetadata({ params }: ServiceDetailPageProps): Prom
       siteName: "Adspire Digital",
       title,
       description,
+      images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Adspire Digital" }],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
+      images: ["/opengraph-image"],
     },
     robots: { index: true, follow: true },
   };
