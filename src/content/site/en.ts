@@ -234,7 +234,7 @@ const blogText: Array<Pick<BlogPost, "title" | "excerpt" | "category">> = [
   {
     title: "Booking systems that replace calls, messages and spreadsheets",
     excerpt:
-      "A central calendar, online appointments and an admin panel that runs 24/7 — how service businesses cut manual work by 60%.",
+      "A central calendar, online appointments and an admin panel that runs 24/7 — what a service business gains when admin work stops being manual.",
     category: "Booking systems",
   },
   {

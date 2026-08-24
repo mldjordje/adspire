@@ -82,7 +82,12 @@ export function pageMetadata({
       canonical,
       ...(translated ? { languages: hreflangAlternates(path) } : {}),
     },
+    // Next replaces the whole `openGraph` object per page instead of merging
+    // it into the layout's, so type and siteName have to be repeated here —
+    // without them Meta's Sharing Debugger reports og:type missing everywhere.
     openGraph: {
+      type: "website",
+      siteName: "Adspire Digital",
       url: canonical,
       title: socialTitle,
       description,

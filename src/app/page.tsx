@@ -21,25 +21,29 @@ const faqJsonLd = {
   })),
 };
 
+const homeMeta = pageMetadata({
+  path: "/",
+  title: "Početna",
+  description:
+    "IT firma iz Niša. Pravimo sajtove koji dovode klijente, aplikacije koje štede vreme i sisteme za zakazivanje, web shopove i internu evidenciju — po meri, ne gotova rešenja.",
+  keywords: [
+    "IT firma Niš",
+    "web agencija Niš",
+    "izrada sajta Niš",
+    "izrada aplikacija Niš",
+    "rezervacioni sistemi Niš",
+    "Adspire Digital",
+    "AI automatizacija",
+  ],
+});
+
 export const metadata: Metadata = {
-  ...pageMetadata({
-    path: "/",
-    title: "Početna",
-    description:
-      "IT firma iz Niša. Pravimo sajtove koji dovode klijente, aplikacije koje štede vreme i sisteme za zakazivanje, web shopove i internu evidenciju — po meri, ne gotova rešenja.",
-    keywords: [
-      "IT firma Niš",
-      "web agencija Niš",
-      "izrada sajta Niš",
-      "izrada aplikacija Niš",
-      "rezervacioni sistemi Niš",
-      "Adspire Digital",
-      "AI automatizacija",
-    ],
-  }),
+  ...homeMeta,
   title: { absolute: homeTitle },
-  openGraph: { title: homeTitle },
-  twitter: { title: homeTitle },
+  // Spread, not replace: a bare `{ title }` here dropped og:url and og:type
+  // from the home page, which is the URL that gets shared the most.
+  openGraph: { ...homeMeta.openGraph, title: homeTitle },
+  twitter: { ...homeMeta.twitter, title: homeTitle },
 };
 
 export default function Page() {

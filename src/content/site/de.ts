@@ -235,7 +235,7 @@ const blogText: Array<Pick<BlogPost, "title" | "excerpt" | "category">> = [
   {
     title: "Buchungssysteme, die Anrufe, Nachrichten und Excel ersetzen",
     excerpt:
-      "Zentraler Kalender, Online-Termine und ein Admin-Panel, das 24/7 läuft — wie Dienstleister manuelle Arbeit um 60 % senken.",
+      "Zentraler Kalender, Online-Termine und ein Admin-Panel, das 24/7 läuft — was ein Dienstleister gewinnt, wenn Verwaltung kein Handbetrieb mehr ist.",
     category: "Buchungssysteme",
   },
   {

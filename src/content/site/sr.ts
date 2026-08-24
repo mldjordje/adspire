@@ -284,7 +284,7 @@ const blogPosts = [
   {
     slug: "booking-sistemi-bez-haosa",
     title: "Booking sistemi koji zamenjuju pozive, poruke i Excel tabele",
-    excerpt: "Centralni kalendar, online termini i admin panel koji radi 24/7 — kako uslužni biznisi smanjuju ručni rad za 60%.",
+    excerpt: "Centralni kalendar, online termini i admin panel koji radi 24/7 — šta uslužni biznis dobija kada administracija prestane da bude ručni posao.",
     category: "Booking sistemi",
     date: "28.03.2026",
     image: "/images/blog/two.png",
