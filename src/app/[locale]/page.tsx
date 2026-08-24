@@ -34,17 +34,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const lc = (isLocale(locale) ? locale : "en") as LocaleCode;
   const title = HOME_TITLE[lc] ?? "Adspire Digital | Web, apps & AI automation";
+  const meta = pageMetadata({
+    path: "/",
+    title: lc === "de" ? "Start" : "Home",
+    description: HOME_DESC[lc] ?? HOME_DESC.en!,
+    keywords: ["Adspire Digital", "web development", "Next.js", "AI automation", "e-commerce"],
+    locale: lc,
+  });
   return {
-    ...pageMetadata({
-      path: "/",
-      title: lc === "de" ? "Start" : "Home",
-      description: HOME_DESC[lc] ?? HOME_DESC.en!,
-      keywords: ["Adspire Digital", "web development", "Next.js", "AI automation", "e-commerce"],
-      locale: lc,
-    }),
+    ...meta,
     title: { absolute: title },
-    openGraph: { title },
-    twitter: { title },
+    openGraph: { ...meta.openGraph, title },
+    twitter: { ...meta.twitter, title },
   };
 }
 

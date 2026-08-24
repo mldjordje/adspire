@@ -26,11 +26,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: post.title,
     description: post.excerpt,
     openGraph: {
+      type: "article",
+      locale: "sr_RS",
+      url: `${getSiteUrl()}/blog/${slug}`,
+      siteName: "Adspire Digital",
       title: post.title,
       description: post.excerpt,
-      type: "article",
       publishedTime: isoDate(post.date),
-      images: [{ url: post.image, width: 1200, height: 630, alt: post.title }],
+      images: [{ url: post.image, alt: post.title }],
     },
     twitter: {
       card: "summary_large_image",
