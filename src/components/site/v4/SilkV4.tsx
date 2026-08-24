@@ -17,6 +17,8 @@ uniform vec2 uRes;
 uniform float uTime;
 uniform vec2 uMouse;
 uniform float uMouseI;
+uniform float uScroll;
+uniform float uVel;
 
 mat2 rot(float a) { return mat2(cos(a), -sin(a), sin(a), cos(a)); }
 
@@ -46,7 +48,18 @@ float fbm(vec2 p) {
 
 void main() {
   vec2 uv = (gl_FragCoord.xy - 0.5 * uRes) / uRes.y;
+  // Kept unwarped: the vignette belongs to the screen, not to the fabric, so
+  // it must not drift off-centre when scroll moves the weave.
+  vec2 screenUv = uv;
   float t = uTime * 0.075;
+
+  // Scroll drifts the weave and rotates it a few degrees over the length of a
+  // page, so a long guide does not sit on one frozen fold pattern. Velocity
+  // shears it along the scroll axis — the fabric lags the movement, then
+  // catches up, which is the whole effect.
+  uv += vec2(uScroll * 0.18, -uScroll * 0.42);
+  uv = rot(uScroll * 0.22 + uVel * 0.09) * uv;
+  uv.y *= 1.0 + abs(uVel) * 0.35;
 
   // cursor influence — a soft pocket that pushes and lights the folds
   vec2 duv = uv - uMouse;
@@ -64,6 +77,8 @@ void main() {
   vec2 q = vec2(fbm(uv * 1.6 + t), fbm(uv * 1.6 - t * 0.7 + 3.1));
   q += normalize(duv + 0.0001) * inf * 0.55;
   q += normalize(iduv + 0.0001) * idle * 0.4;
+  // the warp itself is pulled along by the gesture
+  q += vec2(0.0, uVel * 0.30);
   // the whole weave also breathes, so the folds themselves keep shifting
   float breath = sin(uTime * 0.13) * 0.12;
   float f = fbm(uv * (1.8 + breath) + q * 1.4 + vec2(t * 0.6, -t * 0.4));
@@ -76,15 +91,16 @@ void main() {
   vec3 col = deep;
   col += blue * smoothstep(0.35, 0.85, f) * 0.5;
   col += blueDeep * smoothstep(0.55, 1.0, fbm(uv * 2.4 - q)) * 0.45;
-  // fine sheen lines along the folds
-  col += vec3(0.5, 0.62, 1.0) * pow(abs(sin(f * 14.0 + t * 3.0)), 24.0) * 0.06;
+  // fine sheen lines along the folds — they flare while the page is moving
+  col += vec3(0.5, 0.62, 1.0) * pow(abs(sin(f * 14.0 + t * 3.0)), 24.0)
+       * (0.06 + abs(uVel) * 0.10);
   // cursor glow rides on top of the fabric; the idle pocket gets a dimmer
   // version of the same light so the page never sits completely dead
   col += vec3(0.24, 0.44, 0.95) * inf * 0.45;
   col += vec3(0.2, 0.38, 0.9) * idle * 0.22;
 
-  // vignette
-  col *= 1.0 - dot(uv, uv) * 0.7;
+  // vignette, tightening slightly as the reader goes down the page
+  col *= 1.0 - dot(screenUv, screenUv) * (0.7 + uScroll * 0.10);
 
   gl_FragColor = vec4(col, 1.0);
 }
@@ -101,11 +117,18 @@ export function SilkV4({ opacity = 0.85 }: { opacity?: number }) {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    // Mobile: this is a decorative silk overlay — skip the WebGL rAF loop to
-    // keep low-end phones off the main thread (mobile Lighthouse).
-    if (window.matchMedia("(max-width: 767px)").matches) return;
+    // Phones used to get nothing at all here. They now run the same silk at a
+    // third of the resolution with three fbm octaves instead of five, which is
+    // cheaper than the old desktop path and still answers the scroll. Anything
+    // without WebGL keeps the painted background behind it.
+    const phone = window.matchMedia("(max-width: 767px)").matches;
+    const fragSrc = phone ? FRAG.replace("i < 5; i++", "i < 3; i++") : FRAG;
 
-    const gl = canvas.getContext("webgl", { antialias: false, alpha: false });
+    const gl = canvas.getContext("webgl", {
+      antialias: false,
+      alpha: false,
+      powerPreference: phone ? "low-power" : "default",
+    });
     if (!gl) return;
 
     const compile = (type: number, src: string) => {
@@ -116,7 +139,7 @@ export function SilkV4({ opacity = 0.85 }: { opacity?: number }) {
     };
     const prog = gl.createProgram()!;
     gl.attachShader(prog, compile(gl.VERTEX_SHADER, VERT));
-    gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, FRAG));
+    gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, fragSrc));
     gl.linkProgram(prog);
     gl.useProgram(prog);
 
@@ -131,9 +154,11 @@ export function SilkV4({ opacity = 0.85 }: { opacity?: number }) {
     const uTime = gl.getUniformLocation(prog, "uTime");
     const uMouse = gl.getUniformLocation(prog, "uMouse");
     const uMouseI = gl.getUniformLocation(prog, "uMouseI");
+    const uScroll = gl.getUniformLocation(prog, "uScroll");
+    const uVel = gl.getUniformLocation(prog, "uVel");
 
     // render at reduced resolution — the silk is soft anyway
-    const SCALE = 0.4;
+    const SCALE = phone ? 0.28 : 0.4;
     const resize = () => {
       const r = canvas.getBoundingClientRect();
       canvas.width = Math.max(2, Math.floor(r.width * SCALE));
@@ -164,6 +189,23 @@ export function SilkV4({ opacity = 0.85 }: { opacity?: number }) {
     };
     window.addEventListener("pointermove", onMove, { passive: true });
 
+    // Same two inputs the aurora uses: where the reader is, and how fast they
+    // are moving. Position drifts the weave, velocity shears it.
+    let tScroll = 0;
+    let mScroll = 0;
+    let tVel = 0;
+    let mVel = 0;
+    let lastY = window.scrollY;
+    const onScroll = () => {
+      const max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+      tScroll = Math.min(1, Math.max(0, window.scrollY / max));
+      const dy = window.scrollY - lastY;
+      lastY = window.scrollY;
+      tVel = Math.max(-1, Math.min(1, dy / 90));
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+
     let visible = false;
     let raf = 0;
     const start = performance.now();
@@ -172,10 +214,16 @@ export function SilkV4({ opacity = 0.85 }: { opacity?: number }) {
       mx += (tx - mx) * 0.08;
       my += (ty - my) * 0.08;
       mI += (tI - mI) * 0.06;
+      mScroll += (tScroll - mScroll) * 0.08;
+      // attack fast, release slow — the shear arrives with the gesture
+      mVel += (tVel - mVel) * (Math.abs(tVel) > Math.abs(mVel) ? 0.35 : 0.06);
+      tVel *= 0.82;
       gl.uniform2f(uRes, canvas.width, canvas.height);
       gl.uniform1f(uTime, (performance.now() - start) / 1000);
       gl.uniform2f(uMouse, mx, my);
       gl.uniform1f(uMouseI, mI);
+      gl.uniform1f(uScroll, mScroll);
+      gl.uniform1f(uVel, mVel);
       gl.drawArrays(gl.TRIANGLES, 0, 3);
       raf = requestAnimationFrame(tick);
     };
@@ -200,6 +248,7 @@ export function SilkV4({ opacity = 0.85 }: { opacity?: number }) {
       cancelAnimationFrame(raf);
       window.removeEventListener("resize", resize);
       window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("scroll", onScroll);
       gl.deleteProgram(prog);
       gl.deleteBuffer(buf);
     };

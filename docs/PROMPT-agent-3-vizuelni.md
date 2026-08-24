@@ -475,12 +475,21 @@ Trenutno stanje sajta je tri različite pozadine: `SceneV4` na početnoj, `Auror
 na četiri strane gde se kupuje, `SilkV4` na svemu ostalom. Ako se traži da se cela
 strana „pomera sa skrolom", `SilkV4` je najveći deo tog utiska i ne mogu ja.
 
-Dve opcije, Đorđeva odluka:
-1. `AuroraV4` zameni `SilkV4` svuda — jedan jezik pozadine na celom sajtu. Košta:
-   šest oktava fbm po pikselu na svakoj strani umesto na četiri.
-2. `SilkV4` dobije isti `uVel` ulaz od tebe, pa zadrži svoju jeftinoću i estetiku.
+**Ažurirano isti dan:** Đorđe je izričito tražio da uradim i `SilkV4`, pa sam
+podigao granicu i uradio opciju 2 — `SilkV4` je zadržao svoju estetiku i cenu, a
+dobio je iste ulaze:
 
-Druga je verovatno tačna, ali je tvoj poziv.
+- `uScroll` drifta i rotira tkanje kroz dužinu strane (0.18 / −0.42 pomeraj,
+  0.22 rad rotacije), da dugačak vodič ne stoji na jednom zamrznutom naboru.
+- `uVel` smiče tkanje duž ose skrola, razvlači `uv.y`, vuče i sam warp (`q`), i
+  pojačava sjaj po naborima dok se strana kreće.
+- Vinjeta je namerno ostala u ekranskom prostoru (`screenUv`) — pripada ekranu,
+  ne tkanini, pa ne sme da odluta iz centra kad skrol pomeri weave.
+- Telefon više ne preskače: `SCALE 0.28` i fbm 5→3 oktave. To je jeftinije nego
+  stari desktop put, a i dalje reaguje na skrol.
+
+Ako ti se konstante ne sviđaju, sve su na jednom mestu u `main()` i ne diraju
+ništa drugo.
 
 **Upozorenje o proveri.** Ništa od gore nisam video kako izgleda. Browser panel se
 u toj sesiji nije prikazivao, `document.hidden` je bio `true` pa `requestAnimationFrame`
