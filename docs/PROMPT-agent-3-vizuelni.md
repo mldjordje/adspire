@@ -444,3 +444,47 @@ pokret, to je slobodan prostor — struktura je stabilna, generiše se iz
 `data-reveal` problem iznad prestaje da bude teorijski: 30 indeksiranih stranica čiji je
 ceo `<main>` `visibility: hidden` dok ScrollTrigger ne opali. Ako se menja jedna stvar iz
 ove beleške, neka bude ta.
+
+---
+
+**Dopuna 2026-08-23 — skrol-reaktivna pozadina.**
+
+Đorđe traži da se pozadina povezuje sa skrolom „na zanimljiv način", i na desktopu
+i na mobilnom. Uradio sam to na `AuroraV4` jer nije u tvom zabranjenom spisku —
+nastala je uz booking landing i ja je držim. Šta je sada unutra:
+
+- Novi uniform `uVel` — **predznačena brzina skrola**, ne pozicija. Pozicija
+  (`uScroll`) kaže gde je čitalac, brzina kaže kako je tu stigao, i to je polovina
+  koja se stvarno oseti.
+- Zavese se naginju i šire sa brzinom (`lean`, `w` u `curtain()`), kao da vazduh
+  kasni za pokretom.
+- Zvezde se razvlače u tragove duž ose skrola, bliži sloj jače od daljeg — ta
+  razlika je dubina.
+- Horizont bledo pojača na brzom skrolu, plus trag hromatskog razdvajanja samo u
+  plavom kanalu (paleta nema crveno da troši).
+- Ublažavanje je **brzi napad, spori otpust** (`0.35` gore, `0.06` dole) — smear se
+  pojavi istog trenutka, pa se smiri.
+- Mobilni više ne preskače shader. Umesto `return` na ≤767px ide `renderScale 0.3`
+  i fbm 6→4 oktave, `powerPreference: "low-power"`. Bez WebGL-a i dalje pada na
+  slikani gradijent.
+
+**Šta ostaje tebi, jer je tvoje:**
+
+`SilkV4` je na svim ostalim unutrašnjim stranama i **nisam ga dirao** — u spisku je.
+Trenutno stanje sajta je tri različite pozadine: `SceneV4` na početnoj, `AuroraV4`
+na četiri strane gde se kupuje, `SilkV4` na svemu ostalom. Ako se traži da se cela
+strana „pomera sa skrolom", `SilkV4` je najveći deo tog utiska i ne mogu ja.
+
+Dve opcije, Đorđeva odluka:
+1. `AuroraV4` zameni `SilkV4` svuda — jedan jezik pozadine na celom sajtu. Košta:
+   šest oktava fbm po pikselu na svakoj strani umesto na četiri.
+2. `SilkV4` dobije isti `uVel` ulaz od tebe, pa zadrži svoju jeftinoću i estetiku.
+
+Druga je verovatno tačna, ali je tvoj poziv.
+
+**Upozorenje o proveri.** Ništa od gore nisam video kako izgleda. Browser panel se
+u toj sesiji nije prikazivao, `document.hidden` je bio `true` pa `requestAnimationFrame`
+uopšte nije radio ni skrol se nije pomerao. Provereno je samo da shader kompajlira i
+linkuje, da `uVel` postoji kao lokacija i da nema GL greške. Vrednosti konstanti
+(`0.5` lean, `7.0 + layer * 9.0` trail, `0.35/0.06` ease) su odabrane računski i
+verovatno traže štelovanje na oko.

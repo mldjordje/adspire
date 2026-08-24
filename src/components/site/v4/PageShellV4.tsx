@@ -22,6 +22,51 @@ import { defaultLocale, localePath, type LocaleCode } from "@/lib/site-config";
  * under [locale], and would 404 on the rest.
  */
 
+/**
+ * Shrinks the hero title until its longest word fits the column.
+ *
+ * The size is one clamp() shared by every page, so a long word — "Zakazivanje",
+ * or a German compound — overflows on some of them and not others. The reveal
+ * animation masks the heading with overflow:hidden, so the overflow reads as
+ * missing letters. Letting the word break instead only moves the problem: a
+ * headline split as "Zakaz / ivanje" looks like a bug too.
+ *
+ * SplitType leaves every word nowrap, which is what makes the overflow
+ * measurable: scrollWidth exceeds clientWidth by exactly the ratio the font
+ * has to come down by.
+ */
+/** Below this share of the CSS size the title stops being a title. */
+const MIN_HEADING_SCALE = 0.7;
+
+function fitHeading(heading: HTMLElement) {
+  heading.style.fontSize = "";
+  heading.classList.remove(styles.heroTitleWrap);
+  const words = heading.querySelectorAll<HTMLElement>(".word");
+  if (!words.length) return;
+
+  let ratio = 1;
+  words.forEach((word) => {
+    if (word.clientWidth > 0) ratio = Math.max(ratio, word.scrollWidth / word.clientWidth);
+  });
+  if (ratio <= 1.001) return;
+
+  const base = parseFloat(getComputedStyle(heading).fontSize);
+  if (!Number.isFinite(base)) return;
+
+  const scale = 1 / ratio;
+  if (scale >= MIN_HEADING_SCALE) {
+    // A hair under the exact fit, so sub-pixel rounding cannot re-trigger a break.
+    heading.style.fontSize = `${Math.floor(base * scale * 0.99)}px`;
+    return;
+  }
+
+  // Shrinking the whole title to fit one very long word costs more than the
+  // break does: "ONLINE-TERMINBUCHUNG" on a phone would land around 15px. Hold
+  // the floor and let that word wrap — at its hyphen where it has one.
+  heading.style.fontSize = `${Math.floor(base * MIN_HEADING_SCALE)}px`;
+  heading.classList.add(styles.heroTitleWrap);
+}
+
 type PageShellProps = {
   eyebrow: string;
   title: React.ReactNode;
@@ -88,6 +133,7 @@ export function PageShellV4({
         if (heading) {
           const s = new SplitType(heading, { types: "words, chars" });
           heading.style.overflow = "hidden";
+          fitHeading(heading);
           if (s.chars?.length) {
             gsap.from(s.chars, {
               y: "1.1em",
@@ -121,6 +167,21 @@ export function PageShellV4({
       ctxRevert = () => ctx.revert();
     })();
 
+    // A title is set in one clamp for every page, so the longest word decides
+    // whether it fits. ResizeObserver rather than a resize listener: the column
+    // also changes width when a scrollbar appears, and the measurement has to
+    // happen after layout, not during the event.
+    let refitFrame = 0;
+    const refit = () => {
+      cancelAnimationFrame(refitFrame);
+      refitFrame = requestAnimationFrame(() => {
+        const heading = root.querySelector<HTMLElement>(`.${styles.heroTitle}`);
+        if (heading) fitHeading(heading);
+      });
+    };
+    const ro = new ResizeObserver(refit);
+    ro.observe(root);
+
     // curtain transition on internal links
     const onClick = (e: MouseEvent) => {
       const a = (e.target as HTMLElement).closest<HTMLAnchorElement>("a[href^='/']");
@@ -137,6 +198,8 @@ export function PageShellV4({
 
     return () => {
       disposed = true;
+      cancelAnimationFrame(refitFrame);
+      ro.disconnect();
       ctxRevert?.();
       root.removeEventListener("click", onClick);
     };

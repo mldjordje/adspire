@@ -24,6 +24,7 @@ uniform float uTime;
 uniform vec2 uMouse;
 uniform float uMouseI;
 uniform float uScroll;
+uniform float uVel;
 
 mat2 rot(float a) { return mat2(cos(a), -sin(a), sin(a), cos(a)); }
 
@@ -56,10 +57,15 @@ float fbm(vec2 p) {
    with different speeds is what reads as depth. */
 float curtain(vec2 uv, float seed, float speed, float width) {
   float t = uTime * speed;
+  // A flick of the wheel leans the sheet and lets it bloom wider, the way a
+  // real curtain lags behind the air that moved it.
+  float lean = uVel * 0.5;
+  uv.x += lean * (0.35 + uv.y * 0.25);
+  float w = width * (1.0 + abs(uVel) * 0.55);
   float wobble = fbm(vec2(uv.x * 1.3 + seed, t * 0.5 + seed)) - 0.5;
   float base = wobble * 0.9;
   float d = abs(uv.y - base);
-  float body = exp(-d * d / (width * width));
+  float body = exp(-d * d / (w * w));
   // vertical striations along the sheet — the filament look
   float fil = 0.55 + 0.45 * noise(vec2(uv.x * 9.0 + seed * 4.0, t * 1.6));
   return body * fil;
@@ -92,7 +98,11 @@ void main() {
     float h = hash(id + layer * 17.0);
     if (h > 0.955) {
       float tw = 0.65 + 0.35 * sin(uTime * (1.2 + h * 3.0) + h * 30.0);
-      float s = exp(-dot(f, f) * (120.0 - layer * 45.0)) * tw;
+      // Speed pulls each star into a short trail along the scroll axis. The
+      // near layer smears more than the far one — that difference is the depth.
+      float trail = 1.0 + abs(uVel) * (7.0 + layer * 9.0);
+      vec2 fs = vec2(f.x, f.y / trail);
+      float s = exp(-dot(fs, fs) * (120.0 - layer * 45.0)) * tw / sqrt(trail);
       col += vec3(0.72, 0.80, 1.0) * s * (0.55 - layer * 0.22);
     }
   }
@@ -122,7 +132,7 @@ void main() {
 
   // ── horizon bloom: the light source the curtains hang above ──
   float horizon = exp(-pow((uv.y + 0.62 + sink) * 3.2, 2.0));
-  col += blue * horizon * 0.30;
+  col += blue * horizon * (0.30 + abs(uVel) * 0.35);
   col += pale * pow(horizon, 3.0) * 0.14;
 
   // ── scanning band, slow, gives the frame a heartbeat ──
@@ -133,6 +143,12 @@ void main() {
   col += vec3(0.26, 0.48, 1.0) * inf * 0.55;
   col += pale * pow(inf, 2.2) * 0.20;
   col += vec3(0.20, 0.38, 0.92) * idle * 0.24;
+
+  // A trace of chromatic shear while the page is actually moving. Kept on the
+  // blue channel only: the palette has no red to spend.
+  float shear = clamp(abs(uVel) * 2.2, 0.0, 1.0);
+  col.b += shear * smoothstep(0.35, 0.95, haze) * 0.06;
+  col.rg *= 1.0 - shear * 0.03;
 
   // vignette + slight cooling as the page scrolls
   col *= 1.0 - dot(uv, uv) * 0.72;
@@ -161,11 +177,20 @@ export function AuroraV4({ scale = 0.45 }: Props) {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    // Phones get the CSS gradient underneath instead — a six-octave fbm per
-    // pixel is not worth the battery on a page people open from an ad.
-    if (window.matchMedia("(max-width: 767px)").matches) return;
+    // Phones used to get the painted gradient and nothing else. Most of the
+    // traffic here is a phone, so instead of skipping the shader it runs at a
+    // lower resolution with four fbm octaves instead of six — the curtains and
+    // the scroll reaction survive, the per-pixel cost roughly halves. Anything
+    // without WebGL still falls back to the gradient underneath.
+    const phone = window.matchMedia("(max-width: 767px)").matches;
+    const renderScale = phone ? Math.min(scale, 0.3) : scale;
+    const fragSrc = phone ? FRAG.replace("i < 6; i++", "i < 4; i++") : FRAG;
 
-    const gl = canvas.getContext("webgl", { antialias: false, alpha: false });
+    const gl = canvas.getContext("webgl", {
+      antialias: false,
+      alpha: false,
+      powerPreference: phone ? "low-power" : "default",
+    });
     if (!gl) return;
 
     const compile = (type: number, src: string) => {
@@ -176,7 +201,7 @@ export function AuroraV4({ scale = 0.45 }: Props) {
     };
     const prog = gl.createProgram()!;
     gl.attachShader(prog, compile(gl.VERTEX_SHADER, VERT));
-    gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, FRAG));
+    gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, fragSrc));
     gl.linkProgram(prog);
     if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) return;
     gl.useProgram(prog);
@@ -193,11 +218,12 @@ export function AuroraV4({ scale = 0.45 }: Props) {
     const uMouse = gl.getUniformLocation(prog, "uMouse");
     const uMouseI = gl.getUniformLocation(prog, "uMouseI");
     const uScroll = gl.getUniformLocation(prog, "uScroll");
+    const uVel = gl.getUniformLocation(prog, "uVel");
 
     const resize = () => {
       const r = canvas.getBoundingClientRect();
-      canvas.width = Math.max(2, Math.floor(r.width * scale));
-      canvas.height = Math.max(2, Math.floor(r.height * scale));
+      canvas.width = Math.max(2, Math.floor(r.width * renderScale));
+      canvas.height = Math.max(2, Math.floor(r.height * renderScale));
       gl.viewport(0, 0, canvas.width, canvas.height);
     };
     resize();
@@ -226,9 +252,18 @@ export function AuroraV4({ scale = 0.45 }: Props) {
     // snap the horizon.
     let tScroll = 0;
     let mScroll = 0;
+    // Signed pixels-per-frame, normalised and clamped. Position alone tells the
+    // shader where the reader is; velocity tells it how they got there, and that
+    // is the half you actually feel.
+    let tVel = 0;
+    let mVel = 0;
+    let lastY = typeof window === "undefined" ? 0 : window.scrollY;
     const onScroll = () => {
       const max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
       tScroll = Math.min(1, Math.max(0, window.scrollY / max));
+      const dy = window.scrollY - lastY;
+      lastY = window.scrollY;
+      tVel = Math.max(-1, Math.min(1, dy / 90));
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -242,11 +277,16 @@ export function AuroraV4({ scale = 0.45 }: Props) {
       my += (ty - my) * 0.07;
       mI += (tI - mI) * 0.05;
       mScroll += (tScroll - mScroll) * 0.08;
+      // Attack fast, release slow: the smear should appear the instant the page
+      // moves and then settle, not lag the gesture and then linger equally.
+      mVel += (tVel - mVel) * (Math.abs(tVel) > Math.abs(mVel) ? 0.35 : 0.06);
+      tVel *= 0.82;
       gl.uniform2f(uRes, canvas.width, canvas.height);
       gl.uniform1f(uTime, (performance.now() - start) / 1000);
       gl.uniform2f(uMouse, mx, my);
       gl.uniform1f(uMouseI, mI);
       gl.uniform1f(uScroll, mScroll);
+      gl.uniform1f(uVel, mVel);
       gl.drawArrays(gl.TRIANGLES, 0, 3);
       raf = requestAnimationFrame(tick);
     };

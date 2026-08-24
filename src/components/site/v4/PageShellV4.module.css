@@ -234,17 +234,22 @@
    letters ("Zakazivanj"). SplitType puts every word in an inline-block, so it
    never wraps on its own; capping the width gives the line breaker somewhere
    to go instead. German compounds make this the rule, not the edge case. */
+/* Capped, not wrapped: the word stays on one line and overflows its box, which
+   is what fitHeading() measures to pick the font size. Breaking it instead
+   produced "Zakaz / ivanje" on desktop. */
 .heroTitle :global(.word) {
   max-width: 100%;
-  /* SplitType sets nowrap + keep-all on every word, so a word wider than the
-     column can only overflow. Undoing that lets it break as a last resort. */
+}
+
+/* Added by fitHeading() only when a word cannot fit at a readable size. */
+.heroTitleWrap :global(.word) {
   white-space: normal;
   word-break: break-word;
 }
 
 @media (max-width: 480px) {
   .heroTitle {
-    font-size: clamp(28px, 8.8vw, 48px);
+    font-size: clamp(30px, 10vw, 48px);
     letter-spacing: -0.02em;
   }
 }
