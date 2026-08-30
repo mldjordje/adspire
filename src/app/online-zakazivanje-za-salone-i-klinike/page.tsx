@@ -31,6 +31,21 @@ export default function BookingLandingPage() {
             `${bookingSeo.title} | Adspire Digital`,
             bookingSeo.metaDescription,
           ),
+          {
+            "@context": "https://schema.org",
+            "@type": "Service",
+            "@id": `${absoluteUrl(bookingSeo.path)}#service`,
+            name: "Sistem za online zakazivanje termina za salone i klinike",
+            serviceType: "Online zakazivanje termina, rezervacioni sistemi",
+            description: bookingSeo.metaDescription,
+            provider: { "@id": `${absoluteUrl("/")}#organization` },
+            areaServed: [
+              { "@type": "Country", name: "Serbia" },
+              { "@type": "AdministrativeArea", name: "Niš" },
+              { "@type": "AdministrativeArea", name: "Beograd" },
+            ],
+            url: absoluteUrl(bookingSeo.path),
+          },
           breadcrumbJsonLd([
             { name: "Početna", path: "/" },
             { name: bookingHero.title, path: bookingSeo.path },

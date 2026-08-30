@@ -22,22 +22,19 @@ export function PreloaderV4() {
     const count = countRef.current;
     const fill = fillRef.current;
     if (!root || !count || !fill) return;
+    const isBot =
+      typeof navigator !== "undefined" &&
+      /bot|crawler|spider|crawling|google|bing|duckduck|baidu|yandex|facebookexternalhit|whatsapp|slack|twitter|perplexity|gptbot/i.test(
+        navigator.userAgent,
+      );
+    const prefersReducedMotion =
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    document.documentElement.classList.add("v4-locked");
-
-    const MIN_SHOW = 700; // enough for recognition without charging an attention tax
-    const HARD_CAP = 3500; // the first impression belongs to the site, not its loader
-    const start = performance.now();
-    let raf = 0;
     let fired = false;
     let real = 0;
     let disp = 0;
-
-    const onProgress = (e: Event) => {
-      const p = Number((e as CustomEvent).detail);
-      if (Number.isFinite(p)) real = Math.max(real, Math.min(p, 1));
-    };
-    window.addEventListener("v4:scene-progress", onProgress);
+    let raf = 0;
 
     const finish = () => {
       if (fired) return;
@@ -51,6 +48,25 @@ export function PreloaderV4() {
         setGone(true);
       }, 650);
     };
+
+    if (isBot || prefersReducedMotion) {
+      finish();
+      return;
+    }
+
+    document.documentElement.classList.add("v4-locked");
+
+    const MIN_SHOW = 700; // enough for recognition without charging an attention tax
+    const HARD_CAP = 3500; // the first impression belongs to the site, not its loader
+    const start = performance.now();
+
+    const onProgress = (e: Event) => {
+      const p = Number((e as CustomEvent).detail);
+      if (Number.isFinite(p)) real = Math.max(real, Math.min(p, 1));
+    };
+    window.addEventListener("v4:scene-progress", onProgress);
+
+
 
     const step = (now: number) => {
       const elapsed = now - start;

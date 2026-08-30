@@ -1183,27 +1183,49 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
                 <a href="/our-projects" data-cursor="on">{t.footer.map[0]}</a>
                 <a href="/our-services" data-cursor="on">{t.footer.map[1]}</a>
                 <a href="/blog" data-cursor="on">{t.footer.map[2]}</a>
-                {/* Serbian only — the pricing guide has no en/de translation yet,
-                    and a footer link into Serbian copy from /en would read as broken. */}
                 {locale === "sr" && (
                   <>
                     <a href="/vodici" data-cursor="on">Vodiči</a>
                     <a href="/kako-radimo" data-cursor="on">Kako radimo</a>
-                    <a href="/odrzavanje-i-podrska" data-cursor="on">Održavanje</a>
-                    <a href="/besplatan-pregled-sajta" data-cta="footer-pregled" data-cursor="on">Besplatan pregled sajta</a>
-                    <a href="/cena-izrade-sajta" data-cursor="on">Cene</a>
-                    <a href="/politika-privatnosti" data-cursor="on">Privatnost</a>
-                    <a href="/politika-kolacica" data-cursor="on">Kolačići</a>
-                    <a href="/uslovi-koriscenja" data-cursor="on">Uslovi</a>
+                    <a href="/cena-izrade-sajta" data-cursor="on">Cene izrade sajta</a>
+                    <a href="/besplatan-pregled-sajta" data-cta="footer-pregled" data-cursor="on">Besplatan pregled</a>
                   </>
                 )}
                 <a href="/contact-us" data-cursor="on">{t.footer.map[3]}</a>
+              </div>
+              <div className={styles.footerCol}>
+                <span className={styles.footerColTitle}>{t.footer.solutionsTitle}</span>
+                {locale === "sr" ? (
+                  <>
+                    <a href="/it-firma-nis" data-cursor="on">IT firma Niš</a>
+                    <a href="/izrada-sajta-i-aplikacija-nis" data-cursor="on">Izrada sajta i aplikacija</a>
+                    <a href="/izrada-aplikacija-nis" data-cursor="on">Izrada aplikacija Niš</a>
+                    <a href="/rezervacioni-sistemi-nis" data-cursor="on">Rezervacioni sistemi Niš</a>
+                    <a href="/online-zakazivanje-za-salone-i-klinike" data-cursor="on">Zakazivanje za salone</a>
+                    <a href="/ai-chatbot-za-sajt" data-cursor="on">AI Chatbot za sajt</a>
+                  </>
+                ) : (
+                  <>
+                    <a href={locale === "de" ? "/de/ai" : "/en/ai"} data-cursor="on">
+                      {locale === "de" ? "KI nach Branchen" : "AI by Industry"}
+                    </a>
+                    <a href={locale === "de" ? "/de/our-services" : "/en/our-services"} data-cursor="on">
+                      {locale === "de" ? "Alle Leistungen" : "All Services"}
+                    </a>
+                    <a href="/about-us" data-cursor="on">
+                      {locale === "de" ? "Über uns" : "About us"}
+                    </a>
+                  </>
+                )}
               </div>
               <div className={styles.footerCol}>
                 <span className={styles.footerColTitle}>{t.footer.contactTitle}</span>
                 <a href="mailto:djordje@adspire.rs" data-cursor="on">djordje@adspire.rs</a>
                 <a href="tel:+381601491491" data-cursor="on">+381 60 149 149 1</a>
                 <span>{t.footer.location}</span>
+                <a href="/odrzavanje-i-podrska" data-cursor="on">
+                  {locale === "sr" ? "Održavanje i podrška" : "Maintenance & Support"}
+                </a>
               </div>
               <div className={styles.footerCol}>
                 <span className={styles.footerColTitle}>{t.footer.statusTitle}</span>
@@ -1211,6 +1233,9 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
                   <span className={styles.footerStatusDot} />
                   {t.footer.status}
                 </span>
+                <a href="/politika-privatnosti" data-cursor="on">Privatnost</a>
+                <a href="/politika-kolacica" data-cursor="on">Kolačići</a>
+                <a href="/uslovi-koriscenja" data-cursor="on">Uslovi</a>
                 <span className={styles.footerVersion}>OBSIDIAN · v4.0</span>
               </div>
             </div>

@@ -4,21 +4,28 @@ import { useEffect, useRef } from "react";
 
 /**
  * Silky flowing-noise shader background — raw WebGL fullscreen quad, no
- * three.js overhead. Renders at reduced resolution and only while its
- * section is in the viewport. Drop inside a position:relative section.
+ * three.js overhead. Renders at device resolution and only while its section
+ * is in the viewport. Drop inside a position:relative section.
+ *
+ * This is a base layer, not a blended overlay: it paints its own near-black
+ * ground and is meant to sit at opacity 1 under the content. Fading it and
+ * masking it is what made the earlier version invisible.
  *
  * Interactive: the cursor warps the silk folds and lights them up where it
- * passes — the fabric answers the visitor's hand.
+ * passes, and the page scroll drags the whole weave across the frame.
  */
 
 const FRAG = `
-precision mediump float;
+precision highp float;
 uniform vec2 uRes;
 uniform float uTime;
 uniform vec2 uMouse;
 uniform float uMouseI;
 uniform float uScroll;
+uniform float uProg;
 uniform float uVel;
+
+const float PI = 3.14159265;
 
 mat2 rot(float a) { return mat2(cos(a), -sin(a), sin(a), cos(a)); }
 
@@ -53,13 +60,21 @@ void main() {
   vec2 screenUv = uv;
   float t = uTime * 0.075;
 
-  // Scroll drifts the weave and rotates it a few degrees over the length of a
-  // page, so a long guide does not sit on one frozen fold pattern. Velocity
-  // shears it along the scroll axis — the fabric lags the movement, then
-  // catches up, which is the whole effect.
-  uv += vec2(uScroll * 0.18, -uScroll * 0.42);
-  uv = rot(uScroll * 0.22 + uVel * 0.09) * uv;
-  uv.y *= 1.0 + abs(uVel) * 0.35;
+  // Dramaturgy: dark at the top of the page, brightest and busiest through the
+  // middle, dark again at the foot. Gives a long guide a shape instead of one
+  // flat texture from first screen to last.
+  float arc = sin(clamp(uProg, 0.0, 1.0) * PI);
+
+  // uScroll is measured in SCREENS scrolled, not in page progress. Progress
+  // normalises the drift away on a long page — a whole guide would move the
+  // weave by a couple of percent of the frame, which reads as a still image.
+  // Per-screen drift moves it the same visible amount however long the page is.
+  uv += vec2(uScroll * 0.12, -uScroll * 0.38);
+  // Rotation stays on progress so the frame never spins on a very long page.
+  uv = rot(uProg * 0.55 + uVel * 0.22) * uv;
+  // Velocity stretches the weave along the scroll axis — the fabric lags the
+  // movement, then catches up, which is the whole effect.
+  uv.y *= 1.0 + abs(uVel) * 0.60;
 
   // cursor influence — a soft pocket that pushes and lights the folds
   vec2 duv = uv - uMouse;
@@ -78,29 +93,34 @@ void main() {
   q += normalize(duv + 0.0001) * inf * 0.55;
   q += normalize(iduv + 0.0001) * idle * 0.4;
   // the warp itself is pulled along by the gesture
-  q += vec2(0.0, uVel * 0.30);
+  q += vec2(0.0, uVel * 0.75);
   // the whole weave also breathes, so the folds themselves keep shifting
   float breath = sin(uTime * 0.13) * 0.12;
-  float f = fbm(uv * (1.8 + breath) + q * 1.4 + vec2(t * 0.6, -t * 0.4));
+  // mid-page runs finer, so the texture densifies as the reader goes in
+  float detail = 1.8 + breath + arc * 0.85;
+  float f = fbm(uv * detail + q * 1.4 + vec2(t * 0.6, -t * 0.4));
 
-  vec3 deep = vec3(0.016, 0.016, 0.03);
+  // ground darkens at the ends of the page and lifts slightly in the middle
+  vec3 deep = mix(vec3(0.010, 0.012, 0.026), vec3(0.020, 0.030, 0.070), arc);
   // two-blue palette only — no cyan/violet
-  vec3 blue = vec3(0.16, 0.36, 0.9);
+  vec3 blue = mix(vec3(0.14, 0.32, 0.86), vec3(0.26, 0.50, 1.0), arc);
   vec3 blueDeep = vec3(0.13, 0.26, 0.68);
 
   vec3 col = deep;
-  col += blue * smoothstep(0.35, 0.85, f) * 0.5;
+  col += blue * smoothstep(0.35, 0.85, f) * (0.42 + arc * 0.30);
   col += blueDeep * smoothstep(0.55, 1.0, fbm(uv * 2.4 - q)) * 0.45;
   // fine sheen lines along the folds — they flare while the page is moving
   col += vec3(0.5, 0.62, 1.0) * pow(abs(sin(f * 14.0 + t * 3.0)), 24.0)
-       * (0.06 + abs(uVel) * 0.10);
+       * (0.05 + abs(uVel) * 0.38) * (0.5 + arc * 0.6);
   // cursor glow rides on top of the fabric; the idle pocket gets a dimmer
   // version of the same light so the page never sits completely dead
   col += vec3(0.24, 0.44, 0.95) * inf * 0.45;
   col += vec3(0.2, 0.38, 0.9) * idle * 0.22;
 
-  // vignette, tightening slightly as the reader goes down the page
-  col *= 1.0 - dot(screenUv, screenUv) * (0.7 + uScroll * 0.10);
+  // vignette, tightening slightly as the reader goes down the page. Lighter
+  // than before: this layer is no longer masked by a gradient above it, so the
+  // falloff has to leave the corners alive rather than crushing them to flat.
+  col *= 1.0 - dot(screenUv, screenUv) * (0.52 + uProg * 0.10);
 
   gl_FragColor = vec4(col, 1.0);
 }
@@ -111,14 +131,13 @@ attribute vec2 aPos;
 void main() { gl_Position = vec4(aPos, 0.0, 1.0); }
 `;
 
-export function SilkV4({ opacity = 0.85 }: { opacity?: number }) {
+export function SilkV4({ opacity = 1 }: { opacity?: number }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    // Phones used to get nothing at all here. They now run the same silk at a
-    // third of the resolution with three fbm octaves instead of five, which is
+    // Phones run the same silk with three fbm octaves instead of five, which is
     // cheaper than the old desktop path and still answers the scroll. Anything
     // without WebGL keeps the painted background behind it.
     const phone = window.matchMedia("(max-width: 767px)").matches;
@@ -155,14 +174,24 @@ export function SilkV4({ opacity = 0.85 }: { opacity?: number }) {
     const uMouse = gl.getUniformLocation(prog, "uMouse");
     const uMouseI = gl.getUniformLocation(prog, "uMouseI");
     const uScroll = gl.getUniformLocation(prog, "uScroll");
+    const uProg = gl.getUniformLocation(prog, "uProg");
     const uVel = gl.getUniformLocation(prog, "uVel");
 
-    // render at reduced resolution — the silk is soft anyway
-    const SCALE = phone ? 0.28 : 0.4;
+    // Render at device resolution instead of the old flat 0.4. That scale is
+    // what made the fabric look soft and cheap. No adaptive downscaling here on
+    // purpose: an earlier version watched the rAF interval and walked the
+    // resolution down, but rAF measures the whole page's frame time — GSAP,
+    // ScrollTrigger and Lenis included — so it pinned the shader to its floor
+    // even on an RTX 3060. A fixed dpr cap is what the fluid background on the
+    // sister project uses, and that runs a far heavier sim.
+    const dprCap = phone ? 1.5 : 2;
+    const dpr = Math.min(window.devicePixelRatio || 1, dprCap);
+    const scale = phone ? dpr * 0.6 : dpr * 0.75;
+
     const resize = () => {
       const r = canvas.getBoundingClientRect();
-      canvas.width = Math.max(2, Math.floor(r.width * SCALE));
-      canvas.height = Math.max(2, Math.floor(r.height * SCALE));
+      canvas.width = Math.max(2, Math.floor(r.width * scale));
+      canvas.height = Math.max(2, Math.floor(r.height * scale));
       gl.viewport(0, 0, canvas.width, canvas.height);
     };
     resize();
@@ -189,19 +218,26 @@ export function SilkV4({ opacity = 0.85 }: { opacity?: number }) {
     };
     window.addEventListener("pointermove", onMove, { passive: true });
 
-    // Same two inputs the aurora uses: where the reader is, and how fast they
-    // are moving. Position drifts the weave, velocity shears it.
-    let tScroll = 0;
-    let mScroll = 0;
+    // Three scroll inputs. Screens-scrolled drives the drift so the movement
+    // per screen is the same on a short contact page and a long guide; page
+    // progress drives rotation and the palette arc, which do need to be bounded;
+    // velocity shears the weave.
+    let tScreens = 0;
+    let mScreens = 0;
+    let tProg = 0;
+    let mProg = 0;
     let tVel = 0;
     let mVel = 0;
     let lastY = window.scrollY;
     const onScroll = () => {
       const max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
-      tScroll = Math.min(1, Math.max(0, window.scrollY / max));
+      tScreens = window.scrollY / Math.max(1, window.innerHeight);
+      tProg = Math.min(1, Math.max(0, window.scrollY / max));
       const dy = window.scrollY - lastY;
       lastY = window.scrollY;
-      tVel = Math.max(-1, Math.min(1, dy / 90));
+      // /45 rather than /90: a normal wheel notch now reaches most of the range
+      // instead of a fifth of it.
+      tVel = Math.max(-1, Math.min(1, dy / 45));
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -211,18 +247,23 @@ export function SilkV4({ opacity = 0.85 }: { opacity?: number }) {
     const start = performance.now();
     const tick = () => {
       if (!visible) return;
+      const now = performance.now();
+
       mx += (tx - mx) * 0.08;
       my += (ty - my) * 0.08;
       mI += (tI - mI) * 0.06;
-      mScroll += (tScroll - mScroll) * 0.08;
+      // drift follows quickly — this is the part the reader is meant to notice
+      mScreens += (tScreens - mScreens) * 0.14;
+      mProg += (tProg - mProg) * 0.08;
       // attack fast, release slow — the shear arrives with the gesture
-      mVel += (tVel - mVel) * (Math.abs(tVel) > Math.abs(mVel) ? 0.35 : 0.06);
-      tVel *= 0.82;
+      mVel += (tVel - mVel) * (Math.abs(tVel) > Math.abs(mVel) ? 0.35 : 0.05);
+      tVel *= 0.88;
       gl.uniform2f(uRes, canvas.width, canvas.height);
-      gl.uniform1f(uTime, (performance.now() - start) / 1000);
+      gl.uniform1f(uTime, (now - start) / 1000);
       gl.uniform2f(uMouse, mx, my);
       gl.uniform1f(uMouseI, mI);
-      gl.uniform1f(uScroll, mScroll);
+      gl.uniform1f(uScroll, mScreens);
+      gl.uniform1f(uProg, mProg);
       gl.uniform1f(uVel, mVel);
       gl.drawArrays(gl.TRIANGLES, 0, 3);
       raf = requestAnimationFrame(tick);

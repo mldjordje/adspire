@@ -78,6 +78,7 @@ export type V4Copy = {
     blurb: string;
     mapTitle: string;
     map: [string, string, string, string]; // Projects, Services, Blog, Contact
+    solutionsTitle: string;
     contactTitle: string;
     location: string;
     statusTitle: string;
@@ -94,9 +95,9 @@ const sr: V4Copy = {
   },
   rail: ["Početak", "Manifest", "Vrednost", "Radovi", "Usluge", "AI demo", "Proces", "FAQ", "Kontakt"],
   hero: {
-    badge: "Web · Aplikacije · AI — Niš",
+    badge: "IT FIRMA I WEB AGENCIJA — NIŠ",
     title: ["NIKO NE PAMTI", "PROSEČAN", "SAJT"],
-    sub: "Ručno kodirani sajtovi i AI sistemi koji pretvaraju posetioce u klijente.",
+    sub: "Izrada sajtova, web aplikacija i AI sistema po meri za firme. Ručno kodirana rešenja koja donose klijente i štede vreme.",
     ctaPrimary: "Postavi pitanje — odgovor isti dan",
     ctaGhost: "Pogledaj radove",
     trust: ["13 sistema u produkciji", "5 javnih studija slučaja", "Prototip za 48h"],
@@ -241,8 +242,9 @@ const sr: V4Copy = {
   },
   footer: {
     blurb: "Studio za web, aplikacije i AI automatizaciju. Sajtovi koji dovode klijente, sistemi koji štede vreme.",
-    mapTitle: "Mapa",
+    mapTitle: "Navigacija",
     map: ["Projekti", "Usluge", "Blog", "Kontakt"],
+    solutionsTitle: "Niš & Rešenja",
     contactTitle: "Kontakt",
     location: "Niš, Srbija",
     statusTitle: "Status",
@@ -406,8 +408,9 @@ const en: V4Copy = {
   },
   footer: {
     blurb: "Studio for web, apps and AI automation. Sites that bring clients, systems that save time.",
-    mapTitle: "Sitemap",
+    mapTitle: "Navigation",
     map: ["Projects", "Services", "Blog", "Contact"],
+    solutionsTitle: "Solutions & Niš",
     contactTitle: "Contact",
     location: "Niš, Serbia",
     statusTitle: "Status",
@@ -571,8 +574,9 @@ const de: V4Copy = {
   },
   footer: {
     blurb: "Studio für Web, Apps und KI-Automatisierung. Websites, die Kunden bringen, Systeme, die Zeit sparen.",
-    mapTitle: "Sitemap",
+    mapTitle: "Navigation",
     map: ["Projekte", "Leistungen", "Blog", "Kontakt"],
+    solutionsTitle: "Lösungen & Niš",
     contactTitle: "Kontakt",
     location: "Niš, Serbien",
     statusTitle: "Status",

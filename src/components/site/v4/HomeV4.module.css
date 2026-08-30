@@ -2213,8 +2213,8 @@
 
 .footerGrid {
   display: grid;
-  grid-template-columns: 1.4fr 1fr 1fr 1fr;
-  gap: clamp(20px, 3vw, 44px);
+  grid-template-columns: 1.3fr 1fr 1.3fr 1fr 0.9fr;
+  gap: clamp(16px, 2.5vw, 36px);
 }
 
 .footerCol {
@@ -2291,6 +2291,12 @@
   font-size: 11.5px;
   letter-spacing: 0.05em;
   color: var(--ink-faint);
+}
+
+@media (max-width: 1024px) {
+  .footerGrid {
+    grid-template-columns: 1.4fr 1fr 1fr;
+  }
 }
 
 @media (max-width: 767px) {

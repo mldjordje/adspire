@@ -47,6 +47,16 @@ export function organizationJsonLd() {
       { "@type": "Country", name: "Slovenia" },
     ],
     priceRange: "$$",
+    currenciesAccepted: "RSD, EUR",
+    paymentAccepted: "Bank Transfer, Invoice, Cash",
+    openingHoursSpecification: [
+      {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        opens: "09:00",
+        closes: "17:00",
+      },
+    ],
     knowsAbout: serviceCatalog.map((s) => s.keywordSr.split(",")[0].trim()),
     hasOfferCatalog: {
       "@type": "OfferCatalog",

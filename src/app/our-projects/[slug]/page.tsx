@@ -67,11 +67,37 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
   }
 
   const content = getCaseStudyV4Content(project);
+  const base = getSiteUrl();
+  const canonical = `${base}/our-projects/${project.slug}`;
+  const caseStudyJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "@id": `${canonical}#article`,
+    headline: project.title,
+    name: project.title,
+    description: content.shortDescription || content.heroSubtitle || project.outcome,
+    url: canonical,
+    image: project.image.startsWith("http") ? project.image : `${base}${project.image}`,
+    author: {
+      "@type": "Organization",
+      "@id": `${base}/#organization`,
+      name: "Adspire Digital",
+    },
+    publisher: { "@id": `${base}/#organization` },
+    inLanguage: "sr-RS",
+    about: {
+      "@type": "SoftwareApplication",
+      name: project.shortTitle,
+      applicationCategory: project.category,
+      operatingSystem: "Web",
+    },
+  };
 
   return (
     <div className={v4FontClass}>
       <JsonLd
         data={[
+          caseStudyJsonLd,
           breadcrumbJsonLd([
             { name: "Pocetna", path: "/" },
             { name: "Projekti", path: "/our-projects" },

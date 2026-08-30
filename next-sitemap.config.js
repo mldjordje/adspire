@@ -13,6 +13,9 @@ module.exports = {
     "/upit/status/*",
     "/nalog",
     "/nalog/*",
+    // Background concept lab: dev-only route, 404s in production anyway.
+    "/dev",
+    "/dev/*",
     "/404",
     "/500",
     "/robots.txt",
@@ -88,7 +91,14 @@ module.exports = {
       "/our-projects",
       "/our-services",
       "/upit",
+      "/it-firma-nis",
       "/izrada-sajta-i-aplikacija-nis",
+      "/izrada-aplikacija-nis",
+      "/rezervacioni-sistemi-nis",
+      "/online-zakazivanje-za-salone-i-klinike",
+      "/cena-izrade-sajta",
+      "/ai-chatbot-za-sajt",
+      "/besplatan-pregled-sajta",
     ].includes(cleanPath);
 
     let priority = config.priority;

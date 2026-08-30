@@ -209,7 +209,7 @@ export function PageShellV4({
     <div ref={rootRef} className={styles.root} data-standalone-page="v4-inner">
       <CursorV4 />
       <div className={styles.silk}>
-        {background ?? <SilkV4 opacity={0.4} />}
+        {background ?? <SilkV4 />}
       </div>
       <div className={styles.grain} aria-hidden="true" />
 

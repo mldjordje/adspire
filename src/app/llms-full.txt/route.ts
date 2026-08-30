@@ -1,6 +1,8 @@
 import { aiPagePath, aiPages } from "@/content/site/aiPages";
 import { guides } from "@/content/site/guides";
 import { howWeWorkPage, maintenancePage } from "@/content/site/companyPages";
+import { localPages } from "@/content/site/localPages";
+import { nisPresencePage } from "@/content/site/nisPresencePage";
 import { projectCaseStudies } from "@/data/projectCaseStudies";
 import { serviceCatalog } from "@/data/serviceCatalog";
 import { FOUNDER, ORGANIZATION, getSiteUrl } from "@/lib/seo/site";
@@ -44,9 +46,14 @@ export function GET() {
     .map((guide) => `- [${guide.h1}](${base}${guide.path}): ${guide.metaDescription}`)
     .join("\n");
 
+  const localSummary = [
+    `- [${nisPresencePage.h1}](${base}${nisPresencePage.path}): ${nisPresencePage.lead}`,
+    ...localPages.map((p) => `- [${p.h1}](${base}${p.path}): ${p.lead}`),
+  ].join("\n");
+
   // The FAQ answers are the part an assistant can quote verbatim, so they are
   // reproduced rather than linked.
-  const faqs = [...guides, howWeWorkPage, maintenancePage]
+  const faqs = [...guides, howWeWorkPage, maintenancePage, ...localPages]
     .flatMap((guide) =>
       guide.faq.slice(0, 3).map((item) => `**${item.q}**\n${item.a}\n`),
     )
@@ -87,6 +94,10 @@ Puna stranica: ${base}${howWeWorkPage.path}
 ## Usluge
 
 ${services}
+
+## Lokalne stranice i rešenja (Niš i Srbija)
+
+${localSummary}
 
 ## Dokumentovani projekti u produkciji
 

@@ -80,7 +80,10 @@
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse 80% 70% at 50% 30%, transparent, var(--bg) 82%);
+  /* Was `var(--bg) 82%`, which flattened everything outside a small centre
+     ellipse and hid the shader's motion. The shader now paints its own
+     vignette, so this only has to keep long-form text readable. */
+  background: radial-gradient(ellipse 110% 95% at 50% 30%, transparent 55%, var(--bg) 108%);
 }
 
 .grain {

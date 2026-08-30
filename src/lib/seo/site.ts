@@ -13,6 +13,7 @@ const VERIFIED_PROFILES = [
   // Google Knowledge Graph id for the verified Adspire Digital business profile.
   "https://www.google.com/search?kgmid=/g/11x1sn7rg5",
   "https://www.instagram.com/adspire.rs/",
+  "https://github.com/mldjordje",
 ];
 
 /**

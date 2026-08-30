@@ -31,7 +31,7 @@ const AI_AGENTS = [
 // The brief itself (/upit) is a landing page and stays indexable. What must
 // never be crawled: the private status link that is a buyer's credential, and
 // the client account behind it.
-const PRIVATE = ["/api/", "/os", "/upit/status/", "/nalog"];
+const PRIVATE = ["/api/", "/os", "/upit/status/", "/nalog", "/dev"];
 
 export default function robots(): MetadataRoute.Robots {
   const base = getSiteUrl();
