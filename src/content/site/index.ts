@@ -3,6 +3,7 @@ import { enContent } from "@/content/site/en";
 import { srContent } from "@/content/site/sr";
 import type { LocalizedPageContent } from "@/content/site/types";
 import { defaultLocale, type LocaleCode } from "@/lib/site-config";
+import { hotelService } from "./hotel";
 
 const contentByLocale: Record<LocaleCode, LocalizedPageContent> = {
   sr: srContent,
@@ -11,5 +12,6 @@ const contentByLocale: Record<LocaleCode, LocalizedPageContent> = {
 };
 
 export function getSiteContent(locale: LocaleCode): LocalizedPageContent {
-  return contentByLocale[locale] ?? contentByLocale[defaultLocale];
+  const content = contentByLocale[locale] ?? contentByLocale[defaultLocale];
+  return { ...content, servicesPage: { ...content.servicesPage, items: [...content.servicesPage.items, hotelService(locale)] } };
 }

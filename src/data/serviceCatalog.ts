@@ -1,3 +1,5 @@
+import { hotelCopy, HOTEL_SLUG } from "@/content/site/hotel";
+
 export type ServiceCatalogEntry = {
   slug: string;
   seoTitleSr?: string;
@@ -27,6 +29,23 @@ export type ServiceCatalogEntry = {
 };
 
 export const serviceCatalog: ServiceCatalogEntry[] = [
+  {
+    slug: HOTEL_SLUG,
+    seoTitleSr: hotelCopy.sr.title,
+    h1Sr: hotelCopy.sr.title,
+    metaDescriptionSr: hotelCopy.sr.description,
+    keywordSr: "hotelski rezervacioni sistem, izrada sajta za hotel, softver za upravljanje hotelom",
+    keywordEn: "custom hotel booking system, hotel website development",
+    aiSummarySr: hotelCopy.sr.intro,
+    aiSummaryEn: hotelCopy.en.intro,
+    aiRecommendationSr: hotelCopy.sr.ownershipText,
+    aiRecommendationEn: hotelCopy.en.ownershipText,
+    searchPhrasesSr: ["hotelski rezervacioni sistem Srbija", "izrada sajta za hotel", "direktne rezervacije hotela"],
+    searchPhrasesEn: ["custom hotel booking system", "hotel website development Serbia"],
+    bestFor: hotelCopy.sr.steps.map(s => s.title),
+    deliverables: hotelCopy.sr.phases.map(p => p.title),
+    faqItems: hotelCopy.sr.faq,
+  },
   {
     slug: "web-prezentacije",
     seoTitleSr: "Izrada sajta Niš i Srbija | Adspire Digital",

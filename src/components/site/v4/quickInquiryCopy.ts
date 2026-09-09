@@ -1,0 +1,29 @@
+import type { LocaleCode } from "@/lib/site-config";
+
+const sr = {
+  name: "Ime i prezime *", email: "Email *", business: "Naziv firme ili brenda *", phone: "Telefon", service: "Šta te zanima *", choose: "Izaberi uslugu", idea: "Šta ti treba? *",
+  nameError: "Upiši ime i prezime.", emailError: "Upiši ispravnu email adresu.", businessError: "Upiši naziv firme ili brenda.", ideaError: "Napiši bar 20 karaktera — jedna rečenica je dovoljna.", serviceError: "Izaberi šta te zanima.", consentError: "Potvrdi saglasnost da bismo mogli da ti odgovorimo.",
+  error: "Slanje nije uspelo. Pokušaj ponovo.", network: "Nema veze sa serverom. Proveri internet i pokušaj ponovo.", rateLimit: "Previše pokušaja. Pokušajte ponovo za koji minut.",
+  consent: "Saglasan sam da Adspire Digital kontaktira mene i obrađuje ove podatke radi odgovora na upit.", sending: "Šaljem…", send: "Pošalji pitanje", note: "Bez naloga i bez obaveze. Odgovaram lično, obično isti radni dan.",
+  phoneHint: "Ako ti je lakše da se čujemo nego da pišemo.", ideaHint: "Jedna rečenica je dovoljna. Ostalo pitam u odgovoru.", businessPlaceholder: "npr. Ordinacija Dent Niš", ideaPlaceholder: "npr. Ordinacija smo, pacijenti zakazuju telefonom i dosta ih ne dođe. Treba nam online zakazivanje i podsetnik pred termin.",
+  sent: "Pitanje je stiglo", reference: "Upit", reply: "Javljam se lično na", replyEnd: ", obično isti ili sledeći radni dan. Ako mi za ponudu treba još nešto, pitaću te u tom mejlu — ne moraš ništa unapred da spremaš.", status: "Prati status upita", brief: "Popuni pun brief (brže do cene)",
+};
+export type QuickInquiryCopy = typeof sr;
+const en: QuickInquiryCopy = {
+  name: "Full name *", email: "Email *", business: "Business name *", phone: "Phone", service: "Service *", choose: "Choose a service", idea: "What do you need? *", nameError: "Enter your full name.", emailError: "Enter a valid email address.", businessError: "Enter your business name.", ideaError: "Please write at least 20 characters.", serviceError: "Choose a service.", consentError: "Please give consent so we can respond.", error: "Your inquiry could not be sent. Please try again.", network: "Could not connect. Check your connection and try again.", rateLimit: "Too many attempts. Please try again in a few minutes.", consent: "I agree that Adspire Digital may contact me and process these details to respond to my inquiry.", sending: "Sending…", send: "Send inquiry", note: "No account or commitment required. We usually reply within one business day.", phoneHint: "Optional, if you prefer a call.", ideaHint: "A sentence is enough. We can discuss the details in our reply.", businessPlaceholder: "Your business name", ideaPlaceholder: "Tell us what you would like to build.", sent: "Inquiry received", reference: "Reference", reply: "We will reply to", replyEnd: ", usually the same or next business day. We will ask for any further details by email.", status: "Inquiry status (Serbian)", brief: "Full brief (Serbian)",
+};
+const de: QuickInquiryCopy = {
+  name: "Vor- und Nachname *", email: "E-Mail *", business: "Unternehmen *", phone: "Telefon", service: "Leistung *", choose: "Leistung auswählen", idea: "Was benötigen Sie? *", nameError: "Bitte geben Sie Ihren Namen ein.", emailError: "Bitte geben Sie eine gültige E-Mail-Adresse ein.", businessError: "Bitte geben Sie Ihren Unternehmensnamen ein.", ideaError: "Bitte schreiben Sie mindestens 20 Zeichen.", serviceError: "Bitte wählen Sie eine Leistung.", consentError: "Bitte stimmen Sie der Kontaktaufnahme zu.", error: "Die Anfrage konnte nicht gesendet werden. Bitte erneut versuchen.", network: "Keine Verbindung. Bitte prüfen Sie Ihre Verbindung und versuchen Sie es erneut.", rateLimit: "Zu viele Versuche. Bitte versuchen Sie es in einigen Minuten erneut.", consent: "Ich stimme zu, dass Adspire Digital mich kontaktiert und diese Angaben zur Beantwortung meiner Anfrage verarbeitet.", sending: "Wird gesendet…", send: "Anfrage senden", note: "Ohne Konto und unverbindlich. Wir antworten üblicherweise innerhalb eines Werktags.", phoneHint: "Optional, wenn Sie ein Gespräch bevorzugen.", ideaHint: "Ein Satz genügt. Details klären wir in unserer Antwort.", businessPlaceholder: "Name Ihres Unternehmens", ideaPlaceholder: "Beschreiben Sie kurz Ihr Vorhaben.", sent: "Anfrage eingegangen", reference: "Referenz", reply: "Wir antworten an", replyEnd: ", üblicherweise am selben oder nächsten Werktag. Weitere Angaben klären wir per E-Mail.", status: "Anfragestatus (Serbisch)", brief: "Ausführliches Briefing (Serbisch)",
+};
+export function getQuickInquiryCopy(locale: LocaleCode, hotel = false): QuickInquiryCopy {
+  const copy = { ...({ sr, en, de }[locale]) };
+  if (hotel) {
+    const h = {
+      sr: { business: "Naziv hotela / objekta *", businessPlaceholder: "Naziv vašeg hotela", ideaPlaceholder: "Lokacija, broj soba i kako danas primate rezervacije. Šta biste želeli da unapredite?", ideaHint: "Navedite lokaciju, broj soba i postojeći način rezervisanja.", send: "Zatražite ponudu za hotel" },
+      en: { business: "Hotel / property name *", businessPlaceholder: "Your hotel name", ideaPlaceholder: "Location, room count and how you take bookings today. What would you like to improve?", ideaHint: "Include your location, room count and current booking process.", send: "Request a hotel proposal" },
+      de: { business: "Name des Hotels / Betriebs *", businessPlaceholder: "Ihr Hotelname", ideaPlaceholder: "Standort, Zimmeranzahl und aktueller Buchungsablauf. Was möchten Sie verbessern?", ideaHint: "Nennen Sie Standort, Zimmeranzahl und Ihren aktuellen Buchungsablauf.", send: "Hotelangebot anfordern" },
+    }[locale];
+    Object.assign(copy, h);
+  }
+  return copy;
+}

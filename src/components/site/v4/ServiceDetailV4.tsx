@@ -9,6 +9,7 @@ import {
   getServiceDetailTranslation,
 } from "@/content/site/serviceDetail.i18n";
 import { defaultLocale, localePath, type LocaleCode } from "@/lib/site-config";
+import { hotelCopy, HOTEL_PATH } from "@/content/site/hotel";
 
 /**
  * Service detail page.
@@ -61,6 +62,9 @@ export function ServiceDetailV4({ service, catalog, locale = defaultLocale }: Se
       }
       intro={intro}
     >
+      {["web-prezentacije", "sistemi-za-zakazivanje", "seo-digitalni-marketing", "ai-preporuka"].includes(catalog.slug) ? <section className={styles.overview}>
+        <div className={styles.copy}><h2>{hotelCopy[locale].title}</h2><p>{hotelCopy[locale].intro}</p><a href={localePath(HOTEL_PATH, locale)}>{hotelCopy[locale].explore} ↗</a></div>
+      </section> : null}
       <section className={styles.overview} data-reveal>
         <div className={styles.copy}>
           <span className={styles.label}>{chrome.overviewLabel}</span>

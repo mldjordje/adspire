@@ -41,7 +41,7 @@ export function ServicesV4({ locale = defaultLocale }: { locale?: LocaleCode }) 
               <a
                 key={s.slug}
                 className={styles.card}
-                href={localePath(`/our-services/${s.slug}`, locale)}
+                href={localePath(s.href ?? `/our-services/${s.slug}`, locale)}
                 data-cursor="otvori"
               >
                 <div className={styles.cardTop}>

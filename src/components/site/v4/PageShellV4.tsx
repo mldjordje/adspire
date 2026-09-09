@@ -5,8 +5,8 @@ import styles from "./PageShellV4.module.css";
 import { CursorV4 } from "./CursorV4";
 import { SilkV4 } from "./SilkV4";
 import { MobileMenuV4 } from "./MobileMenuV4";
-import { getShellCopy, type ShellCopy } from "./shellCopy";
-import { defaultLocale, localePath, type LocaleCode } from "@/lib/site-config";
+import { getShellCopy, shellPath, type ShellCopy } from "./shellCopy";
+import { defaultLocale, localePath, locales, type LocaleCode } from "@/lib/site-config";
 
 /**
  * Shared OBSIDIAN chrome for inner pages (Services, About, Contact...).
@@ -77,6 +77,10 @@ type PageShellProps = {
   background?: React.ReactNode;
   /** Rendered inside the hero, under the intro (CTAs, stat strip, ...). */
   heroExtra?: React.ReactNode;
+  /** Bespoke landing composition, with the shared Adspire navigation/footer. */
+  customHero?: React.ReactNode;
+  languagePath?: string;
+  navCtaHref?: string;
   children: React.ReactNode;
 };
 
@@ -88,10 +92,13 @@ export function PageShellV4({
   copyOverride,
   background,
   heroExtra,
+  customHero,
+  languagePath,
+  navCtaHref,
   children,
 }: PageShellProps) {
   const copy = copyOverride ?? getShellCopy(locale);
-  const href = (path: string) => (copyOverride ? path : localePath(path, locale));
+  const href = (path: string) => (copyOverride ? path : shellPath(path, locale));
   const rootRef = useRef<HTMLDivElement>(null);
   const curtainRef = useRef<HTMLDivElement>(null);
   const [clock, setClock] = useState("");
@@ -225,10 +232,13 @@ export function PageShellV4({
           ))}
         </nav>
         <div className={styles.navRight}>
+          {languagePath ? <div className={styles.languages} aria-label="Language">
+            {locales.map(lc => <a key={lc} href={localePath(languagePath, lc)} hrefLang={lc} aria-current={locale === lc ? "page" : undefined}>{lc.toUpperCase()}</a>)}
+          </div> : null}
           {/* Not localised on purpose — see navCtaHref in shellCopy. */}
           <a
             className={styles.navCta}
-            href={copy.navCtaHref}
+            href={navCtaHref ?? copy.navCtaHref}
             data-cta="nav-upit"
             data-cursor="on"
             data-magnetic
@@ -241,12 +251,12 @@ export function PageShellV4({
       </header>
 
       <main className={styles.main}>
-        <section className={styles.hero}>
+        {customHero ?? <section className={styles.hero}>
           <span className={styles.heroEyebrow}>{eyebrow}</span>
           <h1 className={styles.heroTitle}>{title}</h1>
           {intro ? <p className={styles.heroIntro}>{intro}</p> : null}
           {heroExtra}
-        </section>
+        </section>}
 
         {children}
       </main>

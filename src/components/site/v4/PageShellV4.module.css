@@ -150,6 +150,18 @@
   gap: 10px;
 }
 
+.languages { display: flex; gap: 8px; font-size: 10px; letter-spacing: .06em; }
+.languages a { color: var(--ink-dim); text-decoration: none; }
+.languages a[aria-current] { color: var(--ink); text-decoration: underline; text-underline-offset: 5px; }
+@media (max-width: 600px) {
+  .nav:has(.languages) .navCta { display: none; }
+  .nav:has(.languages) .navRight { gap: 18px; }
+}
+@media (min-width: 1024px) and (max-width: 1350px) {
+  .navLinks { gap: 13px; font-size: 11px; }
+  .navClock { display: none; }
+}
+
 .navCta {
   font-size: 12px;
   font-weight: 600;

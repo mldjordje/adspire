@@ -5,6 +5,7 @@ import { localPages } from "@/content/site/localPages";
 import { nisPresencePage } from "@/content/site/nisPresencePage";
 import { projectCaseStudies } from "@/data/projectCaseStudies";
 import { serviceCatalog } from "@/data/serviceCatalog";
+import { hotelCopy, HOTEL_PATH, HOTEL_SLUG } from "@/content/site/hotel";
 import { FOUNDER, ORGANIZATION, getSiteUrl } from "@/lib/seo/site";
 
 export const dynamic = "force-static";
@@ -25,7 +26,7 @@ export function GET() {
     .map(
       (service) =>
         `### ${service.keywordSr.split(",")[0].trim()}\n` +
-        `URL: ${base}/our-services/${service.slug}\n` +
+        `URL: ${base}${service.slug === HOTEL_SLUG ? HOTEL_PATH : `/our-services/${service.slug}`}\n` +
         `${service.aiSummarySr}\n`,
     )
     .join("\n");
@@ -94,6 +95,9 @@ Puna stranica: ${base}${howWeWorkPage.path}
 ## Usluge
 
 ${services}
+
+## Hotelski sistemi / Hotel systems / Hotelsysteme
+${(["sr", "en", "de"] as const).map(lc => `### ${hotelCopy[lc].title}\nURL: ${base}${lc === "sr" ? "" : `/${lc}`}${HOTEL_PATH}\n${hotelCopy[lc].intro}\n${hotelCopy[lc].ownershipText}\n${hotelCopy[lc].faq.map(f => `${f.q}\n${f.a}`).join("\n\n")}`).join("\n\n")}
 
 ## Lokalne stranice i rešenja (Niš i Srbija)
 

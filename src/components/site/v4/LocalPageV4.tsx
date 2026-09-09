@@ -21,6 +21,7 @@ export function LocalPageV4({ page }: Props) {
   return (
     <PageShellV4 eyebrow={page.eyebrow} title={page.h1} intro={page.lead}>
       <div className={styles.body} data-reveal>
+        {page.path === "/rezervacioni-sistemi-nis" ? <section><h2 className={styles.h2}>Hotelski rezervacioni sistem po meri</h2><p className={styles.text}>Hotelski sajt, direktne rezervacije bez Adspire provizije i upravljanje sobama i gostima. Obim i integracije dogovaramo prema vašem hotelu.</p><Link className={styles.inlineLink} href="/hotelski-rezervacioni-sistem">Pogledajte ponudu za hotele ↗</Link></section> : null}
         {page.sections.map((section, index) => (
           <section key={section.heading} aria-labelledby={sectionId(index)}>
             <h2 id={sectionId(index)} className={styles.h2}>{section.heading}</h2>

@@ -1,4 +1,5 @@
 import type { ServiceDetailTranslation } from "./serviceDetail.i18n";
+import { hotelDetail, HOTEL_SLUG } from "./hotel";
 
 /**
  * German copy for /de/our-services/<slug>.
@@ -7,6 +8,7 @@ import type { ServiceDetailTranslation } from "./serviceDetail.i18n";
  * Prices are intentionally left out — see the note in serviceDetail.i18n.ts.
  */
 export const serviceDetailDe: Record<string, ServiceDetailTranslation> = {
+  [HOTEL_SLUG]: hotelDetail("de"),
   "web-prezentacije": {
     h1: "Websites und Unternehmensauftritte",
     intro:

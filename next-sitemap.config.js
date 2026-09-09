@@ -6,6 +6,9 @@ module.exports = {
   autoLastmod: false,
   exclude: [
     "/api/*",
+    "/our-services/hotelski-rezervacioni-sistem",
+    "/en/our-services/hotelski-rezervacioni-sistem",
+    "/de/our-services/hotelski-rezervacioni-sistem",
     "/os",
     "/os/*",
     // A status link is a credential, and the account is per-buyer. Neither is
@@ -71,6 +74,7 @@ module.exports = {
       /^\/(en|de)$/,
       /^\/(en|de)\/ai(\/|$)/,
       /^\/(en|de)\/about-us$/,
+      /^\/(en|de)\/hotelski-rezervacioni-sistem$/,
       /^\/(en|de)\/our-services(\/|$)/,
     ];
     const isPrefixed = /^\/(en|de)(\/|$)/.test(cleanPath);
@@ -96,6 +100,7 @@ module.exports = {
       "/izrada-aplikacija-nis",
       "/rezervacioni-sistemi-nis",
       "/online-zakazivanje-za-salone-i-klinike",
+      "/hotelski-rezervacioni-sistem",
       "/cena-izrade-sajta",
       "/ai-chatbot-za-sajt",
       "/besplatan-pregled-sajta",

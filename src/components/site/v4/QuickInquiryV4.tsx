@@ -12,6 +12,8 @@ import { trackLeadSubmitted } from "@/lib/analytics/events";
 import type { InquiryService } from "@/lib/inquiries/catalog";
 import { MIN } from "@/lib/inquiries/types";
 import styles from "./InquiryFlowV4.module.css";
+import { getQuickInquiryCopy, type QuickInquiryCopy } from "./quickInquiryCopy";
+import type { LocaleCode } from "@/lib/site-config";
 
 /**
  * The quick brief — the form behind /upit/brzo.
@@ -52,20 +54,21 @@ const FIELD_ORDER: FieldKey[] = ["fullName", "email", "businessName", "idea"];
 function validate(
   form: FormState,
   service: string,
+  t: QuickInquiryCopy,
 ): Partial<Record<FieldKey | "service", string>> {
   const errors: Partial<Record<FieldKey | "service", string>> = {};
 
-  if (form.fullName.trim().length < MIN.fullName) errors.fullName = "Upiši ime i prezime.";
+  if (form.fullName.trim().length < MIN.fullName) errors.fullName = t.nameError;
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(form.email.trim())) {
-    errors.email = "Upiši ispravnu email adresu.";
+    errors.email = t.emailError;
   }
   if (form.businessName.trim().length < MIN.businessName) {
-    errors.businessName = "Upiši naziv firme ili brenda.";
+    errors.businessName = t.businessError;
   }
   if (form.idea.trim().length < MIN.quickIdea) {
-    errors.idea = `Napiši bar ${MIN.quickIdea} karaktera — jedna rečenica je dovoljna.`;
+    errors.idea = t.ideaError;
   }
-  if (!service) errors.service = "Izaberi šta te zanima.";
+  if (!service) errors.service = t.serviceError;
 
   return errors;
 }
@@ -73,12 +76,17 @@ function validate(
 export function QuickInquiryV4({
   services,
   initialSlug = "",
+  locale = "sr",
+  hotel = false,
 }: {
   services: InquiryService[];
   /** Set when the visitor arrived from a service page, so the picker is already
    *  answered and only four fields are left. */
   initialSlug?: string;
+  locale?: LocaleCode;
+  hotel?: boolean;
 }) {
+  const t = getQuickInquiryCopy(locale, hotel);
   const [form, setForm] = useState<FormState>(EMPTY);
   const [service, setService] = useState(initialSlug);
   const [consent, setConsent] = useState(false);
@@ -91,13 +99,17 @@ export function QuickInquiryV4({
   const honeypotRef = useRef<HTMLInputElement>(null);
   const requestIdRef = useRef("");
   const fieldRefs = useRef<Partial<Record<FieldKey, HTMLElement | null>>>({});
+  const submittingRef = useRef(false);
+  const sentRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => { if (sent && hotel) sentRef.current?.focus(); }, [sent, hotel]);
 
   useEffect(() => {
     captureFirstTouch();
     requestIdRef.current = createRequestId();
   }, []);
 
-  const errors = validate(form, service);
+  const errors = validate(form, service, t);
   const set =
     (key: FieldKey) =>
     (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
@@ -106,6 +118,7 @@ export function QuickInquiryV4({
   const errorFor = (key: FieldKey) => (showAll || touched[key] ? errors[key] : undefined);
 
   const fieldProps = (key: FieldKey) => ({
+    "aria-label": ({ fullName: t.name, email: t.email, businessName: t.business, idea: t.idea, phone: t.phone })[key],
     onBlur: blur(key),
     "aria-invalid": errorFor(key) ? true : undefined,
     ref: (node: HTMLElement | null) => {
@@ -115,9 +128,10 @@ export function QuickInquiryV4({
 
   async function submit(event: React.FormEvent) {
     event.preventDefault();
+    if (submittingRef.current) return;
     setError(null);
 
-    const problems = validate(form, service);
+    const problems = validate(form, service, t);
     if (Object.keys(problems).length > 0 || !consent) {
       setShowAll(true);
       const first = FIELD_ORDER.find((key) => problems[key]);
@@ -126,11 +140,12 @@ export function QuickInquiryV4({
       node?.focus?.({ preventScroll: true });
       if (problems.service) setError(problems.service);
       else if (!first && !consent) {
-        setError("Potvrdi saglasnost da bismo mogli da ti odgovorimo.");
+        setError(t.consentError);
       }
       return;
     }
 
+    submittingRef.current = true;
     setBusy(true);
     try {
       const response = await fetch("/api/upit", {
@@ -142,7 +157,7 @@ export function QuickInquiryV4({
           services: [service],
           consent: true,
           website: honeypotRef.current?.value ?? "",
-          requestId: requestIdRef.current || createRequestId(),
+          requestId: requestIdRef.current || (requestIdRef.current = createRequestId()),
           attribution: getSubmissionAttribution(),
         }),
       });
@@ -152,16 +167,17 @@ export function QuickInquiryV4({
         message?: string;
       };
       if (!response.ok || !data.reference || !data.statusPath) {
-        setError(data.message ?? "Slanje nije uspelo. Pokušaj ponovo.");
+        setError(response.status === 429 ? t.rateLimit : locale === "sr" ? data.message ?? t.error : t.error);
         return;
       }
       trackLeadSubmitted({ source: "inquiry", service, requestId: data.reference });
       setSent({ reference: data.reference, statusPath: data.statusPath });
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      if (!hotel) window.scrollTo({ top: 0, behavior: "smooth" });
     } catch {
-      setError("Nema veze sa serverom. Proveri internet i pokušaj ponovo.");
+      setError(t.network);
     } finally {
       setBusy(false);
+      submittingRef.current = false;
     }
   }
 
@@ -169,23 +185,20 @@ export function QuickInquiryV4({
 
   if (sent) {
     return (
-      <section className={styles.wrap} data-reveal>
-        <div className={styles.sent}>
-          <p className={styles.eyebrow}>Upit {sent.reference}</p>
+      <section className={styles.wrap} data-reveal={hotel ? undefined : true}>
+        <div className={styles.sent} ref={sentRef} tabIndex={-1} role="status">
+          <p className={styles.eyebrow}>{t.reference} {sent.reference}</p>
           <h2 className={styles.sentTitle}>
-            Pitanje je stiglo<span className={styles.dot}>.</span>
+            {t.sent}<span className={styles.dot}>.</span>
           </h2>
           <p className={styles.sentBody}>
-            Javljam se lično na {form.email}, obično isti ili sledeći radni dan. Ako mi za ponudu
-            treba još nešto, pitaću te u tom mejlu — ne moraš ništa unapred da spremaš.
+            {t.reply} {form.email}{t.replyEnd}
           </p>
           <div className={styles.sentActions}>
             <Link className={styles.submit} href={sent.statusPath} data-cursor="on">
-              Prati status upita
+              {t.status}
             </Link>
-            <Link className={styles.ghost} href="/upit" data-cursor="on">
-              Popuni pun brief (brže do cene)
-            </Link>
+            {!hotel ? <Link className={styles.ghost} href="/upit" data-cursor="on">{t.brief}</Link> : null}
           </div>
         </div>
       </section>
@@ -195,12 +208,12 @@ export function QuickInquiryV4({
   /* ------------------------------------------------------------------ form */
 
   return (
-    <section className={styles.wrap} data-reveal>
-      <form className={styles.form} data-form="upit-brzo" onSubmit={submit} noValidate>
+    <section className={styles.wrap} data-reveal={hotel ? undefined : true}>
+      <form className={styles.form} data-form={hotel ? "hotel-inquiry" : "upit-brzo"} onSubmit={submit} noValidate>
         <div className={styles.block}>
           <div className={styles.row}>
             <label className={styles.field}>
-              <span>Ime i prezime *</span>
+              <span>{t.name}</span>
               <input
                 type="text"
                 autoComplete="name"
@@ -211,7 +224,7 @@ export function QuickInquiryV4({
               {errorFor("fullName") ? <em className={styles.error}>{errors.fullName}</em> : null}
             </label>
             <label className={styles.field}>
-              <span>Email *</span>
+              <span>{t.email}</span>
               <input
                 type="email"
                 autoComplete="email"
@@ -225,11 +238,11 @@ export function QuickInquiryV4({
 
           <div className={styles.row}>
             <label className={styles.field}>
-              <span>Naziv firme ili brenda *</span>
+              <span>{t.business}</span>
               <input
                 type="text"
                 autoComplete="organization"
-                placeholder="npr. Ordinacija Dent Niš"
+                placeholder={t.businessPlaceholder}
                 value={form.businessName}
                 onChange={set("businessName")}
                 {...fieldProps("businessName")}
@@ -239,7 +252,7 @@ export function QuickInquiryV4({
               ) : null}
             </label>
             <label className={styles.field}>
-              <span>Telefon</span>
+              <span>{t.phone}</span>
               <input
                 type="tel"
                 autoComplete="tel"
@@ -247,18 +260,18 @@ export function QuickInquiryV4({
                 value={form.phone}
                 onChange={set("phone")}
               />
-              <em className={styles.hint}>Ako ti je lakše da se čujemo nego da pišemo.</em>
+              <em className={styles.hint}>{t.phoneHint}</em>
             </label>
           </div>
 
           <label className={styles.field}>
-            <span>Šta te zanima *</span>
+            <span>{t.service}</span>
             <select
               value={service}
               onChange={(event) => setService(event.target.value)}
               aria-invalid={showAll && !service ? true : undefined}
             >
-              <option value="">Izaberi uslugu</option>
+              <option value="">{t.choose}</option>
               {services.map((item) => (
                 <option key={item.slug} value={item.slug}>
                   {item.title}
@@ -268,10 +281,10 @@ export function QuickInquiryV4({
           </label>
 
           <label className={styles.field}>
-            <span>Šta ti treba? *</span>
+            <span>{t.idea}</span>
             <textarea
               rows={4}
-              placeholder="npr. Ordinacija smo, pacijenti zakazuju telefonom i dosta ih ne dođe. Treba nam online zakazivanje i podsetnik pred termin."
+              placeholder={t.ideaPlaceholder}
               value={form.idea}
               onChange={set("idea")}
               {...fieldProps("idea")}
@@ -279,7 +292,7 @@ export function QuickInquiryV4({
             {errorFor("idea") ? (
               <em className={styles.error}>{errors.idea}</em>
             ) : (
-              <em className={styles.hint}>Jedna rečenica je dovoljna. Ostalo pitam u odgovoru.</em>
+              <em className={styles.hint}>{t.ideaHint}</em>
             )}
           </label>
         </div>
@@ -298,8 +311,7 @@ export function QuickInquiryV4({
             onChange={(event) => setConsent(event.target.checked)}
           />
           <span>
-            Saglasan sam da Adspire Digital kontaktira mene i obrađuje ove podatke radi odgovora
-            na upit.
+            {t.consent}
           </span>
         </label>
 
@@ -311,13 +323,13 @@ export function QuickInquiryV4({
             data-cursor="on"
             data-magnetic
           >
-            {busy ? "Šaljem…" : "Pošalji pitanje"}
+            {busy ? t.sending : t.send}
           </button>
           <span className={styles.hint}>
-            Bez naloga i bez obaveze. Odgovaram lično, obično isti radni dan.
+            {t.note}
           </span>
         </div>
-        {error ? <p className={styles.error}>{error}</p> : null}
+        {error ? <p className={styles.error} role="alert">{error}</p> : null}
       </form>
     </section>
   );

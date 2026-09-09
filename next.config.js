@@ -183,6 +183,7 @@ const nextConfig = {
         permanent: true,
       },
       // Legacy Serbian route scheme → current English scheme.
+      ...localeRedirects("/our-services/hotelski-rezervacioni-sistem", "/hotelski-rezervacioni-sistem"),
       ...legacyServiceRedirects,
       ...localeRedirects("/index.html", "/"),
       ...localeRedirects("/izrada-sajtova-srbija", "/our-services/web-prezentacije"),

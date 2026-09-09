@@ -18,6 +18,8 @@ import { EventHorizonV4 } from "./EventHorizonV4";
 import ProjectPlanesV4 from "./ProjectPlanesV4";
 import { MobileMenuV4 } from "./MobileMenuV4";
 import { getV4Copy } from "./copy";
+import { HotelPromo } from "./HotelPromo";
+import { hotelCopy, HOTEL_PATH } from "@/content/site/hotel";
 import {
   defaultLocale,
   localePath,
@@ -768,6 +770,7 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
           {[
             { href: "/our-services", label: t.nav.links.services },
             { href: "/our-projects", label: t.nav.links.work },
+            { href: HOTEL_PATH, label: hotelCopy[locale].nav },
             ...(locale === "sr"
               ? [
                   // The booking landing is the paid-traffic page and had no
@@ -825,6 +828,7 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
             {t.nav.cta}
           </a>
           <MobileMenuV4
+            locale={locale}
             sections={RAIL_KEYS.map((key, i) => ({ key, label: t.rail[i] }))
               .filter((r) => r.key !== "hero" && r.key !== "manifesto" && r.key !== "value")
               .map((r) => ({
@@ -1108,6 +1112,7 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
           ))}
         </section>
 
+        <HotelPromo locale={locale} />
         {/* ── 10 · FAQ ── */}
         <section className={styles.faq}>
           <div className={styles.faqHead}>
@@ -1182,6 +1187,7 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
                 <span className={styles.footerColTitle}>{t.footer.mapTitle}</span>
                 <a href="/our-projects" data-cursor="on">{t.footer.map[0]}</a>
                 <a href="/our-services" data-cursor="on">{t.footer.map[1]}</a>
+                <a href={localePath(HOTEL_PATH, locale)} data-cursor="on">{hotelCopy[locale].nav}</a>
                 <a href="/blog" data-cursor="on">{t.footer.map[2]}</a>
                 {locale === "sr" && (
                   <>

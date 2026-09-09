@@ -1,4 +1,5 @@
 import { defaultLocale, type LocaleCode } from "@/lib/site-config";
+import { hotelCopy, HOTEL_PATH, HOTEL_SLUG } from "@/content/site/hotel";
 
 /**
  * Copy for the services index.
@@ -13,6 +14,7 @@ import { defaultLocale, type LocaleCode } from "@/lib/site-config";
  */
 
 export type ServiceCard = {
+  href?: string;
   slug: string;
   title: string;
   desc: string;
@@ -439,5 +441,7 @@ const de: ServicesCopy = {
 const byLocale: Record<LocaleCode, ServicesCopy> = { sr, en, de };
 
 export function getServicesCopy(locale: LocaleCode = defaultLocale): ServicesCopy {
-  return byLocale[locale] ?? byLocale[defaultLocale];
+  const copy = byLocale[locale] ?? byLocale[defaultLocale];
+  const t = hotelCopy[locale];
+  return { ...copy, groups: copy.groups.map((group, i) => i !== 1 ? group : { ...group, services: [{ slug: HOTEL_SLUG, href: HOTEL_PATH, title: t.title, desc: t.intro, tags: [...t.chapters] }, ...group.services] }) };
 }

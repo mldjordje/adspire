@@ -34,7 +34,7 @@ const OG_LOCALE: Record<LocaleCode, string> = {
  * routes stay out of both the index and the hreflang map until their component
  * consumes getSiteContent(locale). Add a path here once that is true of it.
  */
-const TRANSLATED_PATHS = new Set<string>(["/", "/about-us"]);
+const TRANSLATED_PATHS = new Set<string>(["/", "/about-us", "/hotelski-rezervacioni-sistem"]);
 
 /**
  * Whole subtrees that are localized. `/ai` and every `/ai/<industry>` page

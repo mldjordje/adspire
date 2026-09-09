@@ -1,4 +1,5 @@
-import { defaultLocale, type LocaleCode } from "@/lib/site-config";
+import { defaultLocale, localePath, type LocaleCode } from "@/lib/site-config";
+import { hotelCopy, HOTEL_PATH } from "@/content/site/hotel";
 
 /**
  * Chrome labels for the inner-page shell.
@@ -174,6 +175,14 @@ const de: ShellCopy = {
 
 const byLocale: Record<LocaleCode, ShellCopy> = { sr, en, de };
 
+/** Legal documents and the full brief currently exist only in Serbian. */
+export function shellPath(path: string, locale: LocaleCode) {
+  if (["/upit", "/politika-privatnosti", "/politika-kolacica", "/uslovi-koriscenja"].includes(path)) return path;
+  return localePath(path, locale);
+}
+
 export function getShellCopy(locale: LocaleCode = defaultLocale): ShellCopy {
-  return byLocale[locale] ?? byLocale[defaultLocale];
+  const copy = byLocale[locale] ?? byLocale[defaultLocale];
+  const hotel = { href: HOTEL_PATH, label: hotelCopy[locale].nav };
+  return { ...copy, navLinks: [...copy.navLinks.slice(0, 2), hotel, ...copy.navLinks.slice(2)], footerLinks: [hotel, ...copy.footerLinks], menuPages: [...copy.menuPages.slice(0, 2), hotel, ...copy.menuPages.slice(2)] };
 }

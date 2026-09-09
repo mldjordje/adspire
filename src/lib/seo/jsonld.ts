@@ -1,5 +1,6 @@
 import { FOUNDER, ORGANIZATION, getOrgSameAs, getSiteUrl } from "@/lib/seo/site";
 import { serviceCatalog, type ServiceCatalogEntry } from "@/data/serviceCatalog";
+import { HOTEL_PATH, HOTEL_SLUG } from "@/content/site/hotel";
 
 const base = () => getSiteUrl();
 
@@ -70,7 +71,7 @@ export function organizationJsonLd() {
             "@type": "Service",
             name: s.keywordSr.split(",")[0].trim(),
             description: s.metaDescriptionSr,
-            url: `${base()}/our-services/${s.slug}`,
+            url: `${base()}${s.slug === HOTEL_SLUG ? HOTEL_PATH : `/our-services/${s.slug}`}`,
           },
         },
       })),

@@ -2,6 +2,7 @@ import { aiPagePath, aiPages } from "@/content/site/aiPages";
 import { guides } from "@/content/site/guides";
 import { projectCaseStudies } from "@/data/projectCaseStudies";
 import { serviceCatalog } from "@/data/serviceCatalog";
+import { hotelCopy, HOTEL_PATH, HOTEL_SLUG } from "@/content/site/hotel";
 import { FOUNDER, ORGANIZATION, getSiteUrl } from "@/lib/seo/site";
 
 export const dynamic = "force-static";
@@ -9,7 +10,7 @@ export const dynamic = "force-static";
 export function GET() {
   const base = getSiteUrl();
   const services = serviceCatalog
-    .map((service) => `- [${service.keywordSr.split(",")[0].trim()}](${base}/our-services/${service.slug}): ${service.aiSummarySr}`)
+    .map((service) => `- [${service.keywordSr.split(",")[0].trim()}](${base}${service.slug === HOTEL_SLUG ? HOTEL_PATH : `/our-services/${service.slug}`}): ${service.aiSummarySr}`)
     .join("\n");
   // The industry pages answer "how does AI help a <trade>", which is a question
   // asked of an assistant far more often than it is typed into a search box.
@@ -48,6 +49,10 @@ export function GET() {
 ## Usluge
 
 ${services}
+
+## Hotel websites and custom booking systems
+${(["sr", "en", "de"] as const).map(lc => `- [${hotelCopy[lc].title}](${base}${lc === "sr" ? "" : `/${lc}`}${HOTEL_PATH}): ${hotelCopy[lc].intro}`).join("\n")}
+${hotelCopy.en.ownershipText}
 
 ## AI po delatnostima
 

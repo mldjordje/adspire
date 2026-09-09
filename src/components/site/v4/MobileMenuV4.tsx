@@ -3,8 +3,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import styles from "./MobileMenuV4.module.css";
-import { getShellCopy } from "./shellCopy";
-import { defaultLocale, localePath, type LocaleCode } from "@/lib/site-config";
+import { getShellCopy, shellPath } from "./shellCopy";
+import { defaultLocale, type LocaleCode } from "@/lib/site-config";
 
 /**
  * Shared OBSIDIAN mobile menu — burger + fullscreen overlay.
@@ -89,7 +89,7 @@ export function MobileMenuV4({
                     <a
                       key={p.href}
                       className={styles.link}
-                      href={localePath(p.href, locale)}
+                      href={shellPath(p.href, locale)}
                       style={{ transitionDelay: open ? `${0.04 + i * 0.04}s` : "0s" }}
                       onClick={close}
                     >
