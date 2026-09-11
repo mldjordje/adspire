@@ -59,6 +59,8 @@ const SERVICES = [
   { href: "/our-services/interaktivne-web-tehnologije", gen: 0, c1: [0.5, 0.62, 1], c2: [0.92, 0.94, 1] },
 ];
 
+const VALUE_PATHS = ["/our-services/web-prezentacije", "/our-services/interne-poslovne-aplikacije", "/our-services/e-commerce-web-shop"];
+
 // num/suffix are locale-agnostic; label comes from copy.metrics by index
 const METRICS = [
   { num: 13, suffix: "" },
@@ -77,6 +79,7 @@ const hexTo01 = (hex: string): [number, number, number] => [
 
 export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {}) {
   const t = getV4Copy(locale);
+  const inquiryHref = locale === "sr" ? "/upit/brzo" : localePath("/contact-us", locale);
   const rootRef = useRef<HTMLDivElement>(null);
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [clock, setClock] = useState("");
@@ -907,7 +910,7 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
               >
                 {t.hero.ctaPrimary}
               </a>
-              <a className={styles.btnGhost} href="/our-projects" data-cursor="on" data-scramble>
+              <a className={styles.btnGhost} href={localePath("/our-projects", locale)} data-cta="hero-projects" data-cursor="on" data-scramble>
                 {t.hero.ctaGhost}
               </a>
             </div>
@@ -964,6 +967,9 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
                 <span className={styles.valueNum}>{String(i + 1).padStart(2, "0")}</span>
                 <h3 className={styles.valueTitle}>{v.title}</h3>
                 <p className={styles.valueDesc}>{v.desc}</p>
+                <a className={styles.valueAction} href={localePath(VALUE_PATHS[i], locale)} data-cta={`home-value-${i}`} data-cursor="on">
+                  {t.actions.value[i]} <span aria-hidden="true">↗</span>
+                </a>
               </div>
             ))}
           </div>
@@ -978,6 +984,9 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
                 {t.projects.title}
               </h2>
               <p className={styles.projectsIntroHint}>{t.projects.hint}</p>
+              <a className={`${styles.btnGhost} ${styles.projectInquiry}`} href={inquiryHref} data-cta="home-projects-inquiry" data-cursor="on">
+                {t.actions.inquiry}
+              </a>
             </div>
             {PROJECTS.map((p, i) => (
               <article
@@ -987,7 +996,7 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
               >
                 <span className={styles.projectIndex}>{String(i + 1).padStart(2, "0")}</span>
                 <div className={styles.projectMedia} data-cursor={t.projects.open}>
-                  <a href={p.href} className={styles.projectMediaLink} aria-label={p.title}>
+                  <a href={localePath(p.href, locale)} className={styles.projectMediaLink} aria-label={p.title} data-cta={`home-project-image-${i}`}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img className={styles.projectImg} src={p.image} alt={p.title} loading="lazy" />
                   </a>
@@ -997,7 +1006,7 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
                   <span className={styles.projectMetaRow}>{p.meta}</span>
                   <h3 className={styles.projectTitle}>{p.title}</h3>
                   <p className={styles.projectSummary}>{t.projects.items[i].summary}</p>
-                  <a className={styles.projectLink} href={p.href} data-cursor="on" data-scramble>
+                  <a className={styles.projectLink} href={localePath(p.href, locale)} data-cta={`home-project-${i}`} data-cursor="on" data-scramble>
                     {t.projects.link}
                   </a>
                 </div>
@@ -1029,7 +1038,8 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
               <a
                 key={s.href}
                 className={styles.svcRow}
-                href={s.href}
+                href={localePath(s.href, locale)}
+                data-cta={`home-service-${i}`}
                 data-cursor="on"
                 style={{ "--sa": "#7890ff" } as React.CSSProperties}
               >
@@ -1053,6 +1063,9 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
               </a>
             ))}
           </div>
+          <div className={styles.sectionActions}>
+            <a className={styles.btnGhost} href={inquiryHref} data-cta="home-services-help" data-cursor="on">{t.actions.help}</a>
+          </div>
         </section>
 
         {/* ── 06 · AI agent live demo ── */}
@@ -1065,6 +1078,9 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
             <p className={styles.aiDemoNote}>{t.aiDemo.note}</p>
           </div>
           <AiDemoV4 locale={locale} />
+          <div className={styles.sectionActions}>
+            <a className={styles.btnGhost} href={locale === "sr" ? "/upit/brzo?usluga=ai-integracije-automatizacija" : inquiryHref} data-cta="home-ai-inquiry" data-cursor="on">{t.actions.ai}</a>
+          </div>
         </section>
 
         {/* ── 07 · Process ── */}
@@ -1086,6 +1102,9 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
                 </div>
               </div>
             ))}
+          </div>
+          <div className={styles.sectionActions}>
+            <a className={styles.btnGhost} href={inquiryHref} data-cta="home-process-inquiry" data-cursor="on">{t.actions.process}</a>
           </div>
         </section>
 
@@ -1128,6 +1147,7 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
                   className={styles.faqQ}
                   data-cursor="on"
                   aria-expanded={openFaq === i}
+                  aria-controls={`home-faq-answer-${i}`}
                   onClick={() => setOpenFaq(openFaq === i ? null : i)}
                 >
                   <span>{item.q}</span>
@@ -1135,11 +1155,14 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
                     +
                   </span>
                 </button>
-                <div className={`${styles.faqA} ${openFaq === i ? styles.faqAOpen : ""}`}>
+                <div id={`home-faq-answer-${i}`} className={`${styles.faqA} ${openFaq === i ? styles.faqAOpen : ""}`}>
                   <p>{item.a}</p>
                 </div>
               </div>
             ))}
+          </div>
+          <div className={styles.sectionActions}>
+            <a className={styles.btnGhost} href={inquiryHref} data-cta="home-faq-inquiry" data-cursor="on">{t.actions.faq}</a>
           </div>
         </section>
 
@@ -1155,11 +1178,12 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
           </h2>
           <a
             className={styles.ctaButton}
-            href="mailto:djordje@adspire.rs"
+            href={inquiryHref}
+            data-cta="home-final-inquiry"
             data-cursor="on"
             data-magnetic
           >
-            djordje@adspire.rs
+            {t.actions.inquiry}
           </a>
           <div className={styles.ctaAlt}>
             <span>{t.cta.altPrefix}</span>

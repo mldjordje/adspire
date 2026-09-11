@@ -1879,6 +1879,34 @@
 
 /* ─── Tech — infinite draggable carousel ───────────────────── */
 
+.valueAction {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  margin-top: 16px;
+  color: var(--blue-bright);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.valueAction:hover { text-decoration: underline; text-underline-offset: 4px; }
+
+.sectionActions {
+  position: relative;
+  max-width: 1240px;
+  margin: 32px auto 0;
+}
+
+.sectionActions .btnGhost { max-width: 100%; text-align: center; text-wrap: balance; }
+.projectInquiry { margin-top: 24px; align-self: flex-start; }
+.valueAction:focus-visible, .sectionActions a:focus-visible, .projectInquiry:focus-visible {
+  outline: 2px solid var(--blue-bright);
+  outline-offset: 5px;
+}
+
 .tech {
   position: relative;
   padding: clamp(80px, 12vh, 150px) 0;
