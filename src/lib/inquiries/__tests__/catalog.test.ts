@@ -15,6 +15,13 @@ describe("inquiry catalog", () => {
     expect(isInquiryServiceSlug("ne-postoji")).toBe(false);
   });
 
+  it("offers edukacija in the brief in every language", () => {
+    expect(isInquiryServiceSlug("edukacija")).toBe(true);
+    expect(isInquiryServiceSlug("edukacija", "en")).toBe(true);
+    expect(isInquiryServiceSlug("edukacija", "de")).toBe(true);
+    expect(serviceTitles(["edukacija"])).toEqual(["Edukacija 1-na-1 (AI)"]);
+  });
+
   it("keeps an unknown slug readable instead of dropping it", () => {
     const [first] = getInquiryServices();
     expect(serviceTitles([first.slug, "stara-usluga"])).toEqual([first.title, "stara-usluga"]);

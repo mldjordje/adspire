@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 
 import { claimInquiriesForPortalUser } from "@/lib/inquiries/store";
+import { safeNextPath } from "@/lib/portal/next";
 import { startPortalSession } from "@/lib/portal/session";
 import { consumeLoginToken } from "@/lib/portal/users";
 
@@ -16,8 +17,10 @@ export const dynamic = "force-dynamic";
  * buyer a click to protect against an inconvenience.
  */
 export async function GET(request: Request) {
-  const token = new URL(request.url).searchParams.get("token") ?? "";
-  const failed = new URL("/nalog/prijava?greska=link", request.url);
+  const params = new URL(request.url).searchParams;
+  const token = params.get("token") ?? "";
+  const next = safeNextPath(params.get("next"));
+  const failed = new URL(`/nalog/prijava?greska=link&next=${encodeURIComponent(next)}`, request.url);
   if (!token) return NextResponse.redirect(failed);
 
   const user = await consumeLoginToken(token);
@@ -29,5 +32,5 @@ export async function GET(request: Request) {
     console.error("portal_claim_failed", { error });
   });
 
-  return NextResponse.redirect(new URL("/nalog", request.url));
+  return NextResponse.redirect(new URL(next, request.url));
 }

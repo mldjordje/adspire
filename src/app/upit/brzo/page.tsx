@@ -5,6 +5,7 @@ import { AuroraV4 } from "@/components/site/v4/AuroraV4";
 import { PageShellV4 } from "@/components/site/v4/PageShellV4";
 import { QuickInquiryV4 } from "@/components/site/v4/QuickInquiryV4";
 import { v4FontClass } from "@/components/site/v4/fonts";
+import { EDUCATION_SERVICE_SLUG, educationQuickCopy } from "@/content/site/educationLandingPage";
 import { getInquiryServices, isInquiryServiceSlug } from "@/lib/inquiries/catalog";
 import { pageMetadata } from "@/lib/seo/metadata";
 import styles from "@/components/site/v4/InquiryFlowV4.module.css";
@@ -38,11 +39,12 @@ export default async function BrziUpitPage({ searchParams }: Props) {
   // An unknown slug from a stale ad must not silently preselect nothing while
   // looking like it did — it simply falls back to the picker.
   const initialSlug = usluga && isInquiryServiceSlug(usluga) ? usluga : "";
+  const education = initialSlug === EDUCATION_SERVICE_SLUG;
 
   return (
     <div className={v4FontClass}>
       <PageShellV4
-        eyebrow="Brzi upit"
+        eyebrow={education ? "Edukacija 1-na-1" : "Brzi upit"}
         title={
           <>
             Pitaj, pa onda odlučuj
@@ -62,7 +64,11 @@ export default async function BrziUpitPage({ searchParams }: Props) {
         </Link>
         .
       </p>
-      <QuickInquiryV4 services={services} initialSlug={initialSlug} />
+      <QuickInquiryV4
+        services={services}
+        initialSlug={initialSlug}
+        copyOverride={education ? educationQuickCopy : undefined}
+      />
       </PageShellV4>
     </div>
   );

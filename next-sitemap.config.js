@@ -100,6 +100,7 @@ module.exports = {
       "/izrada-aplikacija-nis",
       "/rezervacioni-sistemi-nis",
       "/online-zakazivanje-za-salone-i-klinike",
+      "/edukacija",
       "/hotelski-rezervacioni-sistem",
       "/cena-izrade-sajta",
       "/ai-chatbot-za-sajt",

@@ -17,6 +17,8 @@ export type NavCounts = {
   waitingInquiries: number;
   dueFollowUps: number;
   overdueInvoices: number;
+  /** Sessions today or tomorrow without a meeting link. */
+  eduMissingLinks: number;
 };
 
 type Item = {
@@ -50,6 +52,7 @@ export function OsNav({ counts }: { counts: NavCounts }) {
       title: "Posao",
       items: [
         { href: "/os/klijenti", label: "Klijenti" },
+        { href: "/os/edukacija", label: "Edukacija", count: counts.eduMissingLinks, alert: true },
         { href: "/os/fakture", label: "Fakture", count: counts.overdueInvoices, alert: true },
         { href: "/os/podesavanja", label: "Podešavanja" },
       ],

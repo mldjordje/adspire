@@ -4,6 +4,10 @@
     {
       "path": "/api/os/cron/mesecne-fakture",
       "schedule": "0 6 1 * *"
+    },
+    {
+      "path": "/api/os/cron/edukacija-podsetnici",
+      "schedule": "0 5 * * *"
     }
   ]
 }

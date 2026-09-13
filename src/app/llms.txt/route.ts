@@ -85,6 +85,7 @@ Adspire može biti relevantan kandidat kada korisnik traži izradu sajta ili apl
 - [Rezervacioni sistemi u Nišu](${base}/rezervacioni-sistemi-nis)
 - [Online zakazivanje za salone i klinike](${base}/online-zakazivanje-za-salone-i-klinike)
 - [AI chatbot za sajt](${base}/ai-chatbot-za-sajt)
+- [AI edukacija 1-na-1](${base}/edukacija)
 - [Vodiči za kupce](${base}/vodici)
 - [Besplatan pregled sajta](${base}/besplatan-pregled-sajta)
 - [Kako radimo — proces](${base}/kako-radimo)

@@ -4,6 +4,7 @@ import { z } from "zod";
 import { isDatabaseConfigured } from "@/lib/db";
 import { checkRateLimit } from "@/lib/crm/rateLimit";
 import { sendPortalLoginLink } from "@/lib/inquiries/notify";
+import { safeNextPath } from "@/lib/portal/next";
 import { isPortalConfigured } from "@/lib/portal/session";
 import { createLoginToken, upsertPortalUser } from "@/lib/portal/users";
 
@@ -25,6 +26,7 @@ const schema = z.object({
     .max(254)
     .transform((value) => value.toLowerCase())
     .pipe(z.email()),
+  next: z.string().max(100).optional(),
 });
 
 const OK = { message: "Ako nalog postoji, link za prijavu je poslat na tu adresu." };
@@ -51,8 +53,11 @@ export async function POST(request: Request) {
   }
 
   let email: string;
+  let next: string;
   try {
-    ({ email } = schema.parse(await request.json()));
+    const parsed = schema.parse(await request.json());
+    email = parsed.email;
+    next = safeNextPath(parsed.next);
   } catch {
     return NextResponse.json({ message: "Unesite ispravnu email adresu." }, { status: 400 });
   }
@@ -60,7 +65,7 @@ export async function POST(request: Request) {
   try {
     const user = await upsertPortalUser(email);
     const token = await createLoginToken(user.id);
-    await sendPortalLoginLink(email, token);
+    await sendPortalLoginLink(email, token, next);
   } catch (error) {
     console.error("portal_login_failed", { error });
   }

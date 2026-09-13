@@ -77,6 +77,9 @@ export default async function NalogPage() {
             <Link className={flow.ghost} href="/upit" data-cursor="on">
               Novi upit
             </Link>
+            <Link className={flow.ghost} href="/nalog/edukacija" data-cursor="on">
+              Edukacija
+            </Link>
             <form action={portalLogout}>
               <button className={flow.ghost} type="submit" data-cursor="on">
                 Odjavi se

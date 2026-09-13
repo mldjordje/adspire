@@ -1,0 +1,18 @@
+import { describe, expect, it } from "vitest";
+
+import { safeNextPath } from "../next";
+
+describe("safeNextPath", () => {
+  it("keeps pages inside the account", () => {
+    expect(safeNextPath("/nalog")).toBe("/nalog");
+    expect(safeNextPath("/nalog/edukacija")).toBe("/nalog/edukacija");
+  });
+
+  it("refuses everything that could leave the account", () => {
+    expect(safeNextPath("https://evil.example")).toBe("/nalog");
+    expect(safeNextPath("//evil.example")).toBe("/nalog");
+    expect(safeNextPath("/nalog/../os")).toBe("/nalog");
+    expect(safeNextPath("/os")).toBe("/nalog");
+    expect(safeNextPath(null)).toBe("/nalog");
+  });
+});

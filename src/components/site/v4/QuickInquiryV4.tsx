@@ -78,6 +78,7 @@ export function QuickInquiryV4({
   initialSlug = "",
   locale = "sr",
   hotel = false,
+  copyOverride,
 }: {
   services: InquiryService[];
   /** Set when the visitor arrived from a service page, so the picker is already
@@ -85,8 +86,11 @@ export function QuickInquiryV4({
   initialSlug?: string;
   locale?: LocaleCode;
   hotel?: boolean;
+  /** Labels reworded for one offer (e.g. edukacija). Field names and validation
+   *  stay the same, so the API cannot tell the difference. */
+  copyOverride?: Partial<ReturnType<typeof getQuickInquiryCopy>>;
 }) {
-  const t = getQuickInquiryCopy(locale, hotel);
+  const t = { ...getQuickInquiryCopy(locale, hotel), ...copyOverride };
   const [form, setForm] = useState<FormState>(EMPTY);
   const [service, setService] = useState(initialSlug);
   const [consent, setConsent] = useState(false);

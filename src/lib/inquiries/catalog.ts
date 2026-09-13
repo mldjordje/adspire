@@ -19,13 +19,46 @@ export type InquiryService = {
   bullets: string[];
 };
 
+/**
+ * Offers that are sold through the brief but are not a build service, so they
+ * have no /our-services page. Edukacija is quoted like any other upit and then
+ * delivered as hours on the client's account.
+ */
+const EXTRA_SERVICES: Record<LocaleCode, InquiryService[]> = {
+  sr: [
+    {
+      slug: "edukacija",
+      title: "Edukacija 1-na-1 (AI)",
+      summary: "Uživo, jedan na jedan: AI alati, automatizacija, sajt uz AI i AI za marketing.",
+      bullets: ["Plan po tvojim zadacima", "Sati na nalogu, termine biraš sam", "Online preko Google Meet-a"],
+    },
+  ],
+  en: [
+    {
+      slug: "edukacija",
+      title: "1-on-1 AI training",
+      summary: "Live, one to one: AI tools, automation, building with AI and AI for marketing.",
+      bullets: ["Plan built on your own tasks", "Hours on your account, you pick the slots", "Online over Google Meet"],
+    },
+  ],
+  de: [
+    {
+      slug: "edukacija",
+      title: "1:1 KI-Schulung",
+      summary: "Live und persönlich: KI-Tools, Automatisierung, Entwicklung mit KI und KI im Marketing.",
+      bullets: ["Plan nach Ihren Aufgaben", "Stunden im Konto, Termine selbst wählen", "Online über Google Meet"],
+    },
+  ],
+};
+
 export function getInquiryServices(locale: LocaleCode = defaultLocale): InquiryService[] {
-  return getSiteContent(locale).servicesPage.items.map((item) => ({
+  const services = getSiteContent(locale).servicesPage.items.map((item) => ({
     slug: item.slug,
     title: item.title,
     summary: item.summary,
     bullets: item.bullets,
   }));
+  return [...services, ...(EXTRA_SERVICES[locale] ?? EXTRA_SERVICES.sr)];
 }
 
 export function isInquiryServiceSlug(

@@ -159,13 +159,17 @@ export async function notifyOwnerOfResponse(inquiry: InquiryRow): Promise<boolea
 export async function sendPortalLoginLink(
   email: string,
   token: string,
+  next = "/nalog",
 ): Promise<boolean> {
+  // The destination rides along so a buyer who asked to log in from
+  // /nalog/edukacija lands back there, not on the list of upiti.
+  const destination = next === "/nalog" ? "" : `&next=${encodeURIComponent(next)}`;
   return sendMail({
     to: email,
     subject: "Prijava na Adspire nalog",
     text: [
       "Klikni da se prijaviš:",
-      `${getSiteUrl()}/api/portal/verifikacija?token=${encodeURIComponent(token)}`,
+      `${getSiteUrl()}/api/portal/verifikacija?token=${encodeURIComponent(token)}${destination}`,
       "",
       "Link važi 30 minuta i može se iskoristiti jednom.",
       "Ako nisi tražio prijavu, samo ignoriši ovaj mejl.",

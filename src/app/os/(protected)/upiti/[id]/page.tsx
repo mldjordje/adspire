@@ -99,6 +99,16 @@ export default async function OsUpitDetailPage({
           extra={
             <>
               <CopyButton value={link} label="Kopiraj link za klijenta" />
+              {upit.services.includes("edukacija") ? (
+                <Link
+                  className="os-btn os-btn--sm os-btn--ghost"
+                  href={`/os/edukacija?email=${encodeURIComponent(upit.email)}&ime=${encodeURIComponent(
+                    upit.full_name,
+                  )}#dodeli`}
+                >
+                  Dodeli sate
+                </Link>
+              ) : null}
               {upit.status === "accepted" ? (
                 <form action={convertInquiryToClient}>
                   <input type="hidden" name="id" value={upit.id} />

@@ -28,6 +28,7 @@ export type OsCounters = {
   waitingInquiries: number;
   dueFollowUps: number;
   overdueInvoices: number;
+  eduMissingLinks: number;
 };
 
 type RawItem = {
@@ -136,12 +137,19 @@ export async function getOsCounters(): Promise<OsCounters> {
       )::int as due_follow_ups,
       (select count(*) from invoices
         where status = 'issued' and kind = 'invoice' and due_date < current_date)::int
-        as overdue_invoices
+        as overdue_invoices,
+      -- Sessions today or tomorrow that still have no meeting link: the client
+      -- is about to show up to nothing.
+      (select count(*) from edu_bookings
+        where status = 'zakazano' and meet_url is null
+          and date between current_date and current_date + 1)::int
+        as edu_missing_links
   `) as {
     new_leads: number;
     waiting_inquiries: number;
     due_follow_ups: number;
     overdue_invoices: number;
+    edu_missing_links: number;
   }[];
 
   const row = rows[0];
@@ -150,5 +158,6 @@ export async function getOsCounters(): Promise<OsCounters> {
     waitingInquiries: Number(row?.waiting_inquiries ?? 0),
     dueFollowUps: Number(row?.due_follow_ups ?? 0),
     overdueInvoices: Number(row?.overdue_invoices ?? 0),
+    eduMissingLinks: Number(row?.edu_missing_links ?? 0),
   };
 }

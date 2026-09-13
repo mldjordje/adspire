@@ -11,7 +11,7 @@ import styles from "./InquiryFlowV4.module.css";
  * possession of the mailbox is proof enough and there is no password to store.
  * The answer is the same whether or not the address is known — see the route.
  */
-export function PortalLoginV4() {
+export function PortalLoginV4({ next }: { next?: string }) {
   const [email, setEmail] = useState("");
   const [state, setState] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [message, setMessage] = useState<string | null>(null);
@@ -24,7 +24,7 @@ export function PortalLoginV4() {
       const response = await fetch("/api/portal/prijava", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, next }),
       });
       const data = (await response.json()) as { message?: string };
       setMessage(data.message ?? null);
@@ -46,7 +46,7 @@ export function PortalLoginV4() {
             required
             value={email}
             onChange={(event) => setEmail(event.target.value)}
-            placeholder="adresa sa koje si slao upit"
+            placeholder={next === "/nalog/edukacija" ? "adresa na koju su dodati sati" : "adresa sa koje si slao upit"}
           />
           <em className={styles.hint}>
             Šaljemo link za prijavu — bez lozinke. Nalog nije obavezan: svaki upit ima i svoj
