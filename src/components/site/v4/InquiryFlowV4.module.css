@@ -505,3 +505,51 @@
     cursor: wait;
   }
 }
+
+/* ─── Portal login: Google first, email link below ─── */
+
+.formInner {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.googleBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  padding: 16px 24px;
+  border-radius: 999px;
+  background: #f6f8ff;
+  color: #0a0a0f;
+  font-weight: 600;
+  font-size: 15px;
+  text-decoration: none;
+  box-shadow: 0 0 34px rgba(47, 107, 255, 0.25);
+  transition: box-shadow 0.3s, background 0.3s;
+}
+
+.googleBtn:hover {
+  background: #ffffff;
+  box-shadow: 0 0 60px rgba(47, 107, 255, 0.45);
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}

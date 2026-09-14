@@ -2,27 +2,32 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
-import { portalLogout } from "./actions";
+import { EduPackagesV4 } from "@/components/site/v4/EduPackagesV4";
 import { PageShellV4 } from "@/components/site/v4/PageShellV4";
+import { PortalNavV4 } from "@/components/site/v4/PortalNavV4";
 import { v4FontClass } from "@/components/site/v4/fonts";
 import flow from "@/components/site/v4/InquiryFlowV4.module.css";
-import card from "@/components/site/v4/InquiryStatusV4.module.css";
+import styles from "@/components/site/v4/EducationV4.module.css";
 import { isDatabaseConfigured } from "@/lib/db";
+import { formatDay, formatHours, KIND_LABEL } from "@/lib/education/format";
+import { endSlot } from "@/lib/education/slots";
+import { getBuyerBookings, getWallets } from "@/lib/education/store";
 import { serviceTitles } from "@/lib/inquiries/catalog";
 import { listInquiriesForPortalUser } from "@/lib/inquiries/store";
 import { INQUIRY_STATUS_LABEL } from "@/lib/inquiries/types";
 import { getPortalSession } from "@/lib/portal/session";
 
 /**
- * The optional client account: every upit sent from this address, in one list.
+ * The client account overview: hours, the next session and every upit from
+ * this address, on one screen.
  *
- * Nothing here is a gate — the same brief is reachable from its own link
- * without ever logging in. This page exists for the buyer who has more than one.
+ * Nothing here is a gate — each brief is reachable from its own link without
+ * logging in. This page is for the buyer who comes back.
  */
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Moji upiti",
+  title: "Moj nalog",
   robots: { index: false, follow: false },
 };
 
@@ -32,59 +37,115 @@ export default async function NalogPage() {
   const session = await getPortalSession();
   if (!session) redirect("/nalog/prijava");
 
-  const inquiries = await listInquiriesForPortalUser(session.userId, session.email);
+  // Edukacija must not take the upiti list down with it if its tables misbehave.
+  const [inquiries, edu] = await Promise.all([
+    listInquiriesForPortalUser(session.userId, session.email),
+    Promise.all([getWallets(session.userId), getBuyerBookings(session.userId)]).catch((error) => {
+      console.error("portal_overview_edu_failed", { error });
+      return null;
+    }),
+  ]);
+
+  const wallets = edu?.[0] ?? [];
+  const upcoming = edu?.[1].upcoming ?? [];
+  const remaining = wallets.reduce((sum, w) => sum + w.remaining, 0);
+  const purchased = wallets.reduce((sum, w) => sum + w.purchased, 0);
+  const nextSession = upcoming[0];
+  const openInquiries = inquiries.filter(
+    (i) => i.status === "submitted" || i.status === "quoted",
+  ).length;
 
   return (
     <div className={v4FontClass}>
       <PageShellV4
         eyebrow="Nalog"
-        title={<>Moji upiti</>}
+        title={<>Moj nalog</>}
         intro={`Prijavljen kao ${session.email}.`}
       >
         <section className={flow.wrap} data-reveal>
-          {inquiries.length === 0 ? (
-            <div className={card.card}>
-              <p className={card.text}>
-                Ovde još nema upita sa ove adrese. Pošalji prvi — procena stiže na mejl.
-              </p>
-              <div className={flow.sentActions}>
-                <Link className={flow.submit} href="/upit" data-cursor="on">
-                  Pošalji upit
-                </Link>
+          <div className={styles.stack}>
+            <PortalNavV4 active="pregled" />
+
+            <div className={styles.overview}>
+              <Link className={`${styles.panel} ${styles.cardLink}`} href="/nalog/edukacija" data-cursor="on">
+                <p className={styles.label}>Sati na stanju</p>
+                <p className={styles.value}>{formatHours(remaining)}</p>
+                <p className={styles.muted}>
+                  {purchased > 0
+                    ? `Iskorišćeno ${formatHours(Math.max(0, purchased - remaining))} od ${formatHours(purchased)}`
+                    : "Još nema kupljenih sati"}
+                </p>
+              </Link>
+
+              <Link className={`${styles.panel} ${styles.cardLink}`} href="/nalog/edukacija" data-cursor="on">
+                <p className={styles.label}>Sledeći termin</p>
+                {nextSession ? (
+                  <>
+                    <p className={styles.itemTitle} style={{ marginTop: 12, fontSize: 20 }}>
+                      {formatDay(nextSession.date)}
+                    </p>
+                    <p className={styles.muted}>
+                      {nextSession.startSlot}–{endSlot(nextSession.startSlot, nextSession.hours)} ·{" "}
+                      {KIND_LABEL[nextSession.kind]}
+                    </p>
+                    <p className={styles.muted}>
+                      {nextSession.meetUrl ? "Link za sastanak je spreman" : "Link stiže pre termina"}
+                    </p>
+                  </>
+                ) : (
+                  <p className={styles.muted} style={{ marginTop: 12 }}>
+                    {remaining > 0 ? "Nemaš zakazan termin — izaberi slobodan." : "Nema zakazanih termina."}
+                  </p>
+                )}
+              </Link>
+
+              <div className={styles.panel}>
+                <p className={styles.label}>Upiti</p>
+                <p className={styles.value}>{inquiries.length}</p>
+                <p className={styles.muted}>
+                  {openInquiries > 0 ? `${openInquiries} u toku` : "Nijedan nije u toku"}
+                </p>
               </div>
             </div>
-          ) : (
-            <div className={flow.cards}>
-              {inquiries.map((inquiry) => (
-                <Link
-                  key={inquiry.id}
-                  className={flow.card}
-                  href={`/upit/status/${inquiry.access_token}`}
-                  data-cursor="on"
-                >
-                  <span className={flow.cardTitle}>
-                    {inquiry.reference} — {INQUIRY_STATUS_LABEL[inquiry.status]}
-                  </span>
-                  <span className={flow.cardSummary}>
-                    {serviceTitles(inquiry.services).join(" + ")} · {inquiry.business_name}
-                  </span>
-                </Link>
-              ))}
-            </div>
-          )}
 
-          <div className={flow.sentActions}>
-            <Link className={flow.ghost} href="/upit" data-cursor="on">
-              Novi upit
-            </Link>
-            <Link className={flow.ghost} href="/nalog/edukacija" data-cursor="on">
-              Edukacija
-            </Link>
-            <form action={portalLogout}>
-              <button className={flow.ghost} type="submit" data-cursor="on">
-                Odjavi se
-              </button>
-            </form>
+            {remaining < 2 ? (
+              <EduPackagesV4
+                title={remaining > 0 ? "Sati su pri kraju" : "Edukacija 1-na-1"}
+                intro="Uživo, preko Google Meet-a, na tvojim zadacima. Posle uplate sati se pojave ovde i termine biraš sam."
+              />
+            ) : null}
+
+            <div className={styles.panel}>
+              <div className={styles.panelHead}>
+                <h2 className={styles.title}>Moji upiti</h2>
+                <Link className={styles.packageCta} href="/upit" data-cursor="on">
+                  Novi upit →
+                </Link>
+              </div>
+              {inquiries.length === 0 ? (
+                <p className={styles.muted} style={{ marginTop: 10 }}>
+                  Ovde još nema upita sa ove adrese. Pošalji prvi — procena stiže na mejl.
+                </p>
+              ) : (
+                <ul className={styles.list}>
+                  {inquiries.map((inquiry) => (
+                    <li key={inquiry.id} className={styles.item}>
+                      <Link
+                        className={styles.cardLink}
+                        href={`/upit/status/${inquiry.access_token}`}
+                        data-cursor="on"
+                      >
+                        <p className={styles.itemTitle}>
+                          {inquiry.reference} · {inquiry.business_name}
+                        </p>
+                        <p className={styles.itemMeta}>{serviceTitles(inquiry.services).join(" + ")}</p>
+                      </Link>
+                      <span className={styles.status}>{INQUIRY_STATUS_LABEL[inquiry.status]}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
           </div>
         </section>
       </PageShellV4>

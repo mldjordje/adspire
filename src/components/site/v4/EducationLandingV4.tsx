@@ -15,11 +15,18 @@ import {
   educationFinalCta,
   educationHero,
   educationNav,
+  educationPricing,
   educationProcess,
   educationProgram,
   educationSeo,
   educationTeacher,
 } from "@/content/site/educationLandingPage";
+import {
+  EDU_PACKAGES,
+  formatEur,
+  PACKAGE_INQUIRY_HREF,
+  pricePerHour,
+} from "@/lib/education/packages";
 
 /**
  * /edukacija — the page AI-account ads land on.
@@ -198,6 +205,37 @@ export function EducationLandingV4() {
               </li>
             ))}
           </ol>
+        </section>
+
+        {/* ─── Pricing ─── */}
+        <section id="cene" className={styles.section} data-reveal>
+          <SectionHead {...educationPricing} />
+          <div className={styles.pricing}>
+            {EDU_PACKAGES.map((pkg) => (
+              <article
+                key={pkg.id}
+                className={`${styles.priceCard} ${pkg.featured ? styles.priceFeatured : ""}`}
+              >
+                <span className={styles.priceLabel}>{pkg.label}</span>
+                <p className={styles.priceHours}>{pkg.hours} sati</p>
+                <p className={styles.priceValue}>{formatEur(pkg.priceEur)}</p>
+                <p className={styles.pricePer}>{formatEur(pricePerHour(pkg))} po satu</p>
+                <p className={styles.cardBody}>{pkg.note}</p>
+                <Link
+                  className={pkg.featured ? styles.btnPrimary : styles.btnGhost}
+                  href={PACKAGE_INQUIRY_HREF}
+                  data-cta={`edukacija-paket-${pkg.id}`}
+                >
+                  {educationPricing.cta}
+                </Link>
+              </article>
+            ))}
+          </div>
+          <ul className={styles.ticks}>
+            {educationPricing.includes.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
         </section>
 
         {/* ─── Account / booking ─── */}

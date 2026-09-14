@@ -3,7 +3,8 @@
  *
  * Content only; the layout lives in EducationLandingV4. Same rule as the booking
  * landing: every claim is what we do or how the system works, never a number
- * nobody measured. No public price — the price goes into the offer.
+ * nobody measured. Hour packages are public (approved 2026-09-14) — see
+ * lib/education/packages.ts.
  */
 
 export const EDUCATION_SERVICE_SLUG = "edukacija";
@@ -45,6 +46,7 @@ export const educationHero = {
 export const educationNav = [
   { id: "za-koga", label: "Za koga" },
   { id: "program", label: "Program" },
+  { id: "cene", label: "Cene" },
   { id: "nalog", label: "Kako se zakazuje" },
   { id: "tok", label: "Prvi koraci" },
   { id: "ko-predaje", label: "Ko predaje" },
@@ -119,6 +121,20 @@ export const educationProgram = {
   ],
 };
 
+export const educationPricing = {
+  eyebrow: "Cene",
+  title: "Dva paketa, bez skrivenih stavki",
+  lead:
+    "Kupuješ sate unapred i trošiš ih kad tebi odgovara. Uvodni razgovor pre kupovine je besplatan — tek kad se dogovorimo oko plana, sati idu na tvoj nalog.",
+  includes: [
+    "Plan napravljen od tvojih zadataka",
+    "Termini uživo preko Google Meet-a",
+    "Sati ne ističu dok ih ne potrošiš",
+    "Otkazivanje do 24h pre — sati se vraćaju",
+  ],
+  cta: "Izaberi paket",
+};
+
 export const educationAccount = {
   eyebrow: "Kako se zakazuje",
   title: "Sati na stanju, termini kad tebi odgovara",
@@ -145,7 +161,7 @@ export const educationProcess = {
     {
       when: "Korak 2",
       title: "Razgovor i plan",
-      body: "Javljam se lično i dogovaramo teme i broj sati. Cenu dobijaš u ponudi — zavisi od plana.",
+      body: "Javljam se lično, dogovaramo teme i biraš paket od 8 ili 18 sati.",
     },
     {
       when: "Korak 3",
@@ -180,7 +196,7 @@ export const educationFaq = {
     },
     {
       q: "Koliko košta?",
-      a: "Cena zavisi od broja sati i plana, pa je dobijaš u ponudi posle uvodnog razgovora. Sati se kupuju u paketu i troše onako kako tebi odgovara.",
+      a: "Paket od 8 sati je 500 €, paket od 18 sati je 1.000 €. Sati se kupuju u paketu i troše onako kako tebi odgovara — po 1 do 4 sata po terminu.",
     },
     {
       q: "Kako izgleda jedan termin?",

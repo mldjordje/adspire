@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
+import { EduPackagesV4 } from "@/components/site/v4/EduPackagesV4";
 import { PageShellV4 } from "@/components/site/v4/PageShellV4";
+import { PortalNavV4 } from "@/components/site/v4/PortalNavV4";
 import { CancelBookingV4, EducationCalendarV4 } from "@/components/site/v4/EducationBookingV4";
 import { v4FontClass } from "@/components/site/v4/fonts";
 import flow from "@/components/site/v4/InquiryFlowV4.module.css";
@@ -26,8 +28,8 @@ import { getPortalSession } from "@/lib/portal/session";
 
 /**
  * The client's edukacija: hours on the wallet, the calendar to spend them, and
- * every session booked so far. Hours arrive from /os after payment — there is
- * no public price and no checkout here.
+ * every session booked so far. Hours arrive from /os after payment — packages
+ * are shown, but there is no checkout here.
  */
 export const dynamic = "force-dynamic";
 
@@ -61,6 +63,7 @@ export default async function NalogEdukacijaPage() {
   const cancellable = (b: EduBooking) =>
     (minutesUntil(b.date, b.startSlot, now) ?? -1) >= CANCEL_CUTOFF_HOURS * 60;
   const withHours = wallets.filter((w) => w.purchased > 0 || w.remaining > 0);
+  const totalRemaining = wallets.reduce((sum, w) => sum + w.remaining, 0);
 
   return (
     <div className={v4FontClass}>
@@ -71,19 +74,13 @@ export default async function NalogEdukacijaPage() {
       >
         <section className={flow.wrap} data-reveal>
           <div className={styles.stack}>
+            <PortalNavV4 active="edukacija" />
+
             {withHours.length === 0 ? (
-              <div className={styles.panel}>
-                <h2 className={styles.title}>Na stanju još nema sati.</h2>
-                <p className={styles.muted} style={{ marginTop: 10 }}>
-                  Edukacija i konsultacije 1-na-1 se dogovaraju kroz upit. Posle uplate sati se
-                  pojavljuju ovde i termine biraš sam.
-                </p>
-                <div className={flow.sentActions}>
-                  <Link className={flow.submit} href="/upit" data-cta="edukacija-upit" data-cursor="on">
-                    Pošalji upit
-                  </Link>
-                </div>
-              </div>
+              <EduPackagesV4
+                title="Na stanju još nema sati"
+                intro="Izaberi paket i pošalji kratak upit. Posle uplate sati se pojavljuju ovde i termine biraš sam."
+              />
             ) : (
               <div className={styles.wallets}>
                 {withHours.map((w) => (
@@ -211,12 +208,16 @@ export default async function NalogEdukacijaPage() {
               </div>
             ) : null}
 
+            {withHours.length > 0 && totalRemaining < 2 ? (
+              <EduPackagesV4
+                title="Sati su pri kraju"
+                intro="Dopuni paket da ne prekidaš ritam. Novi sati se dodaju na postojeće stanje."
+              />
+            ) : null}
+
             <div className={flow.sentActions}>
               <Link className={flow.ghost} href="/edukacija" data-cursor="on">
                 O edukaciji
-              </Link>
-              <Link className={flow.ghost} href="/nalog" data-cursor="on">
-                ← Moji upiti
               </Link>
             </div>
           </div>
