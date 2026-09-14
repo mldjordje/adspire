@@ -5,6 +5,7 @@ import styles from "./PageShellV4.module.css";
 import { CursorV4 } from "./CursorV4";
 import { SilkV4 } from "./SilkV4";
 import { MobileMenuV4 } from "./MobileMenuV4";
+import { NavMegaV4 } from "./NavMegaV4";
 import { getShellCopy, shellPath, type ShellCopy } from "./shellCopy";
 import { defaultLocale, localePath, locales, type LocaleCode } from "@/lib/site-config";
 
@@ -224,13 +225,7 @@ export function PageShellV4({
         <a className={styles.navLogo} href={href("/")} data-cursor="on">
           ADSPIRE<span className={styles.navDot}>.</span>
         </a>
-        <nav className={styles.navLinks}>
-          {copy.navLinks.map((link) => (
-            <a key={link.href} href={href(link.href)} data-cursor="on">
-              {link.label}
-            </a>
-          ))}
-        </nav>
+        <NavMegaV4 breakpoint="md" locale={locale} hrefFor={copyOverride ? href : undefined} />
         <div className={styles.navRight}>
           {languagePath ? <div className={styles.languages} aria-label="Language">
             {locales.map(lc => <a key={lc} href={localePath(languagePath, lc)} hrefLang={lc} aria-current={locale === lc ? "page" : undefined}>{lc.toUpperCase()}</a>)}
@@ -246,7 +241,7 @@ export function PageShellV4({
             {copy.navCta}
             <span className={styles.navClock}> · {copy.clockCity} {clock}</span>
           </a>
-          <MobileMenuV4 breakpoint="md" locale={locale} />
+          <MobileMenuV4 breakpoint="md" locale={locale} hrefFor={copyOverride ? href : undefined} />
         </div>
       </header>
 

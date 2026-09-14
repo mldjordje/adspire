@@ -126,24 +126,6 @@
   color: var(--accent);
 }
 
-.navLinks {
-  display: flex;
-  gap: 26px;
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 0.04em;
-}
-
-.navLinks a {
-  color: var(--ink-dim);
-  text-decoration: none;
-  transition: color 0.3s;
-}
-
-.navLinks a:hover {
-  color: var(--accent);
-}
-
 .navRight {
   display: flex;
   align-items: center;
@@ -158,7 +140,6 @@
   .nav:has(.languages) .navRight { gap: 18px; }
 }
 @media (min-width: 1024px) and (max-width: 1350px) {
-  .navLinks { gap: 13px; font-size: 11px; }
   .navClock { display: none; }
 }
 
@@ -166,26 +147,22 @@
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.08em;
-  color: var(--ink);
+  /* Filled trust-blue, like the landing header: an outlined button read as
+     secondary and the inquiry form was hard to find. */
+  color: #fff;
   text-decoration: none;
-  border: 1px solid var(--line);
+  background: #2f6bff;
+  border: 1px solid #2f6bff;
   border-radius: 999px;
   padding: 11px 20px;
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
-  transition: border-color 0.3s, color 0.3s;
+  transition: background-color 0.3s, border-color 0.3s;
 }
 
 .navCta:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-}
-
-/* Seven links no longer fit beside the logo and the CTA under 1024px. */
-@media (max-width: 1023px) {
-  .navLinks {
-    display: none;
-  }
+  background: #4a7fff;
+  border-color: #4a7fff;
 }
 
 @media (max-width: 560px) {

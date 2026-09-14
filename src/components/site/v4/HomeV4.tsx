@@ -17,6 +17,7 @@ import { SilkV4 } from "./SilkV4";
 import { EventHorizonV4 } from "./EventHorizonV4";
 import ProjectPlanesV4 from "./ProjectPlanesV4";
 import { MobileMenuV4 } from "./MobileMenuV4";
+import { NavMegaV4 } from "./NavMegaV4";
 import { getV4Copy } from "./copy";
 import { HotelPromo } from "./HotelPromo";
 import { hotelCopy, HOTEL_PATH } from "@/content/site/hotel";
@@ -760,42 +761,9 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
         <a className={styles.navLogo} href={localePath("/", locale)} data-cursor="on">
           ADSPIRE<span className={styles.navLogoDot}>.</span>
         </a>
-        {/* Real pages, not in-page anchors. The header used to scroll to
-            landing sections only, which left every actual route — services,
-            work, pricing, guides — reachable from the footer alone.
-            `/cena-izrade-sajta` has no localized route yet, so it is SR-only. */}
-        <nav
-          className={styles.desktopNav}
-          aria-label={
-            locale === "sr" ? "Glavna navigacija" : locale === "de" ? "Hauptnavigation" : "Main navigation"
-          }
-        >
-          {[
-            { href: "/our-services", label: t.nav.links.services },
-            { href: "/our-projects", label: t.nav.links.work },
-            { href: HOTEL_PATH, label: hotelCopy[locale].nav },
-            ...(locale === "sr"
-              ? [
-                  // The booking landing is the paid-traffic page and had no
-                  // route into it from anywhere in the chrome.
-                  { href: "/online-zakazivanje-za-salone-i-klinike", label: t.nav.links.booking },
-                  { href: "/cena-izrade-sajta", label: t.nav.links.pricing },
-                ]
-              : []),
-            { href: "/blog", label: t.nav.links.blog },
-            { href: "/about-us", label: t.nav.links.about },
-            { href: "/contact-us", label: t.nav.links.contact },
-          ].map((item) => (
-            <Link
-              key={item.href}
-              className={styles.desktopNavItem}
-              href={localePath(item.href, locale)}
-              data-cursor="on"
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
+        {/* Real pages grouped under one dropdown — the same map as the inner
+            pages and the mobile menu (navMenu.ts). */}
+        <NavMegaV4 locale={locale} />
         <div className={styles.navRight}>
           <div className={styles.navHud} aria-hidden="true">
             <span className={styles.navHudDot} />

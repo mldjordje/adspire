@@ -2,15 +2,20 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { usePathname } from "next/navigation";
 import styles from "./MobileMenuV4.module.css";
 import { getShellCopy, shellPath } from "./shellCopy";
+import { getNavMenu, isCurrentPath } from "./navMenu";
+import { v4FontClass } from "./fonts";
 import { defaultLocale, type LocaleCode } from "@/lib/site-config";
 
 /**
  * Shared OBSIDIAN mobile menu — burger + fullscreen overlay.
- * Used by the landing nav (with in-page section links) and the inner-page
- * shell (page links only). `breakpoint` matches whichever width the host
- * nav hides its desktop links at.
+ *
+ * The two things visitors come for (send an inquiry, AI education) are cards
+ * at the top, so they are on screen the moment the menu opens. Everything else
+ * is a short grouped list instead of one long column of display-size links.
+ * `breakpoint` matches whichever width the host nav hides its desktop bar at.
  */
 
 type SectionLink = { label: string; onSelect: () => void };
@@ -19,12 +24,18 @@ export function MobileMenuV4({
   sections,
   breakpoint = "lg",
   locale = defaultLocale,
+  hrefFor,
 }: {
   sections?: SectionLink[];
   breakpoint?: "lg" | "md";
   locale?: LocaleCode;
+  /** Overrides locale prefixing — for standalone pages outside [locale]. */
+  hrefFor?: (path: string) => string;
 }) {
   const copy = getShellCopy(locale);
+  const menu = getNavMenu(locale);
+  const pathname = usePathname();
+  const href = hrefFor ?? ((path: string) => shellPath(path, locale));
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const closeRef = useRef<HTMLButtonElement>(null);
@@ -50,6 +61,7 @@ export function MobileMenuV4({
   }, [open, close]);
 
   const bpClass = breakpoint === "md" ? styles.showMd : styles.showLg;
+  const groups = [...menu.groups, menu.company];
 
   return (
     <div className={bpClass}>
@@ -68,55 +80,84 @@ export function MobileMenuV4({
         ? createPortal(
             <div
               id="v4-mobile-menu"
-              className={`${styles.overlay} ${open ? styles.overlayOpen : ""}`}
+              // Portalled to <body>, outside the page's font wrapper.
+              className={`${v4FontClass} ${styles.overlay} ${open ? styles.overlayOpen : ""}`}
               aria-hidden={!open}
+              inert={!open}
               role="dialog"
               aria-modal="true"
-              aria-label="Glavni meni"
+              aria-label={menu.menuLabel}
             >
               <div className={styles.overlayHead}>
-                <span className={styles.overlayBrand}>ADSPIRE.</span>
-                <span className={styles.overlayIndex}>NAV / 2026</span>
+                <a className={styles.overlayBrand} href={href("/")} onClick={close}>
+                  ADSPIRE<span>.</span>
+                </a>
                 <button ref={closeRef} className={styles.overlayClose} onClick={close} aria-label={copy.menuClose}>
                   <span />
                   <span />
                 </button>
               </div>
-              <div className={styles.menuGrid}>
-                <nav className={styles.links} aria-label={copy.menuPagesLabel}>
-                  <span className={styles.groupLabel}>{copy.menuPagesLabel}</span>
-                  {copy.menuPages.map((p, i) => (
+
+              <div className={styles.body}>
+                <div className={styles.actions}>
+                  {menu.actions.map((action, i) => (
                     <a
-                      key={p.href}
-                      className={styles.link}
-                      href={shellPath(p.href, locale)}
-                      style={{ transitionDelay: open ? `${0.04 + i * 0.04}s` : "0s" }}
+                      key={action.href}
+                      className={`${styles.action} ${i === 0 ? styles.actionPrimary : ""}`}
+                      href={href(action.href)}
+                      data-cta={action.cta}
                       onClick={close}
                     >
-                      <span>{String(i + 1).padStart(2, "0")}</span>
-                      {p.label}
+                      <span className={styles.actionLabel}>{action.label}</span>
+                      <span className={styles.actionHint}>{action.hint}</span>
+                      <span className={styles.actionArrow} aria-hidden="true">→</span>
                     </a>
                   ))}
-                </nav>
+                </div>
+
+                <div className={styles.groups}>
+                  {groups.map((group) => (
+                    <nav key={group.title} className={styles.group} aria-label={group.title}>
+                      <span className={styles.groupLabel}>{group.title}</span>
+                      {group.items.map((item) => {
+                        const current = isCurrentPath(item.href, pathname);
+                        return (
+                          <a
+                            key={item.href}
+                            className={`${styles.link} ${current ? styles.linkActive : ""}`}
+                            href={href(item.href)}
+                            aria-current={current ? "page" : undefined}
+                            onClick={close}
+                          >
+                            {item.label}
+                          </a>
+                        );
+                      })}
+                    </nav>
+                  ))}
+                </div>
+
                 {sections?.length ? (
-                  <nav className={styles.sectionLinks} aria-label={copy.menuSectionsLabel}>
-                    <span className={styles.groupLabel}>{copy.menuSectionsLabel}</span>
-                    {sections.map((s, i) => (
-                      <button
-                        key={s.label}
-                        className={styles.sectionLink}
-                        style={{ transitionDelay: open ? `${0.1 + i * 0.035}s` : "0s" }}
-                        onClick={() => {
-                          close();
-                          window.setTimeout(s.onSelect, 80);
-                        }}
-                      >
-                        {s.label}
-                      </button>
-                    ))}
+                  <nav className={styles.sections} aria-label={menu.sectionsLabel}>
+                    <span className={styles.groupLabel}>{menu.sectionsLabel}</span>
+                    <div className={styles.chips}>
+                      {sections.map((s) => (
+                        <button
+                          key={s.label}
+                          className={styles.chip}
+                          onClick={() => {
+                            close();
+                            window.setTimeout(s.onSelect, 80);
+                          }}
+                        >
+                          {s.label}
+                        </button>
+                      ))}
+                    </div>
                   </nav>
                 ) : null}
               </div>
+
               <div className={styles.contact}>
                 <a href="tel:+381601491491">+381 60 149 149 1</a>
                 <a href="mailto:djordje@adspire.rs">djordje@adspire.rs</a>

@@ -5,8 +5,7 @@
   display: none;
 }
 
-/* Matches HomeV4/PageShellV4: the desktop pill stops fitting beside the
-   logo and the CTA before 1150px, so the burger takes over there. */
+/* Matches NavMegaV4: below these widths the desktop bar is hidden. */
 @media (max-width: 1199px) {
   .showLg {
     display: block;
@@ -63,22 +62,23 @@
   z-index: 200;
   display: grid;
   grid-template-rows: auto 1fr auto;
-  gap: clamp(26px, 6vh, 64px);
-  padding: clamp(22px, 3vw, 38px) clamp(22px, 5vw, 72px) clamp(26px, 4vw, 48px);
+  gap: 22px;
+  padding: clamp(16px, 3vw, 32px) clamp(18px, 5vw, 64px) clamp(18px, 3vw, 32px);
   overflow-y: auto;
+  overscroll-behavior: contain;
   color: #f6f7ff;
+  font-family: var(--font-body-v4), system-ui, sans-serif;
   background:
-    radial-gradient(circle at 92% 8%, rgba(105, 130, 255, 0.2), transparent 31%),
-    radial-gradient(circle at 10% 90%, rgba(56, 74, 168, 0.13), transparent 34%),
+    radial-gradient(circle at 92% 8%, rgba(47, 107, 255, 0.2), transparent 32%),
     #03040b;
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
   transform: translateY(-12px);
   transition:
-    opacity 0.38s ease,
-    transform 0.55s cubic-bezier(0.16, 1, 0.3, 1),
-    visibility 0s linear 0.55s;
+    opacity 0.3s ease,
+    transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+    visibility 0s linear 0.45s;
 }
 
 .overlayOpen {
@@ -90,38 +90,37 @@
 }
 
 .overlayHead {
-  display: grid;
-  grid-template-columns: 1fr auto auto;
-  gap: 20px;
+  display: flex;
   align-items: center;
-  padding-bottom: 18px;
-  border-bottom: 1px solid rgba(202, 211, 255, 0.16);
+  justify-content: space-between;
+  gap: 20px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(202, 211, 255, 0.14);
 }
 
 .overlayBrand {
+  color: #f6f7ff;
   font-family: var(--font-display-v4), system-ui, sans-serif;
-  font-size: clamp(18px, 3vw, 24px);
+  font-size: 18px;
   font-weight: 800;
   letter-spacing: 0.04em;
+  text-decoration: none;
 }
 
-.overlayIndex {
-  color: rgba(220, 226, 255, 0.48);
-  font-size: 9px;
-  font-weight: 650;
-  letter-spacing: 0.22em;
+.overlayBrand span {
+  color: #7890ff;
 }
 
 .overlayClose {
   position: relative;
-  width: 48px;
-  height: 48px;
+  width: 44px;
+  height: 44px;
   display: grid;
   place-items: center;
   padding: 0;
   color: #f6f7ff;
   cursor: pointer;
-  background: rgba(255, 255, 255, 0.035);
+  background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(202, 211, 255, 0.2);
   border-radius: 999px;
 }
@@ -138,63 +137,112 @@
   transform: rotate(-45deg);
 }
 
-.menuGrid {
+.body {
   display: grid;
-  grid-template-columns: minmax(0, 1.5fr) minmax(190px, 0.6fr);
-  gap: clamp(42px, 8vw, 120px);
-  align-items: start;
+  align-content: start;
+  gap: 28px;
+  width: 100%;
+  max-width: 1040px;
 }
 
-.links,
-.sectionLinks {
+/* ─── Primary actions ─── */
+
+.actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.action {
+  position: relative;
+  display: grid;
+  gap: 6px;
+  padding: 18px 48px 18px 18px;
+  color: #f6f7ff;
+  text-decoration: none;
+  background: rgba(120, 144, 255, 0.08);
+  border: 1px solid rgba(120, 144, 255, 0.24);
+  border-radius: 18px;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.action:hover,
+.action:focus-visible {
+  background: rgba(120, 144, 255, 0.16);
+  border-color: rgba(120, 144, 255, 0.5);
+  outline: none;
+}
+
+.actionPrimary {
+  background: #2f6bff;
+  border-color: #2f6bff;
+}
+
+.actionPrimary:hover,
+.actionPrimary:focus-visible {
+  background: #4a7fff;
+  border-color: #4a7fff;
+}
+
+.actionLabel {
+  font-family: var(--font-display-v4), system-ui, sans-serif;
+  font-size: clamp(19px, 3vw, 24px);
+  font-weight: 750;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+}
+
+.actionHint {
+  color: rgba(240, 243, 255, 0.72);
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.actionPrimary .actionHint {
+  color: rgba(255, 255, 255, 0.86);
+}
+
+.actionArrow {
+  position: absolute;
+  top: 50%;
+  right: 18px;
+  font-size: 20px;
+  transform: translateY(-50%);
+}
+
+/* ─── Grouped page links ─── */
+
+.groups {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.group {
   display: flex;
   flex-direction: column;
-  align-items: stretch;
 }
 
 .groupLabel {
-  margin: 0 0 14px;
+  margin: 0 0 6px;
   color: #91a8ff;
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 700;
-  letter-spacing: 0.3em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
 }
 
 .link {
-  display: grid;
-  grid-template-columns: 34px 1fr;
-  gap: 12px;
-  align-items: baseline;
-  padding: 7px 0;
-  color: #f6f7ff;
-  font-family: var(--font-display-v4), system-ui, sans-serif;
-  font-size: clamp(31px, 6.6vw, 74px);
-  font-weight: 760;
-  letter-spacing: -0.045em;
-  line-height: 0.96;
-  text-align: left;
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  color: rgba(240, 243, 255, 0.9);
+  font-size: 16px;
+  font-weight: 540;
+  line-height: 1.25;
   text-decoration: none;
-  opacity: 0;
-  transform: translateY(18px);
-  transition:
-    color 0.3s,
-    opacity 0.45s ease,
-    transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.link > span {
-  color: rgba(186, 198, 255, 0.42);
-  font-family: system-ui, sans-serif;
-  font-size: 9px;
-  font-weight: 650;
-  letter-spacing: 0.12em;
-}
-
-.overlayOpen .link,
-.overlayOpen .sectionLink {
-  opacity: 1;
-  transform: translateY(0);
+  border-bottom: 1px solid rgba(202, 211, 255, 0.08);
+  transition: color 0.2s ease;
 }
 
 .link:hover,
@@ -203,48 +251,54 @@
   outline: none;
 }
 
-.sectionLinks {
-  padding-top: 2px;
+.linkActive {
+  color: #91a8ff;
 }
 
-.sectionLink {
-  padding: 10px 0;
-  color: rgba(224, 229, 255, 0.72);
+/* ─── Home page sections ─── */
+
+.sections {
+  display: flex;
+  flex-direction: column;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.chip {
+  padding: 9px 14px;
+  color: rgba(224, 229, 255, 0.8);
   font-family: inherit;
-  font-size: clamp(14px, 2vw, 17px);
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  line-height: 1.25;
-  text-align: left;
+  font-size: 13px;
+  font-weight: 560;
   cursor: pointer;
-  background: none;
-  border: 0;
-  border-bottom: 1px solid rgba(202, 211, 255, 0.1);
-  opacity: 0;
-  transform: translateY(12px);
-  transition:
-    color 0.3s,
-    opacity 0.4s ease,
-    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(202, 211, 255, 0.14);
+  border-radius: 999px;
 }
 
-.sectionLink:hover,
-.sectionLink:focus-visible {
+.chip:hover,
+.chip:focus-visible {
   color: #f6f7ff;
+  border-color: rgba(120, 144, 255, 0.5);
   outline: none;
 }
 
 .contact {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px 26px;
-  padding-top: 20px;
+  gap: 10px 24px;
+  padding-top: 16px;
   border-top: 1px solid rgba(202, 211, 255, 0.14);
   font-size: 13px;
 }
 
 .contact a {
-  color: rgba(224, 229, 255, 0.68);
+  color: rgba(224, 229, 255, 0.72);
   text-decoration: none;
 }
 
@@ -253,49 +307,39 @@
   color: #f6f7ff;
 }
 
-@media (max-width: 680px) {
+@media (max-width: 900px) {
+  .groups {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px 20px;
+  }
+}
+
+@media (max-width: 560px) {
   .burger {
-    width: 38px;
-    height: 38px;
+    width: 40px;
+    height: 40px;
   }
 
   .overlay {
-    gap: 28px;
-    padding: 18px 20px 24px;
+    gap: 18px;
   }
 
-  .overlayHead {
-    grid-template-columns: 1fr auto;
+  .body {
+    gap: 24px;
   }
 
-  .overlayIndex {
-    display: none;
-  }
-
-  .overlayClose {
-    width: 42px;
-    height: 42px;
-  }
-
-  .menuGrid {
+  .actions {
     grid-template-columns: 1fr;
-    gap: 30px;
+    gap: 10px;
   }
 
-  .link {
-    grid-template-columns: 26px 1fr;
-    padding: 4px 0;
-    font-size: clamp(30px, 10vw, 48px);
+  .action {
+    padding: 15px 44px 15px 16px;
   }
 
-  .sectionLinks {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    column-gap: 24px;
-  }
-
-  .sectionLinks .groupLabel {
-    grid-column: 1 / -1;
+  .groups {
+    grid-template-columns: 1fr;
+    gap: 20px;
   }
 
   .contact {

@@ -92,7 +92,7 @@ export type V4Copy = {
 const sr: V4Copy = {
   actions: { inquiry: "Opiši šta ti treba", help: "Nisi siguran šta ti treba? Pitaj nas", ai: "Želim ovakvu automatizaciju", process: "Razgovarajmo o tvom projektu", faq: "Imaš drugo pitanje? Javi se", value: ["Pogledaj sajtove", "Pogledaj aplikacije", "Pogledaj web shop"] },
   nav: {
-    cta: "Razgovarajmo",
+    cta: "Pošalji upit",
     links: { services: "Usluge", work: "Radovi", pricing: "Cene", blog: "Blog", about: "O nama", booking: "Zakazivanje", contact: "Kontakt" },
   },
   rail: ["Početak", "Manifest", "Vrednost", "Radovi", "Usluge", "AI demo", "Proces", "FAQ", "Kontakt"],

@@ -15,7 +15,6 @@ import { hotelCopy, HOTEL_PATH } from "@/content/site/hotel";
 export type ShellLink = { href: string; label: string };
 
 export type ShellCopy = {
-  navLinks: ShellLink[];
   navCta: string;
   /**
    * Where the nav button goes. NOT run through localePath(): the brief is a
@@ -29,22 +28,10 @@ export type ShellCopy = {
   footerRights: string;
   menuOpen: string;
   menuClose: string;
-  menuPagesLabel: string;
-  menuSectionsLabel: string;
-  menuPages: ShellLink[];
 };
 
 const sr: ShellCopy = {
-  navLinks: [
-    { href: "/our-services", label: "Usluge" },
-    { href: "/our-projects", label: "Projekti" },
-    { href: "/online-zakazivanje-za-salone-i-klinike", label: "Zakazivanje" },
-    { href: "/cena-izrade-sajta", label: "Cene" },
-    { href: "/ai", label: "AI" },
-    { href: "/about-us", label: "O nama" },
-    { href: "/contact-us", label: "Kontakt" },
-  ],
-  navCta: "Zatraži ponudu",
+  navCta: "Pošalji upit",
   // The short form is the default ask everywhere. The full brief is one link
   // away for whoever wants a price without a conversation first.
   navCtaHref: "/upit/brzo",
@@ -75,34 +62,9 @@ const sr: ShellCopy = {
   footerRights: "© 2026 Adspire Digital — Niš, Srbija",
   menuOpen: "Otvori meni",
   menuClose: "Zatvori meni",
-  menuPagesLabel: "Stranice",
-  menuSectionsLabel: "Sekcije na početnoj strani",
-  menuPages: [
-    { href: "/", label: "Početna" },
-    { href: "/our-projects", label: "Projekti" },
-    { href: "/our-services", label: "Usluge" },
-    { href: "/ai", label: "AI po delatnostima" },
-    { href: "/it-firma-nis", label: "IT firma Niš" },
-    { href: "/online-zakazivanje-za-salone-i-klinike", label: "Online zakazivanje" },
-    { href: "/edukacija", label: "AI edukacija" },
-    { href: "/cena-izrade-sajta", label: "Cene" },
-    { href: "/about-us", label: "O nama" },
-    { href: "/blog", label: "Blog" },
-    { href: "/kako-radimo", label: "Kako radimo" },
-    { href: "/upit/brzo", label: "Postavi pitanje" },
-    { href: "/upit", label: "Zatraži ponudu" },
-    { href: "/contact-us", label: "Kontakt" },
-  ],
 };
 
 const en: ShellCopy = {
-  navLinks: [
-    { href: "/our-services", label: "Services" },
-    { href: "/our-projects", label: "Work" },
-    { href: "/ai", label: "AI" },
-    { href: "/about-us", label: "About" },
-    { href: "/contact-us", label: "Contact" },
-  ],
   navCta: "Request a quote",
   navCtaHref: "/contact-us",
   clockCity: "NIŠ",
@@ -121,28 +83,9 @@ const en: ShellCopy = {
   footerRights: "© 2026 Adspire Digital — Niš, Serbia",
   menuOpen: "Open menu",
   menuClose: "Close menu",
-  menuPagesLabel: "Pages",
-  menuSectionsLabel: "Sections on this page",
-  menuPages: [
-    { href: "/", label: "Home" },
-    { href: "/our-projects", label: "Work" },
-    { href: "/our-services", label: "Services" },
-    { href: "/ai", label: "AI by industry" },
-    { href: "/about-us", label: "About" },
-    { href: "/blog", label: "Blog" },
-    { href: "/upit", label: "Request a quote" },
-    { href: "/contact-us", label: "Contact" },
-  ],
 };
 
 const de: ShellCopy = {
-  navLinks: [
-    { href: "/our-services", label: "Leistungen" },
-    { href: "/our-projects", label: "Projekte" },
-    { href: "/ai", label: "KI" },
-    { href: "/about-us", label: "Über uns" },
-    { href: "/contact-us", label: "Kontakt" },
-  ],
   navCta: "Angebot anfordern",
   navCtaHref: "/contact-us",
   clockCity: "NIŠ",
@@ -161,18 +104,6 @@ const de: ShellCopy = {
   footerRights: "© 2026 Adspire Digital — Niš, Serbien",
   menuOpen: "Menü öffnen",
   menuClose: "Menü schließen",
-  menuPagesLabel: "Seiten",
-  menuSectionsLabel: "Abschnitte auf dieser Seite",
-  menuPages: [
-    { href: "/", label: "Startseite" },
-    { href: "/our-projects", label: "Projekte" },
-    { href: "/our-services", label: "Leistungen" },
-    { href: "/ai", label: "KI nach Branche" },
-    { href: "/about-us", label: "Über uns" },
-    { href: "/blog", label: "Blog" },
-    { href: "/upit", label: "Angebot anfordern" },
-    { href: "/contact-us", label: "Kontakt" },
-  ],
 };
 
 const byLocale: Record<LocaleCode, ShellCopy> = { sr, en, de };
@@ -186,5 +117,5 @@ export function shellPath(path: string, locale: LocaleCode) {
 export function getShellCopy(locale: LocaleCode = defaultLocale): ShellCopy {
   const copy = byLocale[locale] ?? byLocale[defaultLocale];
   const hotel = { href: HOTEL_PATH, label: hotelCopy[locale].nav };
-  return { ...copy, navLinks: [...copy.navLinks.slice(0, 2), hotel, ...copy.navLinks.slice(2)], footerLinks: [hotel, ...copy.footerLinks], menuPages: [...copy.menuPages.slice(0, 2), hotel, ...copy.menuPages.slice(2)] };
+  return { ...copy, footerLinks: [hotel, ...copy.footerLinks] };
 }
