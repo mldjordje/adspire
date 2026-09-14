@@ -415,6 +415,9 @@ export const bookingFinalCta = {
 };
 
 export const bookingRelated = [
+  { label: "Zakazivanje za frizere i berbernice", href: "/online-zakazivanje/frizerski-saloni-i-berbernice" },
+  { label: "Zakazivanje za kozmetičke salone i klinike", href: "/online-zakazivanje/kozmeticki-saloni-i-estetske-klinike" },
+  { label: "Zakazivanje za ordinacije", href: "/online-zakazivanje/stomatoloske-i-medicinske-ordinacije" },
   { label: "Rezervacioni sistemi u Nišu", href: "/rezervacioni-sistemi-nis" },
   { label: "Koliko košta izrada sajta", href: "/cena-izrade-sajta" },
   { label: "Interni softver umesto Excel tabela", href: "/interni-softver-umesto-excel-tabela" },

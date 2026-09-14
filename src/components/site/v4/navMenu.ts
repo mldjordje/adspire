@@ -1,3 +1,4 @@
+import { bookingIndustryPages, bookingIndustryPath } from "@/content/site/bookingIndustryPages";
 import { hotelCopy, HOTEL_PATH } from "@/content/site/hotel";
 import { defaultLocale, type LocaleCode } from "@/lib/site-config";
 
@@ -53,12 +54,19 @@ const sr = (): NavMenu => ({
       title: "Šta pravimo",
       items: [
         { href: "/our-services/web-prezentacije", label: "Sajtovi", hint: "Sajt koji donosi upite" },
-        { href: "/online-zakazivanje-za-salone-i-klinike", label: "Online zakazivanje", hint: "Saloni, klinike, termini" },
         { href: HOTEL_PATH, label: "Hotelski sistem", hint: "Direktne rezervacije" },
         { href: "/our-services/e-commerce-web-shop", label: "Web shop", hint: "Prodaja, plaćanje, lager" },
         { href: "/our-services/mobilne-aplikacije", label: "Aplikacije i interni softver", hint: "Umesto Excel tabela" },
         { href: "/ai-chatbot-za-sajt", label: "AI chatbot i automatizacija", hint: "Odgovara na upite umesto tebe" },
         { href: "/our-services", label: "Sve usluge →" },
+      ],
+    },
+    {
+      // One page per trade: people search "zakazivanje za berbernicu", not "booking system".
+      title: "Online zakazivanje",
+      items: [
+        ...bookingIndustryPages.map((page) => ({ href: bookingIndustryPath(page.slug), label: page.navLabel })),
+        { href: "/online-zakazivanje-za-salone-i-klinike", label: "Sve o zakazivanju →" },
       ],
     },
     {

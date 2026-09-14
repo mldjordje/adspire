@@ -1,4 +1,5 @@
 import { aiPagePath, aiPages } from "@/content/site/aiPages";
+import { bookingIndustryPages, bookingIndustryPath } from "@/content/site/bookingIndustryPages";
 import { guides } from "@/content/site/guides";
 import { projectCaseStudies } from "@/data/projectCaseStudies";
 import { serviceCatalog } from "@/data/serviceCatalog";
@@ -26,6 +27,10 @@ export function GET() {
     .join("\n");
   const aiByIndustry = aiPages
     .map((page) => `- [${page.industry}](${base}${aiPagePath(page.slug)}): ${page.answer}`)
+    .join("\n");
+
+  const bookingByIndustry = bookingIndustryPages
+    .map((page) => `- [${page.seo.title}](${base}${bookingIndustryPath(page.slug)}): ${page.summary}`)
     .join("\n");
 
   const body = `# ${ORGANIZATION.name}
@@ -61,6 +66,10 @@ Iste stranice na engleskom: ${base}/en/ai — i na nemačkom: ${base}/de/ai
 Isti slugovi u sva tri jezika, npr. ${base}/de/ai/saloni-i-klinike
 
 ${aiByIndustry}
+
+## Online zakazivanje po delatnostima
+
+${bookingByIndustry}
 
 ## Dokumentovani projekti
 

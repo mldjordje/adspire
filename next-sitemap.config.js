@@ -86,7 +86,8 @@ module.exports = {
     const isServicePage =
       cleanPath.startsWith("/usluge/") ||
       cleanPath.startsWith("/en/usluge/") ||
-      cleanPath.startsWith("/our-services/");
+      cleanPath.startsWith("/our-services/") ||
+      cleanPath.startsWith("/online-zakazivanje/");
     const isKeyHub = [
       "/about-us",
       "/contact-us",

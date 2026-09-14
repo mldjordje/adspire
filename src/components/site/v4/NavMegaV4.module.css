@@ -83,9 +83,9 @@
   top: calc(100% + 12px);
   left: 50%;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 250px;
-  gap: 28px;
-  width: min(980px, calc(100vw - 48px));
+  grid-template-columns: minmax(0, 1fr) 230px;
+  gap: 24px;
+  width: min(1180px, calc(100vw - 48px));
   padding: 26px;
   color: #f6f7ff;
   text-align: left;
@@ -121,8 +121,21 @@
 
 .columns {
   display: grid;
-  grid-template-columns: 1.15fr 1fr 1fr;
-  gap: 22px;
+  grid-template-columns: 1.15fr 0.9fr 1fr 1fr;
+  gap: 18px;
+}
+
+/* Four columns plus the card do not fit a 1024px panel; the header CTA already
+   covers the card's job there. */
+@media (max-width: 1279px) {
+  .panel {
+    grid-template-columns: 1fr;
+  }
+
+  /* Scoped under .panel so it outranks the base .feature rule declared below. */
+  .panel .feature {
+    display: none;
+  }
 }
 
 .groupTitle {
