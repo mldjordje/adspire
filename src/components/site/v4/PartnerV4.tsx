@@ -17,7 +17,7 @@ type Props = { page: PartnerPage };
 /** Renders the white-label partner page on the OBSIDIAN chrome. English copy only. */
 export function PartnerV4({ page }: Props) {
   return (
-    <PageShellV4 eyebrow={page.eyebrow} title={page.h1} intro={page.lead} copyOverride={getShellCopy("en")}>
+    <PageShellV4 eyebrow={page.eyebrow} title={page.h1} intro={page.lead} locale="en" copyOverride={getShellCopy("en")}>
       <div className={styles.body} data-reveal>
         {page.sections.map((section, index) => (
           <section key={section.heading} aria-labelledby={sectionId(index)}>
