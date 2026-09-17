@@ -1233,16 +1233,258 @@ const professionalServices: AiPage = {
   ],
 };
 
+const gyms: AiPage = {
+  slug: "teretane-i-fitnes",
+  industry: "Fitnessstudios",
+  eyebrow: "KI nach Branche",
+  title: "KI für Fitnessstudios — Anmeldungen, Mitgliedschaften, Antworten",
+  metaDescription:
+    "Was KI im Fitnessstudio konkret leistet: Kursanmeldungen ohne Namensliste, Erinnerungen vor Ablauf der Mitgliedschaft und Antworten außerhalb der Öffnungszeiten.",
+  h1: "KI für Fitnessstudios",
+  lead:
+    "Der Empfang führt Hefte, der Trainer die Gruppe per WhatsApp, und der Inhaber erfährt vom Austritt erst, wenn jemand ausbleibt. Nichts davon ist ein Motivationsproblem — es ist ein Problem der Aufzeichnung.",
+  answer:
+    "Im Fitnessstudio übernimmt KI die Arbeit rund um Kurse und Mitgliedschaften: Anmeldung zu einem Kurs mit fester Platzzahl und Warteliste, Erinnerung vor Ablauf der Mitgliedschaft, solange die Verlängerung noch leichtfällt, Antworten zu Plan, Preisen und Regeln außerhalb der Öffnungszeiten sowie das Sichtbarmachen von Mitgliedern, die nicht mehr kommen, bevor sie kündigen. Adspire Digital baut das als ein System mit Anwesenheitsführung statt als Sammlung von Werkzeugen, die nicht miteinander sprechen.",
+  keywords: [
+    "KI für Fitnessstudios",
+    "Software Fitnessstudio",
+    "Kursbuchung System",
+    "Mitgliedschaften verwalten",
+    "Automatisierung Fitnessstudio",
+  ],
+  serviceName: "KI und Automatisierung für Fitnessstudios",
+  tasks: [
+    {
+      name: "Kursanmeldung ohne Namensliste",
+      problem:
+        "Anmeldungen kommen über mehrere WhatsApp-Gruppen, der Trainer überträgt sie ins Heft, und zum Kurs für zwölf erscheinen siebzehn.",
+      solution:
+        "Die Anmeldung läuft über einen Plan mit fester Platzzahl je Termin; ist er voll, rückt die nächste Person auf die Warteliste und erhält den Platz, sobald jemand absagt.",
+      delivery: "Kursplan, Platzbegrenzung und Warteliste.",
+    },
+    {
+      name: "Erinnerung vor Ablauf der Mitgliedschaft",
+      problem:
+        "Ein Mitglied erfährt an der Tür, dass die Mitgliedschaft abgelaufen ist — unangenehm für beide Seiten.",
+      solution:
+        "Das System kennt das Ablaufdatum und erinnert früher, solange die Verlängerung Routine ist und keine Entscheidung über die Rückkehr.",
+      delivery: "Mitgliedschaften mit Ablaufdatum und automatischer Erinnerung.",
+    },
+    {
+      name: "Antworten zu Plan und Regeln außerhalb der Öffnungszeiten",
+      problem:
+        "Fragen zu Preisen, Terminen und Anmeldepflicht kommen abends und am Wochenende, wenn der Empfang nicht besetzt ist.",
+      solution:
+        "Ein Assistent auf der Website und in Nachrichten antwortet aus Ihrem Plan und Ihrer Preisliste und reicht alles, was einen Menschen braucht, mit Kontakt weiter.",
+      delivery: "Assistent, der mit dem Kursplan verbunden ist, mit Übergabe bei Bedarf.",
+    },
+    {
+      name: "Das Mitglied, das nicht mehr kommt",
+      problem:
+        "Ein Austritt fällt erst auf, wenn nicht verlängert wird — dann ist das Gespräch einen Monat zu spät.",
+      solution:
+        "Die Anwesenheitsführung zeigt, wer plötzlich ausbleibt, sodass ein Anruf oder eine Nachricht kommt, solange die Rückkehr leichtfällt.",
+      delivery: "Liste der Mitglieder ohne Besuche im gewählten Zeitraum, mit Textvorschlag.",
+    },
+  ],
+  sections: [
+    {
+      heading: "Warum ein Studio ein Mitglied verliert",
+      body: [
+        "Selten wegen der Geräte. Viel häufiger, weil zwei Wochen ausgefallen sind, niemand es angesprochen hat und die Rückkehr unangenehm wurde. Das weiß das System — das Heft nicht.",
+      ],
+      bullets: [
+        "Anmeldungen verteilt über Gruppen und Nachrichten, ohne eine Stelle, die zeigt, wer kommt.",
+        "Eine Mitgliedschaft, die ohne Vorwarnung abläuft, sodass die Verlängerung zur Entscheidung wird.",
+        "Ein überfüllter Kurs, bei dem jemand, der erschienen ist, keinen Platz hat.",
+        "Ein abgesagter Platz, der verfällt, weil niemand die nächste Person informiert hat.",
+      ],
+    },
+    {
+      heading: "Was bei den Menschen bleibt",
+      body: [
+        "Das Training, die Korrektur und die Beziehung zum Mitglied. KI leitet kein Training und ersetzt keinen Trainer — sie nimmt die Verwaltung ab, die den Trainer hinter den Tresen statt in die Halle stellt.",
+      ],
+    },
+  ],
+  howTo: {
+    name: HOW_TO_NAME,
+    steps: [
+      {
+        name: "Ein Bild einer Woche im Studio",
+        text: "Wir gehen Kursplan, Mitgliedschaftsarten und den heutigen Weg der Anmeldungen durch — damit wird sichtbar, wo Zeit verloren geht.",
+      },
+      {
+        name: "Erster Schritt: Termine und Plätze",
+        text: "Zuerst der Plan mit begrenzten Plätzen und Warteliste, weil das die Nachrichten am schnellsten vom Telefon des Trainers nimmt.",
+      },
+      {
+        name: "Mitgliedschaften und Anwesenheit",
+        text: "Danach Mitgliedschaften mit Ablaufdatum und Anwesenheitsführung, die Grundlage aller späteren Erinnerungen.",
+      },
+      {
+        name: "Assistent und Erinnerungen",
+        text: "Zum Schluss ein Assistent für Fragen außerhalb der Öffnungszeiten und automatische Nachrichten vor Ablauf und nach Ausbleiben.",
+      },
+    ],
+  },
+  faq: [
+    {
+      q: "Ersetzt KI den Trainer oder den Empfang?",
+      a: "Nein. Sie übernimmt Anmeldungen, Erinnerungen und wiederkehrende Fragen. Training, Korrektur und das Gespräch mit dem Mitglied bleiben bei Menschen — dafür zahlt das Mitglied.",
+    },
+    {
+      q: "Was, wenn Mitglieder sich nicht über die Website anmelden wollen?",
+      a: "Der Empfang trägt sie von Hand in denselben Plan ein, der Stand jedes Termins bleibt also korrekt. Die Online-Anmeldung ist ein zusätzlicher Weg, keine Bedingung.",
+    },
+    {
+      q: "Kann das System ein Mitglied erkennen, das nicht mehr kommt?",
+      a: "Ja, wenn Anwesenheiten erfasst werden. Es zeigt alle ohne Besuch im von Ihnen gewählten Zeitraum; was wann verschickt wird, entscheiden weiterhin Sie.",
+    },
+    {
+      q: "Lässt sich das mit dem Einzug der Beiträge verbinden?",
+      a: "Ja. Meist beginnt man mit Erfassung und Erinnerungen und ergänzt die Zahlung später, wenn klar ist, ob Ihre Mitglieder online überhaupt zahlen.",
+    },
+  ],
+  relatedServices: [
+    { label: "Terminbuchungssysteme", href: "/our-services/sistemi-za-zakazivanje" },
+    { label: "KI-Integrationen und Automatisierung", href: "/our-services/ai-integracije-automatizacija" },
+    { label: "Interne Unternehmensanwendungen", href: "/our-services/interne-poslovne-aplikacije" },
+  ],
+};
+
+const propertyDevelopers: AiPage = {
+  slug: "investitori-i-prodaja-stanova",
+  industry: "Bauträger und Wohnungsverkauf",
+  eyebrow: "KI nach Branche",
+  title: "KI für Bauträger und Wohnungsverkauf — Anfragen, Besichtigungen, Verfügbarkeit",
+  metaDescription:
+    "Was KI für Bauträger im Neubauverkauf leistet: Anfragen qualifizieren, Fragen zu Grundrissen und Terminen beantworten, Besichtigungen buchen, Verfügbarkeit korrekt halten.",
+  h1: "KI für Bauträger und Wohnungsverkauf",
+  lead:
+    "Eine Anfrage zur Wohnung kommt über drei Kanäle, der Verkäufer beantwortet dieselbe Frage zum zehnten Mal, und die Verfügbarkeitsliste hinkt der Wirklichkeit um eine reservierte Einheit hinterher.",
+  answer:
+    "Im Neubauverkauf arbeitet KI am Eingang des Vertriebsprozesses: Sie qualifiziert eine Anfrage, bevor sie den Verkäufer erreicht, beantwortet Fragen zu Grundrissen, Wohnfläche, Fertigstellungsterminen und Zahlungsbedingungen aus Ihren eigenen Daten, bucht Besichtigungen und hält die Verfügbarkeit zwischen Website und interner Liste im Einklang. Adspire Digital baut das als ein System über einem Einheitenregister und einem Anfragenprotokoll, sodass der Verkäufer ein vorbereitetes Gespräch statt eines rohen Kontakts bekommt.",
+  keywords: [
+    "KI für Bauträger",
+    "Software Wohnungsverkauf",
+    "Einheitenverwaltung Neubau",
+    "CRM Immobilien",
+    "Besichtigungstermin buchen",
+  ],
+  serviceName: "KI und interne Systeme für Bauträger und Wohnungsverkauf",
+  tasks: [
+    {
+      name: "Anfragen zu Wohnungen qualifizieren",
+      problem:
+        "Der Verkäufer verbringt den Tag mit Anfragen nach Grundrissen, die es nicht gibt, oder Budgets, die das Projekt nie getroffen hat.",
+      solution:
+        "Die Anfrage durchläuft wenige Fragen zu Grundriss, Budget und Einzugstermin und erreicht den Verkäufer sortiert und mit Kontext.",
+      delivery: "Formular und Assistent, die die Anfrage qualifizieren und weiterleiten, an einer Stelle erfasst.",
+    },
+    {
+      name: "Antworten zu Fertigstellung und Grundrissen",
+      problem:
+        "Dieselben Fragen zu Wohnfläche, Ausrichtung, Stellplatz und Fertigstellung wiederholen sich täglich, oft abends.",
+      solution:
+        "Ein Assistent antwortet aus Ihrem Einheitenregister und dem offiziellen Bauzeitenplan und übergibt alles Verhandelbare an den Verkäufer.",
+      delivery: "Assistent mit Projektdaten und klarer Grenze, was er nicht allein beantwortet.",
+    },
+    {
+      name: "Besichtigung buchen",
+      problem:
+        "Besichtigungen werden per Nachricht vereinbart, also erscheinen zwei Interessenten gleichzeitig oder der Verkäufer fährt ohne Bestätigung hin.",
+      solution:
+        "Der Interessent wählt einen freien Besichtigungstermin nach Projekt und Verkäufer, mit Bestätigung und Erinnerung vor dem Termin.",
+      delivery: "Besichtigungskalender je Projekt, mit Bestätigung und Erinnerung.",
+    },
+    {
+      name: "Verfügbarkeit korrekt halten",
+      problem:
+        "Die Website zeigt eine Wohnung, die gestern reserviert wurde, und der Interessent kommt für etwas, das es nicht mehr gibt.",
+      solution:
+        "Das Einheitenregister ist die einzige Quelle der Wahrheit; ein Status ändert sich an einer Stelle und wandert von dort auf Website und Angebot.",
+      delivery: "Einheitenregister mit Status und eine Website-Ansicht, die daraus gespeist wird.",
+    },
+  ],
+  sections: [
+    {
+      heading: "Wo der Neubauverkauf wirklich langsam wird",
+      body: [
+        "Nicht beim Preis. Bei der Zeit zwischen Anfrage und echtem Gespräch — und bei Daten, die je nach Quelle abweichen: Verkäufer, Website oder Tabelle.",
+      ],
+      bullets: [
+        "Eine Anfrage, die bis Montag wartet, während der Interessent zwei andere Projekte besichtigt.",
+        "Eine Einheitenliste, deren Status nur für den stimmt, der sie zuletzt bearbeitet hat.",
+        "Dieselben Fragen zu Terminen und Zahlung, jedes Mal von Hand beantwortet.",
+        "Besichtigungen per Nachricht vereinbart, ohne Nachweis, wer kam und was besprochen wurde.",
+      ],
+    },
+    {
+      heading: "Was beim Verkäufer bleibt",
+      body: [
+        "Verhandlung, Vertrauen und alles, was den Kauf einer Wohnung entscheidet. Automatisiert wird die Vorbereitung — damit der Verkäufer weiß, was der Interessent sucht und schon gefragt hat.",
+      ],
+    },
+  ],
+  howTo: {
+    name: HOW_TO_NAME,
+    steps: [
+      {
+        name: "Den Weg einer Anfrage nachzeichnen",
+        text: "Wir verfolgen, was zwischen Eingang der Anfrage und dem ersten echten Gespräch passiert und wo die Zeit verloren geht.",
+      },
+      {
+        name: "Erster Schritt: das Einheitenregister",
+        text: "Zuerst eine einzige Quelle der Wahrheit für Einheiten und Status, denn ohne sie verbreitet jede Automatisierung falsche Zahlen schneller.",
+      },
+      {
+        name: "Anfragen und Qualifizierung",
+        text: "Danach ein Eingang mit kurzer Qualifizierung und Protokoll, sodass der Verkäufer einen vorbereiteten Kontakt erhält.",
+      },
+      {
+        name: "Assistent und Besichtigungen",
+        text: "Zum Schluss ein Assistent für wiederkehrende Fragen und ein Besichtigungskalender mit Bestätigung und Erinnerung.",
+      },
+    ],
+  },
+  faq: [
+    {
+      q: "Spricht die KI anstelle des Verkäufers mit dem Interessenten?",
+      a: "Beim Wohnungskauf nicht. Sie beantwortet Sachfragen — Grundrisse, Flächen, Termine, Zahlungsbedingungen — und bereitet das Gespräch vor. Verhandlung und Vertrauen bleiben beim Verkäufer, denn niemand kauft eine Wohnung von einem Assistenten.",
+    },
+    {
+      q: "Woher hat der Assistent die Daten zu den Einheiten?",
+      a: "Aus Ihrem Einheitenregister, der einzigen Quelle der Wahrheit. Gibt es kein solches Register, ist es der erste Schritt — ein Assistent über einer falschen Tabelle verbreitet die falsche Zahl nur schneller.",
+    },
+    {
+      q: "Funktioniert das auch für ein Maklerbüro statt für einen Bauträger?",
+      a: "Ja, mit dem Unterschied, dass ein Maklerbüro fremden Bestand und mehrere Quellen führt. Die Logik bleibt: eine Quelle der Wahrheit, eine qualifizierte Anfrage, ein gebuchter Termin.",
+    },
+    {
+      q: "Aktualisiert sich die Verfügbarkeit auf der Website von selbst?",
+      a: "Ja, wenn die Website aus dem Register gespeist wird. Ein Status ändert sich an einer Stelle und wandert von dort weiter — keine Wohnung ist auf der Website frei und in der Tabelle reserviert.",
+    },
+  ],
+  relatedServices: [
+    { label: "Interne Unternehmensanwendungen", href: "/our-services/interne-poslovne-aplikacije" },
+    { label: "KI-Integrationen und Automatisierung", href: "/our-services/ai-integracije-automatizacija" },
+    { label: "Websites und Webauftritte", href: "/our-services/web-prezentacije" },
+  ],
+};
+
 export const aiPagesDe: AiPage[] = [
   salonsClinics,
   transportLogistics,
   hospitality,
   ecommerce,
   realEstate,
+  propertyDevelopers,
   education,
   manufacturing,
   automotive,
   professionalServices,
+  gyms,
 ];
 
 export const aiIndexDe: AiIndexCopy = {

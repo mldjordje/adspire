@@ -196,6 +196,32 @@ const services: ServiceItem[] = [
     href: "/our-services/sistemi-za-zakazivanje",
     cta: "Detalji usluge",
   },
+  {
+    title: "Statični sajtovi",
+    summary:
+      "Sajt bez baze i bez admin panela: strane su unapred generisane i serviraju se sa CDN-a, pa se učitavaju gotovo trenutno. Za firme kojima se sadržaj menja nekoliko puta godišnje — vizit-karta, landing za kampanju, jednostavan sajt usluga.",
+    bullets: [
+      "Najbrže učitavanje i najniži trošak hostinga",
+      "Bez dodataka i bezbednosnih zakrpa koje treba pratiti",
+      "Izmene teksta i slika preuzimamo mi, bez CMS-a",
+    ],
+    slug: "staticni-sajtovi",
+    href: "/our-services/staticni-sajtovi",
+    cta: "Detalji usluge",
+  },
+  {
+    title: "AI video klipovi",
+    summary:
+      "Video klipovi napravljeni uz AI: reklame za Instagram, TikTok i YouTube, prikaz proizvoda, kratka objašnjenja usluge i narator na više jezika — bez snimanja, ekipe i studija.",
+    bullets: [
+      "Scenario, izrada i montaža u formatima za sve mreže",
+      "Više verzija istog klipa za testiranje poruka",
+      "Narator i titlovi na srpskom, engleskom i nemačkom",
+    ],
+    slug: "ai-video-produkcija",
+    href: "/our-services/ai-video-produkcija",
+    cta: "Detalji usluge",
+  },
 ];
 
 const projects: ProjectItem[] = [

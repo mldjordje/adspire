@@ -653,4 +653,84 @@ export const serviceDetailEn: Record<string, ServiceDetailTranslation> = {
       },
     ],
   },
+  "staticni-sajtovi": {
+    h1: "Static websites — the fastest layer of the web",
+    intro:
+      "No database, no admin panel, nothing to keep patched. Pages are prebuilt and served from a CDN, so they are simply there.",
+    overview:
+      "A static website has no database and no admin panel: every page is generated ahead of time and served from a CDN, so it loads almost instantly and is close to impossible to take down. We build them for companies whose content changes a few times a year — a brochure site, a campaign landing page, a services site — and handle the edits ourselves instead of charging for a CMS nobody opens.",
+    tags: ["Static site", "CDN", "Core Web Vitals", "Landing page", "Technical SEO", "No CMS"],
+    bestFor: [
+      "Companies whose content changes a few times a year, leaving a CMS unused.",
+      "Campaign landing pages, where load time and a single clear call to action decide the result.",
+      "Anyone who wants the lowest possible hosting and maintenance cost, with no plugins or security patches to chase.",
+    ],
+    deliverables: [
+      "A statically generated site with custom design, technical SEO and a contact form that lands in your inbox.",
+      "Deployment to a CDN with domain and HTTPS, plus cookie-free traffic measurement.",
+      "An agreed way to change text and images — we make the edits, so there is no admin panel to maintain.",
+    ],
+    faq: [
+      {
+        q: "What is a static website?",
+        a: "A site whose pages are generated ahead of time and served as finished files from a CDN. There is no database and no admin panel, so there is no server to wait for — the page is there the moment it is requested.",
+      },
+      {
+        q: "How is it different from a site with a CMS?",
+        a: "A CMS site gives you an admin where you change text and images yourself. A static site does not — we make the edits. That makes it cheaper to build and to run, and faster and safer. If you plan a blog or frequent changes, the CMS earns its keep.",
+      },
+      {
+        q: "Can a static site have a contact form?",
+        a: "Yes. The form runs through a service that mails the message and records the enquiry, which needs no database on the site itself.",
+      },
+      {
+        q: "Is a static site good for Google and for AI search?",
+        a: "Markedly so. Load time is a ranking signal, and pages that need no JavaScript rendering are read by crawlers and AI assistants without any obstacle.",
+      },
+      {
+        q: "What if I want a CMS later?",
+        a: "The content moves into a CMS without redoing the design. A static site is a legitimate starting point, not a dead end.",
+      },
+    ],
+  },
+  "ai-video-produkcija": {
+    h1: "AI video clips and video content",
+    intro:
+      "Ads, product showcases and short explainers produced with AI — no shoot, no crew, no studio day.",
+    overview:
+      "Video produced with AI tools: ads for Instagram, TikTok and YouTube, product showcases, short explainers and voice-over in several languages. Without a shoot and a crew, one idea ships as several versions and formats you can actually test. Adspire writes the script, produces and edits the clip, and connects it to the page it sends people to.",
+    tags: ["AI video", "Social ads", "Product video", "Explainer", "Voice-over", "Subtitles"],
+    bestFor: [
+      "Companies that must publish video regularly with neither a crew nor a budget for shooting every clip.",
+      "Ad campaigns testing several messages at once, where five versions beat one perfect film.",
+      "Products and services that are easier to show in motion than to explain in text.",
+    ],
+    deliverables: [
+      "A script and storyboard derived from your offer and audience rather than from a random idea.",
+      "Production and editing in formats for Reels, TikTok, YouTube and the site, with subtitles.",
+      "Versions for testing and, where useful, voice-over in another language, wired to the page the clip points at.",
+    ],
+    faq: [
+      {
+        q: "What does \"AI video\" mean — is all of it synthetic?",
+        a: "It depends on the clip. Some are fully generated; in others AI only handles the voice-over, the subtitles or the edit while the footage is yours. We always say which is which, because it drives both the cost and the look.",
+      },
+      {
+        q: "Can I use my own footage and photos?",
+        a: "Yes, and that usually gives the best result — your material as the base, with AI for the edit, narration, subtitles and the scenes you do not have.",
+      },
+      {
+        q: "Which languages can the voice-over use?",
+        a: "Serbian, English and German are what we do most. The same message in three languages costs far less than three separate shoots.",
+      },
+      {
+        q: "How long does one clip take?",
+        a: "For short ad formats, usually a few working days from an approved script. Extra versions of the same clip add little, because they come from the same base.",
+      },
+      {
+        q: "Do you publish the clips and run the accounts?",
+        a: "Delivering the clip is the standard scope. Publishing and running the campaign belong to the digital marketing service, if you want that too.",
+      },
+    ],
+  },
 };

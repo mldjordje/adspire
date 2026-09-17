@@ -1230,16 +1230,258 @@ const professionalServices: AiPage = {
   ],
 };
 
+const gyms: AiPage = {
+  slug: "teretane-i-fitnes",
+  industry: "Gyms and fitness",
+  eyebrow: "AI by industry",
+  title: "AI for gyms and fitness studios — sign-ups, memberships, answers",
+  metaDescription:
+    "What AI actually does for a gym or fitness studio: class sign-ups without a roll call, reminders before a membership lapses, and answers to routine questions after hours.",
+  h1: "AI for gyms and fitness studios",
+  lead:
+    "The front desk keeps notebooks, the trainer keeps the group on WhatsApp, and the owner learns a member left only once they stop showing up. None of that is a motivation problem — it is a record-keeping problem.",
+  answer:
+    "In a gym or fitness studio, AI takes over the work around classes and memberships: sign-ups for a class with a fixed number of places and a waiting list, a reminder before a membership lapses while renewing is still easy, answers about the timetable, prices and rules outside opening hours, and surfacing members who have stopped coming before they cancel. Adspire Digital builds this as one system with attendance records, rather than a pile of tools that never speak to each other.",
+  keywords: [
+    "AI for gyms",
+    "fitness studio software",
+    "class booking system",
+    "membership tracking",
+    "gym automation",
+  ],
+  serviceName: "AI and automation for gyms and fitness studios",
+  tasks: [
+    {
+      name: "Class sign-ups without a roll call",
+      problem:
+        "Sign-ups arrive across several WhatsApp groups, the trainer copies them into a notebook, and seventeen people turn up to a class for twelve.",
+      solution:
+        "Sign-ups run through a timetable with a fixed number of places per session; when it fills, the next person joins a waiting list and gets the spot the moment someone cancels.",
+      delivery: "A class timetable, a place limit and a waiting list.",
+    },
+    {
+      name: "A reminder before the membership lapses",
+      problem:
+        "A member finds out their membership expired at the door, when it is awkward for them and for the front desk.",
+      solution:
+        "The system tracks the expiry date and sends a reminder earlier, while renewing is still a routine rather than a decision about whether to come back at all.",
+      delivery: "Membership records with expiry dates and an automatic reminder.",
+    },
+    {
+      name: "Answers about the timetable and rules after hours",
+      problem:
+        "Questions about prices, sessions and whether you need to book arrive in the evening and at weekends, when the desk is closed.",
+      solution:
+        "An assistant on the site and in messages answers from your timetable and price list, and hands anything that needs a person straight over with the contact.",
+      delivery: "An assistant wired to the timetable, with handover where it is needed.",
+    },
+    {
+      name: "The member who stopped coming",
+      problem:
+        "A member leaving is noticed only when they fail to renew, by which point the conversation is a month late.",
+      solution:
+        "Attendance records surface people who suddenly stopped coming, so a call or a message lands while coming back is still easy.",
+      delivery: "A list of members with no attendance in a chosen period, with a suggested message.",
+    },
+  ],
+  sections: [
+    {
+      heading: "Why a gym loses a member",
+      body: [
+        "Rarely because of the equipment. Far more often because they missed a fortnight, nobody mentioned it, and coming back turned awkward. That is something the system knows and a notebook does not.",
+      ],
+      bullets: [
+        "Sign-ups scattered across groups and messages, with no single place showing who is coming.",
+        "A membership that lapses without warning, turning renewal into a decision instead of a habit.",
+        "A class that overfills, so someone who showed up has no place.",
+        "A cancelled place that goes to waste because nobody told the next person in line.",
+      ],
+    },
+    {
+      heading: "What stays with people",
+      body: [
+        "The training, the correction and the relationship with the member. AI does not run a session and does not replace a trainer — it removes the admin that keeps the trainer behind the desk instead of on the floor.",
+      ],
+    },
+  ],
+  howTo: {
+    name: HOW_TO_NAME,
+    steps: [
+      {
+        name: "A picture of one week in the studio",
+        text: "We walk through the timetable, the membership types and how sign-ups arrive today, which shows where the time goes.",
+      },
+      {
+        name: "First step: sessions and places",
+        text: "The timetable with limited places and a waiting list goes first, because it takes the messages off the trainer's phone fastest.",
+      },
+      {
+        name: "Memberships and attendance",
+        text: "Then membership records with expiry dates and attendance tracking, which is the basis for every reminder that follows.",
+      },
+      {
+        name: "Assistant and reminders",
+        text: "Finally an assistant for after-hours questions and automatic messages before a membership lapses and after an absence.",
+      },
+    ],
+  },
+  faq: [
+    {
+      q: "Does AI replace the trainer or the front desk?",
+      a: "No. It takes over sign-ups, reminders and the questions that repeat. Training, correcting movement and talking to a member stay with people — that is what the member is paying for.",
+    },
+    {
+      q: "What if members will not sign up through the website?",
+      a: "The desk enters them into the same timetable by hand, so the state of each session is still correct. Online sign-up is an extra channel, not a condition.",
+    },
+    {
+      q: "Can the system spot a member who has stopped coming?",
+      a: "Yes, if attendance is recorded. It surfaces those with no attendance over a period you choose; what gets sent and when stays your decision.",
+    },
+    {
+      q: "Does this connect to collecting membership fees?",
+      a: "It can. Most studios start with records and reminders and add payment later, once it is clear whether paying online is something their members actually use.",
+    },
+  ],
+  relatedServices: [
+    { label: "Appointment booking systems", href: "/our-services/sistemi-za-zakazivanje" },
+    { label: "AI integrations and automation", href: "/our-services/ai-integracije-automatizacija" },
+    { label: "Internal business applications", href: "/our-services/interne-poslovne-aplikacije" },
+  ],
+};
+
+const propertyDevelopers: AiPage = {
+  slug: "investitori-i-prodaja-stanova",
+  industry: "Developers and new-build sales",
+  eyebrow: "AI by industry",
+  title: "AI for developers and new-build sales — enquiries, viewings, availability",
+  metaDescription:
+    "What AI does for a developer selling new-build flats: qualifying enquiries, answering questions about layouts and dates, booking viewings, and keeping availability correct.",
+  h1: "AI for developers and new-build sales",
+  lead:
+    "An enquiry about a flat arrives through three channels, a salesperson answers the same question for the tenth time, and the availability sheet trails reality by one reserved unit.",
+  answer:
+    "For a developer selling new-build flats, AI works at the entrance to the sales process: it qualifies an enquiry before it reaches a salesperson, answers questions about layouts, floor area, completion dates and payment terms from your own data, books a viewing, and keeps availability consistent between the website and the internal record. Adspire Digital builds this as one system over a unit register and an enquiry log, so the salesperson starts a prepared conversation instead of a raw contact.",
+  keywords: [
+    "AI for property developers",
+    "new build sales software",
+    "unit availability system",
+    "real estate CRM",
+    "property viewing booking",
+  ],
+  serviceName: "AI and internal systems for developers and new-build sales",
+  tasks: [
+    {
+      name: "Qualifying an enquiry about a flat",
+      problem:
+        "A salesperson spends the day on enquiries asking for a layout that does not exist or a budget the scheme never met.",
+      solution:
+        "The enquiry passes through a short set of questions about layout, budget and move-in date, so it reaches the salesperson sorted and with context.",
+      delivery: "A form and assistant that qualify and route the enquiry, logged in one place.",
+    },
+    {
+      name: "Answers about completion dates and layouts",
+      problem:
+        "The same questions about floor area, aspect, parking and completion date repeat daily, often in the evening.",
+      solution:
+        "An assistant answers from your unit register and the official build schedule, and hands anything that needs negotiating to a salesperson.",
+      delivery: "An assistant wired to the scheme's data, with a clear limit on what it will not answer alone.",
+    },
+    {
+      name: "Booking a viewing",
+      problem:
+        "Viewing times are agreed in messages, so two buyers turn up at once or the salesperson travels without a confirmation.",
+      solution:
+        "The buyer picks an open viewing slot by scheme and salesperson, with a confirmation and a reminder before the visit.",
+      delivery: "A viewing calendar per scheme, with confirmation and reminder.",
+    },
+    {
+      name: "Keeping availability correct",
+      problem:
+        "The website shows a flat that was reserved yesterday, so a buyer arrives for something that no longer exists.",
+      solution:
+        "The unit register is the single source of truth; a status changes in one place and flows from there to the website and the offer.",
+      delivery: "A unit register with statuses, and a website view fed from it.",
+    },
+  ],
+  sections: [
+    {
+      heading: "Where new-build sales actually slow down",
+      body: [
+        "Not on price. On the time between an enquiry and a real conversation, and on data that differs depending on who you ask — the salesperson, the website or the spreadsheet.",
+      ],
+      bullets: [
+        "An enquiry that waits until Monday, while the buyer views two other schemes in the meantime.",
+        "A unit sheet whose statuses are only correct for whoever edited it last.",
+        "The same questions about dates and payment answered by hand, every single time.",
+        "Viewings agreed in messages, with no record of who came or what was said.",
+      ],
+    },
+    {
+      heading: "What stays with the salesperson",
+      body: [
+        "Negotiation, trust and everything that decides the purchase of a home. What gets automated is the preparation — so the salesperson walks in knowing what the buyer wants and what they have already asked.",
+      ],
+    },
+  ],
+  howTo: {
+    name: HOW_TO_NAME,
+    steps: [
+      {
+        name: "Tracing the path of an enquiry",
+        text: "We follow what happens between an enquiry arriving and the first real conversation, and where the time disappears.",
+      },
+      {
+        name: "First step: the unit register",
+        text: "A single source of truth for units and statuses comes first, because without it every later automation spreads a wrong number faster.",
+      },
+      {
+        name: "Enquiries and qualification",
+        text: "Then an intake with short qualification and a log, so the salesperson receives a prepared contact.",
+      },
+      {
+        name: "Assistant and viewings",
+        text: "Finally an assistant for repeating questions and a viewing calendar with confirmation and reminder.",
+      },
+    ],
+  },
+  faq: [
+    {
+      q: "Does AI talk to the buyer instead of the salesperson?",
+      a: "Not for buying a home. It answers factual questions — layouts, floor areas, dates, payment terms — and prepares the conversation. Negotiation and trust stay with the salesperson, because nobody buys a flat from an assistant.",
+    },
+    {
+      q: "Where does the assistant get its data about units?",
+      a: "From your unit register, which is the single source of truth. If no such register exists, that is the first step — an assistant over a wrong spreadsheet only spreads the wrong number faster.",
+    },
+    {
+      q: "Does this work for an agency rather than a developer?",
+      a: "It does, with the difference that an agency handles someone else's stock and several sources. The logic is the same: one source of truth, a qualified enquiry and a booked viewing.",
+    },
+    {
+      q: "Does the availability shown on the website update itself?",
+      a: "Yes, when the site is fed from the register. A status changes in one place and travels from there, so no flat is free on the site and reserved in the sheet.",
+    },
+  ],
+  relatedServices: [
+    { label: "Internal business applications", href: "/our-services/interne-poslovne-aplikacije" },
+    { label: "AI integrations and automation", href: "/our-services/ai-integracije-automatizacija" },
+    { label: "Websites and web presence", href: "/our-services/web-prezentacije" },
+  ],
+};
+
 export const aiPagesEn: AiPage[] = [
   salonsClinics,
   transportLogistics,
   hospitality,
   ecommerce,
   realEstate,
+  propertyDevelopers,
   education,
   manufacturing,
   automotive,
   professionalServices,
+  gyms,
 ];
 
 export const aiIndexEn: AiIndexCopy = {

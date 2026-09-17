@@ -162,6 +162,26 @@ const serviceText: Array<Pick<ServiceItem, "title" | "summary" | "bullets">> = [
       "Per-staff calendars, client records and treatment history",
     ],
   },
+  {
+    title: "Static websites",
+    summary:
+      "A site with no database and no admin panel: pages are prebuilt and served from a CDN, so they load almost instantly. For companies whose content changes a few times a year — a brochure site, a campaign landing page, a services site.",
+    bullets: [
+      "The fastest load times and the lowest hosting cost",
+      "No plugins or security patches to keep chasing",
+      "We handle text and image edits, so there is no CMS",
+    ],
+  },
+  {
+    title: "AI video clips",
+    summary:
+      "Video produced with AI: ads for Instagram, TikTok and YouTube, product showcases, short explainers and voice-over in several languages — no shoot, no crew, no studio.",
+    bullets: [
+      "Script, production and editing in formats for every platform",
+      "Several versions of one clip for testing messages",
+      "Voice-over and subtitles in Serbian, English and German",
+    ],
+  },
 ];
 
 const services: ServiceItem[] = srContent.servicesPage.items.map((s, i) => ({

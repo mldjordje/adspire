@@ -378,6 +378,162 @@ export const bookingIndustryPages: BookingIndustryPage[] = [
       },
     ],
   },
+  {
+    slug: "restorani-i-kafici",
+    navLabel: "Restorani i kafići",
+    seo: {
+      title: "Online rezervacija stola za restorane i kafiće",
+      metaDescription:
+        "Sistem za online rezervaciju stola: broj gostiju, smene za ručak i večeru, terasa i sala odvojeno, podsetnici protiv nedolazaka i pregled dana za šefa sale.",
+      keywords: [
+        "online rezervacija stola",
+        "rezervacija restoran",
+        "sistem za rezervaciju stolova",
+        "softver za restoran",
+        "rezervacija terase kafić",
+      ],
+    },
+    hero: {
+      eyebrow: "Online rezervacija · restorani i kafići",
+      title: "Sto je rezervisan pre nego što telefon zazvoni",
+      lead:
+        "Petkom uveče telefon zvoni dok konobari rade, a rezervacije se pišu na papir koji se do večere izgubi. Kad gost rezerviše sam, sala se planira unapred i niko ne dođe na zauzet sto.",
+    },
+    summary:
+      "Online rezervacija stola omogućava gostu da izabere datum, vreme i broj osoba, a restoranu da vodi raspored po stolovima i smenama, uz podsetnik koji smanjuje nedolaske. Adspire Digital gradi rezervacione sisteme po meri — ista osnova koja u produkciji vodi termine u klinikama i noćenja u smeštaju vodi i raspored sale.",
+    audience: ["Restorani", "Kafići i kafane", "Picerije i bistroi", "Objekti sa terasom"],
+    pains: [
+      {
+        before: "Telefon zvoni u najvećoj gužvi, a konobar ga javlja sa tacnom u ruci.",
+        after: "Gost rezerviše sa sajta, u svako doba.",
+      },
+      {
+        before: "Rezervacije se pišu na papir koji do večere niko ne nađe.",
+        after: "Ceo dan je na jednom ekranu, po smeni i po stolu.",
+      },
+      {
+        before: "Dva gosta dobiju isti sto u isto vreme.",
+        after: "Zauzet sto se ne može dvaput rezervisati.",
+      },
+      {
+        before: "Petkom deo rezervacija ne dođe, a sto je stajao prazan.",
+        after: "Podsetnik dan ranije, sa otkazivanjem u jedan klik.",
+      },
+      {
+        before: "Proslave se dogovaraju kroz poruke na Instagramu i zaborave se.",
+        after: "Upit za veću grupu ulazi u isti raspored, sa napomenom.",
+      },
+    ],
+    features: [
+      { title: "Stolovi i kapacitet", body: "Svaki sto ima broj mesta; sistem nudi samo ono što stvarno prima toliko gostiju." },
+      { title: "Smene i trajanje", body: "Ručak i večera odvojeno, sa vremenom koje jedna rezervacija zauzima." },
+      { title: "Terasa i sala", body: "Odvojene zone, jer gost bira gde želi da sedi, a vreme ih različito puni." },
+      { title: "Podsetnik i otkazivanje", body: "Poruka pre termina i otkazivanje bez zvanja — sto se oslobodi na vreme." },
+      { title: "Veće grupe i proslave", body: "Upit sa brojem osoba i napomenom, umesto dogovora po porukama." },
+      { title: "Pregled dana za šefa sale", body: "Ko dolazi, u koliko sati, koliko ljudi i za koji sto — na jednom ekranu." },
+    ],
+    proof: ["Stan na dan Niš", "Dr Igić"],
+    faq: [
+      {
+        q: "Da li gost mora da pravi nalog da bi rezervisao sto?",
+        a: "Ne. Ime, telefon, datum, vreme i broj osoba su dovoljni. Nalog je opcion i ima smisla tek ako uvodite stalne goste i pogodnosti.",
+      },
+      {
+        q: "Kako sistem smanjuje nedolaske?",
+        a: "Podsetnikom dan ranije i otkazivanjem u jedan klik. Gost koji ne može da dođe otkaže umesto da prećuti, pa sto ostane u prodaji umesto da stoji prazan.",
+      },
+      {
+        q: "Možemo li da ograničimo rezervacije samo na deo sale?",
+        a: "Da. Zone se definišu kako vi radite — terasa, sala, sprat — i svaka ima svoje stolove i svoje radno vreme.",
+      },
+      {
+        q: "Šta ako gost dođe bez rezervacije?",
+        a: "Konobar ga upiše direktno u raspored, pa sistem i dalje pokazuje tačno stanje sale. Online rezervacija je dodatni kanal, ne zamena za šank.",
+      },
+      {
+        q: "Koliko košta sistem za rezervaciju stolova?",
+        a: "Za custom razvoj raspon je uglavnom 2.500–6.000 €, u zavisnosti od broja zona, pravila smena i toga da li ide uz novi sajt. Tačna cena ide u ponudu.",
+      },
+    ],
+  },
+  {
+    slug: "teretane-i-fitnes-studiji",
+    navLabel: "Teretane i fitnes",
+    seo: {
+      title: "Online zakazivanje treninga za teretane i fitnes studije",
+      metaDescription:
+        "Sistem za zakazivanje grupnih i personalnih treninga: ograničen broj mesta, lista čekanja, članarine sa istekom, evidencija dolazaka i podsetnici.",
+      keywords: [
+        "zakazivanje treninga",
+        "softver za teretanu",
+        "aplikacija za fitnes studio",
+        "evidencija članarina teretana",
+        "zakazivanje grupnih treninga",
+      ],
+    },
+    hero: {
+      eyebrow: "Online zakazivanje · teretane i fitnes",
+      title: "Termin, mesto na treningu i članarina na jednom mestu",
+      lead:
+        "Prijave za grupni trening stižu u tri različite grupe na WhatsApp-u, a ko je platio članarinu zna samo sveska na recepciji. Isti sistem može da vodi i mesta na treningu i istek članarine.",
+    },
+    summary:
+      "Sistem za teretanu i fitnes studio vodi prijave na grupne i personalne treninge sa ograničenim brojem mesta, listu čekanja kada se termin popuni, i članarine sa datumom isteka i evidencijom dolazaka. Adspire Digital gradi takve sisteme po meri, na osnovi koja u produkciji već vodi termine i klijente koji se vraćaju.",
+    audience: ["Teretane", "Fitnes i pilates studiji", "Borilački i plesni klubovi", "Personalni treneri"],
+    pains: [
+      {
+        before: "Prijave za trening stižu u tri grupe na WhatsApp-u i jednu na Instagramu.",
+        after: "Jedno mesto za prijavu, vidljivo i članu i treneru.",
+      },
+      {
+        before: "Na trening za dvanaest ljudi dođe sedamnaest.",
+        after: "Broj mesta je ograničen — popunjeno je popunjeno.",
+      },
+      {
+        before: "Neko otkaže u poslednji čas, a mesto propadne.",
+        after: "Lista čekanja ponudi mesto sledećem na redu.",
+      },
+      {
+        before: "Ko je platio članarinu piše u svesci na recepciji.",
+        after: "Članarina ima datum isteka i vidi se uz svakog člana.",
+      },
+      {
+        before: "Član sazna da mu je članarina istekla tek kad ga vratite sa vrata.",
+        after: "Podsetnik stiže pre isteka, dok je obnova još laka.",
+      },
+    ],
+    features: [
+      { title: "Grupni treninzi sa mestima", body: "Raspored po danima i terminima, sa tačnim brojem mesta po treningu." },
+      { title: "Lista čekanja", body: "Kad se termin popuni, sledeći na redu dobija mesto čim neko otkaže." },
+      { title: "Personalni treninzi", body: "Kalendar po treneru, sa trajanjem i pravilima otkazivanja." },
+      { title: "Članarine i paketi", body: "Mesečna članarina ili paket termina, sa datumom isteka i preostalim dolascima." },
+      { title: "Evidencija dolazaka", body: "Ko je stvarno došao — osnova za obnovu i za razgovor sa članom koji je prestao da dolazi." },
+      { title: "Podsetnici", body: "Pre treninga i pre isteka članarine, tamo gde član zaista čita." },
+    ],
+    proof: ["Doctor Barber", "Eduka"],
+    faq: [
+      {
+        q: "Može li sistem da ograniči broj ljudi na grupnom treningu?",
+        a: "Da, to mu je osnovna svrha. Svaki termin ima svoj broj mesta, a kad se popuni, prijava prelazi na listu čekanja umesto da se prihvati.",
+      },
+      {
+        q: "Kako se vode članarine?",
+        a: "Kao mesečna članarina sa datumom isteka ili kao paket termina sa brojem preostalih dolazaka. Podsetnik pred istek ide automatski.",
+      },
+      {
+        q: "Da li član može sam da otkaže trening?",
+        a: "Da, do roka koji vi odredite. To je i poenta liste čekanja — mesto se vrati u opticaj umesto da propadne.",
+      },
+      {
+        q: "Radi li to i za plesni ili borilački klub?",
+        a: "Da. Pravila su ista: termin, ograničen broj mesta, članarina i evidencija dolazaka. Menjaju se nazivi i raspored, ne sistem.",
+      },
+      {
+        q: "Koliko košta sistem za teretanu?",
+        a: "Za custom razvoj raspon je uglavnom 2.500–6.000 €, u zavisnosti od toga da li idu samo termini ili i članarine, naplata i evidencija dolazaka. Tačna cena ide u ponudu.",
+      },
+    ],
+  },
 ];
 
 export function getBookingIndustryPage(slug: string) {

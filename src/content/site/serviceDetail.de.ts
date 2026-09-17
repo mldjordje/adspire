@@ -653,4 +653,84 @@ export const serviceDetailDe: Record<string, ServiceDetailTranslation> = {
       },
     ],
   },
+  "staticni-sajtovi": {
+    h1: "Statische Websites — die schnellste Schicht des Webs",
+    intro:
+      "Keine Datenbank, kein Admin-Bereich, nichts, das gepatcht werden muss. Die Seiten sind vorab erzeugt und kommen vom CDN — sie sind einfach da.",
+    overview:
+      "Eine statische Website hat weder Datenbank noch Admin-Bereich: Jede Seite wird im Voraus erzeugt und vom CDN ausgeliefert, lädt dadurch nahezu sofort und ist kaum lahmzulegen. Wir bauen sie für Unternehmen, deren Inhalte sich einige Male im Jahr ändern — Visitenkarten-Website, Kampagnen-Landingpage, Leistungsseite — und übernehmen die Änderungen selbst, statt ein CMS zu berechnen, das niemand öffnet.",
+    tags: ["Statische Website", "CDN", "Core Web Vitals", "Landingpage", "Technisches SEO", "Ohne CMS"],
+    bestFor: [
+      "Unternehmen, deren Inhalte sich nur einige Male im Jahr ändern, sodass ein CMS ungenutzt bleibt.",
+      "Kampagnen-Landingpages, bei denen Ladezeit und ein klarer Handlungsaufruf über das Ergebnis entscheiden.",
+      "Alle, die möglichst geringe Hosting- und Wartungskosten wollen, ohne Plugins und Sicherheitsupdates.",
+    ],
+    deliverables: [
+      "Statisch erzeugte Website mit eigenem Design, technischem SEO und einem Kontaktformular, das im Postfach landet.",
+      "Veröffentlichung auf einem CDN mit Domain und HTTPS sowie Reichweitenmessung ohne Cookies.",
+      "Ein vereinbarter Weg für Text- und Bildänderungen — wir setzen sie um, es bleibt kein Admin-Bereich zu pflegen.",
+    ],
+    faq: [
+      {
+        q: "Was ist eine statische Website?",
+        a: "Eine Website, deren Seiten im Voraus erzeugt und als fertige Dateien vom CDN ausgeliefert werden. Es gibt keine Datenbank und keinen Admin-Bereich, also auch keinen Server, auf den man wartet — die Seite ist da, sobald sie angefragt wird.",
+      },
+      {
+        q: "Worin liegt der Unterschied zu einer Website mit CMS?",
+        a: "Bei einer CMS-Website ändern Sie Texte und Bilder selbst im Admin-Bereich. Bei einer statischen Website nicht — die Änderungen übernehmen wir. Das macht sie günstiger in Aufbau und Betrieb sowie schneller und sicherer. Wer einen Blog oder häufige Änderungen plant, für den lohnt sich das CMS.",
+      },
+      {
+        q: "Kann eine statische Website ein Kontaktformular haben?",
+        a: "Ja. Das Formular läuft über einen Dienst, der die Nachricht per E-Mail zustellt und die Anfrage festhält — dafür braucht die Website selbst keine Datenbank.",
+      },
+      {
+        q: "Ist eine statische Website gut für Google und für die KI-Suche?",
+        a: "Ausgesprochen gut. Die Ladezeit ist ein Ranking-Signal, und Seiten, die kein JavaScript-Rendering brauchen, lesen Crawler und KI-Assistenten ohne jede Hürde.",
+      },
+      {
+        q: "Und wenn ich später doch ein CMS möchte?",
+        a: "Die Inhalte ziehen ins CMS um, ohne das Design neu zu bauen. Eine statische Website ist ein legitimer Anfang, keine Sackgasse.",
+      },
+    ],
+  },
+  "ai-video-produkcija": {
+    h1: "KI-Videoclips und Videoinhalte",
+    intro:
+      "Werbespots, Produktvideos und kurze Erklärvideos mit KI produziert — ohne Dreh, ohne Team, ohne Studiotag.",
+    overview:
+      "Mit KI-Werkzeugen produzierte Videos: Anzeigen für Instagram, TikTok und YouTube, Produktvideos, kurze Erklärstücke und Sprecher in mehreren Sprachen. Ohne Dreh und Team wird aus einer Idee eine Reihe von Fassungen und Formaten, die sich wirklich testen lassen. Adspire schreibt das Skript, produziert und schneidet den Clip und verbindet ihn mit der Seite, auf die er führt.",
+    tags: ["KI-Video", "Social Ads", "Produktvideo", "Erklärvideo", "Sprecher", "Untertitel"],
+    bestFor: [
+      "Unternehmen, die regelmäßig Videos veröffentlichen müssen, aber weder Team noch Budget für jeden Dreh haben.",
+      "Kampagnen, die mehrere Botschaften gleichzeitig testen — fünf Fassungen schlagen einen perfekten Film.",
+      "Produkte und Leistungen, die sich in Bewegung leichter zeigen als in Text erklären lassen.",
+    ],
+    deliverables: [
+      "Skript und Storyboard, abgeleitet aus Angebot und Zielgruppe statt aus einer zufälligen Idee.",
+      "Produktion und Schnitt in Formaten für Reels, TikTok, YouTube und die Website, mit Untertiteln.",
+      "Testfassungen und bei Bedarf Sprecher in einer weiteren Sprache, verknüpft mit der Zielseite des Clips.",
+    ],
+    faq: [
+      {
+        q: "Was heißt „KI-Video\" — ist alles künstlich?",
+        a: "Das hängt vom Clip ab. Manche sind vollständig generiert, bei anderen übernimmt die KI nur Sprecher, Untertitel oder Schnitt, während das Material von Ihnen stammt. Wir sagen immer, was was ist, denn davon hängen Kosten und Wirkung ab.",
+      },
+      {
+        q: "Kann ich eigenes Material und eigene Fotos verwenden?",
+        a: "Ja, und das ergibt meist das beste Ergebnis — Ihr Material als Grundlage, KI für Schnitt, Sprecher, Untertitel und die Szenen, die Ihnen fehlen.",
+      },
+      {
+        q: "In welchen Sprachen kann der Sprecher sprechen?",
+        a: "Serbisch, Englisch und Deutsch machen wir am häufigsten. Dieselbe Botschaft in drei Sprachen kostet deutlich weniger als drei getrennte Drehs.",
+      },
+      {
+        q: "Wie lange dauert ein Clip?",
+        a: "Bei kurzen Werbeformaten in der Regel einige Arbeitstage ab freigegebenem Skript. Weitere Fassungen kommen schnell dazu, weil sie aus derselben Grundlage entstehen.",
+      },
+      {
+        q: "Veröffentlichen Sie die Clips und betreuen Sie die Kanäle?",
+        a: "Die Lieferung des Clips ist der Standardumfang. Veröffentlichung und Kampagnenbetreuung gehören zur Leistung Digitalmarketing, wenn Sie das ebenfalls möchten.",
+      },
+    ],
+  },
 };

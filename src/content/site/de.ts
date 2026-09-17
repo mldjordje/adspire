@@ -163,6 +163,26 @@ const serviceText: Array<Pick<ServiceItem, "title" | "summary" | "bullets">> = [
       "Kalender pro Mitarbeiter, Kundenkartei und Behandlungshistorie",
     ],
   },
+  {
+    title: "Statische Websites",
+    summary:
+      "Eine Website ohne Datenbank und ohne Admin-Bereich: Die Seiten sind vorab erzeugt und kommen vom CDN, laden also nahezu sofort. Für Unternehmen, deren Inhalte sich einige Male im Jahr ändern — Visitenkarten-Website, Kampagnen-Landingpage, Leistungsseite.",
+    bullets: [
+      "Schnellste Ladezeiten und geringste Hosting-Kosten",
+      "Keine Plugins und Sicherheitsupdates, die gepflegt werden müssen",
+      "Text- und Bildänderungen übernehmen wir, ganz ohne CMS",
+    ],
+  },
+  {
+    title: "KI-Videoclips",
+    summary:
+      "Mit KI produzierte Videos: Anzeigen für Instagram, TikTok und YouTube, Produktvideos, kurze Erklärstücke und Sprecher in mehreren Sprachen — ohne Dreh, ohne Team, ohne Studio.",
+    bullets: [
+      "Skript, Produktion und Schnitt in Formaten für alle Kanäle",
+      "Mehrere Fassungen eines Clips zum Testen der Botschaft",
+      "Sprecher und Untertitel auf Serbisch, Englisch und Deutsch",
+    ],
+  },
 ];
 
 const services: ServiceItem[] = srContent.servicesPage.items.map((s, i) => ({

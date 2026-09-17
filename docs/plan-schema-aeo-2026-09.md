@@ -152,3 +152,54 @@ neuredivim. Bez secret-a nema upisa ni bilo kakvog efekta, pa ta grana ne otvara
 ```bash
 npm run typecheck && npm test && npm run build
 ```
+
+---
+
+## Faza 6 — proširenje na nove delatnosti i usluge (2026-09-17)
+
+Cilj: da AI ima šta da preporuči i za delatnosti i usluge koje sajt do sada nije pominjao.
+
+### Nove strane (14 ruta)
+
+| Šta | Ruta | Jezici |
+|---|---|---|
+| Statični sajtovi | `/our-services/staticni-sajtovi` | SR/EN/DE |
+| AI video klipovi | `/our-services/ai-video-produkcija` | SR/EN/DE |
+| Restorani i kafići | `/online-zakazivanje/restorani-i-kafici` | SR |
+| Teretane i fitnes | `/online-zakazivanje/teretane-i-fitnes-studiji` | SR |
+| AI za teretane i fitnes | `/ai/teretane-i-fitnes` | SR/EN/DE |
+| AI za investitore i prodaju stanova | `/ai/investitori-i-prodaja-stanova` | SR/EN/DE |
+
+`hasOfferCatalog` i `knowsAbout` u Organization čvoru su sa 16 porasli na 18 stavki —
+izvode se iz kataloga, pa nije trebalo ništa ručno dodavati.
+
+### Šta NIJE dobilo novu stranu i zašto
+
+Građevinske firme i interni sistemi su već pokriveni (`/ai/proizvodnja-i-gradjevina`,
+`/our-services/interne-poslovne-aplikacije`). Druga strana za isti upit je doorway
+obrazac koji Google kažnjava, pa su te teme ojačane na postojećim stranama umesto
+dupliranja. „Prodaja stanova" je dobila svoju stranu jer je namera stvarno drugačija
+od `nekretnine-i-izdavanje` — novogradnja i prodaja nisu izdavanje.
+
+### Nađen i zatvoren strukturni propust
+
+Usluga se opisuje na **dva** mesta: `serviceCatalog.ts` (SEO, šema, llms.txt) i
+`servicesPage.items` u `sr/en/de.ts` (kartica i telo strane). `/our-services/[slug]`
+traži oba i zove `notFound()` ako jedno fali.
+
+Taj kvar je bio tih na najgori mogući način: `generateStaticParams` čita katalog, pa se
+ruta **generiše i uđe u sitemap**, a zatim svima — uključujući crawlere koje je sitemap
+pozvao — servira 404. Obe nove usluge su prvo otišle upravo tako.
+
+`src/content/site/__tests__/serviceRegistry.test.ts` sada to obara: svaki slug iz kataloga
+mora da se razreši u stranu, nema stavke bez kataloškog unosa, i lokalizovane liste moraju
+da ostanu poravnate po indeksu (EN/DE se grade mapiranjem preko srpskog niza).
+
+### Disciplina sadržaja
+
+Postojeći testovi su odradili posao i na novom sadržaju:
+- `aiPages.test.ts` doorway guard — naziv zadatka i FAQ pitanje moraju biti jedinstveni
+  na celom sajtu, pa nove strane ne mogu biti prepričan šablon;
+- zabrana procentualnih tvrdnji i množilaca u prozi (nema izmišljenih brojki);
+- `serviceDetail.test.ts` — EN/DE prevod obavezan, bez cena van srpskog tržišta;
+- `bookingIndustryPages.test.ts` — proof sme da navede samo klijente koji stvarno postoje.

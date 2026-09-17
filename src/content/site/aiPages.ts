@@ -1385,16 +1385,258 @@ const professionalServices: AiPage = {
   ],
 };
 
+const gyms: AiPage = {
+  slug: "teretane-i-fitnes",
+  industry: "Teretane i fitnes",
+  eyebrow: "AI po delatnosti",
+  title: "AI za teretane i fitnes studije — prijave, članarine, odgovori",
+  metaDescription:
+    "Šta AI konkretno radi za teretanu i fitnes studio: prijave na grupne treninge bez prozivke, podsetnici pred istek članarine i odgovori na pitanja van radnog vremena.",
+  h1: "AI za teretane i fitnes studije",
+  lead:
+    "Recepcija vodi sveske, trener vodi grupu na WhatsApp-u, a vlasnik saznaje da je član otišao tek kad prestane da se pojavljuje. Ništa od toga nije problem motivacije — to je problem evidencije.",
+  answer:
+    "U teretani i fitnes studiju AI preuzima poslove oko termina i članstva: prijavu na grupni trening sa ograničenim brojem mesta i listom čekanja, podsetnik pred istek članarine dok je obnova još laka, odgovore na pitanja o rasporedu, ceni i pravilima van radnog vremena, i izdvajanje članova koji su prestali da dolaze pre nego što otkažu. Adspire Digital to gradi kao jedan sistem sa evidencijom dolazaka, umesto kao zbir alata koji ne razgovaraju međusobno.",
+  keywords: [
+    "AI za teretanu",
+    "softver za fitnes studio",
+    "zakazivanje grupnih treninga",
+    "evidencija članarina",
+    "automatizacija teretana",
+  ],
+  serviceName: "AI i automatizacija za teretane i fitnes studije",
+  tasks: [
+    {
+      name: "Prijava na grupni trening bez prozivke",
+      problem:
+        "Prijave stižu u više WhatsApp grupa, trener ih prepisuje u svesku, a na trening za dvanaest ljudi dođe sedamnaest.",
+      solution:
+        "Prijava ide kroz raspored sa tačnim brojem mesta po terminu; kad se popuni, sledeći ide na listu čekanja i dobija mesto čim neko otkaže.",
+      delivery: "Raspored grupnih treninga, ograničenje mesta i lista čekanja.",
+    },
+    {
+      name: "Podsetnik pred istek članarine",
+      problem:
+        "Član sazna da mu je članarina istekla na vratima, kad je već neprijatno i njemu i recepciji.",
+      solution:
+        "Sistem prati datum isteka i šalje podsetnik ranije, dok je obnova još rutina, a ne odluka da li se uopšte vraća.",
+      delivery: "Evidencija članarina sa datumom isteka i automatskim podsetnikom.",
+    },
+    {
+      name: "Odgovori o rasporedu i pravilima van radnog vremena",
+      problem:
+        "Pitanja o ceni, terminima i tome da li treba najava stižu uveče i vikendom, kad recepcija ne radi.",
+      solution:
+        "Asistent na sajtu i u porukama odgovara iz vašeg rasporeda i cenovnika, a ono što traži čoveka prosleđuje sa kontaktom.",
+      delivery: "Asistent povezan sa rasporedom, sa prosleđivanjem kad zatreba.",
+    },
+    {
+      name: "Član koji je prestao da dolazi",
+      problem:
+        "Odlazak člana se primeti tek kad ne obnovi članarinu, a tada je razgovor zakasnio mesec dana.",
+      solution:
+        "Evidencija dolazaka izdvaja one koji su naglo prestali da dolaze, pa poziv ili poruka stignu dok je povratak još lak.",
+      delivery: "Lista članova bez dolazaka u zadatom periodu, sa predlogom poruke.",
+    },
+  ],
+  sections: [
+    {
+      heading: "Zašto teretana gubi člana",
+      body: [
+        "Retko zbog opreme. Mnogo češće zato što je član propustio dve nedelje, niko ga nije pomenuo, pa mu je povratak postao neprijatan. To je podatak koji sistem ima, a sveska nema.",
+      ],
+      bullets: [
+        "Prijave razbacane po grupama i porukama, bez jednog mesta gde se vidi ko dolazi.",
+        "Članarina koja istekne bez najave, pa obnova postane odluka umesto navike.",
+        "Grupni termin koji se prepuni, pa onaj ko je došao ostane bez mesta.",
+        "Otkazan termin koji propadne jer niko nije javio sledećem na listi.",
+      ],
+    },
+    {
+      heading: "Šta ostaje na čoveku",
+      body: [
+        "Trening, ispravka pokreta i odnos sa članom. AI ne vodi trening i ne zamenjuje trenera — skida administraciju koja trenera drži za pultom umesto u sali.",
+      ],
+    },
+  ],
+  howTo: {
+    name: HOW_TO_NAME,
+    steps: [
+      {
+        name: "Snimak nedelje u studiju",
+        text: "Prolazimo kroz raspored, tipove članarina i način na koji prijave danas stižu, pa se vidi gde se gubi vreme.",
+      },
+      {
+        name: "Prvi korak: termini i mesta",
+        text: "Prvo ide raspored sa ograničenim brojem mesta i listom čekanja, jer to najbrže skida poruke sa telefona trenera.",
+      },
+      {
+        name: "Članarine i dolasci",
+        text: "Zatim evidencija članarina sa istekom i evidencija dolazaka, koja je osnova za sve kasnije podsetnike.",
+      },
+      {
+        name: "Asistent i podsetnici",
+        text: "Na kraju asistent za pitanja van radnog vremena i automatske poruke pred istek članarine i posle izostanka.",
+      },
+    ],
+  },
+  faq: [
+    {
+      q: "Da li AI zamenjuje trenera ili recepciju?",
+      a: "Ne. Preuzima prijave, podsetnike i odgovore na pitanja koja se ponavljaju. Trening, ispravka pokreta i razgovor sa članom ostaju na ljudima — to je i ono zbog čega član plaća.",
+    },
+    {
+      q: "Šta ako članovi ne žele da se prijavljuju preko sajta?",
+      a: "Recepcija ih upisuje ručno u isti raspored, pa je stanje termina svejedno tačno. Online prijava je dodatni kanal, ne uslov.",
+    },
+    {
+      q: "Može li sistem da prepozna člana koji je prestao da dolazi?",
+      a: "Da, ako se vode dolasci. Sistem izdvoji one bez dolazaka u periodu koji vi odredite, a odluku šta se šalje i kada donosite vi.",
+    },
+    {
+      q: "Da li se to povezuje sa naplatom članarine?",
+      a: "Može. Najčešće se kreće od evidencije i podsetnika, a naplata se dodaje kasnije, kad se vidi da li je online plaćanje uopšte ono što vaši članovi koriste.",
+    },
+  ],
+  relatedServices: [
+    { label: "Sistemi za zakazivanje", href: "/our-services/sistemi-za-zakazivanje" },
+    { label: "AI integracije i automatizacija", href: "/our-services/ai-integracije-automatizacija" },
+    { label: "Interne poslovne aplikacije", href: "/our-services/interne-poslovne-aplikacije" },
+  ],
+};
+
+const propertyDevelopers: AiPage = {
+  slug: "investitori-i-prodaja-stanova",
+  industry: "Investitori i prodaja stanova",
+  eyebrow: "AI po delatnosti",
+  title: "AI za investitore i prodaju stanova — upiti, obilasci, stanje ponude",
+  metaDescription:
+    "Šta AI radi za investitora i prodaju novogradnje: kvalifikacija upita, odgovori o rokovima i strukturama, zakazivanje obilaska i uvek tačno stanje raspoloživih stanova.",
+  h1: "AI za investitore i prodaju stanova",
+  lead:
+    "Upit za stan stiže u tri kanala, prodavac odgovara isto pitanje po deseti put, a tabela sa raspoloživim stanovima kasni za stvarnošću jedan rezervisan stan.",
+  answer:
+    "Kod investitora i u prodaji novogradnje AI radi na ulazu u prodajni proces: kvalifikuje upit pre nego što stigne do prodavca, odgovara na pitanja o strukturama, kvadraturi, rokovima i načinu plaćanja iz vaših podataka, zakazuje obilazak i drži stanje raspoloživih stanova usklađeno između sajta i interne evidencije. Adspire Digital to gradi kao jedan sistem sa evidencijom stanova i upita, tako da prodavac dobija pripremljen razgovor umesto sirovog kontakta.",
+  keywords: [
+    "AI za investitore",
+    "softver za prodaju stanova",
+    "evidencija stanova novogradnja",
+    "CRM za nekretnine",
+    "zakazivanje obilaska stana",
+  ],
+  serviceName: "AI i interni sistemi za investitore i prodaju stanova",
+  tasks: [
+    {
+      name: "Kvalifikacija upita za stan",
+      problem:
+        "Prodavac troši dan na upite koji traže strukturu koje nema ili budžet koji se ne poklapa sa ponudom.",
+      solution:
+        "Upit prolazi kroz kratak set pitanja o strukturi, budžetu i roku useljenja, pa do prodavca stiže razvrstan i sa kontekstom.",
+      delivery: "Formular i asistent koji upit kvalifikuje i usmerava, sa evidencijom u jednom mestu.",
+    },
+    {
+      name: "Odgovori o rokovima i strukturama",
+      problem:
+        "Ista pitanja o kvadraturi, orijentaciji, garaži i roku završetka ponavljaju se svakog dana, često uveče.",
+      solution:
+        "Asistent odgovara iz vaše evidencije stanova i zvanične dinamike radova, a ono što traži pregovor prosleđuje prodavcu.",
+      delivery: "Asistent povezan sa podacima o objektu i ponudi, sa jasnom granicom šta ne odgovara sam.",
+    },
+    {
+      name: "Zakazivanje obilaska stana",
+      problem:
+        "Termini obilaska se dogovaraju porukama, pa se dva kupca pojave u isto vreme ili prodavac ode bez potvrde.",
+      solution:
+        "Kupac bira slobodan termin obilaska po objektu i prodavcu, sa potvrdom i podsetnikom pred dolazak.",
+      delivery: "Kalendar obilazaka po objektu, sa potvrdom i podsetnikom.",
+    },
+    {
+      name: "Stanje raspoloživih stanova",
+      problem:
+        "Sajt pokazuje slobodan stan koji je juče rezervisan, pa kupac dolazi po nešto što više ne postoji.",
+      solution:
+        "Evidencija stanova je jedan izvor istine; status se menja na jednom mestu i odatle ide na sajt i u ponudu.",
+      delivery: "Evidencija stanova sa statusima i prikaz na sajtu koji se iz nje puni.",
+    },
+  ],
+  sections: [
+    {
+      heading: "Gde se prodaja novogradnje zaista usporava",
+      body: [
+        "Ne na ceni. Na vremenu između upita i konkretnog razgovora, i na podacima koji se razlikuju u zavisnosti od toga koga pitate — prodavca, sajt ili tabelu.",
+      ],
+      bullets: [
+        "Upit koji čeka do ponedeljka, dok je kupac u međuvremenu obišao dva druga objekta.",
+        "Tabela stanova u kojoj je status tačan samo za onog ko ju je poslednji menjao.",
+        "Ista pitanja o roku i plaćanju koja se odgovaraju ručno, svaki put iznova.",
+        "Obilasci dogovoreni porukama, bez traga o tome ko je došao i šta je rečeno.",
+      ],
+    },
+    {
+      heading: "Šta ostaje na prodavcu",
+      body: [
+        "Pregovor, poverenje i sve što odlučuje kupovinu stana. Automatizuje se priprema — da prodavac uđe u razgovor znajući šta kupac traži i šta je već pitao.",
+      ],
+    },
+  ],
+  howTo: {
+    name: HOW_TO_NAME,
+    steps: [
+      {
+        name: "Snimak puta upita",
+        text: "Pratimo šta se dešava od trenutka kad upit stigne do prvog razgovora, i gde se u tome gubi vreme.",
+      },
+      {
+        name: "Prvi korak: evidencija stanova",
+        text: "Prvo se sređuje jedan izvor istine o stanovima i statusima, jer bez toga svaka kasnija automatizacija širi netačan podatak.",
+      },
+      {
+        name: "Upiti i kvalifikacija",
+        text: "Zatim ulaz za upite sa kratkom kvalifikacijom i evidencijom, pa prodavac dobija pripremljen kontakt.",
+      },
+      {
+        name: "Asistent i obilasci",
+        text: "Na kraju asistent za ponavljajuća pitanja i kalendar obilazaka sa potvrdom i podsetnikom.",
+      },
+    ],
+  },
+  faq: [
+    {
+      q: "Da li AI razgovara sa kupcem umesto prodavca?",
+      a: "Ne za kupovinu stana. Odgovara na činjenična pitanja — strukture, kvadrature, rokovi, način plaćanja — i priprema razgovor. Pregovor i poverenje ostaju na prodavcu, jer se stan ne kupuje od asistenta.",
+    },
+    {
+      q: "Odakle asistentu podaci o stanovima?",
+      a: "Iz vaše evidencije stanova, koja je jedan izvor istine. Ako takva evidencija ne postoji, ona je prvi korak — asistent nad netačnom tabelom samo brže širi netačan podatak.",
+    },
+    {
+      q: "Radi li to i za agenciju, a ne samo za investitora?",
+      a: "Radi, uz razliku da agencija vodi tuđu ponudu i više izvora. Logika je ista: jedan izvor istine o ponudi, kvalifikovan upit i zakazan obilazak.",
+    },
+    {
+      q: "Da li se prikaz stanova na sajtu ažurira sam?",
+      a: "Da, ako se sajt puni iz evidencije. Status se menja na jednom mestu i odatle ide svuda, pa nema slobodnog stana na sajtu koji je u tabeli rezervisan.",
+    },
+  ],
+  relatedServices: [
+    { label: "Interne poslovne aplikacije", href: "/our-services/interne-poslovne-aplikacije" },
+    { label: "AI integracije i automatizacija", href: "/our-services/ai-integracije-automatizacija" },
+    { label: "Izrada sajtova i web prezentacija", href: "/our-services/web-prezentacije" },
+  ],
+};
+
 export const aiPages: AiPage[] = [
   salonsClinics,
   transportLogistics,
   hospitality,
   ecommerce,
   realEstate,
+  propertyDevelopers,
   education,
   manufacturing,
   automotive,
   professionalServices,
+  gyms,
 ];
 
 export function getAiPage(slug: string): AiPage | undefined {
