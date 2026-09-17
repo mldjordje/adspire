@@ -39,7 +39,7 @@ export type V4Copy = {
     hint: string;
     link: string;
     open: string; // custom-cursor label
-    items: { cat: string; summary: string }[]; // 5, order matches PROJECTS
+    items: { cat: string; summary: string }[]; // 6, order matches PROJECTS
   };
   services: {
     eyebrow: string;
@@ -119,7 +119,7 @@ const sr: V4Copy = {
     ],
   },
   projects: {
-    eyebrow: "Radovi / 01—05",
+    eyebrow: "Radovi / 01—06",
     title: "IZDVOJENI PROJEKTI",
     hint: "Skroluj — priča ide udesno →",
     link: "Pogledaj projekat →",
@@ -130,6 +130,7 @@ const sr: V4Copy = {
       { cat: "Modni brend", summary: "Web prodavnica, porudžbine i lager na jednom mestu." },
       { cat: "EdTech", summary: "Prijave i intervjui nastavnika kroz jedan online proces." },
       { cat: "Barber studio", summary: "Klijenti sami biraju termin. Salon prati raspored." },
+      { cat: "Tattoo studio", summary: "Upiti sa referencama, kalendar termina i kapare na jednom mestu." },
     ],
   },
   services: {
@@ -277,7 +278,7 @@ const en: V4Copy = {
     ],
   },
   projects: {
-    eyebrow: "Work / 01—05",
+    eyebrow: "Work / 01—06",
     title: "SELECTED PROJECTS",
     hint: "Scroll — the story runs right →",
     link: "View project →",
@@ -288,6 +289,7 @@ const en: V4Copy = {
       { cat: "Fashion brand", summary: "Online store, orders and inventory in one place." },
       { cat: "EdTech", summary: "Teacher applications and interviews in one online process." },
       { cat: "Barber studio", summary: "Clients choose a time. The salon manages its schedule." },
+      { cat: "Tattoo studio", summary: "Inquiries with references, an appointment calendar and deposits in one place." },
     ],
   },
   services: {
@@ -435,7 +437,7 @@ const de: V4Copy = {
     ],
   },
   projects: {
-    eyebrow: "Arbeiten / 01—05",
+    eyebrow: "Arbeiten / 01—06",
     title: "AUSGEWÄHLTE PROJEKTE",
     hint: "Scrollen — die Story läuft nach rechts →",
     link: "Projekt ansehen →",
@@ -446,6 +448,7 @@ const de: V4Copy = {
       { cat: "Modemarke", summary: "Onlineshop, Bestellungen und Lagerbestand an einem Ort." },
       { cat: "EdTech", summary: "Bewerbungen und Interviews für Lehrkräfte in einem Online-Prozess." },
       { cat: "Barber-Studio", summary: "Kunden wählen ihren Termin. Der Salon verwaltet den Kalender." },
+      { cat: "Tattoo-Studio", summary: "Anfragen mit Referenzen, Terminkalender und Anzahlungen an einem Ort." },
     ],
   },
   services: {

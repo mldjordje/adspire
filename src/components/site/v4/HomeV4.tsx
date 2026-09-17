@@ -38,6 +38,7 @@ const PROJECTS = [
   { title: "Santos & Santorini", image: "/images/case-studies/santos-desktop.webp", href: "/our-projects/santos-santorini-web-shop-admin-platforma", accent: "#b8c5ff", meta: "2024 · E-commerce · Admin · Lager" },
   { title: "TeachFromHome", image: "/images/case-studies/teachfromhome-desktop.webp", href: "/our-projects/teachfromhome-onboarding-sistem-za-remote-nastavnike", accent: "#607cff", meta: "2024 · Onboarding · Audio · Funnel" },
   { title: "Doctor Barber", image: "/images/case-studies/doctorbarber.webp", href: "/our-projects/doctor-barber-online-booking-sistem", accent: "#dce3ff", meta: "2024 · Booking 24/7 · PWA" },
+  { title: "Dropz Tattoo", image: "/images/case-studies/dropz-desktop.webp", href: "/our-projects/dropz-tattoo-sajt-i-sistem-zakazivanja", accent: "#9fb3ff", meta: "2025 · WebGL · Booking · Kapare" },
 ];
 
 // section rail keys — labels come from copy.rail by index
