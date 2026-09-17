@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/seo/metadata";
 import { defaultLocale } from "@/lib/site-config";
+import { JsonLd } from "@/components/site/JsonLd";
+import { aboutPageJsonLd } from "@/lib/seo/pages";
 import { AboutV4 } from "@/components/site/v4/AboutV4";
 import { getAboutCopy } from "@/components/site/v4/aboutCopy";
 import { v4FontClass } from "@/components/site/v4/fonts";
@@ -18,6 +20,15 @@ export const metadata: Metadata = pageMetadata({
 export default function AboutPage() {
   return (
     <div className={v4FontClass}>
+      <JsonLd
+        data={aboutPageJsonLd({
+          path: "/about-us",
+          title: t.metaTitle,
+          description: t.metaDescription,
+          locale: defaultLocale,
+          aboutLabel: "O nama",
+        })}
+      />
       <AboutV4 />
     </div>
   );

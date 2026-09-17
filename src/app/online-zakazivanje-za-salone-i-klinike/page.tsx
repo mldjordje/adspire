@@ -13,6 +13,8 @@ import {
   webPageAboutOrganizationJsonLd,
 } from "@/lib/seo/jsonld";
 import { absoluteUrl, pageMetadata } from "@/lib/seo/metadata";
+import { orgRef, productId } from "@/lib/seo/ids";
+import { softwareProductJsonLd } from "@/lib/seo/products";
 
 export const metadata: Metadata = pageMetadata({
   path: bookingSeo.path,
@@ -30,7 +32,24 @@ export default function BookingLandingPage() {
             bookingSeo.path,
             `${bookingSeo.title} | Adspire Digital`,
             bookingSeo.metaDescription,
+            { mainEntity: productId(absoluteUrl(bookingSeo.path)) },
           ),
+          softwareProductJsonLd({
+            path: bookingSeo.path,
+            name: "Adspire sistem za online zakazivanje",
+            description: bookingSeo.metaDescription,
+            category: "BusinessApplication",
+            featureList: [
+              "Zakazivanje termina 24/7 sa sajta i telefona",
+              "Kalendar po zaposlenom, usluzi i lokaciji",
+              "SMS i email podsetnici koji smanjuju nedolaske",
+              "Pravila trajanja, pauza i preklapanja termina",
+              "Admin panel sa istorijom klijenata",
+              "Izveštaji o popunjenosti i otkazivanjima",
+            ],
+            audience: "Saloni, klinike, ordinacije i servisi",
+            serviceSlug: "sistemi-za-zakazivanje",
+          }),
           {
             "@context": "https://schema.org",
             "@type": "Service",
@@ -38,7 +57,7 @@ export default function BookingLandingPage() {
             name: "Sistem za online zakazivanje termina za salone i klinike",
             serviceType: "Online zakazivanje termina, rezervacioni sistemi",
             description: bookingSeo.metaDescription,
-            provider: { "@id": `${absoluteUrl("/")}#organization` },
+            provider: orgRef(),
             areaServed: [
               { "@type": "Country", name: "Serbia" },
               { "@type": "AdministrativeArea", name: "Niš" },

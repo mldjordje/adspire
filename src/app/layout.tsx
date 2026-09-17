@@ -5,7 +5,7 @@ import { AttributionCapture } from "@/components/analytics/AttributionCapture";
 import { GoogleMeasurement } from "@/components/analytics/GoogleMeasurement";
 import { SiteAnalytics } from "@/components/analytics/SiteAnalytics";
 import { JsonLd } from "@/components/site/JsonLd";
-import { organizationJsonLd, webSiteJsonLd } from "@/lib/seo/jsonld";
+import { founderJsonLd, organizationJsonLd, webSiteJsonLd } from "@/lib/seo/jsonld";
 import { getSiteUrl } from "@/lib/seo/site";
 
 const siteUrl = getSiteUrl();
@@ -78,7 +78,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         />
       </head>
       <body>
-        <JsonLd data={[organizationJsonLd(), webSiteJsonLd()]} />
+        <JsonLd data={[organizationJsonLd(), founderJsonLd(), webSiteJsonLd()]} />
         <AttributionCapture />
         <SiteAnalytics />
         {children}

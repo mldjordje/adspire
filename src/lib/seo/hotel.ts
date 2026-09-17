@@ -1,7 +1,9 @@
-import { hotelCopy, HOTEL_PATH } from "@/content/site/hotel";
+import { hotelCopy, HOTEL_PATH, HOTEL_SLUG } from "@/content/site/hotel";
 import { absoluteUrl, pageMetadata } from "./metadata";
-import { breadcrumbJsonLd, faqPageJsonLd, webPageAboutOrganizationJsonLd } from "./jsonld";
+import { breadcrumbJsonLd, faqPageJsonLd, SCHEMA_LANG, translationRefs, webPageAboutOrganizationJsonLd } from "./jsonld";
 import { localePath, type LocaleCode } from "@/lib/site-config";
+import { softwareProductJsonLd } from "./products";
+import { productId } from "./ids";
 
 export function hotelMetadata(locale: LocaleCode) {
   const t = hotelCopy[locale];
@@ -11,7 +13,25 @@ export function hotelJsonLd(locale: LocaleCode) {
   const t = hotelCopy[locale];
   const path = localePath(HOTEL_PATH, locale);
   return [
-    webPageAboutOrganizationJsonLd(path, t.title, t.description, locale),
+    {
+      ...webPageAboutOrganizationJsonLd(path, t.title, t.description, {
+        inLanguage: SCHEMA_LANG[locale],
+        mainEntity: productId(absoluteUrl(path)),
+      }),
+      ...translationRefs(HOTEL_PATH, locale),
+    },
+    // The system is a named product, not only a service we perform. An
+    // assistant asked "who makes a hotel booking system" matches a product.
+    softwareProductJsonLd({
+      path,
+      name: t.title,
+      description: t.intro,
+      category: "BusinessApplication",
+      featureList: t.phases.flatMap((phase) => phase.items),
+      audience: "Hoteli, apartmani i smeštajni objekti",
+      serviceSlug: HOTEL_SLUG,
+      inLanguage: SCHEMA_LANG[locale],
+    }),
     { "@context": "https://schema.org", "@type": "Service", "@id": `${absoluteUrl(path)}#service`, name: t.title, description: t.intro, serviceType: t.title, url: absoluteUrl(path), provider: { "@id": `${absoluteUrl("/")}/#organization` }, availableChannel: { "@type": "ServiceChannel", serviceUrl: `${absoluteUrl(path)}#hotel-inquiry` } },
     breadcrumbJsonLd([{ name: t.home, path: localePath("/", locale) }, { name: t.title, path }]),
     faqPageJsonLd(t.faq, absoluteUrl(path)),

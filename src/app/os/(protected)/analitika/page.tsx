@@ -1,4 +1,5 @@
-import { getAnalyticsOverview } from "@/lib/analytics/queries";
+import { getAnalyticsOverview, getCrawlerOverview } from "@/lib/analytics/queries";
+import { crawlerLabel } from "@/lib/analytics/crawlers";
 
 export const dynamic = "force-dynamic";
 
@@ -25,6 +26,8 @@ export default async function OsAnalyticsPage({ searchParams }: Props) {
 
   // A pending migration must not take down the screen that explains the funnel.
   const data = await getAnalyticsOverview(days).catch(() => null);
+  // Same for the crawler table, which lands in a later migration than the funnel.
+  const crawlers = await getCrawlerOverview(days).catch(() => null);
 
   if (!data) {
     return (
@@ -140,6 +143,104 @@ export default async function OsAnalyticsPage({ searchParams }: Props) {
             </tbody>
           </table>
         </div>
+      </section>
+
+
+      <section className="os-section">
+        <h2 className="os-h3">AI crawleri</h2>
+        {!crawlers ? (
+          <p className="os-empty">
+            Tabela <code>crawler_hits</code> još ne postoji. Pokreni migracije
+            (<code>npm run db:migrate</code>) pa osveži stranu.
+          </p>
+        ) : !crawlers.everRecorded ? (
+          <p className="os-empty">
+            Još nijedan AI crawler nije zabeležen. Meri se od trenutka kada je ovo
+            pušteno — stariji obilasci se ne mogu vratiti unazad.
+          </p>
+        ) : (
+          <>
+            <p className="os-sub">
+              {crawlers.hits} obilazaka · {crawlers.bots} različitih botova u poslednjih{" "}
+              {crawlers.days} dana.
+            </p>
+            <div className="os-grid2">
+              <div className="os-tablewrap">
+                <table className="os-table">
+                  <thead>
+                    <tr>
+                      <th>Bot</th>
+                      <th>Motor</th>
+                      <th>Obilazaka</th>
+                      <th>Strana</th>
+                      <th>Poslednji put</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {crawlers.byBot.length === 0 ? (
+                      <tr>
+                        <td colSpan={5}>Nema obilazaka u ovom periodu.</td>
+                      </tr>
+                    ) : (
+                      crawlers.byBot.map((row) => (
+                        <tr key={row.bot}>
+                          <td>{crawlerLabel(row.bot)}</td>
+                          <td>{row.engine}</td>
+                          <td>{row.hits}</td>
+                          <td>{row.paths}</td>
+                          <td>{new Date(row.lastSeen).toLocaleDateString("sr-RS")}</td>
+                        </tr>
+                      ))
+                    )}
+                  </tbody>
+                </table>
+              </div>
+
+              <div className="os-tablewrap">
+                <table className="os-table">
+                  <thead>
+                    <tr>
+                      <th>Strana</th>
+                      <th>Obilazaka</th>
+                      <th>Botova</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {crawlers.byPath.length === 0 ? (
+                      <tr>
+                        <td colSpan={3}>Nema obilazaka u ovom periodu.</td>
+                      </tr>
+                    ) : (
+                      crawlers.byPath.map((row) => (
+                        <tr key={row.path}>
+                          <td>{row.path}</td>
+                          <td>{row.hits}</td>
+                          <td>{row.bots}</td>
+                        </tr>
+                      ))
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {crawlers.errors.length > 0 && (
+              <p className="os-note">
+                Crawleri dobijaju greške na:{" "}
+                {crawlers.errors
+                  .map((row) => `${row.path} (${crawlerLabel(row.bot)}, ${row.status}× ${row.hits})`)
+                  .join(", ")}
+                . Svaka od tih strana je sadržaj koji AI nije mogao da pročita.
+              </p>
+            )}
+
+            <p className="os-note">
+              {crawlers.drainHits === 0
+                ? "Meri se samo /llms.txt i /robots.txt. Za pokrivenost po stranama uključi Vercel log drain (Observability → Log Drains) na /api/logs/drain. Vercel Analytics ovde ne pomaže — to je skripta u pregledaču, a crawleri ne izvršavaju JavaScript."
+                : `Log drain radi: ${crawlers.drainHits} od ${crawlers.hits} obilazaka stiže sa punog serverskog loga.`}
+            </p>
+          </>
+        )}
       </section>
 
       <div className="os-grid2">

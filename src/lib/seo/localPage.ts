@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import type { LocalPage } from "@/content/site/localPages";
 import { breadcrumbJsonLd, faqPageJsonLd, webPageAboutOrganizationJsonLd } from "@/lib/seo/jsonld";
+import { localBusinessId, orgRef } from "@/lib/seo/ids";
 import { absoluteUrl, pageMetadata } from "@/lib/seo/metadata";
-import { ORGANIZATION, getOrgSameAs, getSiteUrl } from "@/lib/seo/site";
+import { ORGANIZATION, getOrgSameAs } from "@/lib/seo/site";
 
 export function localPageMetadata(page: LocalPage): Metadata {
   return pageMetadata({
@@ -14,19 +15,24 @@ export function localPageMetadata(page: LocalPage): Metadata {
 }
 
 /**
- * LocalBusiness for a Niš landing page, tied back to the single Organization
- * node by @id. It is a second description of the same business, not a second
- * business — a standalone LocalBusiness per page would read as several
- * companies at one address, which is exactly the pattern local search filters.
+ * The Niš storefront of the business, as that landing page presents it.
+ *
+ * It used to carry the Organization's own @id, which meant three pages each
+ * asserted a different `name` for the same node — a crawler merging by @id saw
+ * one company with four names and could trust none of them. It now has its own
+ * id and points at the Organization as its branch parent: one company, one
+ * local presence described per query intent.
  */
 function localBusinessJsonLd(page: LocalPage) {
-  const base = getSiteUrl();
+  const url = absoluteUrl(page.path);
   return {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
-    "@id": `${base}/#organization`,
+    "@id": localBusinessId(url),
+    parentOrganization: orgRef(),
     name: page.businessName,
-    url: absoluteUrl(page.path),
+    legalName: ORGANIZATION.legalName,
+    url,
     email: ORGANIZATION.email,
     telephone: ORGANIZATION.telephone,
     address: {
@@ -64,6 +70,7 @@ export function localPageJsonLd(page: LocalPage) {
       page.path,
       `${page.title} | Adspire Digital`,
       page.metaDescription,
+      { mainEntity: localBusinessId(absoluteUrl(page.path)) },
     ),
     localBusinessJsonLd(page),
     breadcrumbJsonLd([

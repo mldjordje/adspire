@@ -11,6 +11,7 @@ import {
   getBookingIndustryPage,
 } from "@/content/site/bookingIndustryPages";
 import { breadcrumbJsonLd, faqPageJsonLd, webPageAboutOrganizationJsonLd } from "@/lib/seo/jsonld";
+import { orgRef, productId, serviceId } from "@/lib/seo/ids";
 import { absoluteUrl, pageMetadata } from "@/lib/seo/metadata";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -46,7 +47,9 @@ export default async function BookingIndustryPage({ params }: Props) {
     <div className={v4FontClass}>
       <JsonLd
         data={[
-          webPageAboutOrganizationJsonLd(path, `${page.seo.title} | Adspire Digital`, page.seo.metaDescription),
+          webPageAboutOrganizationJsonLd(path, `${page.seo.title} | Adspire Digital`, page.seo.metaDescription, {
+            mainEntity: `${url}#service`,
+          }),
           {
             "@context": "https://schema.org",
             "@type": "Service",
@@ -54,7 +57,12 @@ export default async function BookingIndustryPage({ params }: Props) {
             name: page.seo.title,
             serviceType: "Sistem za online zakazivanje termina",
             description: page.summary,
-            provider: { "@id": `${absoluteUrl("/")}#organization` },
+            provider: orgRef(),
+            // The trade page is one delivery of the one booking product, not a
+            // separate system. Saying so keeps five pages from reading as five
+            // competing products by the same company.
+            isSimilarTo: { "@id": productId(absoluteUrl(bookingSeo.path)) },
+            isRelatedTo: { "@id": serviceId("sistemi-za-zakazivanje") },
             audience: page.audience.map((name) => ({
               "@type": "BusinessAudience",
               audienceType: name,

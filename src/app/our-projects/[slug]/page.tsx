@@ -9,7 +9,8 @@ import {
   getProjectCaseStudyContent,
   projectCaseStudySlugs,
 } from "@/data/projectCaseStudies";
-import { breadcrumbJsonLd } from "@/lib/seo/jsonld";
+import { breadcrumbJsonLd, webPageAboutOrganizationJsonLd } from "@/lib/seo/jsonld";
+import { founderRef, orgRef, productId } from "@/lib/seo/ids";
 import { getSiteUrl } from "@/lib/seo/site";
 
 type ProjectDetailPageProps = {
@@ -78,26 +79,51 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
     description: content.shortDescription || content.heroSubtitle || project.outcome,
     url: canonical,
     image: project.image.startsWith("http") ? project.image : `${base}${project.image}`,
-    author: {
-      "@type": "Organization",
-      "@id": `${base}/#organization`,
-      name: "Adspire Digital",
-    },
-    publisher: { "@id": `${base}/#organization` },
+    // A named person as author is the evidence signal; "Adspire Digital wrote
+    // about Adspire Digital" is not one an answer engine can weigh.
+    author: founderRef(),
+    creator: orgRef(),
+    publisher: orgRef(),
     inLanguage: "sr-RS",
-    about: {
-      "@type": "SoftwareApplication",
-      name: project.shortTitle,
-      applicationCategory: project.category,
-      operatingSystem: "Web",
-    },
+    about: { "@id": productId(canonical) },
+    mentions: orgRef(),
+  };
+
+  /**
+   * The delivered system as its own node, with the live client site as the
+   * proof link. This is what turns "an agency claims a result" into "a named
+   * system that runs at a URL anyone can open".
+   */
+  const deliveredSystemJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "@id": productId(canonical),
+    name: project.shortTitle,
+    description: project.outcome,
+    applicationCategory: "BusinessApplication",
+    applicationSubCategory: project.category,
+    operatingSystem: "Web",
+    url: project.website,
+    sameAs: project.website,
+    author: orgRef(),
+    provider: orgRef(),
+    // The stack is authored as a comma-joined string for the page body.
+    featureList: project.stack.split(",").map((item) => item.trim()).filter(Boolean),
+    isPartOf: { "@id": `${canonical}#article` },
   };
 
   return (
     <div className={v4FontClass}>
       <JsonLd
         data={[
+          webPageAboutOrganizationJsonLd(
+            `/our-projects/${project.slug}`,
+            project.title,
+            content.shortDescription || project.outcome,
+            { mainEntity: `${canonical}#article` },
+          ),
           caseStudyJsonLd,
+          deliveredSystemJsonLd,
           breadcrumbJsonLd([
             { name: "Pocetna", path: "/" },
             { name: "Projekti", path: "/our-projects" },

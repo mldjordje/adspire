@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import { JsonLd } from "@/components/site/JsonLd";
+import { inquiryPageJsonLd } from "@/lib/seo/pages";
 import { AuroraV4 } from "@/components/site/v4/AuroraV4";
 import { PageShellV4 } from "@/components/site/v4/PageShellV4";
 import { QuickInquiryV4 } from "@/components/site/v4/QuickInquiryV4";
@@ -43,6 +45,15 @@ export default async function BrziUpitPage({ searchParams }: Props) {
 
   return (
     <div className={v4FontClass}>
+      <JsonLd
+        data={inquiryPageJsonLd({
+          path: "/upit/brzo",
+          title: "Brzi upit — odgovor isti dan",
+          description:
+            "Pet polja i gotovo. Opiši u jednoj rečenici šta ti treba i javljam se lično, obično isti radni dan.",
+          actionName: "Postavi pitanje",
+        })}
+      />
       <PageShellV4
         eyebrow={education ? "Edukacija 1-na-1" : "Brzi upit"}
         title={

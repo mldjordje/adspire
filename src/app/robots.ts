@@ -1,32 +1,12 @@
 import type { MetadataRoute } from "next";
 import { getSiteUrl } from "@/lib/seo/site";
+import { CRAWLER_USER_AGENTS } from "@/lib/analytics/crawlers";
 
 // AI answer-engine and search crawlers that may use public pages for retrieval.
 // An allow rule only permits crawling; it does not guarantee inclusion or citation.
-const AI_AGENTS = [
-  "GPTBot",
-  "OAI-SearchBot",
-  "ChatGPT-User",
-  "ClaudeBot",
-  "Claude-SearchBot",
-  "Claude-User",
-  "anthropic-ai",
-  "PerplexityBot",
-  "Perplexity-User",
-  "Google-Extended",
-  "GoogleOther",
-  "Applebot",
-  "Applebot-Extended",
-  "Amazonbot",
-  "Bingbot",
-  "cohere-ai",
-  "YouBot",
-  "CCBot",
-  "Meta-ExternalAgent",
-  "Bytespider",
-  "DuckAssistBot",
-  "Diffbot",
-];
+// The list is shared with the crawler measurement so allowing a bot and counting
+// it can never fall out of step.
+const AI_AGENTS = CRAWLER_USER_AGENTS;
 
 // The brief itself (/upit) is a landing page and stays indexable. What must
 // never be crawled: the private status link that is a buyer's credential, and

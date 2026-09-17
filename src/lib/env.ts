@@ -60,3 +60,21 @@ export function mailReplyTo(): string | null {
   return read("MAIL_REPLY_TO") ?? read("SMTP_USER");
 }
 
+
+export type LogDrainEnv = {
+  /** Shared secret Vercel signs each delivery with (HMAC-SHA1 of the raw body). */
+  secret: string;
+  /** Value Vercel expects echoed back on the ownership-verification GET. */
+  verify: string | null;
+};
+
+/**
+ * Vercel log drain credentials. Absent means the receiver rejects everything,
+ * which is the right default: an open endpoint that writes to the database on
+ * POST is worth more to an attacker than the crawler stats are to us.
+ */
+export function readLogDrainEnv(): LogDrainEnv | null {
+  const secret = read("VERCEL_LOG_DRAIN_SECRET");
+  if (!secret) return null;
+  return { secret, verify: read("VERCEL_LOG_DRAIN_VERIFY") };
+}

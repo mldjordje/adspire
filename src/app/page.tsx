@@ -3,7 +3,9 @@ import { JsonLd } from "@/components/site/JsonLd";
 import { getV4Faq } from "@/components/site/v4/copy";
 import { v4FontClass } from "@/components/site/v4/fonts";
 import { HomeV4 } from "@/components/site/v4/HomeV4";
-import { pageMetadata } from "@/lib/seo/metadata";
+import { absoluteUrl, pageMetadata } from "@/lib/seo/metadata";
+import { faqPageJsonLd, translationRefs, webPageAboutOrganizationJsonLd } from "@/lib/seo/jsonld";
+import { defaultLocale } from "@/lib/site-config";
 
 // Keyword-first, brand second: nobody searches "Adspire", so the words that can
 // win the click go where the SERP will not truncate them. Written with the
@@ -11,15 +13,9 @@ import { pageMetadata } from "@/lib/seo/metadata";
 // query "Niš" less well than "Niš" does.
 const homeTitle = "IT firma i web agencija iz Niša | Adspire Digital";
 
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: getV4Faq("sr").map((item) => ({
-    "@type": "Question",
-    name: item.q,
-    acceptedAnswer: { "@type": "Answer", text: item.a },
-  })),
-};
+// The home page published an anonymous FAQ and nothing else — no WebPage node
+// at all, on the one URL every other node points back to.
+const faqJsonLd = faqPageJsonLd(getV4Faq("sr"), absoluteUrl("/"));
 
 const homeMeta = pageMetadata({
   path: "/",
@@ -49,7 +45,17 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <div className={v4FontClass}>
-      <JsonLd data={[faqJsonLd]} />
+      <JsonLd
+        data={[
+          {
+            ...webPageAboutOrganizationJsonLd("/", homeTitle, homeMeta.description as string, {
+              mainEntity: `${absoluteUrl("/")}#faq`,
+            }),
+            ...translationRefs("/", defaultLocale),
+          },
+          faqJsonLd,
+        ]}
+      />
       <HomeV4 locale="sr" />
     </div>
   );

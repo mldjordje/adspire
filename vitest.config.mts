@@ -12,6 +12,9 @@ export default defineConfig({
     include: ["src/**/*.{test,spec}.{ts,tsx}"],
   },
   resolve: {
-    alias: { "@": path.resolve(root, "./src") },
+    alias: {
+      "@": path.resolve(root, "./src"),
+      "server-only": path.resolve(root, "./src/test/server-only-stub.ts"),
+    },
   },
 });

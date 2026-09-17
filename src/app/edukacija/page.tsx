@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 
 import { JsonLd } from "@/components/site/JsonLd";
+import { coursePackageOffers } from "@/lib/seo/offers";
+import { EDU_PACKAGES } from "@/lib/education/packages";
+import { orgRef } from "@/lib/seo/ids";
 import { EducationLandingV4 } from "@/components/site/v4/EducationLandingV4";
 import { v4FontClass } from "@/components/site/v4/fonts";
 import {
@@ -39,12 +42,16 @@ export default function EdukacijaPage() {
             name: "AI edukacija 1-na-1",
             description: educationSeo.metaDescription,
             inLanguage: "sr",
-            provider: { "@id": `${absoluteUrl("/")}#organization` },
+            provider: orgRef(),
             hasCourseInstance: {
               "@type": "CourseInstance",
               courseMode: "online",
               courseWorkload: "PT1H",
+              // 1-na-1, so the instructor is the whole product.
+              instructor: { "@id": `${absoluteUrl("/")}/#founder` },
             },
+            // Approved as public 2026-09-14 — the only fixed prices on the site.
+            offers: coursePackageOffers(EDU_PACKAGES, absoluteUrl(educationSeo.path)),
             url: absoluteUrl(educationSeo.path),
           },
           breadcrumbJsonLd([

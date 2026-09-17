@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 
+import { JsonLd } from "@/components/site/JsonLd";
+import { inquiryPageJsonLd } from "@/lib/seo/pages";
 import { InquiryPageV4 } from "@/components/site/v4/InquiryPageV4";
 import { v4FontClass } from "@/components/site/v4/fonts";
 import { pageMetadata } from "@/lib/seo/metadata";
@@ -24,6 +26,15 @@ export const metadata: Metadata = pageMetadata({
 export default function UpitPage() {
   return (
     <div className={v4FontClass}>
+      <JsonLd
+        data={inquiryPageJsonLd({
+          path: "/upit",
+          title: "Pošalji upit — Adspire Digital",
+          description:
+            "Opiši projekat i dobij procenu cene i roka. Bez naloga, bez obaveze — Adspire Digital, Niš.",
+          actionName: "Pošalji projektni upit",
+        })}
+      />
       <InquiryPageV4 />
     </div>
   );

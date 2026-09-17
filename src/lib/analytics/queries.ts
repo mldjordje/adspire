@@ -1,6 +1,7 @@
 import "server-only";
 
 import { getSql } from "@/lib/db";
+import { crawlerEngine } from "@/lib/analytics/crawlers";
 
 /**
  * Reads for /os/analitika.
@@ -148,5 +149,101 @@ export async function getAnalyticsOverview(days = 30): Promise<AnalyticsOverview
       sessions: Number(row.sessions),
     })),
     leads: Number(leadRows[0]?.leads ?? 0),
+  };
+}
+
+
+export type CrawlerBotRow = { bot: string; engine: string; hits: number; paths: number; lastSeen: string };
+export type CrawlerPathRow = { path: string; hits: number; bots: number };
+
+export type CrawlerOverview = {
+  days: number;
+  hits: number;
+  bots: number;
+  /** True once anything has ever been recorded — separates "no bots" from "not wired up". */
+  everRecorded: boolean;
+  /** Whether the log drain is delivering, or we are only seeing /llms.txt and /robots.txt. */
+  drainHits: number;
+  byBot: CrawlerBotRow[];
+  byPath: CrawlerPathRow[];
+  /** Crawlers that got a non-2xx. Invisible in every other dashboard we have. */
+  errors: { path: string; bot: string; status: number; hits: number }[];
+};
+
+/**
+ * Which AI engines read the site, and what they read.
+ *
+ * This is the feedback loop on the schema work. A page that no engine has ever
+ * fetched cannot be recommended by one, however good its markup is — and that
+ * distinction is not visible in Vercel Analytics, which is a browser script no
+ * crawler ever executes.
+ */
+export async function getCrawlerOverview(days = 30): Promise<CrawlerOverview> {
+  const sql = getSql();
+
+  const byBot = (await sql`
+    select
+      bot,
+      count(*)::int as hits,
+      count(distinct path)::int as paths,
+      max(created_at) as last_seen
+    from crawler_hits
+    where created_at > now() - make_interval(days => ${days})
+    group by bot
+    order by hits desc
+  `) as { bot: string; hits: number; paths: number; last_seen: string }[];
+
+  const byPath = (await sql`
+    select path, count(*)::int as hits, count(distinct bot)::int as bots
+    from crawler_hits
+    where created_at > now() - make_interval(days => ${days})
+    group by path
+    order by hits desc
+    limit 25
+  `) as { path: string; hits: number; bots: number }[];
+
+  const errors = (await sql`
+    select path, bot, status, count(*)::int as hits
+    from crawler_hits
+    where created_at > now() - make_interval(days => ${days})
+      and status is not null and status >= 400
+    group by path, bot, status
+    order by hits desc
+    limit 10
+  `) as { path: string; bot: string; status: number; hits: number }[];
+
+  const totals = (await sql`
+    select
+      count(*)::int as hits,
+      count(*) filter (where source = 'drain')::int as drain_hits,
+      (select count(*)::int from crawler_hits) as ever
+    from crawler_hits
+    where created_at > now() - make_interval(days => ${days})
+  `) as { hits: number; drain_hits: number; ever: number }[];
+
+  return {
+    days,
+    hits: Number(totals[0]?.hits ?? 0),
+    bots: byBot.length,
+    everRecorded: Number(totals[0]?.ever ?? 0) > 0,
+    drainHits: Number(totals[0]?.drain_hits ?? 0),
+    byBot: byBot.map((row) => ({
+      bot: row.bot,
+      engine: crawlerEngine(row.bot),
+      hits: Number(row.hits),
+      paths: Number(row.paths),
+      lastSeen: String(row.last_seen),
+    })),
+    byPath: byPath.map((row) => ({
+      path: row.path,
+      hits: Number(row.hits),
+      bots: Number(row.bots),
+    })),
+    errors: errors.map((row) => ({
+      path: row.path,
+      bot: row.bot,
+      status: Number(row.status),
+      hits: Number(row.hits),
+    })),
   };
 }

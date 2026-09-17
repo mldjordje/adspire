@@ -7,8 +7,15 @@ import { projectCaseStudies } from "@/data/projectCaseStudies";
 import { serviceCatalog } from "@/data/serviceCatalog";
 import { hotelCopy, HOTEL_PATH, HOTEL_SLUG } from "@/content/site/hotel";
 import { FOUNDER, ORGANIZATION, getSiteUrl } from "@/lib/seo/site";
+import { recordCrawlerRequest } from "@/lib/analytics/crawlerLog";
 
-export const dynamic = "force-static";
+/**
+ * Dynamic, not static: this is the file AI crawlers fetch by name, so serving
+ * it from the CDN means never knowing whether any of them ever did. The body is
+ * a few kilobytes of generated text and the crawl volume is tiny, so rendering
+ * per request costs nothing worth the blindness it buys back.
+ */
+export const dynamic = "force-dynamic";
 
 /**
  * The long factual profile that /llms.txt promises at its foot.
@@ -19,7 +26,9 @@ export const dynamic = "force-static";
  * the pages render, so the profile cannot drift from the site — the failure
  * mode that makes a hand-written AI profile worse than none at all.
  */
-export function GET() {
+export async function GET(request: Request) {
+  await recordCrawlerRequest(request, "/llms-full.txt");
+
   const base = getSiteUrl();
 
   const services = serviceCatalog

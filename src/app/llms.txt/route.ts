@@ -5,10 +5,19 @@ import { projectCaseStudies } from "@/data/projectCaseStudies";
 import { serviceCatalog } from "@/data/serviceCatalog";
 import { hotelCopy, HOTEL_PATH, HOTEL_SLUG } from "@/content/site/hotel";
 import { FOUNDER, ORGANIZATION, getSiteUrl } from "@/lib/seo/site";
+import { recordCrawlerRequest } from "@/lib/analytics/crawlerLog";
 
-export const dynamic = "force-static";
+/**
+ * Dynamic, not static: this is the file AI crawlers fetch by name, so serving
+ * it from the CDN means never knowing whether any of them ever did. The body is
+ * a few kilobytes of generated text and the crawl volume is tiny, so rendering
+ * per request costs nothing worth the blindness it buys back.
+ */
+export const dynamic = "force-dynamic";
 
-export function GET() {
+export async function GET(request: Request) {
+  await recordCrawlerRequest(request, "/llms.txt");
+
   const base = getSiteUrl();
   const services = serviceCatalog
     .map((service) => `- [${service.keywordSr.split(",")[0].trim()}](${base}${service.slug === HOTEL_SLUG ? HOTEL_PATH : `/our-services/${service.slug}`}): ${service.aiSummarySr}`)

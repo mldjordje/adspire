@@ -37,6 +37,13 @@ export type Guide = {
   lead: string;
   keywords: string[];
   sections: GuideSection[];
+  /**
+   * Opt-in: the section headings listed here are the guide's steps, published
+   * as HowTo. Only set it when the sections really are sequential — a HowTo
+   * over four unrelated headings is markup that describes a procedure the page
+   * does not contain.
+   */
+  howTo?: { name: string; totalTime?: string; stepHeadings: string[] };
   proofHeading?: string;
   proof?: GuideProof[];
   faqHeading: string;
@@ -164,6 +171,14 @@ const noLeadsGuide: Guide = {
     "povećanje konverzija sajt",
     "sajt bez rezultata",
   ],
+  howTo: {
+    name: "Kako otkriti zašto sajt ne donosi upite",
+    stepHeadings: [
+      "Korak 1 — ima li uopšte posetilaca",
+      "Korak 2 — dolaze li pravi ljudi",
+      "Korak 3 — traži li stranica išta",
+    ],
+  },
   sections: [
     {
       heading: "Korak 1 — ima li uopšte posetilaca",

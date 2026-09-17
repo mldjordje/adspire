@@ -1,4 +1,7 @@
 import type { Metadata } from "next";
+import { JsonLd } from "@/components/site/JsonLd";
+import { aboutPageJsonLd } from "@/lib/seo/pages";
+import { SCHEMA_LANG } from "@/lib/seo/jsonld";
 import { AboutV4 } from "@/components/site/v4/AboutV4";
 import { getAboutCopy } from "@/components/site/v4/aboutCopy";
 import { v4FontClass } from "@/components/site/v4/fonts";
@@ -23,8 +26,20 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function Page({ params }: Props) {
   const { locale } = await params;
   const lc = (isLocale(locale) ? locale : "en") as LocaleCode;
+  const t = getAboutCopy(lc);
   return (
     <div className={v4FontClass}>
+      <JsonLd
+        data={aboutPageJsonLd({
+          path: "/about-us",
+          title: t.metaTitle,
+          description: t.metaDescription,
+          locale: lc,
+          inLanguage: SCHEMA_LANG[lc],
+          homeLabel: "Home",
+          aboutLabel: "About us",
+        })}
+      />
       <AboutV4 locale={lc} />
     </div>
   );

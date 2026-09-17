@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { JsonLd } from "@/components/site/JsonLd";
+import { legalPageJsonLd } from "@/lib/seo/pages";
 import { LegalPageV4 } from "@/components/site/v4/LegalPageV4";
 import { v4FontClass } from "@/components/site/v4/fonts";
 import { cookieSections } from "@/content/site/legalPages";
@@ -11,5 +13,5 @@ export const metadata: Metadata = pageMetadata({
 });
 
 export default function CookiePage() {
-  return <div className={v4FontClass}><LegalPageV4 title="POLITIKA KOLAČIĆA." intro="Koje podatke pregledač čuva, zašto ih koristimo i kako možete da ih kontrolišete." updated="9. avgust 2026." sections={cookieSections} /></div>;
+  return <div className={v4FontClass}><JsonLd data={legalPageJsonLd({ path: "/politika-kolacica", title: "Politika kolačića", description: "Koje podatke pregledač čuva, zašto ih koristimo i kako možete da ih kontrolišete.", dateModified: "2026-08-09" })} /><LegalPageV4 title="POLITIKA KOLAČIĆA." intro="Koje podatke pregledač čuva, zašto ih koristimo i kako možete da ih kontrolišete." updated="9. avgust 2026." sections={cookieSections} /></div>;
 }

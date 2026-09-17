@@ -5,6 +5,7 @@ import { v4FontClass } from "@/components/site/v4/fonts";
 import { pricingGuidePage } from "@/content/site/pricingGuidePage";
 import { breadcrumbJsonLd, faqPageJsonLd, webPageAboutOrganizationJsonLd } from "@/lib/seo/jsonld";
 import { absoluteUrl, pageMetadata } from "@/lib/seo/metadata";
+import { priceRangeOffersJsonLd } from "@/lib/seo/offers";
 
 const p = pricingGuidePage;
 const pageUrl = absoluteUrl(p.path);
@@ -29,7 +30,13 @@ export default function PricingGuidePage() {
     <div className={v4FontClass}>
       <JsonLd
         data={[
-          webPageAboutOrganizationJsonLd(p.path, `${p.title} | Adspire Digital`, p.metaDescription),
+          webPageAboutOrganizationJsonLd(p.path, `${p.title} | Adspire Digital`, p.metaDescription, {
+            mainEntity: `${pageUrl}#pricing`,
+          }),
+          // The ranges are already public on this page; as AggregateOffer they
+          // become a number an assistant can quote instead of a sentence it has
+          // to paraphrase — and paraphrasing a price is how wrong ones spread.
+          ...priceRangeOffersJsonLd(p.ranges, pageUrl),
           breadcrumbJsonLd([
             { name: "Početna", path: "/" },
             { name: "Koliko košta izrada sajta", path: p.path },
