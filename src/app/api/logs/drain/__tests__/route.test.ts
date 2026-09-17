@@ -34,13 +34,20 @@ afterEach(() => {
 });
 
 describe("log drain endpoint", () => {
-  it("is invisible until a secret is configured", async () => {
+  it("accepts and drops deliveries until a secret is configured", async () => {
     const route = await loadRoute({
       VERCEL_LOG_DRAIN_SECRET: undefined,
       VERCEL_LOG_DRAIN_VERIFY: undefined,
     });
     expect(route.GET().status).toBe(404);
-    expect((await route.POST(signed("{}"))).status).toBe(404);
+    // 2xx is what lets Vercel validate the endpoint and create the drain; the
+    // secret only exists afterwards. Nothing is written on this path.
+    expect((await route.POST(signed("{}"))).status).toBe(200);
+    const unsigned = new Request("https://adspire.rs/api/logs/drain", {
+      method: "POST",
+      body: JSON.stringify([{ proxy: { path: "/", userAgent: ["GPTBot/1.1"] } }]),
+    });
+    expect((await route.POST(unsigned)).status).toBe(200);
   });
 
   it("echoes the verification token Vercel expects on GET", async () => {

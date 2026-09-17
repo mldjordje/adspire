@@ -45,9 +45,18 @@ function signatureMatches(expected: string, received: string | null): boolean {
 
 export async function POST(request: Request) {
   const env = readLogDrainEnv();
-  // 404, not 401: an endpoint that is not configured should not advertise that
-  // it exists and is merely waiting for the right secret.
-  if (!env) return new NextResponse(null, { status: 404 });
+  // Unconfigured: accept and drop.
+  //
+  // Vercel validates the endpoint before it will create the drain and requires
+  // a 2xx, but it only hands over the signing secret once the drain exists —
+  // so refusing here made the two steps impossible to order. Answering 200 and
+  // writing nothing breaks the deadlock without opening anything: with no
+  // secret there is no database write and no other side effect, so the worst an
+  // attacker gets from this branch is an empty 200.
+  //
+  // /os/analitika reports zero drain hits until the secret is set, which is
+  // what surfaces a drain that was created and then forgotten.
+  if (!env) return new NextResponse(null, { status: 200 });
 
   const body = await request.text();
   const expected = createHmac("sha1", env.secret).update(body).digest("hex");
