@@ -102,6 +102,27 @@ zanemarljiv saobraćaj — ne vredi te slepe tačke.
 **Migracija 013 je primenjena** na bazu iz `.env.local` (`npm run db:migrate`). Aditivna je
 — samo nova prazna tabela. Test redovi iz provere su obrisani, tabela je prazna.
 
+#### Stanje podešavanja na Vercelu (2026-09-17)
+
+Drain **„AI crawler measurement"** je napravljen i aktivan, scope `adspire`:
+
+- Sources: `Functions`, `Edge Functions`, `Static Files`, `Rewrites`, `Redirects`
+  (bez `Builds` i `Firewall`), environment `Production`, sampling 100%.
+- Destination: `https://adspire.rs/api/logs/drain`, POST, encoding JSON.
+
+**Ostaje jedan korak:** `VERCEL_LOG_DRAIN_SECRET` u env varijable projekta
+(Production) i redeploy. Secret se čita preko Drains → ⋯ → Edit → Next.
+
+Potvrđeno protiv Vercel dokumentacije, ne po sećanju:
+- potpis je `x-vercel-signature`, HMAC-**SHA1** hex sirovog tela;
+- `proxy.userAgent` je **niz**, `proxy.path` nosi query string, `proxy.statusCode` postoji;
+- bez sampling pravila prosleđuje se 100%;
+- drains se naplaćuju **$0,50 po GB, bez uključene kvote na Pro**.
+
+Endpoint namerno vraća **200 i ništa ne upisuje dok secret ne postoji**: Vercel traži
+2xx pre kreiranja drain-a, a secret daje tek posle, pa je 404 činio ta dva koraka
+neuredivim. Bez secret-a nema upisa ni bilo kakvog efekta, pa ta grana ne otvara ništa.
+
 ## Nađeno i popravljeno usput
 
 - **`public/llms-full.txt` je zaklanjao rutu `src/app/llms-full.txt/route.ts`.** Statički
