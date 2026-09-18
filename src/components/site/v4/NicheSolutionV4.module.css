@@ -1,0 +1,19 @@
+/*
+ * A scrim between the aurora shader and the body copy.
+ *
+ * The shader runs bright blue in its middle third, and these pages carry far
+ * more body text than the other aurora pages do — on a phone the card text sat
+ * on the brightest part of it and stopped being comfortably readable. The
+ * gradient keeps the shader visible around the hero and the page edges while
+ * holding the reading column dark.
+ */
+.scrim {
+  background: linear-gradient(
+    180deg,
+    rgba(5, 8, 14, 0) 0%,
+    rgba(5, 8, 14, 0.72) 3%,
+    rgba(5, 8, 14, 0.82) 50%,
+    rgba(5, 8, 14, 0.72) 97%,
+    rgba(5, 8, 14, 0) 100%
+  );
+}

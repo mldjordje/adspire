@@ -12,6 +12,12 @@ export type HotelCopy = {
   ui: { website: string; room: string; dates: string; book: string; confirmed: string; guest: string; calendar: string; rooms: string; direct: string; roles: [string, string, string]; roleText: [string, string, string]; available: string; occupied: string; ready: string; arrival: string };
   operationsTitle: string; operationsIntro: string;
   phasesTitle: string; phasesIntro: string; phases: { title: string; text: string; items: string[] }[];
+  /**
+   * What the money actually buys. Buyers kept asking it out loud after reading
+   * the phases, and the page answered it nowhere: the two costs a direct
+   * system removes are reception hours and portal commission.
+   */
+  valueTitle: string; valueIntro: string; valueItems: { title: string; text: string }[]; valueNote: string;
   visibilityTitle: string; visibilityText: string; visibilityItems: string[];
   ownershipTitle: string; ownershipText: string;
   faqTitle: string; faq: { q: string; a: string }[];
@@ -42,6 +48,14 @@ export const hotelCopy: Record<LocaleCode, HotelCopy> = {
       { title: "Operativa hotela", text: "Alati za ljude koji vode hotel.", items: ["Gosti, sezonske cene i izveštaji", "Mobilni pristup i zadaci osoblja", "Planirana eTurista integracija nakon tehničke provere"] },
       { title: "Kanali i rast", text: "Povezivanje sa vašim kanalima prodaje.", items: ["Planirano povezivanje sa Booking.com, Airbnb i Google Hotels", "Sinhronizacija preko odobrenih integracija / channel managera", "Automatski emailovi, vaučeri i program lojalnosti po dogovoru"] },
     ],
+    valueTitle: "Šta tačno plaćate.", valueIntro: "Ne plaćate softver zato što je lep. Plaćate da recepcija prestane da prepisuje, i da svaka direktna rezervacija ostane cela kod vas.",
+    valueItems: [
+      { title: "Sate na recepciji", text: "Upit na mejlu, poziv, provera u tabeli, potvrda, pa ponovo upis u drugi program. Kada gost rezerviše sam, a rezervacija ulazi direktno u kalendar, ti koraci nestaju — najviše u sezoni, kada su ljudi najskuplji." },
+      { title: "Proviziju portalima", text: "Booking.com, Expedia i slični portali naplaćuju proviziju po rezervaciji, obično dvocifren procenat prema ugovoru koji imate sa njima. Direktna rezervacija sa vašeg sajta tu proviziju ne plaća. Portali ostaju kao kanal vidljivosti — sistem je tu da smanji udeo rezervacija koje idu preko njih." },
+      { title: "Dvostruke rezervacije i greške", text: "Kada dostupnost stoji na dva mesta, pre ili kasnije se razilazi — i to se rešava pozivom gostu koji nikome nije prijatan. Jedan izvor dostupnosti uklanja razlog za tu vrstu greške." },
+      { title: "Gosta koji ostaje vaš", text: "Preko portala gost je gost portala: njegov mejl, njegova pravila, njegov ponovni dolazak. Direktna rezervacija ostavlja podatke o gostu kod vas, pa ponovni dolazak, vaučer ili popust idu direktno, bez posrednika." },
+    ],
+    valueNote: "Adspire ne naplaćuje proviziju na rezervacije. Plaćate izradu po ponudi; hosting, domen, održavanje i naknade platnog procesora navode se zasebno.",
     visibilityTitle: "Spreman za pretragu.\nJasan i AI sistemima.", visibilityText: "Uz izradu hotelskog sajta postavljamo SEO osnovu: razumljiv sadržaj, tehnički ispravne stranice i precizne podatke o hotelu. Cilj je da gosti lakše pronađu i razumeju vašu ponudu.",
     visibilityItems: ["Posebne stranice soba, lokacija i stvarna pitanja gostiju", "Strukturirani podaci i usklađeno ime, adresa i kontakt", "Praćenje indeksiranja, poseta i upita — bez obećanja pozicija ili AI preporuka"],
     ownershipTitle: "Bez Adspire provizije.\nSa jasnim dogovorom.", ownershipText: "Izradu plaćate prema ponudi. Adspire ne naplaćuje procenat rezervacije. Hosting, domen, održavanje i troškove spoljnih servisa definišemo posebno. Predviđamo obuku osoblja, rezervne kopije i izvoz vaših podataka; uslove i učestalost potvrđujemo ugovorom.",
@@ -76,6 +90,14 @@ export const hotelCopy: Record<LocaleCode, HotelCopy> = {
       { title: "Hotel operations", text: "Tools for the people running your hotel.", items: ["Guests, seasonal rates and reports", "Mobile access and staff tasks", "Planned eTurista integration for Serbia, subject to technical verification"] },
       { title: "Channels & growth", text: "Connect your sales channels.", items: ["Planned Booking.com, Airbnb and Google Hotels connections", "Sync through approved integrations or a channel manager", "Automated emails, vouchers and loyalty features by agreement"] },
     ],
+    valueTitle: "What you actually pay for.", valueIntro: "You are not paying for software because it looks good. You are paying so reception stops retyping, and so every direct booking stays whole.",
+    valueItems: [
+      { title: "Hours at reception", text: "An email inquiry, a phone call, a check in a spreadsheet, a confirmation, then the same data typed into another program. When a guest books directly and the booking lands in your calendar, those steps disappear — most of all in season, when staff hours cost the most." },
+      { title: "Portal commission", text: "Booking.com, Expedia and similar portals charge a commission per reservation, usually a double-digit percentage under the contract you signed with them. A direct booking from your own website pays none of it. Portals stay as a visibility channel — the system exists to lower the share of bookings that go through them." },
+      { title: "Double bookings and mistakes", text: "When availability lives in two places it eventually drifts apart, and the fix is a phone call nobody enjoys making. One source of availability removes the reason for that class of mistake." },
+      { title: "A guest who stays yours", text: "Through a portal the guest is the portal's guest: their email, their rules, their repeat booking. A direct reservation leaves the guest data with you, so a return stay, a voucher or a discount goes out directly." },
+    ],
+    valueNote: "Adspire charges no booking commission. You pay for development per proposal; hosting, domain, maintenance and payment-processor fees are listed separately.",
     visibilityTitle: "Built for search.\nClear to AI systems.", visibilityText: "Your hotel website starts with a sound SEO foundation: useful content, technically accessible pages and accurate hotel information. The goal is to help guests find and understand your offer.", visibilityItems: ["Individual room pages, location details and real guest questions", "Structured data and consistent business name, address and contact", "Indexing, traffic and inquiry measurement — without ranking or AI recommendation guarantees"],
     ownershipTitle: "No Adspire commission.\nClear commercial terms.", ownershipText: "Development is priced in your proposal. Adspire takes no percentage of bookings. Hosting, domain, maintenance and third-party fees are specified separately. Staff training, backups and data export are scoped in the agreement, including frequency and terms.",
     faqTitle: "Before we talk.", faq: [
@@ -105,6 +127,14 @@ export const hotelCopy: Record<LocaleCode, HotelCopy> = {
       { title: "Hotelbetrieb", text: "Werkzeuge für Ihr Team.", items: ["Gäste, Saisonpreise und Berichte", "Mobiler Zugang und Aufgaben für das Personal", "Geplante eTurista-Anbindung für Serbien nach technischer Prüfung"] },
       { title: "Kanäle & Wachstum", text: "Ihre Vertriebskanäle verbinden.", items: ["Geplante Anbindung an Booking.com, Airbnb und Google Hotels", "Synchronisierung über zugelassene Integrationen oder Channel Manager", "Automatische E-Mails, Gutscheine und Treuefunktionen nach Vereinbarung"] },
     ],
+    valueTitle: "Wofür Sie wirklich zahlen.", valueIntro: "Sie zahlen nicht für schöne Software. Sie zahlen dafür, dass die Rezeption nichts mehr abtippt und jede Direktbuchung vollständig bei Ihnen bleibt.",
+    valueItems: [
+      { title: "Stunden an der Rezeption", text: "Anfrage per E-Mail, Anruf, Blick in die Tabelle, Bestätigung, dann dieselben Daten noch einmal in ein anderes Programm. Bucht der Gast selbst und landet die Buchung direkt im Kalender, entfallen diese Schritte — vor allem in der Saison, wenn Personalstunden am teuersten sind." },
+      { title: "Portalprovision", text: "Booking.com, Expedia und ähnliche Portale berechnen eine Provision pro Buchung, meist ein zweistelliger Prozentsatz gemäß Ihrem Vertrag. Eine Direktbuchung über Ihre eigene Website zahlt diese Provision nicht. Die Portale bleiben als Sichtbarkeitskanal — das System senkt den Anteil der Buchungen, die darüber laufen." },
+      { title: "Doppelbuchungen und Fehler", text: "Liegt die Verfügbarkeit an zwei Stellen, laufen sie irgendwann auseinander — und die Korrektur ist ein unangenehmer Anruf. Eine einzige Datenquelle nimmt dieser Fehlerart die Grundlage." },
+      { title: "Ein Gast, der Ihnen gehört", text: "Über ein Portal ist der Gast der Gast des Portals: dessen E-Mail, dessen Regeln, dessen Folgebuchung. Eine Direktbuchung hinterlässt die Gästedaten bei Ihnen — Folgeaufenthalt, Gutschein oder Rabatt gehen direkt raus." },
+    ],
+    valueNote: "Adspire erhebt keine Buchungsprovision. Sie zahlen die Entwicklung laut Angebot; Hosting, Domain, Wartung und Gebühren des Zahlungsanbieters werden separat ausgewiesen.",
     visibilityTitle: "Für die Suche gebaut.\nFür KI verständlich.", visibilityText: "Ihre Hotelwebsite erhält eine solide SEO-Grundlage: hilfreiche Inhalte, technisch zugängliche Seiten und korrekte Hotelinformationen. So können Gäste Ihr Angebot leichter finden und verstehen.", visibilityItems: ["Eigene Zimmerseiten, Standortinformationen und echte Gästefragen", "Strukturierte Daten und einheitliche Namen, Adressen und Kontaktdaten", "Messung von Indexierung, Besuchen und Anfragen — ohne Garantie für Rankings oder KI-Empfehlungen"],
     ownershipTitle: "Ohne Adspire-Provision.\nMit klaren Konditionen.", ownershipText: "Die Entwicklung wird im Angebot kalkuliert. Adspire erhält keinen Anteil an Buchungen. Hosting, Domain, Wartung und Gebühren externer Dienste werden separat festgelegt. Schulung, Backups und Datenexport werden einschließlich Bedingungen und Häufigkeit vertraglich vereinbart.",
     faqTitle: "Vor unserem Gespräch.", faq: [

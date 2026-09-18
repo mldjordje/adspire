@@ -60,9 +60,15 @@ const sr = (): NavMenu => ({
     {
       title: "Šta pravimo",
       items: [
-        { href: "/our-services/web-prezentacije", label: "Sajtovi", hint: "Sajt koji donosi upite" },
+        // These point at the per-niche pages, not the catalog entries: a buyer
+        // clicking "Web shop" wants the page that answers what it costs and
+        // what it replaces, not the one that lists what the agency offers.
+        { href: "/prezentacioni-sajt-za-firmu", label: "Sajt za firmu", hint: "Sajt koji donosi upite" },
         { href: HOTEL_PATH, label: "Hotelski sistem", hint: "Direktne rezervacije" },
-        { href: "/our-services/e-commerce-web-shop", label: "Web shop", hint: "Prodaja, plaćanje, lager" },
+        { href: "/izrada-web-shopa", label: "Web shop", hint: "Prodaja, plaćanje, lager" },
+        { href: "/softver-za-salon-lepote", label: "Salon lepote", hint: "Tretmani, termini, kartoni" },
+        { href: "/softver-za-teretanu", label: "Teretana", hint: "Članarine i grupni treninzi" },
+        { href: "/sajt-za-gradjevinsku-firmu", label: "Građevinska firma", hint: "Upiti, ponude, gradilišta" },
         { href: "/our-services/mobilne-aplikacije", label: "Aplikacije i interni softver", hint: "Umesto Excel tabela" },
         { href: "/ai-chatbot-za-sajt", label: "AI chatbot i automatizacija", hint: "Odgovara na upite umesto tebe" },
         { href: "/our-services", label: "Sve usluge →" },

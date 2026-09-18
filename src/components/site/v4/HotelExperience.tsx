@@ -159,6 +159,22 @@ export function HotelExperience({ locale, services }: { locale: LocaleCode; serv
         {t.phases.map((p, i) => <article className={styles.phase} key={p.title} data-hotel-reveal><span className={styles.phaseNumber}>0{i + 1}</span><div><h3>{p.title}</h3><p>{p.text}</p></div><ul>{p.items.map(item => <li key={item}>{item}</li>)}</ul></article>)}
       </section>
 
+      {/* Placed right after the phases: the phases answer "what gets built",
+          and the next question in every call is "what does that save me". */}
+      <section className={styles.value} id="hotel-value">
+        <header className={styles.sectionHeader} data-hotel-reveal><span className={styles.sectionNumber}>04</span><h2>{t.valueTitle}</h2><p data-answer>{t.valueIntro}</p></header>
+        <div className={styles.valueGrid}>
+          {t.valueItems.map((item, i) => (
+            <article className={styles.valueItem} key={item.title} data-hotel-reveal>
+              <span className={styles.valueNumber}>{`0${i + 1}`}</span>
+              <h3>{item.title}</h3>
+              <p>{item.text}</p>
+            </article>
+          ))}
+        </div>
+        <p className={styles.valueNote} data-hotel-reveal>{t.valueNote}</p>
+      </section>
+
       <section className={styles.visibility} data-hotel-reveal><div className={styles.searchMark} data-hotel-orbit aria-hidden="true"><span>A</span><i /><i /><i /></div><div><h2>{t.visibilityTitle}</h2><p>{t.visibilityText}</p><ul>{t.visibilityItems.map(s => <li key={s}>{s}</li>)}</ul></div></section>
       <section className={styles.ownership} data-hotel-reveal><span className={styles.zero} aria-hidden="true">0<span>%</span></span><div><h2>{t.ownershipTitle}</h2><p>{t.ownershipText}</p></div></section>
       <section className={styles.faq}><h2 data-hotel-reveal>{t.faqTitle}</h2><div>{t.faq.map((f, i) => <details key={f.q}><summary><span>0{i + 1}</span>{f.q}<span>+</span></summary><p>{f.a}</p></details>)}</div></section>

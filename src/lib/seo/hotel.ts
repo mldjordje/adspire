@@ -27,7 +27,9 @@ export function hotelJsonLd(locale: LocaleCode) {
       name: t.title,
       description: t.intro,
       category: "BusinessApplication",
-      featureList: t.phases.flatMap((phase) => phase.items),
+      // What it does, plus what it replaces — the second half is the part a
+      // buyer (and an assistant answering "is it worth it") asks about.
+      featureList: [...t.phases.flatMap((phase) => phase.items), ...t.valueItems.map((item) => item.title)],
       audience: "Hoteli, apartmani i smeštajni objekti",
       serviceSlug: HOTEL_SLUG,
       inLanguage: SCHEMA_LANG[locale],

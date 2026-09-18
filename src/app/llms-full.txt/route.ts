@@ -6,6 +6,7 @@ import { nisPresencePage } from "@/content/site/nisPresencePage";
 import { projectCaseStudies } from "@/data/projectCaseStudies";
 import { serviceCatalog } from "@/data/serviceCatalog";
 import { hotelCopy, HOTEL_PATH, HOTEL_SLUG } from "@/content/site/hotel";
+import { nichePages, nichePath } from "@/content/site/nichePages";
 import { FOUNDER, ORGANIZATION, getSiteUrl } from "@/lib/seo/site";
 import { recordCrawlerRequest } from "@/lib/analytics/crawlerLog";
 
@@ -73,6 +74,23 @@ export async function GET(request: Request) {
     .map((page) => `- [${page.industry}](${base}${aiPagePath(page.slug)}): ${page.answer}`)
     .join("\n");
 
+  // Per-niche pages in full: the answer, what the buyer is paying for, and
+  // the FAQ. This file is the one an assistant reads when it wants detail,
+  // and "what does it replace" is the detail that decides a recommendation.
+  const nicheDetail = nichePages
+    .map((page) =>
+      [
+        `### ${page.seo.title}`,
+        `URL: ${base}${nichePath(page.slug)}`,
+        page.summary,
+        `Za koga: ${page.audience.join(", ")}.`,
+        "Šta kupac plaća:",
+        page.value.items.map((item) => `- ${item.title}: ${item.body}`).join("\n"),
+        page.faq.map((f) => `${f.q}\n${f.a}`).join("\n\n"),
+      ].join("\n"),
+    )
+    .join("\n\n");
+
   const body = `# ${ORGANIZATION.name} — činjenični profil
 
 > ${ORGANIZATION.description}
@@ -107,6 +125,10 @@ ${services}
 
 ## Hotelski sistemi / Hotel systems / Hotelsysteme
 ${(["sr", "en", "de"] as const).map(lc => `### ${hotelCopy[lc].title}\nURL: ${base}${lc === "sr" ? "" : `/${lc}`}${HOTEL_PATH}\n${hotelCopy[lc].intro}\n${hotelCopy[lc].ownershipText}\n${hotelCopy[lc].faq.map(f => `${f.q}\n${f.a}`).join("\n\n")}`).join("\n\n")}
+
+## Rešenja po delatnostima
+
+${nicheDetail}
 
 ## Lokalne stranice i rešenja (Niš i Srbija)
 
