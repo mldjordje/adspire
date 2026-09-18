@@ -123,6 +123,13 @@ Endpoint namerno vraća **200 i ništa ne upisuje dok secret ne postoji**: Verce
 2xx pre kreiranja drain-a, a secret daje tek posle, pa je 404 činio ta dva koraka
 neuredivim. Bez secret-a nema upisa ni bilo kakvog efekta, pa ta grana ne otvara ništa.
 
+## Naknadno spojeno (2026-09-18)
+
+`/our-services/ai-video-produkcija` i `/ai-video-za-vas-biznis` su nastali u razmaku od
+par dana i gađali iste upite. Dve strane na jednu nameru se ne sabiraju — pretraživač
+bira jednu i slabi obe. Kataloški unos je obrisan (sa en/de prevodima i karticom), a URL
+ide trajno na landing koji nosi ponudu i upit sa budžetom. Katalog 18 → 17 usluga.
+
 ## Nađeno i popravljeno usput
 
 - **`public/llms-full.txt` je zaklanjao rutu `src/app/llms-full.txt/route.ts`.** Statički
@@ -137,9 +144,16 @@ neuredivim. Bez secret-a nema upisa ni bilo kakvog efekta, pa ta grana ne otvara
 
 ## Ostaje
 
-1. **`AggregateRating` / `Review`** — nema stvarnih recenzija. Ne dodavati dok ne bude
-   pravih Google recenzija; izmišljene su rizik od ručne kazne (vidi brisanje nepotvrđenih
-   brojki 2026-08-24).
+1. **`AggregateRating` / `Review` — ZATVORENO, ne čeka ništa.** Ranije je ovde pisalo da
+   čeka prave recenzije. To je bilo pogrešno: Google ne priznaje **self-serving** ocene —
+   `AggregateRating` o sopstvenoj firmi, na sopstvenom sajtu, za `Organization`/`LocalBusiness`
+   nije podoban za rich rezultate. Ni prepisivanje Google recenzija u sopstvenu šemu ne
+   prolazi; to je isti prekršaj zaobilazno.
+
+   Recenzije rade **na GMB profilu**, koji je već u `sameAs` preko Knowledge Graph id-a.
+   Traženje recenzija od klijenata je i dalje najvrednija pojedinačna radnja za AI preporuku
+   — samo ne završava u šemi ovog sajta. Izjave klijenata smeju na sajt kao običan tekst,
+   bez `Review` markupa i uz pismenu saglasnost za ime.
 2. **Prevod tela** `/faq`, `/blog`, `/contact-us`, `/our-projects` na EN/DE — tek onda im
    šema ima smisla.
 3. Uključiti log drain na Vercelu (`VERCEL_LOG_DRAIN_SECRET`, opciono `VERCEL_LOG_DRAIN_VERIFY`).
