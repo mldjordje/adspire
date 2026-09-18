@@ -299,7 +299,17 @@ export function EducationLandingV4() {
                   <span>{item.q}</span>
                   <span className={styles.faqMark} aria-hidden="true" />
                 </summary>
-                <p className={styles.faqA}>{item.a}</p>
+                <p className={styles.faqA}>
+                  {item.a}
+                  {"link" in item && item.link ? (
+                    <>
+                      {" "}
+                      <a className={styles.inlineLink} href={item.link.href} data-cta="edukacija-faq-ai-video">
+                        {item.link.label}
+                      </a>
+                    </>
+                  ) : null}
+                </p>
               </details>
             ))}
           </div>

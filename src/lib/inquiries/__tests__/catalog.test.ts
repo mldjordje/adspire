@@ -15,11 +15,14 @@ describe("inquiry catalog", () => {
     expect(isInquiryServiceSlug("ne-postoji")).toBe(false);
   });
 
-  it("offers edukacija in the brief in every language", () => {
-    expect(isInquiryServiceSlug("edukacija")).toBe(true);
-    expect(isInquiryServiceSlug("edukacija", "en")).toBe(true);
-    expect(isInquiryServiceSlug("edukacija", "de")).toBe(true);
-    expect(serviceTitles(["edukacija"])).toEqual(["Edukacija 1-na-1 (AI)"]);
+  it("offers the two non-build services in the brief in every language", () => {
+    for (const slug of ["edukacija", "ai-video"]) {
+      expect(isInquiryServiceSlug(slug)).toBe(true);
+      expect(isInquiryServiceSlug(slug, "en")).toBe(true);
+      expect(isInquiryServiceSlug(slug, "de")).toBe(true);
+    }
+    expect(serviceTitles(["edukacija"])).toEqual(["Edukacija 1-na-1: viralni AI video"]);
+    expect(serviceTitles(["ai-video"])).toEqual(["AI video klipovi za tvoj biznis"]);
   });
 
   it("keeps an unknown slug readable instead of dropping it", () => {

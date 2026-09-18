@@ -20,14 +20,14 @@ export const EDU_PACKAGES: EduPackage[] = [
     hours: 8,
     priceEur: 500,
     label: "Start",
-    note: "Za jedan pravac: AI asistenti, automatizacija ili sajt uz AI.",
+    note: "Za jednu celinu: ideja i hook, generisanje scena ili montaža i objava.",
   },
   {
     id: "18h",
     hours: 18,
     priceEur: 1000,
     label: "Dubinski",
-    note: "Za kombinovanje pravaca ili tim — najniža cena po satu.",
+    note: "Za ceo tok od ideje do objave, ili za tim — najniža cena po satu.",
     featured: true,
   },
 ];

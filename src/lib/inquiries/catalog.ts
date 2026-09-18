@@ -22,31 +22,51 @@ export type InquiryService = {
 /**
  * Offers that are sold through the brief but are not a build service, so they
  * have no /our-services page. Edukacija is quoted like any other upit and then
- * delivered as hours on the client's account.
+ * delivered as hours on the client's account; the video service is quoted per
+ * campaign, because a month of clips for a salon and for a hotel are not the
+ * same job.
  */
 const EXTRA_SERVICES: Record<LocaleCode, InquiryService[]> = {
   sr: [
     {
       slug: "edukacija",
-      title: "Edukacija 1-na-1 (AI)",
-      summary: "Uživo, jedan na jedan: AI alati, automatizacija, sajt uz AI i AI za marketing.",
-      bullets: ["Plan po tvojim zadacima", "Sati na nalogu, termine biraš sam", "Online preko Google Meet-a"],
+      title: "Edukacija 1-na-1: viralni AI video",
+      summary: "Uživo, jedan na jedan: ideja i hook, generisanje scena AI alatima, montaža i objava.",
+      bullets: ["Plan po tvojim temama", "Sati na nalogu, termine biraš sam", "Online preko Google Meet-a"],
+    },
+    {
+      slug: "ai-video",
+      title: "AI video klipovi za tvoj biznis",
+      summary: "Mi pravimo kratke klipove za tvoj posao — ti odobravaš i objavljuješ.",
+      bullets: ["Ideja, scenario i montaža", "Formati za TikTok, Reels i Shorts", "Mesečno ili jednokratno"],
     },
   ],
   en: [
     {
       slug: "edukacija",
-      title: "1-on-1 AI training",
-      summary: "Live, one to one: AI tools, automation, building with AI and AI for marketing.",
-      bullets: ["Plan built on your own tasks", "Hours on your account, you pick the slots", "Online over Google Meet"],
+      title: "1-on-1 training: viral AI video",
+      summary: "Live, one to one: idea and hook, generating scenes with AI tools, editing and publishing.",
+      bullets: ["Plan built on your own topics", "Hours on your account, you pick the slots", "Online over Google Meet"],
+    },
+    {
+      slug: "ai-video",
+      title: "AI video clips for your business",
+      summary: "We make the short clips for your business — you approve and publish.",
+      bullets: ["Idea, script and editing", "Formats for TikTok, Reels and Shorts", "Monthly or one-off"],
     },
   ],
   de: [
     {
       slug: "edukacija",
-      title: "1:1 KI-Schulung",
-      summary: "Live und persönlich: KI-Tools, Automatisierung, Entwicklung mit KI und KI im Marketing.",
-      bullets: ["Plan nach Ihren Aufgaben", "Stunden im Konto, Termine selbst wählen", "Online über Google Meet"],
+      title: "1:1 Schulung: virale KI-Videos",
+      summary: "Live und persönlich: Idee und Hook, Szenen mit KI-Tools, Schnitt und Veröffentlichung.",
+      bullets: ["Plan nach Ihren Themen", "Stunden im Konto, Termine selbst wählen", "Online über Google Meet"],
+    },
+    {
+      slug: "ai-video",
+      title: "KI-Videoclips für Ihr Unternehmen",
+      summary: "Wir produzieren die Kurzclips für Ihr Unternehmen — Sie geben frei.",
+      bullets: ["Idee, Skript und Schnitt", "Formate für TikTok, Reels und Shorts", "Monatlich oder einmalig"],
     },
   ],
 };

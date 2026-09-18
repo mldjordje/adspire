@@ -34,6 +34,7 @@ module.exports = {
     // "/en/*" would also drop the localized /ai subtree. See TRANSLATED_PREFIXED.
     // Preview route for the V4 design, now shipped at "/" — pure duplicate.
     "/v4",
+    "/landingv2",
     "/web-pozivnice-za-veselja",
     "/our-story",
     "/our-teams",

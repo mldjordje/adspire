@@ -125,6 +125,28 @@ export const quickInquirySchema = z
     businessName: trimmed(180, MIN.businessName),
     idea: trimmed(6000, MIN.quickIdea),
 
+    /**
+     * Only asked where the buyer can actually answer it.
+     *
+     * The quick brief normally leaves budget blank — a stranger off an ad
+     * cannot price a web shop. The video service is the exception: it is sold
+     * per campaign, so "how much do you want to spend this month" is the one
+     * number that decides what the offer can contain.
+     */
+    budgetEur: z
+      .union([z.number(), z.string(), z.null()])
+      .optional()
+      .transform((value) => {
+        if (value === null || value === undefined) return null;
+        const raw = typeof value === "string" ? value.trim() : value;
+        if (raw === "") return null;
+        return Number(raw);
+      })
+      .refine(
+        (value) => value === null || (Number.isFinite(value) && value > 0 && value <= 10_000_000),
+        { message: "Budžet mora biti broj veći od nule, ili ostavi prazno." },
+      ),
+
     consent: z.literal(true),
     website: z.literal("").optional().default(""),
     requestId: z.string().trim().min(10).max(100),
@@ -146,7 +168,6 @@ export const quickInquirySchema = z
     // Not asked, so the least presumptuous bucket. "Hitno" would put a
     // stranger's question ahead of a paying client's deadline.
     timeframe: "flex",
-    budgetEur: null,
   }));
 
 /** Picks the schema by the `intake` field the form declares. Anything that does

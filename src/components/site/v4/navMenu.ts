@@ -79,7 +79,9 @@ const sr = (): NavMenu => ({
     {
       title: "AI i znanje",
       items: [
-        { href: "/edukacija", label: "AI edukacija 1-na-1", hint: "Paketi 8h i 18h — poruči online" },
+        { href: "/edukacija", label: "AI edukacija 1-na-1", hint: "Nauči da praviš viralne klipove" },
+      { href: "/ai-video-za-vas-biznis", label: "AI video za tvoj biznis", hint: "Mi pravimo klipove, ti objavljuješ" },
+      { href: "/ai-u-biznisu", label: "AI u biznisu", hint: "Automatizacija posla koji se ponavlja" },
         { href: "/ai", label: "AI po delatnostima", hint: "Šta AI radi u tvojoj branši" },
         { href: "/vodici", label: "Vodiči", hint: "Kako izabrati, koliko traje" },
         { href: "/recnik", label: "Rečnik pojmova", hint: "Šta znače reči iz ponude" },
@@ -111,7 +113,7 @@ const sr = (): NavMenu => ({
   },
   actions: [
     { href: "/upit/brzo", label: "Pošalji upit", hint: "5 polja, bez naloga i obaveze", cta: "menu-upit" },
-    { href: "/edukacija", label: "AI edukacija", hint: "1-na-1, paketi od 8 i 18 sati", cta: "menu-edukacija" },
+    { href: "/edukacija", label: "AI edukacija", hint: "Viralni klipovi, 1-na-1, paketi 8h i 18h", cta: "menu-edukacija" },
   ],
   account: { href: "/nalog", label: "Nalog" },
   feature: {

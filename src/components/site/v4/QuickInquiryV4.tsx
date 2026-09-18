@@ -78,6 +78,9 @@ export function QuickInquiryV4({
   initialSlug = "",
   locale = "sr",
   hotel = false,
+  lockService = false,
+  askBudget = false,
+  formName,
   copyOverride,
 }: {
   services: InquiryService[];
@@ -86,6 +89,20 @@ export function QuickInquiryV4({
   initialSlug?: string;
   locale?: LocaleCode;
   hotel?: boolean;
+  /** The page is about one offer, so the picker is noise — and a wrong pick
+   *  from it lands the lead in the wrong queue. */
+  lockService?: boolean;
+  /**
+   * Shows an optional budget field.
+   *
+   * Off everywhere else on purpose: a stranger asking whether a web shop is
+   * possible cannot price one, and a budget box is how that brief gets
+   * abandoned. The video service is sold per campaign, so there it is the one
+   * number that shapes the answer.
+   */
+  askBudget?: boolean;
+  /** `data-form` value, so analytics can tell these forms apart. */
+  formName?: string;
   /** Labels reworded for one offer (e.g. edukacija). Field names and validation
    *  stay the same, so the API cannot tell the difference. */
   copyOverride?: Partial<ReturnType<typeof getQuickInquiryCopy>>;
@@ -93,6 +110,7 @@ export function QuickInquiryV4({
   const t = { ...getQuickInquiryCopy(locale, hotel), ...copyOverride };
   const [form, setForm] = useState<FormState>(EMPTY);
   const [service, setService] = useState(initialSlug);
+  const [budget, setBudget] = useState("");
   const [consent, setConsent] = useState(false);
   const [touched, setTouched] = useState<Partial<Record<FieldKey, boolean>>>({});
   const [showAll, setShowAll] = useState(false);
@@ -159,6 +177,7 @@ export function QuickInquiryV4({
           intake: "quick",
           ...form,
           services: [service],
+          budgetEur: askBudget && budget.trim() !== "" ? budget.trim() : null,
           consent: true,
           website: honeypotRef.current?.value ?? "",
           requestId: requestIdRef.current || (requestIdRef.current = createRequestId()),
@@ -213,7 +232,12 @@ export function QuickInquiryV4({
 
   return (
     <section className={styles.wrap} data-reveal={hotel ? undefined : true}>
-      <form className={styles.form} data-form={hotel ? "hotel-inquiry" : "upit-brzo"} onSubmit={submit} noValidate>
+      <form
+        className={styles.form}
+        data-form={formName ?? (hotel ? "hotel-inquiry" : "upit-brzo")}
+        onSubmit={submit}
+        noValidate
+      >
         <div className={styles.block}>
           <div className={styles.row}>
             <label className={styles.field}>
@@ -268,21 +292,39 @@ export function QuickInquiryV4({
             </label>
           </div>
 
-          <label className={styles.field}>
-            <span>{t.service}</span>
-            <select
-              value={service}
-              onChange={(event) => setService(event.target.value)}
-              aria-invalid={showAll && !service ? true : undefined}
-            >
-              <option value="">{t.choose}</option>
-              {services.map((item) => (
-                <option key={item.slug} value={item.slug}>
-                  {item.title}
-                </option>
-              ))}
-            </select>
-          </label>
+          {lockService ? null : (
+            <label className={styles.field}>
+              <span>{t.service}</span>
+              <select
+                value={service}
+                onChange={(event) => setService(event.target.value)}
+                aria-invalid={showAll && !service ? true : undefined}
+              >
+                <option value="">{t.choose}</option>
+                {services.map((item) => (
+                  <option key={item.slug} value={item.slug}>
+                    {item.title}
+                  </option>
+                ))}
+              </select>
+            </label>
+          )}
+
+          {askBudget ? (
+            <label className={styles.field}>
+              <span>{t.budget}</span>
+              <input
+                type="number"
+                inputMode="numeric"
+                min={1}
+                step={50}
+                placeholder="npr. 400"
+                value={budget}
+                onChange={(event) => setBudget(event.target.value)}
+              />
+              <em className={styles.hint}>{t.budgetHint}</em>
+            </label>
+          ) : null}
 
           <label className={styles.field}>
             <span>{t.idea}</span>

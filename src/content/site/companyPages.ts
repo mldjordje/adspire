@@ -314,3 +314,140 @@ export const siteAuditPage: Guide = {
   cta: { label: "Pošalji adresu sajta", href: "/upit" },
   secondaryCta: { label: "Zašto sajt ne donosi upite", href: "/sajt-ne-donosi-upite" },
 };
+
+/**
+ * /ai-u-biznisu — AI that does the work behind the business.
+ *
+ * The third of three separate AI offers. It exists because /edukacija stopped
+ * carrying it: that page now teaches video, and this buyer wants inquiries
+ * answered and offers written without hiring anyone. It sends people to the
+ * service page rather than competing with it — the service page says what we
+ * build, this one says what changes on Monday.
+ */
+export const aiInBusinessPage: Guide = {
+  path: "/ai-u-biznisu",
+  eyebrow: "AI u poslovanju",
+  title: "AI u biznisu — automatizacija posla koji vam danas jede dan",
+  metaDescription:
+    "Šta AI realno preuzima u maloj firmi: odgovore na upite, pisanje ponuda, prepisivanje podataka između alata, izveštaje i obradu dokumenata. Šta se isplati automatizovati, šta ne, i koliko to traje.",
+  h1: "AI u biznisu",
+  lead:
+    "Nije reč o tome da vas AI zameni, nego o tome da prestanete da radite ono što ne mora čovek: prepisivanje iz mejla u tabelu, isti odgovor po deseti put, ponuda koja se sklapa ručno svaki put iznova. Ovde piše šta se od toga zaista automatizuje i po kom redu.",
+  keywords: [
+    "AI za mala preduzeća",
+    "automatizacija poslovanja",
+    "AI automatizacija Srbija",
+    "n8n automatizacija",
+    "AI chatbot za firmu",
+    "automatizacija ponuda i faktura",
+  ],
+  sections: [
+    {
+      heading: "Počnite od posla koji se ponavlja, ne od alata",
+      body: [
+        "Najčešća greška je da se prvo kupi alat pa se traži šta bi s njim. Red je obrnut: nađe se posao koji se radi svake nedelje, uvek isto, i traje duže nego što vredi — i taj se automatizuje prvi.",
+        "Praktično merilo: ako zadatak radite više od jednom nedeljno, ima jasna pravila i ne traži procenu, kandidat je. Ako svaki put izgleda drugačije i traži odluku, nije — bar ne prvi.",
+      ],
+      bullets: [
+        "Da: prepisivanje podataka, isti odgovori, izveštaji, podsetnici, obrada dokumenata.",
+        "Ne (za početak): pregovori, cene za netipične poslove, sve gde greška košta više od uštede.",
+      ],
+    },
+    {
+      heading: "Upiti i poruke — prvo mesto gde se vidi razlika",
+      body: [
+        "Većina malih firmi gubi posao na vremenu odgovora, a ne na ceni. Upit sa sajta, poruka na Instagramu i mejl završe na tri mesta i odgovore se kad se stigne.",
+        "Automatizacija tu radi dve stvari: sve skuplja na jedno mesto i odmah šalje odgovor koji nije prazan — sa pitanjima koja ionako morate da postavite. Kada stignete do poruke, već imate polovinu podataka.",
+      ],
+      bullets: [
+        "Chatbot na sajtu odgovara na pitanja koja se ponavljaju i prikuplja kontakt.",
+        "Upit automatski ide u tabelu ili CRM, sa izvorom i vremenom.",
+        "Vi dobijate obaveštenje sa sažetkom, ne sa sirovim tekstom.",
+      ],
+    },
+    {
+      heading: "Ponude, fakture i dokumenti",
+      body: [
+        "Ponuda koja se svaki put sklapa ručno je posao od pola sata koji se ponavlja desetinama puta mesečno. Kada su stavke i cene na jednom mestu, ponuda se pravi iz podataka, a vi menjate samo ono što je specifično.",
+        "Isto važi za dokumente koji stižu spolja: računi dobavljača, ugovori, specifikacije. AI izvuče stavke i datume, a čovek potvrdi — što je brže nego čitati, i sigurnije nego prepisivati.",
+      ],
+      bullets: [
+        "Ponuda i faktura iz istih podataka, bez ponovnog kucanja.",
+        "Podsetnik za neplaćeno, bez gledanja u tabelu svakog ponedeljka.",
+        "Izvlačenje stavki iz PDF-a ili slike računa, uz vašu potvrdu.",
+      ],
+    },
+    {
+      heading: "Tok umesto alata: kako se to zaista spaja",
+      body: [
+        "Alati koje već koristite — mejl, tabele, sajt, kalendar, knjigovodstvo — retko razgovaraju međusobno. Automatizacija je most: kad se desi A, uradi B, a AI korak ubacujemo samo tamo gde treba prosuđivanje ili pisanje teksta.",
+        "Zato je i cena predvidiva. Ne pravi se novi sistem, nego se povezuje ono što postoji, pa se najveći deo posla vidi već u prvoj nedelji.",
+      ],
+      bullets: [
+        "n8n ili Make kao vezivo, sa jasnim koracima koje možete da vidite.",
+        "AI korak tamo gde je potreban — sažetak, klasifikacija, nacrt odgovora.",
+        "Svaki tok ima log: vidi se šta je prošlo, a šta je palo i zašto.",
+      ],
+    },
+    {
+      heading: "Šta vas to košta i kako se meri da se isplatilo",
+      body: [
+        "Cena zavisi od broja tokova i od toga koliko su alati spremni da razgovaraju. Zato ide u ponudu, sa fiksnim obimom — ne po satu.",
+        "Merilo nije „imamo AI\" nego sati koji su se oslobodili i poslovi koji se više ne zaboravljaju. To se broji pre nego što počnemo, da bi posle bilo sa čim da se uporedi.",
+      ],
+      bullets: [
+        "Prvo se automatizuje jedan tok, pa se meri — ne svih pet odjednom.",
+        "Vlasništvo nad tokovima i podacima ostaje vaše.",
+        "Ako tok posle tri meseca niko ne koristi, gasi se; to je takođe rezultat.",
+      ],
+    },
+  ],
+  proofHeading: "Gde dalje",
+  proof: [
+    {
+      label: "AI integracije i automatizacija",
+      href: "/our-services/ai-integracije-automatizacija",
+      note: "Usluga: šta konkretno pravimo i kako izgleda isporuka.",
+    },
+    {
+      label: "AI chatbot za sajt",
+      href: "/ai-chatbot-za-sajt",
+      note: "Ako je prvi problem to što upiti čekaju odgovor.",
+    },
+    {
+      label: "AI po delatnostima",
+      href: "/ai",
+      note: "Šta AI radi baš u vašoj branši, sa primerima.",
+    },
+    {
+      label: "Interni softver umesto Excel tabela",
+      href: "/interni-softver-umesto-excel-tabela",
+      note: "Kad problem nije automatizacija nego to gde podaci žive.",
+    },
+  ],
+  faqHeading: "Česta pitanja",
+  faq: [
+    {
+      q: "Da li mi treba da menjam alate koje već koristim?",
+      a: "Najčešće ne. Poenta je da se poveže ono što imate — mejl, tabele, sajt, kalendar. Alat se menja samo ako je on sam uzrok problema, i to se kaže unapred.",
+    },
+    {
+      q: "Da li AI može da odgovara klijentima umesto mene?",
+      a: "Na pitanja koja se ponavljaju — da, i to odmah. Na sve što traži cenu, rok ili procenu, odgovor se priprema, a vi ga potvrđujete. Tako klijent dobije brz odgovor, a vi ne gubite kontrolu nad onim što je obećano.",
+    },
+    {
+      q: "Koliko traje da se prvi tok pusti u rad?",
+      a: "Jednostavan tok — upit sa sajta u tabelu, obaveštenje i automatski odgovor — najčešće je gotov za nekoliko dana. Složeniji, sa dokumentima i više alata, traje duže i radi se u fazama.",
+    },
+    {
+      q: "Šta ako automatizacija pogreši?",
+      a: "Zato svaki tok ima log i tačku na kojoj čovek potvrđuje sve što ide napolje ili u knjige. Automatizacija bez te tačke je brža samo dok ne pogreši prvi put.",
+    },
+    {
+      q: "Može li neko iz firme da nauči da to održava?",
+      a: "Može, i to je često najbolji ishod. Za to postoji edukacija 1-na-1, ali se dogovara posebno — na sajtu je edukacija trenutno usmerena na pravljenje video sadržaja.",
+    },
+  ],
+  cta: { label: "Pošalji upit", href: "/upit/brzo" },
+  secondaryCta: { label: "AI po delatnostima", href: "/ai" },
+};

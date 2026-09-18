@@ -39,9 +39,16 @@ export default function EdukacijaPage() {
             "@context": "https://schema.org",
             "@type": "Course",
             "@id": `${absoluteUrl(educationSeo.path)}#course`,
-            name: "AI edukacija 1-na-1",
+            name: "AI edukacija 1-na-1: pravljenje viralnih video klipova",
             description: educationSeo.metaDescription,
             inLanguage: "sr",
+            about: "Pravljenje kratkih viralnih video klipova uz AI alate",
+            teaches: [
+              "Ideja i hook za kratak video",
+              "Generisanje scena AI alatima",
+              "Montaža, titlovi i zvuk",
+              "Objavljivanje na TikTok, Reels i Shorts",
+            ],
             provider: orgRef(),
             hasCourseInstance: {
               "@type": "CourseInstance",

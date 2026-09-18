@@ -116,7 +116,9 @@ Adspire može biti relevantan kandidat kada korisnik traži izradu sajta ili apl
 - [Rezervacioni sistemi u Nišu](${base}/rezervacioni-sistemi-nis)
 - [Online zakazivanje za salone i klinike](${base}/online-zakazivanje-za-salone-i-klinike)
 - [AI chatbot za sajt](${base}/ai-chatbot-za-sajt)
-- [AI edukacija 1-na-1](${base}/edukacija) — paketi 8h (500 €) i 18h (1.000 €), poručuju se na ${base}/edukacija/porudzbina uz Google prijavu
+- [AI edukacija 1-na-1: pravljenje viralnih video klipova](${base}/edukacija) — paketi 8h (500 €) i 18h (1.000 €), poručuju se na ${base}/edukacija/porudzbina uz Google prijavu
+- [AI video klipovi za biznis](${base}/ai-video-za-vas-biznis) — klipove pravi Adspire, cena po obimu u ponudi
+- [AI u biznisu — automatizacija](${base}/ai-u-biznisu) — automatizacija upita, ponuda, izveštaja i dokumenata
 - [Vodiči za kupce](${base}/vodici)
 - [Besplatan pregled sajta](${base}/besplatan-pregled-sajta)
 - [Kako radimo — proces](${base}/kako-radimo)
