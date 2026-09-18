@@ -184,6 +184,11 @@ const nextConfig = {
       },
       // Legacy Serbian route scheme → current English scheme.
       ...localeRedirects("/our-services/hotelski-rezervacioni-sistem", "/hotelski-rezervacioni-sistem"),
+      // The AI video service page and /ai-video-za-vas-biznis targeted the same
+      // queries, so the two competed instead of adding up. The landing page is
+      // the one that sells, so the catalog entry was dropped and its URL — which
+      // was already indexed and in llms.txt — hands its equity over here.
+      ...localeRedirects("/our-services/ai-video-produkcija", "/ai-video-za-vas-biznis"),
       ...legacyServiceRedirects,
       ...localeRedirects("/index.html", "/"),
       ...localeRedirects("/izrada-sajtova-srbija", "/our-services/web-prezentacije"),

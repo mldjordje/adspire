@@ -173,16 +173,6 @@ const serviceText: Array<Pick<ServiceItem, "title" | "summary" | "bullets">> = [
       "Text- und Bildänderungen übernehmen wir, ganz ohne CMS",
     ],
   },
-  {
-    title: "KI-Videoclips",
-    summary:
-      "Mit KI produzierte Videos: Anzeigen für Instagram, TikTok und YouTube, Produktvideos, kurze Erklärstücke und Sprecher in mehreren Sprachen — ohne Dreh, ohne Team, ohne Studio.",
-    bullets: [
-      "Skript, Produktion und Schnitt in Formaten für alle Kanäle",
-      "Mehrere Fassungen eines Clips zum Testen der Botschaft",
-      "Sprecher und Untertitel auf Serbisch, Englisch und Deutsch",
-    ],
-  },
 ];
 
 const services: ServiceItem[] = srContent.servicesPage.items.map((s, i) => ({

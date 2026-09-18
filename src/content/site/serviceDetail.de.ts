@@ -693,44 +693,4 @@ export const serviceDetailDe: Record<string, ServiceDetailTranslation> = {
       },
     ],
   },
-  "ai-video-produkcija": {
-    h1: "KI-Videoclips und Videoinhalte",
-    intro:
-      "Werbespots, Produktvideos und kurze Erklärvideos mit KI produziert — ohne Dreh, ohne Team, ohne Studiotag.",
-    overview:
-      "Mit KI-Werkzeugen produzierte Videos: Anzeigen für Instagram, TikTok und YouTube, Produktvideos, kurze Erklärstücke und Sprecher in mehreren Sprachen. Ohne Dreh und Team wird aus einer Idee eine Reihe von Fassungen und Formaten, die sich wirklich testen lassen. Adspire schreibt das Skript, produziert und schneidet den Clip und verbindet ihn mit der Seite, auf die er führt.",
-    tags: ["KI-Video", "Social Ads", "Produktvideo", "Erklärvideo", "Sprecher", "Untertitel"],
-    bestFor: [
-      "Unternehmen, die regelmäßig Videos veröffentlichen müssen, aber weder Team noch Budget für jeden Dreh haben.",
-      "Kampagnen, die mehrere Botschaften gleichzeitig testen — fünf Fassungen schlagen einen perfekten Film.",
-      "Produkte und Leistungen, die sich in Bewegung leichter zeigen als in Text erklären lassen.",
-    ],
-    deliverables: [
-      "Skript und Storyboard, abgeleitet aus Angebot und Zielgruppe statt aus einer zufälligen Idee.",
-      "Produktion und Schnitt in Formaten für Reels, TikTok, YouTube und die Website, mit Untertiteln.",
-      "Testfassungen und bei Bedarf Sprecher in einer weiteren Sprache, verknüpft mit der Zielseite des Clips.",
-    ],
-    faq: [
-      {
-        q: "Was heißt „KI-Video\" — ist alles künstlich?",
-        a: "Das hängt vom Clip ab. Manche sind vollständig generiert, bei anderen übernimmt die KI nur Sprecher, Untertitel oder Schnitt, während das Material von Ihnen stammt. Wir sagen immer, was was ist, denn davon hängen Kosten und Wirkung ab.",
-      },
-      {
-        q: "Kann ich eigenes Material und eigene Fotos verwenden?",
-        a: "Ja, und das ergibt meist das beste Ergebnis — Ihr Material als Grundlage, KI für Schnitt, Sprecher, Untertitel und die Szenen, die Ihnen fehlen.",
-      },
-      {
-        q: "In welchen Sprachen kann der Sprecher sprechen?",
-        a: "Serbisch, Englisch und Deutsch machen wir am häufigsten. Dieselbe Botschaft in drei Sprachen kostet deutlich weniger als drei getrennte Drehs.",
-      },
-      {
-        q: "Wie lange dauert ein Clip?",
-        a: "Bei kurzen Werbeformaten in der Regel einige Arbeitstage ab freigegebenem Skript. Weitere Fassungen kommen schnell dazu, weil sie aus derselben Grundlage entstehen.",
-      },
-      {
-        q: "Veröffentlichen Sie die Clips und betreuen Sie die Kanäle?",
-        a: "Die Lieferung des Clips ist der Standardumfang. Veröffentlichung und Kampagnenbetreuung gehören zur Leistung Digitalmarketing, wenn Sie das ebenfalls möchten.",
-      },
-    ],
-  },
 };

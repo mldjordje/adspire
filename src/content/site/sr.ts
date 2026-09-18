@@ -209,19 +209,6 @@ const services: ServiceItem[] = [
     href: "/our-services/staticni-sajtovi",
     cta: "Detalji usluge",
   },
-  {
-    title: "AI video klipovi",
-    summary:
-      "Video klipovi napravljeni uz AI: reklame za Instagram, TikTok i YouTube, prikaz proizvoda, kratka objašnjenja usluge i narator na više jezika — bez snimanja, ekipe i studija.",
-    bullets: [
-      "Scenario, izrada i montaža u formatima za sve mreže",
-      "Više verzija istog klipa za testiranje poruka",
-      "Narator i titlovi na srpskom, engleskom i nemačkom",
-    ],
-    slug: "ai-video-produkcija",
-    href: "/our-services/ai-video-produkcija",
-    cta: "Detalji usluge",
-  },
 ];
 
 const projects: ProjectItem[] = [

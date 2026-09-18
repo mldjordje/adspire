@@ -693,44 +693,4 @@ export const serviceDetailEn: Record<string, ServiceDetailTranslation> = {
       },
     ],
   },
-  "ai-video-produkcija": {
-    h1: "AI video clips and video content",
-    intro:
-      "Ads, product showcases and short explainers produced with AI — no shoot, no crew, no studio day.",
-    overview:
-      "Video produced with AI tools: ads for Instagram, TikTok and YouTube, product showcases, short explainers and voice-over in several languages. Without a shoot and a crew, one idea ships as several versions and formats you can actually test. Adspire writes the script, produces and edits the clip, and connects it to the page it sends people to.",
-    tags: ["AI video", "Social ads", "Product video", "Explainer", "Voice-over", "Subtitles"],
-    bestFor: [
-      "Companies that must publish video regularly with neither a crew nor a budget for shooting every clip.",
-      "Ad campaigns testing several messages at once, where five versions beat one perfect film.",
-      "Products and services that are easier to show in motion than to explain in text.",
-    ],
-    deliverables: [
-      "A script and storyboard derived from your offer and audience rather than from a random idea.",
-      "Production and editing in formats for Reels, TikTok, YouTube and the site, with subtitles.",
-      "Versions for testing and, where useful, voice-over in another language, wired to the page the clip points at.",
-    ],
-    faq: [
-      {
-        q: "What does \"AI video\" mean — is all of it synthetic?",
-        a: "It depends on the clip. Some are fully generated; in others AI only handles the voice-over, the subtitles or the edit while the footage is yours. We always say which is which, because it drives both the cost and the look.",
-      },
-      {
-        q: "Can I use my own footage and photos?",
-        a: "Yes, and that usually gives the best result — your material as the base, with AI for the edit, narration, subtitles and the scenes you do not have.",
-      },
-      {
-        q: "Which languages can the voice-over use?",
-        a: "Serbian, English and German are what we do most. The same message in three languages costs far less than three separate shoots.",
-      },
-      {
-        q: "How long does one clip take?",
-        a: "For short ad formats, usually a few working days from an approved script. Extra versions of the same clip add little, because they come from the same base.",
-      },
-      {
-        q: "Do you publish the clips and run the accounts?",
-        a: "Delivering the clip is the standard scope. Publishing and running the campaign belong to the digital marketing service, if you want that too.",
-      },
-    ],
-  },
 };

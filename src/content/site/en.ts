@@ -172,16 +172,6 @@ const serviceText: Array<Pick<ServiceItem, "title" | "summary" | "bullets">> = [
       "We handle text and image edits, so there is no CMS",
     ],
   },
-  {
-    title: "AI video clips",
-    summary:
-      "Video produced with AI: ads for Instagram, TikTok and YouTube, product showcases, short explainers and voice-over in several languages — no shoot, no crew, no studio.",
-    bullets: [
-      "Script, production and editing in formats for every platform",
-      "Several versions of one clip for testing messages",
-      "Voice-over and subtitles in Serbian, English and German",
-    ],
-  },
 ];
 
 const services: ServiceItem[] = srContent.servicesPage.items.map((s, i) => ({
