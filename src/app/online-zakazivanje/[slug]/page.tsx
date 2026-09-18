@@ -49,6 +49,7 @@ export default async function BookingIndustryPage({ params }: Props) {
         data={[
           webPageAboutOrganizationJsonLd(path, `${page.seo.title} | Adspire Digital`, page.seo.metaDescription, {
             mainEntity: `${url}#service`,
+            speakable: ["[data-answer]"],
           }),
           {
             "@context": "https://schema.org",

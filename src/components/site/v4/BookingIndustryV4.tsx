@@ -26,12 +26,23 @@ import {
 
 const INQUIRY_HREF = "/upit/brzo?usluga=sistemi-za-zakazivanje";
 
-function SectionHead({ eyebrow, title, lead }: { eyebrow: string; title: string; lead?: string }) {
+function SectionHead({
+  eyebrow,
+  title,
+  lead,
+  answer,
+}: {
+  eyebrow: string;
+  title: string;
+  lead?: string;
+  /** Marks the lead as the page's quotable answer. Attribute only. */
+  answer?: boolean;
+}) {
   return (
     <header className={styles.head}>
       <span className={styles.eyebrow}>{eyebrow}</span>
       <h2 className={styles.h2}>{title}</h2>
-      {lead ? <p className={styles.lead}>{lead}</p> : null}
+      {lead ? <p className={styles.lead} {...(answer ? { "data-answer": true } : {})}>{lead}</p> : null}
     </header>
   );
 }
@@ -94,7 +105,7 @@ export function BookingIndustryV4({ page }: { page: BookingIndustryPage }) {
         {/* Short, self-contained answer first: this is the paragraph search
             snippets and AI assistants lift, so it must make sense on its own. */}
         <section className={styles.section} data-reveal>
-          <SectionHead eyebrow="Ukratko" title={page.seo.title} lead={page.summary} />
+          <SectionHead eyebrow="Ukratko" title={page.seo.title} lead={page.summary} answer />
           <ul className={styles.checkList}>
             {page.audience.map((item) => (
               <li key={item}>{item}</li>

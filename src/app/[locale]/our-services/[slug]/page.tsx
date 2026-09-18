@@ -5,7 +5,13 @@ import { JsonLd } from "@/components/site/JsonLd";
 import { v4FontClass } from "@/components/site/v4/fonts";
 import { ServiceDetailV4 } from "@/components/site/v4/ServiceDetailV4";
 import { findServiceCatalogEntry, serviceSlugs } from "@/data/serviceCatalog";
-import { serviceJsonLd, faqPageJsonLd } from "@/lib/seo/jsonld";
+import {
+  faqPageJsonLd,
+  SCHEMA_LANG,
+  serviceJsonLd,
+  translationRefs,
+  webPageAboutOrganizationJsonLd,
+} from "@/lib/seo/jsonld";
 import { pageMetadata } from "@/lib/seo/metadata";
 import { getSiteUrl } from "@/lib/seo/site";
 import { isLocale, localePath, prefixedLocales, type LocaleCode } from "@/lib/site-config";
@@ -49,6 +55,19 @@ export default async function Page({ params }: Props) {
     <div className={v4FontClass}>
       <JsonLd
         data={[
+          {
+            ...webPageAboutOrganizationJsonLd(
+              localizedPath,
+              t?.h1 ?? service.title,
+              t?.intro ?? catalog.metaDescriptionSr,
+              {
+                inLanguage: SCHEMA_LANG[lc],
+                mainEntity: `${getSiteUrl()}${localizedPath}#service`,
+                speakable: ["[data-answer]"],
+              },
+            ),
+            ...translationRefs(`/our-services/${slug}`, lc),
+          },
           serviceJsonLd(
             catalog,
             service.title,

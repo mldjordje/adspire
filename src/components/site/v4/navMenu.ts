@@ -34,6 +34,13 @@ export type NavMenu = {
   company: NavGroup;
   /** The two things people come looking for — cards at the top of the mobile menu. */
   actions: [NavAction, NavAction];
+  /**
+   * The way back into the client account.
+   *
+   * It used to exist only at the bottom of the mobile menu, so a buyer with
+   * hours on the wallet had no visible way in from a desktop browser.
+   */
+  account: NavItem;
   feature: { eyebrow: string; title: string; text: string; href: string; cta: string };
   sectionsLabel: string;
   menuLabel: string;
@@ -72,9 +79,10 @@ const sr = (): NavMenu => ({
     {
       title: "AI i znanje",
       items: [
-        { href: "/edukacija", label: "AI edukacija 1-na-1", hint: "Paketi od 8 i 18 sati" },
+        { href: "/edukacija", label: "AI edukacija 1-na-1", hint: "Paketi 8h i 18h — poruči online" },
         { href: "/ai", label: "AI po delatnostima", hint: "Šta AI radi u tvojoj branši" },
         { href: "/vodici", label: "Vodiči", hint: "Kako izabrati, koliko traje" },
+        { href: "/recnik", label: "Rečnik pojmova", hint: "Šta znače reči iz ponude" },
         { href: "/blog", label: "Blog" },
       ],
     },
@@ -83,6 +91,8 @@ const sr = (): NavMenu => ({
       items: [
         { href: "/upit/brzo", label: "Brzi upit", hint: "5 polja, bez naloga" },
         { href: "/upit", label: "Detaljan brief", hint: "Za tačnu ponudu" },
+        { href: "/edukacija/porudzbina", label: "Poruči AI edukaciju", hint: "Paket sati, odmah" },
+        { href: "/nalog", label: "Moj nalog", hint: "Sati, termini i upiti" },
         { href: "/besplatan-pregled-sajta", label: "Besplatan pregled sajta" },
         { href: "/cena-izrade-sajta", label: "Cene izrade sajta", hint: "Okvirni rasponi" },
         { href: "/kako-radimo", label: "Kako radimo" },
@@ -103,6 +113,7 @@ const sr = (): NavMenu => ({
     { href: "/upit/brzo", label: "Pošalji upit", hint: "5 polja, bez naloga i obaveze", cta: "menu-upit" },
     { href: "/edukacija", label: "AI edukacija", hint: "1-na-1, paketi od 8 i 18 sati", cta: "menu-edukacija" },
   ],
+  account: { href: "/nalog", label: "Nalog" },
   feature: {
     eyebrow: "Ne znaš odakle da kreneš?",
     title: "Opiši u jednoj rečenici šta ti treba.",
@@ -164,6 +175,7 @@ const en = (): NavMenu => ({
     { href: "/contact-us", label: "Request a quote", hint: "Tell us what you need", cta: "menu-upit" },
     { href: "/our-services", label: "Services", hint: "Websites, booking, AI", cta: "menu-services" },
   ],
+  account: { href: "/nalog", label: "Account" },
   feature: {
     eyebrow: "Not sure where to start?",
     title: "Describe what you need in one sentence.",
@@ -225,6 +237,7 @@ const de = (): NavMenu => ({
     { href: "/contact-us", label: "Angebot anfordern", hint: "Beschreiben Sie Ihr Vorhaben", cta: "menu-upit" },
     { href: "/our-services", label: "Leistungen", hint: "Websites, Buchung, KI", cta: "menu-services" },
   ],
+  account: { href: "/nalog", label: "Konto" },
   feature: {
     eyebrow: "Unsicher, wo Sie anfangen?",
     title: "Beschreiben Sie Ihr Vorhaben in einem Satz.",

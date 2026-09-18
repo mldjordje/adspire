@@ -68,7 +68,10 @@ export function ServiceDetailV4({ service, catalog, locale = defaultLocale }: Se
       <section className={styles.overview} data-reveal>
         <div className={styles.copy}>
           <span className={styles.label}>{chrome.overviewLabel}</span>
-          <p>{overview}</p>
+          {/* The quotable block: answer engines lift the first standalone
+              paragraph that answers the query. Attribute only — the markup
+              and the styling are unchanged. */}
+          <p data-answer>{overview}</p>
         </div>
         <aside className={styles.panel}>
           <span className={styles.panelLabel}>{chrome.focusLabel}</span>

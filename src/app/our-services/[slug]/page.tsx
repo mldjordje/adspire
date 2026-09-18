@@ -5,7 +5,13 @@ import { JsonLd } from "@/components/site/JsonLd";
 import { v4FontClass } from "@/components/site/v4/fonts";
 import { ServiceDetailV4 } from "@/components/site/v4/ServiceDetailV4";
 import { findServiceCatalogEntry, serviceSlugs } from "@/data/serviceCatalog";
-import { breadcrumbJsonLd, faqPageJsonLd, serviceJsonLd } from "@/lib/seo/jsonld";
+import {
+  breadcrumbJsonLd,
+  faqPageJsonLd,
+  serviceJsonLd,
+  webPageAboutOrganizationJsonLd,
+} from "@/lib/seo/jsonld";
+import { serviceId } from "@/lib/seo/ids";
 import { getSiteUrl } from "@/lib/seo/site";
 
 type ServiceDetailPageProps = {
@@ -75,6 +81,12 @@ export default async function ServiceDetailPage({ params }: ServiceDetailPagePro
     <div className={v4FontClass}>
       <JsonLd
         data={[
+          webPageAboutOrganizationJsonLd(
+            `/our-services/${slug}`,
+            catalog.seoTitleSr ?? service.title,
+            catalog.metaDescriptionSr,
+            { mainEntity: serviceId(slug), speakable: ["[data-answer]"] },
+          ),
           serviceJsonLd(catalog, service.title),
           faqPageJsonLd(catalog.faqItems, `${getSiteUrl()}/our-services/${slug}`),
           breadcrumbJsonLd([
