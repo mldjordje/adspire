@@ -37,6 +37,18 @@ export const pricePerHour = (p: EduPackage) => Math.round((p.priceEur / p.hours)
 export const formatEur = (value: number) =>
   `${value.toLocaleString("sr-RS", { maximumFractionDigits: 1 })} €`;
 
-/** Pre-selects edukacija on the quick brief. Which package was clicked is
- *  measured through `data-cta`, not the URL. */
-export const PACKAGE_INQUIRY_HREF = "/upit/brzo?usluga=edukacija";
+export const ORDER_PATH = "/edukacija/porudzbina";
+
+export function findPackage(id: string | undefined | null): EduPackage | null {
+  return EDU_PACKAGES.find((p) => p.id === id) ?? null;
+}
+
+/** Where a package button goes: straight into the order, not into the brief.
+ *  Edukacija is a product with a fixed price — it does not need a quote. */
+export const packageOrderHref = (pkg: EduPackage) => `${ORDER_PATH}?paket=${pkg.id}`;
+
+/** For someone who has not picked yet — the order page then shows both. */
+export const ORDER_HREF = ORDER_PATH;
+
+/** The one route still worth a conversation first: a team, a custom plan. */
+export const EDUCATION_INQUIRY_HREF = "/upit/brzo?usluga=edukacija";

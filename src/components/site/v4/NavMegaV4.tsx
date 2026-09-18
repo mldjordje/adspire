@@ -108,6 +108,21 @@ export function NavMegaV4({
         );
       })}
 
+      {/* The way back in for a buyer who already has hours or an open upit.
+          Set apart from the page links: it is a door, not a page. */}
+      <a
+        className={`${styles.item} ${styles.account} ${isCurrentPath(menu.account.href, pathname) ? styles.itemActive : ""}`}
+        href={href(menu.account.href)}
+        data-cta="nav-nalog"
+        data-cursor="on"
+      >
+        <svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true">
+          <circle cx="8" cy="5" r="2.6" fill="none" stroke="currentColor" strokeWidth="1.4" />
+          <path d="M2.8 13.4c0-2.6 2.3-4.2 5.2-4.2s5.2 1.6 5.2 4.2" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+        </svg>
+        {menu.account.label}
+      </a>
+
       <div
         id="v4-mega-panel"
         className={`${styles.panel} ${open ? styles.panelOpen : ""}`}

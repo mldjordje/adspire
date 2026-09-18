@@ -38,7 +38,10 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-export default async function NalogEdukacijaPage() {
+type Props = { searchParams: Promise<{ porudzbina?: string }> };
+
+export default async function NalogEdukacijaPage({ searchParams }: Props) {
+  const { porudzbina } = await searchParams;
   const login = "/nalog/prijava?next=/nalog/edukacija";
   if (!isDatabaseConfigured()) redirect(login);
   const session = await getPortalSession();
@@ -76,10 +79,20 @@ export default async function NalogEdukacijaPage() {
           <div className={styles.stack}>
             <PortalNavV4 active="edukacija" />
 
+            {porudzbina === "ok" ? (
+              <div className={styles.panel}>
+                <h2 className={styles.title}>Porudžbina je primljena</h2>
+                <p className={styles.muted} style={{ marginTop: 10 }}>
+                  Potvrda ti je stigla na mejl. Javljam se lično sa predračunom i dogovorom o temama —
+                  čim uplata legne, sati se pojave ovde i kalendar se otključava.
+                </p>
+              </div>
+            ) : null}
+
             {withHours.length === 0 ? (
               <EduPackagesV4
                 title="Na stanju još nema sati"
-                intro="Izaberi paket i pošalji kratak upit. Posle uplate sati se pojavljuju ovde i termine biraš sam."
+                intro="Poruči paket u dva klika. Javljam se sa predračunom, a čim uplata legne sati stoje ovde i termine biraš sam."
               />
             ) : (
               <div className={styles.wallets}>

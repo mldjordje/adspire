@@ -32,7 +32,11 @@ export default async function PrijavaPage({ searchParams }: Props) {
             ? "Link je istekao ili je već iskorišćen. Pošalji novi — traje trideset minuta."
             : greska === "google"
               ? "Prijava preko Google-a nije uspela. Pokušaj ponovo ili zatraži link na mejl."
-              : next === "/nalog/edukacija"
+              : next.startsWith("/edukacija/porudzbina")
+                ? google
+                  ? "Još jedan klik: uđi Google nalogom i porudžbina se završava na tvom nalogu."
+                  : "Upiši email — stiže link za prijavu, bez lozinke, i vraća te pravo na porudžbinu."
+                : next === "/nalog/edukacija"
                 ? google
                   ? "Uđi Google nalogom sa adrese na koju su ti dodati sati — ili zatraži link na mejl. Vodi pravo na tvoje termine."
                   : "Upiši email na koji su ti dodati sati. Stiže link za prijavu — bez lozinke — i vodi pravo na tvoje termine."

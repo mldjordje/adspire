@@ -111,7 +111,7 @@ export default async function NalogPage() {
             {remaining < 2 ? (
               <EduPackagesV4
                 title={remaining > 0 ? "Sati su pri kraju" : "Edukacija 1-na-1"}
-                intro="Uživo, preko Google Meet-a, na tvojim zadacima. Posle uplate sati se pojave ovde i termine biraš sam."
+                intro="Uživo, preko Google Meet-a, na tvojim zadacima. Poruči paket, a čim uplata legne sati se pojave ovde i termine biraš sam."
               />
             ) : null}
 

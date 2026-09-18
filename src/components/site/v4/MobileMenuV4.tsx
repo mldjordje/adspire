@@ -115,6 +115,21 @@ export function MobileMenuV4({
                   ))}
                 </div>
 
+                {/* A door, not a page: a buyer with hours or an open upit
+                    should not have to read the whole menu to find the way in. */}
+                <a
+                  className={styles.account}
+                  href={href(menu.account.href)}
+                  data-cta="menu-nalog"
+                  onClick={close}
+                >
+                  <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+                    <circle cx="8" cy="5" r="2.6" fill="none" stroke="currentColor" strokeWidth="1.4" />
+                    <path d="M2.8 13.4c0-2.6 2.3-4.2 5.2-4.2s5.2 1.6 5.2 4.2" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+                  </svg>
+                  {menu.account.label} — sati, termini i upiti
+                </a>
+
                 <div className={styles.groups}>
                   {groups.map((group) => (
                     <nav key={group.title} className={styles.group} aria-label={group.title}>

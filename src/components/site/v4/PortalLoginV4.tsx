@@ -66,7 +66,13 @@ export function PortalLoginV4({ next, google }: { next?: string; google?: boolea
               required
               value={email}
               onChange={(event) => setEmail(event.target.value)}
-              placeholder={next === "/nalog/edukacija" ? "adresa na koju su dodati sati" : "adresa sa koje si slao upit"}
+              placeholder={
+                next?.startsWith("/edukacija/porudzbina")
+                  ? "email na koji ide potvrda porudžbine"
+                  : next === "/nalog/edukacija"
+                    ? "adresa na koju su dodati sati"
+                    : "adresa sa koje si slao upit"
+              }
             />
             <em className={styles.hint}>
               Šaljemo link za prijavu — bez lozinke. Nalog nije obavezan: svaki upit ima i svoj

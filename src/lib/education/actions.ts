@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import { getSession } from "@/lib/os/session";
+import { cancelOrder, markOrderPaid } from "./orders";
 import { cleanUrl, isEduKind } from "./format";
 import { isDate, weekday, monthCells } from "./slots";
 import {
@@ -125,4 +126,17 @@ export async function saveAvailabilityAction(formData: FormData) {
           ? "Dan zatvoren."
           : "Sačuvano.",
   });
+}
+
+/** A site order is paid: credit its hours and tell the buyer. */
+export async function markOrderPaidAction(formData: FormData) {
+  const session = await requireSession();
+  const result = await markOrderPaid(text(formData, "id"), session.email);
+  back(formData, result.ok ? { poruka: result.message } : { greska: result.message });
+}
+
+export async function cancelOrderAction(formData: FormData) {
+  await requireSession();
+  const ok = await cancelOrder(text(formData, "id"));
+  back(formData, ok ? { poruka: "Porudžbina otkazana." } : { greska: "Porudžbina je već zatvorena." });
 }

@@ -9,6 +9,8 @@
 
 export const EDUCATION_SERVICE_SLUG = "edukacija";
 
+/** The buy path. The brief stays only for a team plan that needs a talk first. */
+const orderHref = "/edukacija/porudzbina";
 const inquiryHref = `/upit/brzo?usluga=${EDUCATION_SERVICE_SLUG}`;
 
 export const educationSeo = {
@@ -32,7 +34,7 @@ export const educationHero = {
   title: "Nauči AI na svom poslu",
   lead:
     "Ne kurs sa snimcima koje nikad ne pogledaš. Uživo, jedan na jedan, na tvojim zadacima — od ChatGPT-a i Claude-a do automatizacija i sajta koji praviš sam uz AI. Kupuješ sate, termine biraš sam.",
-  primary: { label: "Zakaži uvodni razgovor", href: inquiryHref },
+  primary: { label: "Izaberi paket i počni", href: orderHref },
   secondary: { label: "Pogledaj program", href: "#program" },
   account: { label: "Već imaš sate? Uđi na nalog", href: "/nalog/edukacija" },
   facts: [
@@ -125,21 +127,23 @@ export const educationPricing = {
   eyebrow: "Cene",
   title: "Dva paketa, bez skrivenih stavki",
   lead:
-    "Kupuješ sate unapred i trošiš ih kad tebi odgovara. Uvodni razgovor pre kupovine je besplatan — tek kad se dogovorimo oko plana, sati idu na tvoj nalog.",
+    "Kupuješ sate unapred i trošiš ih kad tebi odgovara. Poručuješ ovde, prijavljuješ se Google nalogom, a čim uplata legne sati stoje na tvom nalogu.",
   includes: [
     "Plan napravljen od tvojih zadataka",
     "Termini uživo preko Google Meet-a",
     "Sati ne ističu dok ih ne potrošiš",
     "Otkazivanje do 24h pre — sati se vraćaju",
   ],
-  cta: "Izaberi paket",
+  cta: "Poruči paket",
+  /** The one case still worth a conversation before money moves. */
+  team: { label: "Treba ti plan za tim ili nešto van ova dva paketa? Piši mi.", href: inquiryHref },
 };
 
 export const educationAccount = {
   eyebrow: "Kako se zakazuje",
   title: "Sati na stanju, termini kad tebi odgovara",
   lead:
-    "Posle dogovora dobijaš nalog bez lozinke — prijava je link na mejl. Tu vidiš koliko sati imaš, biraš slobodan termin i dobijaš link za sastanak.",
+    "Nalog otvaraš Google prijavom, bez lozinke i bez registracije. Tu vidiš koliko sati imaš, biraš slobodan termin i dobijaš link za sastanak.",
   points: [
     "Biraš dan, trajanje i početak — vidiš samo slobodne termine",
     "Potvrda stiže na mejl, sa terminom spremnim za tvoj kalendar",
@@ -155,18 +159,18 @@ export const educationProcess = {
   steps: [
     {
       when: "Korak 1",
-      title: "Kratak upit",
-      body: "Pet polja: ko si, čime se baviš i šta bi AI trebalo da ti olakša. Bez naloga i bez obaveze.",
+      title: "Izaberi paket",
+      body: "8 ili 18 sati. Poručuješ na sajtu — potvrda porudžbine nije uplata.",
     },
     {
       when: "Korak 2",
-      title: "Razgovor i plan",
-      body: "Javljam se lično, dogovaramo teme i biraš paket od 8 ili 18 sati.",
+      title: "Prijava Google nalogom",
+      body: "Jedan klik, bez lozinke. Tu se otvara tvoj nalog sa stanjem sati i kalendarom.",
     },
     {
       when: "Korak 3",
-      title: "Sati na nalogu",
-      body: "Posle uplate sati se pojave na tvom nalogu, a na mejl stiže link za prijavu.",
+      title: "Uplata i sati",
+      body: "Javljam se lično sa predračunom i dogovorom o temama. Čim uplata legne, sati stoje na nalogu.",
     },
     {
       when: "Korak 4",
@@ -188,15 +192,15 @@ export const educationTeacher = {
 
 export const educationFaq = {
   eyebrow: "Pitanja",
-  title: "Pre nego što pošalješ upit",
+  title: "Pre nego što poručiš",
   items: [
     {
       q: "Da li mi treba predznanje?",
       a: "Ne. Ako koristiš računar i internet, to je dovoljno. Tempo i nivo se prilagođavaju tebi, a za programiranje ne moraš znati nijednu liniju koda unapred.",
     },
     {
-      q: "Koliko košta?",
-      a: "Paket od 8 sati je 500 €, paket od 18 sati je 1.000 €. Sati se kupuju u paketu i troše onako kako tebi odgovara — po 1 do 4 sata po terminu.",
+      q: "Koliko košta i kako se plaća?",
+      a: "Paket od 8 sati je 500 €, paket od 18 sati je 1.000 €. Paket poručuješ na sajtu, a plaćanje ide po predračunu — nema kartice na sajtu. Sati se troše onako kako tebi odgovara, po 1 do 4 sata po terminu.",
     },
     {
       q: "Kako izgleda jedan termin?",
@@ -220,8 +224,8 @@ export const educationFaq = {
 export const educationFinalCta = {
   eyebrow: "Prvi korak",
   title: "Reci šta radiš. Plan pravimo zajedno.",
-  body: "Pet polja, bez obaveze. Javljam se lično, obično isti radni dan.",
-  primary: { label: "Zakaži uvodni razgovor", href: inquiryHref },
+  body: "Izaberi paket, uloguj se Google nalogom i termine biraš sam. Javljam se lično, obično isti radni dan.",
+  primary: { label: "Poruči paket", href: orderHref },
   secondary: { label: "Uđi na nalog", href: "/nalog/edukacija" },
 };
 

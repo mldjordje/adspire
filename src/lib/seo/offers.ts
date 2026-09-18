@@ -114,7 +114,9 @@ export function coursePackageOffers(packages: readonly CoursePackage[], pageUrl:
     priceCurrency: "EUR",
     availability: "https://schema.org/InStock",
     seller: orgRef(),
-    url: `${pageUrl}#paketi`,
+    // The page an assistant should hand over: the order step for that exact
+    // package. `#paketi` pointed at a section id that does not exist.
+    url: absoluteUrl(`/edukacija/porudzbina?paket=${pkg.id}`),
     priceSpecification: {
       "@type": "UnitPriceSpecification",
       price: pkg.priceEur,

@@ -2,8 +2,10 @@ import Link from "next/link";
 
 import {
   cancelBookingAction,
+  cancelOrderAction,
   grantHoursAction,
   markHeldAction,
+  markOrderPaidAction,
   setBookingLinkAction,
 } from "@/lib/education/actions";
 import {
@@ -14,6 +16,8 @@ import {
   LEDGER_REASON_LABEL,
 } from "@/lib/education/format";
 import { endSlot } from "@/lib/education/slots";
+import { listStudioOrders } from "@/lib/education/orders";
+import { formatEur } from "@/lib/education/packages";
 import {
   listInvoiceOptions,
   listLedger,
@@ -58,6 +62,9 @@ export default async function EdukacijaOsPage({ searchParams }: Props) {
     listParticipants(),
     listLedger(30),
     listInvoiceOptions(),
+    // Orders arrived in migration 014 — an older database must not take the
+    // whole page down with them.
+    listStudioOrders().catch(() => []),
   ]).catch((error) => {
     console.error("edu_os_failed", { error });
     return null;
@@ -75,7 +82,8 @@ export default async function EdukacijaOsPage({ searchParams }: Props) {
     );
   }
 
-  const [bookings, participants, ledger, invoices] = data;
+  const [bookings, participants, ledger, invoices, orders] = data;
+  const pendingOrders = orders.filter((o) => o.status === "nova");
   const upcomingCount = filter === "upcoming" ? bookings.length : null;
   const hoursOnWallets = participants.reduce((sum, p) => sum + p.education + p.consulting, 0);
 
@@ -92,6 +100,12 @@ export default async function EdukacijaOsPage({ searchParams }: Props) {
       {params.greska ? <p className="os-alert">{params.greska}</p> : null}
 
       <div className="os-cards">
+        {pendingOrders.length > 0 ? (
+          <div className="os-card">
+            <span className="os-card__label">Porudžbina čeka uplatu</span>
+            <span className="os-card__value">{pendingOrders.length}</span>
+          </div>
+        ) : null}
         {upcomingCount !== null ? (
           <div className="os-card">
             <span className="os-card__label">Predstoji termina</span>
@@ -107,6 +121,102 @@ export default async function EdukacijaOsPage({ searchParams }: Props) {
           <span className="os-card__value">{formatHours(hoursOnWallets)}</span>
         </div>
       </div>
+
+
+      <section className="os-section">
+        <h2>Porudžbine sa sajta</h2>
+        <p>
+          Klijent bira paket na <code>/edukacija/porudzbina</code> i prijavljuje se Google nalogom.
+          Porudžbina NIJE uplata — „Plaćeno" dodaje sate na nalog i šalje mejl klijentu.
+        </p>
+        {orders.length === 0 ? (
+          <p className="os-empty">Još nema porudžbina sa sajta.</p>
+        ) : (
+          <div className="os-tablewrap">
+            <table className="os-table">
+              <thead>
+                <tr>
+                  <th>Kada</th>
+                  <th>Klijent</th>
+                  <th>Paket</th>
+                  <th>Status</th>
+                  <th>Akcije</th>
+                </tr>
+              </thead>
+              <tbody>
+                {orders.map((o) => (
+                  <tr key={o.id}>
+                    <td>{o.createdAt}</td>
+                    <td>
+                      {o.fullName ?? "—"}
+                      <br />
+                      <a href={`mailto:${o.email}`}>{o.email}</a>
+                      {o.phone ? (
+                        <>
+                          <br />
+                          {o.phone}
+                        </>
+                      ) : null}
+                      {o.goal ? (
+                        <>
+                          <br />
+                          <em>{o.goal}</em>
+                        </>
+                      ) : null}
+                    </td>
+                    <td>
+                      {o.packageId}
+                      <br />
+                      {formatHours(o.hours)} · {formatEur(o.priceEur)}
+                    </td>
+                    <td>
+                      <span
+                        className={
+                          o.status === "placena"
+                            ? "os-badge os-badge--won"
+                            : o.status === "otkazana"
+                              ? "os-badge os-badge--lost"
+                              : "os-badge"
+                        }
+                      >
+                        {o.status === "placena" ? "plaćena" : o.status}
+                      </span>
+                      {o.paidAt ? (
+                        <>
+                          <br />
+                          <small>{o.paidAt}</small>
+                        </>
+                      ) : null}
+                    </td>
+                    <td>
+                      {o.status === "nova" ? (
+                        <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+                          <form action={markOrderPaidAction}>
+                            <input type="hidden" name="id" value={o.id} />
+                            <input type="hidden" name="back" value={back} />
+                            <button className="os-btn os-btn--sm" type="submit">
+                              Plaćeno → dodaj sate
+                            </button>
+                          </form>
+                          <form action={cancelOrderAction}>
+                            <input type="hidden" name="id" value={o.id} />
+                            <input type="hidden" name="back" value={back} />
+                            <button className="os-btn os-btn--sm os-btn--ghost" type="submit">
+                              Otkaži
+                            </button>
+                          </form>
+                        </div>
+                      ) : (
+                        "—"
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </section>
 
       <section className="os-section">
         <h2>Termini</h2>

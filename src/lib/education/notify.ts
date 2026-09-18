@@ -260,3 +260,56 @@ export async function notifyOwnerAgenda(
     ),
   );
 }
+
+/**
+ * A package was ordered from the site.
+ *
+ * Two mails, because there is no payment gateway: the buyer needs to know what
+ * happens next (an invoice arrives, hours follow the payment), and the owner
+ * needs the order while it is still warm.
+ */
+export async function notifyOrderPlaced(
+  person: Person,
+  order: {
+    packageLabel: string;
+    hours: number;
+    priceEur: number;
+    goal: string | null;
+    phone: string | null;
+  },
+): Promise<void> {
+  const price = `${order.priceEur.toLocaleString("sr-RS")} €`;
+
+  await send(
+    person.email,
+    `Porudžbina primljena — paket ${order.packageLabel} (${formatHours(order.hours)})`,
+    lines(
+      greeting(person),
+      "",
+      `Primljena je porudžbina: paket ${order.packageLabel}, ${formatHours(order.hours)}, ${price}.`,
+      "",
+      "Šta sledi:",
+      "1. Javljam se lično, obično isti radni dan, sa predračunom i kratkim dogovorom o temama.",
+      "2. Posle uplate sati se pojave na tvom nalogu.",
+      "3. Termine biraš sam u kalendaru — 1 do 4 sata po terminu.",
+      "",
+      `Nalog ti je već otvoren: ${accountUrl()}`,
+      "",
+      SIGNATURE,
+    ),
+  );
+
+  await send(
+    leadNotificationRecipient(),
+    `NOVA PORUDŽBINA edukacije: ${person.fullName ?? person.email} — ${order.packageLabel}, ${price}`,
+    lines(
+      `Paket: ${order.packageLabel} · ${formatHours(order.hours)} · ${price}`,
+      `Klijent: ${person.fullName ?? "—"} (${person.email})`,
+      order.phone ? `Telefon: ${order.phone}` : null,
+      order.goal ? `Cilj: ${order.goal}` : null,
+      "",
+      "Sati se dodaju klikom na „Plaćeno → dodaj sate\" u:",
+      osUrl(),
+    ),
+  );
+}

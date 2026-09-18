@@ -82,6 +82,8 @@ type PageShellProps = {
   customHero?: React.ReactNode;
   languagePath?: string;
   navCtaHref?: string;
+  /** Overrides the header button label — a page whose next step is not an upit. */
+  navCtaLabel?: string;
   children: React.ReactNode;
 };
 
@@ -96,6 +98,7 @@ export function PageShellV4({
   customHero,
   languagePath,
   navCtaHref,
+  navCtaLabel,
   children,
 }: PageShellProps) {
   const copy = copyOverride ?? getShellCopy(locale);
@@ -238,7 +241,7 @@ export function PageShellV4({
             data-cursor="on"
             data-magnetic
           >
-            {copy.navCta}
+            {navCtaLabel ?? copy.navCta}
             <span className={styles.navClock}> · {copy.clockCity} {clock}</span>
           </a>
           <MobileMenuV4 breakpoint="md" locale={locale} hrefFor={copyOverride ? href : undefined} />

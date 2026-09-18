@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import styles from "./EducationV4.module.css";
-import { EDU_PACKAGES, formatEur, PACKAGE_INQUIRY_HREF, pricePerHour } from "@/lib/education/packages";
+import { EDU_PACKAGES, formatEur, packageOrderHref, pricePerHour } from "@/lib/education/packages";
 
 /** Hour packages inside the account — for a buyer with no hours or running low. */
 export function EduPackagesV4({ title, intro }: { title: string; intro: string }) {
@@ -25,11 +25,11 @@ export function EduPackagesV4({ title, intro }: { title: string; intro: string }
             <p className={styles.muted}>{pkg.note}</p>
             <Link
               className={styles.packageCta}
-              href={PACKAGE_INQUIRY_HREF}
+              href={packageOrderHref(pkg)}
               data-cta={`nalog-paket-${pkg.id}`}
               data-cursor="on"
             >
-              Izaberi paket →
+              Poruči paket →
             </Link>
           </div>
         ))}

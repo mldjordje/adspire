@@ -16,6 +16,8 @@ module.exports = {
     "/upit/status/*",
     "/nalog",
     "/nalog/*",
+    // The order step needs a signed-in buyer; /edukacija is the indexable page.
+    "/edukacija/porudzbina",
     // Background concept lab: dev-only route, 404s in production anyway.
     "/dev",
     "/dev/*",

@@ -24,7 +24,7 @@ import {
 import {
   EDU_PACKAGES,
   formatEur,
-  PACKAGE_INQUIRY_HREF,
+  packageOrderHref,
   pricePerHour,
 } from "@/lib/education/packages";
 
@@ -129,6 +129,9 @@ export function EducationLandingV4() {
       title={educationHero.title}
       intro={educationHero.lead}
       background={<AuroraV4 />}
+      // On this page the next step is the package, not the generic brief.
+      navCtaHref={educationHero.primary.href}
+      navCtaLabel="Poruči paket"
       heroExtra={
         <div className={styles.heroExtra}>
           <div className={styles.actions}>
@@ -223,7 +226,7 @@ export function EducationLandingV4() {
                 <p className={styles.cardBody}>{pkg.note}</p>
                 <Link
                   className={pkg.featured ? styles.btnPrimary : styles.btnGhost}
-                  href={PACKAGE_INQUIRY_HREF}
+                  href={packageOrderHref(pkg)}
                   data-cta={`edukacija-paket-${pkg.id}`}
                 >
                   {educationPricing.cta}
@@ -236,6 +239,11 @@ export function EducationLandingV4() {
               <li key={item}>{item}</li>
             ))}
           </ul>
+          <p className={styles.lead}>
+            <a className={styles.inlineLink} href={educationPricing.team.href} data-cta="edukacija-tim">
+              {educationPricing.team.label}
+            </a>
+          </p>
         </section>
 
         {/* ─── Account / booking ─── */}

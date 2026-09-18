@@ -55,6 +55,7 @@ const sr: ShellCopy = {
     { href: "/upit/brzo", label: "Brzi upit" },
     { href: "/upit", label: "Pun brief" },
     { href: "/contact-us", label: "Kontakt" },
+    { href: "/nalog", label: "Moj nalog" },
     { href: "/politika-privatnosti", label: "Privatnost" },
     { href: "/politika-kolacica", label: "Kolačići" },
     { href: "/uslovi-koriscenja", label: "Uslovi" },
@@ -108,9 +109,25 @@ const de: ShellCopy = {
 
 const byLocale: Record<LocaleCode, ShellCopy> = { sr, en, de };
 
-/** Legal documents and the full brief currently exist only in Serbian. */
+/**
+ * Legal documents, the full brief and the client account exist only in Serbian.
+ *
+ * A prefixed copy of these is a 404, so they keep their bare path in every
+ * locale — the account especially: /en/nalog would send a signed-in buyer to a
+ * missing page.
+ */
+const UNPREFIXED = [
+  "/upit",
+  "/nalog",
+  "/edukacija",
+  "/edukacija/porudzbina",
+  "/politika-privatnosti",
+  "/politika-kolacica",
+  "/uslovi-koriscenja",
+];
+
 export function shellPath(path: string, locale: LocaleCode) {
-  if (["/upit", "/politika-privatnosti", "/politika-kolacica", "/uslovi-koriscenja"].includes(path)) return path;
+  if (UNPREFIXED.includes(path)) return path;
   return localePath(path, locale);
 }
 

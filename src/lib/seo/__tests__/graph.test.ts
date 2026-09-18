@@ -231,6 +231,11 @@ describe("JSON-LD graph", () => {
     const offers = coursePackageOffers(EDU_PACKAGES, "https://adspire.rs/edukacija");
     expect(offers.map((offer) => offer.price)).toEqual([500, 1000]);
     expect(offers.every((offer) => offer.priceCurrency === "EUR")).toBe(true);
+    // Each offer must hand over the page where that package is actually bought.
+    expect(offers.map((offer) => offer.url)).toEqual([
+      "https://adspire.rs/edukacija/porudzbina?paket=8h",
+      "https://adspire.rs/edukacija/porudzbina?paket=18h",
+    ]);
   });
 
   it("converts authored dd.mm.yyyy dates to ISO", () => {
