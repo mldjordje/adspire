@@ -11,6 +11,88 @@ import type { BlogPost } from "./blogPosts";
  */
 export const EXTRA_BLOG_POSTS: BlogPost[] = [
   {
+    slug: "izrada-sajta-iz-srbije-za-firmu-u-inostranstvu",
+    title: "Firma vam je u Nemačkoj, a ponuda za sajt vam se čini previsoka — kako da proverite",
+    excerpt:
+      "Kako da uporedite ponudu za sajt kad vam je firma u EU: račun u satima umesto u evrima, šest pitanja koja otkrivaju preplaćivanje, i šta se stvarno menja ako izvođač radi iz Srbije.",
+    category: "Cene i izbor izvođača",
+    date: "19.09.2026",
+    readTime: "9 min",
+    image: "/images/blog/ten.png",
+    relatedSlugs: ["zasto-sajt-ne-izlazi-na-google", "ecommerce-koji-prodaje"],
+    body: [
+      { type: "p", text: "Vodite firmu u Nemačkoj, Austriji, Švajcarskoj ili Švedskoj. Treba vam sajt, web shop ili neki program koji će da vam skine posao sa vrata. Tražili ste ponudu i dobili broj od koga vam se diglo obrva — a nemate sa čim da ga uporedite, jer je ovo prvi put da kupujete nešto ovakvo." },
+      { type: "p", text: "Ovaj tekst nije o tome da je neko skup. Ne znamo šta vam je ko ponudio i nećemo da se pravimo da znamo. Tekst je o tome kako da sami proverite da li je broj koji držite u ruci razuman — i šta se konkretno menja ako posao radi neko iz Srbije." },
+
+      { type: "h2", text: "Prestanite da poredite evre. Poredite sate." },
+      { type: "p", text: "Cena izrade sajta je skoro uvek broj sati puta satnica, plus marža. Problem je što vam u ponudi najčešće piše samo krajnji iznos, pa nemate šta da uporedite osim jednog broja sa drugim brojem." },
+      { type: "p", text: "Pitajte izvođača dve stvari: koliko sati je procenio i kolika mu je satnica. Ako neće da odgovori ni na jedno, to je već informacija. Ako odgovori, imate račun koji možete da uradite u glavi." },
+      { type: "p", text: "Evo koliko posao realno traje, iz iskustva na projektima koji su u produkciji:" },
+      { type: "ul", items: [
+        "Prezentacioni sajt za firmu, 5–10 strana, sa CMS-om i kontakt formom: 40–90 sati.",
+        "Web shop sa katalogom, korpom, plaćanjem i adminom za porudžbine: 90–200 sati.",
+        "Sistem za zakazivanje ili evidenciju sa korisničkim nalozima: 80–170 sati.",
+        "Poslovna aplikacija po meri koja zamenjuje tabele: 120–350 sati.",
+      ]},
+      { type: "p", text: "Uzmite iznos iz svoje ponude i podelite ga brojem sati iz tabele. Dobili ste satnicu koju plaćate. Sad znate da li pričate o 40 €, 90 € ili 200 € po satu — i tek to je broj koji ima smisla porediti sa bilo čim." },
+      { type: "callout", text: "Ako je procena sati dva do tri puta veća od raspona gore, to ne mora da znači da vas neko vara. Može da znači da su u obim ušle stvari koje niste tražili. Pitajte da vidite razradu po stavkama." },
+
+      { type: "h2", text: "Šest pitanja koja otkrivaju gde odlazi novac" },
+      { type: "p", text: "Ponude izgledaju slično dok ih ne rastavite. Ovih šest pitanja postavite svakom izvođaču, i kod kuće i u inostranstvu:" },
+      { type: "h3", text: "1. Koliko ljudi radi na mom projektu i šta svako radi?" },
+      { type: "p", text: "U agenciji se na jedan sajt često naplaćuju project manager, account manager, dizajner i programer. Nekad je to opravdano — veliki projekat traži koordinaciju. Za sajt male firme sa deset strana, najčešće nije: plaćate ljude koji prepričavaju posao jedni drugima." },
+      { type: "h3", text: "2. Da li se discovery faza naplaćuje odvojeno?" },
+      { type: "p", text: "Radionice, brend audit i strateški dokument od četrdeset strana su stavke koje se naplate pre nego što postoji ijedna linija koda. Ponekad vredi. Često su to sati naplaćeni za razgovor koji je mogao da bude poziv od sat vremena." },
+      { type: "h3", text: "3. Šta se tačno pravi — tema ili sistem?" },
+      { type: "p", text: "Ovo je najvažnije pitanje u celom izboru, i nema veze sa zemljom izvođača. Gotova tema sa izmenjenim tekstom i sajt pisan za vaš slučaj izgledaju isto na dan isporuke. Razlika se vidi prvi put kada zatreba izmena koju tema ne podržava, ili integracija sa nečim što već koristite." },
+      { type: "h3", text: "4. Ko drži domen i hosting nalog?" },
+      { type: "p", text: "Ako odgovor nije „vi“, tražite da bude vi. Izvođač koji drži vaš domen je rizik bez obzira koliko je dobar — a i najčešći razlog zbog koga ljudi ostaju zaglavljeni kod izvođača kojim nisu zadovoljni." },
+      { type: "h3", text: "5. Koliki je mesečni trošak posle lansiranja?" },
+      { type: "p", text: "Hosting, licence, dodaci, održavanje. Niska početna cena sa visokom mesečnom pretplatom je skuplja od obrnutog već posle godinu i po. Tražite da vam se napiše ukupan trošak za tri godine, ne samo cena izrade." },
+      { type: "h3", text: "6. Šta se dešava ako hoću da pređem kod nekog drugog?" },
+      { type: "p", text: "Odgovor treba da bude: dobijete pristup svemu i to je to. Ako je odgovor komplikovan, to je zato što je sistem napravljen tako da vas drži." },
+
+      { type: "divider" },
+
+      { type: "h2", text: "Šta se stvarno menja kada izvođač radi iz Srbije" },
+      { type: "p", text: "Da budemo direktni: pišemo ovo iz Niša, pa imamo interes. Zato ide i šta jeste i šta nije prednost, da možete sami da procenite." },
+      { type: "h3", text: "Jeftinije je, i razlog je dosadan" },
+      { type: "p", text: "Kancelarija, plate i doprinosi u Srbiji nisu kao u Minhenu ili Cirihu. Isti sati rada se drugačije plaćaju. To je cela stvar — nema skrivenog trika, ne preskaču se koraci, testiranje i predaja su isti posao." },
+      { type: "h3", text: "Jezik je veća prednost od cene" },
+      { type: "p", text: "Ako vam je maternji naš jezik, objasniti šta tačno hoćete je brže i preciznije nego boriti se sa tehničkim rečnikom na stranom jeziku. Najskuplje greške u ovakvim projektima ne nastaju od lošeg koda — nastaju od toga što je neko pogrešno razumeo šta treba da se napravi." },
+      { type: "h3", text: "Vremenska zona je ista" },
+      { type: "p", text: "Srbija je nula do jedan sat razlike od Nemačke, Austrije, Švajcarske i Švedske. Poruka poslata ujutru dobija odgovor tog jutra. Sa izvođačem u Aziji to nije slučaj i razlika se oseti svakog dana projekta, ne samo kad nešto zapne." },
+      { type: "h3", text: "Papirologija nije prepreka, ali mora da se zna unapred" },
+      { type: "p", text: "Faktura iz Srbije za firmu u EU ide u evrima i bez PDV-a; obavezu obračuna preuzimate vi u svojoj zemlji, po postupku koji vaš knjigovođa zna kao reverse charge. Treba samo poreski broj vaše firme na fakturi. Kako se to knjiži kod vas potvrđuje vaš knjigovođa — to nije nešto što bi izvođač softvera trebalo da vam tumači." },
+      { type: "h3", text: "Šta nije jeftinije" },
+      { type: "ul", items: [
+        "Vreme. Manji tim nije brži tim; veći posao traje koliko traje.",
+        "Obim. Pet jezika i integracija sa vašim ERP-om su isti posao svuda.",
+        "Sastanci uživo. Radi se udaljeno; dolazak je posebna stavka i retko se isplati.",
+        "Pravni i poreski saveti. To nije deo posla i niko ozbiljan neće se praviti da jeste.",
+      ]},
+
+      { type: "h2", text: "Znaci da je ponuda previsoka za ono što dobijate" },
+      { type: "ul", items: [
+        "Nema razrade po stavkama, samo jedan iznos na dnu.",
+        "Ne dobijete broj sati ni kad ga tražite.",
+        "U ponudi su faze koje ne proizvode ništa što ostaje kod vas.",
+        "Mesečna pretplata raste sa prometom, a nije platni procesor.",
+        "Domen i hosting glase na izvođača „radi lakšeg održavanja“.",
+        "Ne možete da dobijete link na živi sistem koji je isti tim napravio.",
+      ]},
+      { type: "callout", text: "Poslednja stavka je test koji prolazi ili pada svaka ponuda. Tražite adresu sistema koji radi, otvorite ga na telefonu i probajte ga. Prezentacija u PDF-u ne dokazuje ništa." },
+
+      { type: "h2", text: "I znaci da je ponuda preniska" },
+      { type: "p", text: "Jeftino ume da bude skupo. Ponuda ispod tri stotine evra za sajt firme po pravilu znači gotova tema sa zamenjenim tekstom i fotografijama sa stoka. To je legitiman izbor ako vam treba vizit-karta na internetu i ništa više — ali nije isti proizvod i ne treba da se poredi kao da jeste." },
+      { type: "p", text: "Drugi znak je ponuda bez ijednog pitanja o vašem poslu. Ko nije pitao šta prodajete, kome i kako danas primate upite, taj nije ni procenjivao vaš posao — poslao vam je cenovnik." },
+
+      { type: "h2", text: "Kako da krenete, bez obzira koga izaberete" },
+      { type: "p", text: "Napišite u tri rečenice šta radi vaša firma, ko su vam kupci i šta hoćete da se promeni kad sajt bude gotov. Pošaljite to na tri adrese i uporedite ne cene, nego pitanja koja vam vrate. Izvođač koji postavi bolja pitanja skoro uvek isporuči bolji posao — i to je jedini signal koji se vidi pre nego što potpišete." },
+      { type: "p", text: "Ako hoćete da vidite kako to izgleda kod nas: rasponi cena su javni, sistemi koji rade mogu da se otvore i probaju, a odgovor na upit stiže lično, obično isti radni dan." },
+    ],
+  },
+  {
     slug: "zasto-sajt-ne-izlazi-na-google",
     title: "Zašto sajt ne izlazi na Google — devet stvarnih razloga",
     excerpt:

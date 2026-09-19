@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { PageShellV4 } from "./PageShellV4";
 import { StickyCtaV4 } from "./StickyCtaV4";
+import { AuroraV4 } from "./AuroraV4";
 import type { Guide } from "@/content/site/guides";
 import { guides } from "@/content/site/guides";
 import styles from "./GuideV4.module.css";
@@ -26,7 +27,12 @@ export function GuideV4({ guide }: Props) {
   const others = guides.filter((g) => g.path !== guide.path).slice(0, 3);
 
   return (
-    <PageShellV4 eyebrow={guide.eyebrow} title={guide.h1} intro={guide.lead}>
+    <PageShellV4
+      eyebrow={guide.eyebrow}
+      title={guide.h1}
+      intro={guide.lead}
+      background={guide.background === "aurora" ? <AuroraV4 /> : undefined}
+    >
       <StickyCtaV4
         ctaLabel={guide.cta.label}
         ctaHref={guide.cta.href}

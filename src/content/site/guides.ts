@@ -1,4 +1,4 @@
-import { migrationGuide, timelineGuide } from "./guidesExtra";
+import { cooperationGuide, migrationGuide, timelineGuide } from "./guidesExtra";
 
 /**
  * Problem-intent landing pages.
@@ -50,6 +50,12 @@ export type Guide = {
   faq: { q: string; a: string }[];
   cta: { label: string; href: string };
   secondaryCta: { label: string; href: string };
+  /**
+   * Opt-in shader background. Guides default to the shell's silk; the ones
+   * that are sales pages as much as they are answers carry the aurora the
+   * other money pages use.
+   */
+  background?: "aurora";
 };
 
 const bookingGuide: Guide = {
@@ -711,6 +717,7 @@ const webShopGuide: Guide = {
 };
 
 export const guides = [
+  cooperationGuide,
   bookingGuide,
   timelineGuide,
   migrationGuide,
@@ -729,3 +736,4 @@ export const howToChooseAgencyGuide = chooseAgencyGuide;
 export const internalSoftwareGuide = beyondExcelGuide;
 export const aiChatbotGuide = chatbotGuide;
 export const webShopHowToGuide = webShopGuide;
+export const workingFromSerbiaGuide = cooperationGuide;

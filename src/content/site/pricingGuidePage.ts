@@ -136,6 +136,10 @@ export const pricingGuidePage = {
   relatedHeading: "Ako još biraš šta ti treba",
   related: [
     {
+      label: "Firma vam je u inostranstvu? Iste cene, faktura u evrima",
+      href: "/za-nase-ljude-u-dijaspori",
+    },
+    {
       label: "WordPress ili custom sajt — kada se koji isplati",
       href: "/wordpress-ili-custom-sajt",
     },

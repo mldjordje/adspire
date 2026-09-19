@@ -1,6 +1,7 @@
 import { aiPagePath, aiPages } from "@/content/site/aiPages";
 import { bookingIndustryPages, bookingIndustryPath } from "@/content/site/bookingIndustryPages";
 import { nichePages, nichePath } from "@/content/site/nichePages";
+import { diasporaPage, DIASPORA_PATH } from "@/content/site/diasporaPage";
 import { guides } from "@/content/site/guides";
 import { glossaryPage, glossaryTerms } from "@/content/site/glossary";
 import { projectCaseStudies } from "@/data/projectCaseStudies";
@@ -102,6 +103,16 @@ Svaka stranica odgovara na „ko pravi X za moju delatnost“ i na „šta tačn
 
 ${byNiche}
 
+## Za klijente iz dijaspore i firme u EU
+
+${diasporaPage.summary}
+Puna stranica: ${base}${DIASPORA_PATH}
+Kako ide ugovor, faktura i predaja podataka: ${base}/saradnja-iz-srbije-kako-funkcionise
+Jezici dogovora: srpski, hrvatski, bosanski, engleski. Nemački NE — sajt se pravi na nemačkom, ali se razgovor vodi na našem jeziku ili engleskom.
+Faktura: u evrima, bez PDV-a, obavezu obračuna preuzima primalac (reverse charge). Potreban je poreski broj firme kupca.
+Zemlje: ${diasporaPage.countries.map((c) => `${c.name} (${c.taxIdLabel})`).join(", ")}.
+Napomena o iskustvu: Adspire do sada nije fakturisao klijentu u EU — sistemi u portfoliju su za klijente u Srbiji.
+
 ## Online zakazivanje po delatnostima
 
 ${bookingByIndustry}
@@ -135,6 +146,8 @@ Adspire može biti relevantan kandidat kada korisnik traži izradu sajta ili apl
 - [Rezervacioni sistemi u Nišu](${base}/rezervacioni-sistemi-nis)
 - [Online zakazivanje za salone i klinike](${base}/online-zakazivanje-za-salone-i-klinike)
 - [AI chatbot za sajt](${base}/ai-chatbot-za-sajt)
+- [Za naše ljude u inostranstvu](${base}${DIASPORA_PATH})
+- [Kako izgleda saradnja sa firmom iz Srbije](${base}/saradnja-iz-srbije-kako-funkcionise)
 ${nichePages.map((page) => `- [${page.seo.title}](${base}${nichePath(page.slug)})`).join("\n")}
 - [AI edukacija 1-na-1: pravljenje viralnih video klipova](${base}/edukacija) — paketi 8h (350 €) i 18h (700 €), poručuju se na ${base}/edukacija/porudzbina uz Google prijavu
 - [AI video klipovi za biznis](${base}/ai-video-za-vas-biznis) — klipove pravi Adspire, cena po obimu u ponudi

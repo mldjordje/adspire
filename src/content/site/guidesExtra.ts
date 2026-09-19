@@ -218,3 +218,137 @@ export const migrationGuide: Guide = {
   cta: { label: "Traži besplatan pregled stanja", href: "/upit" },
   secondaryCta: { label: "Kako izabrati agenciju", href: "/kako-izabrati-web-agenciju" },
 };
+
+/**
+ * The page that removes the actual objection.
+ *
+ * A diaspora buyer does not stall on whether the work can be done from Serbia.
+ * They stall on the paperwork: who signs what, what the invoice looks like,
+ * what their accountant does with it, where the data sits, and what happens if
+ * they want to leave. None of that was answered anywhere on the site, and it is
+ * the most citable kind of page there is - factual, checkable, and written by
+ * nobody else in this market.
+ *
+ * Deliberately not legal or tax advice, and it says so. We describe our own
+ * invoice and our own contract; what the buyer owes in their country is
+ * between them and their accountant.
+ */
+export const cooperationGuide: Guide = {
+  path: "/saradnja-iz-srbije-kako-funkcionise",
+  eyebrow: "Saradnja preko granice",
+  title: "Kako izgleda saradnja sa firmom iz Srbije - ugovor, faktura, podaci",
+  metaDescription:
+    "Ako vam je firma u EU a izvođač u Srbiji: kako ide ugovor, kako izgleda faktura u evrima bez PDV-a, šta radi vaš knjigovođa, gde stoje podaci i ko drži domen i hosting.",
+  h1: "Saradnja sa firmom iz Srbije",
+  lead:
+    "Posao se radi udaljeno svejedno da li je izvođač u Beogradu ili u Berlinu. Ono što se stvarno razlikuje je papirologija — i to je jedino što vredi objasniti unapred.",
+  keywords: [
+    "saradnja sa firmom iz Srbije",
+    "faktura iz Srbije za firmu u EU",
+    "reverse charge usluga iz Srbije",
+    "ugovor sa izvođačem iz inostranstva",
+    "plaćanje firme iz Srbije iz Nemačke",
+    "GDPR podaci izvođač van EU",
+  ],
+  background: "aurora",
+  sections: [
+    {
+      heading: "Šta se zapravo menja kada je izvođač u drugoj zemlji",
+      body: [
+        "Manje nego što ljudi očekuju. Sam posao — dogovor o obimu, dizajn, izrada, testiranje i predaja — radi se preko ekrana i kada su obe strane u istom gradu. Poslednji put kada je izrada sajta zahtevala da neko sedi u istoj prostoriji bilo je pre petnaest godina.",
+        "Menjaju se tri stvari: koji dokument potpisujete, kako izgleda faktura i ko je odgovoran za podatke. Sve tri su rešive unapred i sve tri su opisane niže.",
+      ],
+    },
+    {
+      heading: "Ugovor: jedan dokument, pre početka",
+      body: [
+        "Pre nego što se krene, potpisuje se ugovor u kome stoje obim po fazama, cena po fazi, rok, i šta se dešava ako se predomislite u toku rada. Potpisuje se elektronski; ne morate nigde da putujete.",
+        "U ugovoru stoji i ko je vlasnik onoga što nastane. Kratak odgovor: vi. Kod, dizajn i podaci su vaši od trenutka plaćanja faze u kojoj su nastali.",
+      ],
+      bullets: [
+        "Obim po fazama — šta jeste i šta nije uključeno, napisano, ne podrazumevano.",
+        "Cena i rok po fazi, ne jedan iznos za sve.",
+        "Vlasništvo nad kodom, dizajnom i podacima prelazi na vas.",
+        "Poverljivost — šta smemo da pokažemo kao referencu, a šta ne.",
+        "Izlaz: šta dobijate i u kom roku ako prekinete saradnju.",
+      ],
+    },
+    {
+      heading: "Faktura: u evrima, bez PDV-a",
+      body: [
+        "Cena se ugovara u evrima i faktura glasi na evre, pa nema iznenađenja zbog kursa. Uplata ide bankarskim prenosom na devizni račun u Srbiji, po podacima sa fakture.",
+        "Usluga se fakturiše bez PDV-a. Obavezu obračuna preuzima primalac u svojoj zemlji — postupak koji vaš knjigovođa zna kao reverse charge i koji je kod usluga iz inostranstva rutinska stvar. Da bi faktura bila ispravna, treba nam poreski broj vaše firme: USt-IdNr. u Nemačkoj, UID u Austriji, MWST u Švajcarskoj, momsregistreringsnummer u Švedskoj.",
+        "Ovo je opis naše fakture, ne poreski savet. Šta konkretno vi prijavljujete i kako se to knjiži kod vas potvrđuje vaš knjigovođa — to je pitanje vaših propisa, ne našeg posla.",
+      ],
+      bullets: [
+        "Valuta: evro, ugovorena unapred.",
+        "PDV: nije obračunat; obavezu preuzima primalac usluge.",
+        "Na fakturi stoji vaš poreski broj i broj ugovora.",
+        "Dinamika: avans na početku, ostatak vezan za isporuke.",
+        "Ništa se ne naplaćuje pre nego što je predato.",
+      ],
+    },
+    {
+      heading: "Podaci: gde stoje i ko im pristupa",
+      body: [
+        "Sajt i baza se postavljaju u region koji vi izaberete. Za firmu u EU to po pravilu znači EU region kod provajdera kao što su Vercel ili Neon, tako da podaci ne izlaze iz EU. Ako želite nemački hosting, radi se i to; razlika u ceni je mala i navodi se u ponudi.",
+        "Pristup podacima ima onoliko ljudi koliko posao zahteva, a to je po pravilu jedan. Ako obrađujemo lične podatke vaših kupaca, potpisuje se ugovor o obradi podataka; on definiše šta smemo, koliko dugo i šta se briše na kraju.",
+        "Nalozi kod provajdera mogu da glase na vaše ime od prvog dana. Preporučujemo baš tako — izvođač koji drži vaš domen je rizik nezavisno od toga koliko je dobar.",
+      ],
+      bullets: [
+        "Region hostinga birate vi; EU region je podrazumevan za firme u EU.",
+        "Ugovor o obradi podataka kada se obrađuju podaci vaših kupaca.",
+        "Domen i hosting na vaše ime i vašu karticu, ako tako hoćete.",
+        "Rezervne kopije i izvoz podataka na zahtev, u formatu koji se čita.",
+      ],
+    },
+    {
+      heading: "Jezik i radno vreme",
+      body: [
+        "Dogovor ide na srpskom, bosanskom ili hrvatskom — kako vam je lakše. To je i razlog zašto ovu stranu čitate: objasniti šta vam treba na maternjem jeziku je brže i preciznije nego se boriti sa tehničkim rečnikom na stranom.",
+        "Sam sajt se pravi na jeziku vaših kupaca. Tekstovi na nemačkom, engleskom ili švedskom idu uz lekturu izvornog govornika kada je to deo obima — to se navodi u ponudi, ne podrazumeva.",
+        "Razlika u vremenu između Srbije i Nemačke, Austrije, Švajcarske ili Švedske je nula do jedan sat. Poruka poslata ujutru dobija odgovor tog jutra, a ne sutradan.",
+      ],
+    },
+    {
+      heading: "Šta se dešava posle predaje",
+      body: [
+        "Posle lansiranja imate izbor: da održavate sami, jer su admin i obuka deo isporuke, ili da to radi izvođač po mesečnom dogovoru. Održavanje je zasebna stavka i može da se otkaže — nije uslov da sajt nastavi da radi.",
+        "Ako posle godinu dana pređete kod nekog drugog, predaja je transfer pristupa i ništa više. Nema zaključavanja u sopstvenu platformu i nema koda koji radi samo na našem serveru.",
+      ],
+    },
+  ],
+  faqHeading: "Pitanja pre potpisa",
+  faq: [
+    {
+      q: "Kako plaćam firmu iz Srbije iz Nemačke ili Austrije?",
+      a: "Običnim bankarskim prenosom u evrima, po podacima sa fakture, na devizni račun u Srbiji. Cena je ugovorena u evrima, pa je iznos koji plaćate isti bez obzira na kurs.",
+    },
+    {
+      q: "Da li na fakturi ima PDV?",
+      a: "Ne. Usluga se fakturiše bez PDV-a, a obavezu obračuna preuzimate vi u svojoj zemlji po reverse-charge principu. Na fakturi stoji vaš poreski broj. Kako se to knjiži kod vas potvrdite sa svojim knjigovođom.",
+    },
+    {
+      q: "Da li je izvođač van EU problem za GDPR?",
+      a: "Nije sam po sebi, ali se rešava napismeno: sajt i baza mogu da stoje u EU regionu, a za obradu ličnih podataka vaših kupaca potpisuje se ugovor o obradi. Šta je za vaš slučaj dovoljno potvrđuje vaš pravnik — mi opisujemo kako postavljamo sistem, ne šta je vaša obaveza.",
+    },
+    {
+      q: "Ko drži domen i hosting?",
+      a: "Vi, ako tako želite — nalozi mogu da glase na vaše ime i vašu karticu od prvog dana. To je i preporuka: izvođač koji drži vaš domen je rizik nezavisno od toga koliko je dobar.",
+    },
+    {
+      q: "Šta ako nešto krene naopako a vi ste u drugoj državi?",
+      a: "Isto što i da smo u istom gradu: javite problem, dobijete odgovor u toku radnog dana i popravku po dogovorenom roku. Ono što stvarno štiti je ugovor sa obimom i rokom po fazi, i to da plaćate po isporukama. Fizička blizina nije garancija — ugovor jeste.",
+    },
+    {
+      q: "Da li mogu da vidim kako posao napreduje?",
+      a: "Da. Dok se radi, postoji link na kome vidite trenutno stanje sajta ili sistema. Ne morate da čekate kraj da biste prvi put videli šta ste kupili.",
+    },
+    {
+      q: "Da li ste već radili za klijente u EU?",
+      a: "Sistemi u portfoliju su za klijente u Srbiji i prvog klijenta iz EU tek tražimo. Piše ovde namerno, jer je to pitanje koje bi svako trebalo da postavi i jer se svakako sazna. Način rada opisan na ovoj strani je isti onaj po kome rade sistemi koji su već u produkciji.",
+    },
+  ],
+  cta: { label: "Opišite posao i recite gde ste", href: "/upit/brzo?usluga=web-prezentacije" },
+  secondaryCta: { label: "Za naše ljude u inostranstvu", href: "/za-nase-ljude-u-dijaspori" },
+};

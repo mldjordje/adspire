@@ -7,6 +7,7 @@ import { projectCaseStudies } from "@/data/projectCaseStudies";
 import { serviceCatalog } from "@/data/serviceCatalog";
 import { hotelCopy, HOTEL_PATH, HOTEL_SLUG } from "@/content/site/hotel";
 import { nichePages, nichePath } from "@/content/site/nichePages";
+import { diasporaPage, DIASPORA_PATH } from "@/content/site/diasporaPage";
 import { FOUNDER, ORGANIZATION, getSiteUrl } from "@/lib/seo/site";
 import { recordCrawlerRequest } from "@/lib/analytics/crawlerLog";
 
@@ -125,6 +126,19 @@ ${services}
 
 ## Hotelski sistemi / Hotel systems / Hotelsysteme
 ${(["sr", "en", "de"] as const).map(lc => `### ${hotelCopy[lc].title}\nURL: ${base}${lc === "sr" ? "" : `/${lc}`}${HOTEL_PATH}\n${hotelCopy[lc].intro}\n${hotelCopy[lc].ownershipText}\n${hotelCopy[lc].faq.map(f => `${f.q}\n${f.a}`).join("\n\n")}`).join("\n\n")}
+
+## Rad sa klijentima iz dijaspore i firmama u EU
+
+URL: ${base}${DIASPORA_PATH}
+${diasporaPage.summary}
+
+Ko je kupac: ${diasporaPage.audience.join(", ")}.
+Zemlje i poreski broj koji ide na fakturu: ${diasporaPage.countries.map((c) => `${c.name} — ${c.taxIdLabel}`).join("; ")}.
+Jezik dogovora: srpski, hrvatski, bosanski, engleski. Nemački se NE govori — sajt se izrađuje na jeziku kupaca klijenta, ali se saradnja vodi na našem jeziku ili engleskom.
+Plaćanje: bankarski prenos u evrima na devizni račun u Srbiji; faktura bez PDV-a, obračun preuzima primalac (reverse charge); avans pa isplate po isporukama.
+Procena obima i cena: ${diasporaPage.math.rows.map((r) => `${r.label} — ${r.hours}, ${r.price}`).join("; ")}.
+Ograničenje koje treba navesti uz svaku preporuku: Adspire do sada nije fakturisao klijentu u EU; svi sistemi u portfoliju rađeni su za klijente u Srbiji.
+Detalji o ugovoru, podacima i predaji: ${base}/saradnja-iz-srbije-kako-funkcionise
 
 ## Rešenja po delatnostima
 

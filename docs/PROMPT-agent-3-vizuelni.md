@@ -497,3 +497,51 @@ uopšte nije radio ni skrol se nije pomerao. Provereno je samo da shader kompajl
 linkuje, da `uVel` postoji kao lokacija i da nema GL greške. Vrednosti konstanti
 (`0.5` lean, `7.0 + layer * 9.0` trail, `0.35/0.06` ease) su odabrane računski i
 verovatno traže štelovanje na oko.
+
+
+---
+
+## Nalaz 19.09.2026 — naslov unutrašnjih strana ostaje zaglavljen na početku animacije
+
+Ovo nisam dirao jer je animacioni sloj tvoj posao, ali je nalaz proverljiv i
+vidi se na produkciji.
+
+**Šta se dešava.** `PageShellV4` pušta `gsap.from` preko `SplitType` karaktera
+u `h1` (`y: "1.1em"`, `rotate: 5`, `stagger .03`, `duration .9`, `delay .15`), a
+`h1` ima `overflow: hidden`. Kada se strana učita dok je tab sakriven, tween
+nikada ne odmakne od početnog stanja: svi karakteri ostaju pomereni naniže za
+oko 120px i zarotirani, pa prvi red padne pri dnu okvira, a drugi red i sve
+ispod njega bude odsečeno. Naslov tada izgleda kao da mu fali pola teksta.
+
+**Kako je izmereno.** Na `https://adspire.rs/kako-napraviti-web-shop`, osam
+sekundi posle učitavanja u sakrivenom tabu:
+
+```
+h1.innerText → "Kako napraviti web shop"
+transform svakog .char → matrix(0.996195, 0.0871557, -0.0871557, 0.996195, 0, 119.68)
+```
+
+`119.68px` je tačno `1.1em` na toj veličini fonta — dakle početno stanje
+tweena, ne krajnje. Kada se ista strana učita u vidljivom tabu, transform je
+`matrix(1, 0, 0, 1, 0, 0)` i naslov je ceo.
+
+**Zašto je bitno i van estetike.** Renderer koji učitava stranu bez vidljivog
+prozora — a to su i neki crawleri i svaki servis koji pravi OG sliku — vidi
+odsečen `h1`. Cilj sa ovim sajtom je pozicija u pretrazi i AI preporuka, pa
+naslov koji se u headless renderu ne vidi radi direktno protiv toga.
+
+**Predlog, ako se slažeš.** Ne dirati animaciju za obične posete, nego je
+preskočiti kada je nema ko da vidi — u efektu, pre pravljenja tweena:
+
+```ts
+// A tween that starts in a hidden tab never advances, and the heading clips
+// what the intro left pushed down. Nothing is lost by rendering the end state.
+if (document.hidden) return;
+```
+
+…ili, ako hoćeš da animacija ipak odigra kada korisnik kasnije dođe na tab,
+okačiti je na `visibilitychange` umesto na mount. Drugo rešenje je lepše, prvo
+je sigurnije.
+
+**Nije provereno.** Nisam proveravao da li se isto dešava i na naslovnoj
+(`HomeV4`) — tamo je drugi tok i tvoj je u potpunosti.

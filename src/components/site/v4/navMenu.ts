@@ -98,6 +98,7 @@ const sr = (): NavMenu => ({
       title: "Kreni odavde",
       items: [
         { href: "/upit/brzo", label: "Brzi upit", hint: "5 polja, bez naloga" },
+        { href: "/za-nase-ljude-u-dijaspori", label: "Za naše u inostranstvu", hint: "Firma u EU, dogovor na našem jeziku" },
         { href: "/upit", label: "Detaljan brief", hint: "Za tačnu ponudu" },
         { href: "/edukacija/porudzbina", label: "Poruči AI edukaciju", hint: "Paket sati, odmah" },
         { href: "/nalog", label: "Moj nalog", hint: "Sati, termini i upiti" },
