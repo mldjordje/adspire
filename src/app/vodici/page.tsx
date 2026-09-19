@@ -30,7 +30,7 @@ export default function GuidesIndexPage() {
     <div className={v4FontClass}>
       <JsonLd
         data={[
-          webPageAboutOrganizationJsonLd(PATH, `${TITLE} | Adspire Digital`, DESCRIPTION),
+          webPageAboutOrganizationJsonLd(PATH, `${TITLE} | Adspire`, DESCRIPTION),
           breadcrumbJsonLd([
             { name: "Početna", path: "/" },
             { name: "Vodiči", path: PATH },

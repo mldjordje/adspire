@@ -1241,7 +1241,7 @@ const gyms: AiPage = {
   lead:
     "The front desk keeps notebooks, the trainer keeps the group on WhatsApp, and the owner learns a member left only once they stop showing up. None of that is a motivation problem — it is a record-keeping problem.",
   answer:
-    "In a gym or fitness studio, AI takes over the work around classes and memberships: sign-ups for a class with a fixed number of places and a waiting list, a reminder before a membership lapses while renewing is still easy, answers about the timetable, prices and rules outside opening hours, and surfacing members who have stopped coming before they cancel. Adspire Digital builds this as one system with attendance records, rather than a pile of tools that never speak to each other.",
+    "In a gym or fitness studio, AI takes over the work around classes and memberships: sign-ups for a class with a fixed number of places and a waiting list, a reminder before a membership lapses while renewing is still easy, answers about the timetable, prices and rules outside opening hours, and surfacing members who have stopped coming before they cancel. Adspire builds this as one system with attendance records, rather than a pile of tools that never speak to each other.",
   keywords: [
     "AI for gyms",
     "fitness studio software",
@@ -1361,7 +1361,7 @@ const propertyDevelopers: AiPage = {
   lead:
     "An enquiry about a flat arrives through three channels, a salesperson answers the same question for the tenth time, and the availability sheet trails reality by one reserved unit.",
   answer:
-    "For a developer selling new-build flats, AI works at the entrance to the sales process: it qualifies an enquiry before it reaches a salesperson, answers questions about layouts, floor area, completion dates and payment terms from your own data, books a viewing, and keeps availability consistent between the website and the internal record. Adspire Digital builds this as one system over a unit register and an enquiry log, so the salesperson starts a prepared conversation instead of a raw contact.",
+    "For a developer selling new-build flats, AI works at the entrance to the sales process: it qualifies an enquiry before it reaches a salesperson, answers questions about layouts, floor area, completion dates and payment terms from your own data, books a viewing, and keeps availability consistent between the website and the internal record. Adspire builds this as one system over a unit register and an enquiry log, so the salesperson starts a prepared conversation instead of a raw contact.",
   keywords: [
     "AI for property developers",
     "new build sales software",

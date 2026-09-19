@@ -3,7 +3,7 @@ import { ImageResponse } from "next/og";
 // Dedicated 1200x630 OG card — the old fallback was the 100x100 logo, which
 // rendered as a blurry thumbnail on LinkedIn/WhatsApp/X shares.
 export const runtime = "edge";
-export const alt = "Adspire Digital — web agencija Niš: sajtovi, aplikacije i AI automatizacija";
+export const alt = "Adspire — web agencija Niš: sajtovi, aplikacije i AI automatizacija";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 

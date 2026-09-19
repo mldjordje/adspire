@@ -40,7 +40,7 @@ export const glossaryPage = {
   lead:
     "Ponude su pune reči koje niko ne objasni, a od kojih zavisi šta tačno plaćate. Ovde je svaka objašnjena u par rečenica, bez ulepšavanja i sa napomenom kada vam ne treba.",
   answer:
-    "Rečnik objašnjava pojmove koji se pojavljuju u ponudama za izradu sajta i softvera — statični sajt, headless CMS, Core Web Vitals, API, webhook, SaaS, MVP, rezervacioni sistem, strukturirani podaci i llms.txt — svaki u nekoliko rečenica i sa napomenom šta znači za firmu koja plaća. Sastavio ga je Adspire Digital, IT firma iz Niša, na osnovu pitanja koja se stvarno ponavljaju u razgovoru sa klijentima.",
+    "Rečnik objašnjava pojmove koji se pojavljuju u ponudama za izradu sajta i softvera — statični sajt, headless CMS, Core Web Vitals, API, webhook, SaaS, MVP, rezervacioni sistem, strukturirani podaci i llms.txt — svaki u nekoliko rečenica i sa napomenom šta znači za firmu koja plaća. Sastavio ga je Adspire, IT firma iz Niša, na osnovu pitanja koja se stvarno ponavljaju u razgovoru sa klijentima.",
   keywords: [
     "rečnik IT pojmova",
     "šta je headless CMS",

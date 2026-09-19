@@ -343,9 +343,9 @@ const blogPosts = [
 
 export const srContent: LocalizedPageContent = {
   localeLabel: "SR",
-  siteTitle: "Adspire Digital",
+  siteTitle: "Adspire",
   siteDescription:
-    "Adspire Digital iz Niša — web platforme, e-commerce, PWA i native aplikacije, poslovni sistemi, AI automatizacija, SaaS i hosting. Kontakt: djordje@adspire.rs, +381 60 149 149 1.",
+    "Adspire iz Niša — web platforme, e-commerce, PWA i native aplikacije, poslovni sistemi, AI automatizacija, SaaS i hosting. Kontakt: djordje@adspire.rs, +381 60 149 149 1.",
   nav: [
     { label: "Pocetna", href: "/" },
     { label: "O nama", href: "/about-us" },
@@ -365,7 +365,7 @@ export const srContent: LocalizedPageContent = {
         eyebrow: "Agency mix / Hero 01",
         title: "Web sistemi koji rastu sa biznisom",
         description:
-          "Adspire Digital iz Niša dizajnira, razvija i optimizuje sajtove, aplikacije i prodajne tokove koji pretvaraju saobraćaj u upite, rezervacije i prihod.",
+          "Adspire iz Niša dizajnira, razvija i optimizuje sajtove, aplikacije i prodajne tokove koji pretvaraju saobraćaj u upite, rezervacije i prihod.",
         badges: ["Next.js", "SEO", "Booking sistemi", "Automatizacija"],
         primary: {
           label: "Pokreni projekat",
@@ -533,7 +533,7 @@ export const srContent: LocalizedPageContent = {
   aboutPage: {
     hero: {
       eyebrow: "O nama",
-      title: "Adspire Digital — razvojni i tehnološki partner",
+      title: "Adspire — razvojni i tehnološki partner",
       description:
         "Specijalizovani smo za moderne web platforme, mobilne aplikacije, poslovne sisteme i AI automatizaciju. Gradimo skalabilna, brza i dugoročno održiva rešenja za digitalizaciju i rast na domaćem i internacionalnom tržištu.",
       primary: {
@@ -588,7 +588,7 @@ export const srContent: LocalizedPageContent = {
   servicesPage: {
     hero: {
       eyebrow: "Usluge",
-      title: "Adspire Digital — šta radimo i kako to isporučujemo",
+      title: "Adspire — šta radimo i kako to isporučujemo",
       description:
         "Iz Niša pokrivamo ceo spektar: web prezentacije i e-commerce, PWA i native mobilne aplikacije, CMS i interne poslovne sisteme, AI i automatizaciju, BI, SEO, bezbednost, hosting, SaaS i industrijska rešenja. Svaka usluga ima svoju stranicu sa detaljima.",
       primary: {
@@ -854,7 +854,7 @@ export const srContent: LocalizedPageContent = {
   },
   footer: {
     tagline:
-      "Adspire Digital pruža kompletna digitalna rešenja od weba i mobilnih aplikacija do AI automatizacije i SaaS razvoja.",
+      "Adspire pruža kompletna digitalna rešenja od weba i mobilnih aplikacija do AI automatizacije i SaaS razvoja.",
     cta: {
       label: "Kontaktiraj nas",
       href: "/contact-us",

@@ -88,7 +88,7 @@ export function guideJsonLd(guide: Guide) {
   return [
     webPageAboutOrganizationJsonLd(
       guide.path,
-      `${guide.title} | Adspire Digital`,
+      `${guide.title} | Adspire`,
       guide.metaDescription,
       { mainEntity: `${pageUrl}#article` },
     ),

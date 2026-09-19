@@ -750,7 +750,7 @@ export function InquiryFlowV4({
             onChange={(event) => setConsent(event.target.checked)}
           />
           <span>
-            Saglasan sam da Adspire Digital kontaktira mene i obrađuje ove podatke radi izrade
+            Saglasan sam da Adspire kontaktira mene i obrađuje ove podatke radi izrade
             ponude.
           </span>
         </label>

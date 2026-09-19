@@ -46,12 +46,12 @@ export type LocalPage = {
 const itCompany: LocalPage = {
   path: "/it-firma-nis",
   eyebrow: "Niš",
-  title: "IT firma u Nišu — Adspire Digital",
+  title: "IT firma u Nišu — Adspire",
   metaDescription:
     "IT firma iz Niša koja pravi sajtove, aplikacije i programe po meri za firme. 13 sistema u radu kod klijenata. Adresa, kontakt i šta konkretno radimo — bez stručnih izraza.",
   h1: "IT firma u Nišu",
   lead:
-    "Adspire Digital je IT firma iz Niša. Pravimo sajtove, aplikacije i programe po meri za firme — ono što se ne kupuje gotovo, nego se pravi za konkretan posao. Trenutno je 13 sistema u svakodnevnom radu kod klijenata.",
+    "Adspire je IT firma iz Niša. Pravimo sajtove, aplikacije i programe po meri za firme — ono što se ne kupuje gotovo, nego se pravi za konkretan posao. Trenutno je 13 sistema u svakodnevnom radu kod klijenata.",
   keywords: [
     "IT firma Niš",
     "it firme u nisu",
@@ -60,7 +60,7 @@ const itCompany: LocalPage = {
     "IT usluge Niš",
     "firma za izradu softvera Niš",
   ],
-  businessName: "Adspire Digital — IT firma u Nišu",
+  businessName: "Adspire — IT firma u Nišu",
   sections: [
     {
       heading: "Šta konkretno radimo",
@@ -177,7 +177,7 @@ const appsInNis: LocalPage = {
     "web aplikacija Niš",
     "aplikacija za firmu Niš",
   ],
-  businessName: "Adspire Digital — izrada aplikacija u Nišu",
+  businessName: "Adspire — izrada aplikacija u Nišu",
   sections: [
     {
       heading: "Tri stvari koje ljudi zovu „aplikacija“",
@@ -237,7 +237,7 @@ const appsInNis: LocalPage = {
   faq: [
     {
       q: "Koliko košta izrada aplikacije?",
-      a: "Aplikacija u pretraživaču kreće od oko 2.500 €, interni program je 4.000–15.000 € zavisno od broja procesa, a aplikacija za telefon je po pravilu skuplja jer se pravi za dva sistema i prolazi odobrenje prodavnica. Tačna cifra ide u ponudu po opisu posla.",
+      a: "Aplikacija u pretraživaču kreće od oko 1.750 €, interni program je 2.800–10.500 € zavisno od broja procesa, a aplikacija za telefon je po pravilu skuplja jer se pravi za dva sistema i prolazi odobrenje prodavnica. Tačna cifra ide u ponudu po opisu posla.",
     },
     {
       q: "Mora li aplikacija da bude na Google Play-u?",
@@ -277,7 +277,7 @@ const bookingInNis: LocalPage = {
     "aplikacija za zakazivanje salon Niš",
     "booking sistem Niš",
   ],
-  businessName: "Adspire Digital — rezervacioni sistemi u Nišu",
+  businessName: "Adspire — rezervacioni sistemi u Nišu",
   sections: [
     {
       heading: "Za koga se najčešće radi",
@@ -336,7 +336,7 @@ const bookingInNis: LocalPage = {
   faq: [
     {
       q: "Koliko košta rezervacioni sistem?",
-      a: "Za sopstveni sistem raspon je 2.500–6.000 €, u zavisnosti od pravila zakazivanja, broja zaposlenih i lokacija, i toga da li se povezuje sa naplatom ili evidencijom klijenata.",
+      a: "Za sopstveni sistem raspon je 1.750–4.200 €, u zavisnosti od pravila zakazivanja, broja zaposlenih i lokacija, i toga da li se povezuje sa naplatom ili evidencijom klijenata.",
     },
     {
       q: "Mora li klijent da pravi nalog da bi rezervisao?",

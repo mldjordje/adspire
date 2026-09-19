@@ -32,7 +32,7 @@ export default function EdukacijaPage() {
         data={[
           webPageAboutOrganizationJsonLd(
             educationSeo.path,
-            `${educationSeo.title} | Adspire Digital`,
+            `${educationSeo.title} | Adspire`,
             educationSeo.metaDescription,
           ),
           {

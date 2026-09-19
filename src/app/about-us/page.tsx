@@ -14,7 +14,7 @@ export const metadata: Metadata = pageMetadata({
   path: "/about-us",
   title: t.metaTitle,
   description: t.metaDescription,
-  keywords: ["Adspire Digital", "O nama", "web agencija Niš", "development partner", "white-label"],
+  keywords: ["Adspire", "O nama", "web agencija Niš", "development partner", "white-label"],
 });
 
 export default function AboutPage() {

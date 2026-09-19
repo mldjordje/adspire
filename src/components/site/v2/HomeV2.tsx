@@ -90,7 +90,7 @@ export function HomeV2() {
           </motion.h1>
 
           <motion.p className={styles.heroSub} variants={fadeUp} initial="hidden" animate="show" custom={2}>
-            Adspire Digital gradi brze, moderne web sisteme i booking aplikacije za biznise u Nišu i celoj Srbiji — sa fokusom na upite, rezervacije i prodaju.
+            Adspire gradi brze, moderne web sisteme i booking aplikacije za biznise u Nišu i celoj Srbiji — sa fokusom na upite, rezervacije i prodaju.
           </motion.p>
 
           <motion.div className={styles.heroActions} variants={fadeUp} initial="hidden" animate="show" custom={3}>
@@ -230,7 +230,7 @@ export function HomeV2() {
             <a href="mailto:djordje@adspire.rs">djordje@adspire.rs</a>
             <a href="tel:+381601491491">+381 60 149 149 1</a>
           </div>
-          <p>Adspire Digital · Dimitrija Leka 66, Niš · Web, aplikacije, AI</p>
+          <p>Adspire · Dimitrija Leka 66, Niš · Web, aplikacije, AI</p>
         </div>
       </footer>
     </main>

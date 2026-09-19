@@ -45,7 +45,7 @@ export type ServicesCopy = {
 const sr: ServicesCopy = {
   metaTitle: "Usluge — izrada sajtova, aplikacija i AI automatizacije",
   metaDescription:
-    "Sajtovi, web shopovi, sistemi za zakazivanje, interne aplikacije, AI automatizacija, SEO i hosting. Adspire Digital, Niš — jedan tim od ideje do produkcije.",
+    "Sajtovi, web shopovi, sistemi za zakazivanje, interne aplikacije, AI automatizacija, SEO i hosting. Adspire, Niš — jedan tim od ideje do produkcije.",
   eyebrow: "Usluge / Šta radimo",
   title: ["SVE ZA VAŠ", "DIGITALNI RAST"],
   intro:
@@ -177,7 +177,7 @@ const sr: ServicesCopy = {
 const en: ServicesCopy = {
   metaTitle: "Services — websites, applications and AI automation",
   metaDescription:
-    "Websites, web shops, appointment booking systems, internal applications, AI automation, SEO and hosting. Adspire Digital, Niš — one team from idea to production.",
+    "Websites, web shops, appointment booking systems, internal applications, AI automation, SEO and hosting. Adspire, Niš — one team from idea to production.",
   eyebrow: "Services / What we build",
   title: ["EVERYTHING FOR", "YOUR DIGITAL GROWTH"],
   intro:
@@ -309,7 +309,7 @@ const en: ServicesCopy = {
 const de: ServicesCopy = {
   metaTitle: "Leistungen — Websites, Anwendungen und KI-Automatisierung",
   metaDescription:
-    "Websites, Webshops, Terminbuchungssysteme, interne Anwendungen, KI-Automatisierung, SEO und Hosting. Adspire Digital, Niš — ein Team von der Idee bis zur Produktion.",
+    "Websites, Webshops, Terminbuchungssysteme, interne Anwendungen, KI-Automatisierung, SEO und Hosting. Adspire, Niš — ein Team von der Idee bis zur Produktion.",
   eyebrow: "Leistungen / Was wir bauen",
   title: ["ALLES FÜR IHR", "DIGITALES WACHSTUM"],
   intro:

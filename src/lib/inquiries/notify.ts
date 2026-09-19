@@ -49,7 +49,7 @@ export async function notifyBuyerOfInquiry(
       "Link je privatan — čuvaj ga, on je tvoj ulaz u ovaj upit.",
       "",
       "Đorđe Mladenović",
-      "Adspire Digital · djordje@adspire.rs · +381 60 149 149 1",
+      "Adspire · djordje@adspire.rs · +381 60 149 149 1",
     ].join("\n"),
   });
 }
@@ -118,7 +118,7 @@ export function quoteMailBody(inquiry: InquiryRow): string {
     "Ako nešto ne stoji, samo odgovori na ovaj mejl — menjamo obim dok ne bude tačno.",
     "",
     "Đorđe Mladenović",
-    "Adspire Digital",
+    "Adspire",
   ].join("\n");
 }
 
@@ -174,7 +174,7 @@ export async function sendPortalLoginLink(
       "Link važi 30 minuta i može se iskoristiti jednom.",
       "Ako nisi tražio prijavu, samo ignoriši ovaj mejl.",
       "",
-      "Adspire Digital",
+      "Adspire",
     ].join("\n"),
   });
 }

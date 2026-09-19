@@ -56,7 +56,7 @@ export const bookingIndustryPages: BookingIndustryPage[] = [
         "Klijent bira frizera, uslugu i slobodan termin sa telefona, a vi ne prekidate šišanje da biste se javili. Sistem pravimo po vašim uslugama i ljudima, na osnovi koja već radi u berbernici.",
     },
     summary:
-      "Online zakazivanje za frizerski salon ili berbernicu je javna strana na kojoj klijent sam bira frizera, uslugu i slobodan termin, uz kalendar za svakog frizera i automatske podsetnike. Adspire Digital iz Niša pravi takav sistem po meri salona — isti tip sistema radi kod berbernice Doctor Barber kao PWA sa klijentskim nalogom i admin kalendarom.",
+      "Online zakazivanje za frizerski salon ili berbernicu je javna strana na kojoj klijent sam bira frizera, uslugu i slobodan termin, uz kalendar za svakog frizera i automatske podsetnike. Adspire iz Niša pravi takav sistem po meri salona — isti tip sistema radi kod berbernice Doctor Barber kao PWA sa klijentskim nalogom i admin kalendarom.",
     audience: ["Berbernice", "Frizerski saloni", "Muški i ženski saloni", "Saloni sa više stolica i smena"],
     pains: [
       {
@@ -92,7 +92,7 @@ export const bookingIndustryPages: BookingIndustryPage[] = [
       },
       {
         q: "Koliko košta sistem za zakazivanje za berbernicu?",
-        a: "Za custom razvoj raspon je uglavnom 2.500–6.000 €, a za manji salon sa jednostavnim pravilima pada na donji kraj. Za salon sa jednom stolicom i standardnim uslugama gotova platforma je često dovoljna — to kažemo otvoreno. Tačna cena ide u ponudu.",
+        a: "Za custom razvoj raspon je uglavnom 1.750–4.200 €, a za manji salon sa jednostavnim pravilima pada na donji kraj. Za salon sa jednom stolicom i standardnim uslugama gotova platforma je često dovoljna — to kažemo otvoreno. Tačna cena ide u ponudu.",
       },
       {
         q: "Da li mora da se instalira aplikacija?",
@@ -127,7 +127,7 @@ export const bookingIndustryPages: BookingIndustryPage[] = [
         "Kozmetički salon ne zakazuje samo vreme, nego i kabinu, aparat i osobu obučenu za tretman. Sistem to zna pre nego što ponudi termin, a karton klijenta je vezan za svaki dolazak.",
     },
     summary:
-      "Sistem za online zakazivanje za kozmetički salon ili estetsku kliniku povezuje termin sa trajanjem tretmana, kabinom ili aparatom, zaposlenim i kartonom klijenta, uz podsetnike i kaparu za skuplje tretmane. Adspire Digital pravi takve sisteme po meri; zakazivanje spojeno sa evidencijom pacijenata radi u estetskoj klinici Dr Igić.",
+      "Sistem za online zakazivanje za kozmetički salon ili estetsku kliniku povezuje termin sa trajanjem tretmana, kabinom ili aparatom, zaposlenim i kartonom klijenta, uz podsetnike i kaparu za skuplje tretmane. Adspire pravi takve sisteme po meri; zakazivanje spojeno sa evidencijom pacijenata radi u estetskoj klinici Dr Igić.",
     audience: ["Kozmetički saloni", "Estetske klinike", "Saloni za nokte i depilaciju", "Spa i wellness centri"],
     pains: [
       {
@@ -167,7 +167,7 @@ export const bookingIndustryPages: BookingIndustryPage[] = [
       },
       {
         q: "Koliko košta sistem za kozmetički salon ili kliniku?",
-        a: "Za custom razvoj raspon je uglavnom 2.500–6.000 €. Kartoni sa zdravstvenim podacima, paketi tretmana i kapare pomeraju cenu ka gornjem delu. Tačna cena ide u ponudu posle razgovora o opsegu.",
+        a: "Za custom razvoj raspon je uglavnom 1.750–4.200 €. Kartoni sa zdravstvenim podacima, paketi tretmana i kapare pomeraju cenu ka gornjem delu. Tačna cena ide u ponudu posle razgovora o opsegu.",
       },
       {
         q: "Gde se čuvaju podaci klijenata?",
@@ -198,7 +198,7 @@ export const bookingIndustryPages: BookingIndustryPage[] = [
         "Privatna ordinacija gubi najviše vremena na pozive koji su samo pitanje „imate li nešto sutra“. Pacijent to vidi sam, a vi dobijate raspored po lekaru i evidenciju vezanu za svaki pregled.",
     },
     summary:
-      "Online zakazivanje za stomatološku ili privatnu medicinsku ordinaciju omogućava pacijentu da izabere vrstu pregleda, lekara i slobodan termin, dok ordinacija dobija kalendar po lekaru, evidenciju pacijenata sa pravima pristupa i automatske podsetnike. Adspire Digital pravi takve sisteme po meri; zakazivanje povezano sa evidencijom pacijenata radi u klinici Dr Igić.",
+      "Online zakazivanje za stomatološku ili privatnu medicinsku ordinaciju omogućava pacijentu da izabere vrstu pregleda, lekara i slobodan termin, dok ordinacija dobija kalendar po lekaru, evidenciju pacijenata sa pravima pristupa i automatske podsetnike. Adspire pravi takve sisteme po meri; zakazivanje povezano sa evidencijom pacijenata radi u klinici Dr Igić.",
     audience: ["Stomatološke ordinacije", "Privatne medicinske ordinacije", "Fizikalna terapija", "Psiholozi i savetovališta"],
     pains: [
       {
@@ -238,7 +238,7 @@ export const bookingIndustryPages: BookingIndustryPage[] = [
       },
       {
         q: "Koliko košta sistem za zakazivanje za ordinaciju?",
-        a: "Za custom razvoj raspon je uglavnom 2.500–6.000 €, u zavisnosti od broja lekara, vrsta pregleda i toga da li ide evidencija pacijenata. Tačna cena ide u ponudu.",
+        a: "Za custom razvoj raspon je uglavnom 1.750–4.200 €, u zavisnosti od broja lekara, vrsta pregleda i toga da li ide evidencija pacijenata. Tačna cena ide u ponudu.",
       },
       {
         q: "Mogu li pacijenti koji ne koriste internet i dalje da zovu?",
@@ -268,7 +268,7 @@ export const bookingIndustryPages: BookingIndustryPage[] = [
         "Tetovaža se ne zakazuje kao šišanje. Prvo ide ideja i referenca, pa procena, pa kapara, pa jedna ili više sesija. Sistem prati taj tok umesto da ga gura u formu za termin od pola sata.",
     },
     summary:
-      "Sistem za zakazivanje za tattoo studio prima upit sa opisom i referentnim slikama, omogućava procenu i termin sesije po umetniku i potvrđuje termin tek posle kapare, uz mesečni pregled naplate. Adspire Digital je takav sistem napravio za Dropz Tattoo studio.",
+      "Sistem za zakazivanje za tattoo studio prima upit sa opisom i referentnim slikama, omogućava procenu i termin sesije po umetniku i potvrđuje termin tek posle kapare, uz mesečni pregled naplate. Adspire je takav sistem napravio za Dropz Tattoo studio.",
     audience: ["Tattoo studiji", "Pirsing studiji", "Samostalni tattoo umetnici", "Studiji sa gostujućim umetnicima"],
     pains: [
       {
@@ -308,7 +308,7 @@ export const bookingIndustryPages: BookingIndustryPage[] = [
       },
       {
         q: "Koliko košta sistem za tattoo studio?",
-        a: "Za custom razvoj raspon je uglavnom 2.500–6.000 €. Online naplata kapara i više umetnika pomeraju cenu gore. Tačna cena ide u ponudu.",
+        a: "Za custom razvoj raspon je uglavnom 1.750–4.200 €. Online naplata kapara i više umetnika pomeraju cenu gore. Tačna cena ide u ponudu.",
       },
     ],
   },
@@ -334,7 +334,7 @@ export const bookingIndustryPages: BookingIndustryPage[] = [
         "U sezoni guma telefon ne prestaje, a red se napravi pre otvaranja. Kad se prijem vozila zakazuje unapred, znate koliko dizalica i ljudi treba svakog sata.",
     },
     summary:
-      "Online zakazivanje za auto servis ili vulkanizera omogućava vozaču da izabere uslugu i slobodan termin, a servisu da raspored vodi po dizalici ili radnom mestu, uz podsetnike za sezonsku zamenu guma i redovan servis. Adspire Digital je napravio sajt i admin panel sa zakazivanjem servisnih termina za Auto Delić.",
+      "Online zakazivanje za auto servis ili vulkanizera omogućava vozaču da izabere uslugu i slobodan termin, a servisu da raspored vodi po dizalici ili radnom mestu, uz podsetnike za sezonsku zamenu guma i redovan servis. Adspire je napravio sajt i admin panel sa zakazivanjem servisnih termina za Auto Delić.",
     audience: ["Auto servisi", "Vulkanizeri", "Perionice i detailing", "Tehnički pregledi"],
     pains: [
       {
@@ -374,7 +374,7 @@ export const bookingIndustryPages: BookingIndustryPage[] = [
       },
       {
         q: "Koliko košta sistem za zakazivanje za auto servis?",
-        a: "Za custom razvoj raspon je uglavnom 2.500–6.000 €, u zavisnosti od broja radnih mesta, istorije vozila i evidencije guma. Tačna cena ide u ponudu.",
+        a: "Za custom razvoj raspon je uglavnom 1.750–4.200 €, u zavisnosti od broja radnih mesta, istorije vozila i evidencije guma. Tačna cena ide u ponudu.",
       },
     ],
   },
@@ -400,7 +400,7 @@ export const bookingIndustryPages: BookingIndustryPage[] = [
         "Petkom uveče telefon zvoni dok konobari rade, a rezervacije se pišu na papir koji se do večere izgubi. Kad gost rezerviše sam, sala se planira unapred i niko ne dođe na zauzet sto.",
     },
     summary:
-      "Online rezervacija stola omogućava gostu da izabere datum, vreme i broj osoba, a restoranu da vodi raspored po stolovima i smenama, uz podsetnik koji smanjuje nedolaske. Adspire Digital gradi rezervacione sisteme po meri — ista osnova koja u produkciji vodi termine u klinikama i noćenja u smeštaju vodi i raspored sale.",
+      "Online rezervacija stola omogućava gostu da izabere datum, vreme i broj osoba, a restoranu da vodi raspored po stolovima i smenama, uz podsetnik koji smanjuje nedolaske. Adspire gradi rezervacione sisteme po meri — ista osnova koja u produkciji vodi termine u klinikama i noćenja u smeštaju vodi i raspored sale.",
     audience: ["Restorani", "Kafići i kafane", "Picerije i bistroi", "Objekti sa terasom"],
     pains: [
       {
@@ -452,7 +452,7 @@ export const bookingIndustryPages: BookingIndustryPage[] = [
       },
       {
         q: "Koliko košta sistem za rezervaciju stolova?",
-        a: "Za custom razvoj raspon je uglavnom 2.500–6.000 €, u zavisnosti od broja zona, pravila smena i toga da li ide uz novi sajt. Tačna cena ide u ponudu.",
+        a: "Za custom razvoj raspon je uglavnom 1.750–4.200 €, u zavisnosti od broja zona, pravila smena i toga da li ide uz novi sajt. Tačna cena ide u ponudu.",
       },
     ],
   },
@@ -478,7 +478,7 @@ export const bookingIndustryPages: BookingIndustryPage[] = [
         "Prijave za grupni trening stižu u tri različite grupe na WhatsApp-u, a ko je platio članarinu zna samo sveska na recepciji. Isti sistem može da vodi i mesta na treningu i istek članarine.",
     },
     summary:
-      "Sistem za teretanu i fitnes studio vodi prijave na grupne i personalne treninge sa ograničenim brojem mesta, listu čekanja kada se termin popuni, i članarine sa datumom isteka i evidencijom dolazaka. Adspire Digital gradi takve sisteme po meri, na osnovi koja u produkciji već vodi termine i klijente koji se vraćaju.",
+      "Sistem za teretanu i fitnes studio vodi prijave na grupne i personalne treninge sa ograničenim brojem mesta, listu čekanja kada se termin popuni, i članarine sa datumom isteka i evidencijom dolazaka. Adspire gradi takve sisteme po meri, na osnovi koja u produkciji već vodi termine i klijente koji se vraćaju.",
     audience: ["Teretane", "Fitnes i pilates studiji", "Borilački i plesni klubovi", "Personalni treneri"],
     pains: [
       {
@@ -530,7 +530,7 @@ export const bookingIndustryPages: BookingIndustryPage[] = [
       },
       {
         q: "Koliko košta sistem za teretanu?",
-        a: "Za custom razvoj raspon je uglavnom 2.500–6.000 €, u zavisnosti od toga da li idu samo termini ili i članarine, naplata i evidencija dolazaka. Tačna cena ide u ponudu.",
+        a: "Za custom razvoj raspon je uglavnom 1.750–4.200 €, u zavisnosti od toga da li idu samo termini ili i članarine, naplata i evidencija dolazaka. Tačna cena ide u ponudu.",
       },
     ],
   },

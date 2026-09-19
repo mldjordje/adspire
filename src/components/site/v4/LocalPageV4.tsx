@@ -55,7 +55,7 @@ export function LocalPageV4({ page }: Props) {
         <section aria-labelledby="local-contact">
           <h2 id="local-contact" className={styles.h2}>Kontakt u Nišu</h2>
           <ul className={styles.list}>
-            <li>Adspire Digital, Dimitrija Leka 66, 18000 Niš</li>
+            <li>Adspire, Dimitrija Leka 66, 18000 Niš</li>
             <li>
               <a className={styles.inlineLink} href="mailto:djordje@adspire.rs">djordje@adspire.rs</a>
             </li>

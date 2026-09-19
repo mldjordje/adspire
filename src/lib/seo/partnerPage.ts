@@ -23,7 +23,7 @@ export function partnerPageJsonLd(page: PartnerPage) {
   return [
     webPageAboutOrganizationJsonLd(
       page.path,
-      `${page.title} | Adspire Digital`,
+      `${page.title} | Adspire`,
       page.metaDescription,
     ),
     breadcrumbJsonLd([

@@ -78,7 +78,7 @@ export async function sendInvoiceMail(
   // buyer without cancelling a document whose figures were never wrong. Both
   // subject and first line say so, or the client files two copies of one debt.
   const correction = options.correction === true;
-  const issuer = settings.company_name.split(" PR ")[0] || "Adspire Digital";
+  const issuer = settings.company_name.split(" PR ")[0] || "Adspire";
   const period = invoice.periodLabel ? ` za period ${invoice.periodLabel}` : "";
 
   const subject = correction

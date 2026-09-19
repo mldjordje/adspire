@@ -3,6 +3,9 @@
  *
  * Đorđe approved these as public on 2026-09-14; everything else still gets its
  * price in the offer. Hours are still credited from /os after payment.
+ *
+ * Cut ~30% on 2026-09-19 along with every other published figure. Orders keep
+ * the price written into their row, so this does not reprice anything sold.
  */
 
 export type EduPackage = {
@@ -18,14 +21,14 @@ export const EDU_PACKAGES: EduPackage[] = [
   {
     id: "8h",
     hours: 8,
-    priceEur: 500,
+    priceEur: 350,
     label: "Start",
     note: "Za jednu celinu: ideja i hook, generisanje scena ili montaža i objava.",
   },
   {
     id: "18h",
     hours: 18,
-    priceEur: 1000,
+    priceEur: 700,
     label: "Dubinski",
     note: "Za ceo tok od ideje do objave, ili za tim — najniža cena po satu.",
     featured: true,

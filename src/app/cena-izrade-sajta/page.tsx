@@ -30,7 +30,7 @@ export default function PricingGuidePage() {
     <div className={v4FontClass}>
       <JsonLd
         data={[
-          webPageAboutOrganizationJsonLd(p.path, `${p.title} | Adspire Digital`, p.metaDescription, {
+          webPageAboutOrganizationJsonLd(p.path, `${p.title} | Adspire`, p.metaDescription, {
             mainEntity: `${pageUrl}#pricing`,
           }),
           // The ranges are already public on this page; as AggregateOffer they

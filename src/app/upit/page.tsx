@@ -19,7 +19,7 @@ export const metadata: Metadata = pageMetadata({
   path: "/upit",
   title: "Pošalji upit",
   description:
-    "Opiši projekat i dobij procenu cene i roka. Bez naloga, bez obaveze — Adspire Digital, Niš.",
+    "Opiši projekat i dobij procenu cene i roka. Bez naloga, bez obaveze — Adspire, Niš.",
   keywords: ["upit za sajt", "ponuda za web aplikaciju", "cena izrade sajta Niš"],
 });
 
@@ -29,9 +29,9 @@ export default function UpitPage() {
       <JsonLd
         data={inquiryPageJsonLd({
           path: "/upit",
-          title: "Pošalji upit — Adspire Digital",
+          title: "Pošalji upit — Adspire",
           description:
-            "Opiši projekat i dobij procenu cene i roka. Bez naloga, bez obaveze — Adspire Digital, Niš.",
+            "Opiši projekat i dobij procenu cene i roka. Bez naloga, bez obaveze — Adspire, Niš.",
           actionName: "Pošalji projektni upit",
         })}
       />

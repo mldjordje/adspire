@@ -29,7 +29,7 @@ export type SessionInfo = {
 
 const accountUrl = () => `${getSiteUrl()}/nalog/edukacija`;
 const osUrl = () => `${getSiteUrl()}/os/edukacija`;
-const SIGNATURE = "Adspire Digital";
+const SIGNATURE = "Adspire";
 
 const greeting = (person: Person) => {
   const first = person.fullName?.trim().split(/\s+/)[0];

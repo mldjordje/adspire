@@ -22,7 +22,7 @@ export default function ContactPage() {
       <JsonLd
         data={contactPageJsonLd({
           path: "/contact-us",
-          title: "Kontakt — Adspire Digital",
+          title: "Kontakt — Adspire",
           description: contact.hero.description,
         })}
       />

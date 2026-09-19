@@ -48,7 +48,7 @@ export type ServiceDetailChrome = {
 
 const chrome: Record<LocaleCode, ServiceDetailChrome> = {
   sr: {
-    eyebrow: "Usluga / Adspire Digital",
+    eyebrow: "Usluga / Adspire",
     overviewLabel: "Šta rešavamo",
     focusLabel: "Fokus",
     quoteCta: "Zatraži ponudu",
@@ -63,7 +63,7 @@ const chrome: Record<LocaleCode, ServiceDetailChrome> = {
     ctaButton: "Pošalji upit",
   },
   en: {
-    eyebrow: "Service / Adspire Digital",
+    eyebrow: "Service / Adspire",
     overviewLabel: "What we solve",
     focusLabel: "Focus",
     quoteCta: "Request a quote",
@@ -78,7 +78,7 @@ const chrome: Record<LocaleCode, ServiceDetailChrome> = {
     ctaButton: "Get in touch",
   },
   de: {
-    eyebrow: "Leistung / Adspire Digital",
+    eyebrow: "Leistung / Adspire",
     overviewLabel: "Was wir lösen",
     focusLabel: "Fokus",
     quoteCta: "Angebot anfordern",

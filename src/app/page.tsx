@@ -11,7 +11,7 @@ import { defaultLocale } from "@/lib/site-config";
 // win the click go where the SERP will not truncate them. Written with the
 // diacritics people actually type — the old title said "Nis", which matches the
 // query "Niš" less well than "Niš" does.
-const homeTitle = "IT firma i web agencija iz Niša | Adspire Digital";
+const homeTitle = "IT firma i web agencija iz Niša | Adspire";
 
 // The home page published an anonymous FAQ and nothing else — no WebPage node
 // at all, on the one URL every other node points back to.
@@ -28,7 +28,7 @@ const homeMeta = pageMetadata({
     "izrada sajta Niš",
     "izrada aplikacija Niš",
     "rezervacioni sistemi Niš",
-    "Adspire Digital",
+    "Adspire",
     "AI automatizacija",
   ],
 });

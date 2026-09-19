@@ -18,7 +18,7 @@ export const metadata: Metadata = pageMetadata({
     "web agencija Niš",
     "aplikacije Niš",
     "Next.js Niš",
-    "Adspire Digital",
+    "Adspire",
     "razvoj softvera Niš",
     "PWA Niš",
     "e-commerce Niš",
@@ -26,7 +26,7 @@ export const metadata: Metadata = pageMetadata({
 });
 
 export default function NisPresencePage() {
-  const jsonLd = webPageAboutOrganizationJsonLd(p.path, `${p.title} | Adspire Digital`, p.metaDescription);
+  const jsonLd = webPageAboutOrganizationJsonLd(p.path, `${p.title} | Adspire`, p.metaDescription);
 
   return (
     <div className={v4FontClass}>

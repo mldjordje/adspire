@@ -39,7 +39,7 @@ export default function AiVideoPage() {
         data={[
           webPageAboutOrganizationJsonLd(
             aiVideoSeo.path,
-            `${aiVideoSeo.title} | Adspire Digital`,
+            `${aiVideoSeo.title} | Adspire`,
             aiVideoSeo.metaDescription,
           ),
           {

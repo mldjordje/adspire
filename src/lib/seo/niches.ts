@@ -37,7 +37,7 @@ export function nicheJsonLd(page: NichePage) {
 
   return [
     {
-      ...webPageAboutOrganizationJsonLd(path, `${page.seo.title} | Adspire Digital`, page.seo.metaDescription, {
+      ...webPageAboutOrganizationJsonLd(path, `${page.seo.title} | Adspire`, page.seo.metaDescription, {
         mainEntity: productId(url),
         speakable: ["[data-answer]"],
       }),

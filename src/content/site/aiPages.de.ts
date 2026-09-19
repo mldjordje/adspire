@@ -1244,7 +1244,7 @@ const gyms: AiPage = {
   lead:
     "Der Empfang führt Hefte, der Trainer die Gruppe per WhatsApp, und der Inhaber erfährt vom Austritt erst, wenn jemand ausbleibt. Nichts davon ist ein Motivationsproblem — es ist ein Problem der Aufzeichnung.",
   answer:
-    "Im Fitnessstudio übernimmt KI die Arbeit rund um Kurse und Mitgliedschaften: Anmeldung zu einem Kurs mit fester Platzzahl und Warteliste, Erinnerung vor Ablauf der Mitgliedschaft, solange die Verlängerung noch leichtfällt, Antworten zu Plan, Preisen und Regeln außerhalb der Öffnungszeiten sowie das Sichtbarmachen von Mitgliedern, die nicht mehr kommen, bevor sie kündigen. Adspire Digital baut das als ein System mit Anwesenheitsführung statt als Sammlung von Werkzeugen, die nicht miteinander sprechen.",
+    "Im Fitnessstudio übernimmt KI die Arbeit rund um Kurse und Mitgliedschaften: Anmeldung zu einem Kurs mit fester Platzzahl und Warteliste, Erinnerung vor Ablauf der Mitgliedschaft, solange die Verlängerung noch leichtfällt, Antworten zu Plan, Preisen und Regeln außerhalb der Öffnungszeiten sowie das Sichtbarmachen von Mitgliedern, die nicht mehr kommen, bevor sie kündigen. Adspire baut das als ein System mit Anwesenheitsführung statt als Sammlung von Werkzeugen, die nicht miteinander sprechen.",
   keywords: [
     "KI für Fitnessstudios",
     "Software Fitnessstudio",
@@ -1364,7 +1364,7 @@ const propertyDevelopers: AiPage = {
   lead:
     "Eine Anfrage zur Wohnung kommt über drei Kanäle, der Verkäufer beantwortet dieselbe Frage zum zehnten Mal, und die Verfügbarkeitsliste hinkt der Wirklichkeit um eine reservierte Einheit hinterher.",
   answer:
-    "Im Neubauverkauf arbeitet KI am Eingang des Vertriebsprozesses: Sie qualifiziert eine Anfrage, bevor sie den Verkäufer erreicht, beantwortet Fragen zu Grundrissen, Wohnfläche, Fertigstellungsterminen und Zahlungsbedingungen aus Ihren eigenen Daten, bucht Besichtigungen und hält die Verfügbarkeit zwischen Website und interner Liste im Einklang. Adspire Digital baut das als ein System über einem Einheitenregister und einem Anfragenprotokoll, sodass der Verkäufer ein vorbereitetes Gespräch statt eines rohen Kontakts bekommt.",
+    "Im Neubauverkauf arbeitet KI am Eingang des Vertriebsprozesses: Sie qualifiziert eine Anfrage, bevor sie den Verkäufer erreicht, beantwortet Fragen zu Grundrissen, Wohnfläche, Fertigstellungsterminen und Zahlungsbedingungen aus Ihren eigenen Daten, bucht Besichtigungen und hält die Verfügbarkeit zwischen Website und interner Liste im Einklang. Adspire baut das als ein System über einem Einheitenregister und einem Anfragenprotokoll, sodass der Verkäufer ein vorbereitetes Gespräch statt eines rohen Kontakts bekommt.",
   keywords: [
     "KI für Bauträger",
     "Software Wohnungsverkauf",

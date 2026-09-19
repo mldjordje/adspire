@@ -67,7 +67,7 @@ export const hotelCopy: Record<LocaleCode, HotelCopy> = {
       { q: "Može li sistem da se poveže sa eTuristom?", a: "Za hotele u Srbiji planiramo integraciju nakon pribavljanja važeće specifikacije, provere pristupa i testiranja. Dok te uslove ne proverimo, integracija nema potvrđen obim ili fiksni rok." },
       { q: "Da li povezujete Booking.com, Airbnb i Google Hotels?", a: "Povezivanje planiramo preko dostupnih, odobrenih integracija ili channel managera. Mogućnosti, troškove i pravila sinhronizacije proveravamo pre nego što ih uključimo u ugovor." },
       { q: "Možemo li da zadržimo postojeći sajt ili podatke?", a: "Najpre proveravamo postojeći sajt i mogućnost izvoza podataka. Na osnovu toga predlažemo integraciju ili migraciju i testiramo podatke pre prelaska." },
-      { q: "Radite li sa hotelima van Srbije?", a: "Da. Adspire Digital iz Niša radi sa hotelima u Srbiji i inostranstvu. Jezike, valute, integracije i lokalne zahteve definišemo za tržište konkretnog hotela." },
+      { q: "Radite li sa hotelima van Srbije?", a: "Da. Adspire iz Niša radi sa hotelima u Srbiji i inostranstvu. Jezike, valute, integracije i lokalne zahteve definišemo za tržište konkretnog hotela." },
     ],
     inquiryTitle: "Hajde da upoznamo\nvaš hotel.", inquiryText: "Napišite gde se hotel nalazi, koliko ima soba i kako danas primate rezervacije. Predložićemo prvi korak i obim za ponudu.", terms: "Razvoj po meri · Cena i rok po ponudi · Bez Adspire provizije", related: "Povezane usluge", relatedLabels: ["Izrada web sajtova", "Rezervacioni sistemi", "SEO i digitalni marketing"],
   },
@@ -107,7 +107,7 @@ export const hotelCopy: Record<LocaleCode, HotelCopy> = {
       { q: "Can you integrate eTurista?", a: "For hotels in Serbia, we plan integration after obtaining the current specification, checking access and testing. Scope and a fixed delivery date can only be confirmed after those checks." },
       { q: "Can you connect Booking.com, Airbnb and Google Hotels?", a: "We plan connections through available approved integrations or a channel manager. Capabilities, fees and sync rules are verified before inclusion in the agreement." },
       { q: "Can we keep our existing website or data?", a: "We assess your website and data export options first, then propose integration or migration and validate the data before switching." },
-      { q: "Do you work internationally?", a: "Yes. Adspire Digital is based in Niš, Serbia and works with hotels in Serbia and abroad. Languages, currencies, integrations and local requirements are scoped for each property." },
+      { q: "Do you work internationally?", a: "Yes. Adspire is based in Niš, Serbia and works with hotels in Serbia and abroad. Languages, currencies, integrations and local requirements are scoped for each property." },
     ], inquiryTitle: "Let’s get to know\nyour hotel.", inquiryText: "Tell us your location, room count and how you currently take bookings. We’ll suggest a starting point and a scope for your proposal.", terms: "Custom development · Price and timeline by proposal · No Adspire commission", related: "Related services", relatedLabels: ["Website development", "Booking systems", "SEO & digital marketing"],
   },
   de: {
@@ -144,7 +144,7 @@ export const hotelCopy: Record<LocaleCode, HotelCopy> = {
       { q: "Können Sie eTurista integrieren?", a: "Für Hotels in Serbien planen wir die Integration nach Beschaffung der aktuellen Spezifikation, Zugangsprüfung und Tests. Erst danach lassen sich Umfang und verbindlicher Termin bestätigen." },
       { q: "Sind Booking.com, Airbnb und Google Hotels anschließbar?", a: "Wir planen Anbindungen über verfügbare zugelassene Integrationen oder einen Channel Manager. Möglichkeiten, Gebühren und Synchronisierungsregeln prüfen wir vor der vertraglichen Zusage." },
       { q: "Können wir unsere Website oder Daten behalten?", a: "Wir prüfen zuerst Ihre Website und die Möglichkeiten zum Datenexport. Danach schlagen wir eine Integration oder Migration vor und validieren die Daten vor der Umstellung." },
-      { q: "Arbeiten Sie auch international?", a: "Ja. Adspire Digital sitzt in Niš, Serbien und arbeitet mit Hotels im In- und Ausland. Sprachen, Währungen, Integrationen und lokale Anforderungen werden je Hotel vereinbart." },
+      { q: "Arbeiten Sie auch international?", a: "Ja. Adspire sitzt in Niš, Serbien und arbeitet mit Hotels im In- und Ausland. Sprachen, Währungen, Integrationen und lokale Anforderungen werden je Hotel vereinbart." },
     ], inquiryTitle: "Lernen wir\nIhr Hotel kennen.", inquiryText: "Nennen Sie uns Standort, Zimmeranzahl und Ihren aktuellen Buchungsablauf. Wir schlagen den ersten Schritt und einen Angebotsumfang vor.", terms: "Individuelle Entwicklung · Preis und Termin nach Angebot · Ohne Adspire-Provision", related: "Weitere Leistungen", relatedLabels: ["Website-Entwicklung", "Buchungssysteme", "SEO & digitales Marketing"],
   },
 };

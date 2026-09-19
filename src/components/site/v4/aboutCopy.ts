@@ -33,11 +33,11 @@ export type AboutCopy = {
 const sr: AboutCopy = {
   metaTitle: "O nama — razvojni partner iz Niša",
   metaDescription:
-    "Adspire Digital je studio iz Niša za web, aplikacije i AI automatizaciju. 13 klijentskih sistema u produkciji, prototip za 48h, rad na srpskom, engleskom i nemačkom.",
+    "Adspire je studio iz Niša za web, aplikacije i AI automatizaciju. 13 klijentskih sistema u produkciji, prototip za 48h, rad na srpskom, engleskom i nemačkom.",
   eyebrow: "O nama / Ko smo",
   title: ["RAZVOJNI PARTNER", "IZ NIŠA"],
   intro:
-    "Adspire Digital je studio za web, aplikacije i AI automatizaciju. Naš posao je jednostavan: da vam donesemo više klijenata i vratimo sate koje danas trošite na ručni rad.",
+    "Adspire je studio za web, aplikacije i AI automatizaciju. Naš posao je jednostavan: da vam donesemo više klijenata i vratimo sate koje danas trošite na ručni rad.",
   story: [
     "Počeli smo sa jednim uverenjem: većina firmi ne treba još jedan lep sajt — treba im sistem koji {em}. Koji dovodi upite dok spavaju, koji im skida papirologiju s vrata, koji prodaje bez dodatnog zaposlenog.",
     "Zato ne pravimo brošure. Pravimo digitalne proizvode — sajtove koji konvertuju, interne aplikacije koje vlasnicima i menadžerima vraćaju vreme, i AI sisteme koji automatizuju ono što se ponavlja.",
@@ -84,11 +84,11 @@ const sr: AboutCopy = {
 const en: AboutCopy = {
   metaTitle: "About — a development partner from Niš",
   metaDescription:
-    "Adspire Digital is a studio in Niš, Serbia for web, applications and AI automation. 13 client systems in production, a prototype in 48h, work in Serbian, English and German.",
+    "Adspire is a studio in Niš, Serbia for web, applications and AI automation. 13 client systems in production, a prototype in 48h, work in Serbian, English and German.",
   eyebrow: "About / Who we are",
   title: ["A DEVELOPMENT PARTNER", "FROM NIŠ"],
   intro:
-    "Adspire Digital is a studio for web, applications and AI automation. The job is simple: bring you more clients, and give back the hours you currently spend on manual work.",
+    "Adspire is a studio for web, applications and AI automation. The job is simple: bring you more clients, and give back the hours you currently spend on manual work.",
   story: [
     "We started from one conviction: most companies do not need another handsome website — they need a system that {em}. One that brings in enquiries overnight, takes the paperwork off their desk, and sells without another hire.",
     "So we do not build brochures. We build digital products — sites that convert, internal applications that give owners and managers their time back, and AI systems that automate whatever repeats.",
@@ -135,11 +135,11 @@ const en: AboutCopy = {
 const de: AboutCopy = {
   metaTitle: "Über uns — Entwicklungspartner aus Niš",
   metaDescription:
-    "Adspire Digital ist ein Studio aus Niš für Web, Anwendungen und KI-Automatisierung. 13 Kundensysteme in Produktion, Prototyp in 48 h, Arbeit auf Serbisch, Englisch und Deutsch.",
+    "Adspire ist ein Studio aus Niš für Web, Anwendungen und KI-Automatisierung. 13 Kundensysteme in Produktion, Prototyp in 48 h, Arbeit auf Serbisch, Englisch und Deutsch.",
   eyebrow: "Über uns / Wer wir sind",
   title: ["ENTWICKLUNGSPARTNER", "AUS NIŠ"],
   intro:
-    "Adspire Digital ist ein Studio für Web, Anwendungen und KI-Automatisierung. Die Aufgabe ist einfach: mehr Kunden bringen und die Stunden zurückgeben, die heute in Handarbeit fließen.",
+    "Adspire ist ein Studio für Web, Anwendungen und KI-Automatisierung. Die Aufgabe ist einfach: mehr Kunden bringen und die Stunden zurückgeben, die heute in Handarbeit fließen.",
   story: [
     "Wir haben mit einer Überzeugung angefangen: Die meisten Unternehmen brauchen keine weitere hübsche Website — sie brauchen ein System, das {em}. Eines, das über Nacht Anfragen bringt, den Papierkram vom Tisch nimmt und verkauft, ohne dass jemand eingestellt werden muss.",
     "Deshalb bauen wir keine Broschüren. Wir bauen digitale Produkte — Websites, die konvertieren, interne Anwendungen, die Inhabern und Führungskräften Zeit zurückgeben, und KI-Systeme, die automatisieren, was sich wiederholt.",

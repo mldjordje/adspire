@@ -243,7 +243,7 @@ const sr: V4Copy = {
     location: "Niš, Srbija",
     statusTitle: "Status",
     status: "Dostupni za nove projekte",
-    copyright: "© 2026 Adspire Digital — Niš. Sva prava zadržana.",
+    copyright: "© 2026 Adspire — Niš. Sva prava zadržana.",
     credit: "Dizajn i kod: Adspire — ručno, bez šablona.",
   },
 };
@@ -402,7 +402,7 @@ const en: V4Copy = {
     location: "Niš, Serbia",
     statusTitle: "Status",
     status: "Available for new projects",
-    copyright: "© 2026 Adspire Digital — Niš. All rights reserved.",
+    copyright: "© 2026 Adspire — Niš. All rights reserved.",
     credit: "Design & code: Adspire — handmade, no templates.",
   },
 };
@@ -561,7 +561,7 @@ const de: V4Copy = {
     location: "Niš, Serbien",
     statusTitle: "Status",
     status: "Verfügbar für neue Projekte",
-    copyright: "© 2026 Adspire Digital — Niš. Alle Rechte vorbehalten.",
+    copyright: "© 2026 Adspire — Niš. Alle Rechte vorbehalten.",
     credit: "Design & Code: Adspire — handgemacht, ohne Vorlagen.",
   },
 };

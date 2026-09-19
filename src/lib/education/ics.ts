@@ -39,7 +39,7 @@ export function sessionIcs(session: IcsSession, now: Date = new Date()): string 
   return [
     "BEGIN:VCALENDAR",
     "VERSION:2.0",
-    "PRODID:-//Adspire Digital//Edukacija//SR",
+    "PRODID:-//Adspire//Edukacija//SR",
     "CALSCALE:GREGORIAN",
     "METHOD:PUBLISH",
     "BEGIN:VEVENT",

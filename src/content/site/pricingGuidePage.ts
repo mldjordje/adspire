@@ -28,43 +28,43 @@ export const pricingGuidePage = {
   ranges: [
     {
       label: "Prezentacioni sajt",
-      price: "1.200 – 3.000 €",
+      price: "850 – 2.100 €",
       note: "5–10 strana, custom dizajn, CMS za izmene teksta, kontakt forma, SEO osnove.",
       href: "/our-services/web-prezentacije",
     },
     {
       label: "Web shop / e-commerce",
-      price: "3.000 – 8.000 €",
+      price: "2.100 – 5.600 €",
       note: "Katalog, korpa, plaćanje, admin za porudžbine i zalihe. Integracije sa kurirskom službom i knjigovodstvom podižu gornju granicu.",
       href: "/our-services/e-commerce-web-shop",
     },
     {
       label: "Sistem za zakazivanje",
-      price: "2.500 – 6.000 €",
+      price: "1.750 – 4.200 €",
       note: "Termini, kalendar, podsetnici, više lokacija ili više zaposlenih. Cena raste sa pravilima zakazivanja, ne sa dizajnom.",
       href: "/our-services/sistemi-za-zakazivanje",
     },
     {
       label: "Interna poslovna aplikacija",
-      price: "4.000 – 15.000 €",
+      price: "2.800 – 10.500 €",
       note: "CRM, operativa, ponude i fakture, uloge i dozvole. Najširi raspon jer zavisi od broja procesa koje zamenjuje.",
       href: "/our-services/interne-poslovne-aplikacije",
     },
     {
       label: "AI automatizacija",
-      price: "800 – 4.000 €",
+      price: "550 – 2.800 €",
       note: "n8n tokovi, LLM integracije, automatski odgovori i obrada dokumenata. Često se radi kao dogradnja na postojeći sistem.",
       href: "/our-services/ai-integracije-automatizacija",
     },
     {
       label: "SaaS proizvod (MVP)",
-      price: "8.000 – 25.000 €",
+      price: "5.600 – 17.500 €",
       note: "Višekorisnička platforma, pretplate, naplata, admin. Radi se fazno — prvi cilj je proizvod koji može da naplati.",
       href: "/our-services/saas-razvoj",
     },
     {
       label: "Održavanje, mesečno",
-      price: "80 – 300 € / mesec",
+      price: "55 – 210 € / mesec",
       note: "Ažuriranja, bezbednost, rezervne kopije, sitne izmene i praćenje. Opciono, ali preporučeno za sisteme u produkciji.",
       href: "/our-services/hosting-infrastruktura",
     },
@@ -104,7 +104,7 @@ export const pricingGuidePage = {
   faq: [
     {
       q: "Koliko košta izrada sajta u Srbiji?",
-      a: "Za custom razvoj, prezentacioni sajt se realno kreće u rasponu 1.200–3.000 €, web shop 3.000–8.000 €, a interne poslovne aplikacije 4.000–15.000 €. Ponude ispod 300 € po pravilu znače gotov šablon sa zamenjenim tekstom, što je legitiman izbor za neke slučajeve, ali nije isti proizvod.",
+      a: "Za custom razvoj, prezentacioni sajt se realno kreće u rasponu 850–2.100 €, web shop 2.100–5.600 €, a interne poslovne aplikacije 2.800–10.500 €. Ponude ispod 300 € po pravilu znače gotov šablon sa zamenjenim tekstom, što je legitiman izbor za neke slučajeve, ali nije isti proizvod.",
     },
     {
       q: "Zašto se cene toliko razlikuju između ponuđača?",
@@ -120,7 +120,7 @@ export const pricingGuidePage = {
     },
     {
       q: "Da li postoje troškovi posle isporuke?",
-      a: "Da — domen i hosting, i opciono održavanje. Domen i hosting su reda veličine nekoliko desetina evra godišnje za manje sajtove; održavanje je 80–300 € mesečno i pokriva ažuriranja, bezbednost, rezervne kopije i sitne izmene.",
+      a: "Da — domen i hosting, i opciono održavanje. Domen i hosting su reda veličine nekoliko desetina evra godišnje za manje sajtove; održavanje je 55–210 € mesečno i pokriva ažuriranja, bezbednost, rezervne kopije i sitne izmene.",
     },
     {
       q: "Kako da dobijem tačnu cenu za svoj projekat?",

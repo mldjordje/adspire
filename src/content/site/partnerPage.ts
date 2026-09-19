@@ -29,7 +29,7 @@ export type PartnerPage = {
 export const whiteLabelPartnerPage: PartnerPage = {
   path: "/white-label",
   eyebrow: "For agencies",
-  title: "White-Label Development Partner — Adspire Digital",
+  title: "White-Label Development Partner — Adspire",
   metaDescription:
     "Overflow web and software development for agencies, under your brand. Next.js, React, TypeScript, Postgres. Based in Niš, Serbia — EU timezone, direct communication, no account managers.",
   h1: "White-Label Development Partner",

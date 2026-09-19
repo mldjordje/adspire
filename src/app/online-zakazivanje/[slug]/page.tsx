@@ -47,7 +47,7 @@ export default async function BookingIndustryPage({ params }: Props) {
     <div className={v4FontClass}>
       <JsonLd
         data={[
-          webPageAboutOrganizationJsonLd(path, `${page.seo.title} | Adspire Digital`, page.seo.metaDescription, {
+          webPageAboutOrganizationJsonLd(path, `${page.seo.title} | Adspire`, page.seo.metaDescription, {
             mainEntity: `${url}#service`,
             speakable: ["[data-answer]"],
           }),

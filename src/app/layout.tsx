@@ -16,14 +16,14 @@ export const metadata: Metadata = {
     // "Web agencija" is the word an informed buyer uses; "IT firma" is the word
     // everyone else searches. Carrying both costs nothing and the narrower title
     // was not ranking for either.
-    default: "Adspire Digital | IT firma i web agencija iz Niša",
-    template: "%s | Adspire Digital",
+    default: "Adspire | IT firma i web agencija iz Niša",
+    template: "%s | Adspire",
   },
   description:
     "IT firma iz Niša. Pravimo sajtove, aplikacije i programe po meri za firme — web shopovi, sistemi za zakazivanje, interna evidencija i AI automatizacija. Kontakt: djordje@adspire.rs, +381 60 149 149 1.",
   keywords: [
     "Adspire",
-    "Adspire Digital",
+    "Adspire",
     "IT firma Niš",
     "web agencija Niš",
     "izrada sajta Niš",
@@ -33,14 +33,14 @@ export const metadata: Metadata = {
     "e-commerce razvoj",
     "AI automatizacija",
   ],
-  authors: [{ name: "Adspire Digital", url: siteUrl }],
-  creator: "Adspire Digital",
+  authors: [{ name: "Adspire", url: siteUrl }],
+  creator: "Adspire",
   openGraph: {
     type: "website",
     locale: "sr_RS",
     url: siteUrl,
-    siteName: "Adspire Digital",
-    title: "Adspire Digital | IT firma i web agencija iz Niša",
+    siteName: "Adspire",
+    title: "Adspire | IT firma i web agencija iz Niša",
     description:
       "IT firma iz Niša: sajtovi, aplikacije, web shopovi, sistemi za zakazivanje i AI automatizacija.",
     // og/twitter image comes from src/app/opengraph-image.tsx (real 1200x630
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Adspire Digital | IT firma i web agencija iz Niša",
+    title: "Adspire | IT firma i web agencija iz Niša",
     description:
       "IT firma iz Niša: sajtovi, aplikacije, web shopovi, sistemi za zakazivanje i AI automatizacija.",
   },

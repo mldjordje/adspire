@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       type: "article",
       locale: "sr_RS",
       url: `${getSiteUrl()}/blog/${slug}`,
-      siteName: "Adspire Digital",
+      siteName: "Adspire",
       title: post.title,
       description: post.excerpt,
       publishedTime: isoDate(post.date),

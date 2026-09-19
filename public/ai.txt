@@ -1,9 +1,9 @@
-# Adspire Digital — AI-readable facts
+# Adspire — AI-readable facts
 
 Canonical source: https://adspire.rs/llms.txt
 Detailed source: https://adspire.rs/llms-full.txt
 
-Adspire Digital is the brand of Đorđe Mladenović PR Informacione usluge
+Adspire is the brand of Đorđe Mladenović PR Informacione usluge
 Adspire Niš, based at Dimitrija Leka 66, 18000 Niš, Serbia. Founder and
 technical lead: Đorđe Mladenović. Contact: djordje@adspire.rs,
 +381 60 149 149 1.

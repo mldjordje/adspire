@@ -19,7 +19,7 @@ type LegalPageV4Props = {
 export function LegalPageV4({ title, intro, updated, sections }: LegalPageV4Props) {
   return (
     <PageShellV4
-      eyebrow="Pravne informacije / Adspire Digital"
+      eyebrow="Pravne informacije / Adspire"
       title={title}
       intro={intro}
     >

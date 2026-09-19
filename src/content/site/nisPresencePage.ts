@@ -3,14 +3,14 @@ export const nisPresencePage = {
   path: "/izrada-sajta-i-aplikacija-nis",
   title: "Izrada sajta i aplikacija u Nišu",
   metaDescription:
-    "Adspire Digital iz Niša: izrada sajtova (Next.js/React), web i mobilne aplikacije (PWA, Flutter, React Native), e-commerce, interni softver, AI automatizacija i SaaS. Kontakt: djordje@adspire.rs, +381 60 149 149 1.",
+    "Adspire iz Niša: izrada sajtova (Next.js/React), web i mobilne aplikacije (PWA, Flutter, React Native), e-commerce, interni softver, AI automatizacija i SaaS. Kontakt: djordje@adspire.rs, +381 60 149 149 1.",
   h1: "Izrada sajta i web/mobilnih aplikacija u Nišu",
   lead:
-    "Adspire Digital je razvojni studio iz Niša. Radimo kompletan digitalni proizvod — od arhitekture i UI/UX-a do produkcije, SEO osnova i održavanja. Fokusirani smo na moderan JavaScript stack (Next.js, React), performanse i merljive ciljeve (konverzije, booking, prodaja, operativa).",
+    "Adspire je razvojni studio iz Niša. Radimo kompletan digitalni proizvod — od arhitekture i UI/UX-a do produkcije, SEO osnova i održavanja. Fokusirani smo na moderan JavaScript stack (Next.js, React), performanse i merljive ciljeve (konverzije, booking, prodaja, operativa).",
   locationBlock: {
     heading: "Lokacija i kontakt",
     lines: [
-      "Adspire Digital",
+      "Adspire",
       "Adresa: Dimitrija Leka 66, 18000 Niš, Srbija",
       "Email: djordje@adspire.rs",
       "Telefon: +381 60 149 149 1",

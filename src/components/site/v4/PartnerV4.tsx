@@ -38,7 +38,7 @@ export function PartnerV4({ page }: Props) {
         <section aria-labelledby="partner-contact">
           <h2 id="partner-contact" className={styles.h2}>Contact</h2>
           <ul className={styles.list}>
-            <li>Đorđe Mladenović, Adspire Digital — Niš, Serbia</li>
+            <li>Đorđe Mladenović, Adspire — Niš, Serbia</li>
             <li>
               <a className={styles.inlineLink} href="mailto:djordje@adspire.rs">djordje@adspire.rs</a>
             </li>

@@ -283,9 +283,9 @@ const blogPosts: BlogPost[] = srContent.blogPage.posts.map((p, i) => ({
 
 export const deContent: LocalizedPageContent = {
   localeLabel: "DE",
-  siteTitle: "Adspire Digital",
+  siteTitle: "Adspire",
   siteDescription:
-    "Adspire Digital — Webplattformen, E-Commerce, PWA- und native Apps, Geschäftssysteme, KI-Automatisierung, SaaS und Hosting. Kontakt: djordje@adspire.rs, +381 60 149 149 1.",
+    "Adspire — Webplattformen, E-Commerce, PWA- und native Apps, Geschäftssysteme, KI-Automatisierung, SaaS und Hosting. Kontakt: djordje@adspire.rs, +381 60 149 149 1.",
   nav: [
     { label: "Start", href: "/" },
     { label: "Über uns", href: "/about-us" },
@@ -302,7 +302,7 @@ export const deContent: LocalizedPageContent = {
         eyebrow: "Agency mix / Hero 01",
         title: "Websysteme, die mit dem Business wachsen",
         description:
-          "Adspire Digital gestaltet, entwickelt und optimiert Websites, Apps und Verkaufsabläufe, die Traffic in Anfragen, Buchungen und Umsatz verwandeln.",
+          "Adspire gestaltet, entwickelt und optimiert Websites, Apps und Verkaufsabläufe, die Traffic in Anfragen, Buchungen und Umsatz verwandeln.",
         badges: ["Next.js", "SEO", "Buchungssysteme", "Automatisierung"],
         primary: { label: "Projekt starten", href: "/contact-us" },
         secondary: { label: "Projekte ansehen", href: "/our-projects" },
@@ -381,7 +381,7 @@ export const deContent: LocalizedPageContent = {
   aboutPage: {
     hero: {
       eyebrow: "Über uns",
-      title: "Adspire Digital — Entwicklungs- und Technologiepartner",
+      title: "Adspire — Entwicklungs- und Technologiepartner",
       description:
         "Spezialisiert auf moderne Webplattformen, mobile Apps, Geschäftssysteme und KI-Automatisierung. Wir bauen skalierbare, schnelle und langfristig tragfähige Lösungen für den lokalen und internationalen Markt.",
       primary: { label: "Gespräch buchen", href: "/contact-us" },
@@ -424,7 +424,7 @@ export const deContent: LocalizedPageContent = {
   servicesPage: {
     hero: {
       eyebrow: "Leistungen",
-      title: "Adspire Digital — was wir tun und wie wir liefern",
+      title: "Adspire — was wir tun und wie wir liefern",
       description:
         "Das gesamte Spektrum: Web und E-Commerce, PWA- und native Apps, CMS und interne Systeme, KI und Automatisierung, BI, SEO, Sicherheit, Hosting, SaaS und Branchenlösungen. Jede Leistung hat eine eigene Detailseite.",
       primary: { label: "Kontakt", href: "/contact-us" },
@@ -629,7 +629,7 @@ export const deContent: LocalizedPageContent = {
   },
   footer: {
     tagline:
-      "Adspire Digital bietet komplette digitale Lösungen — von Web und mobilen Apps bis zu KI-Automatisierung und SaaS-Entwicklung.",
+      "Adspire bietet komplette digitale Lösungen — von Web und mobilen Apps bis zu KI-Automatisierung und SaaS-Entwicklung.",
     cta: { label: "Kontakt", href: "/contact-us" },
     copyright: "Alle Rechte vorbehalten.",
     contactItems: [

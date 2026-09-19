@@ -9,7 +9,7 @@ import { pageMetadata } from "@/lib/seo/metadata";
 export const metadata: Metadata = pageMetadata({
   path: "/politika-kolacica",
   title: "Politika kolačića",
-  description: "Informacije o neophodnim podacima, analitici i merenju izvora poseta na sajtu Adspire Digital.",
+  description: "Informacije o neophodnim podacima, analitici i merenju izvora poseta na sajtu Adspire.",
 });
 
 export default function CookiePage() {

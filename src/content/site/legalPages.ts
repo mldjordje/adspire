@@ -71,7 +71,7 @@ export const termsSections: LegalSection[] = [
   {
     title: "Informacije na sajtu",
     paragraphs: [
-      "Sadržaj sajta opisuje usluge i prethodne projekte Adspire Digital. Trudimo se da informacije budu tačne, ali one same po sebi nisu ponuda, garancija rezultata niti stručni pravni ili finansijski savet.",
+      "Sadržaj sajta opisuje usluge i prethodne projekte Adspire. Trudimo se da informacije budu tačne, ali one same po sebi nisu ponuda, garancija rezultata niti stručni pravni ili finansijski savet.",
     ],
   },
   {

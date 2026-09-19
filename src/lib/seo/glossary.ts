@@ -37,7 +37,7 @@ export function glossaryJsonLd() {
     {
       ...webPageAboutOrganizationJsonLd(
         glossaryPage.path,
-        `${glossaryPage.title} | Adspire Digital`,
+        `${glossaryPage.title} | Adspire`,
         glossaryPage.metaDescription,
         {
           mainEntity: setId,

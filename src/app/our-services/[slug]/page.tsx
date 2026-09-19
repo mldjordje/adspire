@@ -37,7 +37,7 @@ export async function generateMetadata({ params }: ServiceDetailPageProps): Prom
     };
   }
 
-  const title = catalog.seoTitleSr ?? `${service.title} | Adspire Digital`;
+  const title = catalog.seoTitleSr ?? `${service.title} | Adspire`;
   const description = catalog.metaDescriptionSr;
   const keywords = [
     ...catalog.searchPhrasesSr,
@@ -53,10 +53,10 @@ export async function generateMetadata({ params }: ServiceDetailPageProps): Prom
       type: "website",
       locale: "sr_RS",
       url: canonical,
-      siteName: "Adspire Digital",
+      siteName: "Adspire",
       title,
       description,
-      images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Adspire Digital" }],
+      images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Adspire" }],
     },
     twitter: {
       card: "summary_large_image",

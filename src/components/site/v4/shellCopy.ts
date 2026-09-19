@@ -62,7 +62,7 @@ const sr: ShellCopy = {
     { href: "/politika-kolacica", label: "Kolačići" },
     { href: "/uslovi-koriscenja", label: "Uslovi" },
   ],
-  footerRights: "© 2026 Adspire Digital — Niš, Srbija",
+  footerRights: "© 2026 Adspire — Niš, Srbija",
   menuOpen: "Otvori meni",
   menuClose: "Zatvori meni",
 };
@@ -83,7 +83,7 @@ const en: ShellCopy = {
     { href: "/politika-kolacica", label: "Cookies" },
     { href: "/uslovi-koriscenja", label: "Terms" },
   ],
-  footerRights: "© 2026 Adspire Digital — Niš, Serbia",
+  footerRights: "© 2026 Adspire — Niš, Serbia",
   menuOpen: "Open menu",
   menuClose: "Close menu",
 };
@@ -104,7 +104,7 @@ const de: ShellCopy = {
     { href: "/politika-kolacica", label: "Cookies" },
     { href: "/uslovi-koriscenja", label: "AGB" },
   ],
-  footerRights: "© 2026 Adspire Digital — Niš, Serbien",
+  footerRights: "© 2026 Adspire — Niš, Serbien",
   menuOpen: "Menü öffnen",
   menuClose: "Menü schließen",
 };

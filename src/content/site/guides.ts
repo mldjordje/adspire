@@ -126,7 +126,7 @@ const bookingGuide: Guide = {
   faq: [
     {
       q: "Koliko košta sistem za online zakazivanje?",
-      a: "Za custom razvoj raspon je uglavnom 2.500–6.000 €, u zavisnosti od pravila zakazivanja, broja zaposlenih i lokacija, i toga da li se povezuje sa naplatom ili evidencijom klijenata. Detaljan pregled šta diže cenu je na stranici o ceni izrade sajta.",
+      a: "Za custom razvoj raspon je uglavnom 1.750–4.200 €, u zavisnosti od pravila zakazivanja, broja zaposlenih i lokacija, i toga da li se povezuje sa naplatom ili evidencijom klijenata. Detaljan pregled šta diže cenu je na stranici o ceni izrade sajta.",
     },
     {
       q: "Da li klijent mora da pravi nalog da bi zakazao?",
@@ -337,7 +337,7 @@ const platformChoiceGuide: Guide = {
     },
     {
       q: "Koliko košta jedno u odnosu na drugo?",
-      a: "Gotova tema sa izmenama je red veličine nekoliko stotina evra. Custom prezentacioni sajt kreće od oko 1.200 €, a sistemi sa sopstvenom logikom idu naviše. Rasponi po tipu projekta su na stranici o ceni izrade sajta.",
+      a: "Gotova tema sa izmenama je red veličine nekoliko stotina evra. Custom prezentacioni sajt kreće od oko 850 €, a sistemi sa sopstvenom logikom idu naviše. Rasponi po tipu projekta su na stranici o ceni izrade sajta.",
     },
     {
       q: "Da li ću moći sam da menjam sadržaj na custom sajtu?",
@@ -392,7 +392,7 @@ const chooseAgencyGuide: Guide = {
     {
       heading: "Šta se stvarno poredi kada su ponude različite",
       body: [
-        "Najskuplja greška je poređenje po iznosu. Ponuda od 200 € i ponuda od 2.500 € najčešće nisu isti posao: prva je gotova tema sa izmenjenim tekstom, druga je sajt pisan za konkretan slučaj. Obe mogu biti ispravan izbor — ali ne za isti problem.",
+        "Najskuplja greška je poređenje po iznosu. Ponuda od 200 € i ponuda od 1.750 € najčešće nisu isti posao: prva je gotova tema sa izmenjenim tekstom, druga je sajt pisan za konkretan slučaj. Obe mogu biti ispravan izbor — ali ne za isti problem.",
         "Poredite šta ostaje vama posle isporuke: kod, podaci, pristupi, mogućnost da promenite izvođača bez pravljenja sajta iz početka. To je jedina razlika koja se oseti kroz dve godine.",
       ],
     },
@@ -509,7 +509,7 @@ const beyondExcelGuide: Guide = {
   faq: [
     {
       q: "Koliko košta interni softver za firmu?",
-      a: "Raspon je 4.000–15.000 € za custom razvoj, i najviše zavisi od broja procesa koje sistem preuzima. Jedan proces je znatno jeftiniji od celokupne operative, zato se i preporučuje uvođenje u fazama.",
+      a: "Raspon je 2.800–10.500 € za custom razvoj, i najviše zavisi od broja procesa koje sistem preuzima. Jedan proces je znatno jeftiniji od celokupne operative, zato se i preporučuje uvođenje u fazama.",
     },
     {
       q: "Šta sa podacima koji su sada u tabelama?",
@@ -592,7 +592,7 @@ const chatbotGuide: Guide = {
   faq: [
     {
       q: "Koliko košta AI chatbot na sajtu?",
-      a: "Za rešenje zasnovano na vašem sadržaju raspon je uglavnom 800–4.000 €, u zavisnosti od količine izvora, integracija i toga da li bot samo odgovara ili i pokreće akciju — zakazivanje, upit, porudžbinu. Tome se dodaje mesečni trošak korišćenja modela, koji zavisi od broja razgovora.",
+      a: "Za rešenje zasnovano na vašem sadržaju raspon je uglavnom 550–2.800 €, u zavisnosti od količine izvora, integracija i toga da li bot samo odgovara ili i pokreće akciju — zakazivanje, upit, porudžbinu. Tome se dodaje mesečni trošak korišćenja modela, koji zavisi od broja razgovora.",
     },
     {
       q: "Da li može da odgovara na srpskom?",
@@ -687,7 +687,7 @@ const webShopGuide: Guide = {
   faq: [
     {
       q: "Koliko košta izrada web shopa?",
-      a: "Za custom razvoj raspon je 3.000–8.000 €. Gornju granicu podižu integracije — kurirska služba, knjigovodstvo, veleprodajne cene, uvoz velikog kataloga. Detaljan pregled je na stranici o ceni izrade sajta.",
+      a: "Za custom razvoj raspon je 2.100–5.600 €. Gornju granicu podižu integracije — kurirska služba, knjigovodstvo, veleprodajne cene, uvoz velikog kataloga. Detaljan pregled je na stranici o ceni izrade sajta.",
     },
     {
       q: "Da li mi treba prihvatanje kartica na sajtu?",

@@ -192,7 +192,7 @@ export const educationTeacher = {
     "Adspire pravi sajtove, sisteme za zakazivanje i automatizacije, a klipove za društvene mreže radi i kao uslugu. Na edukaciji pokazujem isti tok koji koristim na živim nalozima — zajedno sa greškama koje sam već napravio, da ih ti ne bi pravio.",
     "Zato nema unapred snimljenog kursa. Radimo na onome što ti treba da objaviš ove nedelje.",
   ],
-  signature: "Đorđe Mladenović, Adspire Digital",
+  signature: "Đorđe Mladenović, Adspire",
 };
 
 export const educationFaq = {
@@ -205,7 +205,7 @@ export const educationFaq = {
     },
     {
       q: "Koliko košta i kako se plaća?",
-      a: "Paket od 8 sati je 500 €, paket od 18 sati je 1.000 €. Paket poručuješ na sajtu, a plaćanje ide po predračunu — nema kartice na sajtu. Sati se troše onako kako tebi odgovara, po 1 do 4 sata po terminu.",
+      a: "Paket od 8 sati je 350 €, paket od 18 sati je 700 €. Paket poručuješ na sajtu, a plaćanje ide po predračunu — nema kartice na sajtu. Sati se troše onako kako tebi odgovara, po 1 do 4 sata po terminu.",
     },
     {
       q: "Da li alati koje koristimo koštaju dodatno?",

@@ -17,7 +17,7 @@ export function absoluteUrl(path: string): string {
  * homes all shared with no thumbnail at all. Naming the generated card here
  * gives every page that uses this helper a real 1200x630 preview.
  */
-const OG_CARD = { url: "/opengraph-image", width: 1200, height: 630, alt: "Adspire Digital" };
+const OG_CARD = { url: "/opengraph-image", width: 1200, height: 630, alt: "Adspire" };
 
 const OG_LOCALE: Record<LocaleCode, string> = {
   sr: "sr_RS",
@@ -78,7 +78,7 @@ export function pageMetadata({
   locale = defaultLocale,
 }: PageMetaInput): Metadata {
   const canonical = absoluteUrl(localePath(path, locale));
-  const socialTitle = `${title} | Adspire Digital`;
+  const socialTitle = `${title} | Adspire`;
   const translated = isTranslatedPath(path);
   const noindex = !translated && locale !== defaultLocale;
   return {
@@ -95,7 +95,7 @@ export function pageMetadata({
     // without them Meta's Sharing Debugger reports og:type missing everywhere.
     openGraph: {
       type: "website",
-      siteName: "Adspire Digital",
+      siteName: "Adspire",
       url: canonical,
       title: socialTitle,
       description,

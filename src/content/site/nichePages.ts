@@ -156,7 +156,7 @@ export const nichePages: NichePage[] = [
         "Nokti, depilacija, trepavice, botoks i fileri ne traju isto, ne koštaju isto i ne zahtevaju istu pripremu. Pravimo sajt i softver koji to zna — po tretmanu, po osobi i po prostoriji.",
     },
     summary:
-      "Softver za salon lepote je sajt sa online zakazivanjem po tretmanu plus admin deo u kome stoje klijenti, termini, cene i istorija tretmana. Adspire Digital iz Niša pravi takav sistem po meri salona — isti tip sistema radi u estetskoj klinici Dr Igić, gde su termin i karton pacijenta ista stvar, a ne dva odvojena programa.",
+      "Softver za salon lepote je sajt sa online zakazivanjem po tretmanu plus admin deo u kome stoje klijenti, termini, cene i istorija tretmana. Adspire iz Niša pravi takav sistem po meri salona — isti tip sistema radi u estetskoj klinici Dr Igić, gde su termin i karton pacijenta ista stvar, a ne dva odvojena programa.",
     audience: [
       "Saloni noktiju i manikira",
       "Studiji za trepavice i obrve",
@@ -297,7 +297,7 @@ export const nichePages: NichePage[] = [
         "Katalog, korpa, checkout, lager i admin na jednom mestu — vaša platforma, vaša baza kupaca. Bez mesečne pretplate koja raste kad prodaja raste.",
     },
     summary:
-      "Izrada web shopa po meri znači sopstvenu online prodavnicu: katalog proizvoda, korpa i checkout, plaćanje karticom i pouzećem, praćenje lagera i admin za porudžbine. Adspire Digital iz Niša gradi web shopove u Next.js-u — Santos & Santorini radi na toj osnovi, zajedno sa CMS-om, lagerom i integracijama sa marketplace-ima.",
+      "Izrada web shopa po meri znači sopstvenu online prodavnicu: katalog proizvoda, korpa i checkout, plaćanje karticom i pouzećem, praćenje lagera i admin za porudžbine. Adspire iz Niša gradi web shopove u Next.js-u — Santos & Santorini radi na toj osnovi, zajedno sa CMS-om, lagerom i integracijama sa marketplace-ima.",
     audience: [
       "Maloprodaje koje prodaju i van radnje",
       "Brendovi koji žele svoj kanal pored marketplace-a",
@@ -438,7 +438,7 @@ export const nichePages: NichePage[] = [
         "Vizit-karta na internetu ne donosi posao. Pravimo prezentacioni sajt sa jasnom ponudom, dokazima i kontakt tokom koji se meri — da znate odakle je stigao svaki upit.",
     },
     summary:
-      "Prezentacioni sajt za firmu je sajt koji objašnjava šta firma radi, kome i sa kakvim rezultatom, i vodi posetioca do upita. Adspire Digital iz Niša pravi ih u Next.js-u sa CMS-om, tehničkim SEO-om i merenjem izvora svakog upita — isti pristup po kome Prevoz Kop ima javni SEO sajt spojen sa sistemom za upite i ponude.",
+      "Prezentacioni sajt za firmu je sajt koji objašnjava šta firma radi, kome i sa kakvim rezultatom, i vodi posetioca do upita. Adspire iz Niša pravi ih u Next.js-u sa CMS-om, tehničkim SEO-om i merenjem izvora svakog upita — isti pristup po kome Prevoz Kop ima javni SEO sajt spojen sa sistemom za upite i ponude.",
     audience: [
       "Firme kojima postojeći sajt ne donosi upite",
       "Proizvodne i uslužne firme sa B2B kupcima",
@@ -579,7 +579,7 @@ export const nichePages: NichePage[] = [
         "Reference koje se vide, upit koji ne ostane u porukama i operativa koja zna ko radi, čime i gde. Sajt i sistem po meri za izvođače i proizvođače materijala.",
     },
     summary:
-      "Sajt za građevinsku firmu je javni deo sa referencama i uslugama, spojen sa evidencijom upita i ponuda, a po potrebi i sa operativom: radnici, mehanizacija i termini isporuke. Adspire Digital iz Niša napravio je takav sistem za betonsku bazu Prevoz Kop — SEO sajt, CRM za upite, ponude, proizvodi, radnici, vozila i isporuke u jednom adminu.",
+      "Sajt za građevinsku firmu je javni deo sa referencama i uslugama, spojen sa evidencijom upita i ponuda, a po potrebi i sa operativom: radnici, mehanizacija i termini isporuke. Adspire iz Niša napravio je takav sistem za betonsku bazu Prevoz Kop — SEO sajt, CRM za upite, ponude, proizvodi, radnici, vozila i isporuke u jednom adminu.",
     audience: [
       "Izvođači građevinskih radova",
       "Betonare i proizvođači materijala",
@@ -681,7 +681,7 @@ export const nichePages: NichePage[] = [
       },
       {
         q: "Radite li i za firme van Niša?",
-        a: "Da. Adspire Digital je iz Niša i radi sa firmama u celoj Srbiji i inostranstvu, udaljeno, sa sastancima uživo kad ima potrebe.",
+        a: "Da. Adspire je iz Niša i radi sa firmama u celoj Srbiji i inostranstvu, udaljeno, sa sastancima uživo kad ima potrebe.",
       },
     ],
     product: {
@@ -720,7 +720,7 @@ export const nichePages: NichePage[] = [
         "Ko je platio, do kad važi, ko dolazi i ko je prestao — bez sveske na recepciji. Plus prijave na grupne treninge koje same zatvore listu kad se popuni.",
     },
     summary:
-      "Softver za teretanu je sajt i admin u kome stoje članovi, članarine, dolasci i prijave na grupne treninge, sa automatskim podsetnikom pre isteka članarine. Adspire Digital iz Niša pravi takav sistem po meri — logika paketa, naplate i termina iz naloga već radi u sistemu za Toza AI, a zakazivanje i klijentski nalog u berbernici Doctor Barber.",
+      "Softver za teretanu je sajt i admin u kome stoje članovi, članarine, dolasci i prijave na grupne treninge, sa automatskim podsetnikom pre isteka članarine. Adspire iz Niša pravi takav sistem po meri — logika paketa, naplate i termina iz naloga već radi u sistemu za Toza AI, a zakazivanje i klijentski nalog u berbernici Doctor Barber.",
     audience: [
       "Teretane i fitnes centri",
       "Studiji za grupne treninge i pilates",

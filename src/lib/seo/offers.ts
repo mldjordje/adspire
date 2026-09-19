@@ -11,7 +11,7 @@ import { absoluteUrl } from "@/lib/seo/metadata";
  * either omits or guesses at, and a guess is worse for us than silence.
  */
 
-/** `"1.200 – 3.000 €"` and `"80 – 300 € / mesec"` as authored on the page. */
+/** `"850 – 2.100 €"` and `"55 – 210 € / mesec"` as authored on the page. */
 export function parsePriceRange(input: string):
   | { low: number; high: number; currency: "EUR"; perMonth: boolean }
   | undefined {
@@ -34,7 +34,7 @@ export type PriceRangeInput = {
 
 /**
  * One AggregateOffer per project type. `priceCurrency` + low/high is the shape
- * an answer engine can compare; a "1.200 – 3.000 €" string is not.
+ * an answer engine can compare; a "850 – 2.100 €" string is not.
  */
 export function priceRangeOffersJsonLd(ranges: readonly PriceRangeInput[], pageUrl: string) {
   const offers = ranges.flatMap((range, index) => {
@@ -83,7 +83,7 @@ export function priceRangeOffersJsonLd(ranges: readonly PriceRangeInput[], pageU
       "@context": "https://schema.org",
       "@type": "OfferCatalog",
       "@id": `${pageUrl}#pricing`,
-      name: "Rasponi cena — Adspire Digital",
+      name: "Rasponi cena — Adspire",
       url: pageUrl,
       provider: orgRef(),
       itemListElement: offers.map((offer, index) => ({

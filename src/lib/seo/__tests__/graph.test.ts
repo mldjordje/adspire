@@ -229,7 +229,7 @@ describe("JSON-LD graph", () => {
 
   it("publishes the education prices exactly as the page shows them", () => {
     const offers = coursePackageOffers(EDU_PACKAGES, "https://adspire.rs/edukacija");
-    expect(offers.map((offer) => offer.price)).toEqual([500, 1000]);
+    expect(offers.map((offer) => offer.price)).toEqual([350, 700]);
     expect(offers.every((offer) => offer.priceCurrency === "EUR")).toBe(true);
     // Each offer must hand over the page where that package is actually bought.
     expect(offers.map((offer) => offer.url)).toEqual([

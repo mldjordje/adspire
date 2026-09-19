@@ -68,7 +68,7 @@ export function localPageJsonLd(page: LocalPage) {
   return [
     webPageAboutOrganizationJsonLd(
       page.path,
-      `${page.title} | Adspire Digital`,
+      `${page.title} | Adspire`,
       page.metaDescription,
       { mainEntity: localBusinessId(absoluteUrl(page.path)) },
     ),

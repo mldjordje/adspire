@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: ProjectDetailPageProps): Prom
 
   const content = getProjectCaseStudyContent(project);
   const canonical = `${getSiteUrl()}/our-projects/${project.slug}`;
-  const title = `${project.shortTitle} case study | Adspire Digital`;
+  const title = `${project.shortTitle} case study | Adspire`;
   const description = content.shortDescription || content.heroSubtitle;
 
   return {
@@ -44,7 +44,7 @@ export async function generateMetadata({ params }: ProjectDetailPageProps): Prom
       type: "article",
       locale: "sr_RS",
       url: canonical,
-      siteName: "Adspire Digital",
+      siteName: "Adspire",
       title,
       description,
       images: [{ url: project.image, width: 1200, height: 630, alt: project.title }],
@@ -79,8 +79,8 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
     description: content.shortDescription || content.heroSubtitle || project.outcome,
     url: canonical,
     image: project.image.startsWith("http") ? project.image : `${base}${project.image}`,
-    // A named person as author is the evidence signal; "Adspire Digital wrote
-    // about Adspire Digital" is not one an answer engine can weigh.
+    // A named person as author is the evidence signal; "Adspire wrote
+    // about Adspire" is not one an answer engine can weigh.
     author: founderRef(),
     creator: orgRef(),
     publisher: orgRef(),

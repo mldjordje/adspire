@@ -111,14 +111,14 @@ export function aiPageJsonLd(page: AiPage, locale: LocaleCode = defaultLocale) {
   return [
     webPageAboutOrganizationJsonLd(
       path,
-      `${page.title} | Adspire Digital`,
+      `${page.title} | Adspire`,
       page.metaDescription,
       SCHEMA_LANG[locale],
     ),
     aiServiceJsonLd(page, locale),
     aiHowToJsonLd(page, locale),
     breadcrumbJsonLd([
-      { name: "Adspire Digital", path: localePath("/", locale) },
+      { name: "Adspire", path: localePath("/", locale) },
       { name: page.eyebrow, path: indexPath },
       { name: page.industry, path },
     ]),
@@ -132,7 +132,7 @@ export function aiIndexJsonLd(index: AiIndexCopy, locale: LocaleCode = defaultLo
   return [
     webPageAboutOrganizationJsonLd(
       path,
-      `${index.title} | Adspire Digital`,
+      `${index.title} | Adspire`,
       index.metaDescription,
       SCHEMA_LANG[locale],
     ),
@@ -149,7 +149,7 @@ export function aiIndexJsonLd(index: AiIndexCopy, locale: LocaleCode = defaultLo
       })),
     },
     breadcrumbJsonLd([
-      { name: "Adspire Digital", path: localePath("/", locale) },
+      { name: "Adspire", path: localePath("/", locale) },
       { name: index.eyebrow, path },
     ]),
     faqPageJsonLd(index.faq, url),

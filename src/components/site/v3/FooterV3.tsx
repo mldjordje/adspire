@@ -25,7 +25,7 @@ export function FooterV3() {
         <div className={styles.footerTop}>
           <div className={styles.footerBrand}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/images/logo-light.png" alt="Adspire Digital" className={styles.footerLogo} />
+            <img src="/images/logo-light.png" alt="Adspire" className={styles.footerLogo} />
             <p className={styles.footerTagline}>
               Web sistemi i aplikacije koje donose klijente. Iz Niša, za celu Srbiju i region.
             </p>
@@ -51,7 +51,7 @@ export function FooterV3() {
         </div>
 
         <div className={styles.footerBottom}>
-          <span>© {new Date().getFullYear()} Adspire Digital. Sva prava zadržana.</span>
+          <span>© {new Date().getFullYear()} Adspire. Sva prava zadržana.</span>
           <span className={styles.footerMade}>Iskovano u Nišu 🔥</span>
         </div>
       </div>

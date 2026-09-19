@@ -301,7 +301,7 @@ export const bookingPricing = {
   eyebrow: "Cena",
   title: "Šta pomera cenu gore",
   lead:
-    "Za custom razvoj raspon je uglavnom 2.500–6.000 €. Gde ćete pasti u tom rasponu zavisi od nekoliko stvari, i o njima se priča pre ponude, ne posle.",
+    "Za custom razvoj raspon je uglavnom 1.750–4.200 €. Gde ćete pasti u tom rasponu zavisi od nekoliko stvari, i o njima se priča pre ponude, ne posle.",
   drivers: [
     { title: "Broj zaposlenih i lokacija", body: "Jedan kalendar i deset kalendara nisu isti posao." },
     { title: "Složenost pravila", body: "Pripremno vreme, resursi, paketi tretmana i serije termina dodaju logiku." },
@@ -354,7 +354,7 @@ export const bookingFaq = {
   items: [
     {
       q: "Koliko košta sistem za online zakazivanje?",
-      a: "Za custom razvoj raspon je uglavnom 2.500–6.000 €, u zavisnosti od pravila zakazivanja, broja zaposlenih i lokacija, i toga da li se povezuje sa naplatom ili evidencijom klijenata. Tačna cena ide u ponudu posle razgovora o opsegu.",
+      a: "Za custom razvoj raspon je uglavnom 1.750–4.200 €, u zavisnosti od pravila zakazivanja, broja zaposlenih i lokacija, i toga da li se povezuje sa naplatom ili evidencijom klijenata. Tačna cena ide u ponudu posle razgovora o opsegu.",
     },
     {
       q: "Koliko traje implementacija?",

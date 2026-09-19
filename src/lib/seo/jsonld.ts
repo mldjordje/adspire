@@ -59,7 +59,11 @@ export function organizationJsonLd() {
       propertyID: "Matični broj",
       value: ORGANIZATION.registrationNumber,
     },
-    alternateName: ["Adspire", "Adspire Digital Niš", "Adspire IT firma Niš"],
+    // "Adspire Digital" stays here on purpose: it is the name the site carried
+    // for two years, so it is what the Knowledge Graph, every index and every
+    // old link know us by. Dropping it entirely would ask a crawler to treat
+    // the rename as a different company.
+    alternateName: ["Adspire Digital", "Adspire Niš", "Adspire IT firma Niš"],
     url: ORGANIZATION.url,
     email: ORGANIZATION.email,
     telephone: ORGANIZATION.telephone,
@@ -138,7 +142,7 @@ export function organizationJsonLd() {
     hasOfferCatalog: {
       "@type": "OfferCatalog",
       "@id": `${base()}/#offercatalog`,
-      name: "Usluge Adspire Digital",
+      name: "Usluge Adspire",
       itemListElement: serviceCatalog.map((s, i) => ({
         "@type": "ListItem",
         position: i + 1,
@@ -200,14 +204,14 @@ export function webSiteJsonLd() {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "@id": websiteId(),
-    name: "Adspire Digital",
+    name: "Adspire",
     url: base(),
     description: ORGANIZATION.description,
     publisher: orgRef(),
     inLanguage: ["sr-RS", "en-US", "de-DE"],
     potentialAction: {
       "@type": "ContactAction",
-      name: "Kontakt — Adspire Digital",
+      name: "Kontakt — Adspire",
       target: {
         "@type": "EntryPoint",
         urlTemplate: `${base()}/contact-us`,
@@ -335,7 +339,7 @@ export function itemListServicesJsonLd(
     "@context": "https://schema.org",
     "@type": "ItemList",
     "@id": itemListId(indexUrl),
-    name: "Usluge Adspire Digital",
+    name: "Usluge Adspire",
     numberOfItems: servicePaths.length,
     inLanguage: SCHEMA_LANG[locale],
     itemListElement: servicePaths.map((path, index) => ({

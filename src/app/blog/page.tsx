@@ -24,7 +24,7 @@ export default function BlogPage() {
       <JsonLd
         data={collectionPageJsonLd({
           path: "/blog",
-          title: "Blog — Adspire Digital",
+          title: "Blog — Adspire",
           description: blogPage.hero.description,
           items: BLOG_POSTS.map((post) => ({
             name: post.title,

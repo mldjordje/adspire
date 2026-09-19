@@ -117,7 +117,7 @@ async function sendViaSmtp(input: MailInput): Promise<MailResult | null> {
     });
 
     const info = await transporter.sendMail({
-      from: `"Adspire Digital" <${smtp.user}>`,
+      from: `"Adspire" <${smtp.user}>`,
       to: input.to,
       cc: input.cc ?? undefined,
       bcc: input.bcc ?? undefined,

@@ -1396,7 +1396,7 @@ const gyms: AiPage = {
   lead:
     "Recepcija vodi sveske, trener vodi grupu na WhatsApp-u, a vlasnik saznaje da je član otišao tek kad prestane da se pojavljuje. Ništa od toga nije problem motivacije — to je problem evidencije.",
   answer:
-    "U teretani i fitnes studiju AI preuzima poslove oko termina i članstva: prijavu na grupni trening sa ograničenim brojem mesta i listom čekanja, podsetnik pred istek članarine dok je obnova još laka, odgovore na pitanja o rasporedu, ceni i pravilima van radnog vremena, i izdvajanje članova koji su prestali da dolaze pre nego što otkažu. Adspire Digital to gradi kao jedan sistem sa evidencijom dolazaka, umesto kao zbir alata koji ne razgovaraju međusobno.",
+    "U teretani i fitnes studiju AI preuzima poslove oko termina i članstva: prijavu na grupni trening sa ograničenim brojem mesta i listom čekanja, podsetnik pred istek članarine dok je obnova još laka, odgovore na pitanja o rasporedu, ceni i pravilima van radnog vremena, i izdvajanje članova koji su prestali da dolaze pre nego što otkažu. Adspire to gradi kao jedan sistem sa evidencijom dolazaka, umesto kao zbir alata koji ne razgovaraju međusobno.",
   keywords: [
     "AI za teretanu",
     "softver za fitnes studio",
@@ -1516,7 +1516,7 @@ const propertyDevelopers: AiPage = {
   lead:
     "Upit za stan stiže u tri kanala, prodavac odgovara isto pitanje po deseti put, a tabela sa raspoloživim stanovima kasni za stvarnošću jedan rezervisan stan.",
   answer:
-    "Kod investitora i u prodaji novogradnje AI radi na ulazu u prodajni proces: kvalifikuje upit pre nego što stigne do prodavca, odgovara na pitanja o strukturama, kvadraturi, rokovima i načinu plaćanja iz vaših podataka, zakazuje obilazak i drži stanje raspoloživih stanova usklađeno između sajta i interne evidencije. Adspire Digital to gradi kao jedan sistem sa evidencijom stanova i upita, tako da prodavac dobija pripremljen razgovor umesto sirovog kontakta.",
+    "Kod investitora i u prodaji novogradnje AI radi na ulazu u prodajni proces: kvalifikuje upit pre nego što stigne do prodavca, odgovara na pitanja o strukturama, kvadraturi, rokovima i načinu plaćanja iz vaših podataka, zakazuje obilazak i drži stanje raspoloživih stanova usklađeno između sajta i interne evidencije. Adspire to gradi kao jedan sistem sa evidencijom stanova i upita, tako da prodavac dobija pripremljen razgovor umesto sirovog kontakta.",
   keywords: [
     "AI za investitore",
     "softver za prodaju stanova",

@@ -30,7 +30,7 @@ export default function BookingLandingPage() {
         data={[
           webPageAboutOrganizationJsonLd(
             bookingSeo.path,
-            `${bookingSeo.title} | Adspire Digital`,
+            `${bookingSeo.title} | Adspire`,
             bookingSeo.metaDescription,
             { mainEntity: productId(absoluteUrl(bookingSeo.path)) },
           ),

@@ -282,9 +282,9 @@ const blogPosts: BlogPost[] = srContent.blogPage.posts.map((p, i) => ({
 
 export const enContent: LocalizedPageContent = {
   localeLabel: "EN",
-  siteTitle: "Adspire Digital",
+  siteTitle: "Adspire",
   siteDescription:
-    "Adspire Digital — web platforms, e-commerce, PWA and native apps, business systems, AI automation, SaaS and hosting. Contact: djordje@adspire.rs, +381 60 149 149 1.",
+    "Adspire — web platforms, e-commerce, PWA and native apps, business systems, AI automation, SaaS and hosting. Contact: djordje@adspire.rs, +381 60 149 149 1.",
   nav: [
     { label: "Home", href: "/" },
     { label: "About", href: "/about-us" },
@@ -301,7 +301,7 @@ export const enContent: LocalizedPageContent = {
         eyebrow: "Agency mix / Hero 01",
         title: "Web systems that grow with the business",
         description:
-          "Adspire Digital designs, builds and optimises websites, apps and sales flows that turn traffic into enquiries, bookings and revenue.",
+          "Adspire designs, builds and optimises websites, apps and sales flows that turn traffic into enquiries, bookings and revenue.",
         badges: ["Next.js", "SEO", "Booking systems", "Automation"],
         primary: { label: "Start a project", href: "/contact-us" },
         secondary: { label: "View projects", href: "/our-projects" },
@@ -380,7 +380,7 @@ export const enContent: LocalizedPageContent = {
   aboutPage: {
     hero: {
       eyebrow: "About",
-      title: "Adspire Digital — a development and technology partner",
+      title: "Adspire — a development and technology partner",
       description:
         "We specialise in modern web platforms, mobile apps, business systems and AI automation. We build scalable, fast and durable solutions for the local and international market.",
       primary: { label: "Book a call", href: "/contact-us" },
@@ -423,7 +423,7 @@ export const enContent: LocalizedPageContent = {
   servicesPage: {
     hero: {
       eyebrow: "Services",
-      title: "Adspire Digital — what we do and how we deliver",
+      title: "Adspire — what we do and how we deliver",
       description:
         "We cover the full spectrum: web and e-commerce, PWA and native apps, CMS and internal systems, AI and automation, BI, SEO, security, hosting, SaaS and industry solutions. Each service has its own detail page.",
       primary: { label: "Contact", href: "/contact-us" },
@@ -628,7 +628,7 @@ export const enContent: LocalizedPageContent = {
   },
   footer: {
     tagline:
-      "Adspire Digital delivers complete digital solutions — from web and mobile apps to AI automation and SaaS development.",
+      "Adspire delivers complete digital solutions — from web and mobile apps to AI automation and SaaS development.",
     cta: { label: "Contact us", href: "/contact-us" },
     copyright: "All rights reserved.",
     contactItems: [

@@ -10,7 +10,9 @@ export function getSiteUrl() {
  * env var that was never set in production.
  */
 const VERIFIED_PROFILES = [
-  // Google Knowledge Graph id for the verified Adspire Digital business profile.
+  // Google Knowledge Graph id for the verified business profile. Registered
+  // while the brand was still written "Adspire Digital"; the id does not change
+  // with the name, and jsonld.ts keeps the old spelling as an alternateName.
   "https://www.google.com/search?kgmid=/g/11x1sn7rg5",
   "https://www.instagram.com/adspire.rs/",
   "https://github.com/mldjordje",
@@ -40,7 +42,7 @@ export function getOrgSameAs(): string[] {
 }
 
 export const ORGANIZATION = {
-  name: "Adspire Digital",
+  name: "Adspire",
   legalName: "Đorđe Mladenović PR Informacione usluge Adspire Niš",
   taxId: "114723739",
   registrationNumber: "67804961",
@@ -62,5 +64,5 @@ export const ORGANIZATION = {
   // Plain-language first, jargon second: the buyer searching "it firma u nisu"
   // does not search "razvojni i tehnološki partner".
   description:
-    "Adspire Digital je IT firma iz Niša. Pravimo sajtove, aplikacije i programe po meri za firme — web shopove, sisteme za zakazivanje, internu evidenciju, AI automatizaciju, SaaS, SEO i hosting.",
+    "Adspire je IT firma iz Niša. Pravimo sajtove, aplikacije i programe po meri za firme — web shopove, sisteme za zakazivanje, internu evidenciju, AI automatizaciju, SaaS, SEO i hosting.",
 } as const;
