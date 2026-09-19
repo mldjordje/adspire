@@ -19,6 +19,7 @@ import {
 import { nichePages, nichePath } from "@/content/site/nichePages";
 import { bookingIndustryPages, bookingIndustryPath } from "@/content/site/bookingIndustryPages";
 import { diasporaPage, DIASPORA_PATH } from "@/content/site/diasporaPage";
+import { aeoPage, AEO_PATH } from "@/content/site/aeoPage";
 
 const base = () => getSiteUrl();
 
@@ -362,6 +363,12 @@ export function solutionEntries() {
       name: diasporaPage.seo.title,
       description: diasporaPage.summary,
       url: `${base()}${DIASPORA_PATH}`,
+    },
+    {
+      id: `${base()}${AEO_PATH}#service`,
+      name: aeoPage.seo.title,
+      description: aeoPage.summary,
+      url: `${base()}${AEO_PATH}`,
     },
   ];
 }

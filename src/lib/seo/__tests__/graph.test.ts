@@ -29,6 +29,7 @@ import { serviceCatalog } from "@/data/serviceCatalog";
 import { nichePages, nichePath } from "@/content/site/nichePages";
 import { bookingIndustryPages, bookingIndustryPath } from "@/content/site/bookingIndustryPages";
 import { DIASPORA_PATH } from "@/content/site/diasporaPage";
+import { AEO_PATH } from "@/content/site/aeoPage";
 import { aiPages } from "@/content/site/aiPages";
 import { guides } from "@/content/site/guides";
 import { localPages } from "@/content/site/localPages";
@@ -206,6 +207,7 @@ describe("JSON-LD graph", () => {
       ...nichePages.map((page) => `https://adspire.rs${nichePath(page.slug)}#service`),
       ...bookingIndustryPages.map((page) => `https://adspire.rs${bookingIndustryPath(page.slug)}#service`),
       `https://adspire.rs${DIASPORA_PATH}#service`,
+      `https://adspire.rs${AEO_PATH}#service`,
     ];
     for (const id of expected) expect(listed.has(id), `not in the catalog: ${id}`).toBe(true);
     expect(solutions.numberOfItems).toBe(expected.length);

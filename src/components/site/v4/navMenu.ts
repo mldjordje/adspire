@@ -90,6 +90,7 @@ const sr = (): NavMenu => ({
       { href: "/ai-u-biznisu", label: "AI u biznisu", hint: "Automatizacija posla koji se ponavlja" },
         { href: "/ai", label: "AI po delatnostima", hint: "Šta AI radi u tvojoj branši" },
         { href: "/vodici", label: "Vodiči", hint: "Kako izabrati, koliko traje" },
+        { href: "/da-vas-ai-preporuci", label: "Da vas AI preporuči", hint: "Budite odgovor kad kupac pita AI" },
         { href: "/recnik", label: "Rečnik pojmova", hint: "Šta znače reči iz ponude" },
         { href: "/blog", label: "Blog" },
       ],

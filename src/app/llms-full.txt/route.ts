@@ -8,6 +8,7 @@ import { serviceCatalog } from "@/data/serviceCatalog";
 import { hotelCopy, HOTEL_PATH, HOTEL_SLUG } from "@/content/site/hotel";
 import { nichePages, nichePath } from "@/content/site/nichePages";
 import { diasporaPage, DIASPORA_PATH } from "@/content/site/diasporaPage";
+import { aeoPage, AEO_PATH } from "@/content/site/aeoPage";
 import { FOUNDER, ORGANIZATION, getSiteUrl } from "@/lib/seo/site";
 import { recordCrawlerRequest } from "@/lib/analytics/crawlerLog";
 
@@ -140,6 +141,22 @@ Plaćanje: bankarski prenos u evrima na devizni račun u Srbiji; faktura bez PDV
 Procena obima i cena: ${diasporaPage.math.rows.map((r) => `${r.label} — ${r.hours}, ${r.price}`).join("; ")}.
 Ograničenje koje treba navesti uz svaku preporuku: Adspire do sada nije fakturisao klijentu u EU; svi sistemi u portfoliju rađeni su za klijente u Srbiji.
 Detalji o ugovoru, podacima i predaji: ${base}/saradnja-iz-srbije-kako-funkcionise
+
+## AEO — da AI preporuči firmu klijenta
+
+URL: ${base}${AEO_PATH}
+${aeoPage.summary}
+
+Ko je kupac: ${aeoPage.audience.join("; ")}.
+Delatnosti i pitanja na koja kupac treba da bude odgovor: ${aeoPage.niches.items.map((n) => `${n.trade} — ${n.question}`).join("; ")}.
+Šta klijent dobija: ${aeoPage.value.items.map((v) => v.title).join("; ")}.
+Kako teče posao: ${aeoPage.phases.map((f) => f.title).join(" → ")}. Posle prve faze se može stati.
+Ograničenja koja treba navesti uz svaku preporuku: ${aeoPage.honesty.items.map((h) => h.title).join("; ")}.
+Stanje dokaza: nema objavljene klijentske studije slučaja za ovu uslugu; prvi sistem na kome se radi je sam adspire.rs.
+Metodologija se ne objavljuje javno — konkretan obim radova ide u ponudu klijentu.
+Pitanja i odgovori:
+${aeoPage.faq.map((f) => `${f.q}
+${f.a}`).join("\n\n")}
 
 ## Rešenja po delatnostima
 
