@@ -6,6 +6,14 @@ export type BlogSection =
   | { type: "h3"; text: string }
   | { type: "ul"; items: string[] }
   | { type: "callout"; text: string }
+  /**
+   * Internal links out of a post.
+   *
+   * Without this a post is a dead end: it answers the question and then has
+   * nowhere to send the reader, and a crawler reading the cluster sees the
+   * money page linking to the post but never the other way round.
+   */
+  | { type: "links"; heading?: string; items: { label: string; href: string }[] }
   | { type: "divider" };
 
 export type BlogPost = {

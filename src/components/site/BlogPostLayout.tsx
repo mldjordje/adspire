@@ -20,6 +20,19 @@ function Section({ s }: { s: BlogSection }) {
       );
     case "callout":
       return <blockquote className="bp-callout">{s.text}</blockquote>;
+    case "links":
+      return (
+        <aside className="bp-links">
+          {s.heading ? <p className="bp-links__head">{s.heading}</p> : null}
+          <ul className="bp-ul">
+            {s.items.map((item) => (
+              <li key={item.href}>
+                <Link href={item.href}>{item.label}</Link>
+              </li>
+            ))}
+          </ul>
+        </aside>
+      );
     case "divider":
       return <hr className="bp-divider" />;
     default:

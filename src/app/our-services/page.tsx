@@ -2,7 +2,12 @@ import type { Metadata } from "next";
 import { JsonLd } from "@/components/site/JsonLd";
 import { serviceSlugs } from "@/data/serviceCatalog";
 import { servicePath } from "@/lib/seo/ids";
-import { itemListServicesJsonLd, translationRefs, webPageAboutOrganizationJsonLd } from "@/lib/seo/jsonld";
+import {
+  itemListServicesJsonLd,
+  itemListSolutionsJsonLd,
+  translationRefs,
+  webPageAboutOrganizationJsonLd,
+} from "@/lib/seo/jsonld";
 import { absoluteUrl, pageMetadata } from "@/lib/seo/metadata";
 import { defaultLocale } from "@/lib/site-config";
 import { ServicesV4 } from "@/components/site/v4/ServicesV4";
@@ -42,6 +47,10 @@ export default function ServicesPage() {
             ...translationRefs("/our-services", defaultLocale),
           },
           itemListServicesJsonLd(paths),
+          // The catalog answers "what does this company do". This answers
+          // "which pages deliver it to my trade or to someone like me" — the
+          // set an assistant needs before it can name one of them.
+          itemListSolutionsJsonLd(),
         ]}
       />
       <ServicesV4 />

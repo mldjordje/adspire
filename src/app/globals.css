@@ -1685,6 +1685,38 @@ html.mxd-fallback-visible .loading-chars .char {
   font-style: italic;
 }
 
+/* Internal links out of a post — a box, so it reads as a signpost rather
+   than as another bullet list in the argument. */
+.bp-links {
+  margin: 2.2rem 0;
+  padding: 1.4rem 1.8rem;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 10px;
+  background: rgba(255,255,255,0.03);
+}
+
+.bp-links__head {
+  margin: 0 0 0.9rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+}
+
+.bp-links .bp-ul {
+  margin: 0;
+}
+
+.bp-links a {
+  color: #9dc0ff;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.bp-links a:hover {
+  color: #fff;
+}
+
 /* CTA strip */
 .bp-cta {
   background: rgba(255,255,255,0.03);

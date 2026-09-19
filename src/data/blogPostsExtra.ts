@@ -90,6 +90,12 @@ export const EXTRA_BLOG_POSTS: BlogPost[] = [
       { type: "h2", text: "Kako da krenete, bez obzira koga izaberete" },
       { type: "p", text: "Napišite u tri rečenice šta radi vaša firma, ko su vam kupci i šta hoćete da se promeni kad sajt bude gotov. Pošaljite to na tri adrese i uporedite ne cene, nego pitanja koja vam vrate. Izvođač koji postavi bolja pitanja skoro uvek isporuči bolji posao — i to je jedini signal koji se vidi pre nego što potpišete." },
       { type: "p", text: "Ako hoćete da vidite kako to izgleda kod nas: rasponi cena su javni, sistemi koji rade mogu da se otvore i probaju, a odgovor na upit stiže lično, obično isti radni dan." },
+      { type: "links", heading: "Dalje na temu", items: [
+        { label: "Za naše ljude sa firmom u inostranstvu — cene, jezik, radno vreme", href: "/za-nase-ljude-u-dijaspori" },
+        { label: "Saradnja sa firmom iz Srbije — ugovor, faktura, podaci", href: "/saradnja-iz-srbije-kako-funkcionise" },
+        { label: "Koliko košta izrada sajta — svi rasponi po tipu projekta", href: "/cena-izrade-sajta" },
+        { label: "Kako izabrati izvođača i šta pitati pre potpisa", href: "/kako-izabrati-web-agenciju" },
+      ]},
     ],
   },
   {

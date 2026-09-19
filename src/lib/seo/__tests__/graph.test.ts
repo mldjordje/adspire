@@ -8,6 +8,7 @@ import {
   faqPageJsonLd,
   founderJsonLd,
   itemListServicesJsonLd,
+  itemListSolutionsJsonLd,
   organizationJsonLd,
   serviceJsonLd,
   translationRefs,
@@ -26,6 +27,9 @@ import { softwareProductJsonLd } from "@/lib/seo/products";
 import { founderId, orgId, serviceId, servicePath, websiteId } from "@/lib/seo/ids";
 import { isoDate } from "@/lib/seo/dates";
 import { serviceCatalog } from "@/data/serviceCatalog";
+import { nichePages, nichePath } from "@/content/site/nichePages";
+import { bookingIndustryPages, bookingIndustryPath } from "@/content/site/bookingIndustryPages";
+import { DIASPORA_PATH } from "@/content/site/diasporaPage";
 import { aiPages } from "@/content/site/aiPages";
 import { guides } from "@/content/site/guides";
 import { localPages } from "@/content/site/localPages";
@@ -155,7 +159,12 @@ describe("JSON-LD graph", () => {
 
   it("keeps a service's id identical wherever it appears", () => {
     const org = organizationJsonLd();
-    const catalogIds = (org.hasOfferCatalog.itemListElement as Node[]).map(
+    // The organization now carries two catalogs — the services it sells and
+    // the solution pages that deliver them. This assertion is about the first.
+    const serviceCatalogNode = (org.hasOfferCatalog as Node[]).find(
+      (node) => node["@id"] === "https://adspire.rs/#offercatalog",
+    )!;
+    const catalogIds = (serviceCatalogNode.itemListElement as Node[]).map(
       (entry) => ((entry.item as Node).itemOffered as Node)["@id"],
     );
     expect(catalogIds).toEqual(serviceCatalog.map((entry) => serviceId(entry.slug)));
@@ -169,6 +178,52 @@ describe("JSON-LD graph", () => {
     const list = itemListServicesJsonLd(serviceCatalog.map((item) => servicePath(item.slug)));
     expect((list.itemListElement as Node[]).map((item) => (item.item as Node)["@id"])).toEqual(
       catalogIds,
+    );
+  });
+
+  /**
+   * Every solution page has to be reachable from the organization node.
+   *
+   * These pages carry the answer to "who builds X for my trade" and "who works
+   * with a company abroad", and each of them is a Service the page itself
+   * publishes. If the org does not list them, an assistant that starts from
+   * the company — which is how a recommendation starts — cannot enumerate
+   * them, and a page nobody can enumerate is a page nobody recommends.
+   */
+  it("lists every solution page in the organization's second catalog", () => {
+    const org = organizationJsonLd();
+    const solutions = (org.hasOfferCatalog as Node[]).find(
+      (node) => node["@id"] === "https://adspire.rs/#solutionscatalog",
+    )!;
+    expect(solutions, "the solutions catalog is missing from the org node").toBeDefined();
+
+    const listed = new Set(
+      (solutions.itemListElement as Node[]).map(
+        (entry) => ((entry.item as Node).itemOffered as Node)["@id"],
+      ),
+    );
+
+    const expected = [
+      ...nichePages.map((page) => `https://adspire.rs${nichePath(page.slug)}#service`),
+      ...bookingIndustryPages.map((page) => `https://adspire.rs${bookingIndustryPath(page.slug)}#service`),
+      `https://adspire.rs${DIASPORA_PATH}#service`,
+    ];
+    for (const id of expected) expect(listed.has(id), `not in the catalog: ${id}`).toBe(true);
+    expect(solutions.numberOfItems).toBe(expected.length);
+  });
+
+  it("publishes the same solution set on the services index", () => {
+    const list = itemListSolutionsJsonLd();
+    const org = organizationJsonLd();
+    const solutions = (org.hasOfferCatalog as Node[]).find(
+      (node) => node["@id"] === "https://adspire.rs/#solutionscatalog",
+    )!;
+    // Same ids on both sides, so the index and the org describe one set rather
+    // than two lists that happen to overlap.
+    expect((list.itemListElement as Node[]).map((item) => (item.item as Node)["@id"])).toEqual(
+      (solutions.itemListElement as Node[]).map(
+        (entry) => ((entry.item as Node).itemOffered as Node)["@id"],
+      ),
     );
   });
 

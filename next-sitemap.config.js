@@ -109,6 +109,16 @@ module.exports = {
       "/cena-izrade-sajta",
       "/ai-chatbot-za-sajt",
       "/besplatan-pregled-sajta",
+      // The niche solution pages and the diaspora offer. Each of these is a
+      // page that answers one buying question end to end, which is what the
+      // rest of this list has in common — not a category index.
+      "/softver-za-salon-lepote",
+      "/izrada-web-shopa",
+      "/prezentacioni-sajt-za-firmu",
+      "/sajt-za-gradjevinsku-firmu",
+      "/softver-za-teretanu",
+      "/za-nase-ljude-u-dijaspori",
+      "/saradnja-iz-srbije-kako-funkcionise",
     ].includes(cleanPath);
 
     let priority = config.priority;

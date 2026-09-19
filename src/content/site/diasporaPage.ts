@@ -275,5 +275,9 @@ export const diasporaPage = {
     { href: "/saradnja-iz-srbije-kako-funkcionise", label: "Kako izgleda saradnja sa firmom iz Srbije" },
     { href: "/cena-izrade-sajta", label: "Koliko košta izrada sajta — svi rasponi" },
     { href: "/kako-izabrati-web-agenciju", label: "Kako izabrati izvođača i šta pitati" },
+    {
+      href: "/blog/izrada-sajta-iz-srbije-za-firmu-u-inostranstvu",
+      label: "Ponuda vam se čini previsoka? Kako da je proverite",
+    },
   ],
 } as const;

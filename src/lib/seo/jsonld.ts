@@ -16,6 +16,9 @@ import {
   websiteId,
   websiteRef,
 } from "@/lib/seo/ids";
+import { nichePages, nichePath } from "@/content/site/nichePages";
+import { bookingIndustryPages, bookingIndustryPath } from "@/content/site/bookingIndustryPages";
+import { diasporaPage, DIASPORA_PATH } from "@/content/site/diasporaPage";
 
 const base = () => getSiteUrl();
 
@@ -101,7 +104,7 @@ export function organizationJsonLd() {
         email: ORGANIZATION.email,
         telephone: ORGANIZATION.telephone,
         availableLanguage: ["sr", "en", "de"],
-        areaServed: ["RS", "BA", "HR", "SI", "ME", "DE", "AT", "CH"],
+        areaServed: ["RS", "BA", "HR", "SI", "ME", "DE", "AT", "CH", "SE"],
         url: `${base()}/contact-us`,
       },
       {
@@ -126,6 +129,10 @@ export function organizationJsonLd() {
       { "@type": "Country", name: "Germany" },
       { "@type": "Country", name: "Austria" },
       { "@type": "Country", name: "Switzerland" },
+      // Added with /za-nase-ljude-u-dijaspori, which names Sweden as a
+      // market. A page that claims a country the org node does not serve
+      // is a contradiction an assistant can see.
+      { "@type": "Country", name: "Sweden" },
     ],
     priceRange: "$$",
     currenciesAccepted: "RSD, EUR",
@@ -138,30 +145,47 @@ export function organizationJsonLd() {
         closes: "17:00",
       },
     ],
-    knowsAbout: serviceCatalog.map((s) => s.keywordSr.split(",")[0].trim()),
-    hasOfferCatalog: {
-      "@type": "OfferCatalog",
-      "@id": `${base()}/#offercatalog`,
-      name: "Usluge Adspire",
-      itemListElement: serviceCatalog.map((s, i) => ({
-        "@type": "ListItem",
-        position: i + 1,
-        item: {
-          "@type": "Offer",
-          itemOffered: {
-            "@type": "Service",
-            // The catalog entry and the service page used to publish two
-            // unrelated nodes for one service, so neither carried the full
-            // signal. Same @id on both sides merges them into one.
-            "@id": serviceId(s.slug),
-            name: s.keywordSr.split(",")[0].trim(),
-            description: s.metaDescriptionSr,
-            url: serviceUrl(s.slug),
-            provider: orgRef(),
+    // The catalog keywords answer "what does this company sell". These answer
+    // "what can it be asked about" — the questions the newer pages exist for,
+    // and the ones an assistant matches a user's sentence against.
+    knowsAbout: [
+      ...serviceCatalog.map((s) => s.keywordSr.split(",")[0].trim()),
+      ...nichePages.map((page) => page.product.name),
+      "Rad sa klijentima iz dijaspore",
+      "Fakturisanje usluga firmama u EU u evrima",
+      "Reverse charge za usluge iz Srbije",
+      "Izbor izvođača za sajt i procena ponude",
+    ],
+    // Two catalogs: the services this company sells, and the solution pages
+    // that deliver them to a named trade or a named audience. The second one
+    // is what lets an assistant enumerate those pages from the organization
+    // node instead of having to crawl into them.
+    hasOfferCatalog: [
+      solutionsOfferCatalogJsonLd(),
+      {
+        "@type": "OfferCatalog",
+        "@id": `${base()}/#offercatalog`,
+        name: "Usluge Adspire",
+        itemListElement: serviceCatalog.map((s, i) => ({
+          "@type": "ListItem",
+          position: i + 1,
+          item: {
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Service",
+              // The catalog entry and the service page used to publish two
+              // unrelated nodes for one service, so neither carried the full
+              // signal. Same @id on both sides merges them into one.
+              "@id": serviceId(s.slug),
+              name: s.keywordSr.split(",")[0].trim(),
+              description: s.metaDescriptionSr,
+              url: serviceUrl(s.slug),
+              provider: orgRef(),
+            },
           },
-        },
-      })),
-    },
+        })),
+      },
+    ],
     founder: founderRef(),
     employee: founderRef(),
     ...(getOrgSameAs().length > 0 ? { sameAs: getOrgSameAs() } : {}),
@@ -327,6 +351,90 @@ export function serviceJsonLd(
     areaServed: { "@type": "Country", name: "Serbia" },
     serviceType: localized?.serviceType ?? entry.keywordSr,
     ...(localized ? { sameAs: serviceUrl(entry.slug) } : {}),
+  };
+}
+
+/**
+ * Every solution page, as one list the organization owns.
+ *
+ * `hasOfferCatalog` lists the service catalog — the answer to "what does this
+ * company do". It has never listed the pages that answer "who builds X for my
+ * trade" or "who works with a company abroad", so those pages existed in the
+ * graph only as islands reachable by crawling to them. An assistant reading
+ * the organization node could not enumerate them, which is exactly the moment
+ * a recommendation gets made.
+ *
+ * Nothing new is declared here. Every entry references an `@id` the page
+ * already publishes, so this is membership, not a second copy of the entity —
+ * the failure mode `ids.ts` was written to prevent.
+ */
+export function solutionEntries() {
+  return [
+    ...nichePages.map((page) => ({
+      id: `${base()}${nichePath(page.slug)}#service`,
+      name: page.product.name,
+      description: page.summary,
+      url: `${base()}${nichePath(page.slug)}`,
+    })),
+    ...bookingIndustryPages.map((page) => ({
+      id: `${base()}${bookingIndustryPath(page.slug)}#service`,
+      name: page.seo.title,
+      description: page.summary,
+      url: `${base()}${bookingIndustryPath(page.slug)}`,
+    })),
+    {
+      id: `${base()}${DIASPORA_PATH}#service`,
+      name: diasporaPage.seo.title,
+      description: diasporaPage.summary,
+      url: `${base()}${DIASPORA_PATH}`,
+    },
+  ];
+}
+
+/** The catalog node itself, attached to the organization. */
+export function solutionsOfferCatalogJsonLd() {
+  const entries = solutionEntries();
+  return {
+    "@type": "OfferCatalog",
+    "@id": `${base()}/#solutionscatalog`,
+    name: "Rešenja po delatnosti i po publici",
+    numberOfItems: entries.length,
+    itemListElement: entries.map((entry, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      item: {
+        "@type": "Offer",
+        itemOffered: { "@id": entry.id },
+        seller: orgRef(),
+        url: entry.url,
+      },
+    })),
+  };
+}
+
+/**
+ * The same list as a plain ItemList, published on /our-services.
+ *
+ * The offer catalog says the organization offers these; this says the services
+ * index is where they are listed. Both carry URLs, which is what makes the set
+ * enumerable without crawling the navigation.
+ */
+export function itemListSolutionsJsonLd() {
+  const indexUrl = `${base()}/our-services`;
+  const entries = solutionEntries();
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "@id": `${indexUrl}#solutions`,
+    name: "Rešenja po delatnosti i po publici",
+    numberOfItems: entries.length,
+    inLanguage: SCHEMA_LANG[defaultLocale],
+    itemListElement: entries.map((entry, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      url: entry.url,
+      item: { "@id": entry.id, name: entry.name, description: entry.description },
+    })),
   };
 }
 
