@@ -1,4 +1,4 @@
-import { FOUNDER, ORGANIZATION, getOrgSameAs, getSiteUrl } from "@/lib/seo/site";
+import { CONTACT_LANGUAGES, FOUNDER, ORGANIZATION, getOrgSameAs, getSiteUrl, serviceAreaServed } from "@/lib/seo/site";
 import { serviceCatalog, type ServiceCatalogEntry } from "@/data/serviceCatalog";
 import { defaultLocale, localePath, prefixedLocales, type LocaleCode } from "@/lib/site-config";
 import {
@@ -24,15 +24,7 @@ const base = () => getSiteUrl();
 
 export const SCHEMA_LANG = { sr: "sr-RS", en: "en-US", de: "de-DE" } as const;
 
-/**
- * Cross-links a page's language versions.
- *
- * hreflang tells a crawler which URL to serve; it does not say the pages are
- * one work. Without `translationOfWork` the German page is a separate document
- * that happens to look similar, and every signal the Serbian original earned
- * has to be earned again from zero. Only pass paths that are genuinely
- * translated — see isTranslatedPath.
- */
+/** Link actual translations of a work; ranking signals are not guaranteed. */
 export function translationRefs(basePath: string, locale: LocaleCode) {
   const canonical = `${base()}${localePath(basePath, defaultLocale)}`;
   if (locale === defaultLocale) {
@@ -91,9 +83,8 @@ export function organizationJsonLd() {
       latitude: ORGANIZATION.geo.latitude,
       longitude: ORGANIZATION.geo.longitude,
     },
-    // The business is run in these three languages; an answer engine asked in
-    // German has no other way to know it may recommend a Serbian company.
-    knowsLanguage: ["sr", "en", "de"],
+    // A translated site does not imply sales conversations in that language.
+    knowsLanguage: CONTACT_LANGUAGES,
     // Spelling the channels out lets an assistant answer "how do I reach them"
     // with something actionable instead of a bare page link.
     contactPoint: [
@@ -103,7 +94,7 @@ export function organizationJsonLd() {
         contactType: "sales",
         email: ORGANIZATION.email,
         telephone: ORGANIZATION.telephone,
-        availableLanguage: ["sr", "en", "de"],
+        availableLanguage: CONTACT_LANGUAGES,
         areaServed: ["RS", "BA", "HR", "SI", "ME", "DE", "AT", "CH", "SE"],
         url: `${base()}/contact-us`,
       },
@@ -116,24 +107,7 @@ export function organizationJsonLd() {
         url: `${base()}/odrzavanje-i-podrska`,
       },
     ],
-    areaServed: [
-      { "@type": "Country", name: "Serbia" },
-      { "@type": "AdministrativeArea", name: "Niš" },
-      { "@type": "Country", name: "Bosnia and Herzegovina" },
-      { "@type": "Country", name: "Croatia" },
-      { "@type": "Country", name: "Slovenia" },
-      { "@type": "Country", name: "Montenegro" },
-      // adspireagency.de is a live German-language front for this same company;
-      // without the DACH countries here the German site is an entity with no
-      // stated market.
-      { "@type": "Country", name: "Germany" },
-      { "@type": "Country", name: "Austria" },
-      { "@type": "Country", name: "Switzerland" },
-      // Added with /za-nase-ljude-u-dijaspori, which names Sweden as a
-      // market. A page that claims a country the org node does not serve
-      // is a contradiction an assistant can see.
-      { "@type": "Country", name: "Sweden" },
-    ],
+    areaServed: serviceAreaServed(),
     priceRange: "$$",
     currenciesAccepted: "RSD, EUR",
     paymentAccepted: "Bank Transfer, Invoice, Cash",
@@ -211,7 +185,6 @@ export function founderJsonLd() {
     email: ORGANIZATION.email,
     telephone: ORGANIZATION.telephone,
     worksFor: orgRef(),
-    founderOf: orgRef(),
     knowsLanguage: ["sr", "en"],
     knowsAbout: serviceCatalog.map((s) => s.keywordSr.split(",")[0].trim()),
     address: {
@@ -252,7 +225,9 @@ type WebPageOptions = {
   datePublished?: string;
   /** Node ids this page's content is primarily about (a Service, Product, …). */
   mainEntity?: string;
-  /** CSS selectors whose text an assistant may read aloud or quote. */
+  /** Published sources linked in the visible page content. */
+  citations?: string[];
+  /** CSS selectors for speakable content; no guarantee of AI use. */
   speakable?: string[];
 };
 
@@ -277,6 +252,7 @@ export function webPageAboutOrganizationJsonLd(
     inLanguage: opts.inLanguage ?? "sr-RS",
     ...(opts.datePublished ? { datePublished: opts.datePublished } : {}),
     ...(opts.dateModified ? { dateModified: opts.dateModified } : {}),
+    ...(opts.citations?.length ? { citation: opts.citations } : {}),
     ...(opts.mainEntity ? { mainEntity: { "@id": opts.mainEntity } } : {}),
     ...(opts.speakable
       ? {
@@ -314,8 +290,7 @@ export function faqPageJsonLd(
     "@type": "FAQPage",
     "@id": faqId(pageUrl),
     url: pageUrl,
-    // Google retired FAQ rich results for most sites, but the answer engines
-    // still parse this — it is the block they quote verbatim.
+    // Keep these answers identical to the visible FAQ; citation is not guaranteed.
     mainEntity: qa.map((item) => ({
       "@type": "Question",
       name: item.q,
@@ -348,7 +323,7 @@ export function serviceJsonLd(
     description: localized?.description ?? entry.metaDescriptionSr,
     url,
     provider: orgRef(),
-    areaServed: { "@type": "Country", name: "Serbia" },
+    areaServed: serviceAreaServed(),
     serviceType: localized?.serviceType ?? entry.keywordSr,
     ...(localized ? { sameAs: serviceUrl(entry.slug) } : {}),
   };

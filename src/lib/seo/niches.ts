@@ -1,18 +1,9 @@
 import { getNichePage, nichePath, type NichePage } from "@/content/site/nichePages";
 import { absoluteUrl, pageMetadata } from "./metadata";
 import { breadcrumbJsonLd, faqPageJsonLd, webPageAboutOrganizationJsonLd } from "./jsonld";
-import { orgRef, productId, serviceId } from "./ids";
-import { softwareProductJsonLd } from "./products";
+import { orgRef, serviceId } from "./ids";
 
-/**
- * Markup for the per-niche solution pages, built the way the hotel page is.
- *
- * The hotel page is the one an answer engine keeps quoting, and the difference
- * is not the copy: it carries a SoftwareApplication with a name and a feature
- * list, a Service with an audience, and an FAQPage — so "who builds X for a
- * Serbian business" resolves to a named thing rather than to prose about an
- * agency. Every niche page gets the same three nodes from one builder.
- */
+/** Custom development services with the same evidence links shown on the page. */
 
 export function nicheMetadata(page: NichePage) {
   return pageMetadata({
@@ -27,30 +18,14 @@ export function nicheJsonLd(page: NichePage) {
   const path = nichePath(page.slug);
   const url = absoluteUrl(path);
 
-  // What the buyer is paying for, as capabilities. The value section is the
-  // part people actually ask about ("what am I paying for"), so it belongs in
-  // the feature list next to the features themselves.
-  const featureList = [
-    ...page.features.map((item) => item.title),
-    ...page.value.items.map((item) => item.title),
-  ];
-
   return [
     {
       ...webPageAboutOrganizationJsonLd(path, `${page.seo.title} | Adspire`, page.seo.metaDescription, {
-        mainEntity: productId(url),
+        mainEntity: `${url}#service`,
+        citations: page.proof.map((item) => item.external ? item.href : absoluteUrl(item.href)),
         speakable: ["[data-answer]"],
       }),
     },
-    softwareProductJsonLd({
-      path,
-      name: page.product.name,
-      description: page.summary,
-      category: page.product.category,
-      featureList,
-      audience: page.product.audience,
-      serviceSlug: page.inquiryService,
-    }),
     {
       "@context": "https://schema.org",
       "@type": "Service",

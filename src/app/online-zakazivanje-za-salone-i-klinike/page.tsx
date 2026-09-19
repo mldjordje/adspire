@@ -13,8 +13,7 @@ import {
   webPageAboutOrganizationJsonLd,
 } from "@/lib/seo/jsonld";
 import { absoluteUrl, pageMetadata } from "@/lib/seo/metadata";
-import { orgRef, productId } from "@/lib/seo/ids";
-import { softwareProductJsonLd } from "@/lib/seo/products";
+import { orgRef } from "@/lib/seo/ids";
 
 export const metadata: Metadata = pageMetadata({
   path: bookingSeo.path,
@@ -32,24 +31,8 @@ export default function BookingLandingPage() {
             bookingSeo.path,
             `${bookingSeo.title} | Adspire`,
             bookingSeo.metaDescription,
-            { mainEntity: productId(absoluteUrl(bookingSeo.path)) },
+            { mainEntity: `${absoluteUrl(bookingSeo.path)}#service` },
           ),
-          softwareProductJsonLd({
-            path: bookingSeo.path,
-            name: "Adspire sistem za online zakazivanje",
-            description: bookingSeo.metaDescription,
-            category: "BusinessApplication",
-            featureList: [
-              "Zakazivanje termina 24/7 sa sajta i telefona",
-              "Kalendar po zaposlenom, usluzi i lokaciji",
-              "SMS i email podsetnici koji smanjuju nedolaske",
-              "Pravila trajanja, pauza i preklapanja termina",
-              "Admin panel sa istorijom klijenata",
-              "Izveštaji o popunjenosti i otkazivanjima",
-            ],
-            audience: "Saloni, klinike, ordinacije i servisi",
-            serviceSlug: "sistemi-za-zakazivanje",
-          }),
           {
             "@context": "https://schema.org",
             "@type": "Service",
@@ -69,8 +52,7 @@ export default function BookingLandingPage() {
             { name: "Početna", path: "/" },
             { name: bookingHero.title, path: bookingSeo.path },
           ]),
-          // The answers are what answer engines quote; leaving them only in the
-          // accordion makes them invisible to anything that does not render.
+          // Same answers as the server-rendered FAQ accordion.
           faqPageJsonLd(bookingFaq.items, absoluteUrl(bookingSeo.path)),
         ]}
       />

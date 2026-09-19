@@ -1,4 +1,6 @@
 import { getAnalyticsOverview, getCrawlerOverview } from "@/lib/analytics/queries";
+import { getAiVisibility } from "@/lib/analytics/aiVisibility";
+import { crawlerPurpose } from "@/lib/analytics/aiVisibilitySource";
 import { crawlerLabel } from "@/lib/analytics/crawlers";
 import { aiSourceEngine } from "@/lib/analytics/aiReferrers";
 
@@ -25,10 +27,12 @@ export default async function OsAnalyticsPage({ searchParams }: Props) {
   const parsed = Number(dani);
   const days = RANGES.includes(parsed) ? parsed : 30;
 
-  // A pending migration must not take down the screen that explains the funnel.
-  const data = await getAnalyticsOverview(days).catch(() => null);
-  // Same for the crawler table, which lands in a later migration than the funnel.
-  const crawlers = await getCrawlerOverview(days).catch(() => null);
+  // Each data source fails independently when its table is not available.
+  const [data, crawlers, aiVisits] = await Promise.all([
+    getAnalyticsOverview(days).catch(() => null),
+    getCrawlerOverview(days).catch(() => null),
+    getAiVisibility(days).catch(() => null),
+  ]);
 
   if (!data) {
     return (
@@ -198,7 +202,26 @@ export default async function OsAnalyticsPage({ searchParams }: Props) {
 
 
       <section className="os-section">
+        <h2 className="os-h3">Posete iz AI asistenata</h2>
+        <p className="os-sub">Posete sa prepoznatim AI izvorom i sesije u kojima je poslata forma.</p>
+        {aiVisits === null ? <p className="os-empty">AI izvori trenutno nisu dostupni.</p> : (
+          <div className="os-tablewrap">
+            <table className="os-table">
+              <thead><tr><th>Izvor</th><th>Posete</th><th>Poslali upit</th><th>Konverzija</th></tr></thead>
+              <tbody>
+                {aiVisits.length === 0 ? <tr><td colSpan={4}>Nema prepoznatih AI poseta u ovom periodu.</td></tr> : aiVisits.map(row => (
+                  <tr key={row.source}><td>{row.source}</td><td>{row.sessions}</td><td>{row.submits}</td><td>{pct(row.submits, row.sessions)}%</td></tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+        <p className="os-note">Izvor se prepoznaje iz referrera ili UTM oznake. Posete bez tih podataka nisu obuhvaćene. Slanje forme nije potvrda kvalifikovanog upita; kvalitet proveri u listi upita. Google AI odgovore nije moguće izdvojiti iz običnog Google saobraćaja ovim podacima.</p>
+      </section>
+
+      <section className="os-section">
         <h2 className="os-h3">AI crawleri</h2>
+        <p className="os-note">Obilasci botova nisu posete kupaca niti dokaz preporuke. Namena se određuje prema prijavljenom user-agentu, bez potvrde identiteta bota.</p>
         {!crawlers ? (
           <p className="os-empty">
             Tabela <code>crawler_hits</code> još ne postoji. Pokreni migracije
@@ -222,6 +245,7 @@ export default async function OsAnalyticsPage({ searchParams }: Props) {
                     <tr>
                       <th>Bot</th>
                       <th>Motor</th>
+                      <th>Namena</th>
                       <th>Obilazaka</th>
                       <th>Strana</th>
                       <th>Poslednji put</th>
@@ -230,13 +254,14 @@ export default async function OsAnalyticsPage({ searchParams }: Props) {
                   <tbody>
                     {crawlers.byBot.length === 0 ? (
                       <tr>
-                        <td colSpan={5}>Nema obilazaka u ovom periodu.</td>
+                        <td colSpan={6}>Nema obilazaka u ovom periodu.</td>
                       </tr>
                     ) : (
                       crawlers.byBot.map((row) => (
                         <tr key={row.bot}>
                           <td>{crawlerLabel(row.bot)}</td>
                           <td>{row.engine}</td>
+                          <td>{crawlerPurpose(row.bot)}</td>
                           <td>{row.hits}</td>
                           <td>{row.paths}</td>
                           <td>{new Date(row.lastSeen).toLocaleDateString("sr-RS")}</td>
@@ -287,7 +312,7 @@ export default async function OsAnalyticsPage({ searchParams }: Props) {
 
             <p className="os-note">
               {crawlers.drainHits === 0
-                ? "Meri se samo /llms.txt i /robots.txt. Za pokrivenost po stranama uključi Vercel log drain (Observability → Log Drains) na /api/logs/drain. Vercel Analytics ovde ne pomaže — to je skripta u pregledaču, a crawleri ne izvršavaju JavaScript."
+                ? "Mere se samo zahtevi ka /llms.txt i /llms-full.txt. Za pokrivenost po stranama uključi Vercel log drain (Observability → Log Drains) na /api/logs/drain. Vercel Analytics ovde ne pomaže — to je skripta u pregledaču, a crawleri ne izvršavaju JavaScript."
                 : `Log drain radi: ${crawlers.drainHits} od ${crawlers.hits} obilazaka stiže sa punog serverskog loga.`}
             </p>
           </>

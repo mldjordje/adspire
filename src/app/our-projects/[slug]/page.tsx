@@ -10,7 +10,7 @@ import {
   projectCaseStudySlugs,
 } from "@/data/projectCaseStudies";
 import { breadcrumbJsonLd, webPageAboutOrganizationJsonLd } from "@/lib/seo/jsonld";
-import { founderRef, orgRef, productId } from "@/lib/seo/ids";
+import { caseStudyEntities } from "@/lib/seo/caseStudy";
 import { getSiteUrl } from "@/lib/seo/site";
 
 type ProjectDetailPageProps = {
@@ -68,49 +68,6 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
   }
 
   const content = getCaseStudyV4Content(project);
-  const base = getSiteUrl();
-  const canonical = `${base}/our-projects/${project.slug}`;
-  const caseStudyJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "@id": `${canonical}#article`,
-    headline: project.title,
-    name: project.title,
-    description: content.shortDescription || content.heroSubtitle || project.outcome,
-    url: canonical,
-    image: project.image.startsWith("http") ? project.image : `${base}${project.image}`,
-    // A named person as author is the evidence signal; "Adspire wrote
-    // about Adspire" is not one an answer engine can weigh.
-    author: founderRef(),
-    creator: orgRef(),
-    publisher: orgRef(),
-    inLanguage: "sr-RS",
-    about: { "@id": productId(canonical) },
-    mentions: orgRef(),
-  };
-
-  /**
-   * The delivered system as its own node, with the live client site as the
-   * proof link. This is what turns "an agency claims a result" into "a named
-   * system that runs at a URL anyone can open".
-   */
-  const deliveredSystemJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "@id": productId(canonical),
-    name: project.shortTitle,
-    description: project.outcome,
-    applicationCategory: "BusinessApplication",
-    applicationSubCategory: project.category,
-    operatingSystem: "Web",
-    url: project.website,
-    sameAs: project.website,
-    author: orgRef(),
-    provider: orgRef(),
-    // The stack is authored as a comma-joined string for the page body.
-    featureList: project.stack.split(",").map((item) => item.trim()).filter(Boolean),
-    isPartOf: { "@id": `${canonical}#article` },
-  };
 
   return (
     <div className={v4FontClass}>
@@ -120,10 +77,9 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
             `/our-projects/${project.slug}`,
             project.title,
             content.shortDescription || project.outcome,
-            { mainEntity: `${canonical}#article` },
+            { mainEntity: `${getSiteUrl()}/our-projects/${project.slug}#article` },
           ),
-          caseStudyJsonLd,
-          deliveredSystemJsonLd,
+          ...caseStudyEntities(project, content),
           breadcrumbJsonLd([
             { name: "Pocetna", path: "/" },
             { name: "Projekti", path: "/our-projects" },

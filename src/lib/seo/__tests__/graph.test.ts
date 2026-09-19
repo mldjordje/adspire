@@ -23,7 +23,6 @@ import {
   inquiryPageJsonLd,
   legalPageJsonLd,
 } from "@/lib/seo/pages";
-import { softwareProductJsonLd } from "@/lib/seo/products";
 import { founderId, orgId, serviceId, servicePath, websiteId } from "@/lib/seo/ids";
 import { isoDate } from "@/lib/seo/dates";
 import { serviceCatalog } from "@/data/serviceCatalog";
@@ -297,20 +296,6 @@ describe("JSON-LD graph", () => {
     expect(isoDate("03.04.2026")).toBe("2026-04-03");
     expect(isoDate("2026-04-03")).toBe("2026-04-03");
     expect(isoDate("prošle nedelje")).toBeUndefined();
-  });
-
-  it("describes a product with an offer and real features", () => {
-    const product = softwareProductJsonLd({
-      path: "/hotelski-rezervacioni-sistem",
-      name: "Hotelski sistem",
-      description: "d",
-      category: "BusinessApplication",
-      featureList: ["Rezervacije"],
-      serviceSlug: "sistemi-za-zakazivanje",
-    });
-    expect(product["@id"]).toBe("https://adspire.rs/hotelski-rezervacioni-sistem#product");
-    expect(product.offers.seller).toEqual({ "@id": orgId() });
-    expect(product.featureList.length).toBeGreaterThan(0);
   });
 
   it("gives the founder a profile a crawler can cross-check", () => {

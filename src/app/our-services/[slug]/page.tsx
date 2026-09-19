@@ -85,7 +85,7 @@ export default async function ServiceDetailPage({ params }: ServiceDetailPagePro
             `/our-services/${slug}`,
             catalog.seoTitleSr ?? service.title,
             catalog.metaDescriptionSr,
-            { mainEntity: serviceId(slug), speakable: ["[data-answer]"] },
+            { mainEntity: serviceId(slug), citations: catalog.proof?.map((item) => `${getSiteUrl()}${item.href}`), speakable: ["[data-answer]"] },
           ),
           serviceJsonLd(catalog, service.title),
           faqPageJsonLd(catalog.faqItems, `${getSiteUrl()}/our-services/${slug}`),

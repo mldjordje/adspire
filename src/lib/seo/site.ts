@@ -15,7 +15,6 @@ const VERIFIED_PROFILES = [
   // with the name, and jsonld.ts keeps the old spelling as an alternateName.
   "https://www.google.com/search?kgmid=/g/11x1sn7rg5",
   "https://www.instagram.com/adspire.rs/",
-  "https://github.com/mldjordje",
 ];
 
 /**
@@ -66,3 +65,16 @@ export const ORGANIZATION = {
   description:
     "Adspire je IT firma iz Niša. Pravimo sajtove, aplikacije i programe po meri za firme — web shopove, sisteme za zakazivanje, internu evidenciju, AI automatizaciju, SaaS, SEO i hosting.",
 } as const;
+
+/** Markets offered through remote delivery; independent of the page language. */
+export const SERVICE_MARKETS = [
+  "Serbia", "Bosnia and Herzegovina", "Croatia", "Slovenia", "Montenegro",
+  "Germany", "Austria", "Switzerland", "Sweden",
+] as const;
+
+export function serviceAreaServed() {
+  return SERVICE_MARKETS.map((name) => ({ "@type": "Country", name }));
+}
+
+/** Conversation languages, distinct from the website's SR/EN/DE translations. */
+export const CONTACT_LANGUAGES = ["sr", "en"];

@@ -1,5 +1,6 @@
 "use client";
 
+import { FOUNDER } from "@/lib/seo/site";
 import type { ProjectCaseStudy } from "@/data/projectCaseStudies";
 import { PageShellV4 } from "./PageShellV4";
 import { StickyCtaV4 } from "./StickyCtaV4";
@@ -66,6 +67,8 @@ export function CaseStudyV4({ project, content }: CaseStudyV4Props) {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img className={styles.shotImg} src={project.image} alt={project.title} />
       </section>
+
+      <p>Autor studije: <a href="/about-us">{FOUNDER.name}</a>, {FOUNDER.jobTitle}.</p>
 
       {/* Overview */}
       <section className={styles.overview} data-reveal>

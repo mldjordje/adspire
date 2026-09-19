@@ -11,6 +11,7 @@ export type ProjectCaseStudy = {
   extraImages?: string[];
   website: string;
   stack: string;
+  deliveredType: "WebSite" | "SoftwareApplication";
   outcome: string;
 };
 
@@ -23,6 +24,7 @@ export const projectCaseStudies: ProjectCaseStudy[] = [
     category: "Booking + klinika",
     image: "/images/case-studies/drigic-mobileview.webp",
     website: "https://drigic.rs",
+    deliveredType: "SoftwareApplication",
     stack: "Next.js, PostgreSQL, Drizzle, Vercel Blob, Resend",
     outcome: "Sajt, booking, admin kalendar, Beauty Pass i analitika rade kao jedan sistem.",
   },
@@ -34,6 +36,7 @@ export const projectCaseStudies: ProjectCaseStudy[] = [
     category: "SEO + operativa",
     image: "/images/case-studies/prevozkop-desktop.webp",
     website: "https://prevozkop.rs",
+    deliveredType: "SoftwareApplication",
     stack: "Next.js, PHP API, MySQL, Vercel, cPanel",
     outcome: "Javni SEO sajt, lead CRM, ponude, proizvodi, radnici, vozila i isporuke.",
   },
@@ -46,6 +49,7 @@ export const projectCaseStudies: ProjectCaseStudy[] = [
     image: "/images/case-studies/santos-desktop.webp",
     extraImages: ["/images/case-studies/santos-mobile.webp"],
     website: "https://www.santos.rs",
+    deliveredType: "SoftwareApplication",
     stack: "Next.js, Supabase, Resend, Ananas API, Sharp",
     outcome: "Storefront, korpa, checkout, CMS, admin, lager i marketplace integracije.",
   },
@@ -57,6 +61,7 @@ export const projectCaseStudies: ProjectCaseStudy[] = [
     category: "Recruiting platforma",
     image: "/images/case-studies/teachfromhome-desktop.webp",
     website: "https://teachfromhome.app",
+    deliveredType: "SoftwareApplication",
     stack: "Next.js, NextAuth, Vercel Postgres, Drizzle, Vercel Blob",
     outcome: "Google prijava, audio prijave, admin review, referral i funnel analitika.",
   },
@@ -68,6 +73,7 @@ export const projectCaseStudies: ProjectCaseStudy[] = [
     category: "Naplata + termini",
     image: "/images/case-studies/tozai-desktop.webp",
     website: "https://toza-ai.rs",
+    deliveredType: "SoftwareApplication",
     stack: "Next.js, Neon Postgres, Google OAuth, Vercel Blob, pdf-lib",
     outcome: "Paketi, naplata, sati u nalogu, termini, fakture i sadržaj sajta u jednom sistemu.",
   },
@@ -79,6 +85,7 @@ export const projectCaseStudies: ProjectCaseStudy[] = [
     category: "WebGL + booking",
     image: "/images/case-studies/dropz-desktop.webp",
     website: "https://dropz.rs",
+    deliveredType: "SoftwareApplication",
     stack: "Next.js, Neon Postgres, Three.js, FullCalendar, Vercel Blob",
     outcome: "WebGL naslovna, upiti sa referencama, kalendar termina, kapare i mesečni pregled naplate.",
   },
@@ -90,6 +97,7 @@ export const projectCaseStudies: ProjectCaseStudy[] = [
     category: "Booking sistem",
     image: "/images/case-studies/doctorbarber.webp",
     website: "https://doctorbarber.rs",
+    deliveredType: "SoftwareApplication",
     stack: "Next.js, React, TypeScript, PHP API, MySQL, PWA",
     outcome: "Javni sajt, online zakazivanje, klijentski nalog, admin kalendar i notifikacije.",
   },

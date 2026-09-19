@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { FOUNDER } from "@/lib/seo/site";
 import { PageShellV4 } from "./PageShellV4";
 import { StickyCtaV4 } from "./StickyCtaV4";
 import { AuroraV4 } from "./AuroraV4";
@@ -39,6 +40,7 @@ export function GuideV4({ guide }: Props) {
         trackingLabel={`sticky:${guide.path}`}
       />
       <div className={styles.body} data-reveal>
+        <p className={styles.text}>Autor: <Link className={styles.inlineLink} href="/about-us">{FOUNDER.name}</Link>, {FOUNDER.jobTitle}.</p>
         {guide.sections.map((section, index) => (
           <section key={section.heading} aria-labelledby={sectionId(index)}>
             <h2 id={sectionId(index)} className={styles.h2}>{section.heading}</h2>

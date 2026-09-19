@@ -84,7 +84,7 @@ export function ServiceDetailV4({ service, catalog, locale = defaultLocale }: Se
           </div>
           {/* The brief, with this service already ticked — a price needs the
               scope, and the contact form does not ask for it. */}
-          <a className={styles.panelButton} href={quoteHref} data-cursor="on" data-magnetic>
+          <a className={styles.panelButton} href={quoteHref} data-cta={`usluga-upit:${catalog.slug}`} data-cursor="on" data-magnetic>
             {chrome.quoteCta}
           </a>
           {/* The deep dive is a Serbian-only landing page for now. */}
@@ -126,9 +126,10 @@ export function ServiceDetailV4({ service, catalog, locale = defaultLocale }: Se
             {catalog.proof.map((item) => (
               <a
                 key={item.href}
-                href={localePath(item.href, locale)}
+                href={item.href}
                 className={styles.proofCard}
                 data-cursor="on"
+                data-cta={`usluga-dokaz:${catalog.slug}:${item.title}`}
               >
                 <strong>{item.title}</strong>
                 <span>{t?.proofResults?.[item.title] ?? item.result}</span>
@@ -155,7 +156,7 @@ export function ServiceDetailV4({ service, catalog, locale = defaultLocale }: Se
       <section className={styles.cta} data-reveal>
         <h2>{chrome.ctaTitle}</h2>
         <p>{chrome.ctaText}</p>
-        <a href={quoteHref} data-cursor="on" data-magnetic>
+        <a href={quoteHref} data-cta={`usluga-upit:${catalog.slug}`} data-cursor="on" data-magnetic>
           {chrome.ctaButton}
         </a>
       </section>

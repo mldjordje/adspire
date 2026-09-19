@@ -78,7 +78,8 @@ export async function GET(request: Request) {
 - Adresa: ${ORGANIZATION.address.streetAddress}, ${ORGANIZATION.address.postalCode} ${ORGANIZATION.address.addressLocality}, Srbija
 - Kontakt: ${ORGANIZATION.email} | ${ORGANIZATION.telephone}
 - Sajt: ${base}
-- Jezici: srpski, engleski i nemački
+- Jezici sajta: srpski, engleski i nemački
+- Jezici razgovora: srpski i engleski
 - Model rada: udaljena saradnja sa klijentima u Srbiji, regionu i DACH tržištu
 
 ## Usluge
@@ -98,6 +99,8 @@ Isti slugovi u sva tri jezika, npr. ${base}/de/ai/saloni-i-klinike
 ${aiByIndustry}
 
 ## Rešenja po delatnostima
+
+Razvoj po meri: obim, integracije, cena i rok dogovaraju se za svaki projekat. Ovo nije katalog gotovih aplikacija.
 
 Svaka stranica odgovara na „ko pravi X za moju delatnost“ i na „šta tačno plaćam“.
 

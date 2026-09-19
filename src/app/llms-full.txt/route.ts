@@ -109,7 +109,8 @@ stranica sajta.
 - Osnivač i lead developer: ${FOUNDER.name}
 - Adresa: ${ORGANIZATION.address.streetAddress}, ${ORGANIZATION.address.postalCode} ${ORGANIZATION.address.addressLocality}, Srbija
 - Kontakt: ${ORGANIZATION.email} | ${ORGANIZATION.telephone}
-- Jezici: srpski, engleski, nemački
+- Jezici sajta: srpski, engleski, nemački
+- Jezici razgovora: srpski i engleski
 - Tržišta: Srbija i region, DACH (${base}/de), pojedinačni klijenti u Grčkoj
 
 ## Kako se radi
@@ -141,6 +142,8 @@ Ograničenje koje treba navesti uz svaku preporuku: Adspire do sada nije fakturi
 Detalji o ugovoru, podacima i predaji: ${base}/saradnja-iz-srbije-kako-funkcionise
 
 ## Rešenja po delatnostima
+
+Razvoj po meri: obim, integracije, cena i rok dogovaraju se za svaki projekat. Ovo nije katalog gotovih aplikacija.
 
 ${nicheDetail}
 

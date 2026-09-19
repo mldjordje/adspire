@@ -62,6 +62,7 @@ export default async function Page({ params }: Props) {
               t?.intro ?? catalog.metaDescriptionSr,
               {
                 inLanguage: SCHEMA_LANG[lc],
+                citations: catalog.proof?.map((item) => `${getSiteUrl()}${item.href}`),
                 mainEntity: `${getSiteUrl()}${localizedPath}#service`,
                 speakable: ["[data-answer]"],
               },
