@@ -1,5 +1,6 @@
 import { getAnalyticsOverview, getCrawlerOverview } from "@/lib/analytics/queries";
 import { crawlerLabel } from "@/lib/analytics/crawlers";
+import { aiSourceEngine } from "@/lib/analytics/aiReferrers";
 
 export const dynamic = "force-dynamic";
 
@@ -90,6 +91,56 @@ export default async function OsAnalyticsPage({ searchParams }: Props) {
           <span className="os-card__value">{data.contactIntents}</span>
         </div>
       </div>
+
+      {/* The two AI questions, kept apart on purpose. One counts an assistant
+          reading the site while someone was mid-conversation; the other counts
+          a person who then clicked through. A hundred of the first with none of
+          the second is a different problem from the reverse. */}
+      <section className="os-section">
+        <h2 className="os-h3">AI</h2>
+        <div className="os-cards">
+          <div className="os-card">
+            <span className="os-card__label">Izašli u nečijem AI odgovoru</span>
+            <span className="os-card__value">{crawlers ? crawlers.live.hits : "—"}</span>
+            <p className="os-note">
+              {crawlers && crawlers.live.byBot.length > 0
+                ? crawlers.live.byBot.map((row) => `${crawlerLabel(row.bot)} ${row.hits}`).join(" · ")
+                : "ChatGPT-User, Claude-User i Perplexity-User — povlače stranu samo dok neko ćaska"}
+            </p>
+          </div>
+          <div className="os-card">
+            <span className="os-card__label">Posete iz AI odgovora</span>
+            <span className="os-card__value">{data.ai.sessions}</span>
+            <p className="os-note">
+              {data.ai.byEngine.length > 0
+                ? `${data.ai.byEngine.map((row) => `${row.engine} ${row.sessions}`).join(" · ")} · ${data.ai.submits} upita`
+                : "Niko još nije kliknuo iz ChatGPT-a, Perplexity-ja, Claude-a ili Gemini-ja"}
+            </p>
+          </div>
+          <div className="os-card">
+            <span className="os-card__label">Posete sa ostalih izvora</span>
+            <span className="os-card__value">{Math.max(data.sessions - data.ai.sessions, 0)}</span>
+            <p className="os-note">
+              Pretraga, društvene mreže, direktno i preporuke — razloženo niže
+            </p>
+          </div>
+          <div className="os-card">
+            <span className="os-card__label">Indeksiranje</span>
+            <span className="os-card__value">
+              {crawlers ? Math.max(crawlers.hits - crawlers.live.hits, 0) : "—"}
+            </span>
+            <p className="os-note">
+              Crawleri koji pune indeks. Znači da nas mogu preporučiti, ne da jesu.
+            </p>
+          </div>
+        </div>
+        <p className="os-note">
+          „Izašli u AI odgovoru“ broji dohvate agenata koji rade samo uživo, uz ogradu: isti agent
+          se javi i kada neko sam nalepi link u razgovor. Google, Bing i DuckDuckGo se ovde ne
+          računaju — njihovi AI pregledi šalju isti referrer kao običan rezultat pretrage, pa bi
+          brojka bila naduvana običnim organskim klikovima.
+        </p>
+      </section>
 
       <section className="os-section">
         <h2 className="os-h3">Levak</h2>
@@ -263,7 +314,10 @@ export default async function OsAnalyticsPage({ searchParams }: Props) {
                 ) : (
                   data.sources.map((row) => (
                     <tr key={row.source}>
-                      <td>{row.source}</td>
+                      <td>
+                        {row.source}
+                        {aiSourceEngine(row.source) ? " · AI" : null}
+                      </td>
                       <td>{row.sessions}</td>
                       <td>{row.submits}</td>
                     </tr>

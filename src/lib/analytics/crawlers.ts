@@ -16,34 +16,44 @@ export type CrawlerFamily = {
   token: string;
   /** Which assistant this crawler feeds, for grouping. */
   engine: string;
+  /**
+   * What a hit from this agent means.
+   *
+   * "index" is a crawler filling an index — it means the page *can* be
+   * recommended later, not that it was. "live" only fires while a person is
+   * mid-conversation and the assistant goes out to open the page, so it is the
+   * closest thing there is to "we came up in someone's answer". Conflating the
+   * two turns a crawl budget into a success metric.
+   */
+  kind: "index" | "live";
 };
 
 export const CRAWLERS: CrawlerFamily[] = [
   // OpenAI splits its crawlers by purpose: GPTBot trains, OAI-SearchBot indexes
   // for ChatGPT search, ChatGPT-User is a live fetch during someone's chat.
   // The third one is the interesting one — it means a real person asked.
-  { id: "gptbot", label: "GPTBot", token: "gptbot", engine: "OpenAI" },
-  { id: "oai-searchbot", label: "OAI-SearchBot", token: "oai-searchbot", engine: "OpenAI" },
-  { id: "chatgpt-user", label: "ChatGPT-User", token: "chatgpt-user", engine: "OpenAI" },
-  { id: "claudebot", label: "ClaudeBot", token: "claudebot", engine: "Anthropic" },
-  { id: "claude-searchbot", label: "Claude-SearchBot", token: "claude-searchbot", engine: "Anthropic" },
-  { id: "claude-user", label: "Claude-User", token: "claude-user", engine: "Anthropic" },
-  { id: "anthropic-ai", label: "anthropic-ai", token: "anthropic-ai", engine: "Anthropic" },
-  { id: "perplexitybot", label: "PerplexityBot", token: "perplexitybot", engine: "Perplexity" },
-  { id: "perplexity-user", label: "Perplexity-User", token: "perplexity-user", engine: "Perplexity" },
-  { id: "google-extended", label: "Google-Extended", token: "google-extended", engine: "Google" },
-  { id: "googleother", label: "GoogleOther", token: "googleother", engine: "Google" },
-  { id: "applebot-extended", label: "Applebot-Extended", token: "applebot-extended", engine: "Apple" },
-  { id: "applebot", label: "Applebot", token: "applebot", engine: "Apple" },
-  { id: "amazonbot", label: "Amazonbot", token: "amazonbot", engine: "Amazon" },
-  { id: "bingbot", label: "Bingbot", token: "bingbot", engine: "Microsoft" },
-  { id: "cohere-ai", label: "cohere-ai", token: "cohere-ai", engine: "Cohere" },
-  { id: "youbot", label: "YouBot", token: "youbot", engine: "You.com" },
-  { id: "ccbot", label: "CCBot", token: "ccbot", engine: "Common Crawl" },
-  { id: "meta-externalagent", label: "Meta-ExternalAgent", token: "meta-externalagent", engine: "Meta" },
-  { id: "bytespider", label: "Bytespider", token: "bytespider", engine: "ByteDance" },
-  { id: "duckassistbot", label: "DuckAssistBot", token: "duckassistbot", engine: "DuckDuckGo" },
-  { id: "diffbot", label: "Diffbot", token: "diffbot", engine: "Diffbot" },
+  { id: "gptbot", label: "GPTBot", token: "gptbot", engine: "OpenAI", kind: "index" },
+  { id: "oai-searchbot", label: "OAI-SearchBot", token: "oai-searchbot", engine: "OpenAI", kind: "index" },
+  { id: "chatgpt-user", label: "ChatGPT-User", token: "chatgpt-user", engine: "OpenAI", kind: "live" },
+  { id: "claudebot", label: "ClaudeBot", token: "claudebot", engine: "Anthropic", kind: "index" },
+  { id: "claude-searchbot", label: "Claude-SearchBot", token: "claude-searchbot", engine: "Anthropic", kind: "index" },
+  { id: "claude-user", label: "Claude-User", token: "claude-user", engine: "Anthropic", kind: "live" },
+  { id: "anthropic-ai", label: "anthropic-ai", token: "anthropic-ai", engine: "Anthropic", kind: "index" },
+  { id: "perplexitybot", label: "PerplexityBot", token: "perplexitybot", engine: "Perplexity", kind: "index" },
+  { id: "perplexity-user", label: "Perplexity-User", token: "perplexity-user", engine: "Perplexity", kind: "live" },
+  { id: "google-extended", label: "Google-Extended", token: "google-extended", engine: "Google", kind: "index" },
+  { id: "googleother", label: "GoogleOther", token: "googleother", engine: "Google", kind: "index" },
+  { id: "applebot-extended", label: "Applebot-Extended", token: "applebot-extended", engine: "Apple", kind: "index" },
+  { id: "applebot", label: "Applebot", token: "applebot", engine: "Apple", kind: "index" },
+  { id: "amazonbot", label: "Amazonbot", token: "amazonbot", engine: "Amazon", kind: "index" },
+  { id: "bingbot", label: "Bingbot", token: "bingbot", engine: "Microsoft", kind: "index" },
+  { id: "cohere-ai", label: "cohere-ai", token: "cohere-ai", engine: "Cohere", kind: "index" },
+  { id: "youbot", label: "YouBot", token: "youbot", engine: "You.com", kind: "index" },
+  { id: "ccbot", label: "CCBot", token: "ccbot", engine: "Common Crawl", kind: "index" },
+  { id: "meta-externalagent", label: "Meta-ExternalAgent", token: "meta-externalagent", engine: "Meta", kind: "index" },
+  { id: "bytespider", label: "Bytespider", token: "bytespider", engine: "ByteDance", kind: "index" },
+  { id: "duckassistbot", label: "DuckAssistBot", token: "duckassistbot", engine: "DuckDuckGo", kind: "index" },
+  { id: "diffbot", label: "Diffbot", token: "diffbot", engine: "Diffbot", kind: "index" },
 ];
 
 /** User-agent tokens for robots.txt, in the casing each vendor documents. */
@@ -145,6 +155,13 @@ export function isLikelyBot(userAgent: string | null | undefined): boolean {
   const ua = userAgent.toLowerCase();
   return NON_HUMAN_TOKENS.some((token) => ua.includes(token));
 }
+
+
+/** Ids whose hits mean a person was mid-conversation when the page was opened. */
+export const LIVE_CRAWLER_IDS = CRAWLERS.filter((c) => c.kind === "live").map((c) => c.id);
+
+export const crawlerKind = (id: string): "index" | "live" =>
+  CRAWLERS.find((crawler) => crawler.id === id)?.kind ?? "index";
 
 export const crawlerLabel = (id: string) =>
   CRAWLERS.find((crawler) => crawler.id === id)?.label ?? id;

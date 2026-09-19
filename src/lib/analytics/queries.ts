@@ -1,7 +1,8 @@
 import "server-only";
+import { AI_SOURCE_HOSTS, aiSourceEngine } from "@/lib/analytics/aiReferrers";
 
 import { getSql } from "@/lib/db";
-import { crawlerEngine } from "@/lib/analytics/crawlers";
+import { crawlerEngine, crawlerKind } from "@/lib/analytics/crawlers";
 
 /**
  * Reads for /os/analitika.
@@ -39,6 +40,14 @@ export type AnalyticsOverview = {
   ctas: CtaRow[];
   /** Leads actually stored in the same window — the reality check on the funnel. */
   leads: number;
+  /**
+   * Visits that arrived from an AI assistant, split from everything else.
+   *
+   * This is the half of "are we showing up in AI" that involves a person: the
+   * assistant named us, they clicked, they are on the site. The crawler log
+   * carries the other half.
+   */
+  ai: { sessions: number; submits: number; byEngine: { engine: string; sessions: number }[] };
 };
 
 function pct(part: number, whole: number) {
@@ -102,6 +111,31 @@ export async function getAnalyticsOverview(days = 30): Promise<AnalyticsOverview
     limit 15
   `) as SourceRow[];
 
+  // Sessions whose source is an assistant. Counted over the full window rather
+  // than off the `sources` rows above, which are capped at fifteen and would
+  // silently drop an engine the moment the tail grows.
+  const aiRows = (await sql`
+    select
+      coalesce(nullif(utm_source, ''), nullif(referrer_host, '')) as source,
+      count(distinct session_id)::int as sessions,
+      count(distinct session_id) filter (where name = 'form_submitted')::int as submits
+    from site_events
+    where created_at > now() - make_interval(days => ${days})
+      and coalesce(nullif(utm_source, ''), nullif(referrer_host, '')) is not null
+    group by 1
+  `) as { source: string; sessions: number; submits: number }[];
+
+  const aiByEngine = new Map<string, number>();
+  let aiSessions = 0;
+  let aiSubmits = 0;
+  for (const row of aiRows) {
+    const engine = aiSourceEngine(row.source);
+    if (!engine) continue;
+    aiSessions += row.sessions;
+    aiSubmits += row.submits;
+    aiByEngine.set(engine, (aiByEngine.get(engine) ?? 0) + row.sessions);
+  }
+
   const ctas = (await sql`
     select label, count(*)::int as clicks, count(distinct session_id)::int as sessions
     from site_events
@@ -149,6 +183,13 @@ export async function getAnalyticsOverview(days = 30): Promise<AnalyticsOverview
       sessions: Number(row.sessions),
     })),
     leads: Number(leadRows[0]?.leads ?? 0),
+    ai: {
+      sessions: aiSessions,
+      submits: aiSubmits,
+      byEngine: Array.from(aiByEngine, ([engine, sessions]) => ({ engine, sessions })).sort(
+        (a, b) => b.sessions - a.sessions,
+      ),
+    },
   };
 }
 
@@ -168,6 +209,12 @@ export type CrawlerOverview = {
   byPath: CrawlerPathRow[];
   /** Crawlers that got a non-2xx. Invisible in every other dashboard we have. */
   errors: { path: string; bot: string; status: number; hits: number }[];
+  /**
+   * Fetches made while a person was mid-conversation — ChatGPT-User,
+   * Claude-User, Perplexity-User. The nearest thing to "we came up in
+   * someone's answer". Everything else in `byBot` is indexing.
+   */
+  live: { hits: number; paths: number; byBot: CrawlerBotRow[]; lastSeen: string | null };
 };
 
 /**
@@ -221,6 +268,19 @@ export async function getCrawlerOverview(days = 30): Promise<CrawlerOverview> {
     where created_at > now() - make_interval(days => ${days})
   `) as { hits: number; drain_hits: number; ever: number }[];
 
+  // Split in JS rather than in SQL: which agents count as a live fetch is a
+  // property of the crawler registry, and duplicating that list into a query
+  // is how the two drift apart.
+  const liveRows = byBot
+    .filter((row) => crawlerKind(row.bot) === "live")
+    .map((row) => ({
+      bot: row.bot,
+      engine: crawlerEngine(row.bot),
+      hits: Number(row.hits),
+      paths: Number(row.paths),
+      lastSeen: String(row.last_seen),
+    }));
+
   return {
     days,
     hits: Number(totals[0]?.hits ?? 0),
@@ -245,5 +305,11 @@ export async function getCrawlerOverview(days = 30): Promise<CrawlerOverview> {
       status: Number(row.status),
       hits: Number(row.hits),
     })),
+    live: {
+      hits: liveRows.reduce((sum, row) => sum + row.hits, 0),
+      paths: liveRows.reduce((sum, row) => Math.max(sum, row.paths), 0),
+      byBot: liveRows,
+      lastSeen: liveRows.length > 0 ? liveRows.map((r) => r.lastSeen).sort().reverse()[0] : null,
+    },
   };
 }
