@@ -23,7 +23,6 @@ export type AiSource = { host: string; engine: string };
 export const AI_SOURCES: AiSource[] = [
   { host: "chatgpt.com", engine: "ChatGPT" },
   { host: "chat.openai.com", engine: "ChatGPT" },
-  { host: "openai.com", engine: "ChatGPT" },
   { host: "perplexity.ai", engine: "Perplexity" },
   { host: "claude.ai", engine: "Claude" },
   { host: "gemini.google.com", engine: "Gemini" },
@@ -34,8 +33,6 @@ export const AI_SOURCES: AiSource[] = [
   { host: "you.com", engine: "You.com" },
   { host: "poe.com", engine: "Poe" },
   { host: "grok.com", engine: "Grok" },
-  { host: "x.ai", engine: "Grok" },
-  { host: "mistral.ai", engine: "Le Chat" },
   { host: "chat.mistral.ai", engine: "Le Chat" },
 ];
 
@@ -48,7 +45,7 @@ export const AI_SOURCES: AiSource[] = [
  */
 export function aiSourceEngine(source: string | null | undefined): string | null {
   if (!source) return null;
-  const value = source.trim().toLowerCase().replace(/^www\./, "");
+  const value = source.trim().toLowerCase().replace(/^www\./, "").replace(/\.$/, "");
   if (!value || value === "direktno") return null;
   const match = AI_SOURCES.find((entry) => value === entry.host || value.endsWith(`.${entry.host}`));
   return match?.engine ?? null;

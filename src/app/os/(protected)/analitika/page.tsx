@@ -1,5 +1,4 @@
 import { getAnalyticsOverview, getCrawlerOverview } from "@/lib/analytics/queries";
-import { getAiVisibility } from "@/lib/analytics/aiVisibility";
 import { crawlerPurpose } from "@/lib/analytics/aiVisibilitySource";
 import { crawlerLabel } from "@/lib/analytics/crawlers";
 import { aiSourceEngine } from "@/lib/analytics/aiReferrers";
@@ -28,10 +27,9 @@ export default async function OsAnalyticsPage({ searchParams }: Props) {
   const days = RANGES.includes(parsed) ? parsed : 30;
 
   // Each data source fails independently when its table is not available.
-  const [data, crawlers, aiVisits] = await Promise.all([
+  const [data, crawlers] = await Promise.all([
     getAnalyticsOverview(days).catch(() => null),
     getCrawlerOverview(days).catch(() => null),
-    getAiVisibility(days).catch(() => null),
   ]);
 
   if (!data) {
@@ -49,6 +47,7 @@ export default async function OsAnalyticsPage({ searchParams }: Props) {
   }
 
   const top = data.funnel[0]?.sessions ?? 0;
+  const aiVisits = data.ai.byEngine.map(row => ({ source: row.engine, sessions: row.sessions, submits: row.submits }));
 
   return (
     <>
@@ -104,7 +103,7 @@ export default async function OsAnalyticsPage({ searchParams }: Props) {
         <h2 className="os-h3">AI</h2>
         <div className="os-cards">
           <div className="os-card">
-            <span className="os-card__label">Izašli u nečijem AI odgovoru</span>
+            <span className="os-card__label">AI otvaranja na zahtev</span>
             <span className="os-card__value">{crawlers ? crawlers.live.hits : "—"}</span>
             <p className="os-note">
               {crawlers && crawlers.live.byBot.length > 0
@@ -113,12 +112,12 @@ export default async function OsAnalyticsPage({ searchParams }: Props) {
             </p>
           </div>
           <div className="os-card">
-            <span className="os-card__label">Posete iz AI odgovora</span>
+            <span className="os-card__label">Posete iz AI asistenata</span>
             <span className="os-card__value">{data.ai.sessions}</span>
             <p className="os-note">
               {data.ai.byEngine.length > 0
                 ? `${data.ai.byEngine.map((row) => `${row.engine} ${row.sessions}`).join(" · ")} · ${data.ai.submits} upita`
-                : "Niko još nije kliknuo iz ChatGPT-a, Perplexity-ja, Claude-a ili Gemini-ja"}
+                : "Nema prepoznatih AI poseta u ovom periodu"}
             </p>
           </div>
           <div className="os-card">
@@ -129,20 +128,19 @@ export default async function OsAnalyticsPage({ searchParams }: Props) {
             </p>
           </div>
           <div className="os-card">
-            <span className="os-card__label">Indeksiranje</span>
+            <span className="os-card__label">Ostali bot obilasci</span>
             <span className="os-card__value">
               {crawlers ? Math.max(crawlers.hits - crawlers.live.hits, 0) : "—"}
             </span>
             <p className="os-note">
-              Crawleri koji pune indeks. Znači da nas mogu preporučiti, ne da jesu.
+              Pretraga, obuka modela i drugi automatski obilasci.
             </p>
           </div>
         </div>
         <p className="os-note">
-          „Izašli u AI odgovoru“ broji dohvate agenata koji rade samo uživo, uz ogradu: isti agent
-          se javi i kada neko sam nalepi link u razgovor. Google, Bing i DuckDuckGo se ovde ne
-          računaju — njihovi AI pregledi šalju isti referrer kao običan rezultat pretrage, pa bi
-          brojka bila naduvana običnim organskim klikovima.
+          Otvaranje na zahtev nije dokaz citiranja: agent može pročitati stranicu bez
+          preporuke ili zato što je korisnik uneo njen URL. Google i Bing AI odgovori
+          ne mogu se izdvojiti iz njihovog običnog saobraćaja ovim podacima.
         </p>
       </section>
 

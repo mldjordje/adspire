@@ -1,5 +1,5 @@
 import "server-only";
-import { AI_SOURCE_HOSTS, aiSourceEngine } from "@/lib/analytics/aiReferrers";
+import { getAiVisibility } from "@/lib/analytics/aiVisibility";
 
 import { getSql } from "@/lib/db";
 import { crawlerEngine, crawlerKind } from "@/lib/analytics/crawlers";
@@ -47,7 +47,7 @@ export type AnalyticsOverview = {
    * assistant named us, they clicked, they are on the site. The crawler log
    * carries the other half.
    */
-  ai: { sessions: number; submits: number; byEngine: { engine: string; sessions: number }[] };
+  ai: { sessions: number; submits: number; byEngine: { engine: string; sessions: number; submits: number }[] };
 };
 
 function pct(part: number, whole: number) {
@@ -111,30 +111,9 @@ export async function getAnalyticsOverview(days = 30): Promise<AnalyticsOverview
     limit 15
   `) as SourceRow[];
 
-  // Sessions whose source is an assistant. Counted over the full window rather
-  // than off the `sources` rows above, which are capped at fifteen and would
-  // silently drop an engine the moment the tail grows.
-  const aiRows = (await sql`
-    select
-      coalesce(nullif(utm_source, ''), nullif(referrer_host, '')) as source,
-      count(distinct session_id)::int as sessions,
-      count(distinct session_id) filter (where name = 'form_submitted')::int as submits
-    from site_events
-    where created_at > now() - make_interval(days => ${days})
-      and coalesce(nullif(utm_source, ''), nullif(referrer_host, '')) is not null
-    group by 1
-  `) as { source: string; sessions: number; submits: number }[];
-
-  const aiByEngine = new Map<string, number>();
-  let aiSessions = 0;
-  let aiSubmits = 0;
-  for (const row of aiRows) {
-    const engine = aiSourceEngine(row.source);
-    if (!engine) continue;
-    aiSessions += row.sessions;
-    aiSubmits += row.submits;
-    aiByEngine.set(engine, (aiByEngine.get(engine) ?? 0) + row.sessions);
-  }
+  const aiVisits = await getAiVisibility(days);
+  const aiSessions = aiVisits.reduce((sum, row) => sum + row.sessions, 0);
+  const aiSubmits = aiVisits.reduce((sum, row) => sum + row.submits, 0);
 
   const ctas = (await sql`
     select label, count(*)::int as clicks, count(distinct session_id)::int as sessions
@@ -186,9 +165,7 @@ export async function getAnalyticsOverview(days = 30): Promise<AnalyticsOverview
     ai: {
       sessions: aiSessions,
       submits: aiSubmits,
-      byEngine: Array.from(aiByEngine, ([engine, sessions]) => ({ engine, sessions })).sort(
-        (a, b) => b.sessions - a.sessions,
-      ),
+      byEngine: aiVisits.map(row => ({ engine: row.source, sessions: row.sessions, submits: row.submits })),
     },
   };
 }

@@ -26,9 +26,14 @@
   GPTBot se prikazuje kao obuka, OAI-SearchBot kao pretraga, ChatGPT-User kao
   otvaranje na zahtev. Identitet botova nije potvrđen IP proverom.
 
+Usklađeno sa paralelno objavljenom izmenom analitike na main: isti registar AI
+izvora i isti obračun sesija koriste se za zbirne kartice i detaljnu tabelu.
+Otvaranje stranice na zahtev više se ne naziva pojavljivanjem u AI odgovoru.
+Korporativni domeni openai.com, x.ai i mistral.ai nisu dokaz dolaska iz asistenta.
+
 ## Provera
 
-- Ceo test skup: 32 fajla, 214 testova prošlo.
+- Ceo test skup: 33 fajla, 220 testova prošlo.
 - TypeScript provera prošla nakon ispravki.
 - Produkcijski build i generisanje sitemap-a prošli.
 - JSON-LD parsiranje: 186 generisanih HTML stranica, 361 script blok.

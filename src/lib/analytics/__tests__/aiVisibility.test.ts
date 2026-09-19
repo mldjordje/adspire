@@ -9,6 +9,9 @@ describe("AI visibility attribution", () => {
     expect(aiSourceName(null, "www.perplexity.ai")).toBe("Perplexity");
     expect(aiSourceName(null, "CHATGPT.COM.")).toBe("ChatGPT");
     expect(aiSourceName(null, "gemini.google.com")).toBe("Gemini");
+    expect(aiSourceName(null, "openai.com")).toBeNull();
+    expect(aiSourceName(null, "x.ai")).toBeNull();
+    expect(aiSourceName(null, "mistral.ai")).toBeNull();
     expect(aiSourceName(null, "google.com")).toBeNull();
     expect(aiSourceName(null, "bing.com")).toBeNull();
     expect(aiSourceName(null, "chatgpt.com.example.org")).toBeNull();
