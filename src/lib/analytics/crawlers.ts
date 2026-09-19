@@ -87,6 +87,65 @@ export function identifyCrawler(userAgent: string | null | undefined): CrawlerFa
   return BY_LENGTH.find((crawler) => ua.includes(crawler.token)) ?? null;
 }
 
+
+/**
+ * Tokens that mean "not a person", beyond the AI crawlers above.
+ *
+ * `identifyCrawler` answers a narrower question — which assistant does this
+ * feed — and deliberately knows only the families worth charting. The funnel
+ * needs the wider one: Baiduspider-render executed the page JavaScript and
+ * wrote itself a row in `site_events`, and a headless scraper does the same.
+ * Anything matching here is not counted as a visit.
+ *
+ * Kept as substrings because that is how every one of these identifies itself,
+ * and deliberately short of clever heuristics: a false positive here silently
+ * deletes a real visitor from the funnel, which is worse than a bot slipping
+ * through.
+ */
+const NON_HUMAN_TOKENS = [
+  "bot", // covers bingbot, baiduspider-render's sibling agents, semrushbot…
+  "crawler",
+  "spider",
+  "slurp",
+  "headlesschrome",
+  "phantomjs",
+  "puppeteer",
+  "playwright",
+  "selenium",
+  "lighthouse",
+  "python-requests",
+  "aiohttp",
+  "httpx",
+  "curl/",
+  "wget",
+  "go-http-client",
+  "node-fetch",
+  "axios",
+  "okhttp",
+  "scrapy",
+  "prerender",
+  "pingdom",
+  "uptimerobot",
+  "statuscake",
+  "censys",
+  "expanse",
+  "facebookexternalhit",
+  "vercel",
+];
+
+/**
+ * True when a request should not be counted as a human visit.
+ *
+ * A missing user agent counts as non-human too: every real browser sends one,
+ * and a beacon without one is a script.
+ */
+export function isLikelyBot(userAgent: string | null | undefined): boolean {
+  if (!userAgent || !userAgent.trim()) return true;
+  if (identifyCrawler(userAgent)) return true;
+  const ua = userAgent.toLowerCase();
+  return NON_HUMAN_TOKENS.some((token) => ua.includes(token));
+}
+
 export const crawlerLabel = (id: string) =>
   CRAWLERS.find((crawler) => crawler.id === id)?.label ?? id;
 

@@ -45,6 +45,22 @@ export function parseDrainBody(body: string): DrainEntry[] {
   });
 }
 
+/**
+ * The receiver's own path.
+ *
+ * Vercel logs the POST it makes to this endpoint, then delivers that log line
+ * back to the same endpoint, which produces another line — a loop that runs at
+ * the delivery cadence forever, with no traffic on the site at all. In one
+ * 3h44m export it was 265 of 434 rows. Nothing reached the database, because
+ * VercelDrain is not a crawler, but the check is written down rather than
+ * relied upon: if the user-agent list ever grows a token that matches, the
+ * dashboard would start charting the site visiting itself.
+ *
+ * This only silences the rows. Breaking the loop itself is a path exclusion in
+ * the Drain's settings on Vercel, which no API reachable from here can set.
+ */
+const RECEIVER_PATH = "/api/logs/drain";
+
 /** The crawler hit an entry describes, or null when a human made the request. */
 export function drainEntryToHit(entry: DrainEntry): ParsedHit | null {
   const agentField = entry.proxy?.userAgent;
@@ -54,6 +70,7 @@ export function drainEntryToHit(entry: DrainEntry): ParsedHit | null {
 
   const path = entry.proxy?.path ?? entry.path;
   if (!path) return null;
+  if (path.split("?")[0] === RECEIVER_PATH) return null;
 
   return {
     bot: crawler.id,

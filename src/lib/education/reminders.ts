@@ -1,6 +1,7 @@
 import "server-only";
 
 import { getSql } from "@/lib/db";
+import { mailTransportStatus } from "@/lib/mail";
 import type { EduKind } from "./format";
 import { notifyBuyerReminder, notifyOwnerAgenda } from "./notify";
 import { addDays, belgradeNow } from "./slots";
@@ -33,7 +34,19 @@ const SELECT = `
   from edu_bookings b join portal_users u on u.id = b.portal_user_id
 `;
 
-export async function runEducationReminders(): Promise<{ agenda: number; buyers: number }> {
+export async function runEducationReminders(): Promise<{
+  agenda: number;
+  buyers: number;
+  skipped?: "no-mail-transport";
+}> {
+  // Claiming happens before sending, so a run without a mail transport would
+  // mark every reminder as delivered and burn it for good. Production had no
+  // SMTP or Resend credentials at all while this cron sat behind a 503, so the
+  // first successful run would have been the destructive one.
+  if (!mailTransportStatus().provider) {
+    return { agenda: 0, buyers: 0, skipped: "no-mail-transport" };
+  }
+
   const sql = getSql();
   const today = belgradeNow().date;
   const tomorrow = addDays(today, 1);

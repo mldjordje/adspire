@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getSql, isDatabaseConfigured } from "@/lib/db";
 import { checkRateLimit } from "@/lib/crm/rateLimit";
 import { siteEventBatchSchema } from "@/lib/analytics/schema";
+import { isLikelyBot } from "@/lib/analytics/crawlers";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -20,6 +21,11 @@ const clientIp = (request: Request) =>
  */
 export async function POST(request: Request) {
   const noContent = new NextResponse(null, { status: 204 });
+
+  // Bots that run JavaScript fire this beacon like a browser does.
+  // Baiduspider-render already wrote itself a visit, which is how "293 direct
+  // visits, one inquiry" happens: the denominator was never all human.
+  if (isLikelyBot(request.headers.get("user-agent"))) return noContent;
 
   const limit = checkRateLimit(`events:${clientIp(request)}`, {
     // A real reader fires page views, two scroll depths and a few clicks per

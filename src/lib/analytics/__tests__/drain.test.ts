@@ -59,6 +59,16 @@ describe("Vercel log drain payload", () => {
     expect(hit?.status).toBe(404);
   });
 
+
+  it("never charts the receiver's own deliveries", () => {
+    // The drain endpoint logs itself and the log comes back here. If a future
+    // agent token ever matched VercelDrain, the dashboard would show the site
+    // crawling itself once every delivery.
+    expect(drainEntryToHit({ proxy: { path: "/api/logs/drain", userAgent: [gptbot] } })).toBeNull();
+    expect(drainEntryToHit({ proxy: { path: "/api/logs/drain?x=1", userAgent: [gptbot] } })).toBeNull();
+    expect(drainEntryToHit({ path: "/api/logs/drain", proxy: { userAgent: [gptbot] } })).toBeNull();
+  });
+
   it("survives an empty or junk body", () => {
     expect(parseDrainBody("")).toEqual([]);
     expect(parseDrainBody("   ")).toEqual([]);

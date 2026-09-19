@@ -6,6 +6,7 @@ import {
   crawlerEngine,
   crawlerLabel,
   identifyCrawler,
+  isLikelyBot,
 } from "@/lib/analytics/crawlers";
 
 describe("crawler identification", () => {
@@ -62,5 +63,46 @@ describe("crawler identification", () => {
     expect(crawlerLabel("something-new")).toBe("something-new");
     expect(crawlerEngine("claudebot")).toBe("Anthropic");
     expect(crawlerEngine("something-new")).toBe("Nepoznato");
+  });
+});
+
+describe("isLikelyBot", () => {
+  const humans = [
+    // The Android phone that arrived from an Instagram link — the one real
+    // visit in the log export this filter was written from.
+    "Mozilla/5.0 (Linux; Android 12; S100Pro Build/SP1A.210812.016) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/117.0.0.0 Mobile Safari/537.36",
+    "Mozilla/5.0 (iPhone; CPU iPhone OS 17_1_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.1 Mobile/15E148 Safari/604.1",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.4 Safari/605.1.15",
+    // In-app browsers: these are real people and must survive the filter.
+    "Mozilla/5.0 (iPhone; CPU iPhone OS 17_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 Instagram 322.0.0.0",
+    "Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36 [FBAN/FB4A;FBAV/450.0]",
+  ];
+
+  const bots = [
+    // Executes JavaScript, so it fires the beacon like a browser would.
+    "Mozilla/5.0 (compatible; Baiduspider-render/2.0; +http://www.baidu.com/search/spider.html)",
+    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/141.0.7390.0 Safari/537.36",
+    "Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; PerplexityBot/1.0; +https://perplexity.ai/perplexitybot)",
+    "Python/3.11 aiohttp/3.14.3",
+    "Mozilla/5.0 (compatible; AhrefsBot/7.0; +http://ahrefs.com/robot/)",
+    "Mozilla/5.0 (compatible; CensysInspect/1.1; +https://about.censys.io/)",
+    "facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php)",
+    "VercelDrain/1.0 (+https://vercel.com/docs/drains)",
+  ];
+
+  it("keeps real browsers, including in-app ones", () => {
+    for (const ua of humans) expect(isLikelyBot(ua), ua.slice(0, 50)).toBe(false);
+  });
+
+  it("drops crawlers, headless browsers and scripts", () => {
+    for (const ua of bots) expect(isLikelyBot(ua), ua.slice(0, 50)).toBe(true);
+  });
+
+  it("treats a missing user agent as non-human", () => {
+    // Every browser sends one. A beacon without one is a script.
+    expect(isLikelyBot(null)).toBe(true);
+    expect(isLikelyBot("")).toBe(true);
+    expect(isLikelyBot("   ")).toBe(true);
   });
 });
