@@ -501,47 +501,43 @@ verovatno traže štelovanje na oko.
 
 ---
 
-## Nalaz 19.09.2026 — naslov unutrašnjih strana ostaje zaglavljen na početku animacije
+## Nalaz 19.09.2026 — POVUČEN. Naslov je ispravan, alat za proveru je bio kriv.
 
-Ovo nisam dirao jer je animacioni sloj tvoj posao, ali je nalaz proverljiv i
-vidi se na produkciji.
+Prethodna verzija ove sekcije tvrdila je da `h1` na unutrašnjim stranama ostaje
+odsečen zato što GSAP intro tween ne odmakne od početnog stanja. **To nije
+tačno i povučeno je.** Ostavljam zapis jer je merenje korisno sledećem ko bude
+proveravao izgled kroz isti alat.
 
-**Šta se dešava.** `PageShellV4` pušta `gsap.from` preko `SplitType` karaktera
-u `h1` (`y: "1.1em"`, `rotate: 5`, `stagger .03`, `duration .9`, `delay .15`), a
-`h1` ima `overflow: hidden`. Kada se strana učita dok je tab sakriven, tween
-nikada ne odmakne od početnog stanja: svi karakteri ostaju pomereni naniže za
-oko 120px i zarotirani, pa prvi red padne pri dnu okvira, a drugi red i sve
-ispod njega bude odsečeno. Naslov tada izgleda kao da mu fali pola teksta.
-
-**Kako je izmereno.** Na `https://adspire.rs/kako-napraviti-web-shop`, osam
-sekundi posle učitavanja u sakrivenom tabu:
+**Šta je stvarno bilo.** Browser panel u kome se proverava izgled **uopšte ne
+izvršava `requestAnimationFrame`** — ni kada `document.visibilityState` javlja
+`"visible"`:
 
 ```
-h1.innerText → "Kako napraviti web shop"
-transform svakog .char → matrix(0.996195, 0.0871557, -0.0871557, 0.996195, 0, 119.68)
+framesInOneSecond: 0
+visibilityState:  "visible"
+hasFocus:         false
 ```
 
-`119.68px` je tačno `1.1em` na toj veličini fonta — dakle početno stanje
-tweena, ne krajnje. Kada se ista strana učita u vidljivom tabu, transform je
-`matrix(1, 0, 0, 1, 0, 0)` i naslov je ceo.
+GSAP ticker radi na rAF-u, pa nijedna animacija u tom panelu nikad ne odmakne.
+Svaki `gsap.from` ostane zaključan na početnom stanju: karakteri naslova
+pomereni `1.1em` naniže unutar `overflow: hidden` naslova, a `[data-reveal]`
+sekcije na `autoAlpha: 0`. Otud i „odsečen naslov" i „prazne bele sekcije" na
+snimcima ekrana. Isto se videlo i na produkciji, što me je i ubedilo da je bug
+pravi — ali je i tada bio isti panel, ne sajt.
 
-**Zašto je bitno i van estetike.** Renderer koji učitava stranu bez vidljivog
-prozora — a to su i neki crawleri i svaki servis koji pravi OG sliku — vidi
-odsečen `h1`. Cilj sa ovim sajtom je pozicija u pretrazi i AI preporuka, pa
-naslov koji se u headless renderu ne vidi radi direktno protiv toga.
+**Zašto ovo nije problem ni za SEO ni za AI.** Naslov je u serverskom HTML-u kao
+običan tekst; SplitType ga cepa tek na klijentu:
 
-**Predlog, ako se slažeš.** Ne dirati animaciju za obične posete, nego je
-preskočiti kada je nema ko da vidi — u efektu, pre pravljenja tweena:
-
-```ts
-// A tween that starts in a hidden tab never advances, and the heading clips
-// what the intro left pushed down. Nothing is lost by rendering the end state.
-if (document.hidden) return;
+```
+curl -s https://adspire.rs/kako-napraviti-web-shop | grep '<h1'
+<h1 class="...heroTitle">Kako napraviti web shop</h1>
 ```
 
-…ili, ako hoćeš da animacija ipak odigra kada korisnik kasnije dođe na tab,
-okačiti je na `visibilitychange` umesto na mount. Drugo rešenje je lepše, prvo
-je sigurnije.
+Crawleri koji ne izvršavaju JavaScript — a to su skoro svi AI crawleri — vide
+ceo naslov. Googlebot renderuje sa ispravnim rAF-om, pa ga takođe vidi. U pravom
+browseru, i kada je tab u pozadini, rAF se nastavi čim se tab pogleda i animacija
+se dovrši.
 
-**Nije provereno.** Nisam proveravao da li se isto dešava i na naslovnoj
-(`HomeV4`) — tamo je drugi tok i tvoj je u potpunosti.
+**Šta iz ovoga ostaje kao pravilo.** Kada proveravaš izgled kroz Browser panel,
+prvo izmeri da li rAF radi. Ako je nula, sve što zavisi od animacije izgleda
+pokvareno, a nije. Ne menjaj ni copy ni animacije na osnovu takvog snimka.
