@@ -145,6 +145,27 @@ const nextConfig = {
       },
     ];
 
+    // Pages that exist only in Serbian. The shell links them bare in every
+    // locale (UNPREFIXED in src/components/site/v4/shellCopy.ts), but Google
+    // crawled the prefixed forms while the footer still built them and still
+    // asks for /en/politika-kolacica and friends. A 301 to the Serbian page
+    // hands that crawl to a real document instead of spending it on a 404.
+    const SERBIAN_ONLY = [
+      "/upit",
+      "/nalog",
+      "/edukacija",
+      "/ai-video-za-vas-biznis",
+      "/ai-u-biznisu",
+      "/politika-privatnosti",
+      "/politika-kolacica",
+      "/uslovi-koriscenja",
+    ];
+
+    const serbianOnlyRedirects = SERBIAN_ONLY.flatMap((path) => [
+      { source: `/:locale(en|de)${path}`, destination: path, permanent: true },
+      { source: `/:locale(en|de)${path}/:rest*`, destination: `${path}/:rest*`, permanent: true },
+    ]);
+
     // Pre-redesign Serbian URLs. They are still in Google's index and still
     // hold whatever link equity the site earned; without these they answer 404
     // and that equity is discarded instead of passed to the current route.
@@ -190,6 +211,7 @@ const nextConfig = {
       // was already indexed and in llms.txt — hands its equity over here.
       ...localeRedirects("/our-services/ai-video-produkcija", "/ai-video-za-vas-biznis"),
       ...legacyServiceRedirects,
+      ...serbianOnlyRedirects,
       ...localeRedirects("/index.html", "/"),
       ...localeRedirects("/izrada-sajtova-srbija", "/our-services/web-prezentacije"),
       ...localeRedirects("/izrada-sajtova-nis", "/izrada-sajta-i-aplikacija-nis"),

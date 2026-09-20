@@ -4,7 +4,10 @@
     {
       "name": "Next.js Dev Server",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev"],
+      "runtimeArgs": [
+        "run",
+        "dev"
+      ],
       "port": 3000,
       "autoPort": true
     },
@@ -13,6 +16,19 @@
       "runtimeExecutable": "C:\\Users\\PC\\AppData\\Roaming\\npm\\n8n.cmd",
       "runtimeArgs": [],
       "port": 5678
+    },
+    {
+      "name": "Next.js Prod Preview",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run",
+        "start",
+        "--",
+        "-p",
+        "3100"
+      ],
+      "port": 3100,
+      "autoPort": true
     }
   ]
 }
