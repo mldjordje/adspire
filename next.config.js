@@ -159,6 +159,15 @@ const nextConfig = {
       "/politika-privatnosti",
       "/politika-kolacica",
       "/uslovi-koriscenja",
+      // Local (Niš) pages. They only ever existed in Serbian, and a prefixed
+      // form is either a stale crawl or a guess; both belong on the real page.
+      "/nis",
+      "/it-firma-nis",
+      "/izrada-aplikacija-nis",
+      "/izrada-sajta-i-aplikacija-nis",
+      "/rezervacioni-sistemi-nis",
+      "/web-shop-nis",
+      "/seo-optimizacija-nis",
     ];
 
     const serbianOnlyRedirects = SERBIAN_ONLY.flatMap((path) => [

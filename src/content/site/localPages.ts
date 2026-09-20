@@ -363,8 +363,303 @@ const bookingInNis: LocalPage = {
   secondaryCta: { label: "Detaljan vodič o zakazivanju", href: "/online-zakazivanje-za-salone-i-klinike" },
 };
 
-export const localPages = [itCompany, appsInNis, bookingInNis] as const;
+const shopInNis: LocalPage = {
+  path: "/web-shop-nis",
+  eyebrow: "Niš",
+  title: "Izrada web shopa Niš — online prodavnica sa naplatom i kuririma",
+  metaDescription:
+    "Izrada web shopa u Nišu: plaćanje karticom preko banke, pouzeće, povezivanje sa kurirskom službom i fiskalni račun. Šta sve mora da radi pre prve porudžbine i koliko košta.",
+  h1: "Izrada web shopa u Nišu",
+  lead:
+    "Katalog i korpa su manji deo posla. Ono što odluči da li shop radi su naplata, kurir i račun koji kupac mora da dobije. Ovde je šta se od toga rešava kodom, a šta u banci i kod knjigovođe.",
+  keywords: [
+    "izrada web shopa Niš",
+    "online prodavnica Niš",
+    "web prodavnica Niš",
+    "e-commerce Niš",
+    "sajt za prodaju Niš",
+    "internet prodavnica Niš",
+  ],
+  businessName: "Adspire — izrada web shopa u Nišu",
+  sections: [
+    {
+      heading: "Tri stvari koje se uvek potcene",
+      body: [
+        "Kod domaćih shopova posao ne zapne na dizajnu. Zapne na ove tačke, i svaka ima rok koji ne zavisi od programera.",
+      ],
+      bullets: [
+        "Plaćanje karticom traži ugovor sa bankom i trgovački račun. Od predaje papira do puštanja u rad prođe nekoliko nedelja, i to vreme teče paralelno sa izradom, ne posle nje.",
+        "Fiskalni račun je obaveza i za online prodaju. Mora da se izda i pošalje kupcu, pa shop od početka mora da zna da ga povuče iz sistema koji ga izdaje.",
+        "Pouzeće i dalje nosi većinu porudžbina. To znači otkupninu, povraćaj novca od kurira i pakete koji se ne preuzmu, a sve to neko mora da vodi u adminu.",
+      ],
+    },
+    {
+      heading: "Kurir odlučuje koliko porudžbina uopšte stigne",
+      body: [
+        "Cena dostave prikazana tek na poslednjem koraku je najčešći razlog napuštene korpe kod domaćih shopova. Zato se cena računa na strani proizvoda, a ne pred plaćanje.",
+        "Post Express, D Express, BEX i AKS rade sa preuzimanjem i otkupninom. Kada se shop poveže sa njima, otpremnica i kod za praćenje se prave iz admina, umesto da se svaka pošiljka ručno kuca na sajtu kurirske službe.",
+      ],
+    },
+    {
+      heading: "Admin je proizvod, ne dodatak",
+      bullets: [
+        "Zalihe se skidaju u trenutku porudžbine, da se ne proda ono čega nema.",
+        "Porudžbina ima stanje: primljena, spakovana, predata kuriru, naplaćena.",
+        "Izveštaj za knjigovodstvo se izvozi, ne prepisuje.",
+        "Više cena za isti artikal — maloprodaja, veleprodaja, akcija — bez menjanja koda.",
+        "Ko šta sme da vidi: prodavac vidi porudžbine, ne vidi maržu.",
+      ],
+    },
+    {
+      heading: "Kada web shop nije odgovor",
+      body: [
+        "Sa pet artikala i dvadesetak porudžbina mesečno, shop se ne isplati. Instagram i telefon rade taj obim bez troška, a novac je bolje uložiti u to da vas neko nađe.",
+        "Sopstveni shop ima smisla kada broj porudžbina počne da guši ručni rad, kada asortiman ima varijante i zalihe, ili kada provizija platforme na kojoj sada prodajete pređe cenu izrade za godinu dana.",
+      ],
+    },
+    {
+      heading: "Cena i rok",
+      body: [
+        "Web shop je 2.100–5.600 €, i unutar tog raspona razliku prave integracije, ne broj proizvoda. Povezivanje sa kurirom, knjigovodstvom i sistemom za fiskalne račune podiže gornju granicu.",
+        "Do puštanja u rad ide 6–10 nedelja, pod uslovom da se papirologija za karticu pokrene prve nedelje. Ako se to ostavi za kraj, shop stoji gotov i čeka banku.",
+      ],
+    },
+  ],
+  proofHeading: "Shop koji radi kod klijenta",
+  proof: [
+    {
+      label: "Santos & Santorini",
+      href: "/our-projects/santos-santorini-web-shop-admin-platforma",
+      note: "Web shop sa sopstvenim admin panelom za porudžbine i artikle.",
+    },
+    {
+      label: "Prevoz Kop",
+      href: "/our-projects/prevozkop-digitalni-prodajni-operativni-sistem",
+      note: "Prodajni i operativni sistem — isti pristup adminu, druga delatnost.",
+    },
+  ],
+  faqHeading: "Česta pitanja",
+  faq: [
+    {
+      q: "Koliko košta izrada web shopa?",
+      a: "2.100–5.600 € za custom izradu sa katalogom, korpom, naplatom i adminom za porudžbine i zalihe. Integracije sa kurirskom službom i knjigovodstvom idu ka gornjoj granici. Tačna cifra ide u ponudu po opisu asortimana i načina isporuke.",
+    },
+    {
+      q: "Da li mi treba plaćanje karticom ili je pouzeće dovoljno?",
+      a: "Za većinu domaćih shopova pouzeće nosi najveći deo porudžbina i može se krenuti samo sa njim. Kartica se isplati kada prodajete u inostranstvo, kada su iznosi veći, ili kada vas ubija broj nepreuzetih paketa — plaćeno unapred se skoro uvek preuzme.",
+    },
+    {
+      q: "Ko izdaje fiskalni račun za online prodaju?",
+      a: "Prodavac, isto kao u radnji. Račun se izdaje kroz sistem za fiskalizaciju i šalje kupcu uz porudžbinu. Shop se povezuje sa tim sistemom da se račun ne kuca ručno za svaku porudžbinu.",
+    },
+    {
+      q: "Zašto ne WooCommerce ili Shopify?",
+      a: "Oba su razuman izbor kada je prodaja standardna i kada vam odgovara da plaćate mesečno. Sopstveni shop se isplati kada pravila ne staju u tuđi model — cene po kupcu, varijante sa zalihama po lokaciji, povezivanje sa internim sistemom — ili kada provizija i dodaci na godišnjem nivou pređu cenu izrade.",
+    },
+    {
+      q: "Mogu li sam da menjam artikle i cene?",
+      a: "Da, to je osnovna svrha admina. Artikli, cene, akcije, opisi i slike se menjaju bez nas. Nama se javljate za nove funkcije, ne za izmenu cene.",
+    },
+    {
+      q: "Radite li shopove za firme van Niša?",
+      a: "Da, radi se sa klijentima iz cele Srbije i inostranstva. Za firme iz Niša je lakše da se prvi sastanak odradi uživo, posebno kada treba videti kako sada ide pakovanje i slanje.",
+    },
+  ],
+  cta: { label: "Opiši šta prodaješ", href: "/upit" },
+  secondaryCta: { label: "Usluga: e-commerce", href: "/our-services/e-commerce-web-shop" },
+};
+
+const seoInNis: LocalPage = {
+  path: "/seo-optimizacija-nis",
+  eyebrow: "Niš",
+  title: "SEO optimizacija Niš — da vas nađu ljudi iz vašeg grada",
+  metaDescription:
+    "SEO za firme iz Niša: mapa i Google poslovni profil, pretrage „blizu mene“, recenzije i strane po usluzi. Šta se realno može obećati, za koliko vremena i kada SEO nije prvi potez.",
+  h1: "SEO optimizacija u Nišu",
+  lead:
+    "Lokalna firma se ne bori za isto mesto kao onlajn prodavnica. Bori se za tri mesta u mapi koja Google pokaže iznad svih rezultata. To je drugi posao od klasične optimizacije i radi se drugim redom.",
+  keywords: [
+    "SEO optimizacija Niš",
+    "SEO Niš",
+    "optimizacija sajta Niš",
+    "google optimizacija Niš",
+    "lokalni SEO Niš",
+    "pozicioniranje sajta Niš",
+  ],
+  businessName: "Adspire — SEO optimizacija u Nišu",
+  sections: [
+    {
+      heading: "Dve borbe koje se često pomešaju",
+      body: [
+        "Kada neko u Nišu ukuca „stomatolog“ ili „auto servis“, Google prvo pokaže mapu sa tri firme. Ispod toga idu linkovi. Većina poziva dolazi iz te mape, a mapa se ne osvaja tekstom na sajtu.",
+        "Plavi linkovi ispod mape se osvajaju sadržajem: jedna strana po usluzi, napisana rečima kojima ljudi pitaju. Tu sajt radi posao. Zato se obično ide na oba koloseka, ali prvo na onaj koji brže donosi pozive.",
+      ],
+    },
+    {
+      heading: "Šta odlučuje mesto u mapi",
+      bullets: [
+        "Kategorija profila — pogrešno izabrana kategorija isključuje vas iz pretrage bez ijedne druge greške.",
+        "Blizina korisnika, na koju niko ne može da utiče. Firma u Duvaništu neće biti prva za nekoga na Paliluli i to nije propust optimizacije.",
+        "Recenzije i odgovori na njih. Broj je manje bitan od toga da stižu kontinuirano i da vlasnik odgovara.",
+        "Ista adresa i isti broj telefona svuda gde firma postoji na internetu.",
+        "Fotografije koje niste slikali jednom pre tri godine.",
+      ],
+    },
+    {
+      heading: "Šta se može obećati, a šta ne",
+      body: [
+        "Niko ne može da garantuje prvo mesto, i ponuda koja to nudi ili prodaje brend pretragu — gde biste ionako bili prvi — ili ne zna kako Google radi.",
+        "Ono što se može obećati je merljivo: koje pretrage ciljamo, koliko strana se piše, šta se popravlja na profilu i koje brojke pratimo. Prve promene u mapi se vide za 4–8 nedelja. Za konkurentne pretrage u organskim rezultatima računajte na 3–6 meseci.",
+      ],
+    },
+    {
+      heading: "Kada SEO nije prvi potez",
+      body: [
+        "Ako sajt već dobija posete a niko se ne javlja, problem nije vidljivost. Dovođenje još ljudi na stranu koja ne ubeđuje samo brže troši novac.",
+        "Ako vam posao treba ovog meseca, oglasi rade odmah, a SEO tek za nekoliko meseci. Razumno je pustiti oglase dok se organski deo gradi, ali tada treba znati koliko vas košta jedan upit. Inače se ne zna šta je vrednije.",
+      ],
+    },
+    {
+      heading: "Kako se to radi kod nas",
+      bullets: [
+        "Prvo se vidi šta ljudi zaista kucaju za vašu delatnost u Nišu, ne šta zvuči ozbiljno.",
+        "Poslovni profil se sređuje pre sajta jer najbrže vraća pozive.",
+        "Po jedna strana za svaku uslugu koja se traži zasebno, umesto jedne strane „Usluge“ sa spiskom.",
+        "Brzina učitavanja i mobilni prikaz se popravljaju u kodu, ne dodatkom koji obećava ocenu.",
+        "Mesečno se gleda šta je donelo pozive, i po tome se bira šta se piše sledeće.",
+      ],
+    },
+  ],
+  proofHeading: "Sajtovi na kojima ovo radi",
+  proof: [
+    {
+      label: "Doctor Barber",
+      href: "/our-projects/doctor-barber-online-booking-sistem",
+      note: "Lokalna usluga gde se pretraga i zakazivanje nastavljaju jedno na drugo.",
+    },
+    {
+      label: "Dr Igić",
+      href: "/our-projects/dr-igic-web-aplikacija-za-estetske-klinike",
+      note: "Klinika — po strana za svaku uslugu, jer se svaka traži zasebno.",
+    },
+  ],
+  faqHeading: "Česta pitanja",
+  faq: [
+    {
+      q: "Koliko košta SEO u Nišu?",
+      a: "Zavisi od toga da li se radi jednokratno sređivanje ili se radi mesečno. Jednokratno sređivanje profila i postojećih strana je manji posao od pisanja nove strane svake nedelje. Cena ide u ponudu po opisu delatnosti i konkurencije, bez pretplate koja se ne može otkazati.",
+    },
+    {
+      q: "Koliko treba da se vide rezultati?",
+      a: "Za Google poslovni profil 4–8 nedelja. Za organske rezultate na traženim pretragama 3–6 meseci, duže ako u Nišu ima mnogo firmi u vašoj delatnosti. Svako ko kaže „za dve nedelje“ govori o pretragama koje ionako niko ne kuca.",
+    },
+    {
+      q: "Garantujete li prvo mesto na Google-u?",
+      a: "Ne. To niko ne može, jer rezultat zavisi i od blizine korisnika i od konkurencije koja se menja. Garantuje se šta se radi i šta se meri, a napredak se prati po pretragama koje su dogovorene na početku.",
+    },
+    {
+      q: "Da li mi treba nov sajt da bih se bolje rangirao?",
+      a: "Često ne. Postojeći sajt se prvo izmeri — brzina, struktura strana, tekst. Nov sajt ima smisla kada je stari toliko spor ili neuredan da bi popravka koštala kao izrada, ili kada nema gde da se smesti sadržaj koji treba da se piše.",
+    },
+    {
+      q: "Šta je sa AI odgovorima, hoće li me ChatGPT preporučiti?",
+      a: "To je zaseban posao i drugačije se radi od klasičnog SEO-a. Jezički modeli biraju izvore po tome koliko je odgovor jasno napisan i koliko je tvrdnja proverljiva. O tome postoji posebna strana o AI preporuci.",
+    },
+    {
+      q: "Radite li i oglase?",
+      a: "Da, ali ih ne prodajemo kao zamenu za SEO. Oglasi se koriste dok organski deo ne proradi, ili za usluge gde je jedan upit vredan dovoljno da se klik isplati.",
+    },
+  ],
+  cta: { label: "Reci za šta hoćeš da te nađu", href: "/upit" },
+  secondaryCta: { label: "Da vas AI preporuči", href: "/da-vas-ai-preporuci" },
+};
+
+const nisHub: LocalPage = {
+  path: "/nis",
+  eyebrow: "Niš",
+  title: "Adspire Niš — adresa, sastanak i šta radimo u gradu",
+  metaDescription:
+    "Adspire je iz Niša: Dimitrija Leka 66. Kako izgleda prvi sastanak, koje gradove u okolini pokrivamo i koja strana odgovara na to što tražite.",
+  h1: "Adspire u Nišu",
+  lead:
+    "Sedište je u Nišu, na Dimitrija Leka 66. Ovo je strana za one koji prvo hoće da znaju sa kim pričaju i da li može uživo, pre nego što uđu u to šta se tačno pravi.",
+  keywords: [
+    "Adspire Niš",
+    "web agencija Niš",
+    "IT firma Niš kontakt",
+    "softverska firma Niš adresa",
+    "izrada sajtova Niš",
+    "digitalna agencija Niš",
+  ],
+  businessName: "Adspire — Niš",
+  sections: [
+    {
+      heading: "Kako izgleda prvi sastanak",
+      body: [
+        "Traje oko sat vremena i ne naplaćuje se. Nije prezentacija. Pitanja idu ka tome kako posao sada ide i gde se gubi vreme.",
+      ],
+      bullets: [
+        "Ponesite ono što sada koristite: Excel tabelu, svesku sa terminima, primer ponude ili fakture.",
+        "Ne morate da znate kako se zove ono što vam treba. Opis problema je dovoljan.",
+        "Na kraju sastanka znate da li se posao isplati i koji je red veličine cene.",
+        "Ponuda stiže u roku od nekoliko dana, sa opisom posla, rokom i cenom po fazama.",
+        "Ako procenimo da vam to ne treba, čućete na sastanku, a ne posle plaćene analize.",
+      ],
+    },
+    {
+      heading: "Koga pokrivamo uživo",
+      body: [
+        "Niš i okolina su na dohvat za sastanak istog dana: Niška Banja, Merošina, Doljevac, Aleksinac. Leskovac, Pirot, Prokuplje i Vranje su pola dana, pa se tamo ide kada ima šta da se vidi na licu mesta.",
+        "Za ostatak Srbije i za klijente iz inostranstva sve ide onlajn i to radi bez problema. Uživo se ide onda kada treba videti magacin, salon ili proizvodnju, jer tu jedan obilazak skrati nedelju dana dopisivanja.",
+      ],
+    },
+    {
+      heading: "Šta se ne naplaćuje",
+      bullets: [
+        "Prvi razgovor i procena, bez obzira na to da li se posle radi.",
+        "Ponuda sa opisom posla i rokom.",
+        "Izmene u okviru dogovorenog obima dok se posao radi.",
+      ],
+    },
+    {
+      heading: "Gde da nastavite",
+      body: [
+        "Strane ispod su podeljene po tome kako ljudi pitaju, a ne po tome kako se usluge zovu kod nas. Uzmite onu koja liči na vaše pitanje.",
+      ],
+    },
+  ],
+  faqHeading: "Česta pitanja",
+  faq: [
+    {
+      q: "Gde se nalazite u Nišu?",
+      a: "Dimitrija Leka 66, 18000 Niš. Sastanci idu po dogovoru, pa se javite na +381 60 149 149 1 ili na djordje@adspire.rs pre dolaska.",
+    },
+    {
+      q: "Može li sastanak van radnog vremena?",
+      a: "Može. Vlasnici salona, servisa i ordinacija najčešće mogu tek posle zatvaranja, pa se sastanak zakazuje uveče ili pre otvaranja.",
+    },
+    {
+      q: "Da li radite sa firmama iz okoline Niša?",
+      a: "Da. Za Nišku Banju, Aleksinac, Doljevac i Merošinu dolazak nije problem. Za Leskovac, Pirot i Vranje se ide kada ima šta da se obiđe, a ostalo se dogovara onlajn.",
+    },
+    {
+      q: "Koliko vas ima u timu?",
+      a: "Jezgro je jedan čovek, uz saradnike po potrebi projekta. Znači da pričate direktno sa onim ko radi, i da se ne uzima više poslova nego što se stigne.",
+    },
+    {
+      q: "Sa čime da dođem na prvi sastanak?",
+      a: "Sa onim što sada koristite u poslu i sa jednom rečenicom o tome šta vas najviše koči. Tabela, sveska ili primer ponude kažu više od opisa.",
+    },
+  ],
+  cta: { label: "Zakaži razgovor", href: "/contact-us" },
+  secondaryCta: { label: "Opiši projekat", href: "/upit" },
+};
+
+export const localPages = [itCompany, appsInNis, bookingInNis, shopInNis, seoInNis, nisHub] as const;
 
 export const itCompanyNisPage = itCompany;
 export const appsNisPage = appsInNis;
 export const bookingNisPage = bookingInNis;
+export const shopNisPage = shopInNis;
+export const seoNisPage = seoInNis;
+export const nisHubPage = nisHub;
