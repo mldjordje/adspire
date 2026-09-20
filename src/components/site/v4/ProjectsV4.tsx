@@ -2,7 +2,8 @@
 
 import { PageShellV4 } from "./PageShellV4";
 import { ClientLogosV4 } from "./ClientLogosV4";
-import type { LocaleCode } from "@/lib/site-config";
+import { defaultLocale, localePath, type LocaleCode } from "@/lib/site-config";
+import { getProjectRowCopy, getProjectsChrome } from "./projectsCopy";
 import styles from "./ProjectsV4.module.css";
 
 /**
@@ -95,56 +96,65 @@ const PROJECTS: ProjectRow[] = [
   },
 ];
 
-export function ProjectsV4({ locale = "sr" }: { locale?: LocaleCode }) {
+export function ProjectsV4({ locale = defaultLocale }: { locale?: LocaleCode }) {
+  const t = getProjectsChrome(locale);
   return (
     <PageShellV4
-      eyebrow="Radovi / Case studies"
+      eyebrow={t.eyebrow}
       title={
         <>
-          SISTEMI KOJI
+          {t.title[0]}
           <br />
-          RADE ZA KLIJENTE<span className={styles.dot}>.</span>
+          {t.title[1]}
+          <span className={styles.dot}>.</span>
         </>
       }
-      intro="Ne screenshotovi za portfolio — produkcijski sistemi koji svakodnevno rade za realne firme. Svaki dovodi upite, prodaje ili štedi sate rada."
+      intro={t.intro}
     >
       <div className={styles.list}>
-        {PROJECTS.map((p) => (
-          <a
-            key={p.slug}
-            className={styles.row}
-            href={`/our-projects/${p.slug}`}
-            data-cursor="otvori"
-            data-reveal
-            style={{ "--accent": p.accent } as React.CSSProperties}
-          >
-            <div className={styles.rowMedia}>
-              <span className={styles.rowIndex}>{p.index}</span>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img className={styles.rowImg} src={p.image} alt={p.title} loading="lazy" />
-            </div>
-            <div className={styles.rowInfo}>
-              <span className={styles.rowCat}>{p.category}</span>
-              <h2 className={styles.rowTitle}>{p.title}</h2>
-              <p className={styles.rowOutcome}>{p.outcome}</p>
-              <div className={styles.rowFoot}>
-                <span className={styles.rowStack}>{p.stack}</span>
-                <span className={styles.rowLink}>Pogledaj case study →</span>
+        {PROJECTS.map((p) => {
+          const row = getProjectRowCopy(p.slug, locale);
+          return (
+            <a
+              key={p.slug}
+              className={styles.row}
+              href={`/our-projects/${p.slug}`}
+              data-cursor="otvori"
+              data-reveal
+              style={{ "--accent": p.accent } as React.CSSProperties}
+            >
+              <div className={styles.rowMedia}>
+                <span className={styles.rowIndex}>{p.index}</span>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img className={styles.rowImg} src={p.image} alt={p.title} loading="lazy" />
               </div>
-            </div>
-          </a>
-        ))}
+              <div className={styles.rowInfo}>
+                <span className={styles.rowCat}>{row?.category ?? p.category}</span>
+                <h2 className={styles.rowTitle}>{p.title}</h2>
+                <p className={styles.rowOutcome}>{row?.outcome ?? p.outcome}</p>
+                <div className={styles.rowFoot}>
+                  <span className={styles.rowStack}>{p.stack}</span>
+                  <span className={styles.rowLink}>{t.rowLink}</span>
+                </div>
+              </div>
+            </a>
+          );
+        })}
       </div>
 
       <ClientLogosV4 locale={locale} />
 
       <section className={styles.cta} data-reveal>
-        <h2 className={styles.ctaTitle}>Vaš sistem je sledeći.</h2>
-        <p className={styles.ctaText}>
-          Ispričajte nam problem — vraćamo konkretan predlog i prototip za 48h.
-        </p>
-        <a className={styles.ctaButton} href="/upit" data-cta="projekti-upit" data-cursor="on" data-magnetic>
-          Zakaži besplatan poziv →
+        <h2 className={styles.ctaTitle}>{t.cta.title}</h2>
+        <p className={styles.ctaText}>{t.cta.text}</p>
+        <a
+          className={styles.ctaButton}
+          href={locale === defaultLocale ? "/upit" : localePath("/contact-us", locale)}
+          data-cta="projekti-upit"
+          data-cursor="on"
+          data-magnetic
+        >
+          {t.cta.button}
         </a>
       </section>
     </PageShellV4>

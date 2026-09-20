@@ -29,7 +29,7 @@ export const aiVideoSeo = {
 
 export const aiVideoHero = {
   eyebrow: "Video produkcija uz AI",
-  title: "Klipovi za tvoj posao, bez snimanja",
+  title: "Video klipovi i reklame za tvoj posao, bez snimanja",
   lead:
     "Nemaš ekipu, kameru ni vreme — a video je ono što se danas gleda. Mi pravimo kratke klipove za tvoju firmu uz AI alate: od ideje i scenarija do gotovog klipa sa titlovima. Ti kažeš da ili ne i objaviš.",
   primary: { label: "Pošalji upit i budžet", href: "#upit" },
@@ -117,9 +117,9 @@ export const aiVideoFormats = {
       ],
     },
     {
-      title: "Klip za oglas",
+      title: "Video reklama za oglase",
       bullets: [
-        "Više varijanti iste poruke, za testiranje",
+        "Više varijanti iste reklame, da se testira koja donosi upite",
         "Format i trajanje po pravilima platforme",
         "Jasan poziv na akciju na kraju",
       ],
@@ -198,6 +198,10 @@ export const aiVideoFaq = {
     {
       q: "Šta ako mi se klip ne svidi?",
       a: "Jedna runda izmena po klipu je uračunata. Prvi klip se namerno radi prvi i sam, da se ton podesi pre nego što krene ostatak.",
+    },
+    {
+      q: "Može li ovo da se koristi kao video reklama na Instagramu ili Facebooku?",
+      a: "Da, to je jedan od formata. Reklamni klip pravimo u dve ili tri varijante iste poruke, u trajanju koje platforma traži i sa pozivom na akciju na kraju. Razlika u odnosu na običan klip je što se reklama testira: pustiš varijante, ostaviš onu koja donosi upite, ostale gasiš.",
     },
     {
       q: "Da li mogu sam da naučim ovo?",

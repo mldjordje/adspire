@@ -46,9 +46,7 @@ export function ServiceDetailV4({ service, catalog, locale = defaultLocale }: Se
   const bestFor = t?.bestFor ?? catalog.bestFor;
   const deliverables = t?.deliverables ?? catalog.deliverables;
   const faqItems = t?.faq ?? catalog.faqItems;
-  // Serbian-only for now: these two blocks have no entry in serviceDetail.i18n,
-  // and Serbian text under lang="en" is worse than a shorter English page.
-  const scope = locale === defaultLocale ? getServiceScope(catalog.slug) : undefined;
+  const scope = getServiceScope(catalog.slug, locale);
 
   // The brief is a Serbian-only flow, so en/de go to the contact page instead.
   const quoteHref =

@@ -26,13 +26,13 @@ const OG_LOCALE: Record<LocaleCode, string> = {
 };
 
 /**
- * Paths whose page body is genuinely localized. Only the home route reads the
- * locale (HomeV4); every other page renders Serbian copy at /en/* and /de/*
- * because the V4 components hardcode it. Serving Serbian text under lang="en"
- * with an hreflang claiming English makes Google discard the hreflang and file
- * the URL as a duplicate of the Serbian original — so untranslated prefixed
- * routes stay out of both the index and the hreflang map until their component
- * consumes getSiteContent(locale). Add a path here once that is true of it.
+ * Paths whose page body is genuinely localized. Several V4 components still
+ * hardcode Serbian and render it at /en/* and /de/*. Serving Serbian text
+ * under lang="en" with an hreflang claiming English makes Google discard the
+ * hreflang and file the URL as a duplicate of the Serbian original — so an
+ * untranslated prefixed route stays out of both the index and the hreflang map
+ * until its component reads the locale. Add a path here once that is true of
+ * it, and keep TRANSLATED_PREFIXED in next-sitemap.config.js in step.
  */
 const TRANSLATED_PATHS = new Set<string>([
   "/",
@@ -44,6 +44,10 @@ const TRANSLATED_PATHS = new Set<string>([
   // FaqV4 reads getFaqCopy(locale), and the route publishes the same six
   // answers as FAQPage JSON-LD in that locale. faqCopy.test.ts holds the line.
   "/faq",
+  // The index only. Each case study behind it is written in Serbian and has no
+  // translation, so /en/our-projects/<slug> stays out — which is why this is a
+  // path and not a prefix.
+  "/our-projects",
 ]);
 
 /**

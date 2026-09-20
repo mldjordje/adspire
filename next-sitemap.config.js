@@ -79,6 +79,7 @@ module.exports = {
       /^\/(en|de)\/about-us$/,
       /^\/(en|de)\/contact-us$/,
       /^\/(en|de)\/faq$/,
+      /^\/(en|de)\/our-projects$/,
       /^\/(en|de)\/hotelski-rezervacioni-sistem$/,
       /^\/(en|de)\/our-services(\/|$)/,
     ];
