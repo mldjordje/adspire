@@ -37,6 +37,8 @@ export type ServiceDetailChrome = {
   quoteCta: string;
   bestForTitle: string;
   deliverablesTitle: string;
+  notForTitle: string;
+  beforeQuoteTitle: string;
   proofLabel: string;
   proofTitle: string;
   proofLink: string;
@@ -54,6 +56,8 @@ const chrome: Record<LocaleCode, ServiceDetailChrome> = {
     quoteCta: "Zatraži ponudu",
     bestForTitle: "Za koga ima smisla",
     deliverablesTitle: "Šta dobijate",
+    notForTitle: "Kada nas nemojte zvati",
+    beforeQuoteTitle: "Šta pitamo pre ponude",
     proofLabel: "Dokazi iz produkcije",
     proofTitle: "Relevantni projekti",
     proofLink: "Pogledaj studiju slučaja →",
@@ -69,6 +73,8 @@ const chrome: Record<LocaleCode, ServiceDetailChrome> = {
     quoteCta: "Request a quote",
     bestForTitle: "Who this is for",
     deliverablesTitle: "What you get",
+    notForTitle: "When not to call us",
+    beforeQuoteTitle: "What we ask before quoting",
     proofLabel: "Proof from production",
     proofTitle: "Relevant projects",
     proofLink: "Read the case study →",
@@ -84,6 +90,8 @@ const chrome: Record<LocaleCode, ServiceDetailChrome> = {
     quoteCta: "Angebot anfordern",
     bestForTitle: "Für wen das sinnvoll ist",
     deliverablesTitle: "Was Sie bekommen",
+    notForTitle: "Wann Sie uns nicht anrufen sollten",
+    beforeQuoteTitle: "Was wir vor dem Angebot fragen",
     proofLabel: "Belege aus der Produktion",
     proofTitle: "Passende Projekte",
     proofLink: "Fallstudie lesen →",

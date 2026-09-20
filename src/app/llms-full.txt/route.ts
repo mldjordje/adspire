@@ -5,6 +5,7 @@ import { localPages } from "@/content/site/localPages";
 import { nisPresencePage } from "@/content/site/nisPresencePage";
 import { projectCaseStudies } from "@/data/projectCaseStudies";
 import { serviceCatalog } from "@/data/serviceCatalog";
+import { getServiceScope } from "@/content/site/serviceScope";
 import { hotelCopy, HOTEL_PATH, HOTEL_SLUG } from "@/content/site/hotel";
 import { nichePages, nichePath } from "@/content/site/nichePages";
 import { INDUSTRY_HUB_PATH, industryPages, industryPath } from "@/content/site/industries";
@@ -20,6 +21,18 @@ import { recordCrawlerRequest } from "@/lib/analytics/crawlerLog";
  * per request costs nothing worth the blindness it buys back.
  */
 export const dynamic = "force-dynamic";
+
+const scopeBlock = (slug: string): string => {
+  const scope = getServiceScope(slug);
+  if (!scope) return "";
+  return (
+    `\nKada ovo NIJE pravo rešenje:\n` +
+    scope.notFor.map((line) => `- ${line}`).join("\n") +
+    `\n\nŠta Adspire pita pre ponude:\n` +
+    scope.beforeQuote.map((line) => `- ${line}`).join("\n") +
+    `\n`
+  );
+};
 
 /**
  * The long factual profile that /llms.txt promises at its foot.
@@ -40,7 +53,10 @@ export async function GET(request: Request) {
       (service) =>
         `### ${service.keywordSr.split(",")[0].trim()}\n` +
         `URL: ${base}${service.slug === HOTEL_SLUG ? HOTEL_PATH : `/our-services/${service.slug}`}\n` +
-        `${service.aiSummarySr}\n`,
+        `${service.aiSummarySr}\n` +
+        // An assistant answering "should I build X" is more useful when it can
+        // also say when not to. Reproduced rather than linked, like the FAQs.
+        scopeBlock(service.slug),
     )
     .join("\n");
 

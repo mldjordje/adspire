@@ -10,6 +10,7 @@ import {
 } from "@/content/site/serviceDetail.i18n";
 import { defaultLocale, localePath, type LocaleCode } from "@/lib/site-config";
 import { hotelCopy, HOTEL_PATH } from "@/content/site/hotel";
+import { getServiceScope } from "@/content/site/serviceScope";
 
 /**
  * Service detail page.
@@ -45,6 +46,9 @@ export function ServiceDetailV4({ service, catalog, locale = defaultLocale }: Se
   const bestFor = t?.bestFor ?? catalog.bestFor;
   const deliverables = t?.deliverables ?? catalog.deliverables;
   const faqItems = t?.faq ?? catalog.faqItems;
+  // Serbian-only for now: these two blocks have no entry in serviceDetail.i18n,
+  // and Serbian text under lang="en" is worse than a shorter English page.
+  const scope = locale === defaultLocale ? getServiceScope(catalog.slug) : undefined;
 
   // The brief is a Serbian-only flow, so en/de go to the contact page instead.
   const quoteHref =
@@ -114,6 +118,19 @@ export function ServiceDetailV4({ service, catalog, locale = defaultLocale }: Se
           <div className={styles.detailCard}>
             <h2>{chrome.deliverablesTitle}</h2>
             <ul>{deliverables.map((item) => <li key={item}>{item}</li>)}</ul>
+          </div>
+        </section>
+      ) : null}
+
+      {scope ? (
+        <section className={styles.details} data-reveal>
+          <div className={styles.detailCard}>
+            <h2>{chrome.notForTitle}</h2>
+            <ul data-answer>{scope.notFor.map((item) => <li key={item}>{item}</li>)}</ul>
+          </div>
+          <div className={styles.detailCard}>
+            <h2>{chrome.beforeQuoteTitle}</h2>
+            <ul data-answer>{scope.beforeQuote.map((item) => <li key={item}>{item}</li>)}</ul>
           </div>
         </section>
       ) : null}

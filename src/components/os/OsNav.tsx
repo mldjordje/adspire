@@ -53,14 +53,24 @@ export function OsNav({ counts }: { counts: NavCounts }) {
       items: [
         { href: "/os/klijenti", label: "Klijenti" },
         { href: "/os/edukacija", label: "Edukacija", count: counts.eduMissingLinks, alert: true },
+        // Open hours were reachable only through a sentence on the education
+        // page, so the one screen that decides whether a client can book at all
+        // was the hardest one to find.
+        { href: "/os/edukacija/dostupnost", label: "Dostupnost" },
         { href: "/os/fakture", label: "Fakture", count: counts.overdueInvoices, alert: true },
         { href: "/os/podesavanja", label: "Podešavanja" },
       ],
     },
   ];
 
-  const isActive = (href: string) =>
-    href === "/os" ? pathname === "/os" : pathname.startsWith(href);
+  // Longest match wins, so /os/edukacija/dostupnost does not light up its
+  // parent as well. Plain startsWith would mark both.
+  const current = groups
+    .flatMap((group) => group.items.map((item) => item.href))
+    .filter((href) => (href === "/os" ? pathname === "/os" : pathname === href || pathname.startsWith(`${href}/`)))
+    .sort((a, b) => b.length - a.length)[0];
+
+  const isActive = (href: string) => href === current;
 
   return (
     <nav className="os-nav">
