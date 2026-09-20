@@ -27,6 +27,7 @@ import { founderId, orgId, serviceId, servicePath, websiteId } from "@/lib/seo/i
 import { isoDate } from "@/lib/seo/dates";
 import { serviceCatalog } from "@/data/serviceCatalog";
 import { nichePages, nichePath } from "@/content/site/nichePages";
+import { industryPages, industryPath } from "@/content/site/industries";
 import { bookingIndustryPages, bookingIndustryPath } from "@/content/site/bookingIndustryPages";
 import { DIASPORA_PATH } from "@/content/site/diasporaPage";
 import { AEO_PATH } from "@/content/site/aeoPage";
@@ -206,6 +207,7 @@ describe("JSON-LD graph", () => {
     const expected = [
       ...nichePages.map((page) => `https://adspire.rs${nichePath(page.slug)}#service`),
       ...bookingIndustryPages.map((page) => `https://adspire.rs${bookingIndustryPath(page.slug)}#service`),
+      ...industryPages.map((page) => `https://adspire.rs${industryPath(page.slug)}#service`),
       `https://adspire.rs${DIASPORA_PATH}#service`,
       `https://adspire.rs${AEO_PATH}#service`,
     ];

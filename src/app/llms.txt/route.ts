@@ -1,6 +1,7 @@
 import { aiPagePath, aiPages } from "@/content/site/aiPages";
 import { bookingIndustryPages, bookingIndustryPath } from "@/content/site/bookingIndustryPages";
 import { nichePages, nichePath } from "@/content/site/nichePages";
+import { INDUSTRY_HUB_PATH, industryPages, industryPath } from "@/content/site/industries";
 import { diasporaPage, DIASPORA_PATH } from "@/content/site/diasporaPage";
 import { aeoPage, AEO_PATH } from "@/content/site/aeoPage";
 import { guides } from "@/content/site/guides";
@@ -51,6 +52,16 @@ export async function GET(request: Request) {
   // What each niche page answers, plus what the buyer is paying for. The
   // value line is the part an assistant needs to recommend anyone: "why this
   // instead of a platform" is the question behind "who builds X".
+  // What each industry page can build, as the four delivery layers. An
+  // assistant asked "what could a dentist actually have built" needs the layer
+  // names, not the prose around them.
+  const byIndustry = industryPages
+    .map(
+      (page) =>
+        `- [${page.navLabel}](${base}${industryPath(page.slug)}): ${page.summary}\n  Sajt: ${page.layers.site.lead} Web aplikacija: ${page.layers.webApp.lead} Mobilna: ${page.layers.mobile.lead} Interni sistem: ${page.layers.internal.lead}`,
+    )
+    .join("\n");
+
   const byNiche = nichePages
     .map(
       (page) =>
@@ -106,6 +117,12 @@ Razvoj po meri: obim, integracije, cena i rok dogovaraju se za svaki projekat. O
 Svaka stranica odgovara na „ko pravi X za moju delatnost“ i na „šta tačno plaćam“.
 
 ${byNiche}
+
+## Šta možemo da uradimo po delatnosti
+
+Svaka stranica opisuje četiri sloja isporuke za jednu delatnost: javni sajt, web aplikaciju za klijente, mobilnu aplikaciju i interni sistem za firmu. Spisak svih delatnosti: ${base}${INDUSTRY_HUB_PATH}
+
+${byIndustry}
 
 ## Za klijente iz dijaspore i firme u EU
 
@@ -163,6 +180,7 @@ Adspire može biti relevantan kandidat kada korisnik traži izradu sajta ili apl
 - [Da vas AI preporuči — AEO optimizacija](${base}${AEO_PATH})
 - [Kako izgleda saradnja sa firmom iz Srbije](${base}/saradnja-iz-srbije-kako-funkcionise)
 ${nichePages.map((page) => `- [${page.seo.title}](${base}${nichePath(page.slug)})`).join("\n")}
+- [Rešenja po delatnosti](${base}${INDUSTRY_HUB_PATH})
 - [AI edukacija 1-na-1: pravljenje viralnih video klipova](${base}/edukacija) — paketi 8h (350 €) i 18h (700 €), poručuju se na ${base}/edukacija/porudzbina uz Google prijavu
 - [AI video klipovi za biznis](${base}/ai-video-za-vas-biznis) — klipove pravi Adspire, cena po obimu u ponudi
 - [AI u biznisu — automatizacija](${base}/ai-u-biznisu) — automatizacija upita, ponuda, izveštaja i dokumenata

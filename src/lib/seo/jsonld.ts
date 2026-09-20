@@ -17,6 +17,7 @@ import {
   websiteRef,
 } from "@/lib/seo/ids";
 import { nichePages, nichePath } from "@/content/site/nichePages";
+import { industryPages, industryPath } from "@/content/site/industries";
 import { bookingIndustryPages, bookingIndustryPath } from "@/content/site/bookingIndustryPages";
 import { diasporaPage, DIASPORA_PATH } from "@/content/site/diasporaPage";
 import { aeoPage, AEO_PATH } from "@/content/site/aeoPage";
@@ -126,6 +127,7 @@ export function organizationJsonLd() {
     knowsAbout: [
       ...serviceCatalog.map((s) => s.keywordSr.split(",")[0].trim()),
       ...nichePages.map((page) => page.product.name),
+      ...industryPages.map((page) => page.navLabel),
       "Rad sa klijentima iz dijaspore",
       "Fakturisanje usluga firmama u EU u evrima",
       "Reverse charge za usluge iz Srbije",
@@ -357,6 +359,14 @@ export function solutionEntries() {
       name: page.seo.title,
       description: page.summary,
       url: `${base()}${bookingIndustryPath(page.slug)}`,
+    })),
+    // The per-industry pages. Each one publishes a #service node of its own, so
+    // this is membership in the catalog, not a second copy of the entity.
+    ...industryPages.map((page) => ({
+      id: `${base()}${industryPath(page.slug)}#service`,
+      name: page.seo.title,
+      description: page.summary,
+      url: `${base()}${industryPath(page.slug)}`,
     })),
     {
       id: `${base()}${DIASPORA_PATH}#service`,

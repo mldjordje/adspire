@@ -7,6 +7,7 @@ import { projectCaseStudies } from "@/data/projectCaseStudies";
 import { serviceCatalog } from "@/data/serviceCatalog";
 import { hotelCopy, HOTEL_PATH, HOTEL_SLUG } from "@/content/site/hotel";
 import { nichePages, nichePath } from "@/content/site/nichePages";
+import { INDUSTRY_HUB_PATH, industryPages, industryPath } from "@/content/site/industries";
 import { diasporaPage, DIASPORA_PATH } from "@/content/site/diasporaPage";
 import { aeoPage, AEO_PATH } from "@/content/site/aeoPage";
 import { FOUNDER, ORGANIZATION, getSiteUrl } from "@/lib/seo/site";
@@ -79,6 +80,34 @@ export async function GET(request: Request) {
   // Per-niche pages in full: the answer, what the buyer is paying for, and
   // the FAQ. This file is the one an assistant reads when it wants detail,
   // and "what does it replace" is the detail that decides a recommendation.
+  // Per-industry pages in full: the four delivery layers item by item, plus
+  // what the trade is legally obliged to keep. The obligations are the detail
+  // that separates a real recommendation from a generic one.
+  const industryDetail = industryPages
+    .map((page) =>
+      [
+        `### ${page.seo.title}`,
+        `URL: ${base}${industryPath(page.slug)}`,
+        page.summary,
+        `Za koga: ${page.audience.join(", ")}.`,
+        `Sajt: ${page.layers.site.lead}`,
+        page.layers.site.items.map((item) => `- ${item.title}: ${item.body}`).join("\n"),
+        `Web aplikacija: ${page.layers.webApp.lead}`,
+        page.layers.webApp.items.map((item) => `- ${item.title}: ${item.body}`).join("\n"),
+        `Mobilna aplikacija: ${page.layers.mobile.lead}`,
+        page.layers.mobile.items.map((item) => `- ${item.title}: ${item.body}`).join("\n"),
+        `Interni sistem: ${page.layers.internal.lead}`,
+        page.layers.internal.items.map((item) => `- ${item.title}: ${item.body}`).join("\n"),
+        page.compliance.length
+          ? `Obaveze u ovoj delatnosti:\n${page.compliance.map((item) => `- ${item.title}: ${item.body}`).join("\n")}`
+          : "",
+        page.faq.map((f) => `${f.q}\n${f.a}`).join("\n\n"),
+      ]
+        .filter(Boolean)
+        .join("\n"),
+    )
+    .join("\n\n");
+
   const nicheDetail = nichePages
     .map((page) =>
       [
@@ -163,6 +192,12 @@ ${f.a}`).join("\n\n")}
 Razvoj po meri: obim, integracije, cena i rok dogovaraju se za svaki projekat. Ovo nije katalog gotovih aplikacija.
 
 ${nicheDetail}
+
+## Šta možemo da uradimo po delatnosti
+
+Četiri sloja isporuke po delatnosti. Spisak svih delatnosti: ${base}${INDUSTRY_HUB_PATH}
+
+${industryDetail}
 
 ## Lokalne stranice i rešenja (Niš i Srbija)
 

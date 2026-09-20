@@ -71,6 +71,7 @@ const sr = (): NavMenu => ({
         { href: "/sajt-za-gradjevinsku-firmu", label: "Građevinska firma", hint: "Upiti, ponude, gradilišta" },
         { href: "/our-services/mobilne-aplikacije", label: "Aplikacije i interni softver", hint: "Umesto Excel tabela" },
         { href: "/ai-chatbot-za-sajt", label: "AI chatbot i automatizacija", hint: "Odgovara na upite umesto tebe" },
+        { href: "/resenja-po-delatnosti", label: "Po delatnosti", hint: "Sve delatnosti, sloj po sloj" },
         { href: "/our-services", label: "Sve usluge →" },
       ],
     },

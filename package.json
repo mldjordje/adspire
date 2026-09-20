@@ -15,7 +15,8 @@
     "check-wp": "node scripts/check-wordpress.mjs",
     "db:migrate": "node --env-file-if-exists=.env.local scripts/db-migrate.mjs",
     "os:user": "node --env-file-if-exists=.env.local scripts/os-create-user.mjs",
-    "os:import-clients": "node --env-file-if-exists=.env.local scripts/import-clients.mjs"
+    "os:import-clients": "node --env-file-if-exists=.env.local scripts/import-clients.mjs",
+    "gen:industries": "node scripts/gen-industry-routes.mjs"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",
