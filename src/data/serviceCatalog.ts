@@ -79,7 +79,7 @@ export const serviceCatalog: ServiceCatalogEntry[] = [
     ],
     faqItems: [
       { q: "Koliko košta izrada web sajta?", a: "Cena zavisi od obima — landing stranica počinje od 420€, a kompletan korporativni sajt sa CMS-om od 1.050€ naviše." },
-      { q: "Koliko traje izrada sajta?", a: "Tipičan projekat traje 3–6 sedmica od kick-offa do objave, u zavisnosti od broja stranica i integracija." },
+      { q: "Koliko traje izrada sajta?", a: "Tipičan projekat traje 3–6 sedmica od kick-offa do objave, u zavisnosti od obima sadržaja i integracija." },
       { q: "Da li se sajt može urediti bez programera?", a: "Da — sve sajtove gradimo sa CMS integracijom koja vam omogućava da menjate tekst, slike i blogove samostalno." },
       { q: "Da li je sajt optimizovan za mobilne uređaje?", a: "Svi naši sajtovi su mobile-first i prolaze Google Core Web Vitals test bez kompromisa." },
       { q: "Da li nudite SEO optimizaciju uz izradu sajta?", a: "Osnovna on-page SEO optimizacija je uvek uključena — tehničke meta tagove, strukturisane podatke i sitemap." },

@@ -33,7 +33,7 @@ export const timelineGuide: Guide = {
     {
       heading: "Realni rokovi po tipu posla",
       bullets: [
-        "Prezentacioni sajt (5–10 strana, forma, SEO osnove): 3–6 nedelja.",
+        "Prezentacioni sajt (dizajn, forma, SEO osnove): 3–6 nedelja.",
         "Sajt sa zakazivanjem termina: 4–8 nedelja, zavisno od pravila kalendara i broja zaposlenih.",
         "Web shop: 6–12 nedelja. Najviše vremena odnese asortiman, varijante proizvoda i način isporuke i plaćanja.",
         "Interna aplikacija ili sistem po meri: 2–6 meseci, po fazama, sa upotrebljivom prvom verzijom mnogo pre kraja.",

@@ -29,7 +29,7 @@ export const EXTRA_BLOG_POSTS: BlogPost[] = [
       { type: "p", text: "Pitajte izvođača dve stvari: koliko sati je procenio i kolika mu je satnica. Ako neće da odgovori ni na jedno, to je već informacija. Ako odgovori, imate račun koji možete da uradite u glavi." },
       { type: "p", text: "Evo koliko posao realno traje, iz iskustva na projektima koji su u produkciji:" },
       { type: "ul", items: [
-        "Prezentacioni sajt za firmu, 5–10 strana, sa CMS-om i kontakt formom: 40–90 sati.",
+        "Prezentacioni sajt za firmu, sa CMS-om i kontakt formom: 40–90 sati.",
         "Web shop sa katalogom, korpom, plaćanjem i adminom za porudžbine: 90–200 sati.",
         "Sistem za zakazivanje ili evidenciju sa korisničkim nalozima: 80–170 sati.",
         "Poslovna aplikacija po meri koja zamenjuje tabele: 120–350 sati.",

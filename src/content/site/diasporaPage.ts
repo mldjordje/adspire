@@ -1,11 +1,20 @@
 /**
  * Copy for /za-nase-ljude-u-dijaspori.
  *
- * The audience is not "a German company". It is a business owner in DE, AT,
- * CH or SE whose mother tongue is ours and whose customers are there. That
- * distinction decides everything on the page: it is written in Serbian, the
- * differentiator is language and timezone rather than German fluency, and the
- * price argument is the third leg, not the first.
+ * The audience is not "a German company". It is a business owner abroad whose
+ * mother tongue is ours and whose customers are there — DE, AT, CH, SE, UK,
+ * IE, NL, NO, DK, FR, IT, US, CA, AU. That distinction decides everything on
+ * the page: it is written in Serbian, and language plus timezone come without
+ * having to speak German.
+ *
+ * Price leads. An owner comparing a Serbian shop to a local one is doing it
+ * for the rate first, so the hero says that and the headline is the argument,
+ * not the language. Language and timezone are what keep them here afterwards.
+ *
+ * The country list is long on purpose: it is the only place a search for
+ * "cheaper website than in England" has to match, and it feeds areaServed in
+ * the markup. Outside the EU (UK, CH, NO, US, CA, AU) reverse charge does not
+ * apply, so those notes say import-of-service instead.
  *
  * Two honesty rules this page is built around, both of them load-bearing:
  *
@@ -38,30 +47,35 @@ export type DiasporaCountry = {
 
 export const diasporaPage = {
   seo: {
-    title: "Sajt i softver iz Srbije za vašu firmu u inostranstvu",
+    title: "Sajt iz Srbije — jeftinije nego u EU, Engleskoj ili Americi",
     metaDescription:
-      "Za naše ljude sa firmom u Nemačkoj, Austriji, Švajcarskoj ili Švedskoj: sajt, web shop i softver po meri. Dogovor na našem jeziku, isto radno vreme, faktura u evrima.",
+      "Za naše ljude sa firmom u Nemačkoj, Austriji, Švajcarskoj, Engleskoj, Americi i dalje: sajt, web shop i softver po meri, po ceni iz Srbije. Dogovor na našem jeziku, faktura u evrima.",
     keywords: [
-      "izrada sajta iz Srbije za firmu u Nemačkoj",
-      "programer koji priča srpski Nemačka",
-      "sajt za firmu u Austriji",
+      "izrada sajta iz Srbije za firmu u inostranstvu",
       "jeftinija izrada sajta nego u Nemačkoj",
+      "jeftinija izrada sajta nego u Engleskoj",
+      "izrada sajta cena Amerika vs Srbija",
+      "programer koji priča srpski Nemačka",
+      "programer koji priča srpski London",
+      "sajt za firmu u Austriji",
+      "sajt za firmu u Engleskoj",
       "naš čovek za sajt u inostranstvu",
       "web developer Srbija za EU firme",
       "faktura iz Srbije za firmu u EU",
+      "outsourcing izrade sajta u Srbiju",
     ],
   },
 
   hero: {
     eyebrow: "Za naše ljude u inostranstvu",
-    title: "Vaša firma tamo, vaš jezik ovde.",
+    title: "Isti posao, cena iz Srbije.",
     lead:
-      "Firma vam je u Nemačkoj, Austriji, Švajcarskoj ili Švedskoj, a sajt, web shop ili program po meri vam treba sad. Radimo iz Niša, pričamo kako vam je lakše, radimo u istom radnom vremenu i fakturišemo u evrima.",
+      "Sajt, web shop ili program po meri za vašu firmu u Nemačkoj, Austriji, Švajcarskoj, Engleskoj, Americi ili bilo gde drugde — po ceni koja se pravi u Nišu, a ne u Minhenu, Londonu ili Čikagu. Dogovor na našem jeziku, faktura u evrima, isto ili blisko radno vreme.",
   },
 
   /** The paragraph a search snippet or an assistant lifts whole. */
   summary:
-    "Adspire je IT firma iz Niša koja pravi sajtove, web shopove i softver po meri za firme u inostranstvu — najčešće za naše ljude koji vode posao u Nemačkoj, Austriji, Švajcarskoj i Švedskoj. Dogovor ide na srpskom, radno vreme je isto kao vaše, faktura je u evrima bez PDV-a po reverse-charge principu, a cene su javne: prezentacioni sajt 850 – 2.100 €, web shop 2.100 – 5.600 €, poslovna aplikacija 2.800 – 10.500 €.",
+    "Adspire je IT firma iz Niša koja pravi sajtove, web shopove i softver po meri za firme u inostranstvu — najčešće za naše ljude koji vode posao u Nemačkoj, Austriji, Švajcarskoj, Švedskoj, Engleskoj, Irskoj, Holandiji, Norveškoj, Francuskoj, Italiji, Americi, Kanadi i Australiji. Glavni razlog zašto dolaze je cena: isti posao se u Srbiji plaća znatno manje nego kod domaće agencije u EU, Britaniji ili SAD, jer je troškovna baza ovde niža. Dogovor ide na srpskom, faktura je u evrima bez PDV-a po reverse-charge principu, a cene su javne: prezentacioni sajt 850 – 2.100 €, web shop 2.100 – 5.600 €, poslovna aplikacija 2.800 – 10.500 €.",
 
   audienceHeading: "Ako se prepoznajete, strana je za vas",
   audience: [
@@ -106,7 +120,7 @@ export const diasporaPage = {
     lead:
       "Nećemo vam reći šta traži agencija kod vas; to ne možemo da znamo ni da dokažemo. Umesto toga evo koliko posao traje kod nas, pa ponudu koju već imate podelite satnicom i uporedite brojeve sami.",
     rows: [
-      { label: "Prezentacioni sajt za firmu, 5–10 strana", hours: "40 – 90 sati", price: "850 – 2.100 €" },
+      { label: "Prezentacioni sajt za firmu, sa CMS-om", hours: "40 – 90 sati", price: "850 – 2.100 €" },
       { label: "Web shop sa katalogom, korpom i adminom", hours: "90 – 200 sati", price: "2.100 – 5.600 €" },
       { label: "Sistem za zakazivanje ili evidenciju", hours: "80 – 170 sati", price: "1.750 – 4.200 €" },
       { label: "Poslovna aplikacija po meri", hours: "120 – 350 sati", price: "2.800 – 10.500 €" },
@@ -171,9 +185,9 @@ export const diasporaPage = {
     ],
   },
 
-  countriesHeading: "Po zemljama",
+  countriesHeading: "Zemlje u kojima radimo",
   countriesLead:
-    "Isti način rada, samo se poreski broj drugačije zove. Naziv ispod je ono što traži vaš knjigovođa kada mu date našu fakturu.",
+    "Isti način rada svuda, razlikuje se samo papirologija: unutar EU faktura ide bez PDV-a po reverse-charge principu, van EU se PDV ne obračunava, a vaš knjigovođa uvozi uslugu po pravilima svoje zemlje. Naziv ispod je ono što traži vaš knjigovođa kada mu date našu fakturu.",
   countries: [
     {
       name: "Nemačka",
@@ -194,6 +208,56 @@ export const diasporaPage = {
       name: "Švedska",
       taxIdLabel: "Momsregistreringsnummer",
       note: "Malmö, Geteborg, Stokholm — servisi, dostava i trgovina.",
+    },
+    {
+      name: "Engleska i ostatak Velike Britanije",
+      taxIdLabel: "VAT number",
+      note: "London, Birmingem, Mančester. Posle Bregzita je van EU: faktura je bez PDV-a, a vi ga obračunavate kod sebe.",
+    },
+    {
+      name: "Irska",
+      taxIdLabel: "VAT number",
+      note: "Dablin i okolina — usluge, gradnja i sve više mali softverski poslovi.",
+    },
+    {
+      name: "Holandija",
+      taxIdLabel: "btw-nummer",
+      note: "Transport, logistika i trgovina. Reverse charge unutar EU, rutinski za knjigovođu.",
+    },
+    {
+      name: "Norveška",
+      taxIdLabel: "Organisasjonsnummer (MVA)",
+      note: "Van EU, kao i Švajcarska — postupak se proverava pre ponude.",
+    },
+    {
+      name: "Danska",
+      taxIdLabel: "CVR-nummer",
+      note: "Kopenhagen i Orhus — zanati, servisi i ugostiteljstvo.",
+    },
+    {
+      name: "Francuska",
+      taxIdLabel: "numéro de TVA",
+      note: "Pariz i jug. Sajt radimo na francuskom, dogovor ide na našem jeziku ili engleskom.",
+    },
+    {
+      name: "Italija",
+      taxIdLabel: "Partita IVA",
+      note: "Sever Italije — gradnja, proizvodnja i gastro.",
+    },
+    {
+      name: "Sjedinjene Američke Države",
+      taxIdLabel: "EIN (nema PDV-a)",
+      note: "Čikago, Njujork, Feniks. Razlika u vremenu je 6–9 sati, pa se dogovara zajednički termin; faktura je u evrima ili dolarima, po dogovoru. Obično traže popunjen W-8BEN-E.",
+    },
+    {
+      name: "Kanada",
+      taxIdLabel: "GST/HST broj",
+      note: "Toronto, Misisoga, Vankuver. Isto kao SAD — termin se dogovara, faktura je bez PDV-a.",
+    },
+    {
+      name: "Australija",
+      taxIdLabel: "ABN",
+      note: "Sidnej i Melburn. Razlika u vremenu je najveća, pa se radi asinhrono uz jedan fiksan poziv nedeljno.",
     },
   ] as DiasporaCountry[],
 
@@ -234,16 +298,20 @@ export const diasporaPage = {
       a: "Sistemi u portfoliju su za klijente u Srbiji i prvog klijenta iz inostranstva tek tražimo. Ovo piše ovde namerno: radije ćemo izgubiti posao zbog iskrene rečenice nego ga dobiti na osnovu utiska koji se raspadne na prvom pitanju. Ono što jeste provereno je sam posao — sajtovi, web shopovi i poslovni sistemi koji rade u produkciji i mogu da se otvore.",
     },
     {
-      q: "Zašto je izrada sajta u Srbiji jeftinija nego u Nemačkoj?",
-      a: "Zato što je troškovna baza drugačija i zato što radi jedan čovek umesto agencijskog tima sa project i account menadžerom. Isti sati rada se prosto različito plaćaju u Nišu i u Minhenu. Nije zato što se preskaču koraci — posao, testiranje i predaja su isti.",
+      q: "Zašto je izrada sajta u Srbiji jeftinija nego u Nemačkoj, Engleskoj ili Americi?",
+      a: "Zato što je troškovna baza drugačija i zato što radi jedan čovek umesto agencijskog tima sa project i account menadžerom. Isti sati rada se prosto različito plaćaju u Nišu, Minhenu, Londonu i Čikagu — razlika je u ceni rada na tom tržištu, ne u količini posla. Nije zato što se preskaču koraci: analiza, izrada, testiranje i predaja su isti.",
     },
     {
       q: "Jeftinije znači lošije?",
       a: "Znači manje ljudi na računu i niži troškovi života, ne manje posla. Ono što se stvarno razlikuje između jeftine i skupe izrade nije zemlja nego da li je sajt sklopljen iz gotove teme ili pisan za vas. Mi radimo drugo, i to se vidi kad zatreba izmena ili integracija. Pitajte za pristup živom sistemu pre nego što potpišete bilo šta — kod nas ili kod bilo koga.",
     },
     {
+      q: "Radite li samo za EU ili i za firme u Britaniji, Americi i Australiji?",
+      a: "I za njih. Unutar EU je papirologija najjednostavnija (reverse charge), a van EU — Britanija, Švajcarska, Norveška, SAD, Kanada, Australija — faktura ide bez PDV-a, a uvoz usluge knjižite po pravilima svoje zemlje. Jedina stvarna razlika je vreme: sa Britanijom je razlika sat vremena, sa Amerikom 6–9, sa Australijom najviše, pa se termin poziva dogovara unapred, a posao između poziva ide asinhrono.",
+    },
+    {
       q: "Kako plaćam firmu iz Srbije?",
-      a: "Bankarskim prenosom u evrima, po podacima sa fakture, na devizni račun u Srbiji. Cena se ugovara u evrima, pa nema iznenađenja zbog kursa.",
+      a: "Bankarskim prenosom u evrima, po podacima sa fakture, na devizni račun u Srbiji. Cena se ugovara u evrima, pa nema iznenađenja zbog kursa. Iz zemalja van evrozone (Britanija, Švajcarska, SAD, Kanada, Australija) plaćanje ide isto, samo vaša banka radi konverziju — iznos u evrima je fiksan, kurs je stvar vaše banke.",
     },
     {
       q: "Kako moj knjigovođa knjiži fakturu iz Srbije?",

@@ -29,7 +29,7 @@ export const pricingGuidePage = {
     {
       label: "Prezentacioni sajt",
       price: "850 – 2.100 €",
-      note: "5–10 strana, custom dizajn, CMS za izmene teksta, kontakt forma, SEO osnove.",
+      note: "Custom dizajn, CMS za izmene teksta, kontakt forma, SEO osnove. Broj strana ne ulazi u račun — obim sadržaja i funkcija ulazi.",
       href: "/our-services/web-prezentacije",
     },
     {
