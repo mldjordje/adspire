@@ -2,6 +2,9 @@ import { describe, expect, it } from "vitest";
 
 import { localPages } from "@/content/site/localPages";
 import { nisPresencePage } from "@/content/site/nisPresencePage";
+import { findServiceCatalogEntry } from "@/data/serviceCatalog";
+import { localPageJsonLd, localServiceId } from "@/lib/seo/localPage";
+import { solutionEntries } from "@/lib/seo/jsonld";
 
 /**
  * Local pages are the easiest thing on the site to turn into a doorway set:
@@ -80,6 +83,40 @@ describe("localPages", () => {
     for (const page of localPages) {
       if (page.path === nisPresencePage.path) continue;
       expect(linked.has(page.path), page.path).toBe(true);
+    }
+  });
+});
+
+describe("localPages as answer-engine sources", () => {
+  it("points every catalogService at a service that exists", () => {
+    for (const page of localPages) {
+      if (!page.catalogService) continue;
+      expect(findServiceCatalogEntry(page.catalogService), page.path).toBeDefined();
+    }
+  });
+
+  it("publishes a Service node only for pages that are one service", () => {
+    for (const page of localPages) {
+      const id = localServiceId(page);
+      if (page.catalogService) expect(id, page.path).toBe(`https://adspire.rs${page.path}#service`);
+      else expect(id, page.path).toBeNull();
+    }
+  });
+
+  it("lists those pages in the organization's own catalog", () => {
+    const urls = new Set(solutionEntries().map((entry) => entry.url));
+    for (const page of localPages) {
+      if (!page.catalogService) continue;
+      expect(urls.has(`https://adspire.rs${page.path}`), page.path).toBe(true);
+    }
+  });
+
+  it("marks the lead as the speakable answer", () => {
+    for (const page of localPages) {
+      const [webPage] = localPageJsonLd(page) as Array<Record<string, unknown>>;
+      expect((webPage as { speakable?: { cssSelector?: string[] } }).speakable?.cssSelector, page.path).toContain(
+        "[data-answer]",
+      );
     }
   });
 });

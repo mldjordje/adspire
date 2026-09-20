@@ -21,6 +21,7 @@ import { industryPages, industryPath } from "@/content/site/industries";
 import { bookingIndustryPages, bookingIndustryPath } from "@/content/site/bookingIndustryPages";
 import { diasporaPage, DIASPORA_PATH } from "@/content/site/diasporaPage";
 import { aeoPage, AEO_PATH } from "@/content/site/aeoPage";
+import { localPages } from "@/content/site/localPages";
 
 const base = () => getSiteUrl();
 
@@ -368,6 +369,17 @@ export function solutionEntries() {
       description: page.summary,
       url: `${base()}${industryPath(page.slug)}`,
     })),
+    // The Niš pages that are one service. The id is spelled the same way
+    // localPage.ts spells it; importing that module here would close an import
+    // cycle, since it builds its nodes with the helpers in this file.
+    ...localPages
+      .filter((page) => page.catalogService)
+      .map((page) => ({
+        id: `${base()}${page.path}#service`,
+        name: page.title,
+        description: page.metaDescription,
+        url: `${base()}${page.path}`,
+      })),
     {
       id: `${base()}${DIASPORA_PATH}#service`,
       name: diasporaPage.seo.title,

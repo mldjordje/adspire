@@ -208,6 +208,9 @@ describe("JSON-LD graph", () => {
       ...nichePages.map((page) => `https://adspire.rs${nichePath(page.slug)}#service`),
       ...bookingIndustryPages.map((page) => `https://adspire.rs${bookingIndustryPath(page.slug)}#service`),
       ...industryPages.map((page) => `https://adspire.rs${industryPath(page.slug)}#service`),
+      ...localPages
+        .filter((page) => page.catalogService)
+        .map((page) => `https://adspire.rs${page.path}#service`),
       `https://adspire.rs${DIASPORA_PATH}#service`,
       `https://adspire.rs${AEO_PATH}#service`,
     ];

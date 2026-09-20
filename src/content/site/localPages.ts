@@ -34,6 +34,17 @@ export type LocalPage = {
   keywords: string[];
   /** Overrides the LocalBusiness schema name so it matches the query intent. */
   businessName: string;
+  /**
+   * The catalog service this page is the Niš delivery of.
+   *
+   * Set it and the page publishes a Service node pointing at that catalog
+   * entry, which is what puts the page in the organization's own list of
+   * solutions — an assistant can then enumerate it without crawling to it.
+   * Pages that are not one service (the company page, the city hub) leave it
+   * unset on purpose: a Service node for "IT firma" would claim an offer the
+   * catalog does not have.
+   */
+  catalogService?: string;
   sections: LocalSection[];
   proofHeading?: string;
   proof?: LocalProof[];
@@ -162,6 +173,7 @@ const itCompany: LocalPage = {
 
 const appsInNis: LocalPage = {
   path: "/izrada-aplikacija-nis",
+  catalogService: "mobilne-aplikacije",
   eyebrow: "Niš",
   title: "Izrada aplikacija Niš — mobilne i web aplikacije po meri",
   metaDescription:
@@ -262,6 +274,7 @@ const appsInNis: LocalPage = {
 
 const bookingInNis: LocalPage = {
   path: "/rezervacioni-sistemi-nis",
+  catalogService: "sistemi-za-zakazivanje",
   eyebrow: "Niš",
   title: "Rezervacioni sistemi Niš — online zakazivanje za lokalne firme",
   metaDescription:
@@ -365,6 +378,7 @@ const bookingInNis: LocalPage = {
 
 const shopInNis: LocalPage = {
   path: "/web-shop-nis",
+  catalogService: "e-commerce-web-shop",
   eyebrow: "Niš",
   title: "Izrada web shopa Niš — online prodavnica sa naplatom i kuririma",
   metaDescription:
@@ -471,6 +485,7 @@ const shopInNis: LocalPage = {
 
 const seoInNis: LocalPage = {
   path: "/seo-optimizacija-nis",
+  catalogService: "seo-digitalni-marketing",
   eyebrow: "Niš",
   title: "SEO optimizacija Niš — da vas nađu ljudi iz vašeg grada",
   metaDescription:

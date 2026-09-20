@@ -72,6 +72,8 @@ type PageShellProps = {
   eyebrow: string;
   title: React.ReactNode;
   intro?: string;
+  /** Marks the intro as the page's answer paragraph, for [data-answer] speakable. */
+  introAnswer?: boolean;
   locale?: LocaleCode;
   copyOverride?: ShellCopy;
   /** Replaces the default silk shader — a page may bring its own background. */
@@ -91,6 +93,7 @@ export function PageShellV4({
   eyebrow,
   title,
   intro,
+  introAnswer,
   locale = defaultLocale,
   copyOverride,
   background,
@@ -252,7 +255,11 @@ export function PageShellV4({
         {customHero ?? <section className={styles.hero}>
           <span className={styles.heroEyebrow}>{eyebrow}</span>
           <h1 className={styles.heroTitle}>{title}</h1>
-          {intro ? <p className={styles.heroIntro}>{intro}</p> : null}
+          {intro ? (
+            <p className={styles.heroIntro} {...(introAnswer ? { "data-answer": true } : {})}>
+              {intro}
+            </p>
+          ) : null}
           {heroExtra}
         </section>}
 

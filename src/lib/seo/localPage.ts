@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import type { LocalPage } from "@/content/site/localPages";
 import { breadcrumbJsonLd, faqPageJsonLd, webPageAboutOrganizationJsonLd } from "@/lib/seo/jsonld";
-import { localBusinessId, orgRef } from "@/lib/seo/ids";
+import { localBusinessId, orgRef, serviceId } from "@/lib/seo/ids";
 import { absoluteUrl, pageMetadata } from "@/lib/seo/metadata";
 import { ORGANIZATION, getOrgSameAs } from "@/lib/seo/site";
 
@@ -64,15 +64,59 @@ function localBusinessJsonLd(page: LocalPage) {
   };
 }
 
+/** The @id of the Service node a local page publishes, when it is one service. */
+export function localServiceId(page: LocalPage): string | null {
+  return page.catalogService ? `${absoluteUrl(page.path)}#service` : null;
+}
+
+/**
+ * The page as an offer, not just as a place.
+ *
+ * LocalBusiness answers "where are they"; it never answered "what do they sell
+ * here", so an assistant reading the organization could not enumerate these
+ * pages among its solutions. The Service node points back at the catalog entry
+ * it delivers, so this is the Niš delivery of an existing service rather than
+ * a second copy of it.
+ */
+function localServiceJsonLd(page: LocalPage) {
+  const id = localServiceId(page);
+  if (!id || !page.catalogService) return null;
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "@id": id,
+    name: page.title,
+    serviceType: page.keywords[0],
+    description: page.metaDescription,
+    provider: orgRef(),
+    isRelatedTo: { "@id": serviceId(page.catalogService) },
+    areaServed: [
+      { "@type": "City", name: "Niš" },
+      { "@type": "Country", name: "Serbia" },
+    ],
+    availableLanguage: ["sr"],
+    availableChannel: {
+      "@type": "ServiceChannel",
+      serviceUrl: absoluteUrl(page.cta.href),
+    },
+  };
+}
+
 export function localPageJsonLd(page: LocalPage) {
+  const service = localServiceJsonLd(page);
   return [
     webPageAboutOrganizationJsonLd(
       page.path,
       `${page.title} | Adspire`,
       page.metaDescription,
-      { mainEntity: localBusinessId(absoluteUrl(page.path)) },
+      {
+        mainEntity: localBusinessId(absoluteUrl(page.path)),
+        // The lead paragraph is the page's own answer to the query it is for.
+        speakable: ["[data-answer]"],
+      },
     ),
     localBusinessJsonLd(page),
+    ...(service ? [service] : []),
     breadcrumbJsonLd([
       { name: "Početna", path: "/" },
       { name: page.h1, path: page.path },
