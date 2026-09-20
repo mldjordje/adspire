@@ -510,7 +510,8 @@ export const deContent: LocalizedPageContent = {
   },
   contactPage: {
     hero: {
-      eyebrow: "Contact",
+      // Drives the <title> of /de/contact-us, so it has to be German.
+      eyebrow: "Kontakt",
       title: "Schicken Sie Ziel und Frist — Sie bekommen einen konkreten nächsten Schritt",
       description:
         "Am schnellsten kommen wir voran, wenn wir wissen, was Sie erreichen wollen, was der Projektkontext ist und wo gerade der größte Engpass liegt.",

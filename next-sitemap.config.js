@@ -77,6 +77,8 @@ module.exports = {
       /^\/(en|de)$/,
       /^\/(en|de)\/ai(\/|$)/,
       /^\/(en|de)\/about-us$/,
+      /^\/(en|de)\/contact-us$/,
+      /^\/(en|de)\/faq$/,
       /^\/(en|de)\/hotelski-rezervacioni-sistem$/,
       /^\/(en|de)\/our-services(\/|$)/,
     ];

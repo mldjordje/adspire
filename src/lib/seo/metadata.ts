@@ -34,7 +34,17 @@ const OG_LOCALE: Record<LocaleCode, string> = {
  * routes stay out of both the index and the hreflang map until their component
  * consumes getSiteContent(locale). Add a path here once that is true of it.
  */
-const TRANSLATED_PATHS = new Set<string>(["/", "/about-us", "/hotelski-rezervacioni-sistem"]);
+const TRANSLATED_PATHS = new Set<string>([
+  "/",
+  "/about-us",
+  "/hotelski-rezervacioni-sistem",
+  // ContactV4 has read getContactCopy(locale) since the form rewrite; the page
+  // was simply never listed here, so a finished English page sat on noindex.
+  "/contact-us",
+  // FaqV4 reads getFaqCopy(locale), and the route publishes the same six
+  // answers as FAQPage JSON-LD in that locale. faqCopy.test.ts holds the line.
+  "/faq",
+]);
 
 /**
  * Whole subtrees that are localized. `/ai` and every `/ai/<industry>` page
