@@ -1,4 +1,5 @@
 import { cooperationGuide, migrationGuide, timelineGuide } from "./guidesExtra";
+import { appointmentReminderGuide, bookingPlatformChoiceGuide, portalCmsGuide } from "./guidesAnswers";
 
 /**
  * Problem-intent landing pages.
@@ -56,6 +57,18 @@ export type Guide = {
    * other money pages use.
    */
   background?: "aurora";
+  /**
+   * ISO date the content was last checked. Published as datePublished and
+   * dateModified: answer engines prefer a dated source over an undated one
+   * when two explanations say the same thing.
+   */
+  updated?: string;
+  /**
+   * Guide paths for the "Dalje" line, picked by topic. Without it the line
+   * falls back to the first three guides, which sends every reader to the
+   * same three pages no matter what they came to read.
+   */
+  related?: string[];
 };
 
 const bookingGuide: Guide = {
@@ -158,6 +171,11 @@ const bookingGuide: Guide = {
     href: "/upit/brzo?usluga=sistemi-za-zakazivanje",
   },
   secondaryCta: { label: "Usluga: sistemi za zakazivanje", href: "/our-services/sistemi-za-zakazivanje" },
+  related: [
+    "/gotova-aplikacija-ili-svoj-sistem-za-zakazivanje",
+    "/podsetnik-za-termin-sms-viber-whatsapp",
+    "/interni-softver-umesto-excel-tabela",
+  ],
 };
 
 const noLeadsGuide: Guide = {
@@ -352,6 +370,7 @@ const platformChoiceGuide: Guide = {
   ],
   cta: { label: "Opiši šta sajt treba da radi", href: "/upit" },
   secondaryCta: { label: "Usluga: web prezentacije", href: "/our-services/web-prezentacije" },
+  related: ["/cms-za-portal-i-medije", "/prenos-sajta-sa-druge-agencije", "/kako-izabrati-web-agenciju"],
 };
 
 const chooseAgencyGuide: Guide = {
@@ -727,6 +746,9 @@ export const guides = [
   platformChoiceGuide,
   chooseAgencyGuide,
   noLeadsGuide,
+  portalCmsGuide,
+  bookingPlatformChoiceGuide,
+  appointmentReminderGuide,
 ] as const;
 
 export const bookingSystemsGuide = bookingGuide;
@@ -737,3 +759,4 @@ export const internalSoftwareGuide = beyondExcelGuide;
 export const aiChatbotGuide = chatbotGuide;
 export const webShopHowToGuide = webShopGuide;
 export const workingFromSerbiaGuide = cooperationGuide;
+export { appointmentReminderGuide, bookingPlatformChoiceGuide, portalCmsGuide };

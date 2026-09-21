@@ -271,6 +271,7 @@ export const nichePages: NichePage[] = [
       { href: "/online-zakazivanje/kozmeticki-saloni-i-estetske-klinike", label: "Samo online zakazivanje za salone i klinike" },
       { href: "/our-projects/dr-igic-web-aplikacija-za-estetske-klinike", label: "Studija slučaja: Dr Igić" },
       { href: "/softver-za-frizerski-salon-i-berbernicu", label: "Softver za frizerski salon i berbernicu" },
+      { href: "/gotova-aplikacija-ili-svoj-sistem-za-zakazivanje", label: "Gotova aplikacija ili svoj sistem za zakazivanje" },
       { href: "/cena-izrade-sajta", label: "Koliko košta izrada sajta" },
     ],
   },

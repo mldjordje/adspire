@@ -37,6 +37,7 @@ function guideArticleJsonLd(guide: Guide) {
     inLanguage: "sr-RS",
     about: orgRef(),
     keywords: guide.keywords.join(", "),
+    ...(guide.updated ? { datePublished: guide.updated, dateModified: guide.updated } : {}),
     // The section headings are the guide's actual outline; publishing them
     // lets an assistant see what the page covers without fetching the body.
     articleSection: guide.sections.map((section) => section.heading),
@@ -90,7 +91,12 @@ export function guideJsonLd(guide: Guide) {
       guide.path,
       `${guide.title} | Adspire`,
       guide.metaDescription,
-      { mainEntity: `${pageUrl}#article` },
+      {
+        mainEntity: `${pageUrl}#article`,
+        // The lead is written as the direct answer and carries data-answer.
+        speakable: ["[data-answer]"],
+        ...(guide.updated ? { datePublished: guide.updated, dateModified: guide.updated } : {}),
+      },
     ),
     guideArticleJsonLd(guide),
     ...guideHowToJsonLd(guide),

@@ -24,14 +24,19 @@ type Props = { guide: Guide };
 export function GuideV4({ guide }: Props) {
   // Guides link to each other so none of them is a dead end for a reader or a
   // crawler. Capped at three — listing every sibling turns the tail of the page
-  // into a link dump and dilutes what each link is worth.
-  const others = guides.filter((g) => g.path !== guide.path).slice(0, 3);
+  // into a link dump and dilutes what each link is worth. A guide that names its
+  // neighbours gets those; the rest fall back to the first three.
+  const picked = (guide.related ?? [])
+    .map((path) => guides.find((g) => g.path === path))
+    .filter((g): g is Guide => Boolean(g) && g!.path !== guide.path);
+  const others = (picked.length > 0 ? picked : guides.filter((g) => g.path !== guide.path)).slice(0, 3);
 
   return (
     <PageShellV4
       eyebrow={guide.eyebrow}
       title={guide.h1}
       intro={guide.lead}
+      introAnswer
       background={guide.background === "aurora" ? <AuroraV4 /> : undefined}
     >
       <StickyCtaV4
