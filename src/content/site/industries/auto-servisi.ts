@@ -220,5 +220,6 @@ export const autoServisi: IndustryPage = {
     { href: "/online-zakazivanje/auto-servisi-i-vulkanizeri", label: "Samo zakazivanje servisnih termina" },
     { href: "/interni-softver-umesto-excel-tabela", label: "Interni softver umesto Excel tabela" },
     { href: "/cena-izrade-sajta", label: "Okvirni rasponi cena" },
+    { href: "/softver-za-rent-a-car", label: "Softver za rent-a-car" },
   ],
 };

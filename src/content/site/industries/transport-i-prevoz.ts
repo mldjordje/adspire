@@ -220,5 +220,6 @@ export const transportIPrevoz: IndustryPage = {
     { href: "/interni-softver-umesto-excel-tabela", label: "Interni softver umesto Excel tabela" },
     { href: "/our-projects/prevozkop-digitalni-prodajni-operativni-sistem", label: "Studija slučaja: Prevoz Kop" },
     { href: "/our-services/interne-poslovne-aplikacije", label: "Interne poslovne aplikacije" },
+    { href: "/softver-za-betonsku-bazu-i-proizvodnju-materijala", label: "Betonska baza i proizvodnja materijala" },
   ],
 };

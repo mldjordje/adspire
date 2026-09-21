@@ -270,6 +270,7 @@ export const nichePages: NichePage[] = [
     related: [
       { href: "/online-zakazivanje/kozmeticki-saloni-i-estetske-klinike", label: "Samo online zakazivanje za salone i klinike" },
       { href: "/our-projects/dr-igic-web-aplikacija-za-estetske-klinike", label: "Studija slučaja: Dr Igić" },
+      { href: "/softver-za-frizerski-salon-i-berbernicu", label: "Softver za frizerski salon i berbernicu" },
       { href: "/cena-izrade-sajta", label: "Koliko košta izrada sajta" },
     ],
   },
@@ -694,6 +695,8 @@ export const nichePages: NichePage[] = [
       { href: "/our-projects/prevozkop-digitalni-prodajni-operativni-sistem", label: "Studija slučaja: Prevoz Kop" },
       { href: "/interni-softver-umesto-excel-tabela", label: "Interni softver umesto Excel tabela" },
       { href: "/it-firma-nis", label: "IT firma u Nišu" },
+      { href: "/softver-za-betonsku-bazu-i-proizvodnju-materijala", label: "Softver za betonsku bazu" },
+      { href: "/softver-za-transport-i-prevoz-tereta", label: "Softver za transport i prevoz tereta" },
     ],
   },
 

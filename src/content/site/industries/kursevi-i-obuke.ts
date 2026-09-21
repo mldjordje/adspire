@@ -220,5 +220,6 @@ export const kurseviIObuke: IndustryPage = {
     { href: "/edukacija", label: "Naša edukacija za AI video" },
     { href: "/interni-softver-umesto-excel-tabela", label: "Interni softver umesto Excel tabela" },
     { href: "/our-projects/toza-ai-platforma-za-ai-video-studio", label: "Studija slučaja: Toza AI" },
+    { href: "/softver-za-kreativni-studio-i-agenciju", label: "Softver za kreativni studio i agenciju" },
   ],
 };
