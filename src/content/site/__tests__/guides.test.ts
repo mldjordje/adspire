@@ -1,11 +1,15 @@
 import { describe, expect, it } from "vitest";
 import { guides } from "../guides";
 import {
+  adsOrSeoGuide,
+  aiClientDataGuide,
   appOrWebAppGuide,
   appointmentReminderGuide,
   bookingPlatformChoiceGuide,
   cardPaymentsGuide,
   portalCmsGuide,
+  instagramOrSiteGuide,
+  sefInvoicesGuide,
   webShopLegalGuide,
 } from "../guidesAnswers";
 
@@ -16,6 +20,10 @@ const answerGuides = [
   appOrWebAppGuide,
   cardPaymentsGuide,
   webShopLegalGuide,
+  aiClientDataGuide,
+  sefInvoicesGuide,
+  adsOrSeoGuide,
+  instagramOrSiteGuide,
 ];
 
 describe("guides", () => {

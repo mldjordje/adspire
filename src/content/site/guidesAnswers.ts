@@ -597,3 +597,327 @@ export const webShopLegalGuide: Guide = {
   updated: "2026-09-22",
   related: ["/kako-napraviti-web-shop", "/placanje-karticom-na-sajtu-srbija", "/koliko-traje-izrada-sajta"],
 };
+
+export const aiClientDataGuide: Guide = {
+  path: "/chatgpt-u-firmi-podaci-klijenata",
+  eyebrow: "AI i podaci",
+  title: "ChatGPT u firmi i podaci klijenata — šta sme, šta ne i kako bezbedno",
+  metaDescription:
+    "Smete li da ubacujete podatke klijenata u ChatGPT i druge AI alate: razlika između besplatnih i poslovnih naloga, šta kaže Zakon o zaštiti podataka o ličnosti i pravila koja firma treba da uvede.",
+  h1: "ChatGPT u firmi i podaci klijenata",
+  lead:
+    "Podatke klijenata ne ubacujte u besplatan ili lični nalog AI alata, jer razgovori tamo po podrazumevanim podešavanjima mogu da se koriste za treniranje modela. Poslovni nalozi i pristup preko API-ja to po pravilu ne rade. Za sve ostalo važi Zakon o zaštiti podataka o ličnosti: ubacujte samo ono što je neophodno, bez imena kada ime ne treba.",
+  keywords: [
+    "chatgpt podaci klijenata",
+    "da li je chatgpt bezbedan za firmu",
+    "ai i zakon o zaštiti podataka o ličnosti",
+    "chatgpt gdpr srbija",
+    "ai alati u firmi pravila",
+    "chatgpt business ili besplatan",
+  ],
+  sections: [
+    {
+      heading: "Gde je stvarni rizik",
+      body: [
+        "Rizik nije u tome što AI „zna“ vašu tabelu. Rizik je što zaposleni kopira ceo mejl klijenta, sa imenom, telefonom i dijagnozom, u lični nalog na svom telefonu. Firma tada ne zna gde su podaci, koliko se čuvaju i ko ih koristi.",
+      ],
+    },
+    {
+      heading: "Besplatan nalog, poslovni nalog i API",
+      bullets: [
+        "Besplatni i lični nalozi: razgovori mogu da se koriste za unapređenje modela, osim ako korisnik to ne isključi u podešavanjima. Firma nema pregled ko šta ubacuje.",
+        "Poslovni nalozi (Team, Enterprise i slični): podaci se po pravilu ne koriste za treniranje, a administrator vidi naloge i može da ih ugasi kad neko ode iz firme.",
+        "API, kada AI radi unutar vašeg sistema: podaci se ne koriste za treniranje, a vi određujete šta tačno ide ka modelu.",
+      ],
+      body: [
+        "Uslovi dobavljača se menjaju. Pre uvođenja pročitajte aktuelne uslove za verziju koju plaćate.",
+      ],
+    },
+    {
+      heading: "Šta kaže zakon",
+      body: [
+        "Zakon o zaštiti podataka o ličnosti važi i kada podatke obrađuje AI. Treba vam osnov za obradu, podaci moraju biti ograničeni na ono što je potrebno, a prenos van Srbije ima posebna pravila. Većina AI servisa radi na serverima u inostranstvu.",
+        "Posebno osetljivi su zdravstveni podaci, JMBG, finansijski podaci i podaci o deci. Njih ne unosite u AI alat bez pravnog mišljenja. Ovo nije pravni savet.",
+      ],
+    },
+    {
+      heading: "Pravila koja firma treba da uvede",
+      bullets: [
+        "Jedan odobren alat sa poslovnim nalogom, umesto da svako koristi svoj.",
+        "Pre ubacivanja teksta ime i kontakt zamenite oznakom, na primer „Klijent A“.",
+        "Lista podataka koji nikad ne idu u AI: JMBG, brojevi kartica, dijagnoze, lozinke.",
+        "Kratko pisano uputstvo za zaposlene i ko odgovara za pitanja.",
+      ],
+    },
+    {
+      heading: "Kada AI treba da radi unutar vašeg sistema",
+      body: [
+        "Ako AI svakodnevno radi sa podacima klijenata, na primer odgovara na upite, sažima razgovore ili priprema ponude, bolje ga je povezati preko API-ja u vaš program. Tako tačno znate šta ide ka modelu, ništa se ne kopira ručno, a sistem može da skloni lične podatke pre slanja.",
+      ],
+    },
+  ],
+  faqHeading: "Česta pitanja",
+  faq: [
+    {
+      q: "Da li je ChatGPT bezbedan za firmu?",
+      a: "Jeste, ako koristite poslovni nalog ili API i imate pravila šta sme da se ubaci. Nije bezbedan način da svaki zaposleni u lični nalog kopira mejlove klijenata.",
+    },
+    {
+      q: "Da li OpenAI trenira model na mojim podacima?",
+      a: "Na besplatnim i ličnim nalozima može, osim ako to ne isključite u podešavanjima. Na poslovnim nalozima i preko API-ja po pravilu ne. Proverite aktuelne uslove za verziju koju koristite.",
+    },
+    {
+      q: "Mogu li da koristim AI za odgovaranje klijentima?",
+      a: "Možete, uz jasno pravilo da AI priprema odgovor, a čovek ga šalje, bar za osetljive teme. Klijent ne treba da dobije obećanje o ceni ili roku koje niko u firmi nije proverio.",
+    },
+    {
+      q: "Da li važi isto i za Claude, Gemini i druge alate?",
+      a: "Princip je isti: lični nalozi imaju drugačije uslove od poslovnih i od API-ja. Uslovi se razlikuju po dobavljaču, pa ih čitate za svaki alat posebno.",
+    },
+  ],
+  cta: { label: "Opiši gde bi AI pomogao u firmi", href: "/upit" },
+  secondaryCta: { label: "Usluga: AI integracije i automatizacija", href: "/our-services/ai-integracije-automatizacija" },
+  updated: "2026-09-22",
+  related: ["/ai-chatbot-za-sajt", "/interni-softver-umesto-excel-tabela", "/podsetnik-za-termin-sms-viber-whatsapp"],
+};
+
+export const sefInvoicesGuide: Guide = {
+  path: "/e-fakture-sef-automatski",
+  eyebrow: "E-fakture",
+  title: "E-fakture na SEF automatski — kako da vaš program sam šalje fakture",
+  metaDescription:
+    "Kako povezati sopstveni program, web shop ili CRM sa Sistemom e-faktura (SEF): API ključ, šta se šalje, statusi faktura, kada je dovoljan knjigovodstveni program i kada se isplati integracija.",
+  h1: "E-fakture na SEF automatski",
+  lead:
+    "Sistem e-faktura (SEF) ima API preko kog vaš program može sam da šalje fakture i prati da li ih je kupac prihvatio ili odbio. Ako fakturišete iz knjigovodstvenog programa koji je već povezan sa SEF-om, ne treba vam ništa novo. Integracija se isplati kada fakture nastaju u vašem sistemu, na primer u web shopu, CRM-u ili internoj aplikaciji.",
+  keywords: [
+    "sef api integracija",
+    "e-fakture automatski",
+    "slanje e-faktura iz programa",
+    "sistem e-faktura povezivanje",
+    "e-faktura web shop",
+    "sef integracija crm",
+  ],
+  sections: [
+    {
+      heading: "Kada vam integracija ne treba",
+      body: [
+        "Ako knjigovođa ili vaš knjigovodstveni program već šalje fakture na SEF i broj faktura je mali, ručni unos ili izvoz iz tog programa je sasvim dovoljan. Integracija ima smisla tek kada ista faktura mora da se prekuca iz jednog sistema u drugi.",
+      ],
+    },
+    {
+      heading: "Kada se isplati",
+      bullets: [
+        "Fakture nastaju u vašem sistemu: porudžbina u web shopu, završen radni nalog, mesečna pretplata.",
+        "Mnogo faktura mesečno, pa prekucavanje odnosi sate i pravi greške.",
+        "Treba vam status u vašem programu: da li je kupac prihvatio fakturu i kada.",
+      ],
+    },
+    {
+      heading: "Kako radi povezivanje",
+      bullets: [
+        "U SEF-u korisnik firme generiše API ključ, koji se čuva na serveru, nikad u pregledaču.",
+        "Program od podataka iz porudžbine pravi fakturu u propisanom elektronskom formatu i šalje je na SEF.",
+        "SEF vraća identifikator fakture, a program kasnije proverava status: poslata, prihvaćena, odbijena ili stornirana.",
+        "Primljene fakture od dobavljača mogu isto tako da se preuzimaju u vaš sistem.",
+      ],
+    },
+    {
+      heading: "Šta treba proveriti sa knjigovođom",
+      bullets: [
+        "Ko je odgovoran za ispravnost podataka: PIB kupca, stopa PDV-a, jedinice mere.",
+        "Kako se radi storno i knjižno odobrenje.",
+        "Da li fakture iz vašeg sistema i one iz knjigovodstvenog programa dele istu numeraciju.",
+      ],
+    },
+    {
+      heading: "Šta prvo testirati",
+      body: [
+        "SEF ima demo okruženje. Integracija se prvo pušta tamo, sa probnim fakturama, pa tek kada knjigovođa potvrdi da su fakture ispravne prelazi se na pravi sistem.",
+      ],
+    },
+  ],
+  faqHeading: "Česta pitanja",
+  faq: [
+    {
+      q: "Da li mogu da šaljem e-fakture iz svog web shopa?",
+      a: "Možete, ako web shop fakturiše firmama i povežete ga sa SEF-om preko API-ja. Za prodaju fizičkim licima izdaje se fiskalni račun, ne e-faktura na SEF-u.",
+    },
+    {
+      q: "Da li je API za SEF besplatan?",
+      a: "Sam SEF i API ključ se ne plaćaju. Plaća se izrada integracije u vašem programu.",
+    },
+    {
+      q: "Šta ako SEF ne radi kada šaljem fakturu?",
+      a: "Dobra integracija čuva fakturu u redu za slanje i pokušava ponovo, umesto da je izgubi. U programu se vidi koje fakture čekaju.",
+    },
+    {
+      q: "Da li integracija menja moj knjigovodstveni program?",
+      a: "Ne mora. Najčešće vaš sistem šalje fakture na SEF, a knjigovođa ih odatle preuzima kao i do sada.",
+    },
+  ],
+  cta: { label: "Opiši odakle danas nastaju fakture", href: "/upit" },
+  secondaryCta: { label: "Usluga: interne poslovne aplikacije", href: "/our-services/interne-poslovne-aplikacije" },
+  updated: "2026-09-22",
+  related: ["/interni-softver-umesto-excel-tabela", "/placanje-karticom-na-sajtu-srbija", "/sta-mora-da-ima-web-shop-u-srbiji"],
+};
+
+export const adsOrSeoGuide: Guide = {
+  path: "/google-oglasi-ili-seo",
+  eyebrow: "Marketing",
+  title: "Google oglasi ili SEO — gde da uložite prvi novac za upite",
+  metaDescription:
+    "Google Ads ili SEO za malu firmu: šta donosi upite odmah, šta donosi upite za godinu dana, gde se uklapaju Google poslovni profil i AI odgovori, i kako da merite da li novac radi.",
+  h1: "Google oglasi ili SEO?",
+  lead:
+    "Google oglasi donose posete od prvog dana, ali prestaju čim prestanete da plaćate. SEO i pojavljivanje u AI odgovorima rade mesecima pre prvih rezultata, a posle toga rade bez plaćanja po kliku. Mala firma najčešće kreće sa Google poslovnim profilom i oglasima za nekoliko upita sa jasnom namerom kupovine, a SEO gradi paralelno.",
+  keywords: [
+    "google ads ili seo",
+    "google oglasi za malu firmu",
+    "seo usluge nis",
+    "ppc marketing nis",
+    "koliko košta google oglašavanje",
+    "šta je bolje seo ili google ads",
+  ],
+  sections: [
+    {
+      heading: "Šta dobijate od oglasa",
+      bullets: [
+        "Posete od prvog dana, za reči koje sami izaberete.",
+        "Plaćate po kliku. Cena klika zavisi od konkurencije za tu reč.",
+        "Brzo saznate koje usluge i poruke donose upite, pa to koristite i za SEO.",
+        "Kada budžet stane, stanu i posete.",
+      ],
+    },
+    {
+      heading: "Šta dobijate od SEO-a i AI odgovora",
+      bullets: [
+        "Prvi rezultati posle nekoliko meseci, ne nedelja.",
+        "Posete koje ne plaćate po kliku i koje ostaju kada prestanete da ulažete.",
+        "Iste strane koje Google rangira čitaju i ChatGPT, Perplexity i Google AI kada biraju koga da preporuče.",
+        "Traži sadržaj koji odgovara na stvarna pitanja kupaca i linkove sa drugih sajtova.",
+      ],
+    },
+    {
+      heading: "Redosled za malu lokalnu firmu",
+      bullets: [
+        "Google poslovni profil sa tačnim radnim vremenom, fotografijama i recenzijama. Besplatan je i često donosi više poziva od sajta.",
+        "Oglasi za dve ili tri usluge sa jasnom namerom, na primer „zakazivanje [usluga] Niš“, sa stranom koja odgovara baš na taj upit.",
+        "Strane koje odgovaraju na pitanja kupaca, za SEO i AI odgovore, dok oglasi rade.",
+      ],
+    },
+    {
+      heading: "Bez merenja je sve pogađanje",
+      body: [
+        "Pre prvog dinara za oglase podesite merenje upita: poslata forma, klik na telefon, zakazan termin. Bez toga znate samo koliko ste platili, ne i šta ste dobili. Isto važi za SEO: Search Console pokazuje za koje upite se pojavljujete i na kojoj poziciji.",
+      ],
+    },
+    {
+      heading: "Kada oglasi bacaju novac",
+      bullets: [
+        "Oglas vodi na početnu stranu umesto na stranu o toj usluzi.",
+        "Sajt je spor na telefonu ili forma traži previše podataka.",
+        "Široke reči bez namere, na primer „sajt“ ili „marketing“, koje donose klikove koji ništa ne kupuju.",
+      ],
+    },
+  ],
+  faqHeading: "Česta pitanja",
+  faq: [
+    {
+      q: "Koliko košta Google oglašavanje?",
+      a: "Budžet za klikove određujete sami i plaćate ga direktno Google-u. Cena klika zavisi od delatnosti i konkurencije. Za uske lokalne upite mesečni budžet može biti mali, a za tražene usluge u velikom gradu raste.",
+    },
+    {
+      q: "Koliko traje dok SEO da rezultate?",
+      a: "Za nove strane obično nekoliko meseci. Brže ide kada sajt već ima istoriju i linkove sa drugih sajtova, sporije za nov domen i jaku konkurenciju.",
+    },
+    {
+      q: "Da li mi trebaju i oglasi i SEO?",
+      a: "Najčešće da, u različitim fazama. Oglasi pokrivaju period dok SEO ne proradi i pokazuju koje usluge donose upite. SEO kasnije smanjuje zavisnost od budžeta.",
+    },
+    {
+      q: "Šta je AEO?",
+      a: "Priprema sajta da ga AI asistenti razumeju i preporuče kada kupac pita koga da izabere. Oslanja se na iste temelje kao SEO: jasne strane, tačne podatke o firmi i pominjanje na drugim sajtovima.",
+    },
+  ],
+  cta: { label: "Opiši uslugu i grad", href: "/upit" },
+  secondaryCta: { label: "Usluga: SEO i digitalni marketing", href: "/our-services/seo-digitalni-marketing" },
+  updated: "2026-09-22",
+  related: ["/sajt-ne-donosi-upite", "/da-li-mi-treba-sajt-ako-imam-instagram", "/kako-izabrati-web-agenciju"],
+};
+
+export const instagramOrSiteGuide: Guide = {
+  path: "/da-li-mi-treba-sajt-ako-imam-instagram",
+  eyebrow: "Sajt za firmu",
+  title: "Da li mi treba sajt ako imam Instagram — kada je profil dovoljan, a kada ne",
+  metaDescription:
+    "Instagram ili sajt za malu firmu: šta Instagram ne pokriva (Google pretraga, AI preporuke, zakazivanje, sigurnost naloga), kada je profil dovoljan i kako sajt i Instagram rade zajedno.",
+  h1: "Da li mi treba sajt ako imam Instagram?",
+  lead:
+    "Instagram je dovoljan dok vas ljudi nalaze preko preporuke i profila. Sajt vam treba kada želite da vas nađu oni koji traže uslugu na Google-u ili pitaju AI asistenta, jer oni retko pretražuju Instagram. Sajt je i jedino mesto koje je vaše: nalog može da bude hakovan ili ugašen, a domen i sadržaj ostaju.",
+  keywords: [
+    "da li mi treba sajt",
+    "instagram ili sajt",
+    "sajt za malu firmu",
+    "da li je instagram dovoljan za biznis",
+    "zašto firmi treba sajt",
+    "prezentacioni sajt za firmu",
+  ],
+  sections: [
+    {
+      heading: "Šta Instagram radi dobro",
+      bullets: [
+        "Pokazuje rad: pre i posle, atmosferu, ljude.",
+        "Drži vas u glavi postojećih klijenata.",
+        "Brza komunikacija porukama sa onima koji vas već prate.",
+      ],
+    },
+    {
+      heading: "Šta Instagram ne pokriva",
+      bullets: [
+        "Google pretragu. Neko ko ukuca „frizer Niš zakazivanje“ vidi mapu i sajtove, retko Instagram profil.",
+        "AI preporuke. ChatGPT i Google AI biraju firme na osnovu sajtova i podataka koje mogu da pročitaju.",
+        "Cene, uslove i odgovore na česta pitanja na jednom mestu, bez skrolovanja kroz objave.",
+        "Zakazivanje i porudžbine bez dopisivanja.",
+        "Sigurnost. Hakovan ili blokiran nalog znači da vas preko noći nema, sa svim pratiocima.",
+      ],
+    },
+    {
+      heading: "Kada je Instagram dovoljan",
+      body: [
+        "Ako imate pun raspored od preporuka i stalnih klijenata i ne tražite nove, sajt vam trenutno ne donosi ništa što vam treba. Tada je bolje uložiti u Google poslovni profil, koji je besplatan, i sačekati trenutak kada budete želeli rast.",
+      ],
+    },
+    {
+      heading: "Kako sajt i Instagram rade zajedno",
+      bullets: [
+        "Link u bio vodi na sajt sa zakazivanjem ili formom, ne na „pišite u DM“.",
+        "Sajt prikazuje najnovije radove, a Instagram ostaje mesto za svakodnevne objave.",
+        "Google poslovni profil vodi na sajt, gde kupac vidi cene i uslove pre nego što se javi.",
+      ],
+    },
+  ],
+  faqHeading: "Česta pitanja",
+  faq: [
+    {
+      q: "Koliko košta sajt za malu firmu?",
+      a: "Prezentacioni sajt je u rasponu 850–2.100 €. Uz njega idu domen i hosting, reda veličine nekoliko desetina evra godišnje.",
+    },
+    {
+      q: "Da li je Google poslovni profil dovoljan umesto sajta?",
+      a: "Za lokalnu firmu profil je obavezan i često donosi više poziva od sajta. Ali ne može da primi zakazivanje po vašim pravilima, ne objašnjava usluge detaljno i AI ga ne čita kao izvor koliko sajt.",
+    },
+    {
+      q: "Može li Linktree ili slična strana da zameni sajt?",
+      a: "Ne. To je spisak linkova koji Google i AI praktično ne vide kao sajt firme. Korisno je samo kao prelaz sa Instagrama.",
+    },
+    {
+      q: "Koliko brzo sajt počne da donosi upite?",
+      a: "Posete iz Google pretrage dolaze postepeno, obično za nekoliko meseci. Brže ide ako sajt vežete za Google poslovni profil i Instagram odmah po puštanju.",
+    },
+  ],
+  cta: { label: "Opiši čime se baviš i odakle dolaze klijenti", href: "/upit" },
+  secondaryCta: { label: "Usluga: web prezentacije", href: "/our-services/web-prezentacije" },
+  updated: "2026-09-22",
+  related: ["/sajt-ne-donosi-upite", "/google-oglasi-ili-seo", "/wordpress-ili-custom-sajt"],
+};

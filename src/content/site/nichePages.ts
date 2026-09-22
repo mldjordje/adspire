@@ -556,6 +556,7 @@ export const nichePages: NichePage[] = [
     related: [
       { href: "/sajt-ne-donosi-upite", label: "Sajt ne donosi upite — šta prvo proveriti" },
       { href: "/wordpress-ili-custom-sajt", label: "WordPress ili sajt po meri" },
+      { href: "/da-li-mi-treba-sajt-ako-imam-instagram", label: "Da li mi treba sajt ako imam Instagram" },
       { href: "/cena-izrade-sajta", label: "Koliko košta izrada sajta" },
     ],
   },

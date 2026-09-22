@@ -1,10 +1,14 @@
 import { cooperationGuide, migrationGuide, timelineGuide } from "./guidesExtra";
 import {
+  adsOrSeoGuide,
+  aiClientDataGuide,
   appOrWebAppGuide,
   appointmentReminderGuide,
   bookingPlatformChoiceGuide,
   cardPaymentsGuide,
   portalCmsGuide,
+  instagramOrSiteGuide,
+  sefInvoicesGuide,
   webShopLegalGuide,
 } from "./guidesAnswers";
 
@@ -277,6 +281,7 @@ const noLeadsGuide: Guide = {
   ],
   cta: { label: "Pošalji adresu sajta na pregled", href: "/upit" },
   secondaryCta: { label: "Usluga: SEO i digitalni marketing", href: "/our-services/seo-digitalni-marketing" },
+  related: ["/google-oglasi-ili-seo", "/da-li-mi-treba-sajt-ako-imam-instagram", "/kako-izabrati-web-agenciju"],
 };
 
 const platformChoiceGuide: Guide = {
@@ -558,7 +563,7 @@ const beyondExcelGuide: Guide = {
   ],
   cta: { label: "Opiši proces koji te najviše koči", href: "/upit" },
   secondaryCta: { label: "Usluga: interne poslovne aplikacije", href: "/our-services/interne-poslovne-aplikacije" },
-  related: ["/mobilna-aplikacija-ili-web-aplikacija", "/gotova-aplikacija-ili-svoj-sistem-za-zakazivanje", "/koliko-traje-izrada-sajta"],
+  related: ["/mobilna-aplikacija-ili-web-aplikacija", "/e-fakture-sef-automatski", "/koliko-traje-izrada-sajta"],
 };
 
 const chatbotGuide: Guide = {
@@ -646,6 +651,7 @@ const chatbotGuide: Guide = {
   ],
   cta: { label: "Opiši pitanja koja stalno dobijaš", href: "/upit" },
   secondaryCta: { label: "Usluga: AI integracije i automatizacija", href: "/our-services/ai-integracije-automatizacija" },
+  related: ["/chatgpt-u-firmi-podaci-klijenata", "/podsetnik-za-termin-sms-viber-whatsapp", "/interni-softver-umesto-excel-tabela"],
 };
 
 const webShopGuide: Guide = {
@@ -761,6 +767,10 @@ export const guides = [
   appOrWebAppGuide,
   cardPaymentsGuide,
   webShopLegalGuide,
+  aiClientDataGuide,
+  sefInvoicesGuide,
+  adsOrSeoGuide,
+  instagramOrSiteGuide,
 ] as const;
 
 export const bookingSystemsGuide = bookingGuide;
@@ -772,6 +782,10 @@ export const aiChatbotGuide = chatbotGuide;
 export const webShopHowToGuide = webShopGuide;
 export const workingFromSerbiaGuide = cooperationGuide;
 export {
+  adsOrSeoGuide,
+  aiClientDataGuide,
+  instagramOrSiteGuide,
+  sefInvoicesGuide,
   appOrWebAppGuide,
   appointmentReminderGuide,
   bookingPlatformChoiceGuide,
