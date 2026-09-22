@@ -116,10 +116,13 @@ export default async function NalogEdukacijaPage({ searchParams }: Props) {
               </div>
             )}
 
-            <EducationCalendarV4
-              wallets={wallets.map((w) => ({ kind: w.kind, remaining: w.remaining }))}
-              initialMonth={now.date.slice(0, 7)}
-            />
+            {/* Hours land only once payment clears, so the calendar is a paid-only view. */}
+            {totalRemaining >= 1 ? (
+              <EducationCalendarV4
+                wallets={wallets.map((w) => ({ kind: w.kind, remaining: w.remaining }))}
+                initialMonth={now.date.slice(0, 7)}
+              />
+            ) : null}
 
             <div className={styles.panel}>
               <h2 className={styles.title}>Zakazani termini</h2>

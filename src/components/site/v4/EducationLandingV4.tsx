@@ -73,53 +73,6 @@ function useActiveSection(ids: string[]) {
 
 const NAV_IDS = educationNav.map((item) => item.id);
 
-// Static sample for the account preview: which days of a month read as open.
-const MOCK_OPEN = new Set([3, 4, 7, 10, 11, 14, 17, 18, 21, 24, 25, 28]);
-
-/** A drawn picture of /nalog/edukacija — shows the buyer what they get before
- *  they have an account, without a screenshot that goes stale. */
-function AccountMock() {
-  return (
-    <figure className={styles.mock} aria-hidden="true">
-      <div className={styles.mockTop}>
-        <div>
-          <span className={styles.mockLabel}>Edukacija</span>
-          <strong className={styles.mockValue}>8 sati</strong>
-          <span className={styles.mockMeta}>na stanju</span>
-        </div>
-        <div className={styles.mockBar}>
-          <span style={{ width: "80%" }} />
-        </div>
-      </div>
-      <div className={styles.mockGrid}>
-        {["P", "U", "S", "Č", "P", "S", "N"].map((d, i) => (
-          <span key={`w${i}`} className={styles.mockWd}>
-            {d}
-          </span>
-        ))}
-        {Array.from({ length: 28 }, (_, i) => i + 1).map((day) => (
-          <span
-            key={day}
-            className={`${styles.mockDay} ${MOCK_OPEN.has(day) ? styles.mockOpen : ""} ${
-              day === 11 ? styles.mockPicked : ""
-            }`}
-          >
-            {day}
-          </span>
-        ))}
-      </div>
-      <div className={styles.mockChips}>
-        <span>10:00</span>
-        <span className={styles.mockChipOn}>11:00</span>
-        <span>14:00</span>
-        <span>17:00</span>
-      </div>
-      <span className={styles.mockButton}>Zakaži 2h</span>
-      <figcaption className={styles.mockCaption}>{educationAccount.mockCaption}</figcaption>
-    </figure>
-  );
-}
-
 export function EducationLandingV4() {
   const active = useActiveSection(NAV_IDS);
 
@@ -248,17 +201,14 @@ export function EducationLandingV4() {
 
         {/* ─── Account / booking ─── */}
         <section id="nalog" className={styles.section} data-reveal>
-          <div className={styles.split}>
-            <div>
-              <SectionHead {...educationAccount} />
-              <ul className={styles.ticks}>
-                {educationAccount.points.map((point) => (
-                  <li key={point}>{point}</li>
-                ))}
-              </ul>
-            </div>
-            <AccountMock />
-          </div>
+          {/* No calendar preview here: booking opens on /nalog/edukacija only
+              after payment, so the landing page describes it instead of drawing it. */}
+          <SectionHead {...educationAccount} />
+          <ul className={styles.ticks}>
+            {educationAccount.points.map((point) => (
+              <li key={point}>{point}</li>
+            ))}
+          </ul>
         </section>
 
         {/* ─── Process ─── */}

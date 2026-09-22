@@ -148,14 +148,13 @@ export const educationAccount = {
   eyebrow: "Kako se zakazuje",
   title: "Sati na stanju, termini kad tebi odgovara",
   lead:
-    "Nalog otvaraš Google prijavom, bez lozinke i bez registracije. Tu vidiš koliko sati imaš, biraš slobodan termin i dobijaš link za sastanak.",
+    "Nalog otvaraš Google prijavom, bez lozinke i bez registracije. Kad uplata legne, sati se pojave na nalogu i tamo se otključa kalendar termina.",
   points: [
-    "Biraš dan, trajanje i početak — vidiš samo slobodne termine",
+    "Posle uplate biraš dan, trajanje i početak — vidiš samo slobodne termine",
     "Potvrda stiže na mejl, sa terminom spremnim za tvoj kalendar",
     "Dan pre termina stiže podsetnik",
     "Otkažeš najkasnije 24h pre početka i sati se vraćaju na stanje",
   ],
-  mockCaption: "Primer prikaza naloga",
 };
 
 export const educationProcess = {
