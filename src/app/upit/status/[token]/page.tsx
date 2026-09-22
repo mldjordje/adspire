@@ -6,8 +6,11 @@ import { PageShellV4 } from "@/components/site/v4/PageShellV4";
 import { v4FontClass } from "@/components/site/v4/fonts";
 import { isDatabaseConfigured } from "@/lib/db";
 import { serviceTitles } from "@/lib/inquiries/catalog";
+import { stripReplyFooter } from "@/lib/inquiries/notify";
 import { getInquiryByToken } from "@/lib/inquiries/store";
 import { isTimeframe } from "@/lib/inquiries/types";
+import { listBuyerThread } from "@/lib/messages/store";
+
 
 /**
  * One upit, opened with the private link from the mail.
@@ -30,6 +33,8 @@ export default async function StatusUpitaPage({ params }: Props) {
   const row = await getInquiryByToken(token);
   if (!row) notFound();
 
+  const thread = await listBuyerThread(row.id).catch(() => []);
+
   const view: InquiryView = {
     reference: row.reference,
     accessToken: row.access_token,
@@ -46,6 +51,13 @@ export default async function StatusUpitaPage({ params }: Props) {
     quoteValidUntil: row.quote_valid_until,
     quoteNote: row.quote_note,
     createdAt: row.created_at,
+    thread: thread.map((message) => ({
+      id: message.id,
+      fromUs: message.direction === "out",
+      subject: message.direction === "out" ? message.subject : null,
+      body: message.direction === "out" ? stripReplyFooter(message.body) : message.body,
+      createdAt: message.createdAt,
+    })),
   };
 
   return (

@@ -41,7 +41,9 @@ function toEntries(messages: MessageRow[], activities: ActivityRow[]): Entry[] {
     label: message.direction === "in" ? "Odgovor klijenta" : "Mejl poslat",
     tone: message.status === "sent" ? "ok" : "bad",
     summary:
-      message.status === "sent"
+      message.direction === "in"
+        ? message.subject ?? "Poruka klijenta"
+        : message.status === "sent"
         ? `${message.subject ?? "(bez naslova)"} → ${message.toEmail ?? "—"}`
         : `NIJE POSLATO: ${message.subject ?? "(bez naslova)"}${
             message.error ? ` — ${message.error}` : ""

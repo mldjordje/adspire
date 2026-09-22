@@ -31,7 +31,19 @@ export type InquiryView = {
   quoteValidUntil: string | null;
   quoteNote: string | null;
   createdAt: string;
+  thread: ThreadMessage[];
 };
+
+export type ThreadMessage = {
+  id: string;
+  fromUs: boolean;
+  subject: string | null;
+  body: string;
+  createdAt: string;
+};
+
+const when = (value: string) =>
+  new Date(value).toLocaleString("sr-RS", { dateStyle: "short", timeStyle: "short" });
 
 const money = (amount: number, currency: string) =>
   `${new Intl.NumberFormat("sr-RS", { minimumFractionDigits: 2 }).format(amount)} ${currency}`;
@@ -42,6 +54,47 @@ export function InquiryStatusV4({ inquiry }: { inquiry: InquiryView }) {
   const [reason, setReason] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  const [thread, setThread] = useState<ThreadMessage[]>(inquiry.thread);
+  const [draft, setDraft] = useState("");
+  const [website, setWebsite] = useState("");
+  const [sending, setSending] = useState(false);
+  const [sent, setSent] = useState(false);
+
+  async function sendMessage() {
+    const text = draft.trim();
+    if (!text) return;
+    setSending(true);
+    setError(null);
+    setSent(false);
+    try {
+      const response = await fetch("/api/upit/poruka", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token: inquiry.accessToken, message: text, website }),
+      });
+      const data = (await response.json()) as { ok?: boolean; createdAt?: string; message?: string };
+      if (!response.ok || !data.ok) {
+        setError(data.message ?? "Poruka nije poslata. Pokušaj ponovo.");
+        return;
+      }
+      setThread((previous) => [
+        ...previous,
+        {
+          id: `local-${Date.now()}`,
+          fromUs: false,
+          subject: null,
+          body: text,
+          createdAt: data.createdAt ?? new Date().toISOString(),
+        },
+      ]);
+      setDraft("");
+      setSent(true);
+    } catch {
+      setError("Nema veze sa serverom. Pokušaj ponovo.");
+    } finally {
+      setSending(false);
+    }
+  }
 
   async function copyLink() {
     try {
@@ -165,6 +218,62 @@ export function InquiryStatusV4({ inquiry }: { inquiry: InquiryView }) {
             Upit je kod nas. Cena i rok stižu na mejl, obično u roku od dva radna dana.
           </p>
         ) : null}
+
+        <div className={status.brief}>
+          <h3 className={status.quoteTitle}>Prepiska</h3>
+          {thread.length > 0 ? (
+            <ol className={status.thread}>
+              {thread.map((message) => (
+                <li
+                  key={message.id}
+                  className={`${status.message} ${message.fromUs ? status.fromUs : status.fromYou}`}
+                >
+                  <p className={status.messageMeta}>
+                    {message.fromUs ? "Adspire" : "Ti"} · {when(message.createdAt)}
+                  </p>
+                  {message.subject ? <p className={status.messageSubject}>{message.subject}</p> : null}
+                  <p className={status.text}>{message.body}</p>
+                </li>
+              ))}
+            </ol>
+          ) : null}
+          <label className={styles.field}>
+            <span>Tvoj odgovor</span>
+            <textarea
+              rows={5}
+              value={draft}
+              maxLength={4000}
+              onChange={(event) => {
+                setDraft(event.target.value);
+                setSent(false);
+              }}
+              placeholder="Napiši odgovor ili pitanje. Stiže direktno Đorđu."
+            />
+          </label>
+          {/* Honeypot: hidden from people, filled by bots. */}
+          <input
+            className={status.trap}
+            type="text"
+            name="website"
+            tabIndex={-1}
+            autoComplete="off"
+            aria-hidden="true"
+            value={website}
+            onChange={(event) => setWebsite(event.target.value)}
+          />
+          <div className={styles.sentActions}>
+            <button
+              className={styles.submit}
+              type="button"
+              onClick={sendMessage}
+              disabled={sending || !draft.trim()}
+              data-cursor="on"
+            >
+              {sending ? "Šaljem…" : "Pošalji odgovor"}
+            </button>
+          </div>
+          {sent ? <p className={status.note}>Poruka je stigla. Javljamo se uskoro.</p> : null}
+        </div>
 
         <div className={status.brief}>
           <h3 className={status.quoteTitle}>Šta si poslao</h3>

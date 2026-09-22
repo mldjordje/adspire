@@ -7,7 +7,7 @@ import { getSession } from "@/lib/os/session";
 import { getSql } from "@/lib/db";
 import { createClient } from "@/lib/billing/clients";
 import { logMessage, sendAndLog } from "@/lib/messages/store";
-import { notifyBuyerOfQuote, quoteMailBody, quoteMailSubject } from "./notify";
+import { notifyBuyerOfQuote, quoteMailBody, quoteMailSubject, replyFooter } from "./notify";
 import { getInquiryById, quoteInquiry, setInquiryStatus } from "./store";
 import { isInquiryStatus } from "./types";
 
@@ -114,7 +114,8 @@ export async function sendInquiryReply(formData: FormData) {
   const result = await sendAndLog({
     to,
     subject,
-    body,
+    // Logged with the footer too, so the timeline shows exactly what left.
+    body: `${body}${replyFooter(inquiry.access_token)}`,
     inquiryId: id,
     leadId: inquiry.lead_id,
     createdBy: session.email,

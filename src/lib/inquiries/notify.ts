@@ -19,6 +19,19 @@ import type { InquirySubmission } from "./validation";
 export const statusUrl = (accessToken: string) =>
   `${getSiteUrl()}/upit/status/${accessToken}`;
 
+/** Appended to every free-form reply: the buyer answers on the upit page, so
+ *  the exchange stays in /os instead of scattering across mailboxes. */
+const FOOTER_SEPARATOR = "\n\n—\n";
+
+export const replyFooter = (accessToken: string) =>
+  `${FOOTER_SEPARATOR}Odgovor možete napisati direktno ovde, bez logovanja i bez kucanja moje adrese:\n${statusUrl(accessToken)}`;
+
+/** The upit page shows the thread; a footer linking back to itself is noise. */
+export const stripReplyFooter = (body: string) => {
+  const at = body.lastIndexOf(FOOTER_SEPARATOR);
+  return at === -1 ? body : body.slice(0, at).trimEnd();
+};
+
 const money = (amount: number, currency: string) =>
   `${new Intl.NumberFormat("sr-RS", { minimumFractionDigits: 2 }).format(amount)} ${currency}`;
 
@@ -149,6 +162,26 @@ export async function notifyOwnerOfResponse(inquiry: InquiryRow): Promise<boolea
         ? [`Cena: ${money(inquiry.quoted_amount, inquiry.currency)}`]
         : []),
       ...(inquiry.decline_reason ? ["", `Razlog: ${inquiry.decline_reason}`] : []),
+      "",
+      `${getSiteUrl()}/os/upiti/${inquiry.id}`,
+    ].join("\n"),
+  });
+}
+
+/** A buyer wrote on their upit page. Reply-To is the buyer, so a quick answer
+ *  from the phone still works, but the /os link is where it gets logged. */
+export async function notifyOwnerOfMessage(inquiry: InquiryRow, text: string): Promise<boolean> {
+  const to = leadNotificationRecipient();
+  if (!to) return false;
+
+  return sendMail({
+    to,
+    replyTo: inquiry.email,
+    subject: `Nova poruka — upit ${inquiry.reference} (${inquiry.business_name})`,
+    text: [
+      `${inquiry.full_name} (${inquiry.email}) je odgovorio na upit:`,
+      "",
+      text,
       "",
       `${getSiteUrl()}/os/upiti/${inquiry.id}`,
     ].join("\n"),

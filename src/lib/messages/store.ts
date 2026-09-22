@@ -202,3 +202,19 @@ export async function lastOutboundByInquiry(): Promise<Map<string, string>> {
   `) as { inquiry_id: string; last_at: string }[];
   return new Map(rows.map((row) => [row.inquiry_id, row.last_at]));
 }
+
+/**
+ * What the buyer sees on their upit page: mail that actually reached them and
+ * what they wrote back. Failed sends, notes and call logs stay internal.
+ */
+export async function listBuyerThread(inquiryId: string, limit = 50): Promise<MessageRow[]> {
+  const sql = getSql();
+  const rows = (await sql.query(
+    `${SELECT}
+     where inquiry_id = $1
+       and ((direction = 'out' and channel = 'email' and status = 'sent') or direction = 'in')
+     order by created_at asc limit $2`,
+    [inquiryId, limit],
+  )) as RawMessage[];
+  return rows.map(toRow);
+}
