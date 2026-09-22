@@ -414,6 +414,8 @@ export const nichePages: NichePage[] = [
       { href: "/kako-napraviti-web-shop", label: "Vodič: kako napraviti web shop" },
       { href: "/our-projects/santos-santorini-web-shop-admin-platforma", label: "Studija slučaja: Santos & Santorini" },
       { href: "/our-services/e-commerce-web-shop", label: "Usluga: e-commerce" },
+      { href: "/sta-mora-da-ima-web-shop-u-srbiji", label: "Šta mora da ima web shop u Srbiji" },
+      { href: "/placanje-karticom-na-sajtu-srbija", label: "Plaćanje karticom na sajtu" },
     ],
   },
 

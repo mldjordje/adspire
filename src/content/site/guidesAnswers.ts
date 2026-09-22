@@ -315,3 +315,285 @@ export const appointmentReminderGuide: Guide = {
     "/ai-chatbot-za-sajt",
   ],
 };
+
+export const appOrWebAppGuide: Guide = {
+  path: "/mobilna-aplikacija-ili-web-aplikacija",
+  eyebrow: "Aplikacije",
+  title: "Mobilna aplikacija ili web aplikacija — šta vašoj firmi zaista treba",
+  metaDescription:
+    "Da li firmi treba aplikacija u App Store-u i Google Play-u ili je dovoljna web aplikacija (PWA): kada je native neophodan, šta prodavnice traže i naplaćuju, i kako se odlučuje bez bacanja novca.",
+  h1: "Mobilna aplikacija ili web aplikacija?",
+  lead:
+    "Većini firmi dovoljna je web aplikacija koja radi u pregledaču i može da se doda na početni ekran telefona (PWA). Aplikacija u App Store-u i Google Play-u treba kada vam je potreban pun pristup telefonu, kao što su lokacija u pozadini, Bluetooth ili NFC, ili kada kupci aplikaciju traže baš u prodavnici.",
+  keywords: [
+    "treba mi aplikacija",
+    "mobilna aplikacija ili web aplikacija",
+    "pwa ili native aplikacija",
+    "izrada mobilne aplikacije",
+    "aplikacija za firmu",
+    "koliko košta aplikacija",
+  ],
+  sections: [
+    {
+      heading: "Šta je web aplikacija (PWA)",
+      body: [
+        "Aplikacija koja se otvara preko linka, radi na svakom telefonu i računaru i može da se sačuva na početni ekran sa sopstvenom ikonicom. Izmena stiže na sve telefone čim je objavite, bez čekanja da je neko odobri i bez molbe korisnicima da ažuriraju.",
+        "Na Androidu i na iPhone-u (od iOS 16.4) može da šalje i obaveštenja, uz uslov da je korisnik doda na početni ekran.",
+      ],
+    },
+    {
+      heading: "Kada je web aplikacija dovoljna",
+      bullets: [
+        "Koriste je vaši zaposleni: raspored, nalozi, evidencija na terenu. Link u Viber grupi zamenjuje instalaciju.",
+        "Klijenti je otvaraju povremeno, na primer za zakazivanje ili proveru porudžbine. Retko ko instalira aplikaciju za nešto što koristi jednom mesečno.",
+        "Treba vam brzo i na oba sistema. Jedna aplikacija radi i na Androidu i na iPhone-u.",
+      ],
+    },
+    {
+      heading: "Kada je potrebna prava mobilna aplikacija",
+      bullets: [
+        "Lokacija dok je aplikacija u pozadini, na primer praćenje vozila ili dostavljača.",
+        "Bluetooth, NFC ili rad sa uređajem: vaga, štampač, čitač kartica.",
+        "Dugačak rad bez interneta sa velikom količinom podataka.",
+        "Kupci vas traže u App Store-u ili Google Play-u, jer je aplikacija sama proizvod.",
+      ],
+      body: [
+        "Radimo ih u Flutter-u ili React Native-u: jedan kod za iOS i Android, umesto dve odvojene aplikacije.",
+      ],
+    },
+    {
+      heading: "Šta traže prodavnice aplikacija",
+      bullets: [
+        "Apple naplaćuje developerski nalog 99 dolara godišnje, Google jednokratno 25 dolara.",
+        "Svaka verzija prolazi pregled pre objave. Apple ume da vrati aplikaciju na doradu.",
+        "Za digitalne sadržaje koji se kupuju u aplikaciji prodavnice uzimaju proviziju. Za fizičku robu i usluge, kao što su termin ili dostava, provizija se ne plaća.",
+      ],
+    },
+    {
+      heading: "Kako da odlučite",
+      body: [
+        "Krenite od pitanja šta aplikacija mora da radi, ne gde treba da stoji. Ako ništa sa liste za pravu mobilnu aplikaciju ne važi za vas, počnite sa web aplikacijom. Kasniji prelazak ne baca posao: logika i baza ostaju iste, menja se samo aplikacija na telefonu.",
+      ],
+    },
+  ],
+  proofHeading: "Aplikacije koje rade",
+  proof: [
+    {
+      label: "Prevoz Kop",
+      href: "/our-projects/prevozkop-digitalni-prodajni-operativni-sistem",
+      note: "Prodajni i operativni sistem koji tim koristi sa telefona.",
+    },
+    {
+      label: "TeachFromHome",
+      href: "/our-projects/teachfromhome-onboarding-sistem-za-remote-nastavnike",
+      note: "Web aplikacija za prijavu i obuku nastavnika, bez instalacije.",
+    },
+  ],
+  faqHeading: "Česta pitanja",
+  faq: [
+    {
+      q: "Koliko košta izrada aplikacije?",
+      a: "Zavisi od toga šta radi, više nego od toga da li je web ili mobilna. Interna poslovna aplikacija je u rasponu 2.800–10.500 €. Mobilna aplikacija za prodavnice dodaje posao oko objave i pregleda, pa je po pravilu skuplja od iste funkcije na webu.",
+    },
+    {
+      q: "Da li web aplikacija radi bez interneta?",
+      a: "Delimično. Može da prikaže poslednje učitane podatke i da sačuva unos dok se veza ne vrati. Za dug rad bez signala sa mnogo podataka bolja je prava mobilna aplikacija.",
+    },
+    {
+      q: "Mogu li kasnije da pređem sa web na mobilnu aplikaciju?",
+      a: "Da. Baza, nalozi i poslovna pravila ostaju isti. Pravi se nova aplikacija za telefon koja koristi isti sistem, pa se ceo posao ne plaća dva puta.",
+    },
+    {
+      q: "Da li je PWA isto što i responzivan sajt?",
+      a: "Nije. Responzivan sajt se samo prilagođava ekranu. PWA se instalira na početni ekran, otvara se bez trake pregledača, pamti podatke i može da šalje obaveštenja.",
+    },
+  ],
+  cta: { label: "Opiši šta aplikacija treba da radi", href: "/upit" },
+  secondaryCta: { label: "Usluga: mobilne aplikacije", href: "/our-services/mobilne-aplikacije" },
+  updated: "2026-09-22",
+  related: ["/interni-softver-umesto-excel-tabela", "/gotova-aplikacija-ili-svoj-sistem-za-zakazivanje", "/koliko-traje-izrada-sajta"],
+};
+
+export const cardPaymentsGuide: Guide = {
+  path: "/placanje-karticom-na-sajtu-srbija",
+  eyebrow: "Plaćanje",
+  title: "Plaćanje karticom na sajtu u Srbiji — šta treba, koliko traje i košta",
+  metaDescription:
+    "Kako da firma u Srbiji prima kartice na sajtu: ugovor sa bankom ili platnim procesorom, šta banka proverava na sajtu, IPS QR plaćanje, troškovi po transakciji i fiskalni račun.",
+  h1: "Plaćanje karticom na sajtu u Srbiji",
+  lead:
+    "Firma u Srbiji prima kartice na sajtu preko ugovora sa bankom ili ovlašćenim platnim procesorom. Banka pre odobrenja proverava sajt: podatke o firmi, uslove kupovine, povraćaj novca i zaštitu podataka. Kupac karticu unosi na zaštićenoj strani banke, pa vaš sajt broj kartice nikad ne vidi.",
+  keywords: [
+    "plaćanje karticom na sajtu",
+    "kako primati kartice na sajtu srbija",
+    "online plaćanje web shop srbija",
+    "ips qr plaćanje na sajtu",
+    "platni procesor srbija",
+    "e-commerce ugovor banka",
+  ],
+  sections: [
+    {
+      heading: "Banka ili platni procesor",
+      body: [
+        "Kartice na sajtu primate preko banke koja nudi internet naplatu (npr. Banca Intesa, Raiffeisen, OTP) ili preko platnog procesora koji radi sa više banaka (npr. AllSecure, ChipCard). Uslovi i naknade se razlikuju, pa vredi tražiti ponudu od dva ili tri mesta.",
+        "Stripe ne radi sa firmama registrovanim u Srbiji. Ako firma ima sedište u inostranstvu, to je druga priča.",
+      ],
+    },
+    {
+      heading: "Šta banka proverava na sajtu",
+      bullets: [
+        "Pun naziv firme, adresa, PIB, matični broj i kontakt.",
+        "Uslovi kupovine, način i rok isporuke, pravo na odustanak i povraćaj novca.",
+        "Politika privatnosti i zaštite podataka.",
+        "Cene u dinarima i napomena o konverziji za kartice izdate u inostranstvu.",
+        "Logotipi prihvaćenih kartica i oznake 3D Secure zaštite.",
+      ],
+      body: [
+        "Sajt bez ovoga ne prolazi proveru. Zato se te strane pišu pre podnošenja zahteva, ne posle.",
+      ],
+    },
+    {
+      heading: "Kako izgleda plaćanje za kupca",
+      body: [
+        "Kupac u korpi bira plaćanje karticom i prelazi na stranu banke ili procesora, gde unosi karticu i potvrđuje plaćanje u aplikaciji svoje banke. Posle toga se vraća na vaš sajt, a porudžbina dobija status plaćene. Vaš sajt dobija samo potvrdu da je plaćanje prošlo.",
+      ],
+    },
+    {
+      heading: "IPS QR plaćanje",
+      body: [
+        "Pored kartica, kupac može da plati instant prenosom, skeniranjem QR koda aplikacijom svoje banke. Novac stiže odmah, a naknada je po pravilu niža od kartične. Uslove za prihvatanje IPS plaćanja na sajtu dogovarate sa svojom bankom.",
+      ],
+    },
+    {
+      heading: "Troškovi i rokovi",
+      bullets: [
+        "Naknada po transakciji, kao procenat od iznosa. Neke banke naplaćuju i mesečnu ili jednokratnu naknadu.",
+        "Od zahteva do prve naplate računajte na nekoliko nedelja: ugovor, provera sajta, testno plaćanje.",
+        "Za prodaju preko sajta izdaje se fiskalni račun. Sa knjigovođom proverite kako vaš sistem za fiskalizaciju izdaje račun za internet porudžbine.",
+      ],
+    },
+    {
+      heading: "Kada kartica još ne treba",
+      body: [
+        "Ako većina kupaca plaća pouzećem i to radi, kartica može da sačeka. Isplati se kada prodajete u inostranstvo, kada su iznosi veći ili kada vam se mnogo paketa vraća nepreuzeto. Ono što je plaćeno unapred skoro uvek se preuzme.",
+      ],
+    },
+  ],
+  faqHeading: "Česta pitanja",
+  faq: [
+    {
+      q: "Koliko košta prihvatanje kartica na sajtu?",
+      a: "Plaća se naknada po transakciji, kao procenat od iznosa, a neke banke dodaju mesečnu ili jednokratnu naknadu. Tačne iznose daje banka ili procesor u ponudi. Te naknade idu direktno njima, odvojeno od cene izrade.",
+    },
+    {
+      q: "Da li sajt čuva brojeve kartica?",
+      a: "Ne. Kartica se unosi na zaštićenoj strani banke ili procesora. Sajt dobija samo potvrdu da je plaćanje uspelo i broj transakcije.",
+    },
+    {
+      q: "Mogu li da primam DinaCard?",
+      a: "Da, ako ga vaša banka ili procesor podržava. Većina domaćih rešenja prihvata Visa, Mastercard i DinaCard.",
+    },
+    {
+      q: "Koliko traje uvođenje?",
+      a: "Tehnički deo na sajtu je nekoliko dana. Najduže traje odobrenje kod banke, pa zahtev treba podneti čim su uslovi kupovine i ostale obavezne strane gotove.",
+    },
+  ],
+  cta: { label: "Opiši šta i kome prodaješ", href: "/upit" },
+  secondaryCta: { label: "Usluga: e-commerce i web shop", href: "/our-services/e-commerce-web-shop" },
+  updated: "2026-09-22",
+  related: ["/sta-mora-da-ima-web-shop-u-srbiji", "/kako-napraviti-web-shop", "/prenos-sajta-sa-druge-agencije"],
+};
+
+export const webShopLegalGuide: Guide = {
+  path: "/sta-mora-da-ima-web-shop-u-srbiji",
+  eyebrow: "E-commerce",
+  title: "Šta mora da ima web shop u Srbiji — obavezne informacije, odustanak i reklamacije",
+  metaDescription:
+    "Šta zakon traži od internet prodavnice u Srbiji: podaci o firmi, cene u dinarima, pravo na odustanak od 14 dana, rokovi za reklamacije, politika privatnosti i kolačići. Pregled pre puštanja shopa.",
+  h1: "Šta mora da ima web shop u Srbiji",
+  lead:
+    "Web shop u Srbiji mora da prikaže podatke o firmi, cene u dinarima sa PDV-om i troškove dostave pre plaćanja. Mora da omogući odustanak od kupovine u roku od 14 dana, da odgovori na reklamaciju u roku od 8 dana i da objavi politiku privatnosti. Ovo nije pravni savet, konačnu proveru radi pravnik.",
+  keywords: [
+    "šta mora da ima web shop",
+    "zakon o zaštiti potrošača web shop",
+    "pravo na odustanak 14 dana",
+    "obavezni podaci na sajtu firme",
+    "reklamacija online kupovina rok",
+    "uslovi korišćenja web shop",
+  ],
+  sections: [
+    {
+      heading: "Podaci o firmi",
+      bullets: [
+        "Pun poslovni naziv, sedište, matični broj i PIB.",
+        "Adresa za prijem reklamacija, telefon i mejl.",
+        "Registar u kom je firma upisana.",
+      ],
+      body: [
+        "Najbolje ih je staviti u footer i na stranu „O nama“, tako da su na jedan klik sa svake strane.",
+      ],
+    },
+    {
+      heading: "Cena i uslovi pre plaćanja",
+      bullets: [
+        "Cena u dinarima, sa uračunatim PDV-om.",
+        "Troškovi dostave, pre nego što kupac potvrdi porudžbinu, ne tek na računu.",
+        "Načini plaćanja i rok isporuke.",
+        "Osnovne karakteristike proizvoda: materijal, dimenzije, sastav, šta je u pakovanju.",
+      ],
+    },
+    {
+      heading: "Pravo na odustanak od 14 dana",
+      body: [
+        "Kupac koji je kupio preko interneta može da odustane u roku od 14 dana od prijema robe, bez navođenja razloga. Na sajtu mora da piše da to pravo postoji, kako se koristi i ko plaća vraćanje robe. Uz to ide i obrazac za odustanak.",
+        "Novac se vraća najkasnije 14 dana od prijema izjave o odustanku. Postoje izuzeci, na primer roba pravljena po meri kupca, kvarljiva roba i higijenski proizvodi kojima je otvoreno pakovanje. Izuzetke treba navesti na sajtu.",
+      ],
+    },
+    {
+      heading: "Reklamacije",
+      bullets: [
+        "Na reklamaciju odgovarate u roku od 8 dana od prijema.",
+        "Reklamacija se rešava u roku od 15 dana od podnošenja.",
+        "Vodite evidenciju primljenih reklamacija.",
+      ],
+    },
+    {
+      heading: "Privatnost i kolačići",
+      body: [
+        "Politika privatnosti mora da kaže koje podatke uzimate, zašto, koliko ih čuvate i kome ih dajete, na primer kurirskoj službi. Za kolačiće koji nisu neophodni za rad sajta, kao što su oglasi i analitika, potreban je pristanak pre postavljanja.",
+        "Newsletter traži poseban pristanak. Porudžbina nije pristanak na reklame.",
+      ],
+    },
+    {
+      heading: "Šta se najčešće zaboravi",
+      bullets: [
+        "Troškovi dostave vidljivi tek na kraju. To ljuti kupca i krši pravilo o ceni pre plaćanja.",
+        "Obrazac za odustanak koji ne postoji ili se ne vidi.",
+        "Uslovi prepisani sa drugog shopa, sa tuđim rokovima i tuđim nazivom firme.",
+      ],
+    },
+  ],
+  faqHeading: "Česta pitanja",
+  faq: [
+    {
+      q: "Da li važi pravo na odustanak i za kupovinu pouzećem?",
+      a: "Da. Pravo na odustanak važi za ugovore zaključene na daljinu, bez obzira na to kako je kupac platio.",
+    },
+    {
+      q: "Ko plaća vraćanje robe kad kupac odustane?",
+      a: "Kupac, ako ste ga na to jasno upozorili pre kupovine. Ako to nije napisano, trošak pada na vas.",
+    },
+    {
+      q: "Da li mogu da prepišem uslove sa drugog sajta?",
+      a: "Ne preporučujemo. Uslovi moraju da odgovaraju vašim rokovima, dostavi i proizvodima, a prepisan tekst obično nosi tuđe podatke i obećanja koja ne ispunjavate.",
+    },
+    {
+      q: "Da li ovo radite vi ili pravnik?",
+      a: "Mi pravimo strane, obrasce i tok kupovine tako da sve ovo postoji i vidi se. Tekst uslova treba da pregleda pravnik, jer je odgovornost za sadržaj vaša.",
+    },
+  ],
+  cta: { label: "Opiši asortiman i način prodaje", href: "/upit" },
+  secondaryCta: { label: "Usluga: e-commerce i web shop", href: "/our-services/e-commerce-web-shop" },
+  updated: "2026-09-22",
+  related: ["/kako-napraviti-web-shop", "/placanje-karticom-na-sajtu-srbija", "/koliko-traje-izrada-sajta"],
+};

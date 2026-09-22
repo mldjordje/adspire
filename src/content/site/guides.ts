@@ -1,5 +1,12 @@
 import { cooperationGuide, migrationGuide, timelineGuide } from "./guidesExtra";
-import { appointmentReminderGuide, bookingPlatformChoiceGuide, portalCmsGuide } from "./guidesAnswers";
+import {
+  appOrWebAppGuide,
+  appointmentReminderGuide,
+  bookingPlatformChoiceGuide,
+  cardPaymentsGuide,
+  portalCmsGuide,
+  webShopLegalGuide,
+} from "./guidesAnswers";
 
 /**
  * Problem-intent landing pages.
@@ -551,6 +558,7 @@ const beyondExcelGuide: Guide = {
   ],
   cta: { label: "Opiši proces koji te najviše koči", href: "/upit" },
   secondaryCta: { label: "Usluga: interne poslovne aplikacije", href: "/our-services/interne-poslovne-aplikacije" },
+  related: ["/mobilna-aplikacija-ili-web-aplikacija", "/gotova-aplikacija-ili-svoj-sistem-za-zakazivanje", "/koliko-traje-izrada-sajta"],
 };
 
 const chatbotGuide: Guide = {
@@ -733,6 +741,7 @@ const webShopGuide: Guide = {
   ],
   cta: { label: "Opiši asortiman i način prodaje", href: "/upit" },
   secondaryCta: { label: "Usluga: e-commerce i web shop", href: "/our-services/e-commerce-web-shop" },
+  related: ["/sta-mora-da-ima-web-shop-u-srbiji", "/placanje-karticom-na-sajtu-srbija", "/koliko-traje-izrada-sajta"],
 };
 
 export const guides = [
@@ -749,6 +758,9 @@ export const guides = [
   portalCmsGuide,
   bookingPlatformChoiceGuide,
   appointmentReminderGuide,
+  appOrWebAppGuide,
+  cardPaymentsGuide,
+  webShopLegalGuide,
 ] as const;
 
 export const bookingSystemsGuide = bookingGuide;
@@ -759,4 +771,11 @@ export const internalSoftwareGuide = beyondExcelGuide;
 export const aiChatbotGuide = chatbotGuide;
 export const webShopHowToGuide = webShopGuide;
 export const workingFromSerbiaGuide = cooperationGuide;
-export { appointmentReminderGuide, bookingPlatformChoiceGuide, portalCmsGuide };
+export {
+  appOrWebAppGuide,
+  appointmentReminderGuide,
+  bookingPlatformChoiceGuide,
+  cardPaymentsGuide,
+  portalCmsGuide,
+  webShopLegalGuide,
+};

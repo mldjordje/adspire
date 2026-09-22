@@ -1,8 +1,22 @@
 import { describe, expect, it } from "vitest";
 import { guides } from "../guides";
-import { appointmentReminderGuide, bookingPlatformChoiceGuide, portalCmsGuide } from "../guidesAnswers";
+import {
+  appOrWebAppGuide,
+  appointmentReminderGuide,
+  bookingPlatformChoiceGuide,
+  cardPaymentsGuide,
+  portalCmsGuide,
+  webShopLegalGuide,
+} from "../guidesAnswers";
 
-const answerGuides = [portalCmsGuide, bookingPlatformChoiceGuide, appointmentReminderGuide];
+const answerGuides = [
+  portalCmsGuide,
+  bookingPlatformChoiceGuide,
+  appointmentReminderGuide,
+  appOrWebAppGuide,
+  cardPaymentsGuide,
+  webShopLegalGuide,
+];
 
 describe("guides", () => {
   it("have unique paths", () => {
