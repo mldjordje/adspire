@@ -901,6 +901,12 @@ a.os-card:hover {
 
 .os-table__actions .os-btn {
   text-decoration: none;
+  /* `.os-table a` paints links accent-blue, which hid the label on the blue button. */
+  color: #fff;
+}
+
+.os-table__actions .os-btn--ghost {
+  color: var(--os-accent);
 }
 
 /* ─── Flash messages ─── */

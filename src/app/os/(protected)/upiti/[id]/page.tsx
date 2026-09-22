@@ -15,10 +15,10 @@ import {
 import { serviceTitles } from "@/lib/inquiries/catalog";
 import { statusUrl } from "@/lib/inquiries/notify";
 import { getInquiryById } from "@/lib/inquiries/store";
+import { OS_STATUS_FILTER_LABEL, osStatusLabel, type ThreadState } from "@/lib/inquiries/turn";
 import { listMessagesForInquiry } from "@/lib/messages/store";
 import {
   BUYER_TYPE_LABEL,
-  INQUIRY_STATUS_LABEL,
   INTAKE_LABEL,
   isIntakeMode,
   INQUIRY_STATUSES,
@@ -56,6 +56,13 @@ export default async function OsUpitDetailPage({
   const flash = mail ? MAIL_FLASH[mail] : undefined;
   const titles = serviceTitles(upit.services);
   const link = statusUrl(upit.access_token);
+  // Messages come newest first, so the first match of each kind is the latest.
+  const thread: ThreadState = {
+    lastOut:
+      messages.find((message) => message.direction === "out" && message.status === "sent")
+        ?.createdAt ?? null,
+    lastIn: messages.find((message) => message.direction === "in")?.createdAt ?? null,
+  };
 
   return (
     <>
@@ -73,12 +80,10 @@ export default async function OsUpitDetailPage({
                   ? " os-badge--won"
                   : upit.status === "declined" || upit.status === "canceled"
                     ? " os-badge--lost"
-                    : upit.status === "submitted"
-                      ? " os-badge--new"
-                      : ""
+                    : ""
               }`}
             >
-              {INQUIRY_STATUS_LABEL[upit.status]}
+              {osStatusLabel(upit.status, thread)}
             </span>{" "}
             {/* A quick upit is missing the billing block and the business
                 description on purpose — the badge is the reminder to answer it
@@ -234,7 +239,7 @@ export default async function OsUpitDetailPage({
                 <select name="status" defaultValue={upit.status}>
                   {INQUIRY_STATUSES.map((status) => (
                     <option key={status} value={status}>
-                      {INQUIRY_STATUS_LABEL[status]}
+                      {OS_STATUS_FILTER_LABEL[status]}
                     </option>
                   ))}
                 </select>

@@ -54,10 +54,13 @@ export async function getWorkQueue(limit = 12): Promise<WorkItem[]> {
     (
       select 'upit'::text as kind, 'upiti'::text as target, i.id::text as id,
              i.reference || ' · ' || i.business_name as title,
-             'Brief čeka ponudu' as subtitle,
-             extract(day from now() - i.created_at)::int as waiting_days
+             case when coalesce((select max(n.created_at) from messages n where n.inquiry_id = i.id and n.direction = 'in') > coalesce((select max(o.created_at) from messages o where o.inquiry_id = i.id and o.direction = 'out' and o.status = 'sent'), '-infinity'::timestamptz), false) then 'Klijent odgovorio' else 'Brief čeka odgovor' end
+               as subtitle,
+             extract(day from now() - case when coalesce((select max(n.created_at) from messages n where n.inquiry_id = i.id and n.direction = 'in') > coalesce((select max(o.created_at) from messages o where o.inquiry_id = i.id and o.direction = 'out' and o.status = 'sent'), '-infinity'::timestamptz), false) then (select max(n.created_at) from messages n where n.inquiry_id = i.id and n.direction = 'in') else i.created_at end)::int
+               as waiting_days
       from inquiries i
-      where i.status = 'submitted'
+      -- Owner's move: nothing sent yet, or the buyer wrote after the last mail.
+      where ((i.status = 'submitted' and (select max(o.created_at) from messages o where o.inquiry_id = i.id and o.direction = 'out' and o.status = 'sent') is null) or (i.status in ('submitted', 'quoted') and coalesce((select max(n.created_at) from messages n where n.inquiry_id = i.id and n.direction = 'in') > coalesce((select max(o.created_at) from messages o where o.inquiry_id = i.id and o.direction = 'out' and o.status = 'sent'), '-infinity'::timestamptz), false)))
     )
     union all
     (
@@ -71,7 +74,7 @@ export async function getWorkQueue(limit = 12): Promise<WorkItem[]> {
       where l.status = 'new'
         and not exists (
           select 1 from inquiries i
-          where i.lead_id = l.id and i.status = 'submitted'
+          where i.lead_id = l.id and i.status in ('submitted', 'quoted')
         )
     )
     union all
@@ -125,7 +128,7 @@ export async function getOsCounters(): Promise<OsCounters> {
   const rows = (await sql`
     select
       (select count(*) from leads where status = 'new')::int as new_leads,
-      (select count(*) from inquiries where status = 'submitted')::int as waiting_inquiries,
+      (select count(*) from inquiries i where ((i.status = 'submitted' and (select max(o.created_at) from messages o where o.inquiry_id = i.id and o.direction = 'out' and o.status = 'sent') is null) or (i.status in ('submitted', 'quoted') and coalesce((select max(n.created_at) from messages n where n.inquiry_id = i.id and n.direction = 'in') > coalesce((select max(o.created_at) from messages o where o.inquiry_id = i.id and o.direction = 'out' and o.status = 'sent'), '-infinity'::timestamptz), false))))::int as waiting_inquiries,
       (
         (select count(*) from inquiries
           where follow_up_on is not null and follow_up_on <= now()::date

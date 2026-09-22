@@ -81,8 +81,8 @@ export default async function OsDashboardPage() {
       </section>
 
       <div className="os-cards">
-        <Link className={`os-card${inquiries.waiting > 0 ? " os-card--alert" : ""}`} href="/os/upiti?status=submitted">
-          <div className="os-card__label">Upiti bez ponude</div>
+        <Link className={`os-card${inquiries.waiting > 0 ? " os-card--alert" : ""}`} href="/os/upiti">
+          <div className="os-card__label">Upiti čekaju tebe</div>
           <div className="os-card__value">{inquiries.waiting}</div>
         </Link>
         <Link className={`os-card${data.untouched > 0 ? " os-card--alert" : ""}`} href="/os/leads?status=new">

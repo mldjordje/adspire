@@ -358,10 +358,10 @@ export async function getInquirySummary(): Promise<InquirySummary> {
   const sql = getSql();
   const rows = (await sql`
     select
-      count(*) filter (where status = 'submitted')::int as waiting,
-      count(*) filter (where status = 'quoted')::int as quoted,
-      count(*) filter (where status = 'accepted')::int as accepted
-    from inquiries
+      count(*) filter (where ((i.status = 'submitted' and (select max(o.created_at) from messages o where o.inquiry_id = i.id and o.direction = 'out' and o.status = 'sent') is null) or (i.status in ('submitted', 'quoted') and coalesce((select max(n.created_at) from messages n where n.inquiry_id = i.id and n.direction = 'in') > coalesce((select max(o.created_at) from messages o where o.inquiry_id = i.id and o.direction = 'out' and o.status = 'sent'), '-infinity'::timestamptz), false))))::int as waiting,
+      count(*) filter (where i.status = 'quoted')::int as quoted,
+      count(*) filter (where i.status = 'accepted')::int as accepted
+    from inquiries i
   `) as InquirySummary[];
   return rows[0] ?? { waiting: 0, quoted: 0, accepted: 0 };
 }

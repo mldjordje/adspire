@@ -3,12 +3,19 @@ import Link from "next/link";
 import { serviceTitles } from "@/lib/inquiries/catalog";
 import { listInquiries } from "@/lib/inquiries/store";
 import {
-  INQUIRY_STATUS_LABEL,
+  inquiryTurn,
+  OS_STATUS_FILTER_LABEL,
+  osStatusLabel,
+  waitingSince,
+  type ThreadState,
+} from "@/lib/inquiries/turn";
+import {
   INTAKE_LABEL,
   INQUIRY_STATUSES,
   isInquiryStatus,
   type InquiryStatus,
 } from "@/lib/inquiries/types";
+import { threadStateByInquiry } from "@/lib/messages/store";
 import { formatDateTime, plural, since } from "@/components/os/leadUi";
 
 export const dynamic = "force-dynamic";
@@ -27,8 +34,26 @@ export default async function OsUpitiPage({
   const active = isInquiryStatus(status) ? status : undefined;
   const query = (q ?? "").trim();
 
-  const rows = await listInquiries({ status: active, query });
-  const waiting = rows.filter((row) => row.status === "submitted").length;
+  const [listed, threads] = await Promise.all([
+    listInquiries({ status: active, query }),
+    threadStateByInquiry().catch(() => new Map<string, ThreadState>()),
+  ]);
+  const empty: ThreadState = { lastOut: null, lastIn: null };
+
+  // Owner's move first, oldest wait on top; the store's order holds within groups.
+  const rows = listed
+    .map((row) => {
+      const thread = threads.get(row.id) ?? empty;
+      return { ...row, thread, turn: inquiryTurn(row.status, thread) };
+    })
+    .sort((a, b) =>
+      a.turn === "owner" && b.turn === "owner"
+        ? waitingSince(a.created_at, a.thread) < waitingSince(b.created_at, b.thread)
+          ? -1
+          : 1
+        : Number(b.turn === "owner") - Number(a.turn === "owner"),
+    );
+  const waiting = rows.filter((row) => row.turn === "owner").length;
 
   const filterHref = (value?: InquiryStatus) => {
     const params = new URLSearchParams();
@@ -44,8 +69,8 @@ export default async function OsUpitiPage({
         <div>
           <h1 className="os-h1">Upiti</h1>
           <p className="os-sub">
-            Briefovi sa sajta. Neodgovoreni su prvi u listi
-            {active ? "" : `, ${waiting} čeka ponudu`}.
+            Briefovi sa sajta. Prvi su oni koji čekaju tebe
+            {active ? "" : ` — ${waiting} ${waiting === 1 ? "čeka" : "čekaju"} odgovor`}.
           </p>
         </div>
         <form className="os-search" action="/os/upiti">
@@ -73,7 +98,7 @@ export default async function OsUpitiPage({
             className={`os-chip${active === value ? " is-on" : ""}`}
             href={filterHref(value)}
           >
-            {INQUIRY_STATUS_LABEL[value]}
+            {OS_STATUS_FILTER_LABEL[value]}
           </Link>
         ))}
         {query ? (
@@ -97,7 +122,7 @@ export default async function OsUpitiPage({
             <table className="os-table">
               <thead>
                 <tr>
-                  <th>Čeka</th>
+                  <th>Poslednje</th>
                   <th>Broj</th>
                   <th>Klijent</th>
                   <th>Usluge</th>
@@ -109,14 +134,26 @@ export default async function OsUpitiPage({
               </thead>
               <tbody>
                 {rows.map((row) => {
+                  const mine = row.turn === "owner";
+                  const waitStart = mine
+                    ? waitingSince(row.created_at, row.thread)
+                    : (row.thread.lastOut ?? row.created_at);
                   const late =
-                    row.status === "submitted" &&
-                    Date.now() - new Date(row.created_at).getTime() > 2 * 86_400_000;
+                    mine && Date.now() - new Date(waitStart).getTime() > 2 * 86_400_000;
+                  const who =
+                    row.turn === "closed"
+                      ? null
+                      : mine
+                        ? row.thread.lastIn && waitStart === row.thread.lastIn
+                          ? "klijent pisao"
+                          : "stigao upit"
+                        : "ti si odgovorio";
                   return (
                     <tr key={row.id} className={late ? "is-stale" : undefined}>
-                      <td title={formatDateTime(row.created_at)}>
-                        {since(row.created_at)}
+                      <td title={formatDateTime(waitStart)}>
+                        {since(waitStart)}
                         {late ? <span className="os-dot" aria-label="kasni" /> : null}
+                        {who ? <div className="os-note">{who}</div> : null}
                       </td>
                       <td>
                         <Link href={`/os/upiti/${row.id}`}>{row.reference}</Link>
@@ -140,12 +177,12 @@ export default async function OsUpitiPage({
                               ? " os-badge--won"
                               : row.status === "declined" || row.status === "canceled"
                                 ? " os-badge--lost"
-                                : row.status === "submitted"
-                                  ? " os-badge--new"
-                                  : ""
+                                : mine
+                                  ? ""
+                                  : " os-badge--muted"
                           }`}
                         >
-                          {INQUIRY_STATUS_LABEL[row.status]}
+                          {osStatusLabel(row.status, row.thread)}
                         </span>
                         {row.follow_up_on ? (
                           <div className="os-note">podsetnik {row.follow_up_on}</div>
@@ -153,12 +190,10 @@ export default async function OsUpitiPage({
                       </td>
                       <td className="os-table__actions">
                         <Link
-                          className={`os-btn os-btn--sm${
-                            row.status === "submitted" ? "" : " os-btn--ghost"
-                          }`}
+                          className={`os-btn os-btn--sm${mine ? "" : " os-btn--ghost"}`}
                           href={`/os/upiti/${row.id}`}
                         >
-                          {row.status === "submitted" ? "Pošalji ponudu" : "Otvori"}
+                          {mine ? "Odgovori" : "Otvori"}
                         </Link>
                       </td>
                     </tr>

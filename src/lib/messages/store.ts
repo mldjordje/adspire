@@ -218,3 +218,21 @@ export async function listBuyerThread(inquiryId: string, limit = 50): Promise<Me
   )) as RawMessage[];
   return rows.map(toRow);
 }
+
+/** Last delivered mail and last buyer reply per upit, for "whose move is it". */
+export async function threadStateByInquiry(): Promise<
+  Map<string, { lastOut: string | null; lastIn: string | null }>
+> {
+  const sql = getSql();
+  const rows = (await sql`
+    select inquiry_id,
+           max(created_at) filter (where direction = 'out' and status = 'sent')::text as last_out,
+           max(created_at) filter (where direction = 'in')::text as last_in
+    from messages
+    where inquiry_id is not null
+    group by inquiry_id
+  `) as { inquiry_id: string; last_out: string | null; last_in: string | null }[];
+  return new Map(
+    rows.map((row) => [row.inquiry_id, { lastOut: row.last_out, lastIn: row.last_in }]),
+  );
+}
