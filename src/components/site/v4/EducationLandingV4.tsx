@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 
 import { AuroraV4 } from "./AuroraV4";
-import { EventHorizonV4 } from "./EventHorizonV4";
 import { PageShellV4 } from "./PageShellV4";
 import { StickyCtaV4 } from "./StickyCtaV4";
 import styles from "./EducationLandingV4.module.css";
@@ -78,6 +77,22 @@ export function EducationLandingV4() {
 
   return (
     <PageShellV4
+      finale={
+        <section className={styles.final}>
+          <div className={styles.finalVeil} aria-hidden="true" />
+          <span className={styles.eyebrow}>{educationFinalCta.eyebrow}</span>
+          <h2 className={styles.finalTitle}>{educationFinalCta.title}</h2>
+          <p className={styles.finalBody}>{educationFinalCta.body}</p>
+          <div className={styles.actions}>
+            <Link className={styles.btnPrimary} href={educationFinalCta.primary.href} data-cta="edukacija-kraj-primarni" data-horizon-feed>
+              {educationFinalCta.primary.label}
+            </Link>
+            <Link className={styles.btnGhost} href={educationFinalCta.secondary.href} data-cta="edukacija-kraj-nalog">
+              {educationFinalCta.secondary.label}
+            </Link>
+          </div>
+        </section>
+      }
       eyebrow={educationHero.eyebrow}
       title={educationHero.title}
       intro={educationHero.lead}
@@ -265,23 +280,6 @@ export function EducationLandingV4() {
           </div>
         </section>
       </div>
-
-      {/* ─── Final CTA on the event horizon ─── */}
-      <section className={styles.final}>
-        <EventHorizonV4 />
-        <div className={styles.finalVeil} aria-hidden="true" />
-        <span className={styles.eyebrow}>{educationFinalCta.eyebrow}</span>
-        <h2 className={styles.finalTitle}>{educationFinalCta.title}</h2>
-        <p className={styles.finalBody}>{educationFinalCta.body}</p>
-        <div className={styles.actions}>
-          <Link className={styles.btnPrimary} href={educationFinalCta.primary.href} data-cta="edukacija-kraj-primarni">
-            {educationFinalCta.primary.label}
-          </Link>
-          <Link className={styles.btnGhost} href={educationFinalCta.secondary.href} data-cta="edukacija-kraj-nalog">
-            {educationFinalCta.secondary.label}
-          </Link>
-        </div>
-      </section>
     </PageShellV4>
   );
 }

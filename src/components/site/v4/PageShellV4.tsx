@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import styles from "./PageShellV4.module.css";
 import { CursorV4 } from "./CursorV4";
 import { SilkV4 } from "./SilkV4";
+import { EventHorizonV4 } from "./EventHorizonV4";
 import { MobileMenuV4 } from "./MobileMenuV4";
 import { NavMegaV4 } from "./NavMegaV4";
 import { getShellCopy, shellPath, type ShellCopy } from "./shellCopy";
@@ -86,6 +87,8 @@ type PageShellProps = {
   navCtaHref?: string;
   /** Overrides the header button label — a page whose next step is not an upit. */
   navCtaLabel?: string;
+  /** Closing CTA rendered inside the footer zone, on the same event horizon. */
+  finale?: React.ReactNode;
   children: React.ReactNode;
 };
 
@@ -102,6 +105,7 @@ export function PageShellV4({
   languagePath,
   navCtaHref,
   navCtaLabel,
+  finale,
   children,
 }: PageShellProps) {
   const copy = copyOverride ?? getShellCopy(locale);
@@ -266,25 +270,32 @@ export function PageShellV4({
         {children}
       </main>
 
-      <footer className={styles.footer}>
-        <div className={styles.footerTop}>
-          <a className={styles.footerBrand} href={href("/")} data-cursor="on">
-            ADSPIRE<span className={styles.navDot}>.</span>
-          </a>
-          <nav className={styles.footerLinks}>
-            {copy.footerLinks.map((l) => (
-              <a key={l.href} href={href(l.href)} data-cursor="on">
-                {l.label}
-              </a>
-            ))}
-          </nav>
+      <section className={`${styles.footerZone} ${finale ? styles.footerZoneFinale : ""}`}>
+        <EventHorizonV4 />
+        {finale}
+        <div className={styles.footerWordmark} data-horizon-wordmark aria-hidden="true">
+          <span className={styles.footerWordmarkText}>ADSPIRE</span>
         </div>
-        <div className={styles.footerBottom}>
-          <span>{copy.footerRights}</span>
-          <a href="mailto:djordje@adspire.rs" data-cursor="on">djordje@adspire.rs</a>
-          <a href="tel:+381601491491" data-cursor="on">+381 60 149 149 1</a>
-        </div>
-      </footer>
+        <footer className={styles.footer}>
+          <div className={styles.footerTop}>
+            <a className={styles.footerBrand} href={href("/")} data-cursor="on">
+              ADSPIRE<span className={styles.navDot}>.</span>
+            </a>
+            <nav className={styles.footerLinks}>
+              {copy.footerLinks.map((l) => (
+                <a key={l.href} href={href(l.href)} data-cursor="on">
+                  {l.label}
+                </a>
+              ))}
+            </nav>
+          </div>
+          <div className={styles.footerBottom}>
+            <span>{copy.footerRights}</span>
+            <a href="mailto:djordje@adspire.rs" data-cursor="on">djordje@adspire.rs</a>
+            <a href="tel:+381601491491" data-cursor="on">+381 60 149 149 1</a>
+          </div>
+        </footer>
+      </section>
 
       <div ref={curtainRef} className={styles.curtain} aria-hidden="true">
         <span className={styles.curtainLogo}>

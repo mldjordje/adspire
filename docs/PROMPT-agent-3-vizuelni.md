@@ -541,3 +541,341 @@ se dovrši.
 **Šta iz ovoga ostaje kao pravilo.** Kada proveravaš izgled kroz Browser panel,
 prvo izmeri da li rAF radi. Ako je nula, sve što zavisi od animacije izgleda
 pokvareno, a nije. Ne menjaj ni copy ni animacije na osnovu takvog snimka.
+
+---
+
+## Plan 24.09.2026 — pozadina footera (`EventHorizonV4`): motion, interakcija, oštrina
+
+Đorđe: koncept crne rupe iza CTA + footera je dobar, fali pokret, više interakcije
+i „8K kvalitet". Komponenta je na tvom spisku, pa je ovo plan, ne izmena.
+Isti shader je na tri mesta: `HomeV4` (CTA + footer), `AiVideoLandingV4`,
+`EducationLandingV4`. Menja se na sve tri odjednom.
+
+### Stanje (izmereno u kodu)
+
+- Render na **0.65× CSS piksela**, bez `devicePixelRatio`. Na retina ekranu to je
+  ~0.33 stvarnih piksela. Otud mekoća, a photon ring (tanak prsten) je mutan.
+- Zvezde su prag nad value-noise (`smoothstep(0.88, 1.0, noise(...))`): mrlje,
+  ne tačke. Nema treperenja ni veličina.
+- Nema ditheringa. Tamni radijalni prelazi prave vidljive stepenice (banding).
+- fbm 4 oktave. Disk je gladak izbliza, fale sitni filamenti.
+- **Mobilni: shader se uopšte ne pokreće** (`return` na ≤767px). Na telefonu
+  footer nema pozadinu, samo `--bg`.
+- Interakcija: nagib diska po pokazivaču, „heat" od brzine, puls na klik.
+  **Skrol ne utiče ni na šta.** CTA dugme, wordmark i footer linkovi ne
+  razgovaraju sa shaderom.
+
+### Šta „8K" znači ovde
+
+8K kadar (7680×4320) po frejmu nije realan za fullscreen fbm shader, a nijedan
+posetilac nema taj ekran. Cilj je da izgleda **oštro kao 8K render na bilo kom
+ekranu**: nativna rezolucija do DPR 2, bez bandinga, oštre tačkaste zvezde,
+antialiasovan prsten, više detalja u disku. Plus statična slika visoke
+rezolucije kao fallback.
+
+### Faza 1 — oštrina (prvo, jer sve ostalo stoji na njoj)
+
+1. **DPR-svesna rezolucija.** `scale = min(devicePixelRatio, 2)`, pa
+   **adaptivni kvalitet**: meri prosek frejma, iznad ~18 ms spušta skalu u koracima
+   (1.0 → 0.8 → 0.65), ispod ~10 ms vraća. Jači GPU dobija nativno, slabiji ne
+   štuca.
+2. **Dithering** na kraju `main()`: ±0.5/255 blue-noise ili hash po pikselu.
+   Ubija banding u tamnim prelazima, cena ~0.
+3. **Prave zvezde.** Ćelijski hash (jedna zvezda po ćeliji, pomeraj unutar ćelije),
+   gaussian tačka sa poluprečnikom u pikselima (preko `uRes`), 3 sloja
+   dubine, blago treperenje po zvezdi. Lensing ostaje isti, samo se primenjuje na
+   koordinate ćelija.
+4. **AA photon ringa.** Širina prstena vezana za veličinu piksela
+   (`1.5 / uRes.y`) umesto fiksnog `85.0`. Isto za ivicu senke. Bez
+   `OES_standard_derivatives`, radi na WebGL1.
+5. **Disk: 4 → 6 oktava** na desktopu kad adaptivni kvalitet dozvoli, plus
+   domain-warp jedan korak (fini filamenti koji se uvijaju).
+6. **Blagi bloom oko prstena** analitički (drugi, širi gaussian slabog
+   intenziteta), ne post-process pass. **Bez ACES/grade-a** — 22.08. je
+   grade pobeleo ceo sajt (`d9085ac`).
+
+### Faza 2 — motion (skrol vodi priču)
+
+1. **`uScroll` = napredak kroz CTA sekciju** (0 kad ulazi, 1 kad je footer ceo
+   na ekranu). Rupa se „približava": `RH` raste od ~0.09 do 0.15, disk ubrzava
+   rotaciju, zvezde se sve jače lenziraju. Footer je kraj puta i vizuelno.
+2. **`uVel` = predznačena brzina skrola**, isti obrazac kao `AuroraV4`/`SilkV4`
+   (brz napad 0.35, spor otpust 0.06). Zvezde se razvlače u tragove ka centru,
+   disk se kratko zagreje.
+3. **Paljenje pri ulasku.** Prvi put kad IO javi vidljivost: disk se u 1.2 s
+   „upali" iz tame (intenzitet 0 → 1, prsten bljesne). Samo jednom po poseti.
+4. **Idle orbita.** Bez pokazivača 3 s, nagib diska polako kruži sam
+   (Lissajous, mala amplituda), da nikad ne stoji mrtvo.
+5. **Relativistički mlazevi** (opciono, na kraju): dva uska, bleda plava
+   konusa po osi rotacije, pulsiraju sporo. Zavisi kako izgleda uz wordmark.
+
+### Faza 3 — interakcija
+
+1. **Kursor kao druga masa.** Mali lens oko pokazivača (lokalno savijanje `bg`
+   koordinata, poluprečnik ~0.08). Zvezde se krive oko miša. To je najjači
+   „wow" za malu cenu.
+2. **Drag = rotacija diska sa inercijom.** Pritisak + povlačenje menja nagib i
+   roll, pa se posle puštanja polako vraća u orbitu. Klik bez povlačenja ostaje
+   puls (prag ~6 px).
+3. **CTA dugme hrani rupu.** Hover na `.ctaButton` (`data-cta="home-final-inquiry"`)
+   → uniform `uFeed` 0→1: disk se sabije, prsten pojača, zvezde se ubrzaju ka
+   centru. Veza preko `pointerenter/leave` na elementu, ne preko novog
+   atributa. `data-cta` se **ne dira** (meri levak).
+4. **Klik = udarni talas.** Postojeći `uPulse` dobija i talas koji putuje
+   ka ivici ekrana i kratko pomeri zvezde.
+5. **Wordmark `ADSPIRE` u gravitaciji** (napredno, poslednje): wordmark se
+   iscrta u 2D canvas teksturu, shader ga uzorkuje kroz istu lensing funkciju, pa
+   se slova savijaju oko rupe kad se kursor približi. DOM wordmark ostaje zbog
+   `data-reveal="chars"` i pristupačnosti (`aria-hidden` je već tu); shader
+   verzija ide ispod njega, DOM verzija dobija `opacity` prelaz. Ako izgleda
+   kičasto, izbaciti.
+6. **Mobilni:** dodir = kursor-masa, prevlačenje = rotacija. Žiroskop samo na
+   Androidu (iOS traži dozvolu, ne vredi dijaloga).
+
+### Faza 4 — mobilni i fallback
+
+- Mobilni dobija shader po obrascu `AuroraV4`: `scale 0.35`, fbm 3 oktave,
+  `powerPreference: "low-power"`, bez wordmark teksture i bez mlazeva.
+- **Poster slika** za no-WebGL i pre prvog frejma: jedan kadar shadera
+  renderovan offline u 3840×2160, AVIF + WebP, `object-fit: cover`. Tu 8K
+  zaista postoji (render u 7680×4320, pa smanjenje).
+- Posle izmene obavezno mobilni Lighthouse — commitom `a0c131e` je shader
+  isključen na telefonu baš zbog Lighthousea.
+
+### Performanse, čuvari
+
+- IO pauza već postoji. Dodati `visibilitychange` pauzu i `webglcontextlost`.
+- Svi novi ulazi su uniformi, bez novih pasova. Jedan fullscreen draw ostaje.
+- Budžet: ≤ 4 ms GPU po frejmu na integrisanoj grafici pri DPR 1.
+
+### Redosled i provera
+
+Svaka faza zaseban commit, posle svakog `npm run typecheck && npm test && npm run build`.
+**Nijedna faza ne ide na `main` bez viđene slike** — grana + Vercel preview, Đorđe
+gleda. Browser panel ne vrti rAF (vidi nalaz 19.09.), pa snimak iz panela
+nije dokaz; izmeri `framesInOneSecond` pre zaključka. Unutar faze 1 menjati jedan
+efekat po jedan.
+
+### Otvoreno za Đorđa
+
+1. Ko radi: vizuelni agent po ovom planu, ili se granica diže za ovaj zadatak?
+2. Wordmark u gravitaciji (3.5) i mlazevi (2.5) — probati ili preskočiti?
+3. Unutrašnje strane (`PageShellV4` footer) nemaju shader, samo `SilkV4` iza.
+   Da li i njima treba ista rupa ispod footera, ili ostaje samo za početnu i dve
+   landing strane?
+
+
+### Urađeno 25.09.2026 (Đorđe podigao granicu za ovaj zadatak: „ti radi, probaj sve")
+
+- `EventHorizonV4` prepisan po fazama 1–3, sve u jednoj komponenti. Mlazevi i
+  wordmark u gravitaciji su uključeni.
+- **Isti footer svuda:** `PageShellV4` sada ima `footerZone` = horizont + ADSPIRE
+  wordmark + footer, na svakoj unutrašnjoj strani. Novi prop `finale` stavlja
+  završni CTA u istu zonu. `AiVideoLandingV4` i `EducationLandingV4` ga koriste
+  umesto sopstvenog `<EventHorizonV4 />`, pa nema dva shadera jedan ispod drugog.
+- Veze sa DOM-om: `data-horizon-wordmark` (shader preuzima slova, DOM kopija ide na
+  `opacity: 0`), `data-horizon-feed` na glavnom dugmetu. `data-cta` netaknut.
+- GL se pravi tek na 400px od viewporta; prsten je krug oko senke; lensirani luk
+  diska preko vrha; adaptivni kvalitet ne pokušava ponovo nivo koji je već gubio frejmove.
+- Mobilni dobija shader (`q 0.6`, 3–4 oktave, bez mlazeva).
+- **Poster slika nije urađena.** Za no-WebGL ostaje CSS gradijent (`FALLBACK_BG`).
+- Provereno kadrovima iz `canvas.toDataURL` (dev hook `__boot`/`__step`, samo u
+  developmentu) na `/`, `/kako-radimo`, `/edukacija`, desktop i telefon.
+  **Pokret uživo nije viđen**: panel ne vrti rAF. Pre `main`: Vercel preview.
+
+---
+
+## Plan 24.09.2026 — pozadine unutrašnjih strana (`SilkV4` + `AuroraV4`): 8K oštrina, motion, interakcija, mobilne skrol scene
+
+> **Status 25.09.2026:** Đorđe je digao granicu za ovaj zadatak („kreni sa
+> radom", prioritet telefon, bez teškog opterećenja). Urađeno na grani
+> `feat/inner-bg-scenes`: Faza 0 (`bgCore.ts`), Faza 1.1–1.6, Faza 2.1–2.4,
+> Faza 3.2–3.4 (bez flowmapa — džep ostaje jedan gaussian, glatko guranje bez
+> `normalize` uvrtanja), Faza 4 obe scene. **Nije urađeno:** poster slika
+> (1.7), flowmap trag (3.1/4.4), timer query (nivo se bira samo po uređaju),
+> gašenje CSS `.grain`. Kadrovi viđeni u panelu na 375 px i 1440 px;
+> Vercel preview i pravi telefon još nisu. Dev: `window.__bg = {open, prog,
+> chapter, vel, focus, ...}` zaključava stanje scene (samo van produkcije).
+
+Đorđe: dve shader pozadine na svim stranama osim početne treba da izgledaju
+skuplje („8K, high-end"), da imaju više pokreta, da reaguju na skrol i miš na
+desktopu, a na telefonu da skrol pravi scene koje posetioca iznenade. Obe
+komponente su tvoje, pa je ovo plan, ne izmena.
+
+- `SilkV4` — podrazumevana pozadina `PageShellV4` (`position: fixed`), ~25 strana.
+- `AuroraV4` — money strane i strane po delatnosti preko `background` propa
+  (booking landing, cena, kontakt, `/upit/brzo`, AEO, dijaspora, niche...).
+  Opseg se ovim planom **ne širi**.
+
+### Stanje (izmereno u kodu)
+
+| | `SilkV4` | `AuroraV4` |
+|---|---|---|
+| Rezolucija desktop | `dpr·0.75` → 75% nativne na DPR 2 | **fiksno 0.45 CSS px**, bez DPR → ~22% nativne na retini |
+| Rezolucija telefon | `dpr(≤1.5)·0.6` → ~30% nativne na DPR 3 | 0.3 CSS px → ~10% nativne |
+| fbm oktave | 5 / telefon 3 | 6 / telefon 4 |
+| Dithering | **nema** → banding u tamnom | ima |
+| Hash | `sin()` hash — na mobilnim GPU-ovima mrlje i ponavljanje | isto |
+| Skrol | `uScroll` (ekrani), `uProg`, `uVel` | `uScroll` (progres), `uVel` |
+| Miš | jedan „džep" + idle Lissajous | isto |
+| Svest o sadržaju | nikakva — ne zna gde su sekcije, naslovi, CTA | nikakva |
+| Pauza | IO | IO; nema `visibilitychange` ni `webglcontextlost` |
+
+Glavni razlog „jeftinog" izgleda: **Aurora se renderuje na četvrtini piksela i
+razvlači**, a Silk nema dithering pa tamni prelazi imaju stepenice. Drugi
+razlog: obe pozadine pomeraju teksturu, ali ne prave **događaje** — nema
+trenutka koji se primeti.
+
+### Šta „8K" znači ovde
+
+Isto kao u planu za footer: fullscreen fbm u 7680×4320 po frejmu nije realan i
+niko nema taj ekran. Cilj je **oštro kao 8K render na svakom ekranu**: fina
+struktura na nativnoj rezoluciji, bez bandinga, bez razvučenih piksela. Skupi
+niskofrekventni deo ne mora biti oštar, jeftini visokofrekventni mora.
+
+### Faza 0 — zajedničko jezgro (bez vizuelne promene)
+
+`SilkV4`, `AuroraV4` (i `EventHorizonV4`) svaki za sebe ponavljaju isti GL kod.
+Izvući `useShaderCanvas` / `shaderCore.ts`:
+
+- kompajl + provera linka + ispis greške u dev-u (Silk sada ne proverava link)
+- IO pauza + **`visibilitychange`** pauza + **`webglcontextlost/restored`**
+- ulazi kao jedan objekat: miš, dodir, skrol (ekrani, progres, brzina), sekcije
+- **kvalitetni nivoi bez merenja rAF-a.** Komentar u `SilkV4` (~red 180)
+  objašnjava zašto: rAF meri ceo frejm strane (GSAP, Lenis, ScrollTrigger), pa
+  je adaptivni kvalitet zakucao shader na minimum i na RTX 3060. Umesto toga:
+  1. nivo po uređaju (telefon/desktop, `hardwareConcurrency`,
+     `WEBGL_debug_renderer_info` ako postoji — stari Intel/Mali/Adreno = niži),
+  2. ako postoji `EXT_disjoint_timer_query(_webgl2)`, meri **GPU vreme samo
+     ovog draw-a** i tek tada spušta nivo.
+
+  **Napomena za plan footera iznad (Faza 1.1):** spuštanje skale po proseku
+  frejma ima isti problem — koristiti ovaj mehanizam.
+
+### Faza 1 — oštrina („8K")
+
+1. **Dva prolaza: meko + oštro.** Skupi fbm/domain-warp (tkanina, zavese, haze)
+   ide u FBO na 0.5 skale i uzorkuje se linearno (glatko je po prirodi, ništa ne
+   gubi). Preko njega se na **nativnoj rezoluciji (DPR ≤ 2)** crta sve što mora
+   biti oštro: sheen linije po naborima, zvezde, filamenti, zrno, dithering.
+   Izgleda kao nativni render, košta malo više od sadašnjeg.
+2. **Hash bez `sin()`** (Hoskins „hash without sine" ili PCG). Uklanja mrlje na
+   Mali/Adreno i ponavljanje na velikim koordinatama posle dugog skrola.
+3. **Dithering u Silk** (±0.5/255 po pikselu, animiran).
+4. **Filmsko zrno u shaderu** na nativnoj rezoluciji, ≤2%, umesto CSS `.grain`
+   sloja koji se razvlači. Zrno na pravom pikselu daje „fotografski" utisak.
+   CSS `.grain` u `PageShellV4.module.css` tada ugasiti na stranama sa shaderom.
+5. **Silk: satenski odsjaj.** Normala iz fbm-a (konačne razlike u mekom
+   prolazu), jedno svetlo iz gornjeg levog ugla → pravi sjaj tkanine umesto
+   ravnih plavih mrlja. Najveći pojedinačni skok u „skupoći".
+6. **Aurora: zvezde kao tačke u pikselima** (ćelijski hash, poluprečnik preko
+   `uRes`, 3 sloja dubine), isti recept kao footer 1.3. Zavese dobijaju jedan
+   korak domain-warpa za fine uvijene filamente.
+7. **Poster slika** za prvi paint i no-WebGL: kadar svakog shadera renderovan
+   offline u 7680×4320, smanjen na 3840×2160, AVIF + WebP. Tu „8K" bukvalno
+   postoji. Canvas se posle prvog frejma utapa preko postera (300 ms).
+   Zamenjuje CSS gradijent u `AuroraV4`.
+8. **Bez ACES/grade-a/tone-mappinga** (22.08. pobeleo sajt, `d9085ac`). Jedan
+   efekat po commitu.
+
+### Faza 2 — skrol na desktopu (skrol postaje priča)
+
+1. **Poglavlja.** Jezgro posmatra `main > section` (samo čita, ništa ne menja)
+   i daje `uChapter` (sekcija u centru, glatko) i `uChapterT` (0→1 unutar nje).
+   Svako poglavlje ima kadar: ugao svetla, gustina nabora, pomeraj kamere.
+   Pozadina se pretapa između kadrova, pa dug vodič ima 6–10 scena, ne jednu
+   teksturu.
+2. **Svetlosni prelaz na granici sekcije.** Kad nova sekcija uđe u gornju
+   trećinu, preko kadra prođe meka svetlosna traka (Silk: odsjaj preleti preko
+   nabora; Aurora: zavesa bljesne i spusti se). Vezano za poziciju (scrub), ne
+   za vreme — ide unazad kad se skroluje nazad.
+3. **Opruga umesto eksponencijalnog kašnjenja** za `uVel`: tkanina posle naglog
+   skrola malo prebaci i vrati se. Oko to čita kao fiziku.
+4. **Režim čitanja.** Nema skrola > 2.5 s → kontrast i pokret polako padnu
+   ~40%. Kreće skrol → vraća se. Pokret postoji kad ne smeta, tekst se čita
+   lakše nego danas.
+
+### Faza 3 — miš (desktop)
+
+1. **Trag kursora koji ostaje** — ping-pong FBO flowmap na 1/4 rezolucije
+   (recept već postoji u `lab/InkTrailV4.tsx`). Trag savija tkaninu/zavese i
+   bledi 1–2 s. Zamenjuje sadašnji jedan gaussian džep. Glavni interaktivni
+   utisak.
+2. **Parallax dubina.** Silk: dva sloja nabora pomeraju se različito (±1.5% /
+   ±4%). Aurora: zvezde u 3 sloja + zavese.
+3. **CTA privlači svetlo.** Hover na bilo koji `[data-cta]` (atribut se samo
+   čita, **ne dira** — meri levak): svetlo se polako skupi ka centru dugmeta
+   (`uAttract`). Dugme se ne menja.
+4. **Klik talas** kroz tkaninu/zavese, 0.8 s. Ne na linkovima.
+5. `CursorV4` i shader dele istu izglađenu poziciju, da trag ne kasni.
+
+### Faza 4 — mobilne skrol scene (glavni deo zahteva)
+
+Telefon nema miš, pa sav „wow" dolazi od skrola i prsta. **Ne ista stvar u
+manjoj rezoluciji — posebne scene.**
+
+**Silk — „tkanina koja se odmotava":**
+
+1. **Otvaranje zavese.** Prvi ekran: tkanina gusta i tamna. Prvih ~60% visine
+   ekrana skrola razmiče nabore na dve strane, svetlo prođe kroz sredinu
+   (scrub). Pun efekat jednom po poseti, posle blago.
+2. **Poglavlja kao rotacija.** Na granici sekcije tkanina se okrene ~20° i
+   promeni gustinu (Faza 2.1, veća amplituda — na malom ekranu mala promena se
+   ne vidi).
+3. **Fling = rastezanje sa oprugom.** Brz potez palcem rastegne tkaninu, vrati
+   se sa prebačajem. Najjeftiniji i najprimetniji efekat na telefonu.
+4. **Prst ostavlja trag** — `touchmove` (passive) hrani isti flowmap.
+5. **Kraj strane:** tkanina se smiri i posvetli iza CTA — oko ide na dugme.
+
+**Aurora — „spuštanje kroz nebo":**
+
+1. **Skrol = visina.** Vrh: iznad zavesa, samo zvezde. Skrol spušta kameru kroz
+   slojeve zavesa (bliži prolaze brže) do horizonta pri dnu. Strana dobija
+   geografiju.
+2. **Zvezde u tragove** na flingu (postoji u `uVel`, pojačati + opruga).
+3. **Forma = fokus.** Kad forma/CTA blok uđe u ekran, zavese se skupe iza nje u
+   jedan svetli luk, ostalo se stiša. Pozadina pokazuje sledeći korak. Samo
+   vizuelno — polja, honeypot, atribucija, `requestId` netaknuti.
+4. **Dodir = svetli džep** koji bledi (isti flowmap).
+
+**Tehnika za telefon:**
+
+- Dva prolaza (1.1) ovde najviše vrede: meki deo na 0.35, oštri detalji na
+  `dpr ≤ 2`. Telefon tek tako dobija oštre zvezde i sheen.
+- fbm Silk 3 / Aurora 4 oktave (kao sada). Flowmap 1/4, jedan update po frejmu.
+- Nizak nivo (stari Adreno/Mali, 4 jezgra): bez flowmapa i parallaxa; scene
+  1–3 ostaju jer su samo uniformi.
+- Žiroskop: ne u prvoj verziji (iOS traži dozvolu).
+- `prefers-reduced-motion` se **ne vraća** — namerno obrisan 10.08.
+
+### Performanse, čuvari
+
+- Budžet: ≤ 4 ms GPU/frejm na integrisanoj grafici, ≤ 6 ms na srednjem
+  Androidu — meriti timer query-jem (Faza 0), ne rAF-om.
+- Jedan canvas po strani, najviše 3 draw-a po frejmu (meko, flowmap, oštro).
+- Mobilni Lighthouse pre i posle svake faze (`a0c131e` je jednom isključio
+  shader na telefonu zbog Lighthousea). Poster + start canvasa posle
+  `requestIdleCallback` čuvaju LCP.
+- Kontrast teksta preko najsvetlijeg kadra ≥ 4.5:1; scrim na niche stranama ostaje.
+
+### Redosled i provera
+
+Faza 0 → Faza 1 na Silk → Faza 1 na Aurora → **Faza 4 (telefon je većina
+saobraćaja)** → Faza 2 → Faza 3.
+
+Svaka stavka zaseban commit, posle svakog `npm run typecheck && npm test && npm run build`.
+Svaka scena prvo kao prototip u `/dev/bg-lab` (Silk je tamo kontrola), pa tek
+onda u komponentu. **Ništa na `main` bez viđene slike**: grana + Vercel
+preview, Đorđe gleda na telefonu i desktopu. Browser panel ne vrti rAF (nalaz
+19.09.) — izmeriti `framesInOneSecond` pre zaključka iz snimka.
+
+### Otvoreno za Đorđa
+
+1. Ko radi: vizuelni agent po ovom planu, ili se granica diže za ovaj zadatak?
+2. Evolucija Silk/Aurora (ovaj plan) ili zamena konceptom iz `/dev/bg-lab`?
+   Preporuka: evolucija, uz delove iz laba (flowmap iz `InkTrailV4`, dubina iz
+   `DepthFieldV4`).
+3. Mobilne scene odmah na sve strane, ili prvo na pet najposećenijih pa
+   merenje u `/os/analitika` (dubina skrola, klik na CTA)?
+4. „CTA privlači svetlo" (3.3) i „forma = fokus" (Aurora 3) menjaju utisak
+   money strana — probati na preview-u pa odlučiti?

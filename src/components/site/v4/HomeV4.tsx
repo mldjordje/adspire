@@ -1149,6 +1149,7 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
             className={styles.ctaButton}
             href={inquiryHref}
             data-cta="home-final-inquiry"
+            data-horizon-feed
             data-cursor="on"
             data-magnetic
           >
@@ -1163,7 +1164,7 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
             </a>
           </div>
           <p className={styles.ctaNote}>{t.cta.note}</p>
-          <div className={styles.wordmark} aria-hidden="true">
+          <div className={styles.wordmark} data-horizon-wordmark aria-hidden="true">
             <span className={styles.wordmarkText} data-reveal="chars">
               ADSPIRE
             </span>

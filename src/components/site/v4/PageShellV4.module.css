@@ -266,9 +266,57 @@
 
 /* ─── Footer ─── */
 
+/* The event horizon sits behind the closing wordmark and the footer on every
+   inner page; it needs height to read as a black hole, not a strip. */
+.footerZone {
+  position: relative;
+  z-index: 2;
+  overflow: hidden;
+  min-height: 82svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-top: clamp(80px, 14vh, 160px);
+}
+
+.footerZoneFinale {
+  padding-top: 0;
+}
+
+/* the footer stacks tall on a phone; keep the wordmark clear of the shader's top fade */
+@media (max-width: 767px) {
+  .footerZone:not(.footerZoneFinale) {
+    padding-top: 26svh;
+  }
+}
+
+.footerZone > *:not(canvas) {
+  position: relative;
+}
+
+.footerWordmark {
+  width: 100%;
+  overflow: hidden;
+  line-height: 0.8;
+  text-align: center;
+  user-select: none;
+  margin-top: auto;
+}
+
+.footerWordmarkText {
+  font-family: var(--font-d);
+  font-weight: 800;
+  font-size: clamp(48px, 13vw, 260px);
+  white-space: nowrap;
+  letter-spacing: -0.02em;
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(242, 241, 236, 0.22);
+}
+
 .footer {
   position: relative;
   z-index: 2;
+  width: 100%;
   max-width: 1240px;
   margin: 0 auto;
   padding: clamp(50px, 8vh, 90px) clamp(20px, 4vw, 56px) 40px;

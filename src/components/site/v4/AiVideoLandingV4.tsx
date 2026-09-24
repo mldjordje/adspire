@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
-import { EventHorizonV4 } from "./EventHorizonV4";
 import { PageShellV4 } from "./PageShellV4";
 import { QuickInquiryV4 } from "./QuickInquiryV4";
 import styles from "./EducationLandingV4.module.css";
@@ -75,6 +74,22 @@ export function AiVideoLandingV4({ services }: { services: InquiryService[] }) {
 
   return (
     <PageShellV4
+      finale={
+        <section className={styles.final}>
+          <div className={styles.finalVeil} aria-hidden="true" />
+          <span className={styles.eyebrow}>{aiVideoFinalCta.eyebrow}</span>
+          <h2 className={styles.finalTitle}>{aiVideoFinalCta.title}</h2>
+          <p className={styles.finalBody}>{aiVideoFinalCta.body}</p>
+          <div className={styles.actions}>
+            <a className={styles.btnPrimary} href={aiVideoFinalCta.primary.href} data-cta="ai-video-kraj-upit" data-horizon-feed>
+              {aiVideoFinalCta.primary.label}
+            </a>
+            <Link className={styles.btnGhost} href={aiVideoFinalCta.secondary.href} data-cta="ai-video-kraj-edukacija">
+              {aiVideoFinalCta.secondary.label}
+            </Link>
+          </div>
+        </section>
+      }
       eyebrow={aiVideoHero.eyebrow}
       title={aiVideoHero.title}
       intro={aiVideoHero.lead}
@@ -229,23 +244,6 @@ export function AiVideoLandingV4({ services }: { services: InquiryService[] }) {
           />
         </section>
       </div>
-
-      {/* ─── Final CTA on the event horizon ─── */}
-      <section className={styles.final}>
-        <EventHorizonV4 />
-        <div className={styles.finalVeil} aria-hidden="true" />
-        <span className={styles.eyebrow}>{aiVideoFinalCta.eyebrow}</span>
-        <h2 className={styles.finalTitle}>{aiVideoFinalCta.title}</h2>
-        <p className={styles.finalBody}>{aiVideoFinalCta.body}</p>
-        <div className={styles.actions}>
-          <a className={styles.btnPrimary} href={aiVideoFinalCta.primary.href} data-cta="ai-video-kraj-upit">
-            {aiVideoFinalCta.primary.label}
-          </a>
-          <Link className={styles.btnGhost} href={aiVideoFinalCta.secondary.href} data-cta="ai-video-kraj-edukacija">
-            {aiVideoFinalCta.secondary.label}
-          </Link>
-        </div>
-      </section>
     </PageShellV4>
   );
 }
