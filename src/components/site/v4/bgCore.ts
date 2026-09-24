@@ -61,6 +61,8 @@ uniform vec3 uFocus;
 uniform vec3 uAttract;
 uniform vec3 uRipple;
 uniform float uPhone;
+uniform float uRemain;
+uniform vec2 uSeam;
 
 const float PI = 3.14159265;
 
@@ -119,6 +121,8 @@ const UNIFORMS = [
   "uAttract",
   "uRipple",
   "uPhone",
+  "uRemain",
+  "uSeam",
   "uField",
 ] as const;
 
@@ -139,6 +143,10 @@ type Inputs = {
   focus: [number, number, number];
   attract: [number, number, number];
   ripple: [number, number, number];
+  /** Screens left below the viewport. */
+  remain: number;
+  /** Nearest section seam on screen: [uv y, strength]. */
+  seam: [number, number];
 };
 
 function createInputs(canvas: HTMLCanvasElement, q: BgQuality) {
@@ -155,6 +163,8 @@ function createInputs(canvas: HTMLCanvasElement, q: BgQuality) {
     focus: [0, 0, 0],
     attract: [0, 0, 0],
     ripple: [0, 0, 9],
+    remain: 9,
+    seam: [0, 0],
   };
 
   // Maps a client point to the shader's screen uv (centred, height = 1).
@@ -166,9 +176,7 @@ function createInputs(canvas: HTMLCanvasElement, q: BgQuality) {
 
   let tMouse: [number, number] = [0, 0];
   let tMouseI = 0;
-  let tScreens = 0;
   let tProg = 0;
-  let tOpen = 0;
   let tChapter = 0;
   let tVel = 0;
   let velV = 0;
@@ -183,7 +191,9 @@ function createInputs(canvas: HTMLCanvasElement, q: BgQuality) {
      layout against GSAP's writes. */
   let marks: number[] = [];
   let forms: HTMLElement[] = [];
+  let docH = document.documentElement.scrollHeight;
   const measure = () => {
+    docH = document.documentElement.scrollHeight;
     const vh = window.innerHeight;
     const tops = Array.from(
       document.querySelectorAll<HTMLElement>("main section, main h2"),
@@ -200,10 +210,8 @@ function createInputs(canvas: HTMLCanvasElement, q: BgQuality) {
   const readScroll = () => {
     const vh = Math.max(1, window.innerHeight);
     const y = window.scrollY;
-    const max = Math.max(1, document.documentElement.scrollHeight - vh);
-    tScreens = y / vh;
+    const max = Math.max(1, docH - vh);
     tProg = Math.min(1, Math.max(0, y / max));
-    tOpen = Math.min(1, y / (vh * 0.7));
 
     const centre = y + vh * 0.45;
     let idx = -1;
@@ -303,10 +311,32 @@ function createInputs(canvas: HTMLCanvasElement, q: BgQuality) {
     s.mouse[1] += (tMouse[1] - s.mouse[1]) * ease(5, dt);
     // A lifted finger fades slower than it arrives, so the touch leaves a trace.
     s.mouseI += (tMouseI - s.mouseI) * ease(tMouseI > s.mouseI ? 6 : 1.6, dt);
-    s.screens += (tScreens - s.screens) * ease(9, dt);
+    // Anything the eye compares against the content is read straight from the
+    // scroll position, not eased: parallax that lags the page reads as drift.
+    const y = window.scrollY;
+    const vh = Math.max(1, window.innerHeight);
+    s.screens = y / vh;
+    s.open = Math.min(1, y / (vh * 0.7));
+    s.remain = Math.max(0, (docH - y - vh) / vh);
     s.prog += (tProg - s.prog) * ease(5, dt);
-    s.open += (tOpen - s.open) * ease(6, dt);
     s.chapter += (tChapter - s.chapter) * ease(6, dt);
+
+    // Section seam: the section start nearest the middle of the screen. It
+    // rides with the content; strength fades to zero at the screen edges so
+    // switching to the next seam never shows.
+    let seamY = s.seam[0];
+    let seamI = 0;
+    for (let i = 1; i < marks.length; i++) {
+      const py = marks[i] - y;
+      if (py < -0.15 * vh || py > 1.15 * vh) continue;
+      const w = Math.max(0, 1 - Math.abs(py / vh - 0.5) * 1.6);
+      if (w > seamI) {
+        seamI = w;
+        seamY = toUv(0, py)[1];
+      }
+    }
+    s.seam[0] = seamY;
+    s.seam[1] += (seamI * seamI * (3 - 2 * seamI) - s.seam[1]) * ease(10, dt);
 
     // Velocity through an underdamped spring: a fling stretches the field, it
     // overshoots a little on release and settles. The overshoot is what reads
@@ -476,6 +506,8 @@ export function startBackground(canvas: HTMLCanvasElement, spec: BackgroundSpec)
       gl.uniform3f(l.uAttract, s.attract[0], s.attract[1], s.attract[2]);
       gl.uniform3f(l.uRipple, s.ripple[0], s.ripple[1], s.ripple[2]);
       gl.uniform1f(l.uPhone, q.phone ? 1 : 0);
+      gl.uniform1f(l.uRemain, s.remain);
+      gl.uniform2f(l.uSeam, s.seam[0], s.seam[1]);
       gl.uniform1i(l.uField, 0);
     };
 

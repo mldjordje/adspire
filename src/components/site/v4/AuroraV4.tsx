@@ -5,16 +5,19 @@ import { startBackground } from "./bgCore";
 
 /**
  * Aurora shader background — raw WebGL, two-pass engine in bgCore.
- * Deliberately heavier than SilkV4: layered aurora curtains over a starfield,
- * a horizon bloom and a scanning band. Reserved for the pages where the
- * visitor decides to buy and the industry pages — everything else keeps silk.
+ * Deliberately heavier than SilkV4: aurora curtains over a starfield, a
+ * horizon bloom and a scanning band. Reserved for the pages where the visitor
+ * decides to buy and the industry pages — everything else keeps silk.
  *
- * Scroll is a descent: the top of the page sits above the curtains, reading
- * down lowers the camera through them (the near sheet passes fastest) toward
- * a horizon that rises at the foot. Each new section makes the curtains flare
- * once, scrubbed by the scroll. When a form is on screen the light gathers in
- * an arch behind it and the rest of the sky quiets — the next step is where
- * the eye goes.
+ * Scroll is a vertical flight through a sky that never runs out: curtains
+ * repeat in three depth layers, each scrolled at its own fraction of the page
+ * speed (near 0.85, mid 0.55, far 0.3) and each sheet seeded differently, so
+ * a long page keeps passing new ones to the last screen. The old version tied
+ * them to page progress; on a long page every curtain had left the frame by
+ * the middle and the sky went still.
+ *  - each section start is a seam: curtains flare along it as it passes
+ *  - the horizon rises only in the last screen
+ *  - a form on screen gets an arch of light behind it, the rest quiets
  *
  * Field pass: the curtain bodies and the haze (the fbm). Fine pass, native
  * resolution: filaments, stars as real points, light, grain.
@@ -23,13 +26,15 @@ import { startBackground } from "./bgCore";
  * highlights. No cyan, no violet.
  */
 
-// Shared by both passes: the cheap coordinate warps (no fbm), so the fine
-// pass can rebuild the exact curtain coordinates the field pass used.
+// Shared by both passes: the cheap coordinate work (no fbm), so the fine pass
+// can rebuild the exact curtain coordinates the field pass used.
 const COORDS = `
 vec2 skyUv(vec2 sc) {
   vec2 duv = sc - uMouse;
   float inf = exp(-dot(duv, duv) * (7.0 - 2.5 * uPhone)) * uMouseI;
-  vec2 suv = sc + vec2(uProg * 0.25, 0.0);
+  vec2 suv = sc;
+  // the spring velocity stretches the sky about the screen centre
+  suv.y /= 1.0 + abs(uVel) * (0.35 + 0.3 * uPhone);
   suv += duv * inf * 0.6;
   // a form on screen bows the curtains down around it
   float fx = sc.x - uFocus.x;
@@ -40,15 +45,22 @@ vec2 skyUv(vec2 sc) {
   return suv;
 }
 
-// Descent: each sheet rises past the camera at its own rate.
-vec2 sheet(vec2 suv, float rate) { return suv + vec2(0.0, 0.22 - uProg * rate); }
+// One depth layer of repeating sheets. Returns the sheet-local uv (x, y from
+// the base line) and a per-sheet seed. Sheets sit a period apart, so only the
+// nearest can light a pixel; halfway between two both are dark, which hides
+// the switch.
+vec3 sheet(vec2 suv, float rate, float period, float seed) {
+  float w = suv.y - uScroll * rate;
+  float k = floor(w / period + 0.5);
+  return vec3(suv.x, w - k * period, seed + k * 7.31);
+}
 
 // A flick of the wheel or thumb leans the sheet, like a curtain lagging the air.
 vec2 lean(vec2 uv) { uv.x += uVel * 0.5 * (0.35 + uv.y * 0.25); return uv; }
 
-vec2 uv1(vec2 suv) { return lean(sheet(suv, 1.3)); }
-vec2 uv2(vec2 suv) { return lean(sheet(suv, 0.8) * vec2(0.8, 1.25) + vec2(1.7, 0.10)); }
-vec2 uv3(vec2 suv) { return lean(sheet(suv, 0.5) * vec2(1.35, 0.85) + vec2(-2.2, -0.16)); }
+vec3 sh1(vec2 suv) { vec3 s = sheet(suv, 0.85, 1.45, 0.0); s.xy = lean(s.xy); return s; }
+vec3 sh2(vec2 suv) { vec3 s = sheet(suv, 0.55, 1.75, 3.1); s.xy = lean(s.xy * vec2(0.8, 1.25) + vec2(1.7, 0.0)); return s; }
+vec3 sh3(vec2 suv) { vec3 s = sheet(suv, 0.30, 2.15, 7.4); s.xy = lean(s.xy * vec2(1.35, 0.85) + vec2(-2.2, 0.0)); return s; }
 `;
 
 const FIELD = `
@@ -63,25 +75,26 @@ float fbm(vec2 p) {
   return v;
 }
 ${COORDS}
-float body(vec2 uv, float seed, float speed, float width) {
+float body(vec3 s, float speed, float width) {
   float t = uTime * speed;
   float w = width * (1.0 + abs(uVel) * 0.55);
   // Phones see a narrow slice of the sky, so the sheets bend more across it.
-  float wobble = fbm(vec2(uv.x * (1.3 + 1.4 * uPhone) + seed, t * 0.5 + seed)) - 0.5;
-  // A real aurora has a hard lower edge and rays that fade upward; the old
-  // symmetric falloff read as a blue fog on a narrow phone screen.
-  float d = uv.y - wobble * 0.9;
+  float wobble = fbm(vec2(s.x * (1.3 + 1.4 * uPhone) + s.z, t * 0.5 + s.z)) - 0.5;
+  // A real aurora has a hard lower edge and rays that fade upward.
+  float d = s.y - wobble * 0.5;
   float wd = w * mix(0.35, 1.25, step(0.0, d));
   return exp(-d * d / (wd * wd));
 }
 
 void main() {
   vec2 suv = skyUv(screenUv());
-  float c1 = body(uv1(suv), 0.0, 0.16, 0.19);
-  float c2 = body(uv2(suv), 3.1, 0.11, 0.13);
-  float c3 = body(uv3(suv), 7.4, 0.23, 0.27);
-  vec2 q = vec2(fbm(suv * 1.5 + uTime * 0.04), fbm(suv * 1.5 - uTime * 0.031 + 4.2));
-  float haze = fbm(suv * 1.9 + q * 1.5);
+  float c1 = body(sh1(suv), 0.16, 0.19);
+  float c2 = body(sh2(suv), 0.11, 0.13);
+  float c3 = body(sh3(suv), 0.23, 0.27);
+  // haze is the farthest thing in the sky: it barely moves
+  vec2 hz = vec2(suv.x, suv.y - uScroll * 0.12);
+  vec2 q = vec2(fbm(hz * 1.5 + uTime * 0.04), fbm(hz * 1.5 - uTime * 0.031 + 4.2));
+  float haze = fbm(hz * 1.9 + q * 1.5);
   gl_FragColor = vec4(c1, c2, c3, clamp(haze, 0.0, 1.0));
 }
 `;
@@ -89,11 +102,11 @@ void main() {
 const FINE = `
 ${COORDS}
 // Vertical striations along a sheet. Two frequencies: the coarse one is the
-// old filament look, the fine one only resolves at native resolution.
-float fil(vec2 uv, float seed, float speed) {
+// filament look, the fine one only resolves at native resolution.
+float fil(vec3 s, float speed) {
   float t = uTime * speed;
-  float a = noise(vec2(uv.x * 9.0 + seed * 4.0, t * 1.6));
-  float b = noise(vec2(uv.x * 38.0 + seed * 11.0, t * 2.3));
+  float a = noise(vec2(s.x * 9.0 + s.z * 4.0, t * 1.6));
+  float b = noise(vec2(s.x * 38.0 + s.z * 11.0, t * 2.3));
   return 0.3 + 0.5 * a + 0.25 * b;
 }
 
@@ -104,13 +117,12 @@ void main() {
   vec2 suv = skyUv(sc);
   float calm = 1.0 - uCalm * 0.3;
 
-  // Chapter flare: the curtains brighten once as a new section comes in.
-  float sw = smoothstep(0.0, 0.45, fract(uChapter));
-  float flare = sin(sw * PI) * step(0.9, uChapter);
+  // Seam flare: curtains brighten along a section start as it passes.
+  float flare = exp(-pow((sc.y - uSeam.x) * 3.5, 2.0)) * uSeam.y;
 
-  float c1 = F.r * fil(uv1(suv), 0.0, 0.16) * (1.0 + flare * 0.6);
-  float c2 = F.g * fil(uv2(suv), 3.1, 0.11);
-  float c3 = F.b * fil(uv3(suv), 7.4, 0.23);
+  float c1 = F.r * fil(sh1(suv), 0.16) * (1.0 + flare * 0.9);
+  float c2 = F.g * fil(sh2(suv), 0.11) * (1.0 + flare * 0.5);
+  float c3 = F.b * fil(sh3(suv), 0.23);
   float haze = F.a;
 
   vec3 blue = vec3(0.18, 0.42, 1.0);
@@ -119,17 +131,18 @@ void main() {
 
   vec3 col = vec3(0.008, 0.010, 0.024);
 
-  // ── stars: three depths, real points a pixel or two wide ──
+  // ── stars: three depths in vertical parallax, points a pixel or two wide ──
   for (int i = 0; i < 3; i++) {
     float layer = float(i);
     float scale = 16.0 + layer * 20.0;
-    vec2 g = suv * scale + vec2(uTime * (0.01 + layer * 0.015), -uProg * (3.0 + layer * 7.0));
+    vec2 g = vec2(suv.x, suv.y - uScroll * (0.06 + layer * 0.12)) * scale
+           + vec2(uTime * (0.01 + layer * 0.015), 0.0);
     vec2 id = floor(g);
     vec2 f = fract(g) - 0.5;
     float h = hash(id + layer * 17.0);
     if (h > 0.9) {
       vec2 d = f - (vec2(hash(id + 3.1), hash(id + 7.7)) - 0.5) * 0.7;
-      // A fling pulls each star into a trail; the near layer smears more.
+      // A fling pulls each star into a vertical trail; the near layer smears more.
       float trail = 1.0 + abs(uVel) * (6.0 + layer * 8.0);
       d.y /= trail;
       float r = max((0.0010 + 0.0016 * fract(h * 13.0)) * scale, 0.7 * scale / uRes.y);
@@ -147,15 +160,15 @@ void main() {
   col += blueDeep * smoothstep(0.42, 0.95, haze) * 0.26;
   col += vec3(0.55, 0.66, 1.0) * pow(abs(sin(haze * 13.0 + uTime * 0.9)), 26.0) * 0.05;
 
-  // ── horizon: rises into view as the reader reaches the foot of the page ──
-  float hc = -0.95 + uProg * 0.5;
+  // ── horizon: rises into view only in the last screen of the page ──
+  float hc = -0.55 - uRemain * 1.1;
   float horizon = exp(-pow((sc.y - hc) * 3.2, 2.0));
   col += blue * horizon * (0.30 + abs(uVel) * 0.35);
   col += pale * pow(horizon, 3.0) * 0.14;
 
   // ── scanning band, slow, gives the frame a heartbeat ──
   float scan = exp(-pow((sc.y - sin(uTime * 0.21) * 0.75) * 5.0, 2.0));
-  col += vec3(0.30, 0.48, 1.0) * scan * 0.05;
+  col += vec3(0.30, 0.48, 1.0) * scan * 0.04;
 
   // ── form focus: an arch of light behind the form, the rest quiets ──
   vec2 fp = sc - uFocus.xy;
@@ -184,7 +197,6 @@ void main() {
   col.rg *= 1.0 - shear * 0.03;
 
   col *= 1.0 - dot(sc, sc) * 0.72;
-  col *= 1.0 - uProg * 0.18;
 
   // grain at the real pixel; also dithers the dark gradients
   float g = hash(gl_FragCoord.xy + fract(uTime * 7.31) * 413.0) - 0.5;
