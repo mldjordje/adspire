@@ -75,18 +75,6 @@ export type V4Copy = {
     altPrefix: string;
     note: string;
   };
-  footer: {
-    blurb: string;
-    mapTitle: string;
-    map: [string, string, string, string]; // Projects, Services, Blog, Contact
-    solutionsTitle: string;
-    contactTitle: string;
-    location: string;
-    statusTitle: string;
-    status: string;
-    copyright: string;
-    credit: string;
-  };
 };
 
 const sr: V4Copy = {
@@ -233,18 +221,6 @@ const sr: V4Copy = {
     titleAccent: "VELIKO.",
     altPrefix: "ili odmah:",
     note: "Napiši šta ti treba. Đorđe odgovara lično, obično isti ili sledeći radni dan.",
-  },
-  footer: {
-    blurb: "Studio za web, aplikacije i AI automatizaciju. Sajtovi koji dovode klijente, sistemi koji štede vreme.",
-    mapTitle: "Navigacija",
-    map: ["Projekti", "Usluge", "Blog", "Kontakt"],
-    solutionsTitle: "Niš & Rešenja",
-    contactTitle: "Kontakt",
-    location: "Niš, Srbija",
-    statusTitle: "Status",
-    status: "Dostupni za nove projekte",
-    copyright: "© 2026 Adspire — Niš. Sva prava zadržana.",
-    credit: "Dizajn i kod: Adspire — ručno, bez šablona.",
   },
 };
 
@@ -393,18 +369,6 @@ const en: V4Copy = {
     altPrefix: "or right now:",
     note: "Tell us what you need. Đorđe replies personally, usually the same or next business day.",
   },
-  footer: {
-    blurb: "Studio for web, apps and AI automation. Sites that bring clients, systems that save time.",
-    mapTitle: "Navigation",
-    map: ["Projects", "Services", "Blog", "Contact"],
-    solutionsTitle: "Solutions & Niš",
-    contactTitle: "Contact",
-    location: "Niš, Serbia",
-    statusTitle: "Status",
-    status: "Available for new projects",
-    copyright: "© 2026 Adspire — Niš. All rights reserved.",
-    credit: "Design & code: Adspire — handmade, no templates.",
-  },
 };
 
 const de: V4Copy = {
@@ -551,18 +515,6 @@ const de: V4Copy = {
     titleAccent: "GROSSES.",
     altPrefix: "oder sofort:",
     note: "Beschreiben Sie Ihr Vorhaben. Đorđe antwortet persönlich, meist am selben oder nächsten Werktag.",
-  },
-  footer: {
-    blurb: "Studio für Web, Apps und KI-Automatisierung. Websites, die Kunden bringen, Systeme, die Zeit sparen.",
-    mapTitle: "Navigation",
-    map: ["Projekte", "Leistungen", "Blog", "Kontakt"],
-    solutionsTitle: "Lösungen & Niš",
-    contactTitle: "Kontakt",
-    location: "Niš, Serbien",
-    statusTitle: "Status",
-    status: "Verfügbar für neue Projekte",
-    copyright: "© 2026 Adspire — Niš. Alle Rechte vorbehalten.",
-    credit: "Design & Code: Adspire — handgemacht, ohne Vorlagen.",
   },
 };
 

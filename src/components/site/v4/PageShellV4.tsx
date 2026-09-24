@@ -5,6 +5,7 @@ import styles from "./PageShellV4.module.css";
 import { CursorV4 } from "./CursorV4";
 import { SilkV4 } from "./SilkV4";
 import { EventHorizonV4 } from "./EventHorizonV4";
+import { FooterV4 } from "./FooterV4";
 import { MobileMenuV4 } from "./MobileMenuV4";
 import { NavMegaV4 } from "./NavMegaV4";
 import { getShellCopy, shellPath, type ShellCopy } from "./shellCopy";
@@ -271,30 +272,12 @@ export function PageShellV4({
       </main>
 
       <section className={`${styles.footerZone} ${finale ? styles.footerZoneFinale : ""}`}>
-        <EventHorizonV4 />
+        <EventHorizonV4 locale={locale} />
         {finale}
         <div className={styles.footerWordmark} data-horizon-wordmark aria-hidden="true">
           <span className={styles.footerWordmarkText}>ADSPIRE</span>
         </div>
-        <footer className={styles.footer}>
-          <div className={styles.footerTop}>
-            <a className={styles.footerBrand} href={href("/")} data-cursor="on">
-              ADSPIRE<span className={styles.navDot}>.</span>
-            </a>
-            <nav className={styles.footerLinks}>
-              {copy.footerLinks.map((l) => (
-                <a key={l.href} href={href(l.href)} data-cursor="on">
-                  {l.label}
-                </a>
-              ))}
-            </nav>
-          </div>
-          <div className={styles.footerBottom}>
-            <span>{copy.footerRights}</span>
-            <a href="mailto:djordje@adspire.rs" data-cursor="on">djordje@adspire.rs</a>
-            <a href="tel:+381601491491" data-cursor="on">+381 60 149 149 1</a>
-          </div>
-        </footer>
+        <FooterV4 locale={locale} href={href} />
       </section>
 
       <div ref={curtainRef} className={styles.curtain} aria-hidden="true">

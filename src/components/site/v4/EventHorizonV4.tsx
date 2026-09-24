@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { defaultLocale, type LocaleCode } from "@/lib/site-config";
 
 /**
  * Event-horizon shader behind the closing CTA and the footer, on every page.
@@ -40,6 +41,7 @@ uniform float uJets;
 uniform float uFadeTop;
 uniform sampler2D uText;
 uniform float uTextA;
+uniform float uZoom;
 
 const float TAU = 6.2831853;
 
@@ -101,8 +103,9 @@ vec3 stars(vec2 p, float scale, float seed, float px, float streak) {
 
 void main() {
   vec2 frag = gl_FragCoord.xy;
-  vec2 screen = (frag - 0.5 * uRes) / uRes.y;
-  float px = 1.0 / uRes.y;
+  // uZoom is the camera distance: >1 pulls back (intro), <1 dives in (click)
+  vec2 screen = (frag - 0.5 * uRes) / uRes.y * uZoom;
+  float px = uZoom / uRes.y;
   float ph = uPhase;
 
   // the whole system leans after the pointer
@@ -213,8 +216,26 @@ void main() { gl_Position = vec4(aPos, 0.0, 1.0); }
 `;
 
 const UNIFORMS = [
-  "uRes", "uTime", "uPhase", "uTilt", "uSpin", "uHeat", "uPulse", "uWave", "uScroll", "uVel",
-  "uIgnite", "uCursor", "uCursorI", "uFeed", "uOct", "uJets", "uFadeTop", "uText", "uTextA",
+  "uRes",
+  "uTime",
+  "uPhase",
+  "uTilt",
+  "uSpin",
+  "uHeat",
+  "uPulse",
+  "uWave",
+  "uScroll",
+  "uVel",
+  "uIgnite",
+  "uCursor",
+  "uCursorI",
+  "uFeed",
+  "uOct",
+  "uJets",
+  "uFadeTop",
+  "uText",
+  "uTextA",
+  "uZoom",
 ] as const;
 type UniformName = (typeof UNIFORMS)[number];
 
@@ -224,7 +245,32 @@ const FALLBACK_BG =
   "radial-gradient(circle at 50% 50%, #000 0 7%, rgba(184,197,255,0.35) 7.6%, transparent 9.5%)";
 
 const WAVE_MS = 1400;
-const IGNITE_MS = 1400;
+// first arrival: the camera flies in from far and edge-on
+const INTRO_MS = 2600;
+const INTRO_ZOOM = 2.3;
+// click on the hole: the camera is pulled in and springs back
+const DIVE_MS = 1300;
+const HINT_MS = 5500;
+
+export type HorizonLabels = { cursor: string; hint: string; touchHint: string };
+
+const LABELS: Record<LocaleCode, HorizonLabels> = {
+  sr: {
+    cursor: "Klikni",
+    hint: "Povuci da okreneš · klikni u centar",
+    touchHint: "Prevuci da okreneš · dodirni centar",
+  },
+  en: {
+    cursor: "Click",
+    hint: "Drag to spin · click the centre",
+    touchHint: "Swipe to spin · tap the centre",
+  },
+  de: {
+    cursor: "Klick",
+    hint: "Ziehen zum Drehen · Mitte klicken",
+    touchHint: "Wischen zum Drehen · Mitte tippen",
+  },
+};
 const IDLE_AFTER_MS = 3000;
 
 type DevCanvas = HTMLCanvasElement & {
@@ -235,7 +281,14 @@ type DevCanvas = HTMLCanvasElement & {
 const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v));
 
 /** Starts GL on the canvas and returns its teardown. */
-function boot(canvas: HTMLCanvasElement, section: HTMLElement, mobile: boolean, coarse: boolean) {
+function boot(
+  canvas: HTMLCanvasElement,
+  section: HTMLElement,
+  hint: HTMLElement | null,
+  labels: HorizonLabels,
+  mobile: boolean,
+  coarse: boolean,
+) {
   const noop = () => {};
   const gl = canvas.getContext("webgl", {
     antialias: false,
@@ -310,9 +363,8 @@ function boot(canvas: HTMLCanvasElement, section: HTMLElement, mobile: boolean, 
     const cs = getComputedStyle(glyphs);
     ctx.font = `${cs.fontWeight} ${parseFloat(cs.fontSize) * k}px ${cs.fontFamily}`;
     const spacing = parseFloat(cs.letterSpacing);
-    (ctx as CanvasRenderingContext2D & { letterSpacing?: string }).letterSpacing = `${
-      Number.isFinite(spacing) ? spacing * k : 0
-    }px`;
+    (ctx as CanvasRenderingContext2D & { letterSpacing?: string }).letterSpacing =
+      `${Number.isFinite(spacing) ? spacing * k : 0}px`;
     ctx.textAlign = "center";
     ctx.textBaseline = "alphabetic";
     const m = ctx.measureText(text);
@@ -356,14 +408,59 @@ function boot(canvas: HTMLCanvasElement, section: HTMLElement, mobile: boolean, 
 
   // ── input state ──
   const s = {
-    tx: 0, ty: 0, mx: 0, my: 0,
-    heat: 0, pulse: 0, waveStart: -1,
-    lastX: 0, lastY: 0, lastMove: performance.now(),
-    ctx: 0, cty: 0, cx: 0, cy: 0, cIt: 0, cI: 0,
-    drag: false, spinX: 0, spinY: 0, spinVX: 0, spinVY: 0,
-    feedT: 0, feed: 0, nearText: 0, textA: 0,
-    vel: 0, lastScroll: window.scrollY, phase: 0, igniteAt: -1,
+    tx: 0,
+    ty: 0,
+    mx: 0,
+    my: 0,
+    heat: 0,
+    pulse: 0,
+    waveStart: -1,
+    lastX: 0,
+    lastY: 0,
+    lastMove: performance.now(),
+    ctx: 0,
+    cty: 0,
+    cx: 0,
+    cy: 0,
+    cIt: 0,
+    cI: 0,
+    drag: false,
+    spinX: 0,
+    spinY: 0,
+    spinVX: 0,
+    spinVY: 0,
+    feedT: 0,
+    feed: 0,
+    nearText: 0,
+    textA: 0,
+    vel: 0,
+    lastScroll: window.scrollY,
+    phase: 0,
+    introAt: -1,
+    introFlash: false,
+    diveAt: -1,
+    zoom: INTRO_ZOOM,
+    rh: 0.088,
+    hintAt: -1,
+    hintDone: false,
+    cursorLabel: false,
   };
+
+  if (hint && coarse) hint.textContent = labels.touchHint;
+
+  const hideHint = () => {
+    s.hintDone = true;
+    if (hint) hint.style.opacity = "0";
+  };
+
+  // distance from a client point to the hole, in the shader's own units
+  const holeDistance = (clientX: number, clientY: number, r: DOMRect) => {
+    const h = Math.max(r.height, 1);
+    const x = ((clientX - r.left - r.width / 2) / h) * s.zoom - s.mx * 0.05;
+    const y = ((r.height / 2 - (clientY - r.top)) / h) * s.zoom - s.my * 0.05;
+    return Math.hypot(x, y);
+  };
+  const INTERACTIVE = "a, button, input, textarea, select, label";
 
   const onMove = (e: PointerEvent) => {
     const r = canvas.getBoundingClientRect();
@@ -385,12 +482,21 @@ function boot(canvas: HTMLCanvasElement, section: HTMLElement, mobile: boolean, 
     s.lastX = e.clientX;
     s.lastY = e.clientY;
     s.lastMove = performance.now();
+    // over the hole the custom cursor says it can be clicked
+    const overHole =
+      holeDistance(e.clientX, e.clientY, r) < s.rh * 1.7 && !(e.target as Element | null)?.closest?.(INTERACTIVE);
+    if (overHole && !s.cursorLabel) {
+      section.dataset.cursor = labels.cursor;
+      s.cursorLabel = true;
+    } else if (!overHole && s.cursorLabel) {
+      delete section.dataset.cursor;
+      s.cursorLabel = false;
+    }
+    if (s.drag && Math.abs(s.spinVX) > 0.02) hideHint();
     if (glyphs) {
       const g = glyphs.getBoundingClientRect();
       s.nearText =
-        e.clientX >= g.left && e.clientX <= g.right && e.clientY >= g.top - 40 && e.clientY <= g.bottom + 40
-          ? 1
-          : 0;
+        e.clientX >= g.left && e.clientX <= g.right && e.clientY >= g.top - 40 && e.clientY <= g.bottom + 40 ? 1 : 0;
     }
   };
 
@@ -402,7 +508,14 @@ function boot(canvas: HTMLCanvasElement, section: HTMLElement, mobile: boolean, 
     s.lastX = e.clientX;
     s.lastY = e.clientY;
     const t = e.target as Element | null;
-    if (!t?.closest?.("a, button, input, textarea, select, label")) s.drag = true;
+    const interactive = !!t?.closest?.(INTERACTIVE);
+    if (!interactive) s.drag = true;
+    if (!interactive && holeDistance(e.clientX, e.clientY, r) < s.rh * 1.7) {
+      s.diveAt = performance.now();
+      s.heat = 1;
+      s.spinVX += 0.05;
+      hideHint();
+    }
     if (e.pointerType === "touch") onMove(e);
   };
 
@@ -510,6 +623,7 @@ function boot(canvas: HTMLCanvasElement, section: HTMLElement, mobile: boolean, 
 
     const r = canvas.getBoundingClientRect();
     const scroll = clamp((window.innerHeight - r.top) / Math.max(r.height, 1), 0, 1);
+
     const sy = window.scrollY;
     const v = clamp((sy - s.lastScroll) / Math.max(dt, 1) / 3, -1, 1);
     s.lastScroll = sy;
@@ -518,9 +632,43 @@ function boot(canvas: HTMLCanvasElement, section: HTMLElement, mobile: boolean, 
 
     s.phase += (dt / 1000) * (1 + scroll * 0.5 + s.feed * 0.9 + s.heat * 0.6 + s.pulse * 0.8);
 
-    if (s.igniteAt < 0) s.igniteAt = now;
-    const ig = clamp((now - s.igniteAt) / IGNITE_MS, 0, 1);
-    const ignite = 1 - Math.pow(1 - ig, 3);
+    // ── camera: intro flight on first arrival, dive after a click on the hole ──
+    if (s.introAt < 0 && r.top < window.innerHeight * 0.72) s.introAt = now;
+    const ip = s.introAt < 0 ? 0 : clamp((now - s.introAt) / INTRO_MS, 0, 1);
+    const eZoom = 1 - Math.pow(1 - ip, 4);
+    const eRot = ip < 0.5 ? 4 * ip * ip * ip : 1 - Math.pow(-2 * ip + 2, 3) / 2;
+    let zoom = INTRO_ZOOM + (1 - INTRO_ZOOM) * eZoom;
+    let streakBoost = Math.sin(Math.PI * ip) * 0.8;
+    if (ip >= 0.9 && !s.introFlash) {
+      s.introFlash = true;
+      s.pulse = 0.7;
+      s.waveStart = now;
+    }
+    if (s.diveAt >= 0) {
+      const d = (now - s.diveAt) / DIVE_MS;
+      if (d >= 1) {
+        s.diveAt = -1;
+      } else {
+        const bell = Math.pow(Math.sin(Math.PI * d), 1.5);
+        zoom *= 1 - 0.42 * bell;
+        streakBoost = Math.max(streakBoost, bell);
+        s.pulse = Math.max(s.pulse, bell * 0.6);
+      }
+    }
+    s.zoom = zoom;
+    s.rh = 0.088 + (0.15 - 0.088) * (scroll * scroll * (3 - 2 * scroll));
+    const ignite = 0.3 + 0.7 * clamp(ip * 1.3, 0, 1);
+
+    // the hint shows once the flight lands, then leaves on its own or on first use
+    if (hint && ip >= 1 && s.hintAt < 0 && !s.hintDone) {
+      s.hintAt = now;
+      hint.style.opacity = "1";
+    }
+    if (s.hintAt >= 0 && !s.hintDone && now - s.hintAt > HINT_MS) hideHint();
+    if (hint && !s.hintDone) {
+      // sits just under the ring, which grows with scroll
+      hint.style.top = `${(0.5 + (s.rh * 1.55) / zoom) * 100}%`;
+    }
 
     let wave = 2;
     if (s.waveStart >= 0) {
@@ -538,12 +686,14 @@ function boot(canvas: HTMLCanvasElement, section: HTMLElement, mobile: boolean, 
     gl.uniform1f(u.uTime, t);
     gl.uniform1f(u.uPhase, s.phase);
     gl.uniform2f(u.uTilt, s.mx, s.my);
-    gl.uniform2f(u.uSpin, s.spinX, s.spinY);
+    // the intro swings the disc in from edge-on
+    gl.uniform2f(u.uSpin, s.spinX - 1.25 * (1 - eRot), s.spinY - 0.2 * (1 - eRot));
     gl.uniform1f(u.uHeat, s.heat);
     gl.uniform1f(u.uPulse, s.pulse);
     gl.uniform1f(u.uWave, wave);
     gl.uniform1f(u.uScroll, scroll);
-    gl.uniform1f(u.uVel, s.vel);
+    gl.uniform1f(u.uVel, Math.max(Math.abs(s.vel), streakBoost));
+    gl.uniform1f(u.uZoom, zoom);
     gl.uniform1f(u.uIgnite, ignite);
     gl.uniform2f(u.uCursor, s.cx, s.cy);
     gl.uniform1f(u.uCursorI, s.cI);
@@ -623,6 +773,8 @@ function boot(canvas: HTMLCanvasElement, section: HTMLElement, mobile: boolean, 
     section.removeEventListener("pointerleave", onLeave);
     if (useTilt) window.removeEventListener("deviceorientation", onTilt);
     if (wordmark) wordmark.style.opacity = "";
+    if (s.cursorLabel) delete section.dataset.cursor;
+    if (hint) hint.style.opacity = "0";
     gl.deleteTexture(tex);
     gl.deleteProgram(prog);
     gl.deleteShader(vs);
@@ -637,8 +789,10 @@ function boot(canvas: HTMLCanvasElement, section: HTMLElement, mobile: boolean, 
  * section's `[data-horizon-wordmark]` (first child holds the letters) is taken
  * over by the shader, and `[data-horizon-feed]` marks the button that feeds it.
  */
-export function EventHorizonV4() {
+export function EventHorizonV4({ locale = defaultLocale }: { locale?: LocaleCode } = {}) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const hintRef = useRef<HTMLSpanElement>(null);
+  const labels = LABELS[locale] ?? LABELS[defaultLocale];
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -654,7 +808,7 @@ export function EventHorizonV4() {
       (entries) => {
         if (dispose || !entries.some((en) => en.isIntersecting)) return;
         lazy.disconnect();
-        dispose = boot(canvas, section, mobile, coarse);
+        dispose = boot(canvas, section, hintRef.current, labels, mobile, coarse);
       },
       { rootMargin: "400px" },
     );
@@ -663,7 +817,7 @@ export function EventHorizonV4() {
       (canvas as DevCanvas).__boot = () => {
         if (dispose) return;
         lazy.disconnect();
-        dispose = boot(canvas, section, mobile, coarse);
+        dispose = boot(canvas, section, hintRef.current, labels, mobile, coarse);
       };
     }
 
@@ -671,19 +825,46 @@ export function EventHorizonV4() {
       lazy.disconnect();
       dispose?.();
     };
-  }, []);
+  }, [labels]);
 
   return (
-    <canvas
-      ref={canvasRef}
-      aria-hidden="true"
-      style={{
-        position: "absolute",
-        inset: 0,
-        width: "100%",
-        height: "100%",
-        pointerEvents: "none",
-      }}
-    />
+    <>
+      <canvas
+        ref={canvasRef}
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          inset: 0,
+          width: "100%",
+          height: "100%",
+          pointerEvents: "none",
+        }}
+      />
+      {/* before the content in DOM order, so the section's copy always paints over it */}
+      <span
+        ref={hintRef}
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          left: "50%",
+          top: "70%",
+          transform: "translate(-50%, 0)",
+          padding: "7px 14px",
+          borderRadius: 999,
+          fontSize: 12,
+          letterSpacing: "0.06em",
+          whiteSpace: "nowrap",
+          color: "rgba(232, 236, 255, 0.88)",
+          background: "rgba(6, 8, 20, 0.55)",
+          border: "1px solid rgba(145, 168, 255, 0.35)",
+          backdropFilter: "blur(6px)",
+          opacity: 0,
+          transition: "opacity 0.6s ease",
+          pointerEvents: "none",
+        }}
+      >
+        {labels.hint}
+      </span>
+    </>
   );
 }

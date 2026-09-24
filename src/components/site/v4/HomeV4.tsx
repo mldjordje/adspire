@@ -15,12 +15,13 @@ import { AiDemoV4 } from "./AiDemoV4";
 import { TechCarouselV4 } from "./TechCarouselV4";
 import { SilkV4 } from "./SilkV4";
 import { EventHorizonV4 } from "./EventHorizonV4";
+import { FooterV4 } from "./FooterV4";
+import { shellPath } from "./shellCopy";
 import ProjectPlanesV4 from "./ProjectPlanesV4";
 import { MobileMenuV4 } from "./MobileMenuV4";
 import { NavMegaV4 } from "./NavMegaV4";
 import { getV4Copy } from "./copy";
 import { HotelPromo } from "./HotelPromo";
-import { hotelCopy, HOTEL_PATH } from "@/content/site/hotel";
 import {
   defaultLocale,
   localePath,
@@ -1137,7 +1138,7 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
 
         {/* ── 11 · CTA ── */}
         <section className={styles.cta}>
-          <EventHorizonV4 />
+          <EventHorizonV4 locale={locale} />
           <div className={styles.ctaVeil} aria-hidden="true" />
           <span className={styles.sectionEyebrow}>{t.cta.eyebrow}</span>
           <h2 className={styles.ctaTitle}>
@@ -1169,81 +1170,7 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
               ADSPIRE
             </span>
           </div>
-          <footer className={styles.footer}>
-            <div className={styles.footerGrid}>
-              <div className={styles.footerCol}>
-                <span className={styles.footerBrand}>
-                  ADSPIRE<span className={styles.navLogoDot}>.</span>
-                </span>
-                <p className={styles.footerBlurb}>{t.footer.blurb}</p>
-              </div>
-              <div className={styles.footerCol}>
-                <span className={styles.footerColTitle}>{t.footer.mapTitle}</span>
-                <a href="/our-projects" data-cursor="on">{t.footer.map[0]}</a>
-                <a href="/our-services" data-cursor="on">{t.footer.map[1]}</a>
-                <a href={localePath(HOTEL_PATH, locale)} data-cursor="on">{hotelCopy[locale].nav}</a>
-                <a href="/blog" data-cursor="on">{t.footer.map[2]}</a>
-                {locale === "sr" && (
-                  <>
-                    <a href="/vodici" data-cursor="on">Vodiči</a>
-                    <a href="/kako-radimo" data-cursor="on">Kako radimo</a>
-                    <a href="/cena-izrade-sajta" data-cursor="on">Cene izrade sajta</a>
-                    <a href="/besplatan-pregled-sajta" data-cta="footer-pregled" data-cursor="on">Besplatan pregled</a>
-                  </>
-                )}
-                <a href="/contact-us" data-cursor="on">{t.footer.map[3]}</a>
-              </div>
-              <div className={styles.footerCol}>
-                <span className={styles.footerColTitle}>{t.footer.solutionsTitle}</span>
-                {locale === "sr" ? (
-                  <>
-                    <a href="/it-firma-nis" data-cursor="on">IT firma Niš</a>
-                    <a href="/izrada-sajta-i-aplikacija-nis" data-cursor="on">Izrada sajta i aplikacija</a>
-                    <a href="/izrada-aplikacija-nis" data-cursor="on">Izrada aplikacija Niš</a>
-                    <a href="/rezervacioni-sistemi-nis" data-cursor="on">Rezervacioni sistemi Niš</a>
-                    <a href="/online-zakazivanje-za-salone-i-klinike" data-cursor="on">Zakazivanje za salone</a>
-                    <a href="/ai-chatbot-za-sajt" data-cursor="on">AI Chatbot za sajt</a>
-                  </>
-                ) : (
-                  <>
-                    <a href={locale === "de" ? "/de/ai" : "/en/ai"} data-cursor="on">
-                      {locale === "de" ? "KI nach Branchen" : "AI by Industry"}
-                    </a>
-                    <a href={locale === "de" ? "/de/our-services" : "/en/our-services"} data-cursor="on">
-                      {locale === "de" ? "Alle Leistungen" : "All Services"}
-                    </a>
-                    <a href="/about-us" data-cursor="on">
-                      {locale === "de" ? "Über uns" : "About us"}
-                    </a>
-                  </>
-                )}
-              </div>
-              <div className={styles.footerCol}>
-                <span className={styles.footerColTitle}>{t.footer.contactTitle}</span>
-                <a href="mailto:djordje@adspire.rs" data-cursor="on">djordje@adspire.rs</a>
-                <a href="tel:+381601491491" data-cursor="on">+381 60 149 149 1</a>
-                <span>{t.footer.location}</span>
-                <a href="/odrzavanje-i-podrska" data-cursor="on">
-                  {locale === "sr" ? "Održavanje i podrška" : "Maintenance & Support"}
-                </a>
-              </div>
-              <div className={styles.footerCol}>
-                <span className={styles.footerColTitle}>{t.footer.statusTitle}</span>
-                <span className={styles.footerStatus}>
-                  <span className={styles.footerStatusDot} />
-                  {t.footer.status}
-                </span>
-                <a href="/politika-privatnosti" data-cursor="on">Privatnost</a>
-                <a href="/politika-kolacica" data-cursor="on">Kolačići</a>
-                <a href="/uslovi-koriscenja" data-cursor="on">Uslovi</a>
-                <span className={styles.footerVersion}>OBSIDIAN · v4.0</span>
-              </div>
-            </div>
-            <div className={styles.footerBottom}>
-              <span>{t.footer.copyright}</span>
-              <span>{t.footer.credit}</span>
-            </div>
-          </footer>
+          <FooterV4 locale={locale} href={(path) => shellPath(path, locale)} />
         </section>
       </main>
     </div>

@@ -210,17 +210,88 @@
   transform: translateY(-50%);
 }
 
-/* ─── Grouped page links ─── */
+/* ─── Grouped page links: accordion ─── */
 
 .groups {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 24px;
+  display: flex;
+  flex-direction: column;
+  max-width: 720px;
+  border-top: 1px solid rgba(202, 211, 255, 0.12);
 }
 
 .group {
+  border-bottom: 1px solid rgba(202, 211, 255, 0.12);
+}
+
+.groupHead {
+  position: relative;
+  display: grid;
+  gap: 4px;
+  width: 100%;
+  padding: 16px 44px 16px 0;
+  color: #f6f7ff;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  background: none;
+  border: 0;
+}
+
+.groupTitle {
+  font-family: var(--font-display-v4), system-ui, sans-serif;
+  font-size: clamp(19px, 3vw, 23px);
+  font-weight: 750;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+  transition: color 0.2s ease;
+}
+
+.groupHint {
+  color: rgba(224, 229, 255, 0.55);
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.groupChevron {
+  position: absolute;
+  top: 50%;
+  right: 6px;
+  width: 11px;
+  height: 11px;
+  border-right: 1.5px solid #91a8ff;
+  border-bottom: 1.5px solid #91a8ff;
+  transform: translateY(-70%) rotate(45deg);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.groupOpen .groupChevron {
+  transform: translateY(-30%) rotate(-135deg);
+}
+
+.groupOpen .groupTitle {
+  color: #91a8ff;
+}
+
+/* 0fr -> 1fr animates to the content's real height without measuring it */
+.groupPanel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.groupOpen .groupPanel {
+  grid-template-rows: 1fr;
+}
+
+.groupItems {
   display: flex;
   flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.groupOpen .groupItems {
+  padding-bottom: 12px;
 }
 
 .groupLabel {
@@ -234,15 +305,24 @@
 
 .link {
   display: flex;
-  align-items: center;
-  min-height: 44px;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+  min-height: 46px;
+  padding: 6px 0 6px 12px;
   color: rgba(240, 243, 255, 0.9);
   font-size: 16px;
   font-weight: 540;
   line-height: 1.25;
   text-decoration: none;
-  border-bottom: 1px solid rgba(202, 211, 255, 0.08);
+  border-left: 1px solid rgba(120, 144, 255, 0.25);
   transition: color 0.2s ease;
+}
+
+.linkHint {
+  color: rgba(224, 229, 255, 0.5);
+  font-size: 12.5px;
+  font-weight: 450;
 }
 
 .link:hover,
@@ -253,6 +333,7 @@
 
 .linkActive {
   color: #91a8ff;
+  border-left-color: #91a8ff;
 }
 
 /* ─── Home page sections ─── */
@@ -281,6 +362,15 @@
   border-radius: 999px;
 }
 
+.chip {
+  text-decoration: none;
+}
+
+.chipActive {
+  color: #f6f7ff;
+  border-color: rgba(120, 144, 255, 0.6);
+}
+
 .chip:hover,
 .chip:focus-visible {
   color: #f6f7ff;
@@ -307,12 +397,6 @@
   color: #f6f7ff;
 }
 
-@media (max-width: 900px) {
-  .groups {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 22px 20px;
-  }
-}
 
 @media (max-width: 560px) {
   .burger {
@@ -335,11 +419,6 @@
 
   .action {
     padding: 15px 44px 15px 16px;
-  }
-
-  .groups {
-    grid-template-columns: 1fr;
-    gap: 20px;
   }
 
   .contact {

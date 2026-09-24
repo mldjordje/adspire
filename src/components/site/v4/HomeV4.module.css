@@ -2170,116 +2170,6 @@
   -webkit-text-stroke-color: rgba(242, 239, 230, 0.6);
 }
 
-.footer {
-  width: 100%;
-  max-width: 1240px;
-  margin-top: 18px;
-  border-top: 1px solid var(--line);
-  padding: clamp(28px, 4vh, 44px) 0 30px;
-  font-size: 13px;
-  color: var(--ink-dim);
-  text-align: left;
-}
-
-.footerGrid {
-  display: grid;
-  grid-template-columns: 1.3fr 1fr 1.3fr 1fr 0.9fr;
-  gap: clamp(16px, 2.5vw, 36px);
-}
-
-.footerCol {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  align-items: flex-start;
-}
-
-.footerCol a {
-  color: var(--ink-dim);
-  text-decoration: none;
-  transition: color 0.3s;
-}
-
-.footerCol a:hover {
-  color: var(--accent);
-}
-
-.footerBrand {
-  font-family: var(--font-d);
-  font-weight: 800;
-  font-size: 20px;
-  color: var(--ink);
-}
-
-.footerBlurb {
-  margin: 0;
-  font-size: 13px;
-  line-height: 1.65;
-  color: var(--ink-faint);
-  max-width: 300px;
-}
-
-.footerColTitle {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.26em;
-  text-transform: uppercase;
-  color: var(--ink-faint);
-  margin-bottom: 4px;
-}
-
-.footerStatus {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.footerStatusDot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--blue);
-  box-shadow: 0 0 10px rgba(120, 144, 255, 0.72);
-  animation: pulse 2.2s ease-in-out infinite;
-}
-
-.footerVersion {
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  color: var(--ink-faint);
-  font-variant-numeric: tabular-nums;
-}
-
-.footerBottom {
-  display: flex;
-  justify-content: space-between;
-  gap: 14px;
-  flex-wrap: wrap;
-  margin-top: clamp(24px, 3.5vh, 40px);
-  padding-top: 20px;
-  border-top: 1px solid var(--line);
-  font-size: 11.5px;
-  letter-spacing: 0.05em;
-  color: var(--ink-faint);
-}
-
-@media (max-width: 1024px) {
-  .footerGrid {
-    grid-template-columns: 1.4fr 1fr 1fr;
-  }
-}
-
-@media (max-width: 767px) {
-  .footerGrid {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .footerBottom {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-}
-
 /* ─── Mobile ───────────────────────────────────────────────── */
 
 @media (max-width: 767px) {
@@ -2410,11 +2300,6 @@
       rgba(3, 4, 12, 0.68) 56%,
       transparent 84%
     );
-  }
-
-  .footer {
-    flex-direction: column;
-    align-items: flex-start;
   }
 }
 

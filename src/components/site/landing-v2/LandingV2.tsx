@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import { getV4Copy } from "../v4/copy";
+import { getNavMenu } from "../v4/navMenu";
 import { AiDemoV4 } from "../v4/AiDemoV4";
 import { ClientLogosV4 } from "../v4/ClientLogosV4";
 import { HotelPromo } from "../v4/HotelPromo";
@@ -122,7 +123,7 @@ export function LandingV2() {
           <div className={styles.finaleCopy}><p className={styles.eyebrow}>PRVI KORAK, BEZ OBAVEZE</p><h2>Hajde da<br />napravimo<br /><span className={styles.blue}>nešto veliko.</span></h2><a href="/upit/brzo" className={styles.primary} data-cta="v2-final-inquiry">Opiši šta ti treba <span aria-hidden="true">↗</span></a><p>{t.cta.note}</p><div className={styles.contactLinks}><a href="tel:+381601491491">+381 60 149 149 1</a><a href="https://wa.me/381601491491" target="_blank" rel="noreferrer">WhatsApp ↗</a></div></div>
         </section>
       </main>
-      <footer className={styles.footer}><div className={styles.footerTop}><a href="/" className={styles.logo}>ADSPIRE<span>.</span></a><p>{t.footer.blurb}</p><a href="mailto:djordje@adspire.rs">djordje@adspire.rs ↗</a></div><div className={styles.footerBottom}><span>© {new Date().getFullYear()} Adspire · Niš</span><div><a href="/politika-privatnosti">Privatnost</a><a href="/politika-kolacica">Kolačići</a><a href="/uslovi-koriscenja">Uslovi</a></div><button onClick={() => setPaused(!paused)} aria-pressed={paused}>{paused ? "Pokreni animaciju" : "Pauziraj animaciju"}</button></div></footer>
+      <footer className={styles.footer}><div className={styles.footerTop}><a href="/" className={styles.logo}>ADSPIRE<span>.</span></a><p>{getNavMenu("sr").footer.blurb}</p><a href="mailto:djordje@adspire.rs">djordje@adspire.rs ↗</a></div><div className={styles.footerBottom}><span>© {new Date().getFullYear()} Adspire · Niš</span><div><a href="/politika-privatnosti">Privatnost</a><a href="/politika-kolacica">Kolačići</a><a href="/uslovi-koriscenja">Uslovi</a></div><button onClick={() => setPaused(!paused)} aria-pressed={paused}>{paused ? "Pokreni animaciju" : "Pauziraj animaciju"}</button></div></footer>
     </div>
   );
 }

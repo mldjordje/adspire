@@ -13,8 +13,10 @@ import { defaultLocale, type LocaleCode } from "@/lib/site-config";
  * Shared OBSIDIAN mobile menu — burger + fullscreen overlay.
  *
  * The two things visitors come for (send an inquiry, AI education) are cards
- * at the top, so they are on screen the moment the menu opens. Everything else
- * is a short grouped list instead of one long column of display-size links.
+ * at the top, so they are on screen the moment the menu opens. The page groups
+ * are an accordion: four closed rows, each with a one-line summary, one open
+ * at a time. Listing all ~35 pages at once made even the owner hunt for a
+ * single service. Company pages are a row of chips at the end.
  * `breakpoint` matches whichever width the host nav hides its desktop bar at.
  */
 
@@ -60,8 +62,11 @@ export function MobileMenuV4({
     return () => window.removeEventListener("keydown", onKey);
   }, [open, close]);
 
+  // the group holding the current page starts open, so the visitor sees where they are
+  const currentGroup = menu.groups.findIndex((g) => g.items.some((i) => isCurrentPath(i.href, pathname)));
+  const [openGroup, setOpenGroup] = useState<number | null>(currentGroup >= 0 ? currentGroup : null);
+
   const bpClass = breakpoint === "md" ? styles.showMd : styles.showLg;
-  const groups = [...menu.groups, menu.company];
 
   return (
     <div className={bpClass}>
@@ -131,26 +136,61 @@ export function MobileMenuV4({
                 </a>
 
                 <div className={styles.groups}>
-                  {groups.map((group) => (
-                    <nav key={group.title} className={styles.group} aria-label={group.title}>
-                      <span className={styles.groupLabel}>{group.title}</span>
-                      {group.items.map((item) => {
-                        const current = isCurrentPath(item.href, pathname);
-                        return (
-                          <a
-                            key={item.href}
-                            className={`${styles.link} ${current ? styles.linkActive : ""}`}
-                            href={href(item.href)}
-                            aria-current={current ? "page" : undefined}
-                            onClick={close}
-                          >
-                            {item.label}
-                          </a>
-                        );
-                      })}
-                    </nav>
-                  ))}
+                  {menu.groups.map((group, gi) => {
+                    const expanded = openGroup === gi;
+                    const panelId = `v4-menu-group-${gi}`;
+                    return (
+                      <div key={group.title} className={`${styles.group} ${expanded ? styles.groupOpen : ""}`}>
+                        <button
+                          type="button"
+                          className={styles.groupHead}
+                          aria-expanded={expanded}
+                          aria-controls={panelId}
+                          onClick={() => setOpenGroup(expanded ? null : gi)}
+                        >
+                          <span className={styles.groupTitle}>{group.title}</span>
+                          {group.hint ? <span className={styles.groupHint}>{group.hint}</span> : null}
+                          <span className={styles.groupChevron} aria-hidden="true" />
+                        </button>
+                        <nav id={panelId} className={styles.groupPanel} aria-label={group.title} inert={!expanded}>
+                          <div className={styles.groupItems}>
+                            {group.items.map((item) => {
+                              const current = isCurrentPath(item.href, pathname);
+                              return (
+                                <a
+                                  key={item.href}
+                                  className={`${styles.link} ${current ? styles.linkActive : ""}`}
+                                  href={href(item.href)}
+                                  aria-current={current ? "page" : undefined}
+                                  onClick={close}
+                                >
+                                  <span>{item.label}</span>
+                                  {item.hint ? <span className={styles.linkHint}>{item.hint}</span> : null}
+                                </a>
+                              );
+                            })}
+                          </div>
+                        </nav>
+                      </div>
+                    );
+                  })}
                 </div>
+
+                <nav className={styles.sections} aria-label={menu.company.title}>
+                  <span className={styles.groupLabel}>{menu.company.title}</span>
+                  <div className={styles.chips}>
+                    {menu.company.items.map((item) => (
+                      <a
+                        key={item.href}
+                        className={`${styles.chip} ${isCurrentPath(item.href, pathname) ? styles.chipActive : ""}`}
+                        href={href(item.href)}
+                        onClick={close}
+                      >
+                        {item.label}
+                      </a>
+                    ))}
+                  </div>
+                </nav>
 
                 {sections?.length ? (
                   <nav className={styles.sections} aria-label={menu.sectionsLabel}>
