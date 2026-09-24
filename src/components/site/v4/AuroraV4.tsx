@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { startBackground } from "./bgCore";
+import { BgLiteV4 } from "./BgLiteV4";
 
 /**
  * Aurora shader background — raw WebGL, two-pass engine in bgCore.
@@ -49,8 +50,8 @@ vec2 skyUv(vec2 sc) {
 // the base line) and a per-sheet seed. Sheets sit a period apart, so only the
 // nearest can light a pixel; halfway between two both are dark, which hides
 // the switch.
-vec3 sheet(vec2 suv, float rate, float period, float seed) {
-  float w = suv.y - uScroll * rate;
+vec3 sheet(vec2 suv, float rate, float period, float seed, float phase) {
+  float w = suv.y - uScroll * rate + phase;
   float k = floor(w / period + 0.5);
   return vec3(suv.x, w - k * period, seed + k * 7.31);
 }
@@ -58,9 +59,9 @@ vec3 sheet(vec2 suv, float rate, float period, float seed) {
 // A flick of the wheel or thumb leans the sheet, like a curtain lagging the air.
 vec2 lean(vec2 uv) { uv.x += uVel * 0.5 * (0.35 + uv.y * 0.25); return uv; }
 
-vec3 sh1(vec2 suv) { vec3 s = sheet(suv, 0.85, 1.45, 0.0); s.xy = lean(s.xy); return s; }
-vec3 sh2(vec2 suv) { vec3 s = sheet(suv, 0.55, 1.75, 3.1); s.xy = lean(s.xy * vec2(0.8, 1.25) + vec2(1.7, 0.0)); return s; }
-vec3 sh3(vec2 suv) { vec3 s = sheet(suv, 0.30, 2.15, 7.4); s.xy = lean(s.xy * vec2(1.35, 0.85) + vec2(-2.2, 0.0)); return s; }
+vec3 sh1(vec2 suv) { vec3 s = sheet(suv, 0.85, 1.0, 0.0, 0.0); s.xy = lean(s.xy); return s; }
+vec3 sh2(vec2 suv) { vec3 s = sheet(suv, 0.55, 1.2, 3.1, 0.55); s.xy = lean(s.xy * vec2(0.8, 1.25) + vec2(1.7, 0.0)); return s; }
+vec3 sh3(vec2 suv) { vec3 s = sheet(suv, 0.30, 1.4, 7.4, 0.3); s.xy = lean(s.xy * vec2(1.35, 0.85) + vec2(-2.2, 0.0)); return s; }
 `;
 
 const FIELD = `
@@ -107,13 +108,13 @@ float fil(vec3 s, float speed) {
   float t = uTime * speed;
   float a = noise(vec2(s.x * 9.0 + s.z * 4.0, t * 1.6));
   float b = noise(vec2(s.x * 38.0 + s.z * 11.0, t * 2.3));
-  return 0.3 + 0.5 * a + 0.25 * b;
+  return 0.18 + 0.6 * a + 0.32 * b;
 }
 
 void main() {
   vec2 sc = screenUv();
   vec2 st = gl_FragCoord.xy / uRes;
-  vec4 F = texture2D(uField, st);
+  vec4 F = fieldSample(st);
   vec2 suv = skyUv(sc);
   float calm = 1.0 - uCalm * 0.3;
 
@@ -140,7 +141,8 @@ void main() {
     vec2 id = floor(g);
     vec2 f = fract(g) - 0.5;
     float h = hash(id + layer * 17.0);
-    if (h > 0.9) {
+    // sparse on purpose: fewer, finer stars read as depth, not as noise
+    if (h > 0.93) {
       vec2 d = f - (vec2(hash(id + 3.1), hash(id + 7.7)) - 0.5) * 0.7;
       // A fling pulls each star into a vertical trail; the near layer smears more.
       float trail = 1.0 + abs(uVel) * (6.0 + layer * 8.0);
@@ -158,17 +160,13 @@ void main() {
 
   // ── haze behind the curtains, with a fine sheen along its folds ──
   col += blueDeep * smoothstep(0.42, 0.95, haze) * 0.26;
-  col += vec3(0.55, 0.66, 1.0) * pow(abs(sin(haze * 13.0 + uTime * 0.9)), 26.0) * 0.05;
+  col += vec3(0.55, 0.66, 1.0) * pow(abs(sin(haze * 13.0 + uTime * 0.9)), 26.0) * 0.022;
 
   // ── horizon: rises into view only in the last screen of the page ──
   float hc = -0.55 - uRemain * 1.1;
   float horizon = exp(-pow((sc.y - hc) * 3.2, 2.0));
   col += blue * horizon * (0.30 + abs(uVel) * 0.35);
   col += pale * pow(horizon, 3.0) * 0.14;
-
-  // ── scanning band, slow, gives the frame a heartbeat ──
-  float scan = exp(-pow((sc.y - sin(uTime * 0.21) * 0.75) * 5.0, 2.0));
-  col += vec3(0.30, 0.48, 1.0) * scan * 0.04;
 
   // ── form focus: an arch of light behind the form, the rest quiets ──
   vec2 fp = sc - uFocus.xy;
@@ -184,8 +182,6 @@ void main() {
   float inf = exp(-dot(duv, duv) * (7.0 - 2.5 * uPhone)) * uMouseI;
   col += vec3(0.26, 0.48, 1.0) * inf * 0.55;
   col += pale * pow(inf, 2.2) * 0.20;
-  vec2 iuv = vec2(cos(uTime * 0.09) * 0.7, sin(uTime * 0.067) * 0.3);
-  col += vec3(0.20, 0.38, 0.92) * exp(-dot(sc - iuv, sc - iuv) * 4.5) * (1.0 - uMouseI) * 0.8 * 0.24;
   vec2 adv = sc - uAttract.xy;
   col += vec3(0.26, 0.48, 1.0) * exp(-dot(adv, adv) * 6.0) * uAttract.z * 0.22;
   col += blue * rippleRing(sc) * 0.2;
@@ -196,7 +192,7 @@ void main() {
   col.b += shear * smoothstep(0.35, 0.95, haze) * 0.06;
   col.rg *= 1.0 - shear * 0.03;
 
-  col *= 1.0 - dot(sc, sc) * 0.72;
+  col = finish(col * vignette(sc));
 
   // grain at the real pixel; also dithers the dark gradients
   float g = hash(gl_FragCoord.xy + fract(uTime * 7.31) * 413.0) - 0.5;
@@ -208,13 +204,18 @@ void main() {
 
 export function AuroraV4() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [lite, setLite] = useState(false);
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
-    const stop = startBackground(canvas, { field: FIELD, fine: FINE, octaves: [6, 4] });
+    if (!canvas || lite) return;
+    const goLite = () => setLite(true);
+    const stop = startBackground(canvas, { field: FIELD, fine: FINE, octaves: [6, 4] }, goLite);
+    if (!stop) goLite();
     return () => stop?.();
-  }, []);
+  }, [lite]);
+
+  if (lite) return <BgLiteV4 variant="aurora" />;
 
   return (
     <div

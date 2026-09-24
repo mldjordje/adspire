@@ -1,0 +1,101 @@
+/* Lite background: a still rendered from the shader itself (8K source,
+   downsampled), given a camera. Everything animates on transform/opacity
+   only, so it stays on the compositor even on old phones. */
+
+.root {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: #04050c;
+}
+
+/* Taller than the frame so scroll parallax has room to travel. */
+.plate {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 135%;
+  will-change: transform;
+}
+
+.image {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  animation: dolly 38s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+.silk {
+  background-image: url("/bg/silk-desktop.jpg");
+}
+
+.aurora {
+  background-image: url("/bg/aurora-desktop.jpg");
+}
+
+@media (max-width: 767px), (orientation: portrait) {
+  .silk {
+    background-image: url("/bg/silk-phone.jpg");
+  }
+  .aurora {
+    background-image: url("/bg/aurora-phone.jpg");
+  }
+}
+
+/* A slow push-in and drift — the still never sits still. */
+@keyframes dolly {
+  from {
+    transform: scale(1.04) translate3d(-1%, 0, 0);
+  }
+  to {
+    transform: scale(1.14) translate3d(1.5%, -2%, 0);
+  }
+}
+
+/* A soft band of light that crosses the frame now and then. */
+.sweep {
+  position: absolute;
+  left: -50%;
+  right: -50%;
+  top: -30%;
+  height: 60%;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(90, 130, 255, 0.07) 45%,
+    rgba(170, 195, 255, 0.1) 50%,
+    rgba(90, 130, 255, 0.07) 55%,
+    transparent 100%
+  );
+  transform: translate3d(0, -60%, 0) rotate(-8deg);
+  animation: sweep 14s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+@keyframes sweep {
+  0%,
+  55% {
+    transform: translate3d(0, -60%, 0) rotate(-8deg);
+    opacity: 0;
+  }
+  62% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(0, 260%, 0) rotate(-8deg);
+    opacity: 0;
+  }
+}
+
+/* Same letterbox-weighted falloff as the shader's vignette. */
+.vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 120% 85% at 50% 50%, transparent 45%, rgba(2, 3, 8, 0.75) 100%);
+}

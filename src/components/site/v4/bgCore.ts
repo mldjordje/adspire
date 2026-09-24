@@ -10,37 +10,55 @@
  *     light. This is what makes it look like a high-res render at roughly the
  *     cost of the old single low-res pass.
  *
- * Quality is picked per device up front, never by watching rAF: rAF measures
- * the whole page's frame (GSAP, Lenis, ScrollTrigger), and an earlier adaptive
- * version pinned the silk to its floor even on an RTX 3060.
+ * Quality is never picked by watching rAF: rAF measures the whole page's
+ * frame (GSAP, Lenis, ScrollTrigger), and an earlier adaptive version pinned
+ * the silk to its floor even on an RTX 3060. Instead the first frames time
+ * this canvas's own GPU work (a 1-pixel readPixels waits for exactly our
+ * draws) and step the resolution down until it fits the budget. Every scene
+ * survives every tier — tiers only change pixel counts.
+ *
+ * The CSS lite version (a still rendered from the same shader, with a slow
+ * camera move and scroll parallax on the compositor) is for devices that
+ * genuinely cannot run it: no WebGL, a software rasteriser, or a GPU that
+ * misses the budget even at the lowest tier. Everyone else sees the shader.
  */
+
+type Tier = { field: number; fine: number };
 
 export type BgQuality = {
   phone: boolean;
-  low: boolean;
-  /** Field pass resolution, in CSS pixels. */
-  fieldScale: number;
-  /** Fine pass resolution, in CSS pixels (≈ capped device pixel ratio). */
-  fineScale: number;
+  tiers: Tier[];
+  /** Starting tier; the benchmark may step it down. */
+  start: number;
 };
 
 export function detectQuality(): BgQuality {
   const phone =
     window.matchMedia("(max-width: 767px)").matches ||
     (window.matchMedia("(pointer: coarse)").matches && Math.min(screen.width, screen.height) < 768);
+  const dpr = window.devicePixelRatio || 1;
+  // field = offscreen fbm pass, fine = native pass; both in CSS-pixel multiples
+  const tiers: Tier[] = phone
+    ? [
+        { field: 0.4, fine: Math.min(dpr, 2) },
+        { field: 0.32, fine: Math.min(dpr, 1.5) },
+        { field: 0.25, fine: 1 },
+      ]
+    : [
+        { field: 0.5, fine: Math.min(dpr, 2) },
+        { field: 0.4, fine: Math.min(dpr, 1.5) },
+        { field: 0.3, fine: 1 },
+      ];
   const cores = navigator.hardwareConcurrency || 4;
   const mem = (navigator as Navigator & { deviceMemory?: number }).deviceMemory ?? 4;
-  // Budget phones are where a background turns into scroll jank; they keep
-  // every scene (those are just uniforms) but render the fine pass at 1x.
-  const low = phone ? cores <= 4 || mem <= 3 : cores <= 2;
-  const dpr = window.devicePixelRatio || 1;
-  return {
-    phone,
-    low,
-    fieldScale: low ? 0.3 : phone ? 0.4 : 0.5,
-    fineScale: low ? 1 : Math.min(dpr, 2),
-  };
+  // Only a clearly weak device starts low; the benchmark decides for the rest.
+  const start = cores <= 2 || mem <= 1 ? 2 : 0;
+  return { phone, tiers, start };
 }
+
+/** Frame budget for our two passes, and the floor below which we go lite. */
+const BUDGET_MS = 8;
+const LITE_MS = 22;
 
 /* ── GLSL shared by both passes of both backgrounds ─────────────────────── */
 
@@ -63,6 +81,7 @@ uniform vec3 uRipple;
 uniform float uPhone;
 uniform float uRemain;
 uniform vec2 uSeam;
+uniform float uQuality;
 
 const float PI = 3.14159265;
 
@@ -88,8 +107,12 @@ float noise(vec2 p) {
 }
 
 // Screen uv: centred, height = 1. Identical in both passes because the field
-// target keeps the canvas aspect.
-vec2 screenUv() { return (gl_FragCoord.xy - 0.5 * uRes) / uRes.y; }
+// target keeps the canvas aspect. While the page moves the frame pushes in a
+// few percent — a camera dolly, the cheapest cinematic cue there is.
+vec2 screenUv() {
+  vec2 u = (gl_FragCoord.xy - 0.5 * uRes) / uRes.y;
+  return u * (1.0 - min(abs(uVel), 1.0) * 0.045);
+}
 
 // Click ripple: a ring that runs out from the click point and fades.
 float rippleRing(vec2 uv) {
@@ -97,6 +120,42 @@ float rippleRing(vec2 uv) {
   if (age > 1.6) return 0.0;
   float d = length(uv - uRipple.xy);
   return exp(-pow((d - age * 0.95) * 11.0, 2.0)) * exp(-age * 2.2);
+}
+`;
+
+/* Fine pass only (needs the field sampler). */
+const GLSL_FINE = `
+uniform sampler2D uField;
+
+// Field read with motion blur along the scroll axis while the page moves.
+// Five taps on the top tiers, one on the lowest — and one whenever still.
+vec4 fieldSample(vec2 st) {
+  float v = clamp(uVel, -1.2, 1.2);
+  vec4 c = texture2D(uField, st);
+  if (abs(v) < 0.03 || uQuality > 1.5) return c;
+  vec2 d = vec2(0.0, v * 0.05);
+  c += texture2D(uField, st + d * 0.25);
+  c += texture2D(uField, st + d * 0.5);
+  c += texture2D(uField, st + d * 0.75);
+  c += texture2D(uField, st - d * 0.25);
+  return c * 0.2;
+}
+
+// Finishing: blacks lifted a hair toward navy so they never crush to flat
+// grey-black, highlights rolled off so bright folds never clip. A rolloff can
+// only darken — this is deliberately not a tone-mapping grade (a grade once
+// whitened the whole site, d9085ac).
+vec3 finish(vec3 col) {
+  float peak = max(col.r, max(col.g, col.b));
+  col *= 1.0 / (1.0 + max(peak - 0.55, 0.0) * 0.9);
+  return max(col, vec3(0.006, 0.008, 0.018));
+}
+
+// Letterbox-weighted vignette: falls off harder top and bottom than at the
+// sides, the way a lens and a wide frame do.
+float vignette(vec2 sc) {
+  vec2 v = sc * vec2(0.85, 1.35);
+  return 1.0 - dot(v, v) * 0.42;
 }
 `;
 
@@ -123,6 +182,7 @@ const UNIFORMS = [
   "uPhone",
   "uRemain",
   "uSeam",
+  "uQuality",
   "uField",
 ] as const;
 
@@ -393,15 +453,41 @@ export type BackgroundSpec = {
   octaves: [number, number];
 };
 
+type DevWindow = Window & {
+  __bgLite?: boolean;
+  __bgTier?: number;
+  __bgFine?: number;
+  __bgCapture?: (canvas: HTMLCanvasElement) => void;
+};
+
 /**
- * Starts a background on `canvas`. Returns a disposer. Returns null when WebGL
- * is unavailable or a shader fails, so the caller's painted fallback stays.
+ * Starts a background on `canvas`. Returns a disposer, or null when the device
+ * should get the lite version (no WebGL, software rasteriser, shader failure).
+ * `onLite` fires if the startup benchmark decides the same later.
  */
-export function startBackground(canvas: HTMLCanvasElement, spec: BackgroundSpec): (() => void) | null {
+export function startBackground(
+  canvas: HTMLCanvasElement,
+  spec: BackgroundSpec,
+  onLite?: () => void,
+): (() => void) | null {
+  const dev = process.env.NODE_ENV !== "production" ? (window as DevWindow) : null;
+  // Dev-only: localStorage bgLite=1 / bgTier=0..2 pin the path from first load.
+  if (dev) {
+    try {
+      if (localStorage.getItem("bgLite") === "1") dev.__bgLite = true;
+      const t = localStorage.getItem("bgTier");
+      if (t !== null) dev.__bgTier = Number(t);
+      const fineOverride = localStorage.getItem("bgFine");
+      if (fineOverride !== null) dev.__bgFine = Number(fineOverride);
+    } catch {}
+  }
+  if (dev?.__bgLite) return null;
+
   const q = detectQuality();
+  let tier = dev?.__bgTier ?? q.start;
   const oct = String(q.phone ? spec.octaves[1] : spec.octaves[0]);
   const fieldSrc = GLSL_COMMON + spec.field.replaceAll("OCTAVES", oct);
-  const fineSrc = GLSL_COMMON + "uniform sampler2D uField;\n" + spec.fine.replaceAll("OCTAVES", oct);
+  const fineSrc = GLSL_COMMON + GLSL_FINE + spec.fine.replaceAll("OCTAVES", oct);
 
   const inputs = createInputs(canvas, q);
   let stopGl: (() => void) | null = null;
@@ -413,6 +499,9 @@ export function startBackground(canvas: HTMLCanvasElement, spec: BackgroundSpec)
       depth: false,
       stencil: false,
       powerPreference: q.phone ? "low-power" : "default",
+      // A software rasteriser (blocklisted GPU, SwiftShader) refuses here —
+      // exactly the device that should get the lite version.
+      failIfMajorPerformanceCaveat: true,
     });
     if (!gl) return false;
 
@@ -478,10 +567,13 @@ export function startBackground(canvas: HTMLCanvasElement, spec: BackgroundSpec)
     let fh = 4;
     const resize = () => {
       const r = canvas.getBoundingClientRect();
-      canvas.width = Math.max(2, Math.round(r.width * q.fineScale));
-      canvas.height = Math.max(2, Math.round(r.height * q.fineScale));
+      const t = q.tiers[tier];
+      // dev-only bgFine renders the posters for the lite version (8K source)
+      const fine = dev?.__bgFine ?? t.fine;
+      canvas.width = Math.max(2, Math.round(r.width * fine));
+      canvas.height = Math.max(2, Math.round(r.height * fine));
       // Field keeps the canvas aspect exactly, so uv lines up between passes.
-      fh = Math.max(2, Math.round(r.height * q.fieldScale));
+      fh = Math.max(2, Math.round(r.height * t.field));
       fw = Math.max(2, Math.round((fh * canvas.width) / canvas.height));
       allocField(fw, fh);
     };
@@ -508,9 +600,18 @@ export function startBackground(canvas: HTMLCanvasElement, spec: BackgroundSpec)
       gl.uniform1f(l.uPhone, q.phone ? 1 : 0);
       gl.uniform1f(l.uRemain, s.remain);
       gl.uniform2f(l.uSeam, s.seam[0], s.seam[1]);
+      gl.uniform1f(l.uQuality, tier);
       gl.uniform1i(l.uField, 0);
     };
 
+    // Startup benchmark: after a short warm-up, time a dozen frames of our own
+    // GPU work. The 1-pixel readPixels blocks until our draws are done, so it
+    // measures this canvas, not the page. Runs for the first second or two only.
+    const px = new Uint8Array(4);
+    let benchFrame = 0;
+    let samples: number[] = [];
+    let benchDone = dev?.__bgTier !== undefined;
+    let liteStrike = false;
     let raf = 0;
     let running = false;
     let last = performance.now();
@@ -519,6 +620,8 @@ export function startBackground(canvas: HTMLCanvasElement, spec: BackgroundSpec)
       const dt = Math.min(0.05, Math.max(0.001, (now - last) / 1000));
       last = now;
       inputs.update(dt);
+      const timing = !benchDone && ++benchFrame > 6;
+      const t0 = timing ? performance.now() : 0;
 
       gl.bindFramebuffer(gl.FRAMEBUFFER, fbo);
       gl.viewport(0, 0, fw, fh);
@@ -533,6 +636,32 @@ export function startBackground(canvas: HTMLCanvasElement, spec: BackgroundSpec)
       gl.bindTexture(gl.TEXTURE_2D, tex);
       setUniforms(fine, canvas.width, canvas.height);
       gl.drawArrays(gl.TRIANGLES, 0, 3);
+
+      if (timing) {
+        gl.readPixels(0, 0, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, px);
+        samples.push(performance.now() - t0);
+        if (samples.length >= 12) {
+          const med = samples.sort((a, b) => a - b)[6];
+          samples = [];
+          benchFrame = 0;
+          if (med > BUDGET_MS && tier < q.tiers.length - 1) {
+            tier++;
+            resize();
+          } else if (med > LITE_MS && !liteStrike) {
+            // one slow round can be a hitch (tab switch, page busy loading):
+            // measure again before giving up on the shader
+            liteStrike = true;
+          } else {
+            benchDone = true;
+            if (med > LITE_MS) {
+              running = false;
+              onLite?.();
+              return;
+            }
+          }
+        }
+      }
+      dev?.__bgCapture?.(canvas);
 
       raf = requestAnimationFrame(frame);
     };

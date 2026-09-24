@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { startBackground } from "./bgCore";
+import { BgLiteV4 } from "./BgLiteV4";
 
 /**
  * Silk shader background — default layer behind every inner page. Raw WebGL,
@@ -65,7 +66,8 @@ void main() {
   q += adv * exp(-dot(adv, adv) * 3.0) * uAttract.z * 0.9;
   q += normalize(sc - uRipple.xy + 0.0001) * rippleRing(sc) * 0.35;
 
-  float detail = 1.8 + sin(uTime * 0.13) * 0.12 + 0.25 * sin(uChapter * 1.7);
+  // calm folds on desktop; a phone sees a narrow slice, so it gets more of them
+  float detail = 1.4 + 1.0 * uPhone + sin(uTime * 0.13) * 0.08 + 0.15 * sin(uChapter * 1.7);
   float f = fbm(uv * detail + q * 1.4 + vec2(t * 0.25, -t * 0.5));
   float f2 = fbm(uvNear * 2.4 - q);
 
@@ -91,7 +93,7 @@ const FINE = `
 void main() {
   vec2 sc = screenUv();
   vec2 st = gl_FragCoord.xy / uRes;
-  vec4 F = texture2D(uField, st);
+  vec4 F = fieldSample(st);
   float f = F.r;
   float f2 = F.g;
   float drape = F.b;
@@ -101,24 +103,34 @@ void main() {
   float tone = 0.5 + 0.5 * sin(uChapter * 1.3);
 
   // Satin: a normal from the field's slope (per uv unit, so it does not change
-  // with resolution) and one light from the upper left.
+  // with resolution) and one key light from the upper left. The key travels
+  // with the scroll, so highlights glide across the folds as the reader goes
+  // down — a moving light, not a moving texture, is what reads as cinema.
   vec2 px = 1.0 / uFieldRes;
   float sx = (texture2D(uField, st + vec2(px.x, 0.0)).r - texture2D(uField, st - vec2(px.x, 0.0)).r) * uFieldRes.y * 0.5;
   float sy = (texture2D(uField, st + vec2(0.0, px.y)).r - texture2D(uField, st - vec2(0.0, px.y)).r) * uFieldRes.y * 0.5;
-  vec3 n = normalize(vec3(-sx * 0.22, -sy * 0.22, 1.0));
-  vec3 L = normalize(vec3(-0.55, 0.65, 0.55));
+  vec3 n = normalize(vec3(-sx * 0.27, -sy * 0.27, 1.0));
+  vec3 L = normalize(vec3(-0.55 + 0.45 * sin(uScroll * 0.45), 0.65 + 0.15 * cos(uScroll * 0.3), 0.55));
   float diff = clamp(dot(n, L), 0.0, 1.0);
   float spec = pow(clamp(dot(n, normalize(L + vec3(0.0, 0.0, 1.0))), 0.0, 1.0), 48.0);
 
   // two-blue palette only — no cyan/violet
-  vec3 deep = mix(vec3(0.010, 0.012, 0.026), vec3(0.016, 0.024, 0.058), tone);
+  vec3 deep = mix(vec3(0.012, 0.016, 0.036), vec3(0.018, 0.028, 0.066), tone);
   vec3 blue = mix(vec3(0.14, 0.32, 0.86), vec3(0.18, 0.40, 0.96), tone);
   vec3 blueDeep = vec3(0.13, 0.26, 0.68);
   vec3 pale = vec3(0.62, 0.74, 1.0);
 
-  float body = smoothstep(0.35, 0.85, f);
+  // Auto-exposure, like a camera metering the frame: the threshold follows the
+  // field's average over five fixed points, so every screen of the page gets
+  // the same dark-satin exposure instead of some going black and some flat
+  // blue. Five fetches of the same texels for every pixel — cache hits.
+  float fa = (texture2D(uField, vec2(0.25, 0.25)).r + texture2D(uField, vec2(0.75, 0.25)).r
+            + texture2D(uField, vec2(0.5, 0.5)).r + texture2D(uField, vec2(0.25, 0.75)).r
+            + texture2D(uField, vec2(0.75, 0.75)).r) * 0.2;
+  float body = smoothstep(fa - 0.24, fa + 0.24, f);
+  body = body * body * (3.0 - 2.0 * body);
   vec3 col = deep;
-  col += blue * body * 0.46 * calm;
+  col += blue * pow(body, 1.6) * 0.38 * calm;
   col += blueDeep * smoothstep(0.55, 1.0, f2) * 0.42 * calm;
   col *= 0.50 + 0.72 * diff;
   col += pale * spec * (0.25 + body) * 0.45 * calm;
@@ -126,14 +138,13 @@ void main() {
   // Sheen lines along the folds, at native resolution — the sharp detail the
   // low-res field cannot carry. They flare while the page moves.
   col += vec3(0.5, 0.62, 1.0) * pow(abs(sin(f * 14.0 + t * 3.0)), 24.0)
-       * (0.07 + abs(uVel) * 0.34);
+       * (0.035 + abs(uVel) * 0.3);
 
-  // pointer / finger light, and the dimmer idle pocket
+  // pointer / finger light (the idle pocket only moves the folds, no glow:
+  // a lit blob wandering on its own read as noise)
   vec2 duv = sc - uMouse;
   float inf = exp(-dot(duv, duv) * (9.0 - 3.5 * uPhone)) * uMouseI;
-  col += vec3(0.24, 0.44, 0.95) * inf * 0.45;
-  vec2 iduv = sc - vec2(cos(uTime * 0.11) * 0.62, sin(uTime * 0.083) * 0.42);
-  col += vec3(0.2, 0.38, 0.9) * exp(-dot(iduv, iduv) * 5.0) * (1.0 - uMouseI) * 0.85 * 0.22;
+  col += vec3(0.24, 0.44, 0.95) * inf * 0.4;
 
   // Drape: darker velvet, a rim of light along the scalloped hem and a soft
   // shadow cast just under it.
@@ -161,7 +172,7 @@ void main() {
   col += blue * exp(-dot(e, e) * 2.5) * (1.0 - smoothstep(0.0, 1.0, uRemain)) * 0.16;
 
   // Vignette stays in screen space: it belongs to the screen, not the fabric.
-  col *= 1.0 - dot(sc, sc) * 0.55;
+  col = finish(col * vignette(sc));
 
   // Film grain at the real pixel. Also dithers the dark gradients.
   float g = hash(gl_FragCoord.xy + fract(uTime * 7.31) * 413.0) - 0.5;
@@ -173,15 +184,26 @@ void main() {
 
 export function SilkV4({ opacity = 1 }: { opacity?: number }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [lite, setLite] = useState(false);
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
-    // Phones keep three octaves in the field; the fine pass is what makes the
-    // difference there, and it is cheap.
-    const stop = startBackground(canvas, { field: FIELD, fine: FINE, octaves: [5, 3] });
+    if (!canvas || lite) return;
+    // Three octaves everywhere: the satin shading turns any finer octave into
+    // crinkled foil. Clean folds and a cheaper field in one.
+    const goLite = () => setLite(true);
+    const stop = startBackground(canvas, { field: FIELD, fine: FINE, octaves: [3, 3] }, goLite);
+    if (!stop) goLite();
     return () => stop?.();
-  }, []);
+  }, [lite]);
+
+  if (lite) {
+    return (
+      <div style={{ position: "absolute", inset: 0, opacity, pointerEvents: "none" }}>
+        <BgLiteV4 variant="silk" />
+      </div>
+    );
+  }
 
   return (
     <canvas
