@@ -100,7 +100,7 @@ export function TechCarouselV4() {
   const items = [...TECH, ...TECH];
 
   return (
-    <div ref={wrapRef} className={styles.techWrap} data-cursor="vuci">
+    <div ref={wrapRef} className={styles.techWrap} data-cursor="vuci" data-reveal-item>
       <div ref={trackRef} className={styles.techTrack}>
         {items.map((t, i) => (
           <div key={`${t.name}-${i}`} className={styles.techItem} aria-hidden={i >= TECH.length}>

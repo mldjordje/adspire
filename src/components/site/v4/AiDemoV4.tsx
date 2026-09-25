@@ -91,7 +91,7 @@ export function AiDemoV4({ locale = defaultLocale }: { locale?: LocaleCode } = {
   }, [shown]);
 
   return (
-    <div ref={wrapRef} className={styles.chatWrap}>
+    <div ref={wrapRef} className={styles.chatWrap} data-reveal-item>
       <div className={styles.chatTrack} style={{ transform: `translateX(${-cur * 100}%)` }}>
         {CHATS.map((ch, i) => (
           <div key={ch.name} className={styles.chatSlide} aria-hidden={i !== cur}>

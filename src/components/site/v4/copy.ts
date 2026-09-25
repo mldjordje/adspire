@@ -21,6 +21,8 @@ export type V4Copy = {
     sub: string;
     ctaPrimary: string;
     ctaGhost: string;
+    /** Door to the full services index. */
+    ctaServices: string;
     trust: [string, string, string];
     scroll: string;
     /** affordance for the draggable sculpture — hidden once actually used */
@@ -90,6 +92,7 @@ const sr: V4Copy = {
     sub: "Pravimo sajtove koji dovode klijente i aplikacije koje štede vreme. Web shop, zakazivanje i AI — po meri tvog posla.",
     ctaPrimary: "Opiši šta ti treba",
     ctaGhost: "Pogledaj radove",
+    ctaServices: "Naše usluge",
     trust: ["13 sistema u produkciji", "5 javnih studija slučaja", "Prototip za 48h"],
     scroll: "skroluj",
     drag: "prevuci · zavrti scenu",
@@ -237,6 +240,7 @@ const en: V4Copy = {
     sub: "Websites that bring clients. Apps that save time. Online stores, booking and AI, built around your business.",
     ctaPrimary: "Tell us what you need",
     ctaGhost: "See our work",
+    ctaServices: "Our services",
     trust: ["13 production systems", "5 public case studies", "Prototype in 48h"],
     scroll: "scroll",
     drag: "drag · spin the scene",
@@ -384,6 +388,7 @@ const de: V4Copy = {
     sub: "Websites, die Kunden bringen. Apps, die Zeit sparen. Onlineshops, Buchungssysteme und KI nach Maß.",
     ctaPrimary: "Vorhaben beschreiben",
     ctaGhost: "Arbeiten ansehen",
+    ctaServices: "Unsere Leistungen",
     trust: ["13 Produktivsysteme", "5 öffentliche Fallstudien", "Prototyp in 48 h"],
     scroll: "scrollen",
     drag: "ziehen · Szene drehen",

@@ -7,6 +7,7 @@ import { SilkV4 } from "./SilkV4";
 import { EventHorizonV4 } from "./EventHorizonV4";
 import { FooterV4 } from "./FooterV4";
 import { MobileMenuV4 } from "./MobileMenuV4";
+import { revealContent } from "./revealV4";
 import { NavMegaV4 } from "./NavMegaV4";
 import { getShellCopy, shellPath, type ShellCopy } from "./shellCopy";
 import { defaultLocale, localePath, locales, type LocaleCode } from "@/lib/site-config";
@@ -173,17 +174,20 @@ export function PageShellV4({
           ease: "power3.out",
         });
 
-        root.querySelectorAll<HTMLElement>("[data-reveal]").forEach((el) => {
-          gsap.from(el, {
-            y: 40,
-            autoAlpha: 0,
-            duration: 0.8,
-            ease: "power3.out",
-            scrollTrigger: { trigger: el, start: "top 85%", once: true },
-          });
-        });
       }, root);
-      ctxRevert = () => ctx.revert();
+      // Every block below the hero, footer included, animates on its own as
+      // it enters — see revealV4 for why section-level fades were not enough.
+      const undoReveal = revealContent(
+        [root.querySelector<HTMLElement>("main"), root.querySelector<HTMLElement>(`.${styles.footerZone}`)],
+        gsap,
+        ScrollTrigger,
+        SplitType,
+        { skip: `.${styles.hero}` },
+      );
+      ctxRevert = () => {
+        undoReveal();
+        ctx.revert();
+      };
     })();
 
     // A title is set in one clamp for every page, so the longest word decides

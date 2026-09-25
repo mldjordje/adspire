@@ -758,10 +758,22 @@
 
 .heroCtas {
   display: flex;
-  gap: 16px;
+  gap: 12px;
   justify-content: center;
-  margin-top: clamp(28px, 4.5vh, 48px);
+  /* the title is the only copy left, so the buttons get real air under it */
+  margin-top: clamp(40px, 7vh, 72px);
   flex-wrap: wrap;
+}
+
+/* third door: same shape, less weight, so the eye still lands on the primary */
+.btnGhost.btnQuiet {
+  border-color: transparent;
+  background: transparent;
+  backdrop-filter: none;
+  color: rgba(247, 247, 243, 0.72);
+  text-decoration: underline;
+  text-decoration-color: rgba(247, 247, 243, 0.25);
+  text-underline-offset: 6px;
 }
 
 /* Affordance for the draggable sculpture. Desktop can now grab the scene
@@ -2292,6 +2304,34 @@
     display: none;
   }
 
+  /* one clear primary on top, the two quieter doors side by side below */
+  .heroCtas {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    width: min(100%, 360px);
+    margin-inline: auto;
+  }
+
+  .heroCtas > a {
+    padding: 16px 12px;
+    text-align: center;
+  }
+
+  .heroCtas > a:first-child {
+    grid-column: 1 / -1;
+  }
+
+  /* the sculpture sits right behind the buttons on a phone — a bare link
+     disappears into the particles, so the quiet door gets its glass back */
+  .btnGhost.btnQuiet {
+    color: var(--ink);
+    text-decoration: none;
+    background: rgba(5, 9, 18, 0.38);
+    border-color: rgba(247, 247, 243, 0.16);
+    backdrop-filter: blur(14px);
+  }
+
   .heroInner::before {
     inset: -28% -18%;
     background: radial-gradient(
@@ -2314,8 +2354,12 @@
    phone has no side to give away. */
 
 @media (min-width: 1024px) {
+  /* Copy sits low on the left, so the upper frame and the right side are
+     open for the sculpture to assemble in. */
   .hero {
     justify-content: flex-start;
+    align-items: flex-end;
+    padding-bottom: clamp(96px, 15vh, 170px);
   }
 
   .heroInner {
@@ -2326,15 +2370,20 @@
     margin-left: clamp(0px, 3vw, 64px);
   }
 
-  /* vignette follows the copy instead of covering the whole frame */
+  /* Vignette follows the copy. Lighter than before: with one title and a button row there is much less
+     to protect, and every point of opacity here hides the sculpture. */
   .heroInner::before {
-    inset: -20% -40% -20% -60%;
+    inset: -30% -40% -30% -60%;
     background: radial-gradient(
-      ellipse 70% 60% at 34% 50%,
-      rgba(2, 5, 12, 0.94),
-      rgba(2, 5, 12, 0.6) 50%,
-      transparent 78%
+      ellipse 62% 56% at 30% 55%,
+      rgba(2, 5, 12, 0.82),
+      rgba(2, 5, 12, 0.42) 50%,
+      transparent 76%
     );
+  }
+
+  .heroInner {
+    padding-bottom: 0;
   }
 
   .heroCtas,

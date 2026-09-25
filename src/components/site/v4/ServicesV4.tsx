@@ -3,6 +3,7 @@
 import { PageShellV4 } from "./PageShellV4";
 import { getServicesCopy } from "./servicesCopy";
 import styles from "./ServicesV4.module.css";
+import { ServicesExplorerV4 } from "./ServicesExplorerV4";
 import { defaultLocale, localePath, type LocaleCode } from "@/lib/site-config";
 
 /**
@@ -30,7 +31,9 @@ export function ServicesV4({ locale = defaultLocale }: { locale?: LocaleCode }) 
       }
       intro={t.intro}
     >
-      {t.groups.map((group) => (
+      {/* Serbian has every page the site offers, so it gets the navigator;
+          EN/DE only have the catalog services and keep the plain grid. */}
+      {locale === "sr" ? <ServicesExplorerV4 /> : t.groups.map((group) => (
         <section key={group.label} className={styles.group} data-reveal>
           <div className={styles.groupHead}>
             <h2 className={styles.groupLabel}>{group.label}</h2>

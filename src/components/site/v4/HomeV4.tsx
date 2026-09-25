@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import gsap from "gsap";
@@ -22,6 +22,7 @@ import { MobileMenuV4 } from "./MobileMenuV4";
 import { NavMegaV4 } from "./NavMegaV4";
 import { getV4Copy } from "./copy";
 import { HotelPromo } from "./HotelPromo";
+import { revealContent } from "./revealV4";
 import {
   defaultLocale,
   localePath,
@@ -226,7 +227,7 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
       }
       intro
         .from(
-          q(`.${styles.heroBadge}, .${styles.heroSub}, .${styles.heroTrust}, .${styles.heroCtas}`),
+          q(`.${styles.heroCtas} > a, .${styles.sceneGestureHint}`),
           {
             y: 26,
             autoAlpha: 0,
@@ -262,7 +263,7 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
         [
           heroTitle,
           ...q(
-            `.${styles.heroBadge}, .${styles.heroSub}, .${styles.heroTrust}, .${styles.heroCtas}, .${styles.sceneGestureHint}`,
+            `.${styles.heroCtas}, .${styles.sceneGestureHint}`,
           ),
         ].filter(Boolean),
         {
@@ -580,6 +581,20 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
         });
       });
 
+      // ── Everything the timelines above don't own: eyebrows, logos, the
+      // demo, FAQ rows, metric labels, the hotel promo, CTA details, footer.
+      const undoReveal = revealContent([root.querySelector<HTMLElement>("main")], gsap, ScrollTrigger, SplitType, {
+        skip: [
+          styles.hero, styles.marquee, styles.manifesto, styles.projects, styles.svcRow,
+          styles.valueCard, styles.processStep, styles.processLine, styles.ctaTitle,
+          styles.metricNum, styles.wordmark,
+        ]
+          .filter(Boolean)
+          .map((c) => `.${c}`)
+          .concat("[data-reveal]")
+          .join(","),
+      });
+
       // page scroll progress
       const pageBar = q<HTMLElement>(`.${styles.pageProgress}`)[0];
       if (pageBar) {
@@ -600,6 +615,7 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
         window.removeEventListener("resize", fitTitle);
         window.clearTimeout(introFallback);
         split?.revert();
+        undoReveal();
       };
     }, root);
 
@@ -842,10 +858,6 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
           <div className={`${styles.heroAura} ${styles.heroAuraB}`} aria-hidden="true" />
           <div className={styles.heroInner}>
             <span className={styles.heroSheen} aria-hidden="true" />
-            <p className={styles.heroBadge}>
-              <span className={styles.heroBadgeDot} />
-              {t.hero.badge}
-            </p>
             <h1 className={styles.heroTitle}>
               <span className={styles.heroLine}>{t.hero.title[0]}</span>
               <span className={`${styles.heroLine} ${styles.heroLineOutline}`}>{t.hero.title[1]}</span>
@@ -853,21 +865,9 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
                 {t.hero.title[2]}<span className={styles.heroAccentDot}>.</span>
               </span>
             </h1>
-            {/* The headline is a slogan — on its own a visitor learns nothing
-                about what this company does. These two blocks were written in
-                copy.ts for all three locales and styled in the stylesheet, but
-                never rendered, so the first screen carried no offer and no
-                proof. They are what answers "what do you do" and "why you"
-                inside the first few seconds. */}
-            <p className={styles.heroSub}>{t.hero.sub}</p>
-            <p className={styles.heroTrust}>
-              {t.hero.trust.map((item, i) => (
-                <Fragment key={item}>
-                  {i > 0 && <span className={styles.heroTrustSep} aria-hidden="true" />}
-                  <span>{item}</span>
-                </Fragment>
-              ))}
-            </p>
+            {/* Title and three doors, nothing else: the badge, pitch and trust
+                strip sat on top of the sculpture and hid the reveal the whole
+                page is built around. The offer is told further down. */}
             <div className={styles.heroCtas}>
               {/* Writing one sentence is less to ask of a stranger than
                   booking a call, so Serbian visitors get the short form. */}
@@ -880,7 +880,10 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
               >
                 {t.hero.ctaPrimary}
               </a>
-              <a className={styles.btnGhost} href={localePath("/our-projects", locale)} data-cta="hero-projects" data-cursor="on" data-scramble>
+              <a className={styles.btnGhost} href={localePath("/our-services", locale)} data-cta="hero-usluge" data-cursor="on" data-scramble>
+                {t.hero.ctaServices}
+              </a>
+              <a className={`${styles.btnGhost} ${styles.btnQuiet}`} href={localePath("/our-projects", locale)} data-cta="hero-projects" data-cursor="on" data-scramble>
                 {t.hero.ctaGhost}
               </a>
             </div>
