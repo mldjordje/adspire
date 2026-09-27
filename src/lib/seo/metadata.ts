@@ -58,6 +58,15 @@ const TRANSLATED_PATHS = new Set<string>([
   "/sta-mora-da-ima-moderan-sajt-firme",
   "/was-gehoert-auf-eine-moderne-unternehmenswebsite",
   "/what-every-business-website-must-have",
+  "/shopify-vs-woocommerce-vs-custom-shop",
+  "/shopify-vs-woocommerce-vergleich",
+  "/shopify-vs-woocommerce-vs-custom-store",
+  "/kako-automatizovati-zakazivanje-whatsapp",
+  "/terminbuchung-whatsapp-automatisieren",
+  "/how-to-automate-whatsapp-appointment-booking",
+  "/outsourcing-nearshoring-it-srbija-nemacka",
+  "/webagentur-serbien-beauftragen-dsgvo-vorteile",
+  "/hiring-web-agency-serbia-nearshoring-guide",
 ]);
 
 /**

@@ -13,6 +13,9 @@ const GERMAN_GUIDE_PATHS = [
   "/warum-onlineshop-nicht-verkauft",
   "/terminausfaelle-no-shows-verhindern",
   "/was-gehoert-auf-eine-moderne-unternehmenswebsite",
+  "/shopify-vs-woocommerce-vergleich",
+  "/terminbuchung-whatsapp-automatisieren",
+  "/webagentur-serbien-beauftragen-dsgvo-vorteile",
 ];
 
 export function middleware(request: NextRequest) {
@@ -40,5 +43,8 @@ export const config = {
     "/warum-onlineshop-nicht-verkauft",
     "/terminausfaelle-no-shows-verhindern",
     "/was-gehoert-auf-eine-moderne-unternehmenswebsite",
+    "/shopify-vs-woocommerce-vergleich",
+    "/terminbuchung-whatsapp-automatisieren",
+    "/webagentur-serbien-beauftragen-dsgvo-vorteile",
   ],
 };

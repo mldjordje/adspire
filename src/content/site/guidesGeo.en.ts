@@ -314,3 +314,306 @@ export const modernWebsiteMustHavesGuideEn: Guide = {
   secondaryCta: { label: "Explore Our Core Services", href: "/en/our-services" },
   related: ["/en/our-services", "/en/our-projects"],
 };
+
+export const shopifyVsWooVsCustomGuideEn: Guide = {
+  path: "/en/shopify-vs-woocommerce-vs-custom-store",
+  eyebrow: "E-Commerce Platforms",
+  title: "Shopify vs WooCommerce vs Custom Store — Cost & Scalability 2026",
+  metaDescription:
+    "Honest comparison between Shopify, WooCommerce, and custom web stores: recurring app fees, transaction cuts, database scalability, and when to build custom code.",
+  h1: "Shopify vs WooCommerce vs Custom Store",
+  lead:
+    "Shopify offers rapid launch but takes 2–3% transaction cuts alongside costly monthly app subscriptions. WooCommerce gives ownership without sales cuts, but demands constant maintenance and slows down at scale. A custom headless store delivers sub-second speeds, zero platform fees, and infinite flexibility for growing brands seeking higher profit margins and total data control.",
+  keywords: [
+    "shopify vs woocommerce",
+    "shopify or woocommerce comparison",
+    "custom ecommerce website cost",
+    "ecommerce platform comparison 2026",
+    "hidden shopify fees",
+    "custom web store vs woocommerce",
+  ],
+  background: "silk",
+  updated: "2026-09-27",
+  sections: [
+    {
+      heading: "1. Shopify: Fast Setup but Relentless Monthly and Transaction Fees",
+      body: [
+        "Shopify is the gold standard for fast validation and direct-to-consumer startups. However, as gross merchandise value expands, its fee structure eats aggressively into net margins.",
+      ],
+      bullets: [
+        "Monthly platform plans range from $39 to $399/mo simply to keep the storefront online.",
+        "A 0.5% to 2.0% transaction fee penalty on every order when using external payment processors.",
+        "Essential apps for localized checkout, ERP sync, advanced reviews, and marketing quickly add $200 to $600 in monthly recurring costs.",
+        "Total vendor lock-in: neither your frontend codebase nor your database can be exported or moved to self-hosted infrastructure.",
+      ],
+    },
+    {
+      heading: "2. WooCommerce: Zero Platform Fees but High Maintenance Fragility",
+      body: [
+        "WooCommerce powers millions of stores on WordPress without charging a penny on transactions. The hidden cost is operational stability and developer overhead.",
+      ],
+      bullets: [
+        "No platform sales cut — you keep 100% of revenue minus standard payment processor rates (Stripe, PayPal).",
+        "Vast ecosystem of open-source plugins for regional payment gateways and shipping carriers.",
+        "Major vulnerability: plugin conflict breakage during core WordPress updates, which often disrupt checkout during peak hours.",
+        "Noticeable database slowdowns when product catalogs exceed 3,000 to 5,000 SKUs without costly specialized hosting.",
+      ],
+    },
+    {
+      heading: "3. Custom Web Store: Bespoke Performance for Scaling Brands",
+      body: [
+        "A custom headless store built with Next.js, Node.js, and PostgreSQL is engineered exclusively for your specific fulfillment workflows, high volume, and ERP connections.",
+      ],
+      bullets: [
+        "Sub-second global page loads (Core Web Vitals consistently 95-100) maximizing mobile conversion and organic search rankings.",
+        "Zero monthly platform licensing costs, 0% platform transaction cuts, and complete freedom from plugin vulnerabilities.",
+        "Direct real-time API integrations with your inventory management, CRM, and accounting software.",
+        "Creation of proprietary enterprise software equity instead of paying lifetime rent to third-party SaaS platforms.",
+      ],
+    },
+    {
+      heading: "Annual Cost Breakdown at $100,000 Annual Revenue",
+      bullets: [
+        "Shopify: Base subscription ($468) + essential apps ($2,400) + 1.5% transaction penalty ($1,500) = ~$4,368/year recurring.",
+        "WooCommerce: Premium hosting & SSL ($350) + plugin licenses ($450) + routine dev maintenance ($1,800) = ~$2,600/year.",
+        "Custom Store: Modern cloud infrastructure ($150–$300/year), $0 in recurring app subscriptions, $0 in platform sales taxes.",
+      ],
+    },
+  ],
+  proofHeading: "Custom E-Commerce Case Studies",
+  proof: [
+    {
+      label: "Custom E-Commerce Development",
+      href: "/en/our-services/e-commerce-web-shop",
+      note: "Explore how we design and deploy fast, resilient custom web stores.",
+    },
+  ],
+  faqHeading: "Frequently Asked Questions About Store Platforms",
+  faq: [
+    {
+      q: "When does it make financial sense to migrate from Shopify to a Custom Store?",
+      a: "Migration is typically justified when monthly revenue surpasses $20,000 to $30,000, when third-party app subscriptions exceed several hundred dollars per month, or when storefront latency and checkout restrictions directly bottleneck conversion rates.",
+    },
+    {
+      q: "Can existing customers, order history, and products be migrated seamlessly?",
+      a: "Yes. All product data, customer accounts, and historical order records can be migrated via API scripts without loss. Furthermore, comprehensive 301 URL redirects are configured to protect your existing search engine rankings.",
+    },
+    {
+      q: "Which platform performs best for Google Core Web Vitals and SEO?",
+      a: "Custom headless architectures (Next.js) hold a decisive edge because they bundle only the minimal JavaScript needed for the viewport. Monolithic platforms like Shopify and WooCommerce inherently load heavy third-party vendor scripts that drag down mobile PageSpeed scores.",
+    },
+    {
+      q: "How are payment gateways and checkout flows handled in a custom shop?",
+      a: "We integrate directly with industry-standard payment processors like Stripe, Apple Pay, Google Pay, and Klarna using official SDKs. The checkout UI is completely customizable with zero redirect delays or external branding.",
+    },
+  ],
+  cta: { label: "Request an E-Commerce Consultation", href: "/en/contact-us" },
+  secondaryCta: { label: "Why Is My Online Store Not Selling?", href: "/en/why-online-store-not-selling" },
+  related: [
+    "/en/why-online-store-not-selling",
+    "/en/what-every-business-website-must-have",
+  ],
+};
+
+export const whatsappBookingAutomationGuideEn: Guide = {
+  path: "/en/how-to-automate-whatsapp-appointment-booking",
+  eyebrow: "Workflow Automation",
+  title: "How to Automate Appointment Booking via WhatsApp & Website",
+  metaDescription:
+    "Automate appointment bookings for clinics, salons, and practices via WhatsApp: 24/7 calendar synchronization, zero missed calls, and automated reminders.",
+  h1: "How to Automate Appointment Booking via WhatsApp & Website",
+  lead:
+    "Automating appointment booking via WhatsApp allows clients to select available slots 24/7 without waiting for a receptionist. The system syncs instantly with Google or Outlook calendars, eliminates double bookings, and sends automated reminders via WhatsApp or SMS, saving staff over 15 hours weekly while reducing costly no-shows by up to 80%.",
+  keywords: [
+    "whatsapp appointment booking",
+    "automate booking whatsapp",
+    "whatsapp business calendar sync",
+    "salon clinic automated booking",
+    "reduce no shows whatsapp",
+    "appointment automation software",
+  ],
+  background: "aurora",
+  updated: "2026-09-27",
+  sections: [
+    {
+      heading: "1. Why Manual Message Booking Drains Staff Time and Revenue",
+      body: [
+        "When prospective clients message 'Do you have availability this Friday at 4?', it sparks a 4-to-6 message exchange before the appointment is finalized. While staff manage phone calls and messages, in-person clients are left waiting.",
+      ],
+      bullets: [
+        "Over 45% of appointment requests occur outside business hours (evenings and weekends) when staff cannot respond immediately.",
+        "Manual entry into physical notebooks or spreadsheets creates double-booking disasters and embarrassing reception mix-ups.",
+        "Receptionists spend up to 3 hours every day on repetitive texting instead of high-value client care.",
+      ],
+    },
+    {
+      heading: "2. How an Intelligent WhatsApp Booking Assistant Works",
+      body: [
+        "The system pairs the official WhatsApp Business Cloud API directly with your central appointment calendar. Clients book through an interactive, intuitive menu right inside WhatsApp.",
+      ],
+      bullets: [
+        "Clients tap a WhatsApp widget on your website or message your verified business number directly.",
+        "The automated assistant presents services, durations, and real-time open slots pulled directly from your calendar.",
+        "Upon selection, the appointment is instantly reserved in your Google, Outlook, or internal practice management calendar.",
+        "The client receives an immediate confirmation message containing an 'Add to Calendar' (.ics) invite.",
+      ],
+    },
+    {
+      heading: "3. Automated Reminders That Eliminate Expensive No-Shows",
+      body: [
+        "With open rates exceeding 95%, WhatsApp is far more effective than emails or plain SMS. The reminder arrives where clients actively engage every day.",
+      ],
+      bullets: [
+        "An automated reminder is sent 24 hours prior with one-tap 'Confirm' and 'Reschedule' buttons.",
+        "If a client reschedules or cancels, the slot is immediately released and made available to other clients in real time.",
+        "A final notification with directions and arrival instructions is delivered 2 hours before the visit, reducing no-shows by up to 80%.",
+      ],
+    },
+    {
+      heading: "4. Seamless Integration With Your Existing Tools",
+      body: [
+        "You don't need to rebuild your operational workflow. The automation connects cleanly to the tools your staff already knows.",
+      ],
+      bullets: [
+        "Full synchronization with Google Workspace, Microsoft 365, and industry-specific practice management software.",
+        "Automatic client card creation with visit history, practitioner notes, and contact details.",
+        "Optional online deposit or upfront card payment integration for high-ticket services.",
+      ],
+    },
+  ],
+  proofHeading: "Booking & Scheduling Systems",
+  proof: [
+    {
+      label: "Custom Booking System Solutions",
+      href: "/en/our-services/sistemi-za-zakazivanje",
+      note: "Discover how we develop custom booking platforms with WhatsApp and calendar sync.",
+    },
+  ],
+  faqHeading: "Frequently Asked Questions About WhatsApp Booking",
+  faq: [
+    {
+      q: "Do we need a new phone number to deploy WhatsApp booking automation?",
+      a: "No, you can connect your existing company landline or mobile number through the official WhatsApp Business API. This allows multiple staff members to use the number simultaneously while the automated assistant handles booking flows in the background.",
+    },
+    {
+      q: "What happens when a client asks a custom or complex question?",
+      a: "The assistant detects non-standard queries and immediately transfers the conversation to a human team member, triggering a real-time notification on desktop or mobile.",
+    },
+    {
+      q: "Can the system handle varying service durations and cleanup buffers?",
+      a: "Yes. Each service includes exact durations and custom buffer times (for sanitization, prep, or transitions). The calendar will never display a slot unless the entire required window is completely open.",
+    },
+    {
+      q: "Is WhatsApp booking automation GDPR-compliant?",
+      a: "Yes. By utilizing the official WhatsApp Business Platform (Cloud API) with standard Data Processing Agreements (DPA) and explicit user consent, client data is handled in strict compliance with GDPR standards.",
+    },
+  ],
+  cta: { label: "Schedule an Automation Consultation", href: "/en/contact-us" },
+  secondaryCta: { label: "Guide: How to Stop Appointment No-Shows", href: "/en/how-to-reduce-appointment-no-shows" },
+  related: [
+    "/en/how-to-reduce-appointment-no-shows",
+    "/en/what-every-business-website-must-have",
+  ],
+};
+
+export const nearshoringSerbiaGuideEn: Guide = {
+  path: "/en/hiring-web-agency-serbia-nearshoring-guide",
+  eyebrow: "Nearshoring & Global Delivery",
+  title: "Hiring a Software Agency in Serbia — GDPR, B2B Contracts & Nearshoring",
+  metaDescription:
+    "Complete nearshoring guide for European and US businesses: B2B legal contracts, Reverse Charge zero-VAT billing, GDPR compliance, and 40–60% development savings.",
+  h1: "Hiring a Software Agency in Serbia for European & US Projects",
+  lead:
+    "Hiring a Serbian software agency gives European and US companies 40–60% development savings with top-tier engineering talent in the European time zone (CET). Projects run securely under international B2B agreements, Reverse Charge zero-VAT billing, full GDPR compliance, and 100% intellectual property ownership transferred directly to your business.",
+  keywords: [
+    "nearshoring serbia",
+    "hire software agency serbia",
+    "it outsourcing serbia gdpr",
+    "reverse charge invoicing serbia",
+    "software development serbia cost",
+    "nearshore web development europe",
+  ],
+  background: "silk",
+  updated: "2026-09-27",
+  sections: [
+    {
+      heading: "1. Why European and US Companies Nearshore to Serbia",
+      body: [
+        "Tech talent shortages across Western Europe and the US have driven agency hourly rates to $140–$220/hr. Serbia has emerged as a premier European engineering hub offering exceptional technical depth at sustainable rates.",
+      ],
+      bullets: [
+        "Central European Time (CET): 100% overlapping business hours with London, Berlin, Paris, and Zurich, plus convenient morning overlap with US East Coast.",
+        "Strategic proximity: Direct flights from Munich, Frankfurt, Vienna, and Zurich to Belgrade or Niš take only 90 to 120 minutes.",
+        "40% to 60% budget efficiency without compromising code architecture or engineering standards.",
+        "Fluent English proficiency and deep familiarity with Western European business culture and agile methodologies.",
+      ],
+    },
+    {
+      heading: "2. Legal Security: B2B Service Contracts and 100% IP Transfer",
+      body: [
+        "Engagement is governed by clear, enforceable international B2B agreements detailing milestones, deliverables, warranties, and code handovers.",
+      ],
+      bullets: [
+        "Full, unencumbered transfer of all intellectual property (IP), copyrights, and trade secrets upon final milestone settlement.",
+        "All source code is committed directly to your company's private GitHub or GitLab repository from day one.",
+        "Comprehensive Non-Disclosure Agreements (NDAs) signed prior to discovery to protect proprietary business models and logic.",
+      ],
+    },
+    {
+      heading: "3. Tax Efficiency: Zero-VAT Reverse Charge Invoicing",
+      body: [
+        "Cross-border invoicing between Serbia and EU/US entities is streamlined, preventing double taxation and excessive paperwork.",
+      ],
+      bullets: [
+        "Invoices are issued in EUR, USD, or CHF with 0% Serbian VAT under service export exemptions.",
+        "EU clients apply standard Reverse Charge accounting procedures according to EU VAT Directive regulations.",
+        "Payments are executed via direct international wire transfer (SEPA or SWIFT) linked to concrete milestone deliverables.",
+      ],
+    },
+    {
+      heading: "4. GDPR Compliance and European Data Security",
+      body: [
+        "Protecting user privacy is non-negotiable. Serbian data protection legislation is comprehensively aligned with the EU General Data Protection Regulation (GDPR).",
+      ],
+      bullets: [
+        "Execution of formal Data Processing Agreements (DPA) under Article 28 of GDPR.",
+        "Production environments and databases remain hosted exclusively in certified EU data centers (e.g. Frankfurt, Germany via AWS or Hetzner).",
+        "Strict enterprise security practices: encrypted data in transit and at rest, role-based access control, and 2FA enforcement.",
+      ],
+    },
+  ],
+  proofHeading: "Working With Adspire",
+  proof: [
+    {
+      label: "Our Approach and Engineering Standards",
+      href: "/en/about-us",
+      note: "Learn about our development philosophy, modern tech stack, and quality commitments.",
+    },
+  ],
+  faqHeading: "Frequently Asked Questions About Nearshoring to Serbia",
+  faq: [
+    {
+      q: "Is hiring an agency in Serbia legally straightforward for an EU or US company?",
+      a: "Yes, completely. European and US corporations routinely outsource development to Serbia using standard cross-border B2B service contracts. Billing is straightforward and tax-exempt under Reverse Charge rules.",
+    },
+    {
+      q: "What language is used for sprint meetings and documentation?",
+      a: "All project management, sprint ceremonies, Slack communication, and technical documentation are conducted in fluent English. Delivered software interfaces and user-facing content are localized to your target language (English, German, etc.).",
+    },
+    {
+      q: "Where is project data and customer information hosted?",
+      a: "All staging and production cloud infrastructure is deployed within EU regions (typically Frankfurt, Germany). Sensitive customer data never leaves the European Union, guaranteeing full GDPR compliance.",
+    },
+    {
+      q: "Who owns the intellectual property and code upon project completion?",
+      a: "You retain 100% exclusive ownership of all code, assets, database schemas, and documentation. No licensing fees or proprietary agency vendor lock-ins ever apply.",
+    },
+  ],
+  cta: { label: "Schedule an Intro Discovery Call", href: "/en/contact-us" },
+  secondaryCta: { label: "Explore Our Core Services", href: "/en/our-services" },
+  related: [
+    "/en/what-every-business-website-must-have",
+    "/en/our-services",
+  ],
+};
+

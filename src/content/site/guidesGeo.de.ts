@@ -315,3 +315,306 @@ export const modernWebsiteMustHavesGuideDe: Guide = {
   secondaryCta: { label: "Unser Leistungsspektrum", href: "/de/our-services" },
   related: ["/de/our-services", "/de/our-projects"],
 };
+
+export const shopifyVsWooVsCustomGuideDe: Guide = {
+  path: "/de/shopify-vs-woocommerce-vergleich",
+  eyebrow: "E-Commerce Plattformen",
+  title: "Shopify vs. WooCommerce vs. Custom-Shop — Kosten & Grenzen 2026",
+  metaDescription:
+    "Detaillierter Vergleich zwischen Shopify, WooCommerce und individuellem Webshop: Laufende Kosten, Transaktionsgebühren, Stabilität und Skalierbarkeit für DACH.",
+  h1: "Shopify vs. WooCommerce vs. Custom-Shop",
+  lead:
+    "Shopify ermöglicht schnellen Start, kostet jedoch 2–3 % Transaktionsgebühren und teure monatliche App-Abos. WooCommerce bietet Unabhängigkeit, erfordert aber laufende Wartung und bremst bei großen Katalogen. Ein individueller Custom-Shop liefert maximale Ladegeschwindigkeit, null Zusatzgebühren und unbegrenzte Skalierbarkeit für wachsende Unternehmen mit hohen Ansprüchen an Performance und Marge.",
+  keywords: [
+    "shopify vs woocommerce",
+    "shopify oder woocommerce vergleich",
+    "custom onlineshop kosten",
+    "e-commerce plattform vergleich 2026",
+    "onlineshop erstellen lassen dach",
+    "shopify gebuehren versteckt",
+  ],
+  background: "silk",
+  updated: "2026-09-27",
+  sections: [
+    {
+      heading: "1. Shopify: Schneller Markteintritt, aber dauerhafte Umsatzbeteiligung",
+      body: [
+        "Shopify ist ideal, um eine Geschäftsidee schnell und mit geringem Initialaufwand zu testen. Bei wachsendem Umsatz entwickelt sich das Gebührenmodell im DACH-Raum jedoch rasch zum Kostentreiber.",
+      ],
+      bullets: [
+        "Monatliche Grundgebühren von 36 € bis 384 € allein für die Berechtigung, die Plattform zu nutzen.",
+        "Zusätzliche Transaktionsgebühren von 0,5 % bis 2,0 % auf jeden Bruttoumsatz, falls nicht Shopify Payments genutzt wird.",
+        "Unverzichtbare Drittanbieter-Apps für DSGVO-Konformität, Rechnungsstellung, ERP-Anbindung und DHL/GLS-Versandmarken kosten monatlich 200 € bis 600 € extra.",
+        "Vollständige Abhängigkeit (Vendor Lock-in): Weder Programmcode noch Datenbankstruktur können exportiert oder auf eigene Server umgezogen werden.",
+      ],
+    },
+    {
+      heading: "2. WooCommerce: Gebührenfrei, aber wartungsintensiv und fehleranfällig",
+      body: [
+        "WooCommerce basiert auf WordPress und bietet volle Kontrolle über Server und Daten ohne Umsatzprovisionen. Die Kehrseite liegt im kontinuierlichen technischen Betreuungsaufwand.",
+      ],
+      bullets: [
+        "Keine Plattform-Umsatzgebühren — Sie zahlen lediglich die marktüblichen Konditionen Ihrer Zahlungsdienstleister (z. B. Stripe, PayPal, Mollie).",
+        "Breites Plugin-Ökosystem für deutsche Rechtssicherheit (z. B. Germanized) und Buchhaltung.",
+        "Größte Schwachstelle: Plugin-Konflikte bei Updates, die Checkout-Prozesse unerwartet lahmlegen können.",
+        "Spürbare Performance-Einbußen bei Produktkatalogen über 3.000 Artikeln ohne kostspieliges, hochoptimiertes Spezialhosting.",
+      ],
+    },
+    {
+      heading: "3. Custom Webshop: Maßgeschneiderte Höchstleistung für wachsende Marken",
+      body: [
+        "Ein individueller Onlineshop auf Basis moderner Headless-Technologien (Next.js, Node.js, PostgreSQL) wird exakt auf Ihre Geschäftslogik, ERP-Systeme und Warenwirtschaft zugeschnitten.",
+      ],
+      bullets: [
+        "Ladezeiten unter 0,5 Sekunden (Core Web Vitals stets im grünen Bereich) für maximale mobile Conversion Rates und Spitzenrankings.",
+        "Keine monatlichen Plattformlizenzen, null prozentuale Umsatzabgaben und völlige Unabhängigkeit von Drittanbieter-Plugins.",
+        "Direkte, bidirektionale Schnittstellen zu Ihrer Warenwirtschaft, Logistik und Buchhaltung ohne fehleranfällige Zwischenschichten.",
+        "Aufbau von dauerhaftem Software-Eigenkapital für Ihr Unternehmen statt lebenslanger Mietzahlungen an SaaS-Monopole.",
+      ],
+    },
+    {
+      heading: "Jährlicher Kostenvergleich bei 100.000 € Jahresumsatz (DACH)",
+      bullets: [
+        "Shopify: Grundgebühr (~430 €) + Business-Apps (~2.400 €) + 1,5 % Transaktionsgebühr (~1.500 €) = ca. 4.330 € jährlich wiederkehrend.",
+        "WooCommerce: Hosting & SSL (~400 €) + Premium-Lizenzen (~500 €) + Wartung & Fehlerbehebung (~1.800 €) = ca. 2.700 € jährlich.",
+        "Custom Shop: Skalierbares Cloud-Hosting (~200 € bis 400 € jährlich), 0 € App-Abo-Gebühren, 0 € Plattformprovisionen.",
+      ],
+    },
+  ],
+  proofHeading: "Realisierte E-Commerce Projekte",
+  proof: [
+    {
+      label: "Maßgeschneiderte E-Commerce Lösungen",
+      href: "/de/our-services/e-commerce-web-shop",
+      note: "Erfahren Sie, wie wir hochperformante Shopsysteme mit kompromissloser Geschwindigkeit entwickeln.",
+    },
+  ],
+  faqHeading: "Häufige Fragen zur Plattformwahl im E-Commerce",
+  faq: [
+    {
+      q: "Wann lohnt sich der Umstieg von Shopify oder WooCommerce auf einen Custom-Shop?",
+      a: "Ein Wechsel rechnet sich meist ab einem monatlichen Online-Umsatz von 20.000 € bis 30.000 €, wenn wiederkehrende App-Gebühren monatlich hunderte Euro verschlingen oder wenn Ladezeiten und Template-Grenzen das weitere Wachstum spürbar bremsen.",
+    },
+    {
+      q: "Können bestehende Kundendaten und Produkthistorien migriert werden?",
+      a: "Ja, ausnahmslos alle Produktstammdaten, Bilder, Kundenkonten und Bestelldaten werden über Schnittstellen und Migrationsskripte verlustfrei übertragen. Zudem richten wir lückenlose 301-Weiterleitungen ein, um alle bestehenden Google-Rankings zu sichern.",
+    },
+    {
+      q: "Welche Lösung schneidet bei den Google Core Web Vitals am besten ab?",
+      a: "Individuelle Headless-Lösungen (Next.js) erzielen durch serverseitiges Rendering und minimierten JavaScript-Code regelmäßig Bestnoten von 95 bis 100 Punkten. WooCommerce und Shopify schneiden wegen zahlreicher Drittanbieter-Skripte im Standard mobil deutlich schwächer ab.",
+    },
+    {
+      q: "Wie werden Zahlungsarten wie PayPal, Klarna und Kreditkarte im DACH-Raum integriert?",
+      a: "Bei allen Varianten können führende Gateways wie Stripe, Mollie oder PayPal Checkout angebunden werden. Im Custom-Shop erfolgt die Integration direkt über offizielle APIs — ohne monatliche Zusatzgebühren oder künstliche Einschränkungen im Checkout-Design.",
+    },
+  ],
+  cta: { label: "Kostenlose E-Commerce Beratung anfordern", href: "/de/contact-us" },
+  secondaryCta: { label: "Warum verkauft mein Onlineshop nicht?", href: "/de/warum-onlineshop-nicht-verkauft" },
+  related: [
+    "/de/warum-onlineshop-nicht-verkauft",
+    "/de/was-gehoert-auf-eine-moderne-unternehmenswebsite",
+  ],
+};
+
+export const whatsappBookingAutomationGuideDe: Guide = {
+  path: "/de/terminbuchung-whatsapp-automatisieren",
+  eyebrow: "Prozessautomatisierung",
+  title: "Terminbuchung über WhatsApp & Website automatisieren — Ohne Telefonieren",
+  metaDescription:
+    "Automatisieren Sie die Terminvergabe für Praxis, Salon oder Kanzlei per WhatsApp: 24/7 Kalendersynchronisation, null verpasste Anrufe und automatische Erinnerungen.",
+  h1: "Terminbuchung über WhatsApp und Website automatisieren",
+  lead:
+    "Die automatisierte Terminbuchung über WhatsApp erlaubt Ihren Kunden, freie Termine rund um die Uhr direkt per Messenger zu buchen. Das System synchronisiert Buchungen in Echtzeit mit Ihrem Google- oder Outlook-Kalender, verhindert Doppelbelegungen und versendet automatische Terminerinnerungen. Dadurch entlasten Sie Ihre Rezeption um über 15 Wochenstunden und senken No-Shows drastisch.",
+  keywords: [
+    "whatsapp terminbuchung",
+    "terminbuchung automatisieren",
+    "whatsapp bot arztpraxis",
+    "online terminvergabe salon",
+    "kalender synchronisation whatsapp",
+    "terminausfaelle reduzieren software",
+  ],
+  background: "aurora",
+  updated: "2026-09-27",
+  sections: [
+    {
+      heading: "1. Warum manuelle Terminabsprachen täglich Stunden vernichten",
+      body: [
+        "Wenn Kunden per Telefon oder E-Mail anfragen ('Hätten Sie am Donnerstag um 15 Uhr Zeit?'), sind im Schnitt 4 bis 5 Rückfragen nötig, bis ein Termin steht. Während das Personal tippt oder telefoniert, bleiben Vor-Ort-Kunden unbeachtet.",
+      ],
+      bullets: [
+        "Über 45 % aller Terminanfragen im DACH-Raum entstehen außerhalb der regulären Öffnungszeiten (am Feierabend oder Wochenende).",
+        "Handschriftliche Terminbücher oder statische Tabellen führen unweigerlich zu Doppelbuchungen und Verwirrung im Empfangsbereich.",
+        "Mitarbeiter verbringen bis zu 3 Stunden täglich mit Telefonaten und Routine-Nachrichten, statt wertschöpfend zu arbeiten.",
+      ],
+    },
+    {
+      heading: "2. Wie ein moderner WhatsApp-Buchungsassistent funktioniert",
+      body: [
+        "Das System verknüpft die offizielle WhatsApp Business Cloud API direkt mit Ihrem zentralen Praxiskalender. Der Kunde wählt Leistungen und freie Zeitfenster interaktiv und selbsterklärend aus.",
+      ],
+      bullets: [
+        "Der Kunde klickt auf Ihrer Website auf den WhatsApp-Button oder schreibt direkt an Ihre Geschäftsnummer.",
+        "Der Chat-Assistent präsentiert die Leistungen, Behandlungsdauern und verfügbaren Mitarbeiter in Echtzeit.",
+        "Nach Auswahl des Wunschtermins wird die Reservierung sekundenschnell und verbindlich in Ihren Hauptkalender eingetragen.",
+        "Der Kunde erhält eine offizielle Buchungsbestätigung mit Kalendereintrag (.ics) für Apple- und Google-Kalender.",
+      ],
+    },
+    {
+      heading: "3. Automatisierte Erinnerungen eliminieren teure Terminausfälle",
+      body: [
+        "Mit einer Öffnungsrate von über 95 % ist WhatsApp herkömmlichen E-Mails oder SMS haushoch überlegen. Die Erinnerung erreicht den Kunden genau dort, wo er erreichbar ist.",
+      ],
+      bullets: [
+        "24 Stunden vor dem Termin erhält der Kunde eine automatische Nachricht mit den Buttons 'Bestätigen' und 'Verschieben'.",
+        "Wird ein Termin rechtzeitig storniert, schaltet das System das Zeitfenster automatisch sofort wieder für andere Kunden frei.",
+        "Eine finale Benachrichtigung 2 Stunden vorher sorgt dafür, dass Verspätungen und No-Shows um bis zu 80 % zurückgehen.",
+      ],
+    },
+    {
+      heading: "4. Nahtlose Anbindung an bestehende IT-Infrastruktur",
+      body: [
+        "Sie müssen Ihre bestehenden Abläufe nicht umwerfen. Die Automatisierung fügt sich geräuschlos in Ihre gewohnten Werkzeuge ein.",
+      ],
+      bullets: [
+        "Volle Kompatibilität mit Google Workspace, Microsoft 365 / Outlook sowie gängiger Branchensoftware.",
+        "DSGVO-konforme Verarbeitung über europäische Server ohne Speicherung sensibler Gesundheitsdaten im Chat.",
+        "Möglichkeit zur Einbindung von Anzahlungen oder Stornogebühren bei exklusiven Behandlungen.",
+      ],
+    },
+  ],
+  proofHeading: "Unsere Buchungslösungen",
+  proof: [
+    {
+      label: "Individuelle Buchungssysteme ansehen",
+      href: "/de/our-services/sistemi-za-zakazivanje",
+      note: "Erfahren Sie mehr über maßgeschneiderte Terminvergabesysteme für Dienstleister und Praxen.",
+    },
+  ],
+  faqHeading: "Häufige Fragen zur WhatsApp-Terminautomatisierung",
+  faq: [
+    {
+      q: "Benötigen wir für die WhatsApp-Automatisierung eine neue Telefonnummer?",
+      a: "Nein, Sie können Ihre bestehende Festnetz- oder Mobilnummer über die WhatsApp Business API freischalten. Dadurch kann Ihr Team die Nummer parallel nutzen, während der Bot die Terminvergabe im Hintergrund vollautomatisch abwickelt.",
+    },
+    {
+      q: "Was geschieht, wenn ein Kunde eine individuelle Frage stellt?",
+      a: "Das System erkennt Freitextfragen intelligent und leitet den Chat bei Bedarf an Ihr Rezeptionsteam weiter — inklusive Benachrichtigung auf Desktop oder Mobilgerät.",
+    },
+    {
+      q: "Werden unterschiedliche Behandlungsdauern und Rüstzeiten berücksichtigt?",
+      a: "Ja, für jede Leistung werden exakte Zeitfenster und optionale Pufferzeiten (z. B. für Desinfektion oder Vorbereitung) hinterlegt. Ein neuer Termin wird nur dann vergeben, wenn die erforderliche Gesamtdauer lückenlos verfügbar ist.",
+    },
+    {
+      q: "Ist der Einsatz der WhatsApp Business API in Deutschland und Österreich DSGVO-konform?",
+      a: "Ja. Bei Nutzung der offiziellen WhatsApp Business Platform (Cloud API) in Kombination mit einem Auftragsverarbeitungsvertrag (AVV) und Opt-in auf der Website werden alle Datenschutzanforderungen nach Art. 28 DSGVO strikt erfüllt.",
+    },
+  ],
+  cta: { label: "Terminautomatisierung unverbindlich anfragen", href: "/de/contact-us" },
+  secondaryCta: { label: "Ratgeber: Terminausfälle (No-Shows) verhindern", href: "/de/terminausfaelle-no-shows-verhindern" },
+  related: [
+    "/de/terminausfaelle-no-shows-verhindern",
+    "/de/was-gehoert-auf-eine-moderne-unternehmenswebsite",
+  ],
+};
+
+export const nearshoringSerbiaGuideDe: Guide = {
+  path: "/de/webagentur-serbien-beauftragen-dsgvo-vorteile",
+  eyebrow: "Nearshoring & DACH-Zusammenarbeit",
+  title: "Webagentur in Serbien beauftragen — DSGVO, Reverse-Charge & Vorteile",
+  metaDescription:
+    "Leitfaden für Unternehmen aus Deutschland, Österreich und der Schweiz: B2B-Verträge, steuerfreie Rechnungen (Reverse-Charge), DSGVO-Konformität und 40–60 % Ersparnis.",
+  h1: "Webagentur in Serbien für DACH-Projekte beauftragen",
+  lead:
+    "Das Nearshoring von Web- und Softwareprojekten nach Serbien bietet DACH-Unternehmen 40 bis 60 % Kostenersparnis bei erstklassiger Entwicklungsqualität in derselben Zeitzone (CET). Die Zusammenarbeit erfolgt rechtssicher über B2B-Dienstleistungsverträge, steuerfreie Rechnungsstellung per Reverse-Charge (§13b UStG), DSGVO-konforme Auftragsverarbeitung (AVV) und vollständige Übertragung aller Urheberrechte und Quellcodes an den Auftraggeber.",
+  keywords: [
+    "webagentur serbien beauftragen",
+    "softwareentwicklung nearshoring serbien",
+    "it outsourcing serbien dsgvo",
+    "reverse charge rechnung serbien deutschland",
+    "it dienstleister serbien erfahrungen",
+    "software agentur dach vorteile",
+  ],
+  background: "silk",
+  updated: "2026-09-27",
+  sections: [
+    {
+      heading: "1. Warum DACH-Unternehmen auf IT-Nearshoring in Serbien setzen",
+      body: [
+        "Der akute Fachkräftemangel in Deutschland, Österreich und der Schweiz treibt Stundensätze lokaler Agenturen auf 130 € bis über 190 €. Serbien hat sich als führender europäischer IT-Standort mit erstklassig ausgebildeten Ingenieuren etabliert.",
+      ],
+      bullets: [
+        "Keine Zeitverschiebung: 100 % synchrone Arbeitszeiten in der mitteleuropäischen Zeitzone (CET) für tägliche Stand-ups und transparente Abstimmungen.",
+        "Hervorragende Erreichbarkeit: Direktflüge von Frankfurt, München, Wien und Zürich nach Belgrad oder Niš dauern lediglich 90 bis 120 Minuten.",
+        "Signifikante Wirtschaftlichkeit: Einsparpotenziale von 40 % bis 60 % bei modernstem Technologiestack (React, Next.js, Node.js, Python, Cloud).",
+        "Hohe Sprach- und Kulturkompatibilität: Verhandlungssicheres Englisch und langjährige Projekterfahrung mit mitteleuropäischen Kunden.",
+      ],
+    },
+    {
+      heading: "2. Rechtssicherheit: B2B-Dienstleistungsvertrag und 100 % IP-Transfer",
+      body: [
+        "Die Zusammenarbeit basiert auf standardisierten, internationalen B2B-Verträgen nach europäischem Handelsrecht mit glasklaren Leistungskatalogen und Meilensteinen.",
+      ],
+      bullets: [
+        "Vollständige Übertragung aller Urheber-, Nutzungs- und Verwertungsrechte (Intellectual Property) mit Begleichung der Schlussrechnung.",
+        "Der gesamte Quellcode liegt während der Entwicklung auf Ihrem eigenen GitHub- oder GitLab-Repository — null Abhängigkeiten von proprietären Agentur-Systemen.",
+        "Verbindliche Vertraulichkeitsvereinbarung (NDA) zum umfassenden Schutz Ihrer Geschäftsgeheimnisse und Geschäftsdaten bereits vor dem ersten Gespräch.",
+      ],
+    },
+    {
+      heading: "3. Steuerliche Abwicklung: Steuerfreie Rechnung per Reverse-Charge",
+      body: [
+        "Die Rechnungsstellung zwischen serbischen IT-Unternehmen und Auftraggebern im DACH-Raum ist bürokratisch unkompliziert und verhindert Doppelbesteuerung.",
+      ],
+      bullets: [
+        "Rechnungen werden transparent in Euro (EUR) oder Schweizer Franken (CHF) mit 0 % serbischer Umsatzsteuer ausgestellt (steuerfreier Export von Dienstleistungen).",
+        "Ihr Unternehmen wendet in Deutschland, Österreich bzw. der Schweiz das bewährte Reverse-Charge-Verfahren an (Verlagerung der Steuerschuldnerschaft).",
+        "Zahlungen erfolgen bequem und kostengünstig per gewohnter SEPA- oder SWIFT-Banküberweisung nach vereinbarten Projektmeilensteinen.",
+      ],
+    },
+    {
+      heading: "4. DSGVO-Konformität und europäische Sicherheitsstandards",
+      body: [
+        "Der Schutz personenbezogener Daten europäischer Kunden hat oberste Priorität. Das serbische Datenschutzrecht ist vollumfänglich an die EU-DSGVO harmonisiert.",
+      ],
+      bullets: [
+        "Abschluss einer rechtsgültigen Vereinbarung zur Auftragsverarbeitung (AVV) gemäß Art. 28 DSGVO.",
+        "Entwicklungsumgebungen und Produktivserver verbleiben ausschließlich in zertifizierten EU-Rechenzentren (z. B. Frankfurt am Main bei Hetzner oder AWS).",
+        "Strikte Sicherheitsmaßnahmen: Ende-zu-Ende-Verschlüsselung, Zwei-Faktor-Authentifizierung (2FA) und rollenbasierte Zugriffsbeschränkungen.",
+      ],
+    },
+  ],
+  proofHeading: "Transparenz und Verlässlichkeit",
+  proof: [
+    {
+      label: "Über unsere Arbeitsweise und Standards",
+      href: "/de/about-us",
+      note: "Erfahren Sie mehr über unsere Werte, Entwicklungsmethoden und Qualitätsversprechen.",
+    },
+  ],
+  faqHeading: "Häufige Fragen zur Zusammenarbeit mit einer serbischen Agentur",
+  faq: [
+    {
+      q: "Ist die Beauftragung einer Agentur in Serbien für ein deutsches Unternehmen rechtlich einwandfrei?",
+      a: "Ja, vollkommen. Tausende Unternehmen aus dem DACH-Raum lassen Software und Websites in Serbien entwickeln. Die Zusammenarbeit erfolgt über reguläre B2B-Werk- oder Dienstverträge mit steuerfreier Rechnungsstellung per Reverse-Charge.",
+    },
+    {
+      q: "In welcher Sprache erfolgt die Projektkommunikation?",
+      a: "Die technische Abstimmung, Sprint-Meetings und die Projektdokumentation erfolgen auf verhandlungssicherem Englisch oder Serbisch. Die fertigen Websites und Anwendungen werden auf fehlerfreiem, zielgruppengerechtem Deutsch für Ihren Zielmarkt ausgeliefert.",
+    },
+    {
+      q: "Wo werden die Projektdaten und Server gehostet?",
+      a: "Alle Produktivdaten, Kundendaten und Quellcodes verbleiben ausnahmslos auf EU-Servern (vorzugsweise in Frankfurt am Main). Die Daten verlassen zu keinem Zeitpunkt den Geltungsbereich der europäischen Datenschutz-Grundverordnung (DSGVO).",
+    },
+    {
+      q: "Wer besitzt nach Projektabschluss die Rechte am Source Code?",
+      a: "Sie als Auftraggeber erhalten 100 % der ausschließlichen Eigentums- und Nutzungsrechte am gesamten Quellcode, an den Designs und an den Datenbanken. Es gibt keinerlei versteckte Lizenzkosten oder Bindungen.",
+    },
+  ],
+  cta: { label: "Unverbindliches Kennenlerngespräch vereinbaren", href: "/de/contact-us" },
+  secondaryCta: { label: "Unsere Leistungen im Überblick", href: "/de/our-services" },
+  related: [
+    "/de/was-gehoert-auf-eine-moderne-unternehmenswebsite",
+    "/de/our-services",
+  ],
+};
+

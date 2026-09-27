@@ -326,3 +326,309 @@ export const modernWebsiteMustHavesGuide: Guide = {
     "/kako-izabrati-web-agenciju",
   ],
 };
+
+export const shopifyVsWooVsCustomGuide: Guide = {
+  path: "/shopify-vs-woocommerce-vs-custom-shop",
+  eyebrow: "E-commerce platforme",
+  title: "Shopify vs WooCommerce vs Custom Shop — Poređenje troškova i limita u 2026.",
+  metaDescription:
+    "Kompletno poređenje Shopify, WooCommerce i Custom web shop rešenja: mesečne pretplate, provizije po prodaji, stabilnost baze i kada je vreme za prelazak na sopstveni kod.",
+  h1: "Shopify vs WooCommerce vs Custom Shop",
+  lead:
+    "Shopify je najbrži za start, ali uzima 2–3% provizije po prodaji i skupe mesečne aplikacije. WooCommerce nudi kontrolu bez provizija, ali zahteva stalno održavanje i usporava na većem katalogu. Custom web shop pruža maksimalnu brzinu, nula provizija i neograničenu prilagodljivost za brendove koji žele dugoročnu profitabilnost i potpunu kontrolu nad podacima.",
+  keywords: [
+    "shopify vs woocommerce",
+    "shopify ili woocommerce",
+    "custom web shop cena",
+    "poređenje ecommerce platformi",
+    "izrada web shopa platforme",
+    "troškovi shopify prodavnice",
+  ],
+  background: "silk",
+  updated: "2026-09-27",
+  sections: [
+    {
+      heading: "1. Shopify: Brz ulazak, ali stalni procenat od svakog prometa",
+      body: [
+        "Shopify je odličan izbor za brzi izlazak na tržište i testiranje potražnje za novim proizvodima. Međutim, kako prodaja raste, struktura troškova postaje značajan teret.",
+      ],
+      bullets: [
+        "Fiksna mesečna pretplata (39 $ do 399 $ mesečno) samo za pravo korišćenja platforme.",
+        "Dodatna provizija platforme od 0.5% do 2% po svakoj pojedinačnoj transakciji ako ne koristite njihov Shopify Payments (koji u Srbiji nije podržan za lokalne kartice).",
+        "Neophodne aplikacije za domaće kurire, popuste, lojalnost i marketing često koštaju dodatnih 150–500 $ svakog meseca.",
+        "Potpuna zavisnost od jedne korporacije — ne možete preneti svoju bazu kupaca i kod na drugi server.",
+      ],
+    },
+    {
+      heading: "2. WooCommerce: Fleksibilnost bez provizije, ali uz rizik nestabilnosti",
+      body: [
+        "WooCommerce je besplatan open-source dodatak za WordPress koji koristi ogroman broj domaćih prodavnica. Daje vam potpunu slobodu nad hostingom i ne naplaćuje procenat od prometa.",
+      ],
+      bullets: [
+        "Nema transakcionih provizija platforme — plaćate samo standardnu proviziju domaće banke za prihvat kartica.",
+        "Ogroman izbor gotovih pluginova za fiskalizaciju, kurirske službe i bankarske gejtveje.",
+        "Glavna mana: nestabilnost pri ažuriranjima. Jedan sukob između dva plugina može oboriti checkout usred vikenda ili marketinške kampanje.",
+        "Performanse drastično opadaju na bazama većim od 3.000–5.000 artikala bez specijalizovanog i skupog WordPress hostinga.",
+      ],
+    },
+    {
+      heading: "3. Custom Web Shop: Rešenje po meri za ozbiljne brendove i skaliranje",
+      body: [
+        "Custom prodavnica izgrađena na modernim tehnologijama (Next.js, Node.js, PostgreSQL) pravi se specifično prema vašem poslovnom modelu, logistici i ERP softveru.",
+      ],
+      bullets: [
+        "Trenutno učitavanje stranica (ispod 0.5s) što direktno diže Google SEO rang i procenat uspešnih kupovina.",
+        "Nema mesečnih pretplata za platformu, nema provizija na promet i nema zavisnosti od spoljnih pluginova.",
+        "Direktna sinhronizacija u realnom vremenu sa magacinskim i knjigovodstvenim softverom bez posrednika.",
+        "Investicija u sopstveni softverski kapital firme umesto plaćanja 'kirije' trećim servisima.",
+      ],
+    },
+    {
+      heading: "Poređenje troškova na godišnjem nivou (primer: 50.000 € prometa)",
+      bullets: [
+        "Shopify: Osnovna pretplata (468 $) + aplikacije (1.800 $) + 2% transakcione takse (1.000 $) = ~3.268 $ godišnjih ponavljajućih troškova.",
+        "WooCommerce: Hosting i SSL (~300 €) + licencirani pluginovi (~400 €) + tehničko održavanje i popravke bagova (~1.200 €) = ~1.900 € godišnje.",
+        "Custom Shop: Hosting na modernom cloud-u (~120–240 € godišnje), bez provizija i bez troškova mesečnih licenci za aplikacije.",
+      ],
+    },
+  ],
+  proofHeading: "Primeri modernih e-commerce sistema",
+  proof: [
+    {
+      label: "Pregledajte realizovane web shopove",
+      href: "/our-projects",
+      note: "Pogledajte kako izgledaju prodajna rešenja visokih performansi rađena po meri.",
+    },
+  ],
+  faqHeading: "Česta pitanja o izboru e-commerce platforme",
+  faq: [
+    {
+      q: "Kada je pravo vreme za prelazak sa Shopify-a ili WooCommerce-a na Custom shop?",
+      a: "Prelazak se preporučuje kada mesečni promet pređe 15.000–20.000 €, kada troškovi pretplata na aplikacije pređu nekoliko stotina evra mesečno, ili kada brzina sajta i ograničenja šablona počnu direktno da guše prodaju i povezivanje sa magacinom.",
+    },
+    {
+      q: "Da li mogu preneti postojeće proizvode i kupce sa WooCommerce-a na novi sajt?",
+      a: "Da. Svi podaci o proizvodima, kategorijama, starim kupcima i istoriji porudžbina se automatski migriraju putem baze ili API skripti. Takođe se čuvaju svi stari URL linkovi kako ne biste izgubili postojeće Google SEO pozicije.",
+    },
+    {
+      q: "Koja platforma ima najbolje Core Web Vitals ocene i SEO?",
+      a: "Custom sajtovi (izgrađeni u Next.js-u sa serverskim renderovanjem) imaju neprikosnovenu prednost jer učitavaju samo minimalan neophodan kod. WooCommerce i Shopify po prirodi vuku desetine eksternih skripti i stilova iz instaliranih dodataka.",
+    },
+    {
+      q: "Kako funkcioniše fiskalizacija i plaćanje karticama u Srbiji na ovim platformama?",
+      a: "Na sve tri opcije moguće je povezati domaće procesore plaćanja (Banca Intesa, AIK, ChipCard, CorvusPay) i e-fakture/fiskalne kase. Međutim, na custom rešenju integracija ide direktno preko API-ja banke bez posredničkih mesečnih provizija.",
+    },
+  ],
+  cta: { label: "Pošaljite zahtev za procenu web shopa", href: "/upit" },
+  secondaryCta: { label: "Usluga: e-commerce i web shop", href: "/our-services/e-commerce-web-shop" },
+  related: [
+    "/zasto-web-shop-ne-prodaje",
+    "/sta-mora-da-ima-web-shop-u-srbiji",
+    "/placanje-karticom-na-sajtu-srbija",
+  ],
+};
+
+export const whatsappBookingAutomationGuide: Guide = {
+  path: "/kako-automatizovati-zakazivanje-whatsapp",
+  eyebrow: "Automatizacija poslovanja",
+  title: "Kako automatizovati zakazivanje termina preko WhatsApp-a i sajta",
+  metaDescription:
+    "Automatizujte zakazivanje termina za ordinaciju, salon ili servis preko WhatsApp-a: sinhronizacija kalendara, nula propuštenih poziva i automatski podsetnici.",
+  h1: "Kako automatizovati zakazivanje termina preko WhatsApp-a i sajta",
+  lead:
+    "Automatizacija zakazivanja preko WhatsApp-a omogućava klijentima da u nekoliko klikova izaberu slobodan termin direktno iz vašeg kalendara, 24/7 bez čekanja na odgovor operatera. Sistem automatski sinhronizuje termine sa Google ili Outlook kalendarom, sprečava preklapanja i šalje automatske podsetnike, štedeći osoblju preko 15 sati nedeljno i eliminišući no-show propuste.",
+  keywords: [
+    "zakazivanje termina whatsapp",
+    "automatizacija zakazivanja",
+    "whatsapp bot za zakazivanje",
+    "online zakazivanje preko poruka",
+    "sinhronizacija kalendara sajt whatsapp",
+    "softver za zakazivanje termina",
+  ],
+  background: "aurora",
+  updated: "2026-09-27",
+  sections: [
+    {
+      heading: "1. Zašto ručno zakazivanje preko poruka košta previše vremena",
+      body: [
+        "Kada klijent pošalje poruku 'Imate li slobodno u utorak u pet?', obično sledi 4 do 6 poruka napred-nazad dok se termin ne potvrdi. Dok osoblje kuca odgovore između dva klijenta, propuštaju se pozivi, a greške u rasporedu su neizbežne.",
+      ],
+      bullets: [
+        "Preko 40% upita za termine stiže van radnog vremena (uveče i vikendom) kada klijenti očekuju instant odgovor.",
+        "Ručno unošenje termina u svesku ili Excel tabelu dovodi do duplog zakazivanja i neprijatnih situacija u čekaonici.",
+        "Osoblje provodi do 3 sata dnevno samo na telefonu i porukama umesto da se posveti prisutnim klijentima.",
+      ],
+    },
+    {
+      heading: "2. Kako funkcioniše pametni WhatsApp sistem za rezervacije",
+      body: [
+        "Sistem povezuje zvanični WhatsApp Business API sa vašim centralnim kalendarom i bazom usluga. Klijent komunicira kroz jednostavan interaktivni meni direktno u WhatsApp aplikaciji.",
+      ],
+      bullets: [
+        "Klijent pošalje poruku na vaš broj ili klikne na WhatsApp dugme na sajtu i dobija meni sa uslugama i cenama.",
+        "Bira željenu uslugu i zaposlenog; sistem odmah prikazuje samo slobodne termine u realnom vremenu.",
+        "Nakon klika na termin, unos se automatski upisuje u centralni kalendar (Google Calendar, Outlook ili interni sistem).",
+        "Klijent odmah dobija poruku potvrde sa lokacijom, uputstvom i opcijom da jednim klikom ubaci događaj u svoj telefon.",
+      ],
+    },
+    {
+      heading: "3. Automatski podsetnici koji rešavaju nedolazak klijenata",
+      body: [
+        "Najveća prednost WhatsApp automatizacije u odnosu na SMS ili email jeste stopa otvaranja poruka od preko 95%. Podsetnici stižu tamo gde klijenti najviše borave.",
+      ],
+      bullets: [
+        "Podsetnik se šalje automatski 24 sata pre zakazanog termina sa dugmadima 'Potvrđujem' i 'Želim da pomerim'.",
+        "Ako klijent otkaže ili pomeri termin, taj termin se istog sekunda oslobađa u kalendaru za novog klijenta.",
+        "Kratak SMS ili WhatsApp podsetnik sa tačnom lokacijom šalje se 2 sata pre termina, čime se nedolasci smanjuju za 80%.",
+      ],
+    },
+    {
+      heading: "4. Integracija sa vašim postojećim sajtom i softverom",
+      body: [
+        "Ne morate menjati način na koji radite. Automatizacija se integriše u vaše postojeće alate bez komplikovane obuke.",
+      ],
+      bullets: [
+        "Podrška za Google Calendar, Microsoft 365 / Outlook i interne softvere ordinacije ili salona.",
+        "Automatsko generisanje kartona klijenta sa istorijom prethodnih dolazaka i napomena.",
+        "Mogućnost uvođenja depozita ili plaćanja karticom unapred za termine visoke vrednosti.",
+      ],
+    },
+  ],
+  proofHeading: "Primeri sistema za automatizaciju rezervacija",
+  proof: [
+    {
+      label: "Sistemi za zakazivanje po meri",
+      href: "/our-services/sistemi-za-zakazivanje",
+      note: "Pogledajte kako povezujemo web zakazivanje, WhatsApp i interne kalendare.",
+    },
+  ],
+  faqHeading: "Česta pitanja o WhatsApp automatizaciji termina",
+  faq: [
+    {
+      q: "Da li mi je potreban poseban novi broj telefona za WhatsApp automatizaciju?",
+      a: "Možete koristiti postojeći broj telefona vaše firme ili novi broj. Preko zvaničnog WhatsApp Business Cloud API-ja omogućava se da više zaposlenih istovremeno koristi isti broj, dok bot paralelno rešava zakazivanja u pozadini.",
+    },
+    {
+      q: "Šta se dešava ako klijent postavi specifično pitanje koje bot ne razume?",
+      a: "Sistem automatski prepoznaje kompleksna pitanja i prebacuje razgovor na ljudskog operatera, uz notifikaciju na telefon ili računar zaposlenog da je potrebna asistencija.",
+    },
+    {
+      q: "Može li sistem da prepozna različito trajanje usluga i pauze između termina?",
+      a: "Da. Svaka usluga ima definisano tačno trajanje (npr. 45 min, 90 min) i automatski bafer za pripremu/čišćenje pre sledećeg klijenta. Kalendar nikada neće ponuditi termin ako nema dovoljno vremena za punu uslugu.",
+    },
+    {
+      q: "Koliko košta uvođenje ovakvog sistema i održavanje?",
+      a: "Cena zavisi od broja zaposlenih, lokacija i kalendara koje treba sinhronizovati. Troškovi poruka preko WhatsApp API-ja su minimalni (par centi po konverzaciji), dok se investicija obično isplati već u prvom mesecu kroz spašene termine koji bi inače propali.",
+    },
+  ],
+  cta: { label: "Zatražite ponudu za automatizaciju zakazivanja", href: "/upit" },
+  secondaryCta: { label: "Vodič: Kako sprečiti no-show propuste", href: "/kako-spreciti-nedolazak-na-termin" },
+  related: [
+    "/kako-spreciti-nedolazak-na-termin",
+    "/podsetnik-za-termin-sms-viber-whatsapp",
+    "/online-zakazivanje-za-salone-i-klinike",
+  ],
+};
+
+export const nearshoringSerbiaGuide: Guide = {
+  path: "/outsourcing-nearshoring-it-srbija-nemacka",
+  eyebrow: "Nearshoring & Saradnja",
+  title: "Nearshoring IT u Srbiji za DACH tržište — Pravna pravila, DSGVO i ušteda",
+  metaDescription:
+    "Vodič za firme iz Nemačke, Austrije i Švajcarske: pravni ugovori, Reverse Charge fakturisanje, DSGVO/GDPR zaštita podataka i prednosti angažovanja IT agencije iz Srbije.",
+  h1: "Nearshoring IT projekata u Srbiji za klijente iz DACH regiona",
+  lead:
+    "Angažovanje IT agencije iz Srbije donosi firmama iz DACH regiona 40–60% niže troškove razvoja uz vrhunski inženjerski kvalitet u istoj vremenskoj zoni (CET). Saradnja je pravno potpuno regulisana kroz B2B ugovore, Reverse Charge fakturisanje bez PDV-a, prenos 100% intelektualne svojine i striktnu usklađenost sa GDPR i DSGVO standardima zaštite podataka.",
+  keywords: [
+    "nearshoring srbija",
+    "outsourcing softvera nemacka srbija",
+    "it agencija srbija klijenti nemacka",
+    "dsgvo uskladjenost srbija agencija",
+    "reverse charge fakturisanje nemacka",
+    "it outsourcing dach region",
+  ],
+  background: "silk",
+  updated: "2026-09-27",
+  sections: [
+    {
+      heading: "1. Zašto DACH kompanije biraju Srbiju za razvoj softvera i sajtova",
+      body: [
+        "Firme u Nemačkoj, Švajcarskoj i Austriji suočavaju se sa hroničnim nedostatkom programera i satnicama lokalnih agencija od 120 € do 180 € po satu. Srbija pruža idealan balans inženjerskog kvaliteta i ekonomske isplativosti.",
+      ],
+      bullets: [
+        "Ista vremenska zona (Central European Time - CET): svakodnevna sinhronizacija i agilni sastanci bez vremenskog pomeranja.",
+        "Geografska blizina: letovi iz Minhena, Beča, Ciriha i Frankfurta traju svega 1 do 2 sata za lične radionice.",
+        "Ušteda od 40% do 60% na ukupnom budžetu projekta u odnosu na cene lokalnih agencija u Nemačkoj i Švajcarskoj.",
+        "Bilingvalni inženjerski timovi sa tečnim engleskim i profesionalnom komunikacijom.",
+      ],
+    },
+    {
+      heading: "2. Pravna sigurnost: B2B ugovor i zaštita intelektualne svojine (IP)",
+      body: [
+        "Saradnja se zasniva na direktnom međunarodnom B2B ugovoru o pružanju IT usluga sa jasno definisanim rokovima, garancijama i primopredajom koda.",
+      ],
+      bullets: [
+        "Ugovor definiše prenos 100% autorskih prava i intelektualne svojine (IP Rights) na naručioca odmah po izmirenju fakture.",
+        "Izvorni kod se tokom celog projekta nalazi na klijentovom GitHub ili GitLab nalogu — nema vendor lock-in zamki.",
+        "Potpisuje se bilateralni ugovor o poverljivosti (NDA) koji štiti sve poslovne tajne, podatke i patente pre početka rada.",
+      ],
+    },
+    {
+      heading: "3. Poreski tretman: Reverse Charge mehanizam (0% PDV)",
+      body: [
+        "Fakturisanje između preduzeća iz Srbije i klijenata iz EU i Švajcarske je administrativno jednostavno i oslobođeno dvostrukog oporezivanja.",
+      ],
+      bullets: [
+        "Fakture se izdaju u evrima (EUR) ili švajcarskim francima (CHF) sa iskazanim 0% PDV-om (oslobođeno po osnovu izvoza usluga).",
+        "Naručilac iz EU primenjuje standardni Reverse Charge mehanizam (prenos poreske obaveze) u svojoj poreskoj prijavi.",
+        "Plaćanje se vrši direktno putem međunarodnog bankarskog transfera (SEPA / SWIFT) sa rokom dospeća dogovorenim u ponudi.",
+      ],
+    },
+    {
+      heading: "4. Usklađenost sa DSGVO / GDPR standardima",
+      body: [
+        "Zaštita privatnosti podataka evropskih građana je obavezna. Srpski Zakon o zaštiti podataka o ličnosti u potpunosti je harmonizovan sa EU GDPR regulativom.",
+      ],
+      bullets: [
+        "Potpisuje se ugovor o obradi podataka (AVV — Auftragsverarbeitungsvertrag) u skladu sa članom 28. DSGVO / GDPR.",
+        "Svi produkcioni serveri i baze podataka ostaju hostovani isključivo u EU data centrima (npr. Frankfurt, Nemačka preko Hetzner-a ili AWS-a).",
+        "Implementiraju se najviši bezbednosni standardi: enkripcija podataka u mirovanju i tranzitu, 2FA i striktne uloge pristupa.",
+      ],
+    },
+  ],
+  proofHeading: "Kako izgleda saradnja sa Adspire agencijom",
+  proof: [
+    {
+      label: "Detalji o saradnji sa inostranim klijentima",
+      href: "/saradnja-iz-srbije-kako-funkcionise",
+      note: "Saznajte sve o procesu rada, potpisivanju ugovora i načinu plaćanja.",
+    },
+  ],
+  faqHeading: "Česta pitanja o IT saradnji Srbije i DACH regiona",
+  faq: [
+    {
+      q: "Da li je angažovanje agencije iz Srbije potpuno legalno i usklađeno sa nemačkim zakonima?",
+      a: "Da, potpuno je legalno. Nemačke i EU kompanije svakodnevno naručuju softverske usluge iz Srbije na osnovu standardnog B2B ugovora o uslugama, pri čemu se fakturisanje vrši po pravilu prenosa poreske obaveze (Reverse Charge).",
+    },
+    {
+      q: "Na kom jeziku se vode projektni sastanci i piše dokumentacija?",
+      a: "Kompletna projektna komunikacija, tehnička dokumentacija i agilni sprint sastanci vode se na engleskom ili srpskom jeziku, dok se korisnički interfejsi i tekstovi sajta isporučuju na besprekornom nemačkom jeziku prilagođenom lokalnom tržištu.",
+    },
+    {
+      q: "Gde se fizički nalaze podaci i serveri tokom i nakon razvoja?",
+      a: "Razvojni i produkcioni serveri postavljaju se u EU (najčešće Hetzner ili AWS data centri u Frankfurtu), tako da podaci vaših korisnika nikada ne napuštaju teritoriju Evropske unije, čime se u potpunosti poštuje DSGVO.",
+    },
+    {
+      q: "Ko je vlasnik koda nakon završetka projekta?",
+      a: "Klijent je 100% isključivi vlasnik kompletnog koda, baza podataka i intelektualne svojine. Sav kod se predaje na vaš privatni GitHub/GitLab repozitorijum bez ikakvih skrivenih licenci ili zavisnosti od agencije.",
+    },
+  ],
+  cta: { label: "Zakažite konsultativni video poziv", href: "/upit" },
+  secondaryCta: { label: "Saznajte kako izgleda proces saradnje", href: "/saradnja-iz-srbije-kako-funkcionise" },
+  related: [
+    "/saradnja-iz-srbije-kako-funkcionise",
+    "/kako-izabrati-web-agenciju",
+    "/koliko-traje-izrada-sajta",
+  ],
+};
+

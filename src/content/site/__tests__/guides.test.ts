@@ -15,17 +15,26 @@ import {
 import {
   appointmentNoShowGuide,
   modernWebsiteMustHavesGuide,
+  nearshoringSerbiaGuide,
+  shopifyVsWooVsCustomGuide,
   webShopNotSellingGuide,
+  whatsappBookingAutomationGuide,
 } from "../guidesGeo";
 import {
   appointmentNoShowGuideDe,
   modernWebsiteMustHavesGuideDe,
+  nearshoringSerbiaGuideDe,
+  shopifyVsWooVsCustomGuideDe,
   webShopNotSellingGuideDe,
+  whatsappBookingAutomationGuideDe,
 } from "../guidesGeo.de";
 import {
   appointmentNoShowGuideEn,
   modernWebsiteMustHavesGuideEn,
+  nearshoringSerbiaGuideEn,
+  shopifyVsWooVsCustomGuideEn,
   webShopNotSellingGuideEn,
+  whatsappBookingAutomationGuideEn,
 } from "../guidesGeo.en";
 import { guideMetadata } from "@/lib/seo/guide";
 
@@ -43,6 +52,9 @@ const answerGuides = [
   webShopNotSellingGuide,
   appointmentNoShowGuide,
   modernWebsiteMustHavesGuide,
+  shopifyVsWooVsCustomGuide,
+  whatsappBookingAutomationGuide,
+  nearshoringSerbiaGuide,
 ];
 
 describe("guides", () => {
@@ -80,12 +92,26 @@ describe("guides", () => {
   });
 
   it("never emit noindex on translated guides", () => {
-    const deGuides = [webShopNotSellingGuideDe, appointmentNoShowGuideDe, modernWebsiteMustHavesGuideDe];
+    const deGuides = [
+      webShopNotSellingGuideDe,
+      appointmentNoShowGuideDe,
+      modernWebsiteMustHavesGuideDe,
+      shopifyVsWooVsCustomGuideDe,
+      whatsappBookingAutomationGuideDe,
+      nearshoringSerbiaGuideDe,
+    ];
     for (const g of deGuides) {
       const meta = guideMetadata(g, "de");
       expect(meta.robots, g.path).toBeUndefined();
     }
-    const enGuides = [webShopNotSellingGuideEn, appointmentNoShowGuideEn, modernWebsiteMustHavesGuideEn];
+    const enGuides = [
+      webShopNotSellingGuideEn,
+      appointmentNoShowGuideEn,
+      modernWebsiteMustHavesGuideEn,
+      shopifyVsWooVsCustomGuideEn,
+      whatsappBookingAutomationGuideEn,
+      nearshoringSerbiaGuideEn,
+    ];
     for (const g of enGuides) {
       const meta = guideMetadata(g, "en");
       expect(meta.robots, g.path).toBeUndefined();

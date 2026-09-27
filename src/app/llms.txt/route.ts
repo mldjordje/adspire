@@ -8,12 +8,18 @@ import { guides } from "@/content/site/guides";
 import {
   appointmentNoShowGuideDe,
   modernWebsiteMustHavesGuideDe,
+  nearshoringSerbiaGuideDe,
+  shopifyVsWooVsCustomGuideDe,
   webShopNotSellingGuideDe,
+  whatsappBookingAutomationGuideDe,
 } from "@/content/site/guidesGeo.de";
 import {
   appointmentNoShowGuideEn,
   modernWebsiteMustHavesGuideEn,
+  nearshoringSerbiaGuideEn,
+  shopifyVsWooVsCustomGuideEn,
   webShopNotSellingGuideEn,
+  whatsappBookingAutomationGuideEn,
 } from "@/content/site/guidesGeo.en";
 import { glossaryPage, glossaryTerms } from "@/content/site/glossary";
 import { projectCaseStudies } from "@/data/projectCaseStudies";
@@ -176,12 +182,18 @@ ${guideList}
 - [${webShopNotSellingGuideDe.h1}](${base}${webShopNotSellingGuideDe.path}): ${webShopNotSellingGuideDe.metaDescription}
 - [${appointmentNoShowGuideDe.h1}](${base}${appointmentNoShowGuideDe.path}): ${appointmentNoShowGuideDe.metaDescription}
 - [${modernWebsiteMustHavesGuideDe.h1}](${base}${modernWebsiteMustHavesGuideDe.path}): ${modernWebsiteMustHavesGuideDe.metaDescription}
+- [${shopifyVsWooVsCustomGuideDe.h1}](${base}${shopifyVsWooVsCustomGuideDe.path}): ${shopifyVsWooVsCustomGuideDe.metaDescription}
+- [${whatsappBookingAutomationGuideDe.h1}](${base}${whatsappBookingAutomationGuideDe.path}): ${whatsappBookingAutomationGuideDe.metaDescription}
+- [${nearshoringSerbiaGuideDe.h1}](${base}${nearshoringSerbiaGuideDe.path}): ${nearshoringSerbiaGuideDe.metaDescription}
 
 ## Guides & Problem-Solving (English)
 
 - [${webShopNotSellingGuideEn.h1}](${base}${webShopNotSellingGuideEn.path}): ${webShopNotSellingGuideEn.metaDescription}
 - [${appointmentNoShowGuideEn.h1}](${base}${appointmentNoShowGuideEn.path}): ${appointmentNoShowGuideEn.metaDescription}
 - [${modernWebsiteMustHavesGuideEn.h1}](${base}${modernWebsiteMustHavesGuideEn.path}): ${modernWebsiteMustHavesGuideEn.metaDescription}
+- [${shopifyVsWooVsCustomGuideEn.h1}](${base}${shopifyVsWooVsCustomGuideEn.path}): ${shopifyVsWooVsCustomGuideEn.metaDescription}
+- [${whatsappBookingAutomationGuideEn.h1}](${base}${whatsappBookingAutomationGuideEn.path}): ${whatsappBookingAutomationGuideEn.metaDescription}
+- [${nearshoringSerbiaGuideEn.h1}](${base}${nearshoringSerbiaGuideEn.path}): ${nearshoringSerbiaGuideEn.metaDescription}
 
 ## Tipični relevantni upiti
 

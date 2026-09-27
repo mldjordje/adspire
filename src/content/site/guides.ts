@@ -14,7 +14,10 @@ import {
 import {
   appointmentNoShowGuide,
   modernWebsiteMustHavesGuide,
+  nearshoringSerbiaGuide,
+  shopifyVsWooVsCustomGuide,
   webShopNotSellingGuide,
+  whatsappBookingAutomationGuide,
 } from "./guidesGeo";
 
 /**
@@ -779,6 +782,9 @@ export const guides = [
   webShopNotSellingGuide,
   appointmentNoShowGuide,
   modernWebsiteMustHavesGuide,
+  shopifyVsWooVsCustomGuide,
+  whatsappBookingAutomationGuide,
+  nearshoringSerbiaGuide,
 ] as const;
 
 export const bookingSystemsGuide = bookingGuide;
@@ -803,4 +809,7 @@ export {
   webShopNotSellingGuide,
   appointmentNoShowGuide,
   modernWebsiteMustHavesGuide,
+  shopifyVsWooVsCustomGuide,
+  whatsappBookingAutomationGuide,
+  nearshoringSerbiaGuide,
 };
