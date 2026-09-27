@@ -36,9 +36,9 @@ export const educationSeo = {
 
 export const educationHero = {
   eyebrow: "Edukacija 1-na-1",
-  title: "Nauči da praviš viralne AI klipove",
+  title: "Ovo nije kurs kao svaki drugi. Odmah radimo na tvom AI profilu i pravimo video za društvene mreže",
   lead:
-    "Ne kurs sa snimcima koje nikad ne pogledaš. Uživo, jedan na jedan: od ideje i prve sekunde koja zaustavlja skrol, preko scena koje generišeš AI alatima, do objave na TikTok, Reels i Shorts. Radimo na tvom nalogu i tvojoj temi.",
+    "Bez snimaka koje nikad ne pogledaš i bez teorije. Uživo, jedan na jedan: fokus je na praktičnom radu — od ideje i prve sekunde koja zaustavlja skrol, preko scena koje generišeš AI alatima, do gotovih klipova za TikTok, Reels i Shorts. Radimo direktno na tvom nalogu i tvojoj temi.",
   primary: { label: "Izaberi paket i počni", href: orderHref },
   secondary: { label: "Pogledaj program", href: "#program" },
   account: { label: "Već imaš sate? Uđi na nalog", href: "/nalog/edukacija" },
