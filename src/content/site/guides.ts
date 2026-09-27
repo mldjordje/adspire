@@ -13,8 +13,12 @@ import {
 } from "./guidesAnswers";
 import {
   appointmentNoShowGuide,
+  constructionTimeSavingGuide,
+  hotelTimeSavingGuide,
+  howInternalSoftwareSavesTimeGuide,
   modernWebsiteMustHavesGuide,
   nearshoringSerbiaGuide,
+  restaurantTimeSavingGuide,
   shopifyVsWooVsCustomGuide,
   webShopNotSellingGuide,
   whatsappBookingAutomationGuide,
@@ -785,6 +789,10 @@ export const guides = [
   shopifyVsWooVsCustomGuide,
   whatsappBookingAutomationGuide,
   nearshoringSerbiaGuide,
+  howInternalSoftwareSavesTimeGuide,
+  constructionTimeSavingGuide,
+  restaurantTimeSavingGuide,
+  hotelTimeSavingGuide,
 ] as const;
 
 export const bookingSystemsGuide = bookingGuide;
@@ -812,4 +820,8 @@ export {
   shopifyVsWooVsCustomGuide,
   whatsappBookingAutomationGuide,
   nearshoringSerbiaGuide,
+  howInternalSoftwareSavesTimeGuide,
+  constructionTimeSavingGuide,
+  restaurantTimeSavingGuide,
+  hotelTimeSavingGuide,
 };

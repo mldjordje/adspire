@@ -632,3 +632,408 @@ export const nearshoringSerbiaGuide: Guide = {
   ],
 };
 
+export const howInternalSoftwareSavesTimeGuide: Guide = {
+  path: "/kako-interni-softver-stedi-vreme-vlasniku",
+  eyebrow: "Optimizacija i produktivnost",
+  title: "Kako interni softver štedi 20+ sati nedeljno vlasniku firme",
+  metaDescription:
+    "Kako prebaciti firmu sa Excel tabela i Viber grupa na centralni interni sistem: digitalni radni nalozi, 1-klik ponude, praćenje troškova i eliminacija mikromenadžmenta.",
+  h1: "Kako interni softver štedi vreme vlasniku firme",
+  lead:
+    "Interni softver po meri zamenjuje raštrkane Excel tabele, papire i Viber grupe jednim centralnim sistemom. Automatizovanjem radnih naloga, 1-klik ponuda i evidencije troškova, vlasnici firmi sa 5 do 50 zaposlenih štede 15 do 25 sati nedeljno, eliminišući operativni mikromenadžment i dobijajući tačne finansijske izveštaje na telefonu u realnom vremenu.",
+  keywords: [
+    "interni softver za firmu",
+    "kako ustedeti vreme preduzetnik",
+    "zamena za excel tabele",
+    "automatizacija operacija u firmi",
+    "softver po meri za preduzeca",
+    "digitalizacija poslovanja",
+  ],
+  background: "silk",
+  updated: "2026-09-28",
+  sections: [
+    {
+      heading: "1. Klopka rasta: Kako vlasnik postaje usko grlo sopstvene firme",
+      body: [
+        "Kada firma ima do 5 radnika, poslovanje se vodi iz glave vlasnika ili kroz par svezaka i tabela. Ali kada tim poraste na 10 do 30 zaposlenih, sav teret odlučivanja i koordinacije i dalje pada na jednu osobu.",
+      ],
+      bullets: [
+        "Telefon zvoni 40 do 60 puta dnevno sa pitanjima: 'Šta radimo ovde?', 'Gde je materijal?', 'Koji je status kupca?'.",
+        "Podaci su rasuti u tri različita računara, privatnim porukama i na papirnim blokčićima koji se gube.",
+        "Vlasnik provodi večeri i vikende unoseći račune i sastavljajući izveštaje umesto da razvija nove poslove ili odmara.",
+      ],
+    },
+    {
+      heading: "2. Digitalni radni nalozi umesto zvanja na telefon",
+      body: [
+        "U namenskom internom sistemu svaki posao dobija svoj digitalni radni nalog sa tačnim zadacima, zaduženim radnicima i rokovima.",
+      ],
+      bullets: [
+        "Radnici na terenu ili u radionici vide svoje zadatke direktno na mobilnom telefonu bez potrebe za sastancima.",
+        "Kada se faza završi, radnik klikne 'Završeno' i priloži fotografiju — status se istog trena menja u centralnoj evidenciji.",
+        "Vlasnik otvara kontrolnu tablu na telefonu i za 30 sekundi vidi šta je u toku, šta kasni i ko je slobodan za novi posao.",
+      ],
+    },
+    {
+      heading: "3. Izrada ponuda i faktura u 60 sekundi",
+      body: [
+        "Ručno kuckanje ponuda u Wordu ili Excelu traje između 45 i 90 minuta po klijentu, uz konstantan rizik od pogrešno izračunate marže.",
+      ],
+      bullets: [
+        "Sistem čuva bazu vaših usluga, materijala, normativa i marži.",
+        "Izborom stavki ponuda se automatski kalkuliše, generiše u brendiran PDF i šalje klijentu na email jednim klikom.",
+        "Kada klijent prihvati ponudu, sistem automatski kreira radni nalog i priprema nalog za fakturisanje bez duplog unosa.",
+      ],
+    },
+    {
+      heading: "4. Finansijska slika u realnom vremenu bez čekanja knjigovođe",
+      body: [
+        "Većina vlasnika saznaje stvarni profit tek na kraju meseca ili kvartala kada knjigovođa pošalje bilanse. Sa internim sistemom, svaka transakcija je vidljiva odmah.",
+      ],
+      bullets: [
+        "Automatsko praćenje profitabilnosti po svakom pojedinačnom projektu ili ugovoru.",
+        "Upozorenja na neplaćene fakture i automatsko slanje učtivih podsetnika dužnicima pre nego što istekne rok.",
+        "Potpuna kontrola nad troškovima goriva, podizvođača i nabavke bez sakupljanja zgužvanih fiskalnih računa.",
+      ],
+    },
+  ],
+  proofHeading: "Kako izgledaju naši interni sistemi",
+  proof: [
+    {
+      label: "Razvoj poslovnog softvera po meri",
+      href: "/our-services/mobilne-aplikacije",
+      note: "Saznajte kako zamenjujemo Excel tabele brzim web aplikacijama prilagođenim vašoj firmi.",
+    },
+  ],
+  faqHeading: "Česta pitanja o uvođenju internog softvera",
+  faq: [
+    {
+      q: "Koliko vremena je potrebno zaposlenima da nauče da koriste novi sistem?",
+      a: "Sisteme dizajniramo po principu mobilnih aplikacija — sa velikim dugmadima i maksimalno 2 do 3 klika po operaciji. Radnici na terenu savladaju unos u roku od 15 minuta jer je interfejs jednostavniji od Vibera.",
+    },
+    {
+      q: "Da li interni sistem može da zameni naš postojeći knjigovodstveni program?",
+      a: "Ne mora ga zameniti. Naš softver vodi svakodnevne operacije, radne naloge i komunikaciju, a preko API-ja automatski šalje gotove podatke u vaš knjigovodstveni program ili e-Fakture (SEF) bez ručnog prekucavanja.",
+    },
+    {
+      q: "Koliko košta izrada internog softvera po meri u odnosu na mesečni SaaS?",
+      a: "Gotovi SaaS alati naplaćuju licencu po korisniku (npr. 30–80 € po radniku mesečno), što za tim od 15 radnika iznosi 5.000–14.000 € svake godine bez da posedujete kod. Namenski softver se plati jednom i ostaje trajno vlasništvo vaše firme bez mesečnih korisničkih licenci.",
+    },
+    {
+      q: "Gde se čuvaju podaci i ko ima pristup bazi firme?",
+      a: "Baza se postavlja na bezbedan cloud server u Evropskoj uniji sa svakodnevnim automatskim bekapima. Vi ste 100% vlasnik podataka i izvornog koda, a pristup se kontroliše striktnim korisničkim ulogama (npr. radnik vidi samo svoje zadatke, poslovođa svoj tim, a vlasnik ceo bilans).",
+    },
+  ],
+  cta: { label: "Zakažite razgovor o automatizaciji", href: "/upit" },
+  secondaryCta: { label: "Vodič: Interni softver umesto Excel tabela", href: "/interni-softver-umesto-excel-tabela" },
+  related: [
+    "/interni-softver-umesto-excel-tabela",
+    "/e-fakture-sef-automatski",
+    "/kako-gradjevinska-firma-gubi-vreme-operacije",
+  ],
+};
+
+export const constructionTimeSavingGuide: Guide = {
+  path: "/kako-gradjevinska-firma-gubi-vreme-operacije",
+  eyebrow: "Građevinarstvo & Teren",
+  title: "Gde građevinske firme gube vreme — Automatizacija gradilišta i ponuda",
+  metaDescription:
+    "Gde građevinske firme i izvođači gube 20+ sati nedeljno: ručne ponude u Excelu, zvanje poslovođa, praćenje utroška materijala i haos sa računima sa stovarišta.",
+  h1: "Gde građevinske firme gube vreme i kako automatizovati operacije",
+  lead:
+    "Građevinske firme gube preko 20 sati nedeljno na ručno računanje ponuda, zvanje poslovođa za stanje radova i sakupljanje računa sa stovarišta. Interni sistem za gradilišta omogućava digitalne radne naloge, praćenje utroška materijala u realnom vremenu i sklapanje ponuda po normativima u nekoliko klikova bez grešaka i probijanja budžeta.",
+  keywords: [
+    "softver za gradjevinske firme",
+    "program za gradiliste",
+    "vodjenje gradilista aplikacija",
+    "kalkulacija gradjevinske ponude",
+    "pracenje utroska materijala gradjevina",
+    "digitalizacija gradjevine srbija",
+  ],
+  background: "aurora",
+  updated: "2026-09-28",
+  sections: [
+    {
+      heading: "1. Tri dana za izradu jedne ponude u Excelu",
+      body: [
+        "Sklapanje ponude za investitora sa desetinama pozicija radova i materijala obično zahteva sate listanja starih tabela, pozivanja stovarišta za ažurne cene i ručnog proračuna marže.",
+      ],
+      bullets: [
+        "Jedna greška u formuli Excela može dovesti do ponude koja pravi gubitak na celom projektu.",
+        "Dok vi potrošite tri večeri na računanje, agilnija konkurencija pošalje profesionalnu ponudu istog dana.",
+        "Rešenje: Interna baza normativa i jediničnih cena gde unosom kvadrature sistem za 3 minuta izbaci tačnu specifikaciju i profitnu maržu.",
+      ],
+    },
+    {
+      heading: "2. Poslovođe i radni nalozi: Kraj telefonskog ping-ponga",
+      body: [
+        "Vlasnik građevinske firme provodi pola radnog vremena u automobilu obilazeći gradilišta samo da bi utvrdio dokle se stiglo i šta od materijala fali.",
+      ],
+      bullets: [
+        "Poslovođa na gradilištu otvara aplikaciju na mobilnom, označava završene pozicije i prilaže fotografije armiranja ili instalacija.",
+        "Zahtev za dopunu materijala šalje se u dva klika direktno magacinu ili nabavci bez poziva i nerazumljivih SMS poruka.",
+        "Dnevni građevinski dnevnik i evidencija radnih sati radnika popunjavaju se digitalno na licu mesta.",
+      ],
+    },
+    {
+      heading: "3. Računi sa stovarišta i kontrola podizvođača",
+      body: [
+        "Na kraju meseca na sto stignu gomile otpremnica i računa sa različitih stovarišta, a niko sa sigurnošću ne zna koji džak cementa je otišao na koji objekat.",
+      ],
+      bullets: [
+        "Svaki račun se fotografiše telefonom u trenutku prijema robe i vezuje za tačan broj gradilišta.",
+        "Sistem automatski upoređuje ugovoreni budžet materijala sa stvarnim stanjem — čim trošak pređe 90% limita, vlasnik dobija alarm.",
+        "Podizvođači fakturišu isključivo po overenim digitalnim fazama, što sprečava preplaćivanje i naknadne sporove.",
+      ],
+    },
+    {
+      heading: "4. Pregled poslovanja na jednom ekranu",
+      body: [
+        "Umesto nagađanja 'koliko smo dobri na kom objektu', sistem prikazuje realnu finansijsku sliku za svako aktivno gradilište.",
+      ],
+      bullets: [
+        "Jasno razgraničenje: ugovorena vrednost, naplaćeni avansi, trošak materijala, trošak radne snage i preostala marža.",
+        "Pregled zauzetosti mehanizacije, alata i voznog parka kako skupi bageri ne bi stajali besposleni.",
+        "Automatsko generisanje privremenih situacija za investitore u zakonskom formatu.",
+      ],
+    },
+  ],
+  proofHeading: "Rešenja za građevinski sektor",
+  proof: [
+    {
+      label: "Sajt i softver za građevinske firme",
+      href: "/sajt-za-gradjevinsku-firmu",
+      note: "Pogledajte kako izgleda kompletno digitalno rešenje za izvođače i investitore.",
+    },
+  ],
+  faqHeading: "Česta pitanja o softveru za građevinarstvo",
+  faq: [
+    {
+      q: "Mogu li poslovođe na terenu da koriste sistem ako nemaju dobar internet?",
+      a: "Da. Mobilni interfejs podržava offline rad — unosi se beleže u telefonu i automatski sinhronizuju sa centralnom bazom čim telefon uhvati mobilni signal.",
+    },
+    {
+      q: "Da li sistem može da uveze naše postojeće cenovnike i Excel tabele?",
+      a: "Da. Prilikom implementacije prenosimo sve vaše postojeće baze materijala, normativa i jediničnih cena iz Excela u sistem, tako da nastavljate sa radom bez prekida.",
+    },
+    {
+      q: "Može li softver da prati servis i registraciju građevinskih mašina i vozila?",
+      a: "Da. U sklopu modula mehanizacije beleže se radni sati, potrošnja goriva, datumi servisa i registracije sa automatskim podsetnicima na telefon pre isteka.",
+    },
+    {
+      q: "Koliko vremena je potrebno da se softver prilagodi našem načinu rada?",
+      a: "Osnovni operativni sistem sa radnim nalozima i evidencijom gradilišta implementira se za 3 do 5 nedelja uz obuku vaših poslovođa i administrativnog tima.",
+    },
+  ],
+  cta: { label: "Zatražite procenu za građevinski softver", href: "/upit" },
+  secondaryCta: { label: "Vodič: Kako interni softver štedi vreme", href: "/kako-interni-softver-stedi-vreme-vlasniku" },
+  related: [
+    "/kako-interni-softver-stedi-vreme-vlasniku",
+    "/interni-softver-umesto-excel-tabela",
+    "/koliko-traje-izrada-sajta",
+  ],
+};
+
+export const restaurantTimeSavingGuide: Guide = {
+  path: "/kako-restorani-gube-vreme-nabavka-smene",
+  eyebrow: "Ugostiteljstvo & Restorani",
+  title: "Gde restorani gube vreme — Automatizacija nabavke, kala i smena",
+  metaDescription:
+    "Kako vlasnici i menadžeri restorana gube 15+ sati nedeljno: ručne porudžbine dobavljačima u noć, neprecizni normativi, kalo u kuhinji i rasporedi smena na papiru.",
+  h1: "Gde restorani gube vreme i kako automatizovati poslovanje",
+  lead:
+    "Vlasnici i menadžeri restorana troše sate na noćno poručivanje robe od dobavljača preko poruka, ručne popise u sveskama i usaglašavanje smena radnika. Interni sistem automatizuje nabavku kada zalihe padnu ispod minimuma, precizno prati normative i kalo, i omogućava radnicima pregled i zamenu smena preko mobilne aplikacije.",
+  keywords: [
+    "softver za restorane",
+    "nabavka za restorane automatizacija",
+    "raspored smena konobari aplikacija",
+    "normativi i kalo softver",
+    "vodjenje restorana usteda vremena",
+    "digitalizacija ugostiteljstva",
+  ],
+  background: "silk",
+  updated: "2026-09-28",
+  sections: [
+    {
+      heading: "1. Noćne porudžbine dobavljačima preko Vibera i SMS-a",
+      body: [
+        "U 1 sat ujutru, nakon zatvaranja lokala, šef kuhinje ili menadžer provodi 45 minuta šaljući pojedinačne poruke mesari, pekaru i distributerima pića šta treba da stigne sutra.",
+      ],
+      bullets: [
+        "Poruke se zaborave, dobavljač donese pogrešnu količinu, a račun se ručno upoređuje sa cenovnikom.",
+        "Rešenje: Sistem sam generiše agregiranu listu porudžbine na osnovu potrošnje tog dana i jednim klikom je šalje dobavljačima.",
+        "Ušteda: 5 do 7 sati nedeljno čistog operativnog vremena uz eliminaciju grešaka u isporuci svežih namirnica.",
+      ],
+    },
+    {
+      heading: "2. Normativi, kalo i kontrola nestanka robe",
+      body: [
+        "Bez preciznog praćenja utroška namirnica, razlika između prodatih jela i utrošenog mesa ili pića je ubedljivo najveći skriveni gubitak svakog restorana.",
+      ],
+      bullets: [
+        "Svako jelo sa POS kase automatski skida tačnu gramažu sirovina iz centralnog magacina.",
+        "Sistem automatski uračunava dozvoljeni procenat kala pri termičkoj obradi mesa i čišćenju povrća.",
+        "Nedeljni inventar se radi za 20 minuta skeniranjem barkodova, a svako odstupanje veće od 2% pali crveni alarm vlasniku.",
+      ],
+    },
+    {
+      heading: "3. Raspored smena bez svađe i telefonskih poziva",
+      body: [
+        "Pravljenje mesečnog rasporeda za 15 konobara, barmena i kuvara je noćna mora: ko kad polaže ispite, ko hoće slobodan vikend, ko je uzeo bolovanje.",
+      ],
+      bullets: [
+        "Menadžer postavlja raspored u digitalni kalendar koji radnici vide na svojim telefonima.",
+        "Kada radnik želi zamenu, pošalje zahtev kolegi kroz aplikaciju — tek kada kolega prihvati, menadžer dobija notifikaciju za odobrenje.",
+        "Nema više stotina poruka u Viber grupi i zaboravljenih smena koje ostavljaju šank prazan u petak uveče.",
+      ],
+    },
+    {
+      heading: "4. Pregled poslovanja na telefonu dok niste u lokalu",
+      body: [
+        "Vlasnik restorana ne mora fizički sedeti u lokalu da bi znao kakvo je stanje poslovanja.",
+      ],
+      bullets: [
+        "Promet u realnom vremenu, prosečan iznos računa i popunjenost stolova dostupni su na kontrolnoj tabli telefona.",
+        "Automatski pregled najprofitabilnijih jela i jela koja 'jedu novac' a retko se naručuju.",
+        "Izveštaj o dnevnom trošku radne snage (Labor Cost %) u poređenju sa ostvarenim prometom tog dana.",
+      ],
+    },
+  ],
+  proofHeading: "Rešenja za restorane i kafiće",
+  proof: [
+    {
+      label: "Softver i sajt za restorane",
+      href: "/softver-za-restoran-i-kafic",
+      note: "Saznajte kako povezujemo POS kase, digitalne menije i magacinske operacije.",
+    },
+  ],
+  faqHeading: "Česta pitanja o automatizaciji restorana",
+  faq: [
+    {
+      q: "Da li sistem može da se poveže sa našom postojećom fiskalnom kasom?",
+      a: "Da. Sistem se integriše sa većinom vodećih POS fiskalnih softvera na tržištu Srbije i regiona, tako da svaka izdata stavka automatski ažurira zalihe u realnom vremenu.",
+    },
+    {
+      q: "Kako sistem pomaže u kontroli troškova hrane (Food Cost)?",
+      a: "Sistem automatski preračunava cenu svakog jela čim dobavljač promeni nabavnu cenu bilo koje sirovine. Odmah vidite ako vam je profitna marža pala ispod planiranog nivoa i možete korigovati cenu pre nego što nastane gubitak.",
+    },
+    {
+      q: "Da li zaposleni moraju instalirati posebnu tešku aplikaciju?",
+      a: "Ne. Koristi se brza progresivna web aplikacija (PWA) koja radi u browseru bilo kog Android ili iPhone telefona bez zauzimanja memorije i bez potrebe za preuzimanjem sa prodavnica aplikacija.",
+    },
+    {
+      q: "Mogu li se pratiti troškovi i zalihe za više povezanih lokala ili magacina?",
+      a: "Da. Sistem je višemagacinski i podržava prenos robe između centralnog magacina i pojedinačnih objekata sa punom sledljivošću i evidencijom odgovornih lica.",
+    },
+  ],
+  cta: { label: "Zatražite konsultacije za ugostiteljstvo", href: "/upit" },
+  secondaryCta: { label: "Vodič: Automatizacija zakazivanja i rezervacija", href: "/kako-automatizovati-zakazivanje-whatsapp" },
+  related: [
+    "/kako-interni-softver-stedi-vreme-vlasniku",
+    "/kako-hoteli-gube-vreme-recepcija-ciscenje",
+    "/kako-automatizovati-zakazivanje-whatsapp",
+  ],
+};
+
+export const hotelTimeSavingGuide: Guide = {
+  path: "/kako-hoteli-gube-vreme-recepcija-ciscenje",
+  eyebrow: "Hotelijerstvo & Apartmani",
+  title: "Gde hoteli i apartmani gube vreme — Channel Manager i automatizacija",
+  metaDescription:
+    "Kako vlasnici hotela i apartmana gube sate na recepciji: preklapanje rezervacija na Booking-u i Airbnb-u, eTurista i MUP prijava, pametne brave i organizacija sobarica.",
+  h1: "Gde hoteli i apartmani gube vreme i kako automatizovati recepciju",
+  lead:
+    "Hoteli i vlasnici apartmana gube sate na ručno prepisivanje gostiju u eTuristu, proveravanje preklapanja na Booking-u i Airbnb-u i zvanje sobarica. Centralni sistem sa Channel Manager-om eliminiše duple rezervacije, šalje gostima automatske šifre za pametne brave na WhatsApp i automatski ažurira status očišćenih soba u realnom vremenu.",
+  keywords: [
+    "hotelski sistem usteda vremena",
+    "channel manager srbija",
+    "automatska prijava eturista",
+    "pametne brave za apartmane whatsapp",
+    "softver za sobarice i ciscenje",
+    "digitalna recepcija za hotel",
+  ],
+  background: "aurora",
+  updated: "2026-09-28",
+  sections: [
+    {
+      heading: "1. Duple rezervacije i ručno zatvaranje soba po portalima",
+      body: [
+        "Kada rezervacija stigne u petak uveče na Booking.com, recepcionar mora ručno da ode na Airbnb, Expedia-u i sopstveni sajt da zatvori taj termin. Ako zakasni 10 minuta, dolazi do overbooking skandala.",
+      ],
+      bullets: [
+        "Dvosmerni Channel Manager sinhronizuje kalendare u roku od 3 sekunde na svim kanalima istovremeno.",
+        "Kada se termin rezerviše na jednom mestu, automatski se zatvara svuda — rizik od duple rezervacije pada na 0%.",
+        "Cene i minimalan broj noćenja menjaju se sa jednog mesta za sve portale odjednom.",
+      ],
+    },
+    {
+      heading: "2. Administracija: eTurista, MUP i fakturisanje u jednom kliku",
+      body: [
+        "Ručno unošenje pasoša i ličnih karata svakog gosta u državni portal eTurista oduzima između 5 i 10 minuta po prijavi, stvarajući gužve na recepciji.",
+      ],
+      bullets: [
+        "Gost dobija link pre dolaska i sam unosi podatke ili skenira lični dokument telefonom.",
+        "Sistem automatski šalje prijavu boravka u eTuristu bez ručnog prekucavanja.",
+        "Boravišna taksa, osiguranje i fiskalni račun kreiraju se automatski pri odjavi gosta.",
+      ],
+    },
+    {
+      heading: "3. Beskontaktni check-in preko pametnih brava i WhatsApp-a",
+      body: [
+        "Čekanje kasnih gostiju do 1 sat ujutru da bi im se uručio ključ nepotrebno veže radno vreme vlasnika ili zahteva noćnog recepcionara.",
+      ],
+      bullets: [
+        "Sistem generiše jedinstvenu šifru za pametnu bravu koja važi tačno od trenutka check-in-a do check-out-a.",
+        "Gost na WhatsApp dobija poruku dobrodošlice sa navigacijom do parkinga, video uputstvom i šifrom vrata.",
+        "Gost samostalno ulazi bez stresa, a vi vidite tačan trenutak kada je otključao apartman.",
+      ],
+    },
+    {
+      heading: "4. Koordinacija sobarica i održavanja bez lutanja po spratovima",
+      body: [
+        "Koja soba je napuštena, koja se sprema za danas, a koja ima kvar — pitanja koja se svakodnevno rešavaju papirićima i dovikivanjem.",
+      ],
+      bullets: [
+        "Sobarica na svom telefonu vidi listu soba poređanu po prioritetu dolaska novih gostiju.",
+        "Čim sobarica završi i klikne 'Čisto', soba automatski prelazi u status spremne za prijem na recepciji.",
+        "Kvarovi se prijavljuju fotografijom u sistem i automatski prosleđuju kućnom majstoru.",
+      ],
+    },
+  ],
+  proofHeading: "Hotelski sistemi iz prakse",
+  proof: [
+    {
+      label: "Adspire hotelski rezervacioni sistem",
+      href: "/hotelski-rezervacioni-sistem",
+      note: "Pogledajte kako izgleda kompletan sistem sa PMS-om, Channel Manager-om i direktnim bukingom.",
+    },
+  ],
+  faqHeading: "Česta pitanja o hotelskoj automatizaciji",
+  faq: [
+    {
+      q: "Mogu li povezati pametne brave na postojeća vrata bez promene stolarije?",
+      a: "Da. Većina modernih pametnih brava (Yale, Nuki, TTLock) montira se na postojeće cilindarske brave za manje od 30 minuta i bežično povezuje sa našim sistemom preko API-ja.",
+    },
+    {
+      q: "Da li sistem automatski računa provizije Booking-a i zaradu po sobi (RevPAR)?",
+      a: "Da. Sistem beleži tačne neto prihode po svakom kanalu prodaje, automatski izdvaja provizije posrednika i prikazuje ključne hotelske metrike: popunjenost (Occupancy Rate), ADR i RevPAR.",
+    },
+    {
+      q: "Kako gosti reaguju na digitalni self-check-in preko poruka?",
+      a: "Preko 85% modernih putnika preferira samostalni ulazak jer ne moraju da se objašnjavaju oko tačnog vremena dolaska niti da čekaju u redu. Za goste koji žele lični kontakt, recepcija je uvek na raspolaganju.",
+    },
+    {
+      q: "Koliko brzo se sistem može pustiti u rad za hotel ili kompleks apartmana?",
+      a: "Implementacija Channel Manager-a i osnovnog PMS sistema za do 30 jedinica obično traje između 2 i 4 nedelje, uključujući unos svih soba, cenovnika i sinhronizaciju sa kanalima.",
+    },
+  ],
+  cta: { label: "Zakažite prezentaciju hotelskog sistema", href: "/upit" },
+  secondaryCta: { label: "Pogledajte hotelski rezervacioni sistem", href: "/hotelski-rezervacioni-sistem" },
+  related: [
+    "/kako-spreciti-nedolazak-na-termin",
+    "/kako-automatizovati-zakazivanje-whatsapp",
+    "/online-zakazivanje-za-salone-i-klinike",
+  ],
+};
+
+

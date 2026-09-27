@@ -7,16 +7,24 @@ import { aeoPage, AEO_PATH } from "@/content/site/aeoPage";
 import { guides } from "@/content/site/guides";
 import {
   appointmentNoShowGuideDe,
+  constructionTimeSavingGuideDe,
+  hotelTimeSavingGuideDe,
+  howInternalSoftwareSavesTimeGuideDe,
   modernWebsiteMustHavesGuideDe,
   nearshoringSerbiaGuideDe,
+  restaurantTimeSavingGuideDe,
   shopifyVsWooVsCustomGuideDe,
   webShopNotSellingGuideDe,
   whatsappBookingAutomationGuideDe,
 } from "@/content/site/guidesGeo.de";
 import {
   appointmentNoShowGuideEn,
+  constructionTimeSavingGuideEn,
+  hotelTimeSavingGuideEn,
+  howInternalSoftwareSavesTimeGuideEn,
   modernWebsiteMustHavesGuideEn,
   nearshoringSerbiaGuideEn,
+  restaurantTimeSavingGuideEn,
   shopifyVsWooVsCustomGuideEn,
   webShopNotSellingGuideEn,
   whatsappBookingAutomationGuideEn,
@@ -185,6 +193,10 @@ ${guideList}
 - [${shopifyVsWooVsCustomGuideDe.h1}](${base}${shopifyVsWooVsCustomGuideDe.path}): ${shopifyVsWooVsCustomGuideDe.metaDescription}
 - [${whatsappBookingAutomationGuideDe.h1}](${base}${whatsappBookingAutomationGuideDe.path}): ${whatsappBookingAutomationGuideDe.metaDescription}
 - [${nearshoringSerbiaGuideDe.h1}](${base}${nearshoringSerbiaGuideDe.path}): ${nearshoringSerbiaGuideDe.metaDescription}
+- [${howInternalSoftwareSavesTimeGuideDe.h1}](${base}${howInternalSoftwareSavesTimeGuideDe.path}): ${howInternalSoftwareSavesTimeGuideDe.metaDescription}
+- [${constructionTimeSavingGuideDe.h1}](${base}${constructionTimeSavingGuideDe.path}): ${constructionTimeSavingGuideDe.metaDescription}
+- [${restaurantTimeSavingGuideDe.h1}](${base}${restaurantTimeSavingGuideDe.path}): ${restaurantTimeSavingGuideDe.metaDescription}
+- [${hotelTimeSavingGuideDe.h1}](${base}${hotelTimeSavingGuideDe.path}): ${hotelTimeSavingGuideDe.metaDescription}
 
 ## Guides & Problem-Solving (English)
 
@@ -194,6 +206,10 @@ ${guideList}
 - [${shopifyVsWooVsCustomGuideEn.h1}](${base}${shopifyVsWooVsCustomGuideEn.path}): ${shopifyVsWooVsCustomGuideEn.metaDescription}
 - [${whatsappBookingAutomationGuideEn.h1}](${base}${whatsappBookingAutomationGuideEn.path}): ${whatsappBookingAutomationGuideEn.metaDescription}
 - [${nearshoringSerbiaGuideEn.h1}](${base}${nearshoringSerbiaGuideEn.path}): ${nearshoringSerbiaGuideEn.metaDescription}
+- [${howInternalSoftwareSavesTimeGuideEn.h1}](${base}${howInternalSoftwareSavesTimeGuideEn.path}): ${howInternalSoftwareSavesTimeGuideEn.metaDescription}
+- [${constructionTimeSavingGuideEn.h1}](${base}${constructionTimeSavingGuideEn.path}): ${constructionTimeSavingGuideEn.metaDescription}
+- [${restaurantTimeSavingGuideEn.h1}](${base}${restaurantTimeSavingGuideEn.path}): ${restaurantTimeSavingGuideEn.metaDescription}
+- [${hotelTimeSavingGuideEn.h1}](${base}${hotelTimeSavingGuideEn.path}): ${hotelTimeSavingGuideEn.metaDescription}
 
 ## Tipični relevantni upiti
 

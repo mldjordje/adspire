@@ -16,6 +16,10 @@ const GERMAN_GUIDE_PATHS = [
   "/shopify-vs-woocommerce-vergleich",
   "/terminbuchung-whatsapp-automatisieren",
   "/webagentur-serbien-beauftragen-dsgvo-vorteile",
+  "/interne-software-zeitersparnis-unternehmen",
+  "/bauunternehmen-zeitersparnis-prozessoptimierung",
+  "/gastronomie-zeitersparnis-dienstplan-einkauf",
+  "/hotel-ferienwohnungen-zeitersparnis-automatisierung",
 ];
 
 export function middleware(request: NextRequest) {
@@ -46,5 +50,9 @@ export const config = {
     "/shopify-vs-woocommerce-vergleich",
     "/terminbuchung-whatsapp-automatisieren",
     "/webagentur-serbien-beauftragen-dsgvo-vorteile",
+    "/interne-software-zeitersparnis-unternehmen",
+    "/bauunternehmen-zeitersparnis-prozessoptimierung",
+    "/gastronomie-zeitersparnis-dienstplan-einkauf",
+    "/hotel-ferienwohnungen-zeitersparnis-automatisierung",
   ],
 };

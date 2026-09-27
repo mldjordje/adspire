@@ -618,3 +618,404 @@ export const nearshoringSerbiaGuideDe: Guide = {
   ],
 };
 
+export const howInternalSoftwareSavesTimeGuideDe: Guide = {
+  path: "/de/interne-software-zeitersparnis-unternehmen",
+  eyebrow: "Prozessoptimierung & Produktivität",
+  title: "Wie interne Software Unternehmern 20+ Wochenstunden spart",
+  metaDescription:
+    "Von unübersichtlichen Excel-Listen und WhatsApp-Gruppen zu einem zentralen internen System: Digitale Aufträge, 1-Klick-Angebote und null zeitraubendes Mikromanagement.",
+  h1: "Wie interne Software Unternehmern Zeit spart",
+  lead:
+    "Individuelle interne Software ersetzt verstreute Excel-Listen, Papierkram und Chatgruppen durch ein zentrales Betriebssystem. Durch automatisierte Arbeitsaufträge, 1-Klick-Angebote und digitale Zeiterfassung sparen Geschäftsführer von 5 bis 50 Mitarbeitern wöchentlich 15 bis 25 Arbeitsstunden. Sie beenden zeitraubenden Mikromanagement-Aufwand und steuern Kennzahlen in Echtzeit direkt vom Smartphone aus.",
+  keywords: [
+    "interne software kmu",
+    "zeitersparnis unternehmer software",
+    "excel listen ersetzen software",
+    "prozessautomatisierung mittelstand",
+    "betriebssoftware nach mass",
+    "digitalisierung kmu zeitgewinn",
+  ],
+  background: "silk",
+  updated: "2026-09-28",
+  sections: [
+    {
+      heading: "1. Die Wachstumsfalle: Wenn der Inhaber zum Flaschenhals wird",
+      body: [
+        "In kleinen Teams mit bis zu fünf Mitarbeitern funktioniert Koordination auf Zuruf. Wächst das Unternehmen jedoch auf 10 bis 30 Mitarbeiter, bricht dieses informelle Gefüge zusammen — alle Fäden laufen weiterhin allein beim Geschäftsführer zusammen.",
+      ],
+      bullets: [
+        "Das Telefon klingelt 40- bis 60-mal täglich mit Routinefragen: 'Wo liegt das Material?', 'Ist die Rechnung freigegeben?', 'Wer übernimmt Kundenauftrag X?'.",
+        "Wichtige Informationen liegen verstreut auf lokalen PCs, in privaten Chat-Verläufen oder auf verlorenen Notizzetteln.",
+        "Der Unternehmer verbringt Feierabende und Wochenenden mit Excel-Tabellen und Belegen, anstatt strategisch am Unternehmen zu arbeiten.",
+      ],
+    },
+    {
+      heading: "2. Digitale Arbeitsaufträge statt endloser Telefonate",
+      body: [
+        "In einem maßgeschneiderten internen System erhält jeder Vorgang einen eindeutigen digitalen Arbeitsauftrag mit Aufgaben, Zuständigkeiten und Fristen.",
+      ],
+      bullets: [
+        "Mitarbeiter im Außendienst oder in der Werkstatt sehen ihre Prioritäten direkt auf dem Smartphone ohne langwierige Vorbesprechungen.",
+        "Nach Fertigstellung genügt ein Klick auf 'Erledigt' samt Fotodokumentation — der Status aktualisiert sich sofort in der Zentrale.",
+        "Der Inhaber öffnet das Dashboard auf seinem Mobilgerät und sieht in 30 Sekunden den aktuellen Projektstatus und Engpässe.",
+      ],
+    },
+    {
+      heading: "3. Angebote und Rechnungen in 60 Sekunden statt 2 Stunden",
+      body: [
+        "Das manuelle Zusammenstellen von Angeboten in Word oder Excel kostet pro Kunde 45 bis 90 Minuten und birgt das permanente Risiko von Rechen- und Kalkulationsfehlern.",
+      ],
+      bullets: [
+        "Das System hinterlegt Ihre Leistungen, Materialpreise, Arbeitszeitwerte und Deckungsbeiträge zentral.",
+        "Per Schnellauswahl wird das Angebot fehlerfrei kalkuliert, als CI-konformes PDF erzeugt und auf Knopfdruck an den Kunden versandt.",
+        "Bei Auftragserteilung generiert das System automatisch den Arbeitsauftrag und die spätere Schlussrechnung ohne Doppeleingaben.",
+      ],
+    },
+    {
+      heading: "4. Betriebswirtschaftliche Klarheit in Echtzeit",
+      body: [
+        "Viele Inhaber erfahren ihre tatsächliche Rentabilität erst Wochen später durch die BWA des Steuerberaters. Ein internes System zeigt Zahlen live.",
+      ],
+      bullets: [
+        "Deckungsbeitrag und Marge werden pro Projekt und Auftrag in Echtzeit ausgewiesen.",
+        "Offene Posten und überfällige Rechnungen werden sofort signalisiert, inklusive automatisierter, freundlicher Zahlungserinnerungen.",
+        "Vollständige Transparenz über Fremdleister-, Material- und Fahrzeugkosten ohne Belegchaos.",
+      ],
+    },
+  ],
+  proofHeading: "Unsere individuellen Softwarelösungen",
+  proof: [
+    {
+      label: "Individuelle Unternehmenssoftware ansehen",
+      href: "/de/our-services/mobilne-aplikacije",
+      note: "Erfahren Sie, wie wir Excel-Listen durch maßgeschneiderte Webanwendungen ablösen.",
+    },
+  ],
+  faqHeading: "Häufige Fragen zur Einführung interner Software",
+  faq: [
+    {
+      q: "Wie schnell gewöhnen sich Mitarbeiter an das neue System?",
+      a: "Wir entwickeln Software mit dem Bedienkomfort moderner Smartphone-Apps — große Touch-Flächen, selbsterklärende Menüs und maximal zwei Klicks pro Aktion. Außendienst- und Werkstattmitarbeiter beherrschen die Bedienung meist nach einer 15-minütigen Einweisung.",
+    },
+    {
+      q: "Muss unsere bestehende Buchhaltungssoftware ersetzt werden?",
+      a: "Nein. Die Software steuert die operativen Abläufe und Arbeitsaufträge und übergibt abrechnungsrelevante Daten über Schnittstellen (z. B. DATEV-Format oder REST-API) direkt an Ihre bestehende Buchhaltung.",
+    },
+    {
+      q: "Wie verhalten sich die Kosten im Vergleich zu Standard-SaaS-Lizenzen?",
+      a: "Standard-SaaS-Lösungen verlangen oft 40 € bis 90 € pro Nutzer und Monat. Bei 20 Nutzern summiert sich das auf 10.000 € bis 20.000 € jährlich — ohne dass Ihnen die Software gehört. Eine Individualentwicklung amortisiert sich meist nach 12 bis 18 Monaten vollständig.",
+    },
+    {
+      q: "Wo werden sensible Unternehmensdaten gespeichert?",
+      a: "Ausschließlich in zertifizierten deutschen bzw. europäischen Rechenzentren (z. B. Frankfurt am Main bei Hetzner oder AWS). Sie besitzen 100 % der Datenhoheit und den vollen Quellcode.",
+    },
+  ],
+  cta: { label: "Beratungsgespräch zur Prozessoptimierung anfordern", href: "/de/contact-us" },
+  secondaryCta: { label: "Unsere Leistungen im Überblick", href: "/de/our-services" },
+  related: [
+    "/de/was-gehoert-auf-eine-moderne-unternehmenswebsite",
+    "/de/our-services",
+  ],
+};
+
+export const constructionTimeSavingGuideDe: Guide = {
+  path: "/de/bauunternehmen-zeitersparnis-prozessoptimierung",
+  eyebrow: "Bauwirtschaft & Handwerk",
+  title: "Wo Bauunternehmen Zeit verlieren — Baustellen-Software & Automation",
+  metaDescription:
+    "Wo Bauunternehmen und Handwerksbetriebe wöchentlich über 20 Stunden verlieren: Excel-Kalkulationen, Baustellen-Rückfragen, Materialbelege und Abnahmechaos.",
+  h1: "Wo Bauunternehmen Zeit verlieren und wie Software entlastet",
+  lead:
+    "Bauunternehmen und Handwerksbetriebe verlieren wöchentlich über 20 Stunden durch manuelle Kalkulationen, telefonische Baustellen-Rückfragen und Papierbelege. Eine interne Baustellen-Software digitalisiert Arbeitsaufträge, erfasst Materialverbrauch in Echtzeit per Smartphone und erstellt Angebote nach hinterlegten Leistungspositionen in wenigen Minuten — transparent, fehlerfrei und ohne Budgetüberschreitungen.",
+  keywords: [
+    "software fuer bauunternehmen",
+    "baustellen app handwerk",
+    "zeitersparnis bauleiter software",
+    "kalkulation bauangebote software",
+    "materialverbrauch baustelle erfassen",
+    "digitalisierung handwerk baubranche",
+  ],
+  background: "aurora",
+  updated: "2026-09-28",
+  sections: [
+    {
+      heading: "1. Tage für ein einziges Angebot in Excel",
+      body: [
+        "Die Ausarbeitung eines Leistungsverzeichnisses mit hunderten Positionen bindet Geschäftsführer über Abende hinweg an alte Tabellen und telefonische Preisanfragen bei Baustoffhändlern.",
+      ],
+      bullets: [
+        "Formelfehler in Excel führen im schlimmsten Fall zu verlustbringenden Unterdeckungen im Gesamtprojekt.",
+        "Bis das Angebot fertig ist, hat ein schnellerer Wettbewerber bereits den Zuschlag beim Bauherrn erhalten.",
+        "Lösung: Eine zentrale Stammdatenbank mit Richtpreisen und Zeitwerten, in der die Eingabe der Massen innerhalb von Minuten ein fertiges Angebot kalkuliert.",
+      ],
+    },
+    {
+      heading: "2. Poliere und Baustellenkoordination: Schluss mit Telefonketten",
+      body: [
+        "Bauleiter und Inhaber verbringen täglich Stunden im Auto, um persönlich den Baufortschritt zu prüfen oder fehlendes Material zu organisieren.",
+      ],
+      bullets: [
+        "Der Polier öffnet die App auf der Baustelle, hakt erledigte Abschnitte ab und lädt Bewehrungs- oder Installationsfotos direkt hoch.",
+        "Materialnachbestellungen werden mit zwei Klicks an Lager oder Einkauf übermittelt — ohne unleserliche Handnotizen.",
+        "Bautagebuch und Arbeitszeiten werden tagesaktuell digital dokumentiert und sind revisionssicher archiviert.",
+      ],
+    },
+    {
+      heading: "3. Lieferscheine vom Baustoffhandel und Nachunternehmer-Kontrolle",
+      body: [
+        "Monatsende bedeutet oft Berge unzugeordneter Lieferscheine und Quittungen, bei denen unklar ist, auf welches Bauvorhaben die Ware geflossen ist.",
+      ],
+      bullets: [
+        "Lieferscheine werden bei Warenannahme per Smartphone fotografiert und direkt der Kostenstelle der jeweiligen Baustelle zugewiesen.",
+        "Das System gleicht den budgetierten Materialbedarf mit den Ist-Zahlen ab — bei 90 % Budgetausschöpfung warnt ein automatischer Alarm.",
+        "Nachunternehmer können Abschlagsrechnungen erst stellen, wenn die zugehörigen Bauabschnitte im System digital freigegeben wurden.",
+      ],
+    },
+    {
+      heading: "4. Alle Baustellen auf einem Dashboard im Blick",
+      body: [
+        "Statt auf Vermutungen angewiesen zu sein, visualisiert das System den wirtschaftlichen Status aller laufenden Bauprojekte auf einen Blick.",
+      ],
+      bullets: [
+        "Gegenüberstellung: Auftragssumme, erhaltene Abschlagszahlungen, Materialkosten, Lohnstunden und verbleibende Marge.",
+        "Maschinen- und Fuhrparkdisposition zur Vermeidung teurer Stillstandzeiten von Spezialgeräten.",
+        "Automatische Generierung prüfbarer Abschlags- und Schlussrechnungen nach VOB/BGB.",
+      ],
+    },
+  ],
+  proofHeading: "Lösungen für das Bauwesen",
+  proof: [
+    {
+      label: "Branchenlösungen für Handwerk und Bau",
+      href: "/de/our-services",
+      note: "Erfahren Sie, wie wir maßgeschneiderte Systeme für Bau- und Montagebetriebe entwickeln.",
+    },
+  ],
+  faqHeading: "Häufige Fragen zu Bausoftware",
+  faq: [
+    {
+      q: "Funktioniert die mobile Erfassung auch bei schlechtem Mobilfunknetz auf der Baustelle?",
+      a: "Ja, vollkommen. Die mobile Webanwendung speichert Eingaben und Fotos lokal auf dem Endgerät (Offline-Fähigkeit) und synchronisiert die Daten automatisch im Hintergrund, sobald wieder Empfang besteht.",
+    },
+    {
+      q: "Können bestehende Materialdaten und Kalkulationen aus Excel übernommen werden?",
+      a: "Ja. Im Zuge des Setups migrieren wir Ihre bestehenden Artikelstämme, Leistungskataloge und Kalkulationsgrundlagen vollständig in das neue System.",
+    },
+    {
+      q: "Erfüllt die digitale Baudokumentation rechtliche Nachweisstandards?",
+      a: "Ja. Fotos, Zeitstempel, Wettereinträge und Freigaben werden unveränderlich protokolliert und dienen im Streitfall als lückenlose Baudokumentation.",
+    },
+    {
+      q: "Wie lange dauert die betriebsfertige Einführung der Baustellen-Software?",
+      a: "Ein funktionsfähiges Basissystem mit Auftragsabwicklung, Bautagebuch und Fotodokumentation ist in der Regel innerhalb von 3 bis 5 Wochen einsatzbereit.",
+    },
+  ],
+  cta: { label: "Baustellen-Digitalisierung anfragen", href: "/de/contact-us" },
+  secondaryCta: { label: "Ratgeber: Interne Software & Zeitersparnis", href: "/de/interne-software-zeitersparnis-unternehmen" },
+  related: [
+    "/de/interne-software-zeitersparnis-unternehmen",
+    "/de/our-services",
+  ],
+};
+
+export const restaurantTimeSavingGuideDe: Guide = {
+  path: "/de/gastronomie-zeitersparnis-dienstplan-einkauf",
+  eyebrow: "Gastronomie & Hospitality",
+  title: "Wo Restaurants Zeit verlieren — Einkauf, Rezepturen & Dienstpläne",
+  metaDescription:
+    "Wie Gastronomen wöchentlich 15+ Stunden sparen: Automatisierte Lieferantenbestellungen, centgenauer Wareneinsatz, Rezepturen und digitale Dienstpläne.",
+  h1: "Wo Restaurants Zeit verlieren und wie Automatisierung hilft",
+  lead:
+    "Gastronomen und Restaurantleiter verlieren täglich wertvolle Zeit durch nächtliche Lieferantenbestellungen per Messenger, handschriftliche Inventuren und chaotische Dienstpläne. Ein internes Gastronomie-System automatisiert Bestellungen bei Mindestbeständen, kalkuliert Rezepturen und Wareneinsatz centgenau und ermöglicht Mitarbeitern den flexiblen Schichttausch direkt über das Smartphone.",
+  keywords: [
+    "gastronomie software zeitersparnis",
+    "dienstplan app gastronomie",
+    "wareneinsatz kalkulation restaurant",
+    "einkauf lieferanten automatisieren gastronomie",
+    "restaurant prozessoptimierung",
+    "digitalisierung gastronomie kmu",
+  ],
+  background: "silk",
+  updated: "2026-09-28",
+  sections: [
+    {
+      heading: "1. Nächtliche Lieferantenbestellungen per WhatsApp und Zettel",
+      body: [
+        "Nachts um 1 Uhr nach Betriebsschluss tippt der Küchenchef oder Betriebsleiter handschriftliche Notizen in Einzelnachrichten an Fleischerei, Bäckerei und Getränkelieferanten.",
+      ],
+      bullets: [
+        "Bestellungen werden übersehen, Mengen falsch geliefert und Lieferscheine manuell mit Preisen abgeglichen.",
+        "Lösung: Das System generiert anhand des Tagesverbrauchs eine aggregierte Bestellliste und sendet sie auf Knopfdruck an die jeweiligen Lieferanten.",
+        "Ersparnis: 5 bis 7 Wochenstunden pure Arbeitszeit und drastische Reduktion von Fehlbestellungen frischer Waren.",
+      ],
+    },
+    {
+      heading: "2. Rezepturen, Wareneinsatz und Schwundkontrolle",
+      body: [
+        "Ohne exakte Erfassung ist die Differenz zwischen bonierten Gerichten und tatsächlich verbrauchter Ware der größte versteckte Margenfresser in der Gastronomie.",
+      ],
+      bullets: [
+        "Jeder Bon an der Kasse bucht automatisch die hinterlegten Rohstoffmengen aus dem virtuellen Lager ab.",
+        "Das System kalkuliert Schnittverluste, Garverluste und Kalo realistisch ein.",
+        "Wöchentliche Inventuren dauern per Tablet oder Barcode-Scan nur noch 20 Minuten — Abweichungen über 2 % lösen sofortigen Prüfbedarf aus.",
+      ],
+    },
+    {
+      heading: "3. Dienstplanung ohne Telefonterror und Gruppenchats",
+      body: [
+        "Die Monatsplanung für Servicekräfte, Barkeeper und Küchenpersonal ist nervenaufreibend: Uni-Klausuren, Urlaubswünsche und spontane Krankmeldungen.",
+      ],
+      bullets: [
+        "Der Schichtplan wird digital veröffentlicht und ist für jeden Mitarbeiter auf dem Smartphone in Echtzeit einsehbar.",
+        "Mitarbeiter tauschen Schichten untereinander per App — die Betriebsleitung muss den Tausch lediglich mit einem Klick bestätigen.",
+        "Keine unübersichtlichen WhatsApp-Gruppen mehr und keine unbesetzten Stationen am umsatzstarken Samstagabend.",
+      ],
+    },
+    {
+      heading: "4. Restaurantkennzahlen live auf dem Smartphone",
+      body: [
+        "Der Inhaber muss nicht im Gastraum anwesend sein, um die wirtschaftliche Verfassung seines Betriebes zu kennen.",
+      ],
+      bullets: [
+        "Umsatz in Echtzeit, Durchschnittsbon und Tischauslastung sind jederzeit mobil abrufbar.",
+        "Automatische Auswertung der Margenbringer (Renner- und Penner-Analysen) zur Speisekartenoptimierung.",
+        "Live-Berechnung der Personalkostenquote (Labor Cost %) im Verhältnis zum getätigten Tagesumsatz.",
+      ],
+    },
+  ],
+  proofHeading: "Gastronomielösungen aus der Praxis",
+  proof: [
+    {
+      label: "Software für Gastronomie und Bars",
+      href: "/de/our-services",
+      note: "Erfahren Sie, wie wir Kassen, Reservierungen und interne Betriebsabläufe vernetzen.",
+    },
+  ],
+  faqHeading: "Häufige Fragen zur Gastronomie-Automatisierung",
+  faq: [
+    {
+      q: "Lässt sich das System an bestehende Kassensysteme anbinden?",
+      a: "Ja. Über offizielle Schnittstellen verbinden wir das System mit führenden POS-Kassensystemen im DACH-Raum, sodass Buchungen in Echtzeit Lager- und Wareneinsatzdaten aktualisieren.",
+    },
+    {
+      q: "Wie reagiert das System auf schwankende Einkaufspreise der Großhändler?",
+      a: "Sobald ein Lieferschein mit geänderten Einkaufspreisen erfasst wird, passt das System die Wareneinsatzkosten der betroffenen Gerichte sofort an. Bei Margenunterdeckung schlägt das System automatisch Preiskorrekturen vor.",
+    },
+    {
+      q: "Müssen Mitarbeiter eine App aus dem App Store herunterladen?",
+      a: "Nein. Es handelt sich um eine moderne Progressive Web App (PWA), die direkt über den Browser auf jedem iOS- oder Android-Gerät mit vollem App-Komfort funktioniert.",
+    },
+    {
+      q: "Können mehrere Filialen oder Gastro-Konzepte zentral gesteuert werden?",
+      a: "Ja. Das System unterstützt Mehrmagazin- und Mehrbetriebsstrukturen mit zentralem Einkauf und standortbezogener Auswertung.",
+    },
+  ],
+  cta: { label: "Gastro-Automatisierung unverbindlich anfragen", href: "/de/contact-us" },
+  secondaryCta: { label: "Ratgeber: WhatsApp-Terminbuchung", href: "/de/terminbuchung-whatsapp-automatisieren" },
+  related: [
+    "/de/interne-software-zeitersparnis-unternehmen",
+    "/de/terminbuchung-whatsapp-automatisieren",
+  ],
+};
+
+export const hotelTimeSavingGuideDe: Guide = {
+  path: "/de/hotel-ferienwohnungen-zeitersparnis-automatisierung",
+  eyebrow: "Hotellerie & Ferienvermietung",
+  title: "Wo Hotels Zeit verlieren — Channel-Manager & Rezeptionsautomation",
+  metaDescription:
+    "Wie Hotel- und Ferienwohnungsbetreiber täglich Stunden sparen: 2-Wege Channel-Manager, automatische Meldescheine, Smart Locks und Reinigungsstatus per App.",
+  h1: "Wo Hotels Zeit verlieren und wie Automatisierung entlastet",
+  lead:
+    "Hotels und Ferienwohnungsbetreiber vergeuden täglich Stunden mit manuellem Buchungsabgleich zwischen Portalen, Meldeschein-Bürokratie und telefonischer Abstimmung mit dem Reinigungspersonal. Ein integriertes PMS mit Channel-Manager verhindert Doppelbelegungen vollständig, sendet Gästen automatische WhatsApp-Türcodes für den Self-Check-in und synchronisiert den Zimmer-Reinigungsstatus in Echtzeit.",
+  keywords: [
+    "hotelsystem zeitersparnis",
+    "channel manager software dach",
+    "digitaler meldeschein hotel",
+    "smart lock ferienwohnung whatsapp",
+    "housekeeping app hotel",
+    "digitale rezeption hotelier",
+  ],
+  background: "aurora",
+  updated: "2026-09-28",
+  sections: [
+    {
+      heading: "1. Doppelbuchungen und mühsames Pflegen einzelner Portale",
+      body: [
+        "Geht am Freitagabend eine Buchung über Booking.com ein, muss das Rezeptionsteam Airbnb, Expedia und die eigene Website manuell blockieren. Wenige Minuten Verzögerung führen schnell zu fatalen Überbuchungen.",
+      ],
+      bullets: [
+        "Ein 2-Wege-Channel-Manager synchronisiert Zimmerverfügbarkeiten innerhalb von drei Sekunden über alle Plattformen hinweg.",
+        "Wird ein Zimmer gebucht, schließt es sich auf allen anderen Portalen automatisch — das Überbuchungsrisiko sinkt auf null.",
+        "Preise, Mindestaufenthalte und Restriktionen werden zentral an einer einzigen Stelle für alle Kanäle gesteuert.",
+      ],
+    },
+    {
+      heading: "2. Bürokratie: Digitale Meldescheine und Rechnungsstellung per Klick",
+      body: [
+        "Das manuelle Ausfüllen von Meldescheinen und Erfassen von Ausweisdaten bei der Anreise kostet pro Gast 5 bis 10 Minuten und erzeugt lange Schlangen am Empfang.",
+      ],
+      bullets: [
+        "Gäste erhalten vor Anreise einen Link zum mobilen Pre-Check-in und tragen Meldedaten bequem vorab ein.",
+        "Das System erzeugt den gesetzlichen Meldeschein automatisch und digital signiert.",
+        "Kurtaxe, Nebenleistungen und die steuerkonforme Hotelrechnung werden beim Check-out sekundenschnell generiert.",
+      ],
+    },
+    {
+      heading: "3. Schlüsselloser Self-Check-in über Smart Locks und WhatsApp",
+      body: [
+        "Bis spät in die Nacht auf verspätete Gäste zu warten, um Schlüssel zu übergeben, bindet wertvolle Ressourcen oder erfordert teuren Nachtdienst.",
+      ],
+      bullets: [
+        "Das System erzeugt für das elektronische Türschloss einen individuellen Zahlencode, der exakt für die gebuchte Aufenthaltsdauer gültig ist.",
+        "Der Gast erhält automatisch per WhatsApp eine Nachricht mit Anfahrtsbeschreibung, WLAN-Passwort und Zugangscode.",
+        "Gäste reisen flexibel und stressfrei an; Sie sehen im Dashboard sekundengenau, wann die Zimmertür geöffnet wurde.",
+      ],
+    },
+    {
+      heading: "4. Housekeeping-Koordination ohne Funkgeräte und Zettelwirtschaft",
+      body: [
+        "Welches Zimmer ist abgereist, welches bezugsfertig, wo liegt ein technischer Defekt vor? Diese Fragen kosten Hausdamen und Rezeption täglich Nerven.",
+      ],
+      bullets: [
+        "Das Reinigungspersonal sieht auf dem Smartphone die tagesaktuelle Zimmerliste, sortiert nach Check-in-Priorität.",
+        "Ein Fingertipp auf 'Gereinigt' schaltet das Zimmer an der Rezeption sofort wieder als bezugsfertig frei.",
+        "Schäden oder Mängel werden per Foto erfasst und automatisch an den Haustechniker übermittelt.",
+      ],
+    },
+  ],
+  proofHeading: "Hotelsysteme in der Praxis",
+  proof: [
+    {
+      label: "Hotelsystem mit Direktbuchung ansehen",
+      href: "/de/hotelski-rezervacioni-sistem",
+      note: "Erfahren Sie mehr über moderne PMS-Lösungen mit provisionsfreiem Direktbuchungssystem.",
+    },
+  ],
+  faqHeading: "Häufige Fragen zur Hotel-Automatisierung",
+  faq: [
+    {
+      q: "Lassen sich Smart Locks an bestehende Hotelzimmertüren nachrüsten?",
+      a: "Ja, in den allermeisten Fällen problemlos. Moderne Nachrüstschlösser (z. B. Nuki, Yale, Salto) werden auf bestehende Zylinder aufgesetzt und kommunizieren drahtlos verschlüsselt mit der Hotelsoftware.",
+    },
+    {
+      q: "Berechnet das System Provisionen und Kennzahlen wie RevPAR automatisch?",
+      a: "Ja. Das System führt Buch über die jeweiligen Portalprovisionen, ermittelt den tatsächlichen Nettoerlös und weist Auslastung, ADR (Average Daily Rate) und RevPAR tagesaktuell aus.",
+    },
+    {
+      q: "Wie reagieren ältere Gäste auf den digitalen Self-Check-in?",
+      a: "Für Gäste, die den persönlichen Kontakt bevorzugen, bleibt der gewohnte Empfang vollumfänglich erhalten. Der Vorteil: Da 80 % der Gäste digital einchecken, hat das Personal endlich Zeit für echte Gastfreundschaft statt sturer Datenerfassung.",
+    },
+    {
+      q: "Wie lange dauert die Einrichtung des Systems für ein Boutique-Hotel oder Ferienwohnungen?",
+      a: "Die komplette Konfiguration von PMS, Channel-Manager und Buchungsmaske beansprucht für bis zu 30 Wohneinheiten in der Regel zwei bis vier Wochen.",
+    },
+  ],
+  cta: { label: "Hotelsystem-Präsentation vereinbaren", href: "/de/contact-us" },
+  secondaryCta: { label: "Mehr zum Hotel-Buchungssystem", href: "/de/hotelski-rezervacioni-sistem" },
+  related: [
+    "/de/terminausfaelle-no-shows-verhindern",
+    "/de/terminbuchung-whatsapp-automatisieren",
+  ],
+};
+
+

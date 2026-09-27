@@ -617,3 +617,404 @@ export const nearshoringSerbiaGuideEn: Guide = {
   ],
 };
 
+export const howInternalSoftwareSavesTimeGuideEn: Guide = {
+  path: "/en/how-internal-software-saves-business-owners-time",
+  eyebrow: "Operations & Efficiency",
+  title: "How Custom Internal Software Saves Business Owners 20+ Hours a Week",
+  metaDescription:
+    "How to replace messy spreadsheets, paperwork, and chat groups with a custom internal system: digital job orders, 1-click quotes, and ending daily micromanagement.",
+  h1: "How Custom Internal Software Saves Business Owners Time",
+  lead:
+    "Custom internal software replaces scattered spreadsheets, paper trails, and messaging groups with a unified operating system. By automating work orders, instant quote generation, and expense tracking, business owners with 5 to 50 employees reclaim 15 to 25 hours weekly, eliminating tedious micromanagement while monitoring real-time profitability directly from their phone.",
+  keywords: [
+    "custom internal software smb",
+    "save time business owner software",
+    "replace excel with web app",
+    "business operations automation",
+    "custom erp workflow software",
+    "operational efficiency small business",
+  ],
+  background: "silk",
+  updated: "2026-09-28",
+  sections: [
+    {
+      heading: "1. The Growth Trap: When the Founder Becomes the Bottleneck",
+      body: [
+        "In a five-person company, informal coordination works well. But as headcount expands to 10–30 staff, the business grinds down unless every single operational decision passes through the founder's desk.",
+      ],
+      bullets: [
+        "Your phone rings 40 to 60 times a day with questions: 'Where is the material?', 'Did client X pay?', 'Who is working on project Y?'.",
+        "Mission-critical data is fractured across local desktops, personal messaging threads, and lost paper slips.",
+        "Owners spend evenings and weekends reconciling invoices and piecing together reports instead of working ON the business.",
+      ],
+    },
+    {
+      heading: "2. Digital Work Orders Instead of Endless Phone Calls",
+      body: [
+        "Inside a tailored internal system, every customer engagement creates a digital work order with specific task checklists, assigned staff, and deadlines.",
+      ],
+      bullets: [
+        "Field crews and workshop technicians view daily priorities on their mobile devices without needing morning briefing meetings.",
+        "Upon completing a task, staff tap 'Complete' and snap a photo — status indicators update across the company dashboard instantly.",
+        "Owners open a phone dashboard and inspect project milestones, overdue tasks, and team capacity in 30 seconds flat.",
+      ],
+    },
+    {
+      heading: "3. Generating Quotes and Invoices in 60 Seconds Instead of 2 Hours",
+      body: [
+        "Manual estimation in Word or Excel takes 45 to 90 minutes per prospect, while carrying constant margin miscalculation risks.",
+      ],
+      bullets: [
+        "The system stores your standardized service packages, material costs, labor rates, and minimum profit margins.",
+        "Selecting line items calculates exact costs, creates a branded PDF proposal, and emails it to the client with one click.",
+        "When accepted, the quote automatically converts into an active work order and prepares billing without duplicate data entry.",
+      ],
+    },
+    {
+      heading: "4. Real-Time Financial Visibility Without Waiting for Accountants",
+      body: [
+        "Most entrepreneurs only learn their true net profit weeks later when the accountant sends quarterly financial statements. Internal software calculates metrics live.",
+      ],
+      bullets: [
+        "Net profitability and gross margins calculated automatically per project, client, or division.",
+        "Instant alerts on aging receivables with scheduled polite payment reminders before balances go delinquent.",
+        "Complete transparency over subcontractor invoices, fuel costs, and supplies without paper receipts.",
+      ],
+    },
+  ],
+  proofHeading: "Custom Internal Software Solutions",
+  proof: [
+    {
+      label: "Custom Business Software Development",
+      href: "/en/our-services/mobilne-aplikacije",
+      note: "Discover how we turn fragile spreadsheets into fast, role-based internal web applications.",
+    },
+  ],
+  faqHeading: "Frequently Asked Questions About Internal Systems",
+  faq: [
+    {
+      q: "How steep is the learning curve for non-technical field workers?",
+      a: "We engineer internal tools with consumer-grade smartphone UX — clean buttons, zero jargon, and a maximum of 2 clicks per task. Field staff routinely master daily reporting within 15 minutes.",
+    },
+    {
+      q: "Does custom internal software replace our current accounting system?",
+      a: "No, it complements it. Our system handles operational workflows, work orders, and field data, then syncs financial totals directly into your accounting software (QuickBooks, Xero, DATEV) via API.",
+    },
+    {
+      q: "How does the investment compare to commercial SaaS subscriptions?",
+      a: "Commercial enterprise SaaS platforms charge $40–$100 per seat each month. For 20 users, that costs $10,000–$24,000 annually forever without building enterprise equity. Custom software is an asset you own outright with $0 in per-user license fees.",
+    },
+    {
+      q: "Where is company data stored and who owns the source code?",
+      a: "All data is hosted on dedicated cloud infrastructure within secure EU/US regions with automated daily backups. You retain 100% intellectual property ownership of the codebase and complete data governance.",
+    },
+  ],
+  cta: { label: "Schedule an Operations Consultation", href: "/en/contact-us" },
+  secondaryCta: { label: "Explore Our Core Services", href: "/en/our-services" },
+  related: [
+    "/en/what-every-business-website-must-have",
+    "/en/our-services",
+  ],
+};
+
+export const constructionTimeSavingGuideEn: Guide = {
+  path: "/en/construction-company-operations-time-saving",
+  eyebrow: "Construction & Contracting",
+  title: "Where Construction Companies Lose Time — Jobsite Software & Estimates",
+  metaDescription:
+    "Where contractors lose 20+ hours weekly: spreadsheet bid estimation, jobsite foreman check-ins, tracking material receipts, and delayed change orders.",
+  h1: "Where Construction Companies Lose Time and How Software Helps",
+  lead:
+    "Construction companies and contractors lose over 20 hours weekly on manual spreadsheet estimates, endless phone check-ins with site foremen, and lost paper receipts. A tailored construction management system digitizes work orders, tracks material usage from job sites in real time, and generates accurate estimates in minutes, preventing expensive budget overruns.",
+  keywords: [
+    "construction management software smb",
+    "contractor operations time saving",
+    "jobsite tracking app contractor",
+    "fast construction bid estimation",
+    "construction material tracking real time",
+    "general contractor workflow software",
+  ],
+  background: "aurora",
+  updated: "2026-09-28",
+  sections: [
+    {
+      heading: "1. Spending Three Days on a Single Excel Bid Estimate",
+      body: [
+        "Compiling a multi-trade construction proposal with dozens of material lines and labor rates keeps business owners tethered to outdated spreadsheets and manual supplier phone calls.",
+      ],
+      bullets: [
+        "A single broken spreadsheet formula can produce an underpriced bid that causes project-wide financial losses.",
+        "While you spend three late nights calculating, agile competitors submit polished professional bids the very same day.",
+        "Solution: A centralized cost database where inputting surface area or trade scope outputs verified estimates and guaranteed profit margins in minutes.",
+      ],
+    },
+    {
+      heading: "2. Jobsite Foremen and Work Orders: Ending the Daily Phone Tag",
+      body: [
+        "Company owners spend half their working day in a truck driving between job sites simply to verify physical progress and inspect supply levels.",
+      ],
+      bullets: [
+        "Site foremen open the mobile web app on-site, check off finished phases, and upload structural reinforcement photos.",
+        "Material replenishment requests are submitted directly to the purchasing desk in two taps without deciphering text messages.",
+        "Daily field logs and crew attendance records are completed digitally on site with GPS-verified timestamps.",
+      ],
+    },
+    {
+      heading: "3. Supplier Invoices and Subcontractor Payment Controls",
+      body: [
+        "Month-end reconciliations often resemble shoeboxes filled with paper delivery slips and supplier invoices, making it impossible to assign costs to specific sites.",
+      ],
+      bullets: [
+        "Delivery receipts are photographed via phone upon arrival and tagged to the specific project job number.",
+        "The system monitors actual material consumption against the budgeted allowance — alerting owners once 90% of budget is reached.",
+        "Subcontractors can only invoice against digitally signed-off milestones, eliminating overbilling disputes.",
+      ],
+    },
+    {
+      heading: "4. Multi-Project Health on a Single Executive Screen",
+      body: [
+        "Instead of guessing which projects are profitable, the software visualizes accurate financial metrics across all active jobsites.",
+      ],
+      bullets: [
+        "Side-by-side comparison: contract value, collected progress payments, raw materials, direct labor, and remaining net margin.",
+        "Machinery and heavy equipment scheduling to ensure expensive excavators never sit idle.",
+        "Automated generation of AIA-compliant progress payment applications and lien waivers.",
+      ],
+    },
+  ],
+  proofHeading: "Construction Solutions",
+  proof: [
+    {
+      label: "Custom Contractor Software",
+      href: "/en/our-services",
+      note: "Learn how we build specialized operational systems for general contractors and specialty trades.",
+    },
+  ],
+  faqHeading: "Frequently Asked Questions About Construction Software",
+  faq: [
+    {
+      q: "Does the mobile application function reliably on jobsites with poor cell reception?",
+      a: "Yes. The web application features offline caching — field logs, notes, and photos are stored locally on the worker's device and sync automatically once mobile connectivity resumes.",
+    },
+    {
+      q: "Can we import our existing pricing catalog and historical estimates?",
+      a: "Yes. As part of deployment, we import your historic labor rates, material SKUs, and pricing sheets directly into the database so your team hits the ground running.",
+    },
+    {
+      q: "Does digital site documentation hold legal weight in dispute resolution?",
+      a: "Yes. Immutable photo uploads, timestamped approvals, and daily weather logs create an audit trail that effectively protects your firm against unjustified delay claims.",
+    },
+    {
+      q: "How long does deployment take for a mid-sized contracting business?",
+      a: "A turnkey operational platform with work orders, photo reporting, and bid templates is typically configured, tested, and deployed within 3 to 5 weeks.",
+    },
+  ],
+  cta: { label: "Request a Construction Demo", href: "/en/contact-us" },
+  secondaryCta: { label: "Guide: How Software Saves Owners Time", href: "/en/how-internal-software-saves-business-owners-time" },
+  related: [
+    "/en/how-internal-software-saves-business-owners-time",
+    "/en/what-every-business-website-must-have",
+  ],
+};
+
+export const restaurantTimeSavingGuideEn: Guide = {
+  path: "/en/restaurant-management-time-saving-automation",
+  eyebrow: "Hospitality & Dining",
+  title: "Where Restaurants Lose Time — Inventory, Recipe Yields & Shift Scheduling",
+  metaDescription:
+    "How restaurant owners save 15+ hours weekly: automated supplier reordering, exact recipe yields, food waste tracking, and mobile employee shift scheduling.",
+  h1: "Where Restaurants Lose Time and How Automation Helps",
+  lead:
+    "Restaurant owners and managers spend countless hours sending late-night supplier orders over text, running manual paper inventory counts, and fixing chaotic shift schedules. An internal restaurant operations system automates supplier reordering at threshold levels, calculates exact recipe yields and food waste, and lets staff manage shift swaps via mobile.",
+  keywords: [
+    "restaurant operations software time saving",
+    "restaurant shift scheduling app",
+    "recipe costing software restaurant",
+    "automate restaurant supplier ordering",
+    "food cost control system smb",
+    "restaurant digital operations",
+  ],
+  background: "silk",
+  updated: "2026-09-28",
+  sections: [
+    {
+      heading: "1. Sending Late-Night Supplier Orders Over Text and Voicemail",
+      body: [
+        "At 1 AM after closing, the head chef or manager spends 45 minutes scribbling inventory counts onto napkins and texting individual orders to meat, produce, and beverage distributors.",
+      ],
+      bullets: [
+        "Texts get missed, suppliers deliver wrong quantities, and receiving staff spend mornings checking paper invoices against pricing sheets.",
+        "Solution: The system generates an aggregated purchase order based on real POS sales and sends it to each vendor with a single tap.",
+        "Savings: 5 to 7 hours saved every week while eliminating expensive fresh ingredient shortages during weekend dinner rushes.",
+      ],
+    },
+    {
+      heading: "2. Food Cost Control, Recipe Yields, and Shrinkage",
+      body: [
+        "Without automated recipe costing, discrepancies between sold plates and consumed inventory represent the single biggest profit drain in hospitality.",
+      ],
+      bullets: [
+        "Every POS ring-up automatically deducts precise recipe gram weights from raw ingredient stock in real time.",
+        "The system factors in realistic prep trim and cooking yield losses automatically.",
+        "Weekly physical inventory counts take 20 minutes via tablet barcode scanning, flagging variances above 2% immediately.",
+      ],
+    },
+    {
+      heading: "3. Shift Scheduling Without Frantic Group Chats",
+      body: [
+        "Scheduling 15 servers, bartenders, and line cooks around college classes, time-off requests, and last-minute call-outs is a weekly managerial headache.",
+      ],
+      bullets: [
+        "Managers publish schedules digitally, accessible to every team member in real time on their smartphone.",
+        "Employees arrange mutual shift trades directly in the app — managers simply tap 'Approve'.",
+        "Eliminates chaotic WhatsApp threads, misunderstanding excuses, and understaffed dining rooms on busy Friday nights.",
+      ],
+    },
+    {
+      heading: "4. Real-Time Restaurant Performance on Your Phone",
+      body: [
+        "Owners don't need to stand behind the counter all night to monitor financial health.",
+      ],
+      bullets: [
+        "Live gross sales, average ticket size, and table turn rates accessible on your mobile dashboard.",
+        "Automated menu engineering reports identifying high-margin bestsellers versus items that drain food budgets.",
+        "Real-time labor cost percentage calculations compared against hourly sales.",
+      ],
+    },
+  ],
+  proofHeading: "Hospitality Case Studies",
+  proof: [
+    {
+      label: "Restaurant Operations Software",
+      href: "/en/our-services",
+      note: "Learn how we integrate POS registers, inventory controls, and mobile shift management.",
+    },
+  ],
+  faqHeading: "Frequently Asked Questions About Restaurant Automation",
+  faq: [
+    {
+      q: "Can the system connect directly to our existing POS terminal hardware?",
+      a: "Yes. We integrate with major POS register software via standard APIs, ensuring every checkout transaction synchronizes with warehouse stock in real time.",
+    },
+    {
+      q: "How does the system react when food suppliers change market prices?",
+      a: "Whenever a supplier invoice is recorded with revised prices, the system updates unit plate costs instantly, alerting you if dish margins drop below your target threshold.",
+    },
+    {
+      q: "Do kitchen staff and servers have to install a heavy app from the app store?",
+      a: "No. The system runs as a lightning-fast Progressive Web App (PWA) on any iOS or Android browser, requiring zero downloads or device storage.",
+    },
+    {
+      q: "Can we manage multiple restaurant locations from one dashboard?",
+      a: "Yes. The platform supports multi-unit operations, centralized group purchasing, and inter-location inventory transfers with full chain-of-custody tracking.",
+    },
+  ],
+  cta: { label: "Schedule a Restaurant Operations Call", href: "/en/contact-us" },
+  secondaryCta: { label: "Guide: Automating WhatsApp Bookings", href: "/en/how-to-automate-whatsapp-appointment-booking" },
+  related: [
+    "/en/how-internal-software-saves-business-owners-time",
+    "/en/how-to-automate-whatsapp-appointment-booking",
+  ],
+};
+
+export const hotelTimeSavingGuideEn: Guide = {
+  path: "/en/hotel-vacation-rental-time-saving-automation",
+  eyebrow: "Hospitality & Lodging",
+  title: "Where Hotels Lose Time — Channel Management & Front Desk Automation",
+  metaDescription:
+    "How boutique hotels and vacation rentals save hours daily: 2-way Channel Manager, automated guest registrations, smart lock check-in, and housekeeping apps.",
+  h1: "Where Hotels and Rentals Lose Time and How Automation Helps",
+  lead:
+    "Hotels and rental managers lose valuable hours manually syncing bookings across Airbnb and Booking.com, filling guest registrations, and coordinating housekeeping. A central PMS with two-way channel management eliminates double bookings, sends automated WhatsApp check-in codes with smart lock integration, and tracks room cleaning readiness in real time.",
+  keywords: [
+    "hotel management software time saving",
+    "boutique hotel channel manager",
+    "smart lock check in vacation rental",
+    "automated guest registration hotel",
+    "housekeeping coordination app",
+    "hotel front desk automation",
+  ],
+  background: "aurora",
+  updated: "2026-09-28",
+  sections: [
+    {
+      heading: "1. Double Bookings and Tedious Manual Calendar Updates",
+      body: [
+        "When a booking arrives on Friday night via Booking.com, receptionists must scramble to manually block that room on Airbnb, Expedia, and the direct site. A 10-minute delay easily triggers embarrassing overbookings.",
+      ],
+      bullets: [
+        "A 2-way Channel Manager updates room availability across all booking platforms simultaneously within 3 seconds.",
+        "When a room is booked, availability closes globally — reducing overbooking risks to zero.",
+        "Nightly rates, minimum stays, and seasonal rules are managed from one unified master dashboard.",
+      ],
+    },
+    {
+      heading: "2. Front Desk Bureaucracy: Digital Guest Check-In and Invoicing",
+      body: [
+        "Manually transcribing passports and IDs at reception takes 5 to 10 minutes per party, creating lobby bottlenecks during peak check-in windows.",
+      ],
+      bullets: [
+        "Guests receive an automated pre-arrival link to submit travel documents securely from their phones.",
+        "The system prepares official guest registration forms and digital tourist declarations automatically.",
+        "City tourist taxes, incidentals, and itemized folio invoices are generated upon checkout in one click.",
+      ],
+    },
+    {
+      heading: "3. Contactless Self-Check-In via Smart Locks and WhatsApp",
+      body: [
+        "Waiting up past midnight to hand physical keys to delayed travelers burns staff payroll and owner energy.",
+      ],
+      bullets: [
+        "The system generates a unique smart lock passcode valid exclusively for the exact reservation window.",
+        "Guests receive a customized WhatsApp welcome guide with GPS parking directions, Wi-Fi credentials, and their digital entry code.",
+        "Guests arrive smoothly on their own schedule while your dashboard logs the exact minute the room door was unlocked.",
+      ],
+    },
+    {
+      heading: "4. Housekeeping and Maintenance Coordination Without Radio Static",
+      body: [
+        "Which room just departed, which is ready for arrival, and which has a plumbing issue? These routine questions create friction every afternoon.",
+      ],
+      bullets: [
+        "Cleaning staff view dynamic daily room queues on their phones, prioritized by incoming guest arrival times.",
+        "Tapping 'Clean' instantly updates room readiness on the front desk system.",
+        "Maintenance issues are photographed and routed directly to the property caretaker.",
+      ],
+    },
+  ],
+  proofHeading: "Hotel System Case Studies",
+  proof: [
+    {
+      label: "Direct Hotel Booking System",
+      href: "/hotelski-rezervacioni-sistem",
+      note: "Explore our complete PMS, Channel Manager, and commission-free direct booking platform.",
+    },
+  ],
+  faqHeading: "Frequently Asked Questions About Hotel Automation",
+  faq: [
+    {
+      q: "Can smart digital locks be installed on existing property doors?",
+      a: "Yes. Modern smart locks (Nuki, Yale, TTLock) retrofit directly onto standard Euro-profile cylinders in under 30 minutes, communicating securely with our software via API.",
+    },
+    {
+      q: "Does the system calculate OTA commissions and hotel metrics like RevPAR?",
+      a: "Yes. The platform tracks net payout margins per channel after OTA commissions and displays live occupancy rates, ADR, and RevPAR metrics.",
+    },
+    {
+      q: "How do guests respond to contactless WhatsApp check-in?",
+      a: "Over 85% of modern travelers prefer self-check-in because it eliminates lobby queues and arrival scheduling stress. For guests desiring personal service, front desk staff remain fully available.",
+    },
+    {
+      q: "How long does implementation take for a boutique property or rental group?",
+      a: "Full setup of PMS, Channel Manager sync, and direct booking engine for up to 30 keys is typically completed within 2 to 4 weeks.",
+    },
+  ],
+  cta: { label: "Schedule a Hotel Software Demo", href: "/en/contact-us" },
+  secondaryCta: { label: "Explore Our Hotel Reservation System", href: "/hotelski-rezervacioni-sistem" },
+  related: [
+    "/en/how-to-reduce-appointment-no-shows",
+    "/en/how-to-automate-whatsapp-appointment-booking",
+  ],
+};
+
+

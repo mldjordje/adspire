@@ -14,24 +14,36 @@ import {
 } from "../guidesAnswers";
 import {
   appointmentNoShowGuide,
+  constructionTimeSavingGuide,
+  hotelTimeSavingGuide,
+  howInternalSoftwareSavesTimeGuide,
   modernWebsiteMustHavesGuide,
   nearshoringSerbiaGuide,
+  restaurantTimeSavingGuide,
   shopifyVsWooVsCustomGuide,
   webShopNotSellingGuide,
   whatsappBookingAutomationGuide,
 } from "../guidesGeo";
 import {
   appointmentNoShowGuideDe,
+  constructionTimeSavingGuideDe,
+  hotelTimeSavingGuideDe,
+  howInternalSoftwareSavesTimeGuideDe,
   modernWebsiteMustHavesGuideDe,
   nearshoringSerbiaGuideDe,
+  restaurantTimeSavingGuideDe,
   shopifyVsWooVsCustomGuideDe,
   webShopNotSellingGuideDe,
   whatsappBookingAutomationGuideDe,
 } from "../guidesGeo.de";
 import {
   appointmentNoShowGuideEn,
+  constructionTimeSavingGuideEn,
+  hotelTimeSavingGuideEn,
+  howInternalSoftwareSavesTimeGuideEn,
   modernWebsiteMustHavesGuideEn,
   nearshoringSerbiaGuideEn,
+  restaurantTimeSavingGuideEn,
   shopifyVsWooVsCustomGuideEn,
   webShopNotSellingGuideEn,
   whatsappBookingAutomationGuideEn,
@@ -55,6 +67,10 @@ const answerGuides = [
   shopifyVsWooVsCustomGuide,
   whatsappBookingAutomationGuide,
   nearshoringSerbiaGuide,
+  howInternalSoftwareSavesTimeGuide,
+  constructionTimeSavingGuide,
+  restaurantTimeSavingGuide,
+  hotelTimeSavingGuide,
 ];
 
 describe("guides", () => {
@@ -99,6 +115,10 @@ describe("guides", () => {
       shopifyVsWooVsCustomGuideDe,
       whatsappBookingAutomationGuideDe,
       nearshoringSerbiaGuideDe,
+      howInternalSoftwareSavesTimeGuideDe,
+      constructionTimeSavingGuideDe,
+      restaurantTimeSavingGuideDe,
+      hotelTimeSavingGuideDe,
     ];
     for (const g of deGuides) {
       const meta = guideMetadata(g, "de");
@@ -111,6 +131,10 @@ describe("guides", () => {
       shopifyVsWooVsCustomGuideEn,
       whatsappBookingAutomationGuideEn,
       nearshoringSerbiaGuideEn,
+      howInternalSoftwareSavesTimeGuideEn,
+      constructionTimeSavingGuideEn,
+      restaurantTimeSavingGuideEn,
+      hotelTimeSavingGuideEn,
     ];
     for (const g of enGuides) {
       const meta = guideMetadata(g, "en");

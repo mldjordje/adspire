@@ -67,6 +67,18 @@ const TRANSLATED_PATHS = new Set<string>([
   "/outsourcing-nearshoring-it-srbija-nemacka",
   "/webagentur-serbien-beauftragen-dsgvo-vorteile",
   "/hiring-web-agency-serbia-nearshoring-guide",
+  "/kako-interni-softver-stedi-vreme-vlasniku",
+  "/interne-software-zeitersparnis-unternehmen",
+  "/how-internal-software-saves-business-owners-time",
+  "/kako-gradjevinska-firma-gubi-vreme-operacije",
+  "/bauunternehmen-zeitersparnis-prozessoptimierung",
+  "/construction-company-operations-time-saving",
+  "/kako-restorani-gube-vreme-nabavka-smene",
+  "/gastronomie-zeitersparnis-dienstplan-einkauf",
+  "/restaurant-management-time-saving-automation",
+  "/kako-hoteli-gube-vreme-recepcija-ciscenje",
+  "/hotel-ferienwohnungen-zeitersparnis-automatisierung",
+  "/hotel-vacation-rental-time-saving-automation",
 ]);
 
 /**
