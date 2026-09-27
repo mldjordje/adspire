@@ -84,6 +84,10 @@ export const serviceCatalog: ServiceCatalogEntry[] = [
       { q: "Da li je sajt optimizovan za mobilne uređaje?", a: "Svi naši sajtovi su mobile-first i prolaze Google Core Web Vitals test bez kompromisa." },
       { q: "Da li nudite SEO optimizaciju uz izradu sajta?", a: "Osnovna on-page SEO optimizacija je uvek uključena — tehničke meta tagove, strukturisane podatke i sitemap." },
     ],
+    deepDive: {
+      href: "/sta-mora-da-ima-moderan-sajt-firme",
+      label: "Vodič: Šta mora da ima moderan sajt firme u 2026.",
+    },
   },
   {
     slug: "e-commerce-web-shop",
@@ -123,6 +127,10 @@ export const serviceCatalog: ServiceCatalogEntry[] = [
       { q: "Koliko vremena traje razvoj web shopa?", a: "MVP prodavnica je gotova za 4–8 sedmica, a kompletan sistem sa CRM-om i automatizacijom za 10–16 sedmica." },
       { q: "Da li je moguće napraviti subscription model?", a: "Da, subscription i recurring billing su deo naše standardne ponude — uključujući trial periode i fleksibilne planove." },
     ],
+    deepDive: {
+      href: "/zasto-web-shop-ne-prodaje",
+      label: "Vodič: Zašto web shop nema prodaju i kako optimizovati checkout",
+    },
   },
   {
     slug: "mobilne-aplikacije",

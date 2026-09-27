@@ -310,9 +310,9 @@ export const appointmentReminderGuide: Guide = {
   secondaryCta: { label: "Usluga: sistemi za zakazivanje", href: "/our-services/sistemi-za-zakazivanje" },
   updated: "2026-09-22",
   related: [
+    "/kako-spreciti-nedolazak-na-termin",
     "/gotova-aplikacija-ili-svoj-sistem-za-zakazivanje",
     "/online-zakazivanje-za-salone-i-klinike",
-    "/ai-chatbot-za-sajt",
   ],
 };
 

@@ -89,8 +89,32 @@ export function ServiceDetailV4({ service, catalog, locale = defaultLocale }: Se
           <a className={styles.panelButton} href={quoteHref} data-cta={`usluga-upit:${catalog.slug}`} data-cursor="on" data-magnetic>
             {chrome.quoteCta}
           </a>
-          {/* The deep dive is a Serbian-only landing page for now. */}
-          {catalog.deepDive && locale === defaultLocale ? (
+          {/* The deep dive is localized for the guides */}
+          {locale === "de" && catalog.slug === "e-commerce-web-shop" ? (
+            <a className={styles.panelLink} href="/de/warum-onlineshop-nicht-verkauft" data-cursor="on">
+              Ratgeber: Warum verkauft mein Onlineshop nicht? →
+            </a>
+          ) : locale === "en" && catalog.slug === "e-commerce-web-shop" ? (
+            <a className={styles.panelLink} href="/en/why-online-store-not-selling" data-cursor="on">
+              Guide: Why is my online store not selling? →
+            </a>
+          ) : locale === "de" && catalog.slug === "web-development" ? (
+            <a className={styles.panelLink} href="/de/was-gehoert-auf-eine-moderne-unternehmenswebsite" data-cursor="on">
+              Ratgeber: Was gehört auf eine moderne Firmenwebsite? →
+            </a>
+          ) : locale === "en" && catalog.slug === "web-development" ? (
+            <a className={styles.panelLink} href="/en/what-every-business-website-must-have" data-cursor="on">
+              Guide: What every business website must have in 2026 →
+            </a>
+          ) : locale === "de" && catalog.slug === "sistemi-za-zakazivanje" ? (
+            <a className={styles.panelLink} href="/de/terminausfaelle-no-shows-verhindern" data-cursor="on">
+              Ratgeber: Terminausfälle (No-Shows) wirksam verhindern →
+            </a>
+          ) : locale === "en" && catalog.slug === "sistemi-za-zakazivanje" ? (
+            <a className={styles.panelLink} href="/en/how-to-reduce-appointment-no-shows" data-cursor="on">
+              Guide: How to stop appointment no-shows & cancellations →
+            </a>
+          ) : catalog.deepDive && locale === defaultLocale ? (
             <a className={styles.panelLink} href={catalog.deepDive.href} data-cursor="on">
               {catalog.deepDive.label} →
             </a>

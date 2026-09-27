@@ -188,9 +188,9 @@ const bookingGuide: Guide = {
   },
   secondaryCta: { label: "Usluga: sistemi za zakazivanje", href: "/our-services/sistemi-za-zakazivanje" },
   related: [
+    "/kako-spreciti-nedolazak-na-termin",
     "/gotova-aplikacija-ili-svoj-sistem-za-zakazivanje",
     "/podsetnik-za-termin-sms-viber-whatsapp",
-    "/interni-softver-umesto-excel-tabela",
   ],
 };
 
@@ -286,7 +286,7 @@ const noLeadsGuide: Guide = {
   ],
   cta: { label: "Pošalji adresu sajta na pregled", href: "/upit" },
   secondaryCta: { label: "Usluga: SEO i digitalni marketing", href: "/our-services/seo-digitalni-marketing" },
-  related: ["/google-oglasi-ili-seo", "/da-li-mi-treba-sajt-ako-imam-instagram", "/kako-izabrati-web-agenciju"],
+  related: ["/sta-mora-da-ima-moderan-sajt-firme", "/google-oglasi-ili-seo", "/da-li-mi-treba-sajt-ako-imam-instagram"],
 };
 
 const platformChoiceGuide: Guide = {
@@ -752,7 +752,7 @@ const webShopGuide: Guide = {
   ],
   cta: { label: "Opiši asortiman i način prodaje", href: "/upit" },
   secondaryCta: { label: "Usluga: e-commerce i web shop", href: "/our-services/e-commerce-web-shop" },
-  related: ["/sta-mora-da-ima-web-shop-u-srbiji", "/placanje-karticom-na-sajtu-srbija", "/koliko-traje-izrada-sajta"],
+  related: ["/zasto-web-shop-ne-prodaje", "/sta-mora-da-ima-web-shop-u-srbiji", "/placanje-karticom-na-sajtu-srbija"],
 };
 
 export const guides = [
