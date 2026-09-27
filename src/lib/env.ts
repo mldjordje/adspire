@@ -78,3 +78,13 @@ export function readLogDrainEnv(): LogDrainEnv | null {
   if (!secret) return null;
   return { secret, verify: read("VERCEL_LOG_DRAIN_VERIFY") };
 }
+
+/**
+ * The owner's standing Google Meet room for razgovor calls. One room is enough
+ * for one person taking one call at a time, and it needs no Google OAuth on the
+ * server. Absent: the confirmation says the link follows by mail.
+ */
+export function callMeetUrl(): string | null {
+  const value = read("CALL_MEET_URL");
+  return value && /^https:\/\/meet\.google\.com\/[a-z0-9-]+$/i.test(value) ? value : null;
+}

@@ -29,6 +29,8 @@ export type OsCounters = {
   dueFollowUps: number;
   overdueInvoices: number;
   eduMissingLinks: number;
+  /** Razgovori today plus open "call me asap" requests. */
+  callsToday: number;
 };
 
 type RawItem = {
@@ -146,13 +148,18 @@ export async function getOsCounters(): Promise<OsCounters> {
       (select count(*) from edu_bookings
         where status = 'zakazano' and meet_url is null
           and date between current_date and current_date + 1)::int
-        as edu_missing_links
+        as edu_missing_links,
+      (select count(*) from discovery_calls
+        where status = 'zakazano'
+          and (asap or date = (now() at time zone 'Europe/Belgrade')::date))::int
+        as calls_today
   `) as {
     new_leads: number;
     waiting_inquiries: number;
     due_follow_ups: number;
     overdue_invoices: number;
     edu_missing_links: number;
+    calls_today: number;
   }[];
 
   const row = rows[0];
@@ -162,5 +169,6 @@ export async function getOsCounters(): Promise<OsCounters> {
     dueFollowUps: Number(row?.due_follow_ups ?? 0),
     overdueInvoices: Number(row?.overdue_invoices ?? 0),
     eduMissingLinks: Number(row?.edu_missing_links ?? 0),
+    callsToday: Number(row?.calls_today ?? 0),
   };
 }

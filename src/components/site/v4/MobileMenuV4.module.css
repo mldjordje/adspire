@@ -178,6 +178,44 @@
   border-color: #2f6bff;
 }
 
+/* Razgovor: full width under the two cards, glass with a live dot. */
+.actionCall {
+  grid-column: 1 / -1;
+  background:
+    radial-gradient(120% 160% at 0% 0%, rgba(47, 107, 255, 0.28), transparent 60%),
+    rgba(120, 144, 255, 0.06);
+  border-color: rgba(143, 168, 255, 0.45);
+}
+
+.actionCall .actionLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.actionLive {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  flex: none;
+  border-radius: 50%;
+  background: #b8c5ff;
+}
+
+.actionLive::after {
+  content: "";
+  position: absolute;
+  inset: -5px;
+  border-radius: 50%;
+  border: 1.5px solid #b8c5ff;
+  animation: actionLive 2s ease-out infinite;
+}
+
+@keyframes actionLive {
+  0% { transform: scale(0.4); opacity: 0.9; }
+  100% { transform: scale(1.7); opacity: 0; }
+}
+
 .actionPrimary:hover,
 .actionPrimary:focus-visible {
   background: #4a7fff;

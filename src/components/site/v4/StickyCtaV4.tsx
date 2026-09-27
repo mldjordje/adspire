@@ -27,6 +27,10 @@ type Props = {
   ctaHref?: string;
   /** Reported as the CTA name in the funnel. */
   trackingLabel?: string;
+  /** Second, quieter door: a 20-minute call. `null` hides it. */
+  callLabel?: string | null;
+  /** Pre-selected razgovor topic (see lib/calls/types). */
+  callTopic?: string;
 };
 
 export function StickyCtaV4({
@@ -35,6 +39,8 @@ export function StickyCtaV4({
   ctaLabel = "Postavi pitanje",
   ctaHref = "/upit/brzo",
   trackingLabel = "sticky-upit-brzo",
+  callLabel = "Razgovor 20 min",
+  callTopic = "",
 }: Props) {
   const [shown, setShown] = useState(false);
   const [dismissed, setDismissed] = useState(true);
@@ -71,7 +77,9 @@ export function StickyCtaV4({
   };
 
   return (
-    <aside className={styles.bar} data-shown={shown} aria-hidden={!shown}>
+    // data-sticky-cta tells the razgovor dock to step aside: this bar carries
+    // its own call button, and two floating things read as clutter.
+    <aside className={styles.bar} data-shown={shown} aria-hidden={!shown} data-sticky-cta="">
       <p className={styles.text}>
         <strong>{title}</strong>
         <span>{note}</span>
@@ -85,6 +93,22 @@ export function StickyCtaV4({
       >
         {ctaLabel}
       </a>
+      {callLabel ? (
+        <a
+          className={styles.call}
+          href="/razgovor"
+          data-call={callTopic}
+          data-cta={`${trackingLabel}-razgovor`}
+          data-cursor="on"
+          tabIndex={shown ? 0 : -1}
+          aria-label={callLabel}
+        >
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+            <path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2" />
+          </svg>
+          <span>{callLabel}</span>
+        </a>
+      ) : null}
       <button
         type="button"
         className={styles.close}

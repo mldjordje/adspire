@@ -852,6 +852,274 @@
   background: rgba(120, 144, 255, 0.08);
 }
 
+/* ─── Hero doors ─────────────────────────────────────────────
+   Three pills with a clear order: a filled gradient for the short brief,
+   a glass pill with a travelling border for the call, a quiet glass one
+   for the services. `scale` (not `transform`) for the press state, because
+   GSAP owns the inline transform for the intro and the magnetic pull. */
+
+@property --hero-spin {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+.heroBtn {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 60px;
+  padding: 0 30px;
+  border-radius: 999px;
+  font-family: var(--font-b);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+  transition: box-shadow 0.4s ease, background-color 0.4s ease, color 0.3s ease, scale 0.25s ease;
+}
+
+.heroBtn:active {
+  scale: 0.97;
+}
+
+.heroBtn:focus-visible {
+  outline: 2px solid var(--blue-bright);
+  outline-offset: 4px;
+}
+
+.heroBtnLabel,
+.heroBtnIcon,
+.heroBtnMeta,
+.heroBtnLive {
+  position: relative;
+  z-index: 2;
+  display: inline-block;
+}
+
+/* primary: the one to press */
+.heroBtnPrimary {
+  padding: 0 8px 0 30px;
+  color: #050818;
+  background: linear-gradient(120deg, #c9d3ff 0%, #8ea2ff 38%, #4f78ff 78%, #2f6bff 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.55),
+    inset 0 -1px 0 rgba(10, 20, 80, 0.35),
+    0 16px 44px rgba(47, 107, 255, 0.42),
+    0 0 90px rgba(120, 144, 255, 0.22);
+  overflow: hidden;
+}
+
+.heroBtnPrimary:hover {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    inset 0 -1px 0 rgba(10, 20, 80, 0.35),
+    0 20px 60px rgba(47, 107, 255, 0.6),
+    0 0 120px rgba(120, 144, 255, 0.35);
+}
+
+/* light sweep: once when the row lands, then every few seconds */
+.heroBtnPrimary::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, 0.75) 50%, transparent 65%);
+  transform: translateX(-120%);
+  pointer-events: none;
+}
+
+.heroCtas[data-lit="true"] .heroBtnPrimary::before {
+  animation: heroSheen 6s cubic-bezier(0.4, 0, 0.2, 1) 0.1s infinite;
+}
+
+@keyframes heroSheen {
+  0% { transform: translateX(-120%); }
+  18%, 100% { transform: translateX(120%); }
+}
+
+.heroBtnIcon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #050818;
+  color: #fff;
+  overflow: hidden;
+}
+
+.heroBtnIcon svg {
+  transition: transform 0.45s cubic-bezier(0.2, 0.85, 0.2, 1);
+}
+
+.heroBtnPrimary:hover .heroBtnIcon svg {
+  animation: heroArrow 0.6s cubic-bezier(0.2, 0.85, 0.2, 1);
+}
+
+@keyframes heroArrow {
+  0% { transform: translateX(0); }
+  45% { transform: translateX(140%); }
+  46% { transform: translateX(-140%); }
+  100% { transform: translateX(0); }
+}
+
+/* call: glass with a slow travelling border and a live dot */
+.heroBtnCall {
+  color: var(--ink);
+  background: rgba(6, 10, 26, 0.5);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow:
+    inset 0 0 0 1px rgba(202, 211, 255, 0.16),
+    0 14px 40px rgba(2, 4, 14, 0.5);
+}
+
+.heroBtnCall::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  padding: 1.5px;
+  border-radius: inherit;
+  background: conic-gradient(
+    from var(--hero-spin),
+    transparent 0deg 200deg,
+    rgba(184, 197, 255, 0.95) 280deg,
+    #2f6bff 320deg,
+    transparent 360deg
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  opacity: 0;
+  transition: opacity 0.8s ease;
+  pointer-events: none;
+}
+
+.heroCtas[data-lit="true"] .heroBtnCall::before {
+  opacity: 1;
+  animation: heroSpin 4.5s linear infinite;
+}
+
+@keyframes heroSpin {
+  to { --hero-spin: 360deg; }
+}
+
+.heroBtnCall:hover {
+  background: rgba(47, 107, 255, 0.16);
+  box-shadow:
+    inset 0 0 0 1px rgba(184, 197, 255, 0.4),
+    0 16px 50px rgba(47, 107, 255, 0.3);
+}
+
+.heroBtnLive {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--blue-bright);
+  box-shadow: 0 0 10px var(--blue-bright);
+}
+
+.heroBtnLive::after {
+  content: "";
+  position: absolute;
+  inset: -5px;
+  border-radius: 50%;
+  border: 1.5px solid var(--blue-bright);
+  animation: heroLive 2s ease-out infinite;
+}
+
+@keyframes heroLive {
+  0% { transform: scale(0.4); opacity: 0.9; }
+  100% { transform: scale(1.7); opacity: 0; }
+}
+
+.heroBtnMeta {
+  padding: 5px 9px;
+  border-radius: 999px;
+  background: rgba(120, 144, 255, 0.2);
+  color: var(--blue-bright);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+}
+
+/* services: present, but quiet */
+.heroBtnGhost {
+  color: rgba(246, 247, 255, 0.86);
+  background: rgba(6, 10, 26, 0.32);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: inset 0 0 0 1px rgba(202, 211, 255, 0.1);
+}
+
+.heroBtnGhost:hover {
+  color: var(--ink);
+  box-shadow: inset 0 0 0 1px rgba(202, 211, 255, 0.34);
+}
+
+.heroBtnGhost .heroBtnLabel::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -5px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.45s cubic-bezier(0.2, 0.85, 0.2, 1);
+}
+
+.heroBtnGhost:hover .heroBtnLabel::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* ─── Nav: razgovor ─── */
+.navCall {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(184, 197, 255, 0.35);
+  background: rgba(47, 107, 255, 0.08);
+  color: var(--ink);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.navCall:hover {
+  background: rgba(47, 107, 255, 0.2);
+  border-color: var(--blue-bright);
+}
+
+/* Below 1280px the link bar needs the room; the phone icon stays. */
+@media (max-width: 1279px) {
+  .navCall {
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    justify-content: center;
+  }
+
+  .navCall [data-label] {
+    display: none;
+  }
+}
+
 .heroTrust {
   display: flex;
   align-items: center;
@@ -2305,17 +2573,37 @@
   }
 
   /* one clear primary on top, the two quieter doors side by side below */
+  /* the call gets the wider half: it carries a dot and a "20 min" tag */
   .heroCtas {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1.45fr 1fr;
     gap: 10px;
-    width: min(100%, 360px);
+    width: min(100%, 380px);
     margin-inline: auto;
   }
 
   .heroCtas > a {
-    padding: 16px 12px;
+    min-height: 54px;
+    padding: 0 12px;
+    gap: 9px;
+    font-size: 13px;
     text-align: center;
+  }
+
+  .heroCtas > .heroBtnPrimary {
+    padding: 0 6px 0 22px;
+    justify-content: space-between;
+  }
+
+  .heroBtnIcon {
+    width: 42px;
+    height: 42px;
+  }
+
+  /* nothing floats in front of the sculpture on a phone: the pills get a
+     little more body so they stay readable over the particles */
+  .heroBtnGhost {
+    background: rgba(6, 10, 26, 0.5);
   }
 
   .heroCtas > a:first-child {
@@ -2417,5 +2705,31 @@
       rgba(6, 6, 8, 0.35) 58%,
       transparent 80%
     );
+  }
+}
+
+@media (max-width: 380px) {
+  .heroBtnMeta {
+    display: none;
+  }
+}
+
+/* 360px phones: logo, call icon, upit button and burger share one row */
+@media (max-width: 400px) {
+  .nav {
+    gap: 10px;
+  }
+
+  .navLogo {
+    font-size: 15px;
+  }
+
+  .navCall {
+    width: 34px;
+    height: 34px;
+  }
+
+  .navRight {
+    gap: 6px;
   }
 }

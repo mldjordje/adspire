@@ -1,7 +1,7 @@
 export const LEAD_SUBMITTED_EVENT = "adspire:lead-submitted";
 
 export type LeadSubmittedDetail = {
-  source: "contact" | "inquiry";
+  source: "contact" | "inquiry" | "call";
   service?: string;
   requestId?: string;
 };

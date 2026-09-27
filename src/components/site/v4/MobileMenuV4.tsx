@@ -7,7 +7,8 @@ import styles from "./MobileMenuV4.module.css";
 import { getShellCopy, shellPath } from "./shellCopy";
 import { getNavMenu, isCurrentPath } from "./navMenu";
 import { v4FontClass } from "./fonts";
-import { defaultLocale, type LocaleCode } from "@/lib/site-config";
+import { defaultLocale, localePath, type LocaleCode } from "@/lib/site-config";
+import { CALL_OPEN_EVENT } from "./call/events";
 
 /**
  * Shared OBSIDIAN mobile menu — burger + fullscreen overlay.
@@ -45,6 +46,13 @@ export function MobileMenuV4({
   const close = useCallback(() => setOpen(false), []);
 
   useEffect(() => setMounted(true), []);
+
+  // The razgovor drawer opens above this overlay; closing the menu underneath
+  // means the visitor lands back on the page, not in the menu, afterwards.
+  useEffect(() => {
+    window.addEventListener(CALL_OPEN_EVENT, close);
+    return () => window.removeEventListener(CALL_OPEN_EVENT, close);
+  }, [close]);
 
   // lock page scroll while the overlay is up
   useEffect(() => {
@@ -118,6 +126,21 @@ export function MobileMenuV4({
                       <span className={styles.actionArrow} aria-hidden="true">→</span>
                     </a>
                   ))}
+                  {/* Opens the razgovor drawer in place (CallDrawerV4 catches
+                      data-call); the drawer tells this menu to close. */}
+                  <a
+                    className={`${styles.action} ${styles.actionCall}`}
+                    href={localePath("/razgovor", locale)}
+                    data-call=""
+                    data-cta="menu-razgovor"
+                  >
+                    <span className={styles.actionLabel}>
+                      <span className={styles.actionLive} aria-hidden="true" />
+                      {menu.call.label}
+                    </span>
+                    <span className={styles.actionHint}>{menu.call.hint}</span>
+                    <span className={styles.actionArrow} aria-hidden="true">→</span>
+                  </a>
                 </div>
 
                 {/* A door, not a page: a buyer with hours or an open upit

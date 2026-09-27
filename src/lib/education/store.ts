@@ -133,7 +133,13 @@ export async function getAvailableMonth(month: string): Promise<AvailableDay[]> 
   const sql = getSql();
   const rows = (await sql`
     select a.date::text as "date", a.slots,
-      array(select s.slot from edu_booking_slots s where s.date = a.date) as taken
+      array(
+        select s.slot from edu_booking_slots s where s.date = a.date
+        union
+        -- A razgovor call holds the education hour it starts in (lib/calls/slots).
+        select substr(c.start_slot, 1, 2) || ':00' from discovery_calls c
+        where c.date = a.date and c.status = 'zakazano'
+      ) as taken
     from edu_availability a
     where a.date >= ${start}::date and a.date < ${end}::date
     order by a.date
@@ -227,7 +233,13 @@ export async function createBooking(portalUserId: string, input: BookingInput): 
   // reading first lets the common case fail with a useful message.
   const dayRows = (await sql`
     select a.slots,
-      array(select s.slot from edu_booking_slots s where s.date = a.date) as taken
+      array(
+        select s.slot from edu_booking_slots s where s.date = a.date
+        union
+        -- A razgovor call holds the education hour it starts in (lib/calls/slots).
+        select substr(c.start_slot, 1, 2) || ':00' from discovery_calls c
+        where c.date = a.date and c.status = 'zakazano'
+      ) as taken
     from edu_availability a where a.date = ${date}::date
   `) as { slots: string[]; taken: string[] }[];
   const day = dayRows[0];

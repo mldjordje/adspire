@@ -29,7 +29,14 @@ export function FooterV4({ locale, href }: { locale: LocaleCode; href: (path: st
             <nav key={col.title} className={styles.col} aria-label={col.title}>
               <span className={styles.colTitle}>{col.title}</span>
               {col.items.map((item) => (
-                <a key={item.href} href={href(item.href)} data-cta={item.cta} data-cursor="on">
+                <a
+                  key={item.href}
+                  href={href(item.href)}
+                  data-cta={item.cta}
+                  data-cursor="on"
+                  // opens the razgovor drawer in place instead of leaving the page
+                  {...(item.href === "/razgovor" ? { "data-call": "" } : {})}
+                >
                   {item.label}
                 </a>
               ))}

@@ -23,6 +23,10 @@ export type V4Copy = {
     ctaGhost: string;
     /** Door to the full services index. */
     ctaServices: string;
+    /** Razgovor: a 20-minute call booked in the drawer. */
+    ctaCall: string;
+    /** Small tag on the call button. */
+    ctaCallMeta: string;
     trust: [string, string, string];
     scroll: string;
     /** affordance for the draggable sculpture — hidden once actually used */
@@ -93,6 +97,8 @@ const sr: V4Copy = {
     ctaPrimary: "Opiši šta ti treba",
     ctaGhost: "Pogledaj radove",
     ctaServices: "Naše usluge",
+    ctaCall: "Zakaži razgovor",
+    ctaCallMeta: "20 min",
     trust: ["13 sistema u produkciji", "5 javnih studija slučaja", "Prototip za 48h"],
     scroll: "skroluj",
     drag: "prevuci · zavrti scenu",
@@ -241,6 +247,8 @@ const en: V4Copy = {
     ctaPrimary: "Tell us what you need",
     ctaGhost: "See our work",
     ctaServices: "Our services",
+    ctaCall: "Book a call",
+    ctaCallMeta: "20 min",
     trust: ["13 production systems", "5 public case studies", "Prototype in 48h"],
     scroll: "scroll",
     drag: "drag · spin the scene",
@@ -389,6 +397,8 @@ const de: V4Copy = {
     ctaPrimary: "Vorhaben beschreiben",
     ctaGhost: "Arbeiten ansehen",
     ctaServices: "Unsere Leistungen",
+    ctaCall: "Kurzes Gespräch",
+    ctaCallMeta: "20 Min",
     trust: ["13 Produktivsysteme", "5 öffentliche Fallstudien", "Prototyp in 48 h"],
     scroll: "scrollen",
     drag: "ziehen · Szene drehen",

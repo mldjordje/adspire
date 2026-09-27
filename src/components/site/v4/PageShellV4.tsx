@@ -9,6 +9,8 @@ import { FooterV4 } from "./FooterV4";
 import { MobileMenuV4 } from "./MobileMenuV4";
 import { revealContent } from "./revealV4";
 import { NavMegaV4 } from "./NavMegaV4";
+import { CallDrawerV4 } from "./call/CallDrawerV4";
+import { CallNavButtonV4 } from "./call/CallNavButtonV4";
 import { getShellCopy, shellPath, type ShellCopy } from "./shellCopy";
 import { defaultLocale, localePath, locales, type LocaleCode } from "@/lib/site-config";
 
@@ -91,6 +93,8 @@ type PageShellProps = {
   navCtaLabel?: string;
   /** Closing CTA rendered inside the footer zone, on the same event horizon. */
   finale?: React.ReactNode;
+  /** Floating "book a call" button. Off on /razgovor itself. */
+  callDock?: boolean;
   children: React.ReactNode;
 };
 
@@ -108,6 +112,7 @@ export function PageShellV4({
   navCtaHref,
   navCtaLabel,
   finale,
+  callDock = true,
   children,
 }: PageShellProps) {
   const copy = copyOverride ?? getShellCopy(locale);
@@ -245,6 +250,7 @@ export function PageShellV4({
           {languagePath ? <div className={styles.languages} aria-label="Language">
             {locales.map(lc => <a key={lc} href={localePath(languagePath, lc)} hrefLang={lc} aria-current={locale === lc ? "page" : undefined}>{lc.toUpperCase()}</a>)}
           </div> : null}
+          <CallNavButtonV4 locale={locale} className={styles.navCall} />
           {/* Not localised on purpose — see navCtaHref in shellCopy. */}
           <a
             className={styles.navCta}
@@ -283,6 +289,8 @@ export function PageShellV4({
         </div>
         <FooterV4 locale={locale} href={href} />
       </section>
+
+      <CallDrawerV4 locale={locale} dock={callDock} />
 
       <div ref={curtainRef} className={styles.curtain} aria-hidden="true">
         <span className={styles.curtainLogo}>

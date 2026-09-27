@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { PageShellV4 } from "./PageShellV4";
+import { CallBannerV4 } from "./call/CallBannerV4";
 import { InquiryFlowV4 } from "./InquiryFlowV4";
 import { getInquiryServices } from "@/lib/inquiries/catalog";
 import { getPortalSession } from "@/lib/portal/session";
@@ -59,6 +60,7 @@ export async function InquiryPageV4({
         </Link>
         .
       </p>
+      <CallBannerV4 cta="upit-puni-razgovor" />
       <InquiryFlowV4 services={services} initialSlugs={initialSlugs} buyer={buyer} />
     </PageShellV4>
   );

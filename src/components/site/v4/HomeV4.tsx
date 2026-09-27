@@ -23,6 +23,8 @@ import { NavMegaV4 } from "./NavMegaV4";
 import { getV4Copy } from "./copy";
 import { HotelPromo } from "./HotelPromo";
 import { revealContent } from "./revealV4";
+import { CallDrawerV4 } from "./call/CallDrawerV4";
+import { CallNavButtonV4 } from "./call/CallNavButtonV4";
 import {
   defaultLocale,
   localePath,
@@ -225,21 +227,38 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
         // masks did their job; drop them so the legibility shadow isn't clipped
         intro.set(heroLines, { overflow: "visible" });
       }
+      // Buttons open out of their own centre line like a lens, then the label
+      // rises into the finished pill. Clip-path and transforms only: the blur
+      // filter the title uses is what made this stutter on mid-range phones.
+      const heroCtaWrap = q<HTMLElement>(`.${styles.heroCtas}`)[0];
+      const heroButtons = q<HTMLElement>(`.${styles.heroCtas} > a`);
       intro
-        .from(
-          q(`.${styles.heroCtas} > a, .${styles.sceneGestureHint}`),
+        .fromTo(
+          heroButtons,
+          { autoAlpha: 0, y: 30, scale: 0.92, clipPath: "inset(0% 47% 0% 47% round 999px)" },
           {
-            y: 26,
-            autoAlpha: 0,
-            // a touch of blur burning off as each block lands — the same
-            // treatment the title gets, so the hero reads as one move
-            filter: "blur(9px)",
-            stagger: 0.11,
-            duration: 0.9,
+            autoAlpha: 1,
+            y: 0,
+            scale: 1,
+            clipPath: "inset(0% 0% 0% 0% round 999px)",
+            stagger: 0.12,
+            duration: 1.05,
             ease: "expo.out",
+            // the glow and border live outside the box; a leftover clip would cut them
+            clearProps: "clipPath",
           },
           "-=0.75",
         )
+        .from(
+          q(`.${styles.heroCtas} .${styles.heroBtnLabel}, .${styles.heroCtas} .${styles.heroBtnIcon}, .${styles.heroCtas} .${styles.heroBtnMeta}, .${styles.heroCtas} .${styles.heroBtnLive}`),
+          { y: "0.9em", autoAlpha: 0, stagger: 0.05, duration: 0.7, ease: "power3.out" },
+          "<0.3",
+        )
+        // one light sweep across the finished row, then the idle glow takes over
+        .add(() => {
+          if (heroCtaWrap) heroCtaWrap.dataset.lit = "true";
+        }, "-=0.2")
+        .from(q(`.${styles.sceneGestureHint}`), { y: 12, autoAlpha: 0, duration: 0.6, ease: "power2.out" }, "-=0.4")
         .from(
           q(`.${styles.heroScrollHint}, .${styles.nav}`),
           { autoAlpha: 0, duration: 0.6 },
@@ -806,6 +825,7 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
           {/* The brief is a Serbian-only flow, so /upit was the wrong target
               for en/de — the short form for Serbian, the localised contact page
               for the rest. */}
+          <CallNavButtonV4 locale={locale} className={styles.navCall} />
           <a
             className={styles.navCta}
             href={locale === "sr" ? "/upit/brzo" : localePath("/contact-us", locale)}
@@ -870,21 +890,42 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
                 page is built around. The offer is told further down. */}
             <div className={styles.heroCtas}>
               {/* Writing one sentence is less to ask of a stranger than
-                  booking a call, so Serbian visitors get the short form. */}
+                  booking a call, so the short form stays the loudest door.
+                  The call is the second: for an owner with no time to read,
+                  twenty minutes on the phone is the shortest way in. */}
               <a
-                className={styles.btnPrimary}
+                className={`${styles.heroBtn} ${styles.heroBtnPrimary}`}
                 href={locale === "sr" ? "/upit/brzo" : localePath("/contact-us", locale)}
                 data-cta={locale === "sr" ? "hero-upit-brzo" : "hero-kontakt"}
                 data-cursor="on"
                 data-magnetic
               >
-                {t.hero.ctaPrimary}
+                <span className={styles.heroBtnLabel}>{t.hero.ctaPrimary}</span>
+                <span className={styles.heroBtnIcon} aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M5 12h14M13 6l6 6-6 6" />
+                  </svg>
+                </span>
               </a>
-              <a className={styles.btnGhost} href={localePath("/our-services", locale)} data-cta="hero-usluge" data-cursor="on" data-scramble>
-                {t.hero.ctaServices}
+              <a
+                className={`${styles.heroBtn} ${styles.heroBtnCall}`}
+                href={localePath("/razgovor", locale)}
+                data-call=""
+                data-cta="hero-razgovor"
+                data-cursor="on"
+                data-magnetic
+              >
+                <span className={styles.heroBtnLive} aria-hidden="true" />
+                <span className={styles.heroBtnLabel}>{t.hero.ctaCall}</span>
+                <span className={styles.heroBtnMeta}>{t.hero.ctaCallMeta}</span>
               </a>
-              <a className={`${styles.btnGhost} ${styles.btnQuiet}`} href={localePath("/our-projects", locale)} data-cta="hero-projects" data-cursor="on" data-scramble>
-                {t.hero.ctaGhost}
+              <a
+                className={`${styles.heroBtn} ${styles.heroBtnGhost}`}
+                href={localePath("/our-services", locale)}
+                data-cta="hero-usluge"
+                data-cursor="on"
+              >
+                <span className={styles.heroBtnLabel}>{t.hero.ctaServices}</span>
               </a>
             </div>
             <div
@@ -1161,6 +1202,10 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
           </a>
           <div className={styles.ctaAlt}>
             <span>{t.cta.altPrefix}</span>
+            <a href={localePath("/razgovor", locale)} data-call="" data-cta="home-final-razgovor" data-cursor="on">
+              {t.hero.ctaCall} · {t.hero.ctaCallMeta}
+            </a>
+            <span className={styles.ctaAltSep}>·</span>
             <a href="tel:+381601491491" data-cursor="on">+381 60 149 149 1</a>
             <span className={styles.ctaAltSep}>·</span>
             <a href="https://wa.me/381601491491" target="_blank" rel="noreferrer" data-cursor="on">
@@ -1176,6 +1221,7 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
           <FooterV4 locale={locale} href={(path) => shellPath(path, locale)} />
         </section>
       </main>
+      <CallDrawerV4 locale={locale} />
     </div>
   );
 }

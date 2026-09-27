@@ -30,6 +30,7 @@ export default async function ProtectedOsLayout({
     dueFollowUps: 0,
     overdueInvoices: 0,
     eduMissingLinks: 0,
+    callsToday: 0,
   }));
 
   return (

@@ -6,6 +6,7 @@ import { inquiryPageJsonLd } from "@/lib/seo/pages";
 import { AuroraV4 } from "@/components/site/v4/AuroraV4";
 import { PageShellV4 } from "@/components/site/v4/PageShellV4";
 import { QuickInquiryV4 } from "@/components/site/v4/QuickInquiryV4";
+import { CallBannerV4 } from "@/components/site/v4/call/CallBannerV4";
 import { v4FontClass } from "@/components/site/v4/fonts";
 import { EDUCATION_SERVICE_SLUG, educationQuickCopy } from "@/content/site/educationLandingPage";
 import { getInquiryServices, isInquiryServiceSlug } from "@/lib/inquiries/catalog";
@@ -75,6 +76,7 @@ export default async function BrziUpitPage({ searchParams }: Props) {
         </Link>
         .
       </p>
+      {education ? null : <CallBannerV4 cta="upit-brzo-razgovor" />}
       <QuickInquiryV4
         services={services}
         initialSlug={initialSlug}

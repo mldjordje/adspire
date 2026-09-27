@@ -51,6 +51,8 @@ export type NavMenu = {
   company: NavGroup;
   /** The two things people come looking for — cards at the top of the mobile menu. */
   actions: [NavAction, NavAction];
+  /** Razgovor card under the two actions; opens the booking drawer. */
+  call: { label: string; hint: string };
   /**
    * The way back into the client account.
    *
@@ -148,6 +150,7 @@ const sr = (): NavMenu => ({
     { href: "/upit/brzo", label: "Pošalji upit", hint: "5 polja, bez naloga i obaveze", cta: "menu-upit" },
     { href: "/edukacija", label: "AI edukacija", hint: "Viralni klipovi, 1-na-1, paketi 8h i 18h", cta: "menu-edukacija" },
   ],
+  call: { label: "Zakaži razgovor · 20 min", hint: "Telefon ili Google Meet, bez obaveze" },
   account: { href: "/nalog", label: "Nalog" },
   feature: {
     eyebrow: "Ne znaš odakle da kreneš?",
@@ -197,6 +200,7 @@ const sr = (): NavMenu => ({
         title: "Kontakt",
         items: [
           { href: "/upit/brzo", label: "Pošalji upit", cta: "footer-upit" },
+          { href: "/razgovor", label: "Zakaži razgovor", cta: "footer-razgovor" },
           { href: "/besplatan-pregled-sajta", label: "Besplatan pregled", cta: "footer-pregled" },
           { href: "/contact-us", label: "Kontakt" },
           { href: "/nalog", label: "Moj nalog" },
@@ -280,6 +284,7 @@ const en = (): NavMenu => ({
     { href: "/contact-us", label: "Request a quote", hint: "Tell us what you need", cta: "menu-upit" },
     { href: "/our-services", label: "Services", hint: "Websites, booking, AI", cta: "menu-services" },
   ],
+  call: { label: "Book a 20-min call", hint: "Phone or Google Meet, no strings" },
   account: { href: "/nalog", label: "Account" },
   feature: {
     eyebrow: "Not sure where to start?",
@@ -317,6 +322,7 @@ const en = (): NavMenu => ({
         title: "Contact",
         items: [
           { href: "/contact-us", label: "Request a quote", cta: "footer-upit" },
+          { href: "/razgovor", label: "Book a call", cta: "footer-razgovor" },
           { href: "/nalog", label: "Account" },
         ],
       },
@@ -389,6 +395,7 @@ const de = (): NavMenu => ({
     { href: "/contact-us", label: "Angebot anfordern", hint: "Beschreiben Sie Ihr Vorhaben", cta: "menu-upit" },
     { href: "/our-services", label: "Leistungen", hint: "Websites, Buchung, KI", cta: "menu-services" },
   ],
+  call: { label: "Kurzes Gespräch · 20 Min", hint: "Telefon oder Google Meet" },
   account: { href: "/nalog", label: "Konto" },
   feature: {
     eyebrow: "Unsicher, wo Sie anfangen?",
@@ -426,6 +433,7 @@ const de = (): NavMenu => ({
         title: "Kontakt",
         items: [
           { href: "/contact-us", label: "Angebot anfordern", cta: "footer-upit" },
+          { href: "/razgovor", label: "Kurzes Gespräch", cta: "footer-razgovor" },
           { href: "/nalog", label: "Konto" },
         ],
       },
