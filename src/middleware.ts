@@ -9,20 +9,36 @@ function isGermanDomain(host: string | null): boolean {
   return h === "adspireagency.de" || h === "www.adspireagency.de";
 }
 
+const GERMAN_GUIDE_PATHS = [
+  "/warum-onlineshop-nicht-verkauft",
+  "/terminausfaelle-no-shows-verhindern",
+  "/was-gehoert-auf-eine-moderne-unternehmenswebsite",
+];
+
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // German brand domain → rewrite the home to the /de landing (URL unchanged).
-  if (
-    isGermanDomain(request.headers.get("host")) &&
-    (pathname === "/" || pathname === "")
-  ) {
-    const url = request.nextUrl.clone();
-    url.pathname = "/de";
-    return NextResponse.rewrite(url);
+  if (isGermanDomain(request.headers.get("host"))) {
+    // German brand domain → rewrite the home to the /de landing (URL unchanged).
+    if (pathname === "/" || pathname === "") {
+      const url = request.nextUrl.clone();
+      url.pathname = "/de";
+      return NextResponse.rewrite(url);
+    }
+    // Clean German guide slugs on adspireagency.de → rewrite to /de/...
+    if (GERMAN_GUIDE_PATHS.includes(pathname)) {
+      const url = request.nextUrl.clone();
+      url.pathname = `/de${pathname}`;
+      return NextResponse.rewrite(url);
+    }
   }
 }
 
 export const config = {
-  matcher: ["/"],
+  matcher: [
+    "/",
+    "/warum-onlineshop-nicht-verkauft",
+    "/terminausfaelle-no-shows-verhindern",
+    "/was-gehoert-auf-eine-moderne-unternehmenswebsite",
+  ],
 };

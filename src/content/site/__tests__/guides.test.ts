@@ -12,6 +12,11 @@ import {
   sefInvoicesGuide,
   webShopLegalGuide,
 } from "../guidesAnswers";
+import {
+  appointmentNoShowGuide,
+  modernWebsiteMustHavesGuide,
+  webShopNotSellingGuide,
+} from "../guidesGeo";
 
 const answerGuides = [
   portalCmsGuide,
@@ -24,6 +29,9 @@ const answerGuides = [
   sefInvoicesGuide,
   adsOrSeoGuide,
   instagramOrSiteGuide,
+  webShopNotSellingGuide,
+  appointmentNoShowGuide,
+  modernWebsiteMustHavesGuide,
 ];
 
 describe("guides", () => {

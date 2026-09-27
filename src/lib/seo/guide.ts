@@ -1,16 +1,18 @@
 import type { Metadata } from "next";
 import type { Guide } from "@/content/site/guides";
-import { breadcrumbJsonLd, faqPageJsonLd, webPageAboutOrganizationJsonLd } from "@/lib/seo/jsonld";
+import { SCHEMA_LANG, breadcrumbJsonLd, faqPageJsonLd, webPageAboutOrganizationJsonLd } from "@/lib/seo/jsonld";
 import { founderRef, orgRef } from "@/lib/seo/ids";
 import { absoluteUrl, pageMetadata } from "@/lib/seo/metadata";
+import { defaultLocale, type LocaleCode } from "@/lib/site-config";
 
 /** Metadata for a guide route — keeps every guide page's SEO block identical. */
-export function guideMetadata(guide: Guide): Metadata {
+export function guideMetadata(guide: Guide, locale: LocaleCode = defaultLocale): Metadata {
   return pageMetadata({
     path: guide.path,
     title: guide.title,
     description: guide.metaDescription,
     keywords: guide.keywords,
+    locale,
   });
 }
 
@@ -22,7 +24,7 @@ export function guideMetadata(guide: Guide): Metadata {
  * public profile says this", and the second is what an answer engine weighs
  * when it decides whose explanation to repeat.
  */
-function guideArticleJsonLd(guide: Guide) {
+function guideArticleJsonLd(guide: Guide, locale: LocaleCode = defaultLocale) {
   const url = absoluteUrl(guide.path);
   return {
     "@context": "https://schema.org",
@@ -34,7 +36,7 @@ function guideArticleJsonLd(guide: Guide) {
     url,
     author: founderRef(),
     publisher: orgRef(),
-    inLanguage: "sr-RS",
+    inLanguage: SCHEMA_LANG[locale],
     about: orgRef(),
     keywords: guide.keywords.join(", "),
     ...(guide.updated ? { datePublished: guide.updated, dateModified: guide.updated } : {}),
@@ -46,7 +48,7 @@ function guideArticleJsonLd(guide: Guide) {
 }
 
 /** HowTo, but only for the guides that declare real sequential steps. */
-function guideHowToJsonLd(guide: Guide) {
+function guideHowToJsonLd(guide: Guide, locale: LocaleCode = defaultLocale) {
   if (!guide.howTo) return [];
   const url = absoluteUrl(guide.path);
   const steps = guide.howTo.stepHeadings.flatMap((heading, index) => {
@@ -72,7 +74,7 @@ function guideHowToJsonLd(guide: Guide) {
       "@id": `${url}#howto`,
       name: guide.howTo.name,
       description: guide.metaDescription,
-      inLanguage: "sr-RS",
+      inLanguage: SCHEMA_LANG[locale],
       ...(guide.howTo.totalTime ? { totalTime: guide.howTo.totalTime } : {}),
       step: steps,
     },
@@ -84,24 +86,27 @@ function guideHowToJsonLd(guide: Guide) {
  * what answer engines quote; leaving them only in the body makes them invisible
  * to anything that does not render the page.
  */
-export function guideJsonLd(guide: Guide) {
+export function guideJsonLd(guide: Guide, locale: LocaleCode = defaultLocale) {
   const pageUrl = absoluteUrl(guide.path);
+  const homeName = locale === "de" ? "Start" : locale === "en" ? "Home" : "Početna";
+  const homePath = locale === "de" ? "/de" : locale === "en" ? "/en" : "/";
   return [
     webPageAboutOrganizationJsonLd(
       guide.path,
       `${guide.title} | Adspire`,
       guide.metaDescription,
       {
+        inLanguage: SCHEMA_LANG[locale],
         mainEntity: `${pageUrl}#article`,
         // The lead is written as the direct answer and carries data-answer.
         speakable: ["[data-answer]"],
         ...(guide.updated ? { datePublished: guide.updated, dateModified: guide.updated } : {}),
       },
     ),
-    guideArticleJsonLd(guide),
-    ...guideHowToJsonLd(guide),
+    guideArticleJsonLd(guide, locale),
+    ...guideHowToJsonLd(guide, locale),
     breadcrumbJsonLd([
-      { name: "Početna", path: "/" },
+      { name: homeName, path: homePath },
       { name: guide.h1, path: guide.path },
     ]),
     faqPageJsonLd(

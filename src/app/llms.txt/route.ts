@@ -5,6 +5,16 @@ import { INDUSTRY_HUB_PATH, industryPages, industryPath } from "@/content/site/i
 import { diasporaPage, DIASPORA_PATH } from "@/content/site/diasporaPage";
 import { aeoPage, AEO_PATH } from "@/content/site/aeoPage";
 import { guides } from "@/content/site/guides";
+import {
+  appointmentNoShowGuideDe,
+  modernWebsiteMustHavesGuideDe,
+  webShopNotSellingGuideDe,
+} from "@/content/site/guidesGeo.de";
+import {
+  appointmentNoShowGuideEn,
+  modernWebsiteMustHavesGuideEn,
+  webShopNotSellingGuideEn,
+} from "@/content/site/guidesGeo.en";
 import { glossaryPage, glossaryTerms } from "@/content/site/glossary";
 import { projectCaseStudies } from "@/data/projectCaseStudies";
 import { serviceCatalog } from "@/data/serviceCatalog";
@@ -160,6 +170,18 @@ ${glossary}
 ## Vodiči — pitanja na koja stranice odgovaraju
 
 ${guideList}
+
+## Ratgeber & Problemlösungen (Deutsch / DACH — adspireagency.de)
+
+- [${webShopNotSellingGuideDe.h1}](${base}${webShopNotSellingGuideDe.path}): ${webShopNotSellingGuideDe.metaDescription}
+- [${appointmentNoShowGuideDe.h1}](${base}${appointmentNoShowGuideDe.path}): ${appointmentNoShowGuideDe.metaDescription}
+- [${modernWebsiteMustHavesGuideDe.h1}](${base}${modernWebsiteMustHavesGuideDe.path}): ${modernWebsiteMustHavesGuideDe.metaDescription}
+
+## Guides & Problem-Solving (English)
+
+- [${webShopNotSellingGuideEn.h1}](${base}${webShopNotSellingGuideEn.path}): ${webShopNotSellingGuideEn.metaDescription}
+- [${appointmentNoShowGuideEn.h1}](${base}${appointmentNoShowGuideEn.path}): ${appointmentNoShowGuideEn.metaDescription}
+- [${modernWebsiteMustHavesGuideEn.h1}](${base}${modernWebsiteMustHavesGuideEn.path}): ${modernWebsiteMustHavesGuideEn.metaDescription}
 
 ## Tipični relevantni upiti
 

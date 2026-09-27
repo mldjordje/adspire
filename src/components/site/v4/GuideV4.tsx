@@ -7,6 +7,8 @@ import { StickyCtaV4 } from "./StickyCtaV4";
 import { AuroraV4 } from "./AuroraV4";
 import type { Guide } from "@/content/site/guides";
 import { guides } from "@/content/site/guides";
+import type { LocaleCode } from "@/lib/site-config";
+import { defaultLocale, localePath } from "@/lib/site-config";
 import styles from "./GuideV4.module.css";
 
 /** Slug → id for aria-labelledby, so several sections on one page stay unique. */
@@ -14,14 +16,18 @@ function sectionId(index: number) {
   return `guide-section-${index}`;
 }
 
-type Props = { guide: Guide };
+type Props = {
+  guide: Guide;
+  locale?: LocaleCode;
+  languagePath?: string;
+};
 
 /**
  * Renders any problem-intent guide from guides.ts on the OBSIDIAN chrome. One
  * component for every guide — a new page is a data entry plus a route, never a
  * new layout to keep in sync.
  */
-export function GuideV4({ guide }: Props) {
+export function GuideV4({ guide, locale = defaultLocale, languagePath }: Props) {
   // Guides link to each other so none of them is a dead end for a reader or a
   // crawler. Capped at three — listing every sibling turns the tail of the page
   // into a link dump and dilutes what each link is worth. A guide that names its
@@ -31,8 +37,19 @@ export function GuideV4({ guide }: Props) {
     .filter((g): g is Guide => Boolean(g) && g!.path !== guide.path);
   const others = (picked.length > 0 ? picked : guides.filter((g) => g.path !== guide.path)).slice(0, 3);
 
+  const authorLabel = locale === "de" ? "Autor" : locale === "en" ? "Author" : "Autor";
+  const founderTitle =
+    locale === "de"
+      ? "Technischer Leiter"
+      : locale === "en"
+      ? "Technical Director"
+      : FOUNDER.jobTitle;
+  const aboutHref = localePath("/about-us", locale);
+
   return (
     <PageShellV4
+      locale={locale}
+      languagePath={languagePath}
       eyebrow={guide.eyebrow}
       title={guide.h1}
       intro={guide.lead}
@@ -45,7 +62,7 @@ export function GuideV4({ guide }: Props) {
         trackingLabel={`sticky:${guide.path}`}
       />
       <div className={styles.body} data-reveal>
-        <p className={styles.text}>Autor: <Link className={styles.inlineLink} href="/about-us">{FOUNDER.name}</Link>, {FOUNDER.jobTitle}.</p>
+        <p className={styles.text}>{authorLabel}: <Link className={styles.inlineLink} href={aboutHref}>{FOUNDER.name}</Link>, {founderTitle}.</p>
         {guide.sections.map((section, index) => (
           <section key={section.heading} aria-labelledby={sectionId(index)}>
             <h2 id={sectionId(index)} className={styles.h2}>{section.heading}</h2>
@@ -109,17 +126,25 @@ export function GuideV4({ guide }: Props) {
 
         {others.length > 0 && (
           <p className={styles.related}>
-            Dalje:{" "}
+            {locale === "de" ? "Weiter: " : locale === "en" ? "Next: " : "Dalje: "}
             {others.map((g, i) => (
               <span key={g.path}>
                 {i > 0 && " · "}
-                <Link className={styles.inlineLink} href={g.path}>{g.h1}</Link>
+                <Link className={styles.inlineLink} href={localePath(g.path, locale)}>{g.h1}</Link>
               </span>
             ))}
             {" · "}
-            <Link className={styles.inlineLink} href="/cena-izrade-sajta">Koliko košta izrada sajta?</Link>
-            {" · "}
-            <Link className={styles.inlineLink} href="/vodici">Svi vodiči</Link>
+            {locale === "de" ? (
+              <Link className={styles.inlineLink} href="/de/our-services">Alle Leistungen</Link>
+            ) : locale === "en" ? (
+              <Link className={styles.inlineLink} href="/en/our-services">All Services</Link>
+            ) : (
+              <>
+                <Link className={styles.inlineLink} href="/cena-izrade-sajta">Koliko košta izrada sajta?</Link>
+                {" · "}
+                <Link className={styles.inlineLink} href="/vodici">Svi vodiči</Link>
+              </>
+            )}
           </p>
         )}
       </div>

@@ -11,6 +11,11 @@ import {
   sefInvoicesGuide,
   webShopLegalGuide,
 } from "./guidesAnswers";
+import {
+  appointmentNoShowGuide,
+  modernWebsiteMustHavesGuide,
+  webShopNotSellingGuide,
+} from "./guidesGeo";
 
 /**
  * Problem-intent landing pages.
@@ -67,7 +72,7 @@ export type Guide = {
    * that are sales pages as much as they are answers carry the aurora the
    * other money pages use.
    */
-  background?: "aurora";
+  background?: "aurora" | "silk";
   /**
    * ISO date the content was last checked. Published as datePublished and
    * dateModified: answer engines prefer a dated source over an undated one
@@ -771,6 +776,9 @@ export const guides = [
   sefInvoicesGuide,
   adsOrSeoGuide,
   instagramOrSiteGuide,
+  webShopNotSellingGuide,
+  appointmentNoShowGuide,
+  modernWebsiteMustHavesGuide,
 ] as const;
 
 export const bookingSystemsGuide = bookingGuide;
@@ -792,4 +800,7 @@ export {
   cardPaymentsGuide,
   portalCmsGuide,
   webShopLegalGuide,
+  webShopNotSellingGuide,
+  appointmentNoShowGuide,
+  modernWebsiteMustHavesGuide,
 };
