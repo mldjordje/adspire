@@ -19,6 +19,7 @@ export function localePath(href: string, locale: LocaleCode): string {
   if (locale === defaultLocale) return href;
   if (!href.startsWith("/")) return href;
   if (href === "/") return `/${locale}`;
+  if (href === `/${locale}` || href.startsWith(`/${locale}/`)) return href;
   return `/${locale}${href}`;
 }
 

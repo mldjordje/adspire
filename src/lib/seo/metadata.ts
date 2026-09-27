@@ -48,6 +48,16 @@ const TRANSLATED_PATHS = new Set<string>([
   // translation, so /en/our-projects/<slug> stays out — which is why this is a
   // path and not a prefix.
   "/our-projects",
+  // Trilateral conversion guides:
+  "/zasto-web-shop-ne-prodaje",
+  "/warum-onlineshop-nicht-verkauft",
+  "/why-online-store-not-selling",
+  "/kako-spreciti-nedolazak-na-termin",
+  "/terminausfaelle-no-shows-verhindern",
+  "/how-to-reduce-appointment-no-shows",
+  "/sta-mora-da-ima-moderan-sajt-firme",
+  "/was-gehoert-auf-eine-moderne-unternehmenswebsite",
+  "/what-every-business-website-must-have",
 ]);
 
 /**
@@ -61,7 +71,15 @@ const TRANSLATED_PREFIXES = ["/ai", "/our-services"];
 
 export function isTranslatedPath(path: string): boolean {
   if (TRANSLATED_PATHS.has(path)) return true;
-  return TRANSLATED_PREFIXES.some((prefix) => path === prefix || path.startsWith(`${prefix}/`));
+  const cleanPath = path.replace(/^\/(?:de|en)(?=\/|$)/, "") || "/";
+  if (TRANSLATED_PATHS.has(cleanPath)) return true;
+  return TRANSLATED_PREFIXES.some(
+    (prefix) =>
+      path === prefix ||
+      path.startsWith(`${prefix}/`) ||
+      cleanPath === prefix ||
+      cleanPath.startsWith(`${prefix}/`),
+  );
 }
 
 /** hreflang map (sr/en/de + x-default → sr) for a default-locale (unprefixed) path. */

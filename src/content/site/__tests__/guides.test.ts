@@ -17,6 +17,17 @@ import {
   modernWebsiteMustHavesGuide,
   webShopNotSellingGuide,
 } from "../guidesGeo";
+import {
+  appointmentNoShowGuideDe,
+  modernWebsiteMustHavesGuideDe,
+  webShopNotSellingGuideDe,
+} from "../guidesGeo.de";
+import {
+  appointmentNoShowGuideEn,
+  modernWebsiteMustHavesGuideEn,
+  webShopNotSellingGuideEn,
+} from "../guidesGeo.en";
+import { guideMetadata } from "@/lib/seo/guide";
 
 const answerGuides = [
   portalCmsGuide,
@@ -66,5 +77,18 @@ describe("guides", () => {
   it("never pitch the booking comparison as free", () => {
     const text = JSON.stringify(bookingPlatformChoiceGuide).toLowerCase();
     expect(text).not.toMatch(/besplatn/);
+  });
+
+  it("never emit noindex on translated guides", () => {
+    const deGuides = [webShopNotSellingGuideDe, appointmentNoShowGuideDe, modernWebsiteMustHavesGuideDe];
+    for (const g of deGuides) {
+      const meta = guideMetadata(g, "de");
+      expect(meta.robots, g.path).toBeUndefined();
+    }
+    const enGuides = [webShopNotSellingGuideEn, appointmentNoShowGuideEn, modernWebsiteMustHavesGuideEn];
+    for (const g of enGuides) {
+      const meta = guideMetadata(g, "en");
+      expect(meta.robots, g.path).toBeUndefined();
+    }
   });
 });
