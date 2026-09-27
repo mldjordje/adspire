@@ -22,30 +22,37 @@ import {
   restaurantTimeSavingGuide,
   shopifyVsWooVsCustomGuide,
   webShopNotSellingGuide,
+  websiteMaintenanceCostGuide,
   whatsappBookingAutomationGuide,
 } from "../guidesGeo";
 import {
   appointmentNoShowGuideDe,
   constructionTimeSavingGuideDe,
+  googleAdsVsSeoGuideDe,
   hotelTimeSavingGuideDe,
   howInternalSoftwareSavesTimeGuideDe,
+  mobileAppVsWebAppGuideDe,
   modernWebsiteMustHavesGuideDe,
   nearshoringSerbiaGuideDe,
   restaurantTimeSavingGuideDe,
   shopifyVsWooVsCustomGuideDe,
   webShopNotSellingGuideDe,
+  websiteMaintenanceCostGuideDe,
   whatsappBookingAutomationGuideDe,
 } from "../guidesGeo.de";
 import {
   appointmentNoShowGuideEn,
   constructionTimeSavingGuideEn,
+  googleAdsVsSeoGuideEn,
   hotelTimeSavingGuideEn,
   howInternalSoftwareSavesTimeGuideEn,
+  mobileAppVsWebAppGuideEn,
   modernWebsiteMustHavesGuideEn,
   nearshoringSerbiaGuideEn,
   restaurantTimeSavingGuideEn,
   shopifyVsWooVsCustomGuideEn,
   webShopNotSellingGuideEn,
+  websiteMaintenanceCostGuideEn,
   whatsappBookingAutomationGuideEn,
 } from "../guidesGeo.en";
 import { guideMetadata } from "@/lib/seo/guide";
@@ -71,6 +78,7 @@ const answerGuides = [
   constructionTimeSavingGuide,
   restaurantTimeSavingGuide,
   hotelTimeSavingGuide,
+  websiteMaintenanceCostGuide,
 ];
 
 describe("guides", () => {
@@ -119,6 +127,9 @@ describe("guides", () => {
       constructionTimeSavingGuideDe,
       restaurantTimeSavingGuideDe,
       hotelTimeSavingGuideDe,
+      websiteMaintenanceCostGuideDe,
+      googleAdsVsSeoGuideDe,
+      mobileAppVsWebAppGuideDe,
     ];
     for (const g of deGuides) {
       const meta = guideMetadata(g, "de");
@@ -135,6 +146,9 @@ describe("guides", () => {
       constructionTimeSavingGuideEn,
       restaurantTimeSavingGuideEn,
       hotelTimeSavingGuideEn,
+      websiteMaintenanceCostGuideEn,
+      googleAdsVsSeoGuideEn,
+      mobileAppVsWebAppGuideEn,
     ];
     for (const g of enGuides) {
       const meta = guideMetadata(g, "en");

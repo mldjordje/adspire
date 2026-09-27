@@ -217,6 +217,8 @@ export const proizvodnjaGradjevinskogMaterijala: IndustryPage = {
   ],
   inquiryService: "interne-poslovne-aplikacije",
   related: [
+    { href: "/kako-gradjevinska-firma-gubi-vreme-operacije", label: "Vodič: Gde građevinske firme gube vreme" },
+    { href: "/kako-interni-softver-stedi-vreme-vlasniku", label: "Vodič: Kako interni softver štedi vreme" },
     { href: "/sajt-za-gradjevinsku-firmu", label: "Sajt i sistem za građevinsku firmu" },
     { href: "/softver-za-transport-i-prevoz-tereta", label: "Transport i prevoz tereta" },
     { href: "/our-projects/prevozkop-digitalni-prodajni-operativni-sistem", label: "Studija slučaja: Prevoz Kop" },

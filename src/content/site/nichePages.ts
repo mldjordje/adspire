@@ -268,6 +268,8 @@ export const nichePages: NichePage[] = [
     },
     inquiryService: "sistemi-za-zakazivanje",
     related: [
+      { href: "/kako-spreciti-nedolazak-na-termin", label: "Vodič: Kako sprečiti nedolazak na termin" },
+      { href: "/kako-automatizovati-zakazivanje-whatsapp", label: "Vodič: WhatsApp zakazivanje termina" },
       { href: "/online-zakazivanje/kozmeticki-saloni-i-estetske-klinike", label: "Samo online zakazivanje za salone i klinike" },
       { href: "/our-projects/dr-igic-web-aplikacija-za-estetske-klinike", label: "Studija slučaja: Dr Igić" },
       { href: "/softver-za-frizerski-salon-i-berbernicu", label: "Softver za frizerski salon i berbernicu" },
@@ -411,6 +413,8 @@ export const nichePages: NichePage[] = [
     },
     inquiryService: "e-commerce-web-shop",
     related: [
+      { href: "/shopify-vs-woocommerce-vs-custom-shop", label: "Vodič: Shopify vs WooCommerce vs Custom" },
+      { href: "/zasto-web-shop-ne-prodaje", label: "Vodič: Zašto web shop nema prodaju" },
       { href: "/kako-napraviti-web-shop", label: "Vodič: kako napraviti web shop" },
       { href: "/our-projects/santos-santorini-web-shop-admin-platforma", label: "Studija slučaja: Santos & Santorini" },
       { href: "/our-services/e-commerce-web-shop", label: "Usluga: e-commerce" },
@@ -554,6 +558,7 @@ export const nichePages: NichePage[] = [
     },
     inquiryService: "web-prezentacije",
     related: [
+      { href: "/sta-mora-da-ima-moderan-sajt-firme", label: "Šta mora da ima moderan sajt firme" },
       { href: "/sajt-ne-donosi-upite", label: "Sajt ne donosi upite — šta prvo proveriti" },
       { href: "/wordpress-ili-custom-sajt", label: "WordPress ili sajt po meri" },
       { href: "/da-li-mi-treba-sajt-ako-imam-instagram", label: "Da li mi treba sajt ako imam Instagram" },
@@ -696,6 +701,8 @@ export const nichePages: NichePage[] = [
     },
     inquiryService: "web-prezentacije",
     related: [
+      { href: "/kako-gradjevinska-firma-gubi-vreme-operacije", label: "Vodič: Gde građevinske firme gube vreme" },
+      { href: "/kako-interni-softver-stedi-vreme-vlasniku", label: "Vodič: Kako interni softver štedi 20+ sati" },
       { href: "/our-projects/prevozkop-digitalni-prodajni-operativni-sistem", label: "Studija slučaja: Prevoz Kop" },
       { href: "/interni-softver-umesto-excel-tabela", label: "Interni softver umesto Excel tabela" },
       { href: "/it-firma-nis", label: "IT firma u Nišu" },

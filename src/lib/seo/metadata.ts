@@ -79,6 +79,15 @@ const TRANSLATED_PATHS = new Set<string>([
   "/kako-hoteli-gube-vreme-recepcija-ciscenje",
   "/hotel-ferienwohnungen-zeitersparnis-automatisierung",
   "/hotel-vacation-rental-time-saving-automation",
+  "/koliko-kosta-odrzavanje-sajta-mesecno",
+  "/website-wartungskosten-monatlich",
+  "/website-maintenance-cost-monthly",
+  "/google-oglasi-ili-seo",
+  "/google-ads-oder-seo-was-lohnt-sich",
+  "/google-ads-vs-seo-where-to-invest-first",
+  "/mobilna-aplikacija-ili-web-aplikacija",
+  "/native-app-oder-web-app-pwa-vergleich",
+  "/native-mobile-app-vs-web-app-pwa",
 ]);
 
 /**

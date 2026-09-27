@@ -217,6 +217,8 @@ export const frizerskiSaloni: IndustryPage = {
   ],
   inquiryService: "sistemi-za-zakazivanje",
   related: [
+    { href: "/kako-spreciti-nedolazak-na-termin", label: "Vodič: Kako sprečiti nedolazak na termin" },
+    { href: "/kako-automatizovati-zakazivanje-whatsapp", label: "Vodič: WhatsApp zakazivanje termina" },
     { href: "/online-zakazivanje/frizerski-saloni-i-berbernice", label: "Samo online zakazivanje termina" },
     { href: "/softver-za-salon-lepote", label: "Salon lepote i estetski tretmani" },
     { href: "/our-projects/doctor-barber-online-booking-sistem", label: "Studija slučaja: Doctor Barber" },

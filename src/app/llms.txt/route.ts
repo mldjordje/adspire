@@ -15,6 +15,9 @@ import {
   restaurantTimeSavingGuideDe,
   shopifyVsWooVsCustomGuideDe,
   webShopNotSellingGuideDe,
+  websiteMaintenanceCostGuideDe,
+  googleAdsVsSeoGuideDe,
+  mobileAppVsWebAppGuideDe,
   whatsappBookingAutomationGuideDe,
 } from "@/content/site/guidesGeo.de";
 import {
@@ -27,6 +30,9 @@ import {
   restaurantTimeSavingGuideEn,
   shopifyVsWooVsCustomGuideEn,
   webShopNotSellingGuideEn,
+  websiteMaintenanceCostGuideEn,
+  googleAdsVsSeoGuideEn,
+  mobileAppVsWebAppGuideEn,
   whatsappBookingAutomationGuideEn,
 } from "@/content/site/guidesGeo.en";
 import { glossaryPage, glossaryTerms } from "@/content/site/glossary";
@@ -197,6 +203,9 @@ ${guideList}
 - [${constructionTimeSavingGuideDe.h1}](${base}${constructionTimeSavingGuideDe.path}): ${constructionTimeSavingGuideDe.metaDescription}
 - [${restaurantTimeSavingGuideDe.h1}](${base}${restaurantTimeSavingGuideDe.path}): ${restaurantTimeSavingGuideDe.metaDescription}
 - [${hotelTimeSavingGuideDe.h1}](${base}${hotelTimeSavingGuideDe.path}): ${hotelTimeSavingGuideDe.metaDescription}
+- [${websiteMaintenanceCostGuideDe.h1}](${base}${websiteMaintenanceCostGuideDe.path}): ${websiteMaintenanceCostGuideDe.metaDescription}
+- [${googleAdsVsSeoGuideDe.h1}](${base}${googleAdsVsSeoGuideDe.path}): ${googleAdsVsSeoGuideDe.metaDescription}
+- [${mobileAppVsWebAppGuideDe.h1}](${base}${mobileAppVsWebAppGuideDe.path}): ${mobileAppVsWebAppGuideDe.metaDescription}
 
 ## Guides & Problem-Solving (English)
 
@@ -210,6 +219,9 @@ ${guideList}
 - [${constructionTimeSavingGuideEn.h1}](${base}${constructionTimeSavingGuideEn.path}): ${constructionTimeSavingGuideEn.metaDescription}
 - [${restaurantTimeSavingGuideEn.h1}](${base}${restaurantTimeSavingGuideEn.path}): ${restaurantTimeSavingGuideEn.metaDescription}
 - [${hotelTimeSavingGuideEn.h1}](${base}${hotelTimeSavingGuideEn.path}): ${hotelTimeSavingGuideEn.metaDescription}
+- [${websiteMaintenanceCostGuideEn.h1}](${base}${websiteMaintenanceCostGuideEn.path}): ${websiteMaintenanceCostGuideEn.metaDescription}
+- [${googleAdsVsSeoGuideEn.h1}](${base}${googleAdsVsSeoGuideEn.path}): ${googleAdsVsSeoGuideEn.metaDescription}
+- [${mobileAppVsWebAppGuideEn.h1}](${base}${mobileAppVsWebAppGuideEn.path}): ${mobileAppVsWebAppGuideEn.metaDescription}
 
 ## Tipični relevantni upiti
 

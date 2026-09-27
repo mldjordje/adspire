@@ -1036,4 +1036,106 @@ export const hotelTimeSavingGuide: Guide = {
   ],
 };
 
+export const websiteMaintenanceCostGuide: Guide = {
+  path: "/koliko-kosta-odrzavanje-sajta-mesecno",
+  eyebrow: "Održavanje sajta & Podrška",
+  title: "Koliko košta održavanje sajta mesečno — Šta se stvarno plaća",
+  metaDescription:
+    "Koliko košta održavanje sajta mesečno: šta obuhvata tehničko održavanje, zašto besplatan hosting košta najviše, koliko vredi brzina i bekap van servera, i cene po paketima.",
+  h1: "Koliko košta održavanje sajta mesečno i šta se stvarno plaća?",
+  lead:
+    "Održavanje sajta košta između 40 € i 250 € mesečno, zavisno od kompleksnosti. Realan trošak obuhvata pouzdan hosting sa SSL sertifikatom, dnevne bekape van servera, bezbednosna ažuriranja softvera i zakupljene sate programera za hitne intervencije i izmene sadržaja bez čekanja.",
+  keywords: [
+    "koliko kosta odrzavanje sajta",
+    "odrzavanje sajta mesecno cena",
+    "tehnicko odrzavanje sajta",
+    "azuriranje sajta cena",
+    "podrska za sajt",
+    "cene odrzavanja wordpress sajta",
+  ],
+  updated: "2026-09-28",
+  sections: [
+    {
+      heading: "1. Zašto 'sajt bez održavanja' zapravo košta najviše",
+      body: [
+        "Sajt koji se postavi i zaboravi neminovno postaje ranjiv. Zastareli pluginovi na WordPress-u su uzrok za preko 90% hakovanih sajtova, a Google kažnjava kompromitovane ili spore sajtove izbacivanjem iz pretrage.",
+      ],
+      bullets: [
+        "Hakovani sajt gubi poverenje kupaca i dobija 'Not Secure' ili crveno upozorenje u Chrome pregledaču.",
+        "Pad servera u petak popodne često ostane neprimećen do ponedeljka, dok narudžbine ili upiti nepovratno odlaze konkurenciji.",
+        "Vraćanje oborenog i zaraženog sajta 'na mišiće' košta 3 do 5 puta više od celogodišnjeg preventivnog održavanja.",
+      ],
+    },
+    {
+      heading: "2. Šta ulazi u ozbiljan mesečni paket održavanja",
+      body: [
+        "Plaćanje održavanja ne znači plaćanje 'da sajt samo stoji online'. To je polisa osiguranja i stalna tehnička prednost vaše firme.",
+      ],
+      bullets: [
+        "Namenski cloud hosting sa globalnim CDN-om i SSL enkripcijom sa 99.9% garantovanim uptime-om.",
+        "Automatski dnevni bekap koji se čuva na odvojenoj lokaciji (off-site), tako da se u slučaju kvara sajt vraća za 10 minuta.",
+        "Redovno testiranje formi, dugmadi za poziv, korpe i brzine učitavanja (Core Web Vitals).",
+        "Zakupljeni radni sati programera za izmenu cenovnika, dodavanje novih slika, tekstova ili landing stranica.",
+      ],
+    },
+    {
+      heading: "3. Realni rasponi cena održavanja na tržištu",
+      body: [
+        "Cena održavanja zavisi od toga da li je u pitanju jednostavan prezentacioni sajt, web shop ili složena web platforma sa bazom.",
+      ],
+      bullets: [
+        "Osnovni sajt firme (40–80 €/mesečno): Premium hosting, sigurnosne zakrpe, bekap i 1–2 sata manjih izmena.",
+        "Web prodavnica (90–200 €/mesečno): Praćenje checkout toka, testiranje plaćanja, bekap baze na svakih sat vremena i hitna podrška.",
+        "Prilagođene aplikacije i portali (200–500+ €/mesečno): SLA ugovor sa garantovanim odzivom ispod 2 sata i namensko održavanje baza i servera.",
+      ],
+    },
+    {
+      heading: "4. Next.js sajtovi bez ranjivih WordPress pluginova",
+      body: [
+        "U agenciji Adspire sajtove primarno razvijamo u Next.js tehnologiji. Za razliku od WordPress-a koji zahteva stalno krpljenje 30 različitih dodataka trećih strana, Next.js generiše statički bezbedne stranice.",
+      ],
+      bullets: [
+        "Nema PHP ranjivosti i nema baza koje mogu biti oborene SQL injekcijom sa spoljnih adresa.",
+        "Brzina učitavanja ostaje konstantna bez kupovine skupih alata za keširanje.",
+        "Održavanje je fokusirano na unapređenje biznisa i konverzija, a ne na stalno gašenje požara.",
+      ],
+    },
+  ],
+  proofHeading: "Kako brinemo o sajtovima klijenata",
+  proof: [
+    {
+      label: "Usluga održavanja i tehničke podrške",
+      href: "/our-services/odrzavanje-i-podrska",
+      note: "Pogledajte detaljan opis naših SLA paketa, brzine odziva i monitoringa.",
+    },
+  ],
+  faqHeading: "Česta pitanja o održavanju sajtova",
+  faq: [
+    {
+      q: "Da li mogu sam da održavam svoj sajt i uštedim novac?",
+      a: "Možete sami unositi tekstove i menjati slike ako sajt ima CMS. Međutim, ažuriranje serverskog koda, bezbednosne zakrpe, konfigurisanje DNS zapisa i bekap van servera zahtevaju programera. Jedna nekompatibilna verzija dodatka može srušiti ceo sajt.",
+    },
+    {
+      q: "Šta se dešava ako ne iskoristim zakupljene sate za izmene u tom mesecu?",
+      a: "U našim paketima neiskorišćeni sati se često preusmeravaju u tehnički SEO pregled, optimizaciju slika ili se prenose u naredni mesec prema dogovoru u ugovoru.",
+    },
+    {
+      q: "Koliko brzo reagujete kada sajt prijavi problem?",
+      a: "Za klijente sa ugovorom o održavanju imamo automatizovani monitoring koji proverava status sajta svakih 60 sekundi. Na kritične incidente reagujemo unutar 1 do 2 sata, uključujući vikende.",
+    },
+    {
+      q: "Da li održavanje obuhvata i plaćanje domena i hostinga?",
+      a: "Da, naši sveobuhvatni paketi održavanja uključuju troškove premijum brzog hostinga, SSL sertifikata i obnove domena, tako da klijent ima jedan transparentan račun godišnje ili mesečno.",
+    },
+  ],
+  cta: { label: "Zatražite ponudu za održavanje vašeg sajta", href: "/upit" },
+  secondaryCta: { label: "Pogledajte stranicu održavanja", href: "/our-services/odrzavanje-i-podrska" },
+  related: [
+    "/wordpress-ili-custom-sajt",
+    "/sta-mora-da-ima-moderan-sajt-firme",
+    "/sajt-ne-donosi-upite",
+  ],
+};
+
+
 

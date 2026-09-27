@@ -20,6 +20,9 @@ const GERMAN_GUIDE_PATHS = [
   "/bauunternehmen-zeitersparnis-prozessoptimierung",
   "/gastronomie-zeitersparnis-dienstplan-einkauf",
   "/hotel-ferienwohnungen-zeitersparnis-automatisierung",
+  "/website-wartungskosten-monatlich",
+  "/google-ads-oder-seo-was-lohnt-sich",
+  "/native-app-oder-web-app-pwa-vergleich",
 ];
 
 export function middleware(request: NextRequest) {
@@ -54,5 +57,8 @@ export const config = {
     "/bauunternehmen-zeitersparnis-prozessoptimierung",
     "/gastronomie-zeitersparnis-dienstplan-einkauf",
     "/hotel-ferienwohnungen-zeitersparnis-automatisierung",
+    "/website-wartungskosten-monatlich",
+    "/google-ads-oder-seo-was-lohnt-sich",
+    "/native-app-oder-web-app-pwa-vergleich",
   ],
 };

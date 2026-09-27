@@ -21,6 +21,7 @@ import {
   restaurantTimeSavingGuide,
   shopifyVsWooVsCustomGuide,
   webShopNotSellingGuide,
+  websiteMaintenanceCostGuide,
   whatsappBookingAutomationGuide,
 } from "./guidesGeo";
 
@@ -793,6 +794,7 @@ export const guides = [
   constructionTimeSavingGuide,
   restaurantTimeSavingGuide,
   hotelTimeSavingGuide,
+  websiteMaintenanceCostGuide,
 ] as const;
 
 export const bookingSystemsGuide = bookingGuide;
@@ -824,4 +826,6 @@ export {
   constructionTimeSavingGuide,
   restaurantTimeSavingGuide,
   hotelTimeSavingGuide,
+  websiteMaintenanceCostGuide,
 };
+

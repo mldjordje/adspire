@@ -216,6 +216,8 @@ export const restoraniIKafici: IndustryPage = {
   ],
   inquiryService: "interne-poslovne-aplikacije",
   related: [
+    { href: "/kako-restorani-gube-vreme-nabavka-smene", label: "Vodič: Automatizacija nabavke, normativa i smena" },
+    { href: "/kako-interni-softver-stedi-vreme-vlasniku", label: "Vodič: Kako interni softver štedi vreme" },
     { href: "/online-zakazivanje/restorani-i-kafici", label: "Samo rezervacija stolova" },
     { href: "/izrada-web-shopa", label: "Web shop i online prodaja" },
     { href: "/interni-softver-umesto-excel-tabela", label: "Interni softver umesto Excel tabela" },

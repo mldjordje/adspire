@@ -1018,4 +1018,308 @@ export const hotelTimeSavingGuideDe: Guide = {
   ],
 };
 
+export const websiteMaintenanceCostGuideDe: Guide = {
+  path: "/de/website-wartungskosten-monatlich",
+  eyebrow: "Website-Wartung & Support",
+  title: "Website Wartungskosten monatlich — Was kostet Website-Pflege wirklich?",
+  metaDescription:
+    "Was kostet die monatliche Website-Wartung: Hosting, Backups, Updates, Sicherheitsprüfungen und Stundensätze im DACH-Raum transparent aufgeschlüsselt.",
+  h1: "Was kostet die monatliche Website-Wartung und was zahlt man wirklich?",
+  lead:
+    "Die monatlichen Wartungskosten für eine Unternehmenswebsite liegen meist zwischen 50 € und 300 €. Der Betrag deckt DSGVO-konformes Cloud-Hosting, tägliche Backups, laufende Sicherheitsupdates gegen Schwachstellen sowie feste Entwicklerstunden für sofortige Inhaltsanpassungen und technische Notfallhilfe ab.",
+  keywords: [
+    "website wartungskosten monatlich",
+    "was kostet website pflege",
+    "technische wartung website",
+    "homepage wartungsvertrag preise",
+    "wordpress wartung kosten",
+    "website support stundensatz",
+  ],
+  updated: "2026-09-28",
+  sections: [
+    {
+      heading: "1. Warum eine Website ohne Wartung am teuersten wird",
+      body: [
+        "Eine Firmenwebsite, die nach dem Launch sich selbst überlassen wird, veraltet technisch in rasantem Tempo. Veraltete Plugins sind für über 90 % aller gehackten Websites verantwortlich. Zudem straft Google langsame oder kompromittierte Seiten mit massiven Rankingverlusten ab.",
+      ],
+      bullets: [
+        "Gehackte Websites verlieren sofort das Vertrauen von Kunden und werden in Browsern als unsicher blockiert.",
+        "Serverausfälle an Wochenenden bleiben ohne Monitoring oft tagelang unbemerkt — wertvolle Kundenanfragen gehen verloren.",
+        "Die Notfallbereinigung einer infizierten Website kostet ein Vielfaches der regulären Jahreswartung.",
+      ],
+    },
+    {
+      heading: "2. Was ein professioneller Wartungsvertrag beinhalten muss",
+      body: [
+        "Website-Wartung bedeutet keineswegs nur, dass eine Website erreichbar bleibt. Es handelt sich um eine laufende Qualitätssicherung und den Werterhalt Ihres digitalen Vertriebskanals.",
+      ],
+      bullets: [
+        "DSGVO-konformes Hochleistungs-Hosting mit SSL-Zertifikat und 99,9 % Verfügbarkeitsgarantie.",
+        "Automatisierte tägliche Backups auf externen europäischen Cloud-Servern für eine Wiederherstellung innerhalb von Minuten.",
+        "Regelmäßige Funktionsprüfungen aller Kontaktformulare, Buchungsabläufe und Core Web Vitals.",
+        "Integrierte Entwicklerkontingente für Textkorrekturen, Bildwechsel oder neue Leistungsseiten ohne zusätzliche Rechnungen.",
+      ],
+    },
+    {
+      heading: "3. Reale Preisspannen im DACH-Raum",
+      body: [
+        "Die Kosten variieren je nach technischer Komplexität, Traffic-Volumen und dem erforderlichen Service Level Agreement (SLA).",
+      ],
+      bullets: [
+        "Basis-Unternehmenswebsite (50–100 €/Monat): Sicheres Hosting, Updates, Backups und 1 Stunde Support.",
+        "Onlineshops & Buchungsportale (120–250 €/Monat): Kontinuierliche Checkout-Prüfung, stündliche Datenbank-Backups und priorisierter Support.",
+        "Individuelle Webanwendungen & Portale (250–600+ €/Monat): Garantierte Reaktionszeiten unter 2 Stunden, Server-Cluster-Monitoring und dedizierte Entwicklungszeit.",
+      ],
+    },
+    {
+      heading: "4. Moderne Next.js-Websites statt anfälliger WordPress-Plugins",
+      body: [
+        "Bei Adspire entwickeln wir Webauftritte vorwiegend mit modernem Next.js. Da kein PHP-Server und keine unzähligen Drittanbieter-Plugins im Hintergrund laufen, entfallen typische WordPress-Sicherheitslücken von vornherein.",
+      ],
+      bullets: [
+        "Höchste Sicherheit gegen Malware, Ransomware und SQL-Injections.",
+        "Konstante Ladezeiten unter einer Sekunde ohne teure Caching-Lizenzen.",
+        "Wartungsaufwand fließt in messbare Geschäftsoptimierung statt ständige Fehlerbehebung.",
+      ],
+    },
+  ],
+  proofHeading: "Zuverlässiger Website-Support mit Adspire",
+  proof: [
+    {
+      label: "Wartung & Support Leistungen",
+      href: "/de/our-services",
+      note: "Erfahren Sie mehr über unsere transparenten Service-Level-Agreements und SLA-Modelle.",
+    },
+  ],
+  faqHeading: "Häufige Fragen zur Website-Wartung",
+  faq: [
+    {
+      q: "Können wir unsere Website nicht einfach intern pflegen?",
+      a: "Texte und Bilder können Sie über ein CMS problemlos selbst aktualisieren. Die technische Serverwartung, Sicherheits-Patches, DNS-Verwaltung und Notfallwiederherstellung erfordern jedoch spezialisierte Webentwickler.",
+    },
+    {
+      q: "Was passiert mit ungenutzten Support-Stunden am Monatsende?",
+      a: "In unseren Wartungspaketen verfallen nicht genutzte Stunden nicht zwingend sofort, sondern können für Performance-Audits, SEO-Nachbesserungen oder nach Vereinbarung in Folgemonate übertragen werden.",
+    },
+    {
+      q: "Wie schnell reagiert Adspire bei technischen Störungen?",
+      a: "Unser automatisiertes Uptime-Monitoring prüft Ihre Website rund um die Uhr im Minutentakt. Bei kritischen Vorfällen reagieren wir innerhalb von 1 bis 2 Stunden.",
+    },
+    {
+      q: "Sind Domain- und Hostingkosten in den Wartungspaketen enthalten?",
+      a: "Ja, in unseren Rundum-Sorglos-Paketen sind die Kosten für Premium-Cloud-Hosting, SSL-Verschlüsselung und Domain-Verwaltung bereits vollständig abgedeckt.",
+    },
+  ],
+  cta: { label: "Wartungsangebot anfragen", href: "/de/contact-us" },
+  secondaryCta: { label: "Unsere Leistungen ansehen", href: "/de/our-services" },
+  related: [
+    "/de/was-gehoert-auf-eine-moderne-unternehmenswebsite",
+    "/de/warum-onlineshop-nicht-verkauft",
+  ],
+};
+
+export const googleAdsVsSeoGuideDe: Guide = {
+  path: "/de/google-ads-oder-seo-was-lohnt-sich",
+  eyebrow: "Digitales Marketing",
+  title: "Google Ads oder SEO — Wo lohnt sich das Werbebudget zuerst?",
+  metaDescription:
+    "Google Ads vs. SEO für KMU: Wann bezahlte Suchwerbung sofort Anfragen bringt, wann sich Suchmaschinenoptimierung rechnet und wie Sie beides kombinieren.",
+  h1: "Google Ads oder SEO: Wo sollten Sie zuerst investieren?",
+  lead:
+    "Google Ads liefert sofortige Besucher ab Tag eins, stoppt jedoch sobald das Budget aufgebraucht ist. SEO und AEO benötigen einige Monate Aufbauzeit, bringen dafür jedoch dauerhafte, klickkostenfreie Anfragen. Kleine und mittlere Unternehmen starten idealerweise mit Google Ads für kaufbereite Suchbegriffe und bauen organische Sichtbarkeit parallel auf.",
+  keywords: [
+    "google ads oder seo",
+    "google ads vs seo vergleich",
+    "was lohnt sich mehr google ads oder seo",
+    "suchmaschinenwerbung kosten kmu",
+    "organische sichtbarkeit vs werbung",
+    "suchmaschinenoptimierung investition",
+  ],
+  background: "aurora",
+  updated: "2026-09-28",
+  sections: [
+    {
+      heading: "1. Was Google Ads sofort leistet — und wo die Grenzen liegen",
+      body: [
+        "Google Ads ist der schnellste Hebel, um qualifizierte Besucher auf Ihre Website zu leiten. Sie bieten gezielt auf exakte Keywords, die Kaufabsicht signalisieren.",
+      ],
+      bullets: [
+        "Sofortiger Traffic ab Kampagnenstart für exakt definierte Zielgruppen und Regionen.",
+        "Schnelle Validierung: Sie testen in wenigen Tagen, welche Angebotsformulierungen tatsächliche Kundenanfragen auslösen.",
+        "Volle Budgetkontrolle mit täglichen Ausgabenlimits.",
+        "Der Nachteil: Stoppen Sie das Mediabudget, versiegt der Besucherstrom von einer Sekunde auf die andere.",
+      ],
+    },
+    {
+      heading: "2. Nachhaltige Rendite durch SEO & KI-Suchassistenten (AEO)",
+      body: [
+        "Suchmaschinenoptimierung baut digitales Firmeneigentum auf. Inhalte, die auf Platz 1 rangieren, bringen über Jahre hinweg qualifizierte Anfragen, ohne dass Sie für jeden Klick bezahlen.",
+      ],
+      bullets: [
+        "Kostenlose Klicks: Ob 100 oder 10.000 Besucher monatlich kommen, verursacht keine zusätzlichen Klickkosten.",
+        "Zukunftssicher für KI-Suche (AEO): ChatGPT, Perplexity und Google Gemini greifen bevorzugt auf top-platzierte, strukturierte SEO-Inhalte zurück.",
+        "Höheres Grundvertrauen: Viele Entscheider überspringen Werbeanzeigen bewusst und wählen organische Treffer.",
+        "Der Nachteil: Spürbare Ergebnisse erfordern in der Regel drei bis sechs Monate kontinuierliche Arbeit.",
+      ],
+    },
+    {
+      heading: "3. Die optimale Reihenfolge für wachsende Unternehmen",
+      body: [
+        "Erfolgreiche Unternehmen sehen Ads und SEO nicht als Entweder-Oder, sondern nutzen einen zweistufigen Fahrplan.",
+      ],
+      bullets: [
+        "Phase 1: Google Unternehmensprofil (Google Maps) und gezielte Google Ads auf 'High-Intent'-Suchbegriffe starten, um sofort Cashflow und Anfragen zu generieren.",
+        "Phase 2: Die profitabelsten Suchanfragen aus den Google Ads-Daten als redaktionelle Fachseiten und Leistungsseiten für SEO ausbauen.",
+        "Phase 3: Sobald die organischen Rankings greifen, die Werbeausgaben für generische Begriffe senken und das Budget in hochprofitable Nischen umschichten.",
+      ],
+    },
+    {
+      heading: "4. Ohne sauberes Conversion-Tracking verbrennt jedes Budget",
+      body: [
+        "Egal ob Ads oder SEO: Wenn auf Ihrer Website nicht gemessen wird, wer anruft, wer ein Formular sendet oder wer bucht, fliegen Sie blind.",
+      ],
+      bullets: [
+        "Jeder Kampagnen-Klick muss auf eine maßgeschneiderte Landingpage führen, nicht auf die allgemeine Startseite.",
+        "DSGVO-konformes Event-Tracking zeigt exakt, welcher Werbe-Euro wie viel Umsatz eingebracht hat.",
+        "Mobile Ladezeiten unter 1,5 Sekunden sind Pflicht, da langsame Seiten teuer eingekaufte Klicks sofort verlieren.",
+      ],
+    },
+  ],
+  proofHeading: "SEO- und Performance-Strategien aus der Praxis",
+  proof: [
+    {
+      label: "Webentwicklung & SEO-Leistungen",
+      href: "/de/our-services",
+      note: "Erfahren Sie, wie wir ultraschnelle Next.js-Websites mit technischem Spitzen-SEO verbinden.",
+    },
+  ],
+  faqHeading: "Häufige Fragen zu Google Ads und SEO",
+  faq: [
+    {
+      q: "Wie viel Budget sollte ein KMU mindestens für Google Ads einplanen?",
+      a: "Für regionale Dienstleister reicht oft ein Klickbudget von 400 € bis 1.000 € monatlich, um relevante Anfragen zu generieren. In stark umkämpften B2B-Märkten sind 1.500 € bis 3.000 € üblich.",
+    },
+    {
+      q: "Kann man mit SEO auf bezahlte Google Ads komplett verzichten?",
+      a: "Sobald eine Website für ihre Kernbegriffe stabil in den Top 3 rangiert, kann das Ads-Budget in diesen Bereichen oft stark reduziert werden. Für neue Angebote oder saisonale Spitzen bleiben Ads jedoch ein wertvoller Turbo.",
+    },
+    {
+      q: "Was ist der Unterschied zwischen SEO und AEO (Answer Engine Optimization)?",
+      a: "Klassisches SEO optimiert für blaue Links in Google-Suchergebnissen. AEO optimiert Inhalte mit klaren Antworten und strukturierten Daten so, dass KI-Modelle wie ChatGPT und Google Gemini Ihr Unternehmen direkt als Empfehlung zitieren.",
+    },
+    {
+      q: "Wie schnell amortisiert sich eine Investition in professionelles SEO?",
+      a: "Typischerweise erreichen professionell optimierte Seiten nach 4 bis 8 Monaten den Break-Even-Punkt. Danach sinken die Kundenakquisitionskosten (CAC) Jahr für Jahr drastisch.",
+    },
+  ],
+  cta: { label: "SEO- & Kampagnenstrategie anfragen", href: "/de/contact-us" },
+  secondaryCta: { label: "Unsere Leistungen ansehen", href: "/de/our-services" },
+  related: [
+    "/de/was-gehoert-auf-eine-moderne-unternehmenswebsite",
+    "/de/warum-onlineshop-nicht-verkauft",
+  ],
+};
+
+export const mobileAppVsWebAppGuideDe: Guide = {
+  path: "/de/native-app-oder-web-app-pwa-vergleich",
+  eyebrow: "App-Entwicklung",
+  title: "Native App oder Web-App (PWA) — Was braucht Ihr Unternehmen wirklich?",
+  metaDescription:
+    "Native iOS/Android App oder progressive Web-App (PWA): App Store Gebühren, Entwicklungsaufwand, Push-Nachrichten und der beste Weg für Ihr Firmenbudget.",
+  h1: "Native App oder Web-App (PWA): Was braucht Ihr Unternehmen?",
+  lead:
+    "Für die meisten Unternehmen reicht eine progressive Web-App (PWA) im mobilen Browser vollkommen aus. Echte native Apps im Apple App Store oder Google Play Store lohnen sich erst, wenn erweiterte Hardware-Funktionen wie dauerhafte Hintergrund-Ortung, Bluetooth-Geräte oder Offline-Arbeiten über Tage hinweg zwingend erforderlich sind.",
+  keywords: [
+    "native app oder web app",
+    "pwa vs native app vergleich",
+    "progressive web app vorteile unternehmen",
+    "app entwicklung kosten kmu",
+    "kosten app store veroeffentlichung",
+    "mobile app programmieren lassen",
+  ],
+  updated: "2026-09-28",
+  sections: [
+    {
+      heading: "1. Was eine moderne Web-App (PWA) heute leistet",
+      body: [
+        "Eine Progressive Web App verbindet die Einfachheit einer Website mit dem Bedienerlebnis einer installierten App. Nutzer öffnen einen Link und können die Web-App mit einem Fingertipp direkt auf ihrem Startbildschirm ablegen.",
+      ],
+      bullets: [
+        "Keine Hürde durch den App Store: Kein Suchen, kein Warten auf 100-MB-Downloads und keine Passworteingabe.",
+        "Funktioniert plattformübergreifend: Eine einzige Codebasis läuft nahtlos auf iPhones, Android-Smartphones, Tablets und Desktop-PCs.",
+        "Web-Push-Benachrichtigungen: Auf Android sowie ab iOS 16.4 können Push-Nachrichten direkt auf den Sperrbildschirm gesendet werden.",
+        "Sofortige Updates: Änderungen und neue Funktionen stehen sofort allen Nutzern zur Verfügung — ohne Freigabeprozesse durch Apple oder Google.",
+      ],
+    },
+    {
+      heading: "2. Wann eine PWA für Unternehmen die wirtschaftlichste Lösung ist",
+      body: [
+        "Für 80 % der betrieblichen Anwendungsfälle bietet eine Web-App das beste Verhältnis aus Budget und Nutzen.",
+      ],
+      bullets: [
+        "Interne Firmenanwendungen: Zeiterfassung, Einsatzpläne, Auftragsmanagement auf Baustellen oder Lagerverwaltung.",
+        "Kundenportale & Buchungssysteme: Kunden buchen Termine oder prüfen Lieferstatus ohne den Zwang, eine separate App installieren zu müssen.",
+        "Schneller Markteintritt: Entwicklung und Rollout dauern oft nur wenige Wochen statt vieler Monate.",
+      ],
+    },
+    {
+      heading: "3. Wann eine echte native iOS/Android App unverzichtbar wird",
+      body: [
+        "Native Apps, entwickelt in Swift/Kotlin oder plattformübergreifend mit React Native/Flutter, spielen ihre Stärken bei tiefer Hardware-Integration aus.",
+      ],
+      bullets: [
+        "Dauerhafte Hintergrund-Standortverfolgung (z. B. für Fuhrpark- und Kurierdienste).",
+        "Direkte Hardware-Kopplung über Bluetooth Low Energy (z. B. industrielle Messgeräte, Drucker, Scanner).",
+        "Komplexes Arbeiten im Offline-Modus mit umfangreichen lokalen Datensynchronisierungen.",
+        "Die App selbst ist das Endprodukt, das gezielt in den Stores monetarisiert oder vermarktet werden soll.",
+      ],
+    },
+    {
+      heading: "4. Kostenfaktor App-Stores: Gebühren, Prüfprozesse und Plattformregeln",
+      body: [
+        "Die Veröffentlichung in den offiziellen Stores verursacht wiederkehrende Kosten und regulatorischen Aufwand.",
+      ],
+      bullets: [
+        "Apple verlangt 99 $ jährlich für den Entwickler-Account, Google eine einmalige Gebühr von 25 $.",
+        "Jedes Release unterliegt einer manuellen Prüfung, die Tage dauern kann und bei kleinsten Richtlinienverstößen abgelehnt wird.",
+        "Bei In-App-Käufen digitaler Güter behalten Apple und Google bis zu 15–30 % Provision ein. Bei einer PWA wickeln Sie Zahlungen direkt über Stripe zu Standardtarifen (ca. 1,4–2,9 %) ab.",
+      ],
+    },
+  ],
+  proofHeading: "Maßgeschneiderte App-Lösungen",
+  proof: [
+    {
+      label: "Entwicklung von Webanwendungen & Apps",
+      href: "/de/our-services",
+      note: "Erfahren Sie, wie wir Web-Apps und mobile Anwendungen für konkrete Unternehmensabläufe entwickeln.",
+    },
+  ],
+  faqHeading: "Häufige Fragen zu Web-Apps und mobilen Apps",
+  faq: [
+    {
+      q: "Was kostet die Entwicklung einer PWA im Vergleich zu einer nativen App?",
+      a: "Da bei einer PWA nur eine Codebasis entwickelt wird, liegen die Kosten typischerweise bei 4.000 € bis 15.000 €. Die separate Entwicklung nativer Apps für iOS und Android startet meist erst ab 18.000 € bis 40.000 €.",
+    },
+    {
+      q: "Kann eine PWA nachträglich zu einer nativen App erweitert werden?",
+      a: "Ja. Das Backend, die Datenbank und die Geschäftslogik bleiben unverändert. Sollten später native Hardwarefunktionen nötig sein, wird lediglich das Frontend mit Flutter oder React Native ergänzt.",
+    },
+    {
+      q: "Funktionieren Web-Apps auch bei schlechtem Internetempfang?",
+      a: "Ja. Moderne Service Worker speichern Schnittstellendaten lokal im Zwischenspeicher (Cache). Nutzer können Formulare ausfüllen, die automatisch synchronisiert werden, sobald wieder eine Verbindung besteht.",
+    },
+    {
+      q: "Können Nutzer PWAs wirklich wie normale Apps auf dem Homescreen nutzen?",
+      a: "Absolut. Eine PWA öffnet sich im Vollbild ohne Browserleiste, besitzt ein eigenes App-Icon auf dem Homescreen und fühlt sich im Alltag wie eine native App an.",
+    },
+  ],
+  cta: { label: "App-Projekt unverbindlich besprechen", href: "/de/contact-us" },
+  secondaryCta: { label: "Unsere Leistungen ansehen", href: "/de/our-services" },
+  related: [
+    "/de/interne-software-zeitersparnis-unternehmen",
+    "/de/was-gehoert-auf-eine-moderne-unternehmenswebsite",
+  ],
+};
+
+
 
