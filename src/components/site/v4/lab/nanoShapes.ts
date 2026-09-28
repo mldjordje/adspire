@@ -189,6 +189,46 @@ export function buildShapes(
     return [g];
   };
 
+  // a planet held by three orbits: reach, clients, a connected world
+  const globe = (): G[] => {
+    const out: G[] = [new THREE.SphereGeometry(1.3, 48, 32)];
+    [
+      [0.35, 0, 0.2],
+      [-0.5, 0.9, 0],
+      [1.25, -0.4, 0.6],
+    ].forEach(([rx, ry, rz]) => out.push(place(new THREE.TorusGeometry(1.72, 0.07, 10, 120), 0, 0, 0, rx, ry, rz)));
+    return out;
+  };
+  // three machined plates, stacked and staggered: the layers of a build
+  const stack = (): G[] =>
+    [-0.78, 0, 0.78].map((y, i) =>
+      place(slab(rounded(2.7, 1.7, 0.2), 0.2), (i - 1) * 0.16, y, 0, -Math.PI / 2 + 0.42, 0.18),
+    );
+  // </>: two chevrons and a slash
+  const code = (): G[] => {
+    const chevron = (sx: number) => {
+      const s = new THREE.Shape();
+      s.moveTo(-1.62 * sx, 0);
+      s.lineTo(-0.78 * sx, 0.98);
+      s.lineTo(-0.52 * sx, 0.74);
+      s.lineTo(-1.18 * sx, 0);
+      s.lineTo(-0.52 * sx, -0.74);
+      s.lineTo(-0.78 * sx, -0.98);
+      s.closePath();
+      return slab(s, 0.42);
+    };
+    const slash = new THREE.Shape();
+    slash.moveTo(0.1, -1.08);
+    slash.lineTo(0.38, -1.08);
+    slash.lineTo(-0.1, 1.08);
+    slash.lineTo(-0.38, 1.08);
+    slash.closePath();
+    return [chevron(1), chevron(-1), slab(slash, 0.42)];
+  };
+  // the LED ring at monument scale: calm, and the rhyme with the footer's hole
+  const ring = (): G[] => [new THREE.TorusGeometry(1.35, 0.3, 28, 120)];
+
+  // monogram must stay last: the intro folds its sheet into the last form
   const defs: [string, string, () => G[]][] = [
     ["bulb", "Ideja", bulb],
     ["devices", "Sajt i app", devices],
@@ -196,6 +236,10 @@ export function buildShapes(
     ["chip", "AI", chip],
     ["growth", "Rast", growth],
     ["gear", "Proces", gear],
+    ["globe", "Mreža", globe],
+    ["stack", "Slojevi", stack],
+    ["code", "Kod", code],
+    ["ring", "Prsten", ring],
     ["monogram", "Adspire", monogram],
   ];
 

@@ -55,14 +55,14 @@ const RAIL_KEYS = ["hero", "manifesto", "value", "projects", "services", "aiDemo
 //   4 neural · 5 pipeline · 6 growth · 7 "A". Each service morphs the cloud
 //   into the form that best pictures it.
 const SERVICES = [
-  { href: "/our-services/web-prezentacije", gen: 2, c1: [0.34, 0.46, 1], c2: [0.8, 0.86, 1] },
-  { href: "/our-services/e-commerce-web-shop", gen: 2, c1: [0.24, 0.34, 0.88], c2: [0.66, 0.74, 1] },
-  { href: "/our-services/mobilne-aplikacije", gen: 2, c1: [0.46, 0.58, 1], c2: [0.88, 0.91, 1] },
-  { href: "/our-services/cms-sistemi", gen: 1, c1: [0.2, 0.28, 0.72], c2: [0.58, 0.68, 0.96] },
-  { href: "/our-services/ai-integracije-automatizacija", gen: 4, c1: [0.38, 0.5, 1], c2: [0.76, 0.82, 1] },
-  { href: "/our-services/seo-digitalni-marketing", gen: 6, c1: [0.28, 0.4, 0.92], c2: [0.7, 0.78, 1] },
-  { href: "/our-services/cyber-security-gdpr", gen: 1, c1: [0.22, 0.3, 0.78], c2: [0.64, 0.72, 0.98] },
-  { href: "/our-services/interaktivne-web-tehnologije", gen: 0, c1: [0.5, 0.62, 1], c2: [0.92, 0.94, 1] },
+  { href: "/our-services/web-prezentacije", gen: 2, swarm: "devices", c1: [0.34, 0.46, 1], c2: [0.8, 0.86, 1] },
+  { href: "/our-services/e-commerce-web-shop", gen: 2, swarm: "bag", c1: [0.24, 0.34, 0.88], c2: [0.66, 0.74, 1] },
+  { href: "/our-services/mobilne-aplikacije", gen: 2, swarm: "devices", c1: [0.46, 0.58, 1], c2: [0.88, 0.91, 1] },
+  { href: "/our-services/cms-sistemi", gen: 1, swarm: "stack", c1: [0.2, 0.28, 0.72], c2: [0.58, 0.68, 0.96] },
+  { href: "/our-services/ai-integracije-automatizacija", gen: 4, swarm: "chip", c1: [0.38, 0.5, 1], c2: [0.76, 0.82, 1] },
+  { href: "/our-services/seo-digitalni-marketing", gen: 6, swarm: "growth", c1: [0.28, 0.4, 0.92], c2: [0.7, 0.78, 1] },
+  { href: "/our-services/cyber-security-gdpr", gen: 1, swarm: "ring", c1: [0.22, 0.3, 0.78], c2: [0.64, 0.72, 0.98] },
+  { href: "/our-services/interaktivne-web-tehnologije", gen: 0, swarm: "code", c1: [0.5, 0.62, 1], c2: [0.92, 0.94, 1] },
 ];
 
 const VALUE_PATHS = ["/our-services/web-prezentacije", "/our-services/interne-poslovne-aplikacije", "/our-services/e-commerce-web-shop"];
@@ -464,7 +464,7 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
               const s = SERVICES[i];
               window.dispatchEvent(
                 new CustomEvent("v4:morph", {
-                  detail: { gen: s.gen, color: s.c1, color2: s.c2 },
+                  detail: { gen: s.gen, swarm: s.swarm, color: s.c1, color2: s.c2 },
                 }),
               );
             },
@@ -741,7 +741,7 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
             const s = SERVICES[i];
             window.dispatchEvent(
               new CustomEvent("v4:morph", {
-                detail: { gen: s.gen, color: s.c1, color2: s.c2 },
+                detail: { gen: s.gen, swarm: s.swarm, color: s.c1, color2: s.c2 },
               }),
             );
           };
@@ -890,7 +890,7 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
 
       <main className={styles.main}>
         {/* ── 01 · Hero ── */}
-        <section className={styles.hero}>
+        <section className={styles.hero} data-swarm="monogram">
           <div className={`${styles.heroAura} ${styles.heroAuraA}`} aria-hidden="true" />
           <div className={`${styles.heroAura} ${styles.heroAuraB}`} aria-hidden="true" />
           <div className={styles.heroInner}>
@@ -971,7 +971,7 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
         </div>
 
         {/* ── 03 · Manifesto ── */}
-        <section className={styles.manifesto}>
+        <section className={styles.manifesto} data-swarm="bulb">
           <p className={styles.srOnly}>{t.manifesto}</p>
           <div className={styles.manifestoInner} aria-hidden="true">
             {/* each word sits in its own mask; the space stays outside the
@@ -1006,7 +1006,7 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
         <ClientLogosV4 locale={locale} />
 
         {/* ── 03b · Value props — šta tačno plaćate ── */}
-        <section className={styles.value}>
+        <section className={styles.value} data-swarm="globe">
           <SilkV4 opacity={0.55} />
           <div className={styles.valueHead}>
             <span className={styles.sectionEyebrow}>{t.value.eyebrow}</span>
@@ -1029,7 +1029,7 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
         </section>
 
         {/* ── 04 · Projects — horizontal cinema ── */}
-        <section className={styles.projects} aria-label="Odabrani projekti">
+        <section className={styles.projects} aria-label="Odabrani projekti" data-swarm="devices" data-swarm-quiet="">
           <div className={styles.projectsTrack}>
             <div className={styles.projectsIntro}>
               <span className={styles.sectionEyebrow}>{t.projects.eyebrow}</span>
@@ -1079,7 +1079,7 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
         </section>
 
         {/* ── 05 · Services — editorial index, hover morphs the scene ── */}
-        <section className={styles.services}>
+        <section className={styles.services} data-swarm="stack">
           <div className={styles.servicesHead}>
             <span className={styles.sectionEyebrow}>{t.services.eyebrow}</span>
             <h2 className={styles.sectionTitle} data-reveal="chars">
@@ -1122,7 +1122,7 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
         </section>
 
         {/* ── 06 · AI agent live demo ── */}
-        <section className={styles.aiDemo}>
+        <section className={styles.aiDemo} data-swarm="chip" data-swarm-mode="implode">
           <div className={styles.aiDemoHead}>
             <span className={styles.sectionEyebrow}>{t.aiDemo.eyebrow}</span>
             <h2 className={styles.sectionTitle} data-reveal="chars">
@@ -1137,7 +1137,7 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
         </section>
 
         {/* ── 07 · Process ── */}
-        <section className={styles.process}>
+        <section className={styles.process} data-swarm="gear">
           <div className={styles.processHead}>
             <span className={styles.sectionEyebrow}>{t.process.eyebrow}</span>
             <h2 className={styles.sectionTitle} data-reveal="chars">
@@ -1162,7 +1162,7 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
         </section>
 
         {/* ── 08 · Tech — infinite carousel ── */}
-        <section className={styles.tech}>
+        <section className={styles.tech} data-swarm="code">
           <div className={styles.techHead}>
             <span className={styles.sectionEyebrow}>{t.tech.eyebrow}</span>
             <h2 className={styles.sectionTitle} data-reveal="chars">
@@ -1173,7 +1173,7 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
         </section>
 
         {/* ── 09 · Metrics ── */}
-        <section className={styles.metrics}>
+        <section className={styles.metrics} data-swarm="growth">
           {METRICS.map((m, i) => (
             <div key={i} className={styles.metric}>
               <span className={styles.metricNum} data-num={m.num} data-suffix={m.suffix}>
@@ -1186,7 +1186,7 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
 
         <HotelPromo locale={locale} />
         {/* ── 10 · FAQ ── */}
-        <section className={styles.faq}>
+        <section className={styles.faq} data-swarm="ring" data-swarm-quiet="">
           <div className={styles.faqHead}>
             <span className={styles.sectionEyebrow}>{t.faq.eyebrow}</span>
             <h2 className={styles.sectionTitle} data-reveal="chars">
@@ -1220,7 +1220,7 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
         </section>
 
         {/* ── 11 · CTA ── */}
-        <section className={styles.cta}>
+        <section className={styles.cta} data-swarm="monogram">
           <EventHorizonV4 locale={locale} />
           <div className={styles.ctaVeil} aria-hidden="true" />
           <span className={styles.sectionEyebrow}>{t.cta.eyebrow}</span>

@@ -314,8 +314,9 @@ const HEAD = /* glsl */ `
     float arrive = uFold > 0.5
       ? (raw >= 1.0 ? exp(-(raw - 1.0) * 7.0) : 0.0)
       : (latchT > 0.65 ? exp(-(latchT - 0.65) * 3.0) : 0.0);
-    float wave = pow(max(0.0, sin(uTime * 1.1 - bTo.y * 2.4 - bTo.x * 0.6)), 18.0);
-    vLed = 0.3 + arrive * 3.0 + wave * 1.8 * docked + hover * 1.6 + rip * 3.2 + ie * 0.35;
+    // a rare, narrow sweep: LEDs at rest stay low so events can be bright
+    float wave = pow(max(0.0, sin(uTime * 0.55 - bTo.y * 2.4 - bTo.x * 0.6)), 48.0);
+    vLed = 0.12 + arrive * 3.0 + wave * 0.9 * docked + hover * 1.6 + rip * 3.4 + ie * 0.35;
     // an unlinked bot is dark; linking fires its LED once
     vLed = vLed * max(link, leave) + linkFlash * 3.0 * (1.0 - leave);
     if (uFold < 0.5) vLed *= 1.0 - 0.55 * rel * (1.0 - clamp(latch, 0.0, 1.0));
@@ -382,19 +383,31 @@ export function NanobotSwarmV4({
       }
     }
 
+    const mobile = window.matchMedia("(max-width: 767px)").matches;
+    const qn = Number(new URLSearchParams(location.search).get("n"));
+    const N = qn > 0 ? Math.min(qn, 16000) : mobile ? 2500 : 6000;
+
+    // shapes are built in a worker, in parallel with the three.js download;
+    // the main-thread build stays as a fallback (old browsers, worker errors)
+    let worker: Worker | null = null;
+    const fromWorker = new Promise<{ shapes: ShapeSpots[]; sheet: ShapeSpots } | null>((resolve) => {
+      try {
+        worker = new Worker(new URL("./nanoShapes.worker.ts", import.meta.url), { type: "module" });
+        worker.onmessage = (e) => resolve(e.data);
+        worker.onerror = () => resolve(null);
+        worker.postMessage({ N });
+      } catch {
+        resolve(null);
+      }
+    });
+
     (async () => {
       if (landing) prog(0.15);
       const THREE = await import("three");
       const PP = await import("postprocessing");
       const { mergeGeometries } = await import("three/examples/jsm/utils/BufferGeometryUtils.js");
-      const { MeshSurfaceSampler } = await import("three/examples/jsm/math/MeshSurfaceSampler.js");
-      const { buildShapes } = await import("./nanoShapes");
       if (disposed) return;
       if (landing) prog(0.45);
-
-      const mobile = window.matchMedia("(max-width: 767px)").matches;
-      const qn = Number(new URLSearchParams(location.search).get("n"));
-      const N = qn > 0 ? Math.min(qn, 16000) : mobile ? 2500 : 6000;
 
       const renderer = new THREE.WebGLRenderer({
         canvas,
@@ -429,27 +442,33 @@ export function NanobotSwarmV4({
         m.lookAt(0, 0, 0);
         envScene.add(m);
       };
-      softbox(9, 2.4, [0, 7, 1.5], "#ffffff", 5);
-      softbox(0.7, 7, [6, 0.8, 3.5], "#ffffff", 9);
-      softbox(1.4, 6, [-6.5, 0.5, 2], "#5b82ff", 5);
-      softbox(7, 0.8, [0, 1.2, -7], "#dfe6ff", 4);
-      softbox(3, 3, [-2, 3, 6], "#ffffff", 1.2);
+      // A product-film reflection layout, not a studio: one dominant long
+      // white key raking from high right, one narrow white edge card behind
+      // left, a weak blue separator, and wide black between them. The black
+      // is what makes the white read as a machined edge.
+      softbox(12, 1.3, [4.5, 6.5, 2.5], "#ffffff", 7);
+      softbox(0.35, 9, [-5.5, 1, -4], "#ffffff", 8);
+      softbox(0.9, 6, [-6.5, -0.5, 2.5], "#4f7bff", 3.2);
+      softbox(6, 0.35, [0, -5, -5], "#dfe6ff", 1.6);
       const pmrem = new THREE.PMREMGenerator(renderer);
       const envTex = pmrem.fromScene(envScene, 0.015).texture;
       scene.environment = envTex;
-      scene.environmentIntensity = 2.1;
+      const ENV_I = 1.7;
+      scene.environmentIntensity = ENV_I;
 
-      // ── starfield: the void's own stars, same look as SceneV4 ────────────
-      const STARS = landing ? (mobile ? 720 : 1100) : 0;
+      // ── dust: fine motes in the space around the form. The far sky is the
+      // backdrop below; these are near, so the camera's movement produces real
+      // parallax and the void stops reading as an empty box.
+      const STARS = landing ? (mobile ? 500 : 900) : 0;
       const starPos = new Float32Array(STARS * 3);
       const starTw = new Float32Array(STARS);
       {
         let s = 7777;
         const r = () => ((s = (s * 16807) % 2147483647) / 2147483647);
         for (let i = 0; i < STARS; i++) {
-          starPos[i * 3] = (r() - 0.5) * 34;
-          starPos[i * 3 + 1] = (r() - 0.5) * 24;
-          starPos[i * 3 + 2] = (r() - 0.5) * 18 - 8;
+          starPos[i * 3] = (r() - 0.5) * 20;
+          starPos[i * 3 + 1] = (r() - 0.5) * 13;
+          starPos[i * 3 + 2] = (r() - 0.5) * 12 - 2.5;
           starTw[i] = r();
         }
       }
@@ -469,9 +488,13 @@ export function NanobotSwarmV4({
           varying float vTw;
           void main() {
             vTw = aTw;
-            vA = 0.28 + 0.42 * (0.5 + 0.5 * sin(uTime * (0.5 + aTw * 1.3) + aTw * 41.0));
-            gl_PointSize = (1.6 + aTw * aTw * 4.0) * uPR;
-            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+            vA = 0.3 + 0.35 * (0.5 + 0.5 * sin(uTime * (0.4 + aTw * 0.9) + aTw * 41.0));
+            vec4 mv = modelViewMatrix * vec4(position, 1.0);
+            // nearer motes are larger and softer, far ones a pinpoint
+            float near = clamp(6.0 / max(-mv.z, 0.5), 0.4, 2.2);
+            gl_PointSize = (1.1 + aTw * aTw * 1.8) * near * uPR;
+            vA *= mix(0.55, 1.0, clamp(near - 0.4, 0.0, 1.0));
+            gl_Position = projectionMatrix * mv;
           }
         `,
         fragmentShader: /* glsl */ `
@@ -481,14 +504,11 @@ export function NanobotSwarmV4({
           void main() {
             float d = distance(gl_PointCoord, vec2(0.5));
             if (d > 0.5) discard;
-            float halo = exp(-d * d * 11.0);
-            float core = smoothstep(0.14, 0.0, d);
-            // diffraction spikes on the brightest stars
-            float spike = (pow(max(0.0, 1.0 - abs(gl_PointCoord.x - 0.5) * 2.0), 16.0)
-              + pow(max(0.0, 1.0 - abs(gl_PointCoord.y - 0.5) * 2.0), 16.0)) * step(0.7, vTw);
-            vec3 col = vec3(0.72, 0.84, 1.0) + vec3(0.22, 0.14, 0.06) * core;
-            float a = (halo * 0.55 + core + spike * 0.6) * vA * uFade * 0.72;
-            gl_FragColor = vec4(col + spike * 0.35, a);
+            float halo = exp(-d * d * 14.0);
+            float core = smoothstep(0.18, 0.0, d);
+            vec3 col = mix(vec3(0.62, 0.74, 1.0), vec3(0.95, 0.96, 1.0), vTw);
+            float a = (halo * 0.5 + core * 0.7) * vA * uFade * 0.42;
+            gl_FragColor = vec4(col, a);
           }
         `,
       });
@@ -496,7 +516,144 @@ export function NanobotSwarmV4({
       stars.frustumCulled = false;
       if (STARS) scene.add(stars);
 
-      const { shapes: spots, sheet } = buildShapes(THREE, { mergeGeometries }, MeshSurfaceSampler, N);
+      // ── the void: far sky behind everything ─────────────────────────────
+      // The footer's event-horizon star look (one hashed star per cell,
+      // three layers) mapped onto the camera's view DIRECTION, so the sky
+      // really turns as the camera moves — plus a dim blue nebula and a soft
+      // light volume behind the form. Drawn first, with alpha, over the CSS
+      // void: the hero title behind the canvas stays readable.
+      const skyUniforms = {
+        uInvProj: { value: camera.projectionMatrixInverse },
+        uCamWorld: { value: camera.matrixWorld },
+        uRes: { value: new THREE.Vector2(1, 1) },
+        uPx: { value: 0.001 },
+        uTime: { value: 0 },
+        uFade: { value: 0 },
+        uGlow: { value: new THREE.Vector3(0, 0, 1) },
+      };
+      const sky = new THREE.Mesh(
+        new THREE.PlaneGeometry(2, 2),
+        new THREE.ShaderMaterial({
+          uniforms: skyUniforms,
+          depthTest: false,
+          depthWrite: false,
+          blending: THREE.NoBlending,
+          vertexShader: /* glsl */ `
+            void main() { gl_Position = vec4(position.xy, 0.999, 1.0); }
+          `,
+          fragmentShader: /* glsl */ `
+            uniform mat4 uInvProj;
+            uniform mat4 uCamWorld;
+            uniform vec2 uRes;
+            uniform float uPx;
+            uniform float uTime;
+            uniform float uFade;
+            uniform vec3 uGlow;
+
+            float hash(vec2 p) {
+              p = fract(p * vec2(123.34, 456.21));
+              p += dot(p, p + 45.32);
+              return fract(p.x * p.y);
+            }
+            float vnoise(vec2 p) {
+              vec2 i = floor(p);
+              vec2 f = fract(p);
+              vec2 u = f * f * (3.0 - 2.0 * f);
+              return mix(mix(hash(i), hash(i + vec2(1.0, 0.0)), u.x),
+                         mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), u.x), u.y);
+            }
+            float fbm(vec2 p) {
+              float v = 0.0;
+              float a = 0.5;
+              for (int i = 0; i < 4; i++) {
+                v += a * vnoise(p);
+                p = p * 2.03 + vec2(0.0, 7.1);
+                a *= 0.5;
+              }
+              return v;
+            }
+            // same star as EventHorizonV4: one per cell, gaussian, twinkling
+            vec3 stars(vec2 p, float scale, float seed, float px) {
+              vec2 g = p * scale;
+              vec2 id = floor(g);
+              vec2 f = fract(g);
+              float h = hash(id + seed);
+              float h2 = hash(id * 1.37 + seed + 3.1);
+              float h3 = hash(id * 0.71 + seed + 9.4);
+              vec2 o = 0.2 + 0.6 * vec2(h2, h3);
+              vec2 d = (f - o) / scale;
+              float size = px * mix(0.6, 1.7, h2 * h2 * h2);
+              float b = exp(-dot(d, d) / (size * size));
+              float on = step(0.8, h);
+              float tw = 0.6 + 0.4 * sin(uTime * (0.8 + 2.6 * h3) + h2 * 40.0);
+              vec3 tint = mix(vec3(0.6, 0.72, 1.0), vec3(1.0, 0.97, 0.93), h3);
+              return tint * b * on * tw * mix(0.4, 1.5, pow(max(h - 0.8, 0.0) * 5.0, 3.0));
+            }
+
+            void main() {
+              vec2 ndc = gl_FragCoord.xy / uRes * 2.0 - 1.0;
+              vec4 v = uInvProj * vec4(ndc, 1.0, 1.0);
+              vec3 dir = normalize(mat3(uCamWorld) * (v.xyz / v.w));
+              // octahedral map with the unfolded half facing the scene (-z),
+              // so the seam sits behind the camera
+              vec3 n = vec3(dir.x, dir.y, -dir.z);
+              n /= abs(n.x) + abs(n.y) + abs(n.z);
+              vec2 p = n.z >= 0.0 ? n.xy : (1.0 - abs(n.yx)) * sign(n.xy);
+
+              vec3 col = vec3(0.0);
+              col += stars(p, 70.0, 1.0, uPx * 1.1) * 0.5;
+              col += stars(p * 1.03, 140.0, 7.0, uPx) * 0.65;
+              col += stars(p * 1.07, 280.0, 13.0, uPx * 0.9) * 0.5;
+
+              // a faint band of deep blue nebula across the sky
+              vec2 q = p * 3.2 + vec2(uTime * 0.004, 0.0);
+              float neb = fbm(q + fbm(q * 0.7 + 3.3) * 1.2);
+              float band = exp(-pow((p.y * 0.85 + p.x * 0.4 - 0.05) / 0.32, 2.0));
+              col += vec3(0.016, 0.03, 0.085) * pow(neb, 2.4) * (0.5 + band * 1.6);
+
+              // the space the form occupies holds a little light
+              vec2 gd = (ndc - uGlow.xy) * vec2(uRes.x / uRes.y, 1.0);
+              col += vec3(0.05, 0.08, 0.2) * exp(-dot(gd, gd) / 0.55) * uGlow.z * 0.55;
+
+              col *= uFade;
+              col += (hash(gl_FragCoord.xy + fract(uTime)) - 0.5) / 400.0;
+              col = max(col, 0.0);
+              float a = clamp(max(col.r, max(col.g, col.b)) * 1.5, 0.0, 1.0);
+              gl_FragColor = vec4(col, a);
+            }
+          `,
+        }),
+      );
+      sky.frustumCulled = false;
+      sky.renderOrder = -10;
+      if (landing) scene.add(sky);
+      const skyRes = new THREE.Vector2();
+      const glowV = new THREE.Vector3();
+      const updateSky = (t: number, fade: number) => {
+        camera.updateMatrixWorld();
+        renderer.getDrawingBufferSize(skyRes);
+        skyUniforms.uRes.value.copy(skyRes);
+        skyUniforms.uPx.value = ((2 * Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2)) / skyRes.y) * 0.75;
+        skyUniforms.uTime.value = t;
+        skyUniforms.uFade.value = fade;
+        glowV.set(0, 0, 0).project(camera);
+        skyUniforms.uGlow.value.set(glowV.x, glowV.y, 1);
+      };
+
+      const buildT0 = performance.now();
+      let built = await fromWorker;
+      (worker as Worker | null)?.terminate();
+      if (disposed) return;
+      if (!built) {
+        if (process.env.NODE_ENV !== "production") console.warn("[swarm] worker unavailable, building shapes on the main thread");
+        const { MeshSurfaceSampler } = await import("three/examples/jsm/math/MeshSurfaceSampler.js");
+        const { buildShapes } = await import("./nanoShapes");
+        built = buildShapes(THREE, { mergeGeometries }, MeshSurfaceSampler, N);
+      }
+      const { shapes: spots, sheet } = built;
+      if (process.env.NODE_ENV !== "production") {
+        console.info(`[swarm] ${spots.length} shapes × ${N} bots ready after ${Math.round(performance.now() - buildT0)} ms wait`);
+      }
       if (landing) prog(0.75);
       // bot model is ~2.7 units tip to tip; a reach of ~2.5 spacings lets
       // neighbours overlap, so the lattice closes instead of leaving windows
@@ -561,7 +718,9 @@ export function NanobotSwarmV4({
             "varying float vNbDepth;\n" +
             sh.fragmentShader.replace(
               "#include <opaque_fragment>",
-              "outgoingLight *= mix(0.22, 1.0, smoothstep(-0.26, 0.14, vNbDepth));\n#include <opaque_fragment>",
+              // only the socket side goes dark; exposed faces keep their
+              // reflections (a broad multiply here killed the machining)
+              "outgoingLight *= mix(0.5, 1.0, smoothstep(-0.3, -0.04, vNbDepth));\n#include <opaque_fragment>",
             );
         };
       };
@@ -586,14 +745,18 @@ export function NanobotSwarmV4({
       };
 
       // ── materials (the LINK design from the lab) ─────────────────────────
+      // Machined metal, not coated plastic: a metal's colour IS its
+      // reflectance, so a near-black base swallowed every highlight. Mid-grey
+      // substrate, little clearcoat; the darkness comes from the negative
+      // space in the reflections, not from the material.
       const ballMat = new THREE.MeshPhysicalMaterial({
-        color: 0x1b1d23, metalness: 1, roughness: 0.3, clearcoat: 0.6, clearcoatRoughness: 0.18,
+        color: 0x8d929b, metalness: 1, roughness: 0.31, clearcoat: 0.12, clearcoatRoughness: 0.2,
       });
       const armMat = new THREE.MeshPhysicalMaterial({
-        color: 0x2c3038, metalness: 0.9, roughness: 0.24, clearcoat: 0.7, clearcoatRoughness: 0.1, flatShading: true,
+        color: 0x9ba0a9, metalness: 1, roughness: 0.36, clearcoat: 0.05, clearcoatRoughness: 0.2, flatShading: true,
       });
       // satin, not mirror: at swarm scale polished tips sparkle into fireflies
-      const tipMat = new THREE.MeshPhysicalMaterial({ color: 0xaeb4bf, metalness: 1, roughness: 0.4, flatShading: true });
+      const tipMat = new THREE.MeshPhysicalMaterial({ color: 0xb4b9c2, metalness: 1, roughness: 0.46, flatShading: true });
       const ringMat = new THREE.MeshBasicMaterial({ color: new THREE.Color(0x6f95ff).multiplyScalar(4.5) });
       patchLit(ballMat, false);
       patchLit(armMat, true);
@@ -964,14 +1127,18 @@ export function NanobotSwarmV4({
 
       const hero = new THREE.Group();
       {
+        // the close-up bot carries the machining: brushed along the arm and
+        // around the ball, so highlights stretch in a manufacturing direction
         const heroBall = new THREE.MeshPhysicalMaterial({
-          color: 0x1b1d23, metalness: 1, roughness: 0.3, clearcoat: 0.6, clearcoatRoughness: 0.18,
+          color: 0x8d929b, metalness: 1, roughness: 0.3, clearcoat: 0.1, clearcoatRoughness: 0.2,
+          anisotropy: 0.35, anisotropyRotation: Math.PI / 2,
         });
         const heroArm = new THREE.MeshPhysicalMaterial({
-          color: 0x2c3038, metalness: 0.9, roughness: 0.24, clearcoat: 0.7, clearcoatRoughness: 0.1, flatShading: true,
+          color: 0x9ba0a9, metalness: 1, roughness: 0.34, clearcoat: 0.05, clearcoatRoughness: 0.2, flatShading: true,
+          anisotropy: 0.4,
         });
-        const heroTip = new THREE.MeshPhysicalMaterial({ color: 0xaeb4bf, metalness: 1, roughness: 0.4, flatShading: true });
-        const groove = new THREE.MeshPhysicalMaterial({ color: 0x33363d, metalness: 1, roughness: 0.34 });
+        const heroTip = new THREE.MeshPhysicalMaterial({ color: 0xb4b9c2, metalness: 1, roughness: 0.46, flatShading: true });
+        const groove = new THREE.MeshPhysicalMaterial({ color: 0x5a5f68, metalness: 1, roughness: 0.38 });
         const slot = new THREE.MeshPhysicalMaterial({ color: 0x07080b, metalness: 0.1, roughness: 0.22, clearcoat: 1 });
         hero.add(new THREE.Mesh(new THREE.SphereGeometry(0.27, 64, 32), heroBall));
         for (const x of [-0.08, 0.08]) {
@@ -1061,7 +1228,7 @@ export function NanobotSwarmV4({
       const introFrame = (t: number) => {
         U.uIntro.value = t;
         // lights come up from black as the chain reaction spreads
-        scene.environmentIntensity = 0.12 + 1.98 * ease(clamp01((t - 0.3) / 0.9));
+        scene.environmentIntensity = 0.12 + (ENV_I - 0.12) * ease(clamp01((t - 0.3) / 0.9));
         // the void fills with stars as the camera pulls back off the macro
         starMat.uniforms.uFade.value = ease(clamp01((t - 1.2) / 2.2));
         starMat.uniforms.uTime.value = t;
@@ -1084,11 +1251,11 @@ export function NanobotSwarmV4({
         // Camera. Macro: a slow push-in with a small orbit, like a watch ad.
         // Pull-back: a crane move — slow lift-off, a sideways arc that
         // settles, FOV opening the space a beat before the dolly.
-        const macroD = heroScale * 2.6;
+        // framed for the 38° macro lens below
+        const macroD = heroScale * 3.4;
         const push = ease(clamp01(t / T.pullStart));
         const x = clamp01((t - T.pullStart) / T.pullLen);
         const pull = ease(x);
-        const fovK = ease(clamp01((t - T.pullStart + 0.2) / (T.pullLen * 0.75)));
         const d = THREE.MathUtils.lerp(macroD * (1 - 0.12 * push), WIDE, pull);
         cdir
           .copy(camDirMacro)
@@ -1103,11 +1270,21 @@ export function NanobotSwarmV4({
         // hand-held breath, only while close
         camera.position.x += Math.sin(t * 1.1) * macroD * 0.025 * (1 - pull);
         camera.position.y += Math.sin(t * 0.8 + 1) * macroD * 0.025 * (1 - pull);
-        camera.fov = THREE.MathUtils.lerp(52, 30, fovK);
+        // lens and dolly are separate decisions: the macro holds 38°, eases to
+        // 34° as the light front runs into depth, settles on 30° before the
+        // fold — the dolly back, not the lens, reveals the space
+        camera.fov =
+          t < 1.3
+            ? 38
+            : t < 2.15
+              ? THREE.MathUtils.lerp(38, 34, ease((t - 1.3) / 0.85))
+              : THREE.MathUtils.lerp(34, 30, ease(clamp01((t - 2.15) / 1.1)));
         camera.near = Math.max(0.004, Math.min(0.1, d * 0.03));
         camera.updateProjectionMatrix();
         camera.lookAt(tgt);
 
+        // the sky comes up behind the first connection, before the pull-back
+        if (landing) updateSky(t, ease(clamp01((t - 0.6) / 2.0)));
         // title lands as the A locks
         if (titleRef.current) titleRef.current.style.opacity = String(clamp01((t - T.title) / 0.7));
         return clamp01((t - T.foldStart) / T.foldLen) * 1.3;
@@ -1116,7 +1293,7 @@ export function NanobotSwarmV4({
         U.uIntro.value = 1e4;
         U.uHeroShow.value = 1;
         hero.visible = false;
-        scene.environmentIntensity = 2.1;
+        scene.environmentIntensity = ENV_I;
         starMat.uniforms.uFade.value = 1;
         camera.fov = 30;
         camera.near = 0.1;
@@ -1145,7 +1322,7 @@ export function NanobotSwarmV4({
           camera,
           new PP.BloomEffect({ intensity: 1.1, luminanceThreshold: 0.9, luminanceSmoothing: 0.25, mipmapBlur: true }),
           new PP.ToneMappingEffect({ mode: PP.ToneMappingMode.AGX }),
-          new PP.VignetteEffect({ darkness: 0.55, offset: 0.3 }),
+          new PP.VignetteEffect({ darkness: 0.3, offset: 0.35 }),
         ),
       );
       composer.addPass(new PP.EffectPass(camera, new PP.SMAAEffect({ preset: PP.SMAAPreset.HIGH })));
@@ -1272,7 +1449,9 @@ export function NanobotSwarmV4({
         window.addEventListener("touchend", onTouchEnd, { passive: true });
         window.addEventListener("touchcancel", onTouchEnd, { passive: true });
       }
-      const AUTO_SPIN = 0.16;
+      // almost still: a settled machine should read as precise, not as a
+      // turntable; the drag is where the rotation lives
+      const AUTO_SPIN = 0.035;
       const stepSpin = (dt: number) => {
         if (!dragging) {
           spinAngle += (AUTO_SPIN + spinVel) * dt;
@@ -1287,11 +1466,12 @@ export function NanobotSwarmV4({
       // idle life: every few seconds a pulse runs through the lattice from a
       // random bot, so the formed shape is never a still
       const pulseV = new THREE.Vector3();
-      let nextPulse = 2.2;
+      let nextPulse = 6;
       let shownShape = spots.length - 1;
       const autoPulse = (tsec: number) => {
         if (tsec < nextPulse) return;
-        nextPulse = tsec + 2.6 + Math.random() * 2.2;
+        // sparse: a long rest, one route lights up, a long rest
+        nextPulse = tsec + 10 + Math.random() * 4;
         const sp = spots[shownShape];
         const i = Math.floor(Math.random() * N);
         pulseV.fromArray(sp.pos, i * 3).applyMatrix4(rig.matrixWorld);
@@ -1386,11 +1566,55 @@ export function NanobotSwarmV4({
       // middle half — scrubbed by scroll, so it runs backwards too. The
       // camera rides a rail of per-chapter framings through a spring, and
       // swings, lifts and pushes into the swarm mid-transition.
-      const chapterShape = CHAPTERS.map((ch) => spots.findIndex((sp) => sp.name === ch.shape));
-      const frame = CHAPTERS.map((ch) => ({
-        // wide forms (devices) need less offset to stay in frame
-        x: mobile ? 0 : ch.side === "right" ? (ch.shape === "devices" ? -0.95 : -1.35) : 1.45,
-        y: mobile ? -1.5 : 0.1,
+      // Landing: one chapter per `[data-swarm]` section of the real page, so
+      // every section gets its own form and something happens on each
+      // scroll. The lab keeps its fixed CHAPTERS.
+      type Ch = {
+        shape: string;
+        side: string;
+        mode: string;
+        az: number;
+        el: number;
+        dd: number;
+        quiet: boolean;
+        node: HTMLElement | null;
+      };
+      const CH: Ch[] = landing
+        ? Array.from(document.querySelectorAll<HTMLElement>("[data-swarm]")).map((node, i) => {
+            const quiet = node.hasAttribute("data-swarm-quiet");
+            const mode = node.dataset.swarmMode === "implode" ? "implode" : "flight";
+            // alternate sides so the form answers the layout; quiet sections
+            // push it to the far edge where it yields to the content
+            const side = i === 0 || quiet ? "right" : i % 2 ? "left" : "right";
+            return {
+              shape: node.dataset.swarm ?? "monogram",
+              side,
+              mode,
+              az: (side === "right" ? -1 : 1) * (0.16 + (i % 3) * 0.07),
+              el: 0.04 + (i % 4) * 0.035,
+              dd: quiet ? WIDE * 0.9 : (i % 3) * 0.18 + (mode === "implode" ? 0.2 : 0),
+              quiet,
+              node,
+            };
+          })
+        : CHAPTERS.map((c) => ({ ...c, quiet: false, node: null }));
+      const shapeIdx = (name: string) => {
+        const i = spots.findIndex((sp) => sp.name === name);
+        return i < 0 ? spots.length - 1 : i;
+      };
+      const chapterShape = CH.map((ch) => shapeIdx(ch.shape));
+      const frame = CH.map((ch) => ({
+        // wide forms (devices, globe) need less offset to stay in frame
+        x: mobile
+          ? 0
+          : ch.quiet
+            ? -2.4
+            : ch.side === "right"
+              ? ch.shape === "devices" || ch.shape === "globe"
+                ? -0.95
+                : -1.35
+              : 1.45,
+        y: mobile ? (ch.quiet ? -2.6 : -1.5) : 0.1,
         az: ch.az,
         el: ch.el,
         d: WIDE + ch.dd,
@@ -1469,32 +1693,92 @@ export function NanobotSwarmV4({
         pinnedY ?? (window.scrollY || document.body.scrollTop || document.documentElement.scrollTop);
       let smoothY = scrollTop();
       let activeSet = "";
+
+      // section tops, re-measured on a throttle (pins and late images move them)
+      let tops: number[] = [];
+      let measuredAt = -1e9;
+      const measure = (now: number) => {
+        if (!landing || now - measuredAt < 500) return;
+        measuredAt = now;
+        const y = scrollTop();
+        tops = CH.map((c) => {
+          const n = c.node!;
+          const box = n.parentElement?.classList.contains("pin-spacer") ? n.parentElement : n;
+          return box.getBoundingClientRect().top + y;
+        });
+      };
+      // a transition plays while the next section rises from 85% to 25% of
+      // the viewport: in the gap between two blocks of copy, never mid-read
+      const landingP = (y: number) => {
+        const vh = window.innerHeight;
+        let P = 0;
+        for (let i = 0; i + 1 < tops.length; i++) P += clamp01((y + vh * 0.85 - tops[i + 1]) / (vh * 0.6));
+        return P;
+      };
+
+      // Services: hovering a row re-wires the form into that service
+      // (~0.7 s, time-based); the latest request always wins, no backlog
+      let morphWant: number | null = null;
+      let morphShown = -1;
+      let morphFrom = -1;
+      let morphT0 = 0;
+      const onMorph = (e: Event) => {
+        const d = (e as CustomEvent<{ swarm?: string } | null>).detail;
+        morphWant = d?.swarm ? shapeIdx(d.swarm) : null;
+      };
+      if (landing) window.addEventListener("v4:morph", onMorph);
       const smooth01 = (a: number, b: number, v: number) => {
         const k = clamp01((v - a) / (b - a));
         return k * k * (3 - 2 * k);
       };
       const driveScroll = (now: number, dt: number) => {
-        smoothY += (scrollTop() - smoothY) * (1 - Math.exp(-dt * 7));
-        // landing: no own spacer sections, so ride the real page's scroll
-        // range instead of a fixed CHAPTER_VH budget
+        // fast scroll: less lag, so the form never hangs over the wrong copy
+        const follow = landing ? 7 + clamp01(scrollSpeed / 3000) * 10 : 7;
+        smoothY += (scrollTop() - smoothY) * (1 - Math.exp(-dt * follow));
+        measure(now);
         const span = landing
           ? Math.max(document.documentElement.scrollHeight - window.innerHeight, 1)
-          : window.innerHeight * (CHAPTER_VH / 100) * (CHAPTERS.length - 1);
-        const P = Math.min(Math.max((smoothY / span) * (CHAPTERS.length - 1), 0), CHAPTERS.length - 1);
-        const seg = Math.min(Math.floor(P), CHAPTERS.length - 2);
+          : window.innerHeight * (CHAPTER_VH / 100) * (CH.length - 1);
+        const P = Math.min(
+          Math.max(landing ? landingP(smoothY) : (smoothY / span) * (CH.length - 1), 0),
+          CH.length - 1,
+        );
+        const seg = Math.min(Math.floor(P), CH.length - 2);
         const f = P - seg;
-        // transition across most of the chapter; smootherstep ends
-        const tRaw = clamp01((f - 0.22) / 0.7);
+        // landing transitions already sit in the gaps; the lab holds 22% first
+        const H = landing ? 1e-4 : 0.22;
+        const tRaw = clamp01((f - H) / (landing ? 1 - 2e-4 : 0.7));
         const tt = tRaw * tRaw * tRaw * (tRaw * (tRaw * 6 - 15) + 10);
+        // the chapter being held; P lands exactly on the last one at the end
+        const atEnd = P >= CH.length - 1;
+        const holding = f < H || atEnd;
+        const holdIdx = atEnd ? CH.length - 1 : seg;
         // which transition the swarm is on, and how far along it is
         let key: string;
         let p: number;
-        if (f < 0.22 || seg < 0) {
-          key = seg === 0 ? `-2>${chapterShape[0]}` : `${chapterShape[seg - 1]}>${chapterShape[seg]}`;
-          p = 1.3;
+        if (holding) {
+          const base = chapterShape[holdIdx];
+          const want = landing && morphWant !== null ? morphWant : base;
+          if (morphShown < 0) morphShown = base;
+          if (want !== morphShown) {
+            morphFrom = morphShown;
+            morphShown = want;
+            morphT0 = now;
+          }
+          if (landing && morphFrom >= 0) {
+            key = `${morphFrom}>${morphShown}:m`;
+            p = Math.min(1.3, ((now - morphT0) / 700) * 1.3);
+          } else {
+            key = holdIdx === 0 ? `-2>${chapterShape[0]}` : `${chapterShape[holdIdx - 1]}>${chapterShape[holdIdx]}`;
+            p = 1.3;
+          }
         } else {
-          key = `${chapterShape[seg]}>${chapterShape[seg + 1]}:x:${CHAPTERS[seg + 1].mode}`;
+          // leaving a section: start from whatever form is actually docked
+          const from = morphShown >= 0 ? morphShown : chapterShape[seg];
+          key = `${from}>${chapterShape[seg + 1]}:x:${CH[seg + 1].mode}`;
           p = tt * 1.3;
+          morphShown = -1;
+          morphFrom = -1;
         }
         if (key !== activeSet) {
           activeSet = key;
@@ -1510,7 +1794,7 @@ export function NanobotSwarmV4({
         // following the action — and the camera banks into lateral motion.
         const FA = frame[seg];
         const FB = frame[Math.min(seg + 1, frame.length - 1)];
-        const k = f < 0.22 ? 0 : tt;
+        const k = holding ? 0 : tt;
         // tempo: a fast scroll gets a wider, more direct pass; a slow one
         // is taken close, where the bots read one by one
         const yNow = scrollTop();
@@ -1523,7 +1807,7 @@ export function NanobotSwarmV4({
         place(FA.x, FA.y, FA.az, FA.el, FA.d, railA);
         place(FB.x, FB.y, FB.az, FB.el, FB.d, railB);
         // the pass swings out on the side the form is leaving from
-        const toImplode = CHAPTERS[Math.min(seg + 1, CHAPTERS.length - 1)].mode === "implode" && f >= 0.22;
+        const toImplode = CH[Math.min(seg + 1, CH.length - 1)].mode === "implode" && !holding;
         const swingSide = toImplode ? 0 : FB.x > FA.x ? -1 : 1;
         place(
           0,
@@ -1555,15 +1839,23 @@ export function NanobotSwarmV4({
         camPrev.copy(camPos);
         camFwd.copy(camLook).sub(camPos).normalize();
         camRight.crossVectors(camFwd, UP).normalize();
-        const rollGoal = THREE.MathUtils.clamp(-camVel.dot(camRight) * 0.012, -0.026, 0.026);
+        // half a degree at most on the landing: a bank is an accent, not a style
+        const rollMax = landing ? 0.009 : 0.026;
+        const rollGoal = THREE.MathUtils.clamp(-camVel.dot(camRight) * 0.012, -rollMax, rollMax);
         camRoll += (rollGoal - camRoll) * (1 - Math.exp(-dt * 3));
 
         // a breath of hand-held motion, never still
         const tsec = (now - start) / 1000;
         camera.position.copy(camPos);
-        camera.position.x += Math.sin(tsec * 0.7) * 0.03;
-        camera.position.y += Math.sin(tsec * 0.9 + 1) * 0.025;
+        if (!landing) {
+          camera.position.x += Math.sin(tsec * 0.7) * 0.03;
+          camera.position.y += Math.sin(tsec * 0.9 + 1) * 0.025;
+        }
         if (landing) {
+          // the key light slowly travels ~10° across the facets and back:
+          // the form stays put, the light does the revealing
+          scene.environmentRotation.y = Math.sin(tsec * 0.48) * 0.18;
+          scene.environmentRotation.x = Math.sin(tsec * 0.31 + 1.3) * 0.05;
           // the pointer leans the camera a little: the scene answers the hand
           stepSpin(dt);
           camera.position.x += mxS * 0.35;
@@ -1579,6 +1871,7 @@ export function NanobotSwarmV4({
           rig.rotation.y = spinAngle;
           rig.rotation.x = pitch;
           rig.updateMatrixWorld();
+          updateSky(tsec, 1);
           starMat.uniforms.uTime.value = tsec;
           // stars drift slower than the form: depth without a second scene
           stars.rotation.y = tsec * 0.008 + spinAngle * 0.04;
@@ -1633,7 +1926,10 @@ export function NanobotSwarmV4({
           introClock += idt * (1 + rush * 2);
           const it = introClock;
           last = now;
-          if (it < INTRO_END) {
+          // reading comes first: a real scroll exits the intro into the story
+          // instead of trapping the page behind playback
+          const bailOut = landing && scroll && scrollTop() > window.innerHeight * 0.3;
+          if (it < INTRO_END && !bailOut) {
             rig.rotation.y = 0;
             U.uP.value = introFrame(it);
             U.uTime.value = (now - start) / 1000;
@@ -1686,6 +1982,7 @@ export function NanobotSwarmV4({
         window.removeEventListener("keydown", onRush);
         window.removeEventListener("resize", onResize);
         window.removeEventListener("v4:ready", onSceneReady);
+        window.removeEventListener("v4:morph", onMorph);
         window.removeEventListener("pointerdown", onGrabStart);
         window.removeEventListener("pointermove", onGrabMove);
         window.removeEventListener("pointerup", onGrabEnd);
@@ -1697,6 +1994,8 @@ export function NanobotSwarmV4({
         document.documentElement.classList.remove("v4-dragging");
         starGeo.dispose();
         starMat.dispose();
+        sky.geometry.dispose();
+        sky.material.dispose();
         composer.dispose();
         pmrem.dispose();
         envTex.dispose();
@@ -1708,6 +2007,7 @@ export function NanobotSwarmV4({
 
     return () => {
       disposed = true;
+      (worker as Worker | null)?.terminate();
       cleanup();
     };
   }, []);
