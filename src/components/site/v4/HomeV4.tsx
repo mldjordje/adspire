@@ -311,72 +311,42 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
         });
       });
 
-      // ── Manifesto: a three-beat scroll story, still no pin — the page
-      // never locks here, so the visitor scrubs the background freely.
-      // 1) lead words rise out of their masks, 2) a blue stroke crosses out
-      // "a pretty site", 3) each outcome rises and its keyword decodes out
-      // of glyph noise before the underline sweeps under it ─────────────────
+      // ── Manifesto: two beats, still no pin — the page never locks here,
+      // so the visitor scrubs the background freely. 1) lead words rise out
+      // of their masks, 2) each outcome rises and an underline sweeps under
+      // its keyword. Transforms and opacity only (no blur, no text swaps):
+      // this runs on top of the WebGL scene, so every frame must stay cheap.
+      // scrub: 1 lets the motion ease after the wheel instead of stepping.
       const manifestoLead = q<HTMLElement>(`.${styles.manifestoText}`)[0];
       if (manifestoLead) {
         gsap.fromTo(
           q<HTMLElement>(`.${styles.manifestoWord}`),
-          { yPercent: 110, rotate: 4, opacity: 0, filter: "blur(6px)" },
+          { yPercent: 105, rotate: 2, opacity: 0 },
           {
             yPercent: 0,
             rotate: 0,
             opacity: 1,
-            filter: "blur(0px)",
             stagger: 0.08,
-            ease: "power3.out",
-            scrollTrigger: { trigger: manifestoLead, start: "top 85%", end: "top 45%", scrub: 0.5 },
+            ease: "power2.out",
+            force3D: true,
+            scrollTrigger: { trigger: manifestoLead, start: "top 88%", end: "top 45%", scrub: 1 },
           },
         );
-        // the stroke lands only after the sentence is fully up, so it reads
-        // as a correction of what was just said
-        gsap
-          .timeline({ scrollTrigger: { trigger: manifestoLead, start: "top 45%", end: "top 22%", scrub: 0.5 } })
-          .fromTo(q(`.${styles.manifestoStrikePath}`), { strokeDashoffset: 1 }, { strokeDashoffset: 0, ease: "power2.inOut" })
-          .fromTo(q(`.${styles.manifestoStruckText}`), { opacity: 1 }, { opacity: 0.38, ease: "none" }, 0.2);
       }
 
-      const GLYPHS = "abcdefghijklmnoprstuvzčšžABCDEFGHKMNPRSTVZ#%&*/<>";
       q<HTMLElement>(`.${styles.manifestoOutcome}`).forEach((mask) => {
-        const keyText = mask.querySelector<HTMLElement>(`.${styles.manifestoKeyText}`);
-        const final = keyText?.dataset.text ?? "";
-        const decode = { p: 0 };
         gsap
-          .timeline({ scrollTrigger: { trigger: mask, start: "top 96%", end: "top 58%", scrub: 0.5 } })
-          .fromTo(mask.firstElementChild, { yPercent: 112, rotate: 5 }, { yPercent: 0, rotate: 0, ease: "power3.out", duration: 1 })
+          .timeline({ scrollTrigger: { trigger: mask, start: "top 96%", end: "top 60%", scrub: 1 } })
           .fromTo(
-            decode,
-            { p: 0 },
-            {
-              p: 1,
-              ease: "none",
-              duration: 0.8,
-              // characters lock left to right; a 4-char band of noise runs
-              // ahead of the locked part so it reads as decoding
-              onUpdate: () => {
-                if (!keyText) return;
-                if (decode.p >= 1) {
-                  keyText.textContent = final;
-                  return;
-                }
-                const front = decode.p * (final.length + 4);
-                let out = "";
-                for (let i = 0; i < final.length; i++) {
-                  out += i < front - 4 || final[i] === "." ? final[i] : GLYPHS[(Math.random() * GLYPHS.length) | 0];
-                }
-                keyText.textContent = out;
-              },
-            },
-            0.15,
+            mask.firstElementChild,
+            { yPercent: 105, rotate: 3 },
+            { yPercent: 0, rotate: 0, ease: "power2.out", force3D: true, duration: 1 },
           )
           .fromTo(
             mask.querySelector(`.${styles.manifestoRule}`),
             { scaleX: 0 },
-            { scaleX: 1, ease: "power2.inOut", duration: 0.45 },
-            ">-0.1",
+            { scaleX: 1, ease: "power2.inOut", force3D: true, duration: 0.5 },
+            ">-0.3",
           );
       });
 
@@ -1015,24 +985,6 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
                   </span>{" "}
                 </Fragment>
               ))}
-              <span className={styles.manifestoStruck}>
-                <span className={styles.manifestoStruckText}>
-                  {t.manifestoStory.struck.split(" ").map((w, i, all) => (
-                    <Fragment key={i}>
-                      <span className={styles.manifestoMask}>
-                        <span className={styles.manifestoWord}>{w}</span>
-                      </span>
-                      {i < all.length - 1 ? " " : null}
-                    </Fragment>
-                  ))}
-                </span>
-                <svg className={styles.manifestoStrike} viewBox="0 0 300 20" preserveAspectRatio="none">
-                  <path className={styles.manifestoStrikePath} pathLength={1} d="M3 13 C 60 5, 120 16, 180 9 S 262 6, 297 11" />
-                </svg>
-              </span>
-              <span className={styles.manifestoMask}>
-                <span className={styles.manifestoWord}>.</span>
-              </span>
             </p>
             <div className={styles.manifestoOutcomes}>
               {t.manifestoStory.outcomes.map(([plain, key]) => (
@@ -1040,7 +992,7 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
                   <span className={styles.manifestoOutcomeLine}>
                     {plain}{" "}
                     <span className={styles.manifestoKey}>
-                      <span className={styles.manifestoKeyText} data-text={key}>
+                      <span className={styles.manifestoKeyText}>
                         {key}
                       </span>
                       <span className={styles.manifestoRule} />

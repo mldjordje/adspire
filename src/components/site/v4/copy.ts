@@ -34,12 +34,11 @@ export type V4Copy = {
   };
   marquee: string;
   manifesto: string;
-  /** manifesto as a scroll story: lead + crossed-out phrase, then three
-   *  outcomes [plain part, keyword that decodes]. `manifesto` stays the
-   *  single readable sentence for screen readers. */
+  /** manifesto as a scroll story: lead sentence, then three outcomes
+   *  [plain part, underlined keyword]. `manifesto` stays the single
+   *  readable sentence for screen readers. */
   manifestoStory: {
     lead: string;
-    struck: string;
     outcomes: [string, string][]; // 3
   };
   value: {
@@ -115,8 +114,7 @@ const sr: V4Copy = {
   manifesto:
     "Tvoj posao zaslužuje više od lepog sajta. Više upita, lakšu prodaju i manje ručnog rada.",
   manifestoStory: {
-    lead: "Tvoj posao zaslužuje više od",
-    struck: "lepog sajta",
+    lead: "Tvoj posao zaslužuje više od lepog sajta.",
     outcomes: [["Više", "upita."], ["Lakša", "prodaja."], ["Manje ručnog", "rada."]],
   },
   value: {
@@ -270,8 +268,7 @@ const en: V4Copy = {
   manifesto:
     "Your business deserves more than a good-looking website. More enquiries, easier sales and less manual work.",
   manifestoStory: {
-    lead: "Your business deserves more than",
-    struck: "a good-looking website",
+    lead: "Your business deserves more than a good-looking website.",
     outcomes: [["More", "enquiries."], ["Easier", "sales."], ["Less manual", "work."]],
   },
   value: {
@@ -425,8 +422,7 @@ const de: V4Copy = {
   manifesto:
     "Ihr Unternehmen verdient mehr als eine schöne Website. Mehr Anfragen, einfacheren Verkauf und weniger Handarbeit.",
   manifestoStory: {
-    lead: "Ihr Unternehmen verdient mehr als",
-    struck: "eine schöne Website",
+    lead: "Ihr Unternehmen verdient mehr als eine schöne Website.",
     outcomes: [["Mehr", "Anfragen."], ["Leichterer", "Verkauf."], ["Weniger", "Handarbeit."]],
   },
   value: {

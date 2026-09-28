@@ -1268,34 +1268,6 @@
   will-change: transform;
 }
 
-.manifestoStruck {
-  position: relative;
-  display: inline-block;
-  vertical-align: top;
-  white-space: nowrap;
-}
-
-.manifestoStrike {
-  position: absolute;
-  left: -4%;
-  width: 108%;
-  top: 50%;
-  height: 0.5em;
-  transform: translateY(-30%);
-  overflow: visible;
-  pointer-events: none;
-}
-
-.manifestoStrikePath {
-  fill: none;
-  stroke: #2f6bff;
-  stroke-width: 3.5;
-  stroke-linecap: round;
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-  filter: drop-shadow(0 0 8px rgba(47, 107, 255, 0.65));
-}
-
 .manifestoOutcomes {
   display: flex;
   flex-direction: column;
