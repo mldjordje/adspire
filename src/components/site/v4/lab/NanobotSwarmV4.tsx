@@ -399,7 +399,8 @@ export function NanobotSwarmV4({
       const renderer = new THREE.WebGLRenderer({
         canvas,
         antialias: false,
-        preserveDrawingBuffer: true,
+        // only the lab's shot() reads pixels back; the landing skips the cost
+        preserveDrawingBuffer: !landing,
         powerPreference: "high-performance",
       });
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, mobile ? 1.25 : 1.5));
@@ -1111,13 +1112,17 @@ export function NanobotSwarmV4({
         ripSlot = (ripSlot + 1) % 3;
       };
       const onLeave = () => (hoverTarget = 0);
-      canvas.addEventListener("pointerdown", onDown);
-      canvas.addEventListener("pointermove", onMove);
-      canvas.addEventListener("pointerleave", onLeave);
-      // a finger lifting off should not leave the field hanging
-      canvas.addEventListener("pointerup", (e) => {
+      // on the landing the canvas sits under the page copy, so it never gets
+      // pointer events itself; listen on the document instead
+      const pointerTarget: HTMLElement = landing ? document.documentElement : canvas;
+      const onUp = (e: PointerEvent) => {
+        // a finger lifting off should not leave the field hanging
         if (e.pointerType !== "mouse") hoverTarget = 0;
-      });
+      };
+      pointerTarget.addEventListener("pointerdown", onDown);
+      pointerTarget.addEventListener("pointermove", onMove);
+      pointerTarget.addEventListener("pointerleave", onLeave);
+      pointerTarget.addEventListener("pointerup", onUp);
 
       const onResize = () => {
         const w = canvas.clientWidth;
@@ -1190,6 +1195,10 @@ export function NanobotSwarmV4({
       let spinIn = runIntroNow ? 0 : 1;
       const onSceneReady = () => {
         if (disposed) return;
+        // scroll may have parked a form while the curtain was down: restart
+        // from the sheet, and let the story re-pick its transition afterwards
+        set(-2, spots.length - 1);
+        activeSet = "";
         introStart = performance.now();
         introClock = 0;
         spinIn = 0;
@@ -1472,9 +1481,10 @@ export function NanobotSwarmV4({
 
       cleanup = () => {
         cancelAnimationFrame(raf);
-        canvas.removeEventListener("pointerdown", onDown);
-        canvas.removeEventListener("pointermove", onMove);
-        canvas.removeEventListener("pointerleave", onLeave);
+        pointerTarget.removeEventListener("pointerdown", onDown);
+        pointerTarget.removeEventListener("pointermove", onMove);
+        pointerTarget.removeEventListener("pointerleave", onLeave);
+        pointerTarget.removeEventListener("pointerup", onUp);
         window.removeEventListener("wheel", onRush);
         window.removeEventListener("touchmove", onRush);
         window.removeEventListener("keydown", onRush);
@@ -1560,7 +1570,13 @@ export function NanobotSwarmV4({
       )}
       <canvas
         ref={canvasRef}
-        style={{ position: "fixed", inset: 0, width: "100vw", height: "100vh", background: "#000", touchAction: "none" }}
+        aria-hidden="true"
+        style={
+          landing
+            ? // same layer as SceneV4's `.scene`: under the copy, never eats taps or scroll
+              { position: "fixed", inset: 0, width: "100%", height: "100%", zIndex: 0, pointerEvents: "none", background: "#000" }
+            : { position: "fixed", inset: 0, width: "100vw", height: "100vh", background: "#000", touchAction: "none" }
+        }
       />
       {!landing && (
       <div

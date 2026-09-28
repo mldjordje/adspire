@@ -8,7 +8,6 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import SplitType from "split-type";
 import styles from "./HomeV4.module.css";
 import { ClientLogosV4 } from "./ClientLogosV4";
-import { SceneV4 } from "./SceneV4";
 import { NanobotSwarmV4 } from "./lab/NanobotSwarmV4";
 import { PreloaderV4 } from "./PreloaderV4";
 import { CursorV4 } from "./CursorV4";
@@ -93,13 +92,6 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
   const [activeSection, setActiveSection] = useState(0);
   // the scene reports the first real grab; the drag prompt retires after it
   const [grabbed, setGrabbed] = useState(false);
-  // lab flag: ?scene=swarm swaps the SceneV4 particle scene for the nanobot
-  // swarm, still untested on the real landing DOM — not the default yet
-  const [useSwarm, setUseSwarm] = useState(false);
-  useEffect(() => {
-    setUseSwarm(new URLSearchParams(window.location.search).get("scene") === "swarm");
-  }, []);
-
   useEffect(() => {
     const onGrab = () => setGrabbed(true);
     window.addEventListener("v4:grabbed", onGrab, { once: true });
@@ -808,7 +800,7 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
       <CursorV4 />
       {/* the void, graded per section by SceneV4 via `--v4-void` */}
       <div className={styles.sceneBackdrop} aria-hidden="true" />
-      {useSwarm ? <NanobotSwarmV4 landing scroll /> : <SceneV4 />}
+      <NanobotSwarmV4 landing intro scroll />
       <div className={styles.grain} aria-hidden="true" />
       <div className={styles.cinemaFrame} aria-hidden="true" />
       <div className={styles.pageProgress} aria-hidden="true" />
