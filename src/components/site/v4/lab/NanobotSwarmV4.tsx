@@ -80,8 +80,14 @@ const HEAD = /* glsl */ `
   // a docked form that turns (the process gear): rad/s about uSpinAxis
   uniform float uSpin;
   uniform vec3 uSpinAxis;
+  // how fast the story progress is moving right now (dp/dt): real speed of
+  // a flying bot, so the motion streak follows the viewer's own scroll
+  uniform float uFlow;
   varying float vLed;
   varying float vNbDepth;
+  // motion streak for the transform stage: direction and stretch amount
+  vec3 nbVDir = vec3(0.0, 0.0, 1.0);
+  float nbStretch = 0.0;
 
   mat3 nbRot(vec3 a, float ang) {
     a = normalize(a);
@@ -139,14 +145,16 @@ const HEAD = /* glsl */ `
     float lp = clamp(raw, 0.0, 1.0);
     float e = lp * lp * lp * (lp * (lp * 6.0 - 15.0) + 10.0);
     float ie = 1.0 - e;
-    // beat 1 — release
-    float rel = uFold > 0.5 ? 0.0 : smoothstep(-0.3, 0.0, raw);
+    // beat 1 — release, with anticipation: the bot crouches into its
+    // socket, then kicks off the surface (a jump, not a fade)
+    float rel = uFold > 0.5 ? 0.0 : smoothstep(-0.16, 0.0, raw);
+    float crouch = uFold > 0.5 ? 0.0 : sin(3.14159 * clamp((raw + 0.3) / 0.16, 0.0, 1.0));
 
     // beat 2 — flight on a cubic: take off along the old normal, swirl
     // around the shared axis in a ribbon with its stream, come down along
     // the new normal. Implode: every path runs through one tight core.
     float liftH = 0.9 + aRnd.w * 0.5;
-    vec3 P0 = aFrom + aNFrom * uScaleFrom * 1.4 * rel;
+    vec3 P0 = aFrom + aNFrom * uScaleFrom * (1.4 * rel - 0.45 * crouch);
     vec3 P3 = bTo;
     float ie2 = ie * ie;
     float e2 = e * e;
@@ -173,6 +181,17 @@ const HEAD = /* glsl */ `
     float tube = smoothstep(0.06, 0.3, e) * (1.0 - smoothstep(0.7, 0.94, e));
     pos = mix(pos, lane, tube);
     vel = mix(vel, spineVel, tube) + vec3(1e-4, 0.0, 0.0);
+
+    // Vortex: mid-flight the whole swarm wheels around the vertical axis of
+    // the form, one direction for every stream — a coordinated river of
+    // machines, not particles drifting. Zero at take-off and landing.
+    if (uFold < 0.5 && uImplode < 0.5) {
+      float swK = 1.1 + aRnd.z * 0.5;
+      float sw = sin(3.14159 * e) * swK;
+      mat3 Sw = nbRot(vec3(0.0, 1.0, 0.0), sw);
+      vel = Sw * vel + cross(vec3(0.0, 1.0, 0.0), Sw * pos) * (3.14159 * cos(3.14159 * e) * swK);
+      pos = Sw * pos;
+    }
 
     // Implode: all paths pour into one tight core, it holds and spins,
     // then bursts outward onto the form
@@ -232,6 +251,15 @@ const HEAD = /* glsl */ `
 
     float docked = step(1.0, raw);
 
+    // Motion streak (the CG film look): a flying bot smears along its path
+    // in proportion to its real speed — progress rate (uFlow) times how fast
+    // the eased flight is moving — so a fast scroll paints light trails and
+    // a paused scroll freezes a crisp frame.
+    float flying = smoothstep(0.04, 0.2, lp) * (1.0 - smoothstep(0.78, 0.96, lp)) * (1.0 - uFold) * (1.0 - docked);
+    float deDp = 60.0 * lp * lp * (1.0 - lp) * (1.0 - lp);
+    nbVDir = normalize(vel);
+    nbStretch = clamp(length(vel) * deDp * uFlow * 0.03, 0.0, 2.6) * flying;
+
     // the hero bot is drawn by a detailed mesh while the camera is on it
     #ifdef NB_ARM
     float nbId = float(gl_InstanceID / 2);
@@ -282,6 +310,14 @@ const HEAD = /* glsl */ `
       + 0.28 * smoothstep(0.6, 0.68, latchT)
       + 0.08 * exp(-pow((latchT - 0.74) / 0.1, 2.0));
 
+    // The living machine: now and then a docked bot re-seats itself — arms
+    // lift and turn, a beat, then snap home with a flash. ~10% of bots, each
+    // on its own 7 s clock; the silhouette never moves.
+    float mT = fract(uTime / 7.0 + aRnd.z * 13.7);
+    float mOn = step(fract(aRnd.y * 7.31), 0.1) * docked * (1.0 - uFold) * step(1e3, uIntro);
+    float mOpen = mOn * smoothstep(0.0, 0.045, mT) * (1.0 - smoothstep(0.085, 0.095, mT));
+    float mFlash = mT > 0.095 ? mOn * exp(-(mT - 0.095) * 60.0) : 0.0;
+
     A = mat3(1.0);
     M = vec3(1.0);
     st = 1.0;
@@ -312,22 +348,24 @@ const HEAD = /* glsl */ `
       beat = sin(uTime * 10.0 + aRnd.z * 6.2831) * 0.2 * (1.0 - clamp(latch, 0.0, 1.0)) * rel;
     }
     // arms flare up and out as the lift passes through the bot
-    float pitch = pose.y + beat + 0.04 * breath * land + (uFold > 0.5 ? pop * 0.3 : 0.0) + w * 0.55;
-    st = pose.z;
-    A = nbRot(vec3(0.0, 1.0, 0.0), pose.x + swim + w * 0.25 * aSide) * nbRot(vec3(0.0, 0.0, 1.0), pitch * aSide);
+    float pitch = pose.y + beat + 0.04 * breath * land + (uFold > 0.5 ? pop * 0.3 : 0.0) + w * 0.55 + mOpen * 0.85;
+    st = mix(pose.z, 0.7, mOpen);
+    A = nbRot(vec3(0.0, 1.0, 0.0), pose.x + swim + w * 0.25 * aSide + mOpen * 0.55 * aSide) * nbRot(vec3(0.0, 0.0, 1.0), pitch * aSide);
     #endif
 
     // the LED fires on the latch
     float arrive = uFold > 0.5
       ? (raw >= 1.0 ? exp(-(raw - 1.0) * 7.0) : 0.0)
       : (latchT > 0.65 ? exp(-(latchT - 0.65) * 3.0) : 0.0);
-    // a rare, narrow sweep: LEDs at rest stay low so events can be bright
-    float wave = pow(max(0.0, sin(uTime * 0.55 - bTo.y * 2.4 - bTo.x * 0.6)), 48.0);
-    vLed = 0.12 + arrive * 3.0 + wave * 0.9 * docked + hover * 1.6 + rip * 3.4 + ie * 0.35;
+    float wave = pow(max(0.0, sin(uTime * 1.1 - bTo.y * 2.4 - bTo.x * 0.6)), 18.0);
+    vLed = 0.3 + arrive * 3.0 + wave * 1.8 * docked + hover * 1.6 + rip * 3.2 + ie * 0.35;
     // an unlinked bot is dark; linking fires its LED once
     vLed = vLed * max(link, leave) + linkFlash * 3.0 * (1.0 - leave);
     if (uFold < 0.5) vLed *= 1.0 - 0.55 * rel * (1.0 - clamp(latch, 0.0, 1.0));
     if (uImplode > 0.5) vLed += smoothstep(0.3, 0.45, lp) * (1.0 - smoothstep(0.6, 0.7, lp)) * 1.4 + burst * 4.0;
+    // flying LEDs burn a little hotter: stretched by the streak they read as
+    // light trails; a re-seated bot flashes on the snap
+    vLed += flying * 0.9 + mFlash * 3.0;
   }
 `;
 
@@ -453,18 +491,15 @@ export function NanobotSwarmV4({
         m.lookAt(0, 0, 0);
         envScene.add(m);
       };
-      // A product-film reflection layout, not a studio: one dominant long
-      // white key raking from high right, one narrow white edge card behind
-      // left, a weak blue separator, and wide black between them. The black
-      // is what makes the white read as a machined edge.
-      softbox(12, 1.3, [4.5, 6.5, 2.5], "#ffffff", 7);
-      softbox(0.35, 9, [-5.5, 1, -4], "#ffffff", 8);
-      softbox(0.9, 6, [-6.5, -0.5, 2.5], "#4f7bff", 3.2);
-      softbox(6, 0.35, [0, -5, -5], "#dfe6ff", 1.6);
+      softbox(9, 2.4, [0, 7, 1.5], "#ffffff", 5);
+      softbox(0.7, 7, [6, 0.8, 3.5], "#ffffff", 9);
+      softbox(1.4, 6, [-6.5, 0.5, 2], "#5b82ff", 5);
+      softbox(7, 0.8, [0, 1.2, -7], "#dfe6ff", 4);
+      softbox(3, 3, [-2, 3, 6], "#ffffff", 1.2);
       const pmrem = new THREE.PMREMGenerator(renderer);
       const envTex = pmrem.fromScene(envScene, 0.015).texture;
       scene.environment = envTex;
-      const ENV_I = 1.7;
+      const ENV_I = 2.1;
       scene.environmentIntensity = ENV_I;
 
       // ── dust: fine motes in the space around the form. The far sky is the
@@ -689,6 +724,7 @@ export function NanobotSwarmV4({
         uMid: { value: new THREE.Vector3() },
         uSpin: { value: 0 },
         uSpinAxis: { value: new THREE.Vector3(0, 0, 1) },
+        uFlow: { value: 0 },
       };
 
       type AnyMat = InstanceType<typeof THREE.Material> & { defines?: Record<string, unknown> };
@@ -717,7 +753,9 @@ export function NanobotSwarmV4({
               )
               .replace(
                 "#include <begin_vertex>",
-                `vec3 transformed = nbR * (nbA * nbP) * nbS + nbPos;
+                `vec3 nbRel = nbR * (nbA * nbP) * nbS;
+                 nbRel += nbVDir * dot(nbRel, nbVDir) * nbStretch;
+                 vec3 transformed = nbRel + nbPos;
                  // model-space height above the bot's docking plane
                  vNbDepth = dot(nbA * nbP, vec3(0.0, 1.0, 0.0));`,
               );
@@ -729,13 +767,11 @@ export function NanobotSwarmV4({
             "varying float vNbDepth;\nvarying float vLed;\n" +
             sh.fragmentShader.replace(
               "#include <opaque_fragment>",
-              // only the socket side goes dark; exposed faces keep their
-              // reflections (a broad multiply here killed the machining)
-              "outgoingLight *= mix(0.5, 1.0, smoothstep(-0.3, -0.04, vNbDepth));\n" +
+              "outgoingLight *= mix(0.22, 1.0, smoothstep(-0.26, 0.14, vNbDepth));\n" +
                 // the LED lights its own metal: when a bot latches the blue
                 // washes over its body, so the chain reaction carries light
                 // through the mechanism instead of the whole scene brightening
-                "outgoingLight += vec3(0.2, 0.34, 1.0) * max(vLed - 0.12, 0.0) * 0.06;\n" +
+                "outgoingLight += vec3(0.2, 0.34, 1.0) * max(vLed - 2.2, 0.0) * 0.035;\n" +
                 "#include <opaque_fragment>",
             );
         };
@@ -749,7 +785,9 @@ export function NanobotSwarmV4({
               "#include <begin_vertex>",
               `vec3 nbPos; mat3 nbR; float nbS; mat3 nbA; vec3 nbM; float nbSt;
                nbState(nbPos, nbR, nbS, nbA, nbM, nbSt);
-               vec3 transformed = nbR * (nbA * (nbM * position)) * nbS + nbPos;`,
+               vec3 nbRel = nbR * (nbA * (nbM * position)) * nbS;
+               nbRel += nbVDir * dot(nbRel, nbVDir) * nbStretch;
+               vec3 transformed = nbRel + nbPos;`,
             );
           sh.fragmentShader =
             "varying float vLed;\n" +
@@ -761,18 +799,17 @@ export function NanobotSwarmV4({
       };
 
       // ── materials (the LINK design from the lab) ─────────────────────────
-      // Machined metal, not coated plastic: a metal's colour IS its
-      // reflectance, so a near-black base swallowed every highlight. Mid-grey
-      // substrate, little clearcoat; the darkness comes from the negative
-      // space in the reflections, not from the material.
+      // Dark body, clearcoated: the black carries the reflections as sharp
+      // lines. (A mid-grey "machined" substrate was tried and read as flat,
+      // bright plastic on real screens.)
       const ballMat = new THREE.MeshPhysicalMaterial({
-        color: 0x8d929b, metalness: 1, roughness: 0.31, clearcoat: 0.12, clearcoatRoughness: 0.2,
+        color: 0x1b1d23, metalness: 1, roughness: 0.3, clearcoat: 0.6, clearcoatRoughness: 0.18,
       });
       const armMat = new THREE.MeshPhysicalMaterial({
-        color: 0x9ba0a9, metalness: 1, roughness: 0.36, clearcoat: 0.05, clearcoatRoughness: 0.2, flatShading: true,
+        color: 0x2c3038, metalness: 0.9, roughness: 0.24, clearcoat: 0.7, clearcoatRoughness: 0.1, flatShading: true,
       });
       // satin, not mirror: at swarm scale polished tips sparkle into fireflies
-      const tipMat = new THREE.MeshPhysicalMaterial({ color: 0xb4b9c2, metalness: 1, roughness: 0.46, flatShading: true });
+      const tipMat = new THREE.MeshPhysicalMaterial({ color: 0xaeb4bf, metalness: 1, roughness: 0.4, flatShading: true });
       const ringMat = new THREE.MeshBasicMaterial({ color: new THREE.Color(0x6f95ff).multiplyScalar(4.5) });
       patchLit(ballMat, false);
       patchLit(armMat, true);
@@ -1146,15 +1183,13 @@ export function NanobotSwarmV4({
         // the close-up bot carries the machining: brushed along the arm and
         // around the ball, so highlights stretch in a manufacturing direction
         const heroBall = new THREE.MeshPhysicalMaterial({
-          color: 0x8d929b, metalness: 1, roughness: 0.3, clearcoat: 0.1, clearcoatRoughness: 0.2,
-          anisotropy: 0.35, anisotropyRotation: Math.PI / 2,
+          color: 0x1b1d23, metalness: 1, roughness: 0.3, clearcoat: 0.6, clearcoatRoughness: 0.18,
         });
         const heroArm = new THREE.MeshPhysicalMaterial({
-          color: 0x9ba0a9, metalness: 1, roughness: 0.34, clearcoat: 0.05, clearcoatRoughness: 0.2, flatShading: true,
-          anisotropy: 0.4,
+          color: 0x2c3038, metalness: 0.9, roughness: 0.24, clearcoat: 0.7, clearcoatRoughness: 0.1, flatShading: true,
         });
-        const heroTip = new THREE.MeshPhysicalMaterial({ color: 0xb4b9c2, metalness: 1, roughness: 0.46, flatShading: true });
-        const groove = new THREE.MeshPhysicalMaterial({ color: 0x5a5f68, metalness: 1, roughness: 0.38 });
+        const heroTip = new THREE.MeshPhysicalMaterial({ color: 0xaeb4bf, metalness: 1, roughness: 0.4, flatShading: true });
+        const groove = new THREE.MeshPhysicalMaterial({ color: 0x33363d, metalness: 1, roughness: 0.34 });
         const slot = new THREE.MeshPhysicalMaterial({ color: 0x07080b, metalness: 0.1, roughness: 0.22, clearcoat: 1 });
         hero.add(new THREE.Mesh(new THREE.SphereGeometry(0.27, 64, 32), heroBall));
         for (const x of [-0.08, 0.08]) {
@@ -1248,9 +1283,7 @@ export function NanobotSwarmV4({
       const introFrame = (t: number) => {
         U.uIntro.value = t;
         // lights come up from black as the chain reaction spreads
-        // the room stays dim; the latch front carries the light (LED wash in
-        // the lit shader), the key only comes up as the scale is revealed
-        scene.environmentIntensity = 0.3 + (ENV_I - 0.3) * ease(clamp01((t - 1.6) / 1.8));
+        scene.environmentIntensity = 0.12 + (ENV_I - 0.12) * ease(clamp01((t - 0.3) / 0.9));
         // the void fills with stars as the camera pulls back off the macro
         starMat.uniforms.uFade.value = ease(clamp01((t - 1.2) / 2.2));
         starMat.uniforms.uTime.value = t;
@@ -1344,7 +1377,7 @@ export function NanobotSwarmV4({
           camera,
           new PP.BloomEffect({ intensity: 1.1, luminanceThreshold: 0.9, luminanceSmoothing: 0.25, mipmapBlur: true }),
           new PP.ToneMappingEffect({ mode: PP.ToneMappingMode.AGX }),
-          new PP.VignetteEffect({ darkness: 0.3, offset: 0.35 }),
+          new PP.VignetteEffect({ darkness: 0.55, offset: 0.3 }),
         ),
       );
       composer.addPass(new PP.EffectPass(camera, new PP.SMAAEffect({ preset: PP.SMAAPreset.HIGH })));
@@ -1780,24 +1813,38 @@ export function NanobotSwarmV4({
       let activeSet = "";
 
       // section tops, re-measured on a throttle (pins and late images move them)
-      let tops: number[] = [];
+      let winA: number[] = [];
+      let winB: number[] = [];
       let measuredAt = -1e9;
+      // Each transition gets a long scroll window: it starts while the next
+      // section is still 1.5 screens away and lands as that section settles
+      // (~1.35 screens of scroll). A short window made the forms swap
+      // instantly. Windows never overlap — short sections chain into one
+      // continuous flight instead of jumping chapters mid-transition.
       const measure = (now: number) => {
         if (!landing || now - measuredAt < 500) return;
         measuredAt = now;
         const y = scrollTop();
-        tops = CH.map((c) => {
+        const vh = window.innerHeight;
+        const tops = CH.map((c) => {
           const n = c.node!;
           const box = n.parentElement?.classList.contains("pin-spacer") ? n.parentElement : n;
           return box.getBoundingClientRect().top + y;
         });
+        winA = [];
+        winB = [];
+        let prevEnd = -Infinity;
+        for (let i = 0; i + 1 < tops.length; i++) {
+          const a = Math.max(tops[i + 1] - vh * 1.5, prevEnd, 0);
+          const b = Math.max(tops[i + 1] - vh * 0.15, a + vh * 0.6);
+          winA.push(a);
+          winB.push(b);
+          prevEnd = b;
+        }
       };
-      // a transition plays while the next section rises from 85% to 25% of
-      // the viewport: in the gap between two blocks of copy, never mid-read
       const landingP = (y: number) => {
-        const vh = window.innerHeight;
         let P = 0;
-        for (let i = 0; i + 1 < tops.length; i++) P += clamp01((y + vh * 0.85 - tops[i + 1]) / (vh * 0.6));
+        for (let i = 0; i < winA.length; i++) P += clamp01((y - winA[i]) / (winB[i] - winA[i]));
         return P;
       };
 
@@ -1807,6 +1854,10 @@ export function NanobotSwarmV4({
       let morphShown = -1;
       let morphFrom = -1;
       let morphT0 = 0;
+      let leaveSeg = -1;
+      let leaveFrom = -1;
+      let flowKey = "";
+      let flowP = 0;
       const onMorph = (e: Event) => {
         const d = (e as CustomEvent<{ swarm?: string } | null>).detail;
         morphWant = d?.swarm ? shapeIdx(d.swarm) : null;
@@ -1820,8 +1871,9 @@ export function NanobotSwarmV4({
         return k * k * (3 - 2 * k);
       };
       const driveScroll = (now: number, dt: number) => {
-        // fast scroll: less lag, so the form never hangs over the wrong copy
-        const follow = landing ? 7 + clamp01(scrollSpeed / 3000) * 10 : 7;
+        // a soft, weighty follow: the form trails the scroll like a camera
+        // operator, never snapping with a flick
+        const follow = landing ? 4 : 7;
         smoothY += (scrollTop() - smoothY) * (1 - Math.exp(-dt * follow));
         measure(now);
         const span = landing
@@ -1861,13 +1913,18 @@ export function NanobotSwarmV4({
             p = 1.3;
           }
         } else {
-          // leaving a section: start from whatever form is actually docked
-          const from = morphShown >= 0 ? morphShown : chapterShape[seg];
-          key = `${from}>${chapterShape[seg + 1]}:x:${CH[seg + 1].mode}`;
+          // leaving a section: start from whatever form is actually docked,
+          // latched for the whole transition so it can't pop mid-flight
+          if (leaveSeg !== seg) {
+            leaveSeg = seg;
+            leaveFrom = morphShown >= 0 ? morphShown : chapterShape[seg];
+          }
+          key = `${leaveFrom}>${chapterShape[seg + 1]}:x:${CH[seg + 1].mode}`;
           p = tt * 1.3;
           morphShown = -1;
           morphFrom = -1;
         }
+        if (holding) leaveSeg = -1;
         if (key !== activeSet) {
           activeSet = key;
           const [a, rest] = key.split(">");
@@ -1892,32 +1949,77 @@ export function NanobotSwarmV4({
         const tempo = clamp01(scrollSpeed / 2500);
         const place = (x: number, y: number, az: number, el: number, d: number, out: InstanceType<typeof THREE.Vector3>) =>
           out.set(x + Math.sin(az) * Math.cos(el) * d, y + Math.sin(el) * d, Math.cos(az) * Math.cos(el) * d);
-        place(FA.x, FA.y, FA.az, FA.el, FA.d, railA);
-        place(FB.x, FB.y, FB.az, FB.el, FB.d, railB);
-        // the pass swings out on the side the form is leaving from
         const toImplode = CH[Math.min(seg + 1, CH.length - 1)].mode === "implode" && !holding;
-        const swingSide = toImplode ? 0 : FB.x > FA.x ? -1 : 1;
-        place(
-          0,
-          (FA.y + FB.y) / 2,
-          (FA.az + FB.az) / 2 + swingSide * THREE.MathUtils.lerp(0.6, 0.35, tempo),
-          (FA.el + FB.el) / 2 + 0.16,
-          WIDE * (toImplode ? 0.62 : THREE.MathUtils.lerp(0.5, 0.7, tempo)),
-          railM,
-        );
-        rail.points[0].copy(railA);
-        rail.points[1].copy(railM);
-        rail.points[2].copy(railB);
-        rail.getPoint(k, goalPos);
-        goalLook.set(
-          THREE.MathUtils.lerp(FA.x, FB.x, k),
-          THREE.MathUtils.lerp(FA.y, FB.y, k),
-          0,
-        );
-        // mid-move the gaze is pulled onto the swarm itself
-        goalLook.lerp(ORIGIN, Math.sin(Math.PI * k) * (toImplode ? 1 : 0.65));
-        // implode tightens the lens for tension; a flight opens it for speed
-        const goalFov = 30 + Math.sin(Math.PI * k) * (toImplode ? -5 : 7);
+        let goalFov: number;
+        if (landing) {
+          // Holds are never a locked-off frame: a slow product-film push and a
+          // few degrees of orbit across the section. The end of one hold's
+          // creep is exactly where the next transition starts.
+          const hi = holdIdx;
+          const hStart = hi === 0 ? 0 : (winB[hi - 1] ?? 0);
+          const hEnd = hi < winA.length ? winA[hi] : hStart + window.innerHeight;
+          const hk = holding ? clamp01((smoothY - hStart) / Math.max(hEnd - hStart, 1)) : 1;
+          const creep = (F: (typeof frame)[number], c: number) => ({
+            x: F.x,
+            y: F.y,
+            az: F.az + 0.14 * c * (F.x < 0 ? 1 : -1),
+            el: F.el + 0.03 * c,
+            d: F.d * (1 - 0.08 * c),
+          });
+          const A0 = holding ? creep(frame[hi], hk) : creep(FA, 1);
+          const B0 = holding ? A0 : creep(FB, 0);
+          // Transition as one directed shot: anticipation push (while the
+          // bots crouch), then the camera rides WITH the vortex — orbiting
+          // the same way, dropping in among the ribbons, craning up, lens
+          // opening for speed — and finally arcs out to reveal the new form.
+          const ek = ease(k);
+          const sk = Math.sin(Math.PI * k);
+          const pre = k < 0.22 ? Math.sin(Math.PI * (k / 0.22)) : 0;
+          const orbit = toImplode ? 0.35 : 1.15;
+          const az = THREE.MathUtils.lerp(A0.az, B0.az, ek) + orbit * sk;
+          const el = THREE.MathUtils.lerp(A0.el, B0.el, ek) + 0.3 * sk;
+          const d =
+            THREE.MathUtils.lerp(A0.d, B0.d, ek) *
+            (1 - (toImplode ? 0.38 : 0.5) * Math.pow(sk, 1.2)) *
+            (1 - 0.05 * pre);
+          const tx = THREE.MathUtils.lerp(A0.x, B0.x, ek) * (1 - 0.85 * sk);
+          const ty = THREE.MathUtils.lerp(A0.y, B0.y, ek) * (1 - 0.6 * sk);
+          place(tx, ty, az, el, d, goalPos);
+          goalLook.set(tx, ty, 0);
+          goalFov = 30 + sk * (toImplode ? -5 : 10);
+        } else {
+          place(FA.x, FA.y, FA.az, FA.el, FA.d, railA);
+          place(FB.x, FB.y, FB.az, FB.el, FB.d, railB);
+          // the pass swings out on the side the form is leaving from
+          const swingSide = toImplode ? 0 : FB.x > FA.x ? -1 : 1;
+          place(
+            0,
+            (FA.y + FB.y) / 2,
+            (FA.az + FB.az) / 2 + swingSide * THREE.MathUtils.lerp(0.6, 0.35, tempo),
+            (FA.el + FB.el) / 2 + 0.16,
+            WIDE * (toImplode ? 0.62 : THREE.MathUtils.lerp(0.5, 0.7, tempo)),
+            railM,
+          );
+          rail.points[0].copy(railA);
+          rail.points[1].copy(railM);
+          rail.points[2].copy(railB);
+          rail.getPoint(k, goalPos);
+          goalLook.set(THREE.MathUtils.lerp(FA.x, FB.x, k), THREE.MathUtils.lerp(FA.y, FB.y, k), 0);
+          // mid-move the gaze is pulled onto the swarm itself
+          goalLook.lerp(ORIGIN, Math.sin(Math.PI * k) * (toImplode ? 1 : 0.65));
+          // implode tightens the lens for tension; a flight opens it for speed
+          goalFov = 30 + Math.sin(Math.PI * k) * (toImplode ? -5 : 7);
+        }
+
+        // how fast the story is moving: drives the motion streak
+        if (key === flowKey) {
+          const rate = Math.abs(p - flowP) / Math.max(dt, 1e-3);
+          U.uFlow.value += (rate - U.uFlow.value) * (1 - Math.exp(-dt * 8));
+        } else {
+          flowKey = key;
+          U.uFlow.value = 0;
+        }
+        flowP = p;
 
         camPos.lerp(goalPos, 1 - Math.exp(-dt * 2.8));
         camLook.lerp(goalLook, 1 - Math.exp(-dt * 1.9));
@@ -1927,8 +2029,8 @@ export function NanobotSwarmV4({
         camPrev.copy(camPos);
         camFwd.copy(camLook).sub(camPos).normalize();
         camRight.crossVectors(camFwd, UP).normalize();
-        // half a degree at most on the landing: a bank is an accent, not a style
-        const rollMax = landing ? 0.009 : 0.026;
+        // landing: barely any bank at rest, up to ~2° while riding the vortex
+        const rollMax = landing ? 0.009 + 0.028 * Math.sin(Math.PI * k) : 0.026;
         const rollGoal = THREE.MathUtils.clamp(-camVel.dot(camRight) * 0.012, -rollMax, rollMax);
         camRoll += (rollGoal - camRoll) * (1 - Math.exp(-dt * 3));
 
@@ -1955,8 +2057,9 @@ export function NanobotSwarmV4({
         let dive = 0;
         if (landing && endNode) {
           const top = endNode.getBoundingClientRect().top;
-          // the A arrives while the section rises (85%→25%), then the dive
-          dive = clamp01((window.innerHeight * 0.2 - top) / (window.innerHeight * 0.7));
+          // the A lands as the section settles (top at 15%); the dive starts
+          // only once it has, and runs over most of a screen of scroll
+          dive = clamp01((window.innerHeight * -0.1 - top) / (window.innerHeight * 0.9));
         }
         const dk = ease(dive);
         diveLook.copy(camLook).lerp(ORIGIN, dk);
