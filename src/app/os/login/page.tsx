@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { isDatabaseConfigured } from "@/lib/db";
+import { isGoogleLoginConfigured } from "@/lib/os/google";
 import { isSessionConfigured } from "@/lib/os/session";
 import { SetupNotice } from "@/components/os/SetupNotice";
-import { login } from "./actions";
 import "../os.css";
 
 export const metadata: Metadata = {
@@ -15,27 +15,26 @@ export default async function OsLoginPage({
 }: {
   searchParams: Promise<{ error?: string }>;
 }) {
-  if (!isDatabaseConfigured() || !isSessionConfigured()) return <SetupNotice />;
+  if (!isDatabaseConfigured() || !isSessionConfigured() || !isGoogleLoginConfigured()) {
+    return <SetupNotice />;
+  }
 
   const { error } = await searchParams;
 
   return (
     <div className="os">
       <main className="os-login">
-        <form action={login} className="os-login__form">
+        <div className="os-login__form">
           <span className="os-login__brand">ADSPIRE OS</span>
           <h1>Owner pristup</h1>
-          <label>
-            Email
-            <input name="email" type="email" autoComplete="email" required />
-          </label>
-          <label>
-            Lozinka
-            <input name="password" type="password" autoComplete="current-password" required />
-          </label>
-          {error === "invalid" ? (
+          {error === "forbidden" ? (
             <p className="os-alert" role="alert">
-              Pogrešan email ili lozinka.
+              Taj Google nalog nema pristup.
+            </p>
+          ) : null}
+          {error === "google" ? (
+            <p className="os-alert" role="alert">
+              Prijava preko Google-a nije uspela. Pokušaj ponovo.
             </p>
           ) : null}
           {error === "setup" ? (
@@ -43,10 +42,10 @@ export default async function OsLoginPage({
               Baza ili session secret nisu podešeni.
             </p>
           ) : null}
-          <button className="os-btn" type="submit">
-            Prijavi se
-          </button>
-        </form>
+          <a className="os-btn" href="/api/os/google">
+            Nastavi sa Google-om
+          </a>
+        </div>
       </main>
     </div>
   );

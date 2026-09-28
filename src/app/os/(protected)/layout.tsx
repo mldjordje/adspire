@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { OsShell } from "@/components/os/OsShell";
 import { SetupNotice } from "@/components/os/SetupNotice";
 import { isDatabaseConfigured } from "@/lib/db";
+import { isGoogleLoginConfigured } from "@/lib/os/google";
 import { getSession, isSessionConfigured } from "@/lib/os/session";
 import { getOsCounters } from "@/lib/os/workqueue";
 import "../os.css";
@@ -17,7 +18,9 @@ export default async function ProtectedOsLayout({
 }: {
   children: React.ReactNode;
 }) {
-  if (!isDatabaseConfigured() || !isSessionConfigured()) return <SetupNotice />;
+  if (!isDatabaseConfigured() || !isSessionConfigured() || !isGoogleLoginConfigured()) {
+    return <SetupNotice />;
+  }
 
   const session = await getSession();
   if (!session) redirect("/os/login");

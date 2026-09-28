@@ -22,19 +22,19 @@ export function SetupNotice() {
                 {[
                   "DATABASE_URL=postgresql://…",
                   "OS_SESSION_SECRET=<64 nasumična karaktera>",
+                  "GOOGLE_CLIENT_ID=…",
+                  "GOOGLE_CLIENT_SECRET=…",
                 ].join("\n")}
               </code>
             </pre>
+            U Google Cloud dodaj redirect URI:{" "}
+            <code>{"${NEXT_PUBLIC_SITE_URL}/api/os/google/callback"}</code>. Pristup imaju samo
+            nalozi sa liste u <code>src/lib/os/google.ts</code> (<code>ADMIN_EMAILS</code>).
           </li>
           <li>
-            Primeni migracije i napravi owner nalog:
+            Primeni migracije:
             <pre>
-              <code>
-                {[
-                  "npm run db:migrate",
-                  'node scripts/os-create-user.mjs djordje@adspire.rs "<lozinka>" "Đorđe"',
-                ].join("\n")}
-              </code>
+              <code>npm run db:migrate</code>
             </pre>
           </li>
           <li>
