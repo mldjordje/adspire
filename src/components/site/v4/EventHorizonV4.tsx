@@ -295,6 +295,9 @@ function boot(
     alpha: true,
     premultipliedAlpha: true,
     powerPreference: mobile ? "low-power" : "high-performance",
+    // software rasterisers draw this full-screen shader on the CPU; they get
+    // the static ground and the DOM wordmark instead
+    failIfMajorPerformanceCaveat: true,
   });
   if (!gl) {
     canvas.style.background = FALLBACK_BG;

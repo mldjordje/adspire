@@ -44,14 +44,24 @@ export function CursorV4() {
       ry += (y - ry) * 0.16;
       dot.style.transform = `translate3d(${x}px, ${y}px, 0)`;
       ring.style.transform = `translate3d(${rx}px, ${ry}px, 0)`;
+      // park the loop once the ring has caught up; the next move restarts it
+      if (Math.abs(x - rx) < 0.1 && Math.abs(y - ry) < 0.1) {
+        raf = 0;
+        return;
+      }
       raf = requestAnimationFrame(tick);
+    };
+    const wake = () => {
+      if (!raf) raf = requestAnimationFrame(tick);
     };
 
     window.addEventListener("pointermove", onMove, { passive: true });
+    window.addEventListener("pointermove", wake, { passive: true });
     raf = requestAnimationFrame(tick);
 
     return () => {
       window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointermove", wake);
       cancelAnimationFrame(raf);
       document.documentElement.classList.remove("v4-no-cursor");
     };

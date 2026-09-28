@@ -1545,6 +1545,23 @@ const SHARD_FRAG = /* glsl */ `
 
 // ─── Component ───────────────────────────────────────────────────────────────
 
+/** True when WebGL runs on a real GPU. `failIfMajorPerformanceCaveat` makes
+ *  the browser refuse a context it would back with a software rasteriser. */
+function hasFastWebGL(): boolean {
+  try {
+    const probe = document.createElement("canvas");
+    const gl =
+      probe.getContext("webgl2", { failIfMajorPerformanceCaveat: true }) ??
+      probe.getContext("webgl", { failIfMajorPerformanceCaveat: true });
+    if (!gl) return false;
+    // free the slot now: browsers cap live contexts and the page runs several
+    gl.getExtension("WEBGL_lose_context")?.loseContext();
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 export function SceneV4() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -1563,13 +1580,25 @@ export function SceneV4() {
     // site apart. Mobile stays affordable via fewer particles + a capped pixel
     // ratio below, and the postprocessing composer is already desktop-only.
     (async () => {
+      // Probe on a throwaway canvas before downloading ~300KB of three.js +
+      // postprocessing: a device that can only rasterise in software gets the
+      // static glow either way, so it should not pay for the download.
+      if (!hasFastWebGL()) {
+        canvas.classList.add(styles.sceneStatic);
+        prog(1);
+        return;
+      }
+      // Both chunks start downloading now. Awaiting postprocessing only after
+      // the whole scene is built made it a second network round trip (~400ms
+      // on 4G) behind three.js, all of it under the preloader.
+      const ppChunk = import("postprocessing").catch(() => null);
       const THREE = await import("three");
       if (disposed) return;
       prog(0.35);
 
       const isMobile = window.matchMedia("(max-width: 767px)").matches;
-      // No WebGL (blocked, blacklisted driver, exhausted contexts) is the only
-      // case that falls back — the static gradient keeps the hero legible.
+      // No WebGL (blocked, blacklisted driver, exhausted contexts) or only a
+      // software one falls back — the static gradient keeps the hero legible.
       let renderer: InstanceType<typeof THREE.WebGLRenderer>;
       try {
         renderer = new THREE.WebGLRenderer({
@@ -1577,6 +1606,11 @@ export function SceneV4() {
           antialias: false,
           alpha: true,
           powerPreference: "high-performance",
+          // A software rasteriser (SwiftShader, blocklisted GPU) refuses here.
+          // There every frame runs on the CPU — Lighthouse measured 26s of
+          // blocking time from this loop alone — so those devices get the
+          // static glow, same as a device without WebGL.
+          failIfMajorPerformanceCaveat: true,
         });
       } catch {
         canvas.classList.add(styles.sceneStatic);
@@ -1615,22 +1649,42 @@ export function SceneV4() {
 
       // ── Morphing cloud — GPU-side, CPU only swaps targets ─────────────
       const COUNT = isMobile ? 7000 : 16000;
-      // indexed by ShapeDef.gen
-      const shapes = [
-        genIdeaCore(COUNT),
-        genBlueprint(COUNT),
-        genDevices(COUNT),
-        genServiceHub(COUNT),
-        genNeural(COUNT),
-        genPipeline(COUNT),
-        genGrowth(COUNT),
-        genMonogramA(COUNT),
+      // indexed by ShapeDef.gen. Built on first use, not all up front: eight
+      // shapes at once were one long main-thread task under the preloader,
+      // and only the first chapters are needed for the opening frame.
+      const GENS = [
+        genIdeaCore,
+        genBlueprint,
+        genDevices,
+        genServiceHub,
+        genNeural,
+        genPipeline,
+        genGrowth,
+        genMonogramA,
       ];
+      const built: (Float32Array | undefined)[] = [];
       // scale non-sphere shapes down a touch on mobile
       const shapeScale = isMobile ? 0.72 : 0.95;
-      for (let s = 1; s < shapes.length; s++) {
-        for (let i = 0; i < shapes[s].length; i++) shapes[s][i] *= shapeScale;
-      }
+      const shapeAt = (g: number): Float32Array => {
+        let arr = built[g];
+        if (!arr) {
+          arr = GENS[g](COUNT);
+          if (g > 0) for (let i = 0; i < arr.length; i++) arr[i] *= shapeScale;
+          built[g] = arr;
+        }
+        return arr;
+      };
+      // the rest fill in during idle time, one per slice, well before the
+      // visitor scrolls far enough to need them
+      const idle: (cb: () => void) => void =
+        "requestIdleCallback" in window
+          ? (cb) => window.requestIdleCallback(cb, { timeout: 1500 })
+          : (cb) => window.setTimeout(cb, 60);
+      const warmShapes = (g: number) => {
+        if (disposed || g >= GENS.length) return;
+        shapeAt(g);
+        idle(() => warmShapes(g + 1));
+      };
 
       // per-particle scatter direction for the puff between shapes
       const rnd = mulberry32(999);
@@ -1645,19 +1699,19 @@ export function SceneV4() {
 
       const cloudGeo = new THREE.BufferGeometry();
       // position is unused by the shader but three.js wants it present
-      cloudGeo.setAttribute("position", new THREE.BufferAttribute(new Float32Array(shapes[0]), 3));
-      const tgtA = new THREE.BufferAttribute(new Float32Array(shapes[0]), 3);
-      const tgtB = new THREE.BufferAttribute(new Float32Array(shapes[1]), 3);
+      cloudGeo.setAttribute("position", new THREE.BufferAttribute(new Float32Array(shapeAt(0)), 3));
+      const tgtA = new THREE.BufferAttribute(new Float32Array(shapeAt(0)), 3);
+      const tgtB = new THREE.BufferAttribute(new Float32Array(shapeAt(1)), 3);
       tgtA.setUsage(THREE.DynamicDrawUsage);
       tgtB.setUsage(THREE.DynamicDrawUsage);
       cloudGeo.setAttribute("aTargetA", tgtA);
       cloudGeo.setAttribute("aTargetB", tgtB);
       // third + fourth targets — ping-pong override slots for the services
       // index, so service→service switches crossfade instead of snapping
-      const tgtC = new THREE.BufferAttribute(new Float32Array(shapes[3]), 3);
+      const tgtC = new THREE.BufferAttribute(new Float32Array(shapeAt(3)), 3);
       tgtC.setUsage(THREE.DynamicDrawUsage);
       cloudGeo.setAttribute("aTargetC", tgtC);
-      const tgtD = new THREE.BufferAttribute(new Float32Array(shapes[3]), 3);
+      const tgtD = new THREE.BufferAttribute(new Float32Array(shapeAt(3)), 3);
       tgtD.setUsage(THREE.DynamicDrawUsage);
       cloudGeo.setAttribute("aTargetD", tgtD);
       cloudGeo.setAttribute("aScatter", new THREE.BufferAttribute(scatter, 3));
@@ -2234,7 +2288,7 @@ export function SceneV4() {
       const ovColorB = new THREE.Color();
       const loadOvSlot = (slotIdx: number, gen: number) => {
         const slot = slotIdx === 0 ? tgtC : tgtD;
-        (slot.array as Float32Array).set(shapes[gen]);
+        (slot.array as Float32Array).set(shapeAt(gen));
         slot.needsUpdate = true;
         // no shape uses the ocean-wave undulation in the story sequence
         if (slotIdx === 0) cloudUniforms.uWaveC.value = 0;
@@ -2459,8 +2513,9 @@ export function SceneV4() {
       // live handle on bloom so morphs/shocks/warp can pulse it
       let bloomFx: { intensity: number } | null = null;
       try {
-        const PP = await import("postprocessing");
+        const PP = await ppChunk;
         if (disposed) return;
+        if (!PP) throw new Error("postprocessing chunk failed");
         const c = new PP.EffectComposer(renderer, {
           frameBufferType: isMobile ? THREE.UnsignedByteType : THREE.HalfFloatType,
         });
@@ -2517,8 +2572,11 @@ export function SceneV4() {
       // behind real content (projects / services), restore when it returns;
       // hysteresis so the framebuffer isn't reallocated every frame
       let lowRes = false;
+      // Frame-budget step-down for real but weak GPUs: only pixel density
+      // drops, so shapes, bloom and colour stay exactly what everyone sees.
+      let budgetScale = 1;
       const applyResolution = () => {
-        const pr = lowRes ? basePR * 0.72 : basePR;
+        const pr = (lowRes ? basePR * 0.72 : basePR) * budgetScale;
         renderer.setPixelRatio(pr);
         renderer.setSize(window.innerWidth, window.innerHeight);
         composer?.setSize(window.innerWidth, window.innerHeight);
@@ -2537,6 +2595,8 @@ export function SceneV4() {
       const startTime = performance.now();
       const onVisibility = () => {
         running = document.visibilityState === "visible";
+        // the hidden stretch is not a slow frame
+        budgetPrev = 0;
         if (running) {
           raf = requestAnimationFrame(tick);
         } else {
@@ -2596,16 +2656,44 @@ export function SceneV4() {
       let currentBeat = -1;
 
       let lastT = 0;
+      let frameNo = 0;
+      // wall-clock frame gaps sampled after the intro settles; the shader
+      // compile and first uploads would skew the first frames
+      const budgetSamples: number[] = [];
+      let budgetPrev = 0;
+      let budgetChecks = 0;
+      const sampleBudget = (now: number) => {
+        if (budgetChecks >= 2) return;
+        if (budgetPrev) budgetSamples.push(now - budgetPrev);
+        budgetPrev = now;
+        if (budgetSamples.length < 60) return;
+        const sorted = budgetSamples.slice().sort((x, y) => x - y);
+        const median = sorted[sorted.length >> 1];
+        budgetSamples.length = 0;
+        budgetPrev = 0;
+        budgetChecks++;
+        // under ~28fps the scroll story reads as stutter; trade pixels first
+        if (median > 36) {
+          budgetScale = budgetChecks === 1 ? 0.78 : 0.6;
+          applyResolution();
+        } else {
+          budgetChecks = 2;
+        }
+      };
       const tick = () => {
         if (!running || disposed) return;
-        const t = (performance.now() - startTime) / 1000;
+        const now = performance.now();
+        const t = (now - startTime) / 1000;
+        if (t > 2.5 && !document.hidden) sampleBudget(now);
         const dt = Math.min(t - lastT, 0.05);
         lastT = t;
 
         const doc = document.documentElement;
         // pin spacers change the page height after ScrollTrigger init —
-        // re-measure section stops whenever layout height moves
-        if (doc.scrollHeight !== measuredHeight) {
+        // re-measure section stops whenever layout height moves. Checked every
+        // 16th frame: scrollHeight forces a layout, and reading it per frame
+        // while GSAP writes styles was a forced reflow on every tick.
+        if ((++frameNo & 15) === 0 && doc.scrollHeight !== measuredHeight) {
           measuredHeight = doc.scrollHeight;
           stops = measureStops();
         }
@@ -2617,7 +2705,7 @@ export function SceneV4() {
 
         smoothScrollY += (window.scrollY - smoothScrollY) * approach(11);
 
-        const max = doc.scrollHeight - window.innerHeight;
+        const max = measuredHeight - window.innerHeight;
         const raw = max > 0 ? smoothScrollY / max : 0;
         smoothedProgress += (raw - smoothedProgress) * approach(4.3);
         const p = smoothedProgress;
@@ -2649,8 +2737,8 @@ export function SceneV4() {
         if (seg !== currentSeg) {
           const enteringNewChapter = currentSeg >= 0;
           currentSeg = seg;
-          (tgtA.array as Float32Array).set(shapes[a.gen]);
-          (tgtB.array as Float32Array).set(shapes[b.gen]);
+          (tgtA.array as Float32Array).set(shapeAt(a.gen));
+          (tgtB.array as Float32Array).set(shapeAt(b.gen));
           tgtA.needsUpdate = true;
           tgtB.needsUpdate = true;
           cloudUniforms.uWaveA.value = a.wave;
@@ -3011,6 +3099,7 @@ export function SceneV4() {
         if (!firstFrameDone) {
           firstFrameDone = true;
           prog(1); // shaders compiled, kernel is on screen — preloader may lift
+          idle(() => warmShapes(0));
         }
         raf = requestAnimationFrame(tick);
       };

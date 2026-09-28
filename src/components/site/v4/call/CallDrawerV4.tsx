@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import { CALL_TOPICS, topicForPath, type CallTopic } from "@/lib/calls/types";
+import { CALL_TOPICS, topicForPath, type CallTopic } from "@/lib/calls/topics";
 import { localePath, type LocaleCode } from "@/lib/site-config";
 import { CallBookingV4 } from "./CallBookingV4";
 import { getCallCopy } from "./callCopy";

@@ -152,6 +152,8 @@ export default function ProjectPlanesV4({
       antialias: false,
       premultipliedAlpha: true,
       powerPreference: "low-power",
+      // software GL would run the planes on the CPU; plain <img> planes instead
+      failIfMajorPerformanceCaveat: true,
     });
     if (!gl) return;
 

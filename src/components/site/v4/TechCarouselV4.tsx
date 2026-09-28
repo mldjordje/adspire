@@ -37,7 +37,12 @@ export function TechCarouselV4() {
     let lastX = 0;
     let raf = 0;
 
-    const halfWidth = () => track.scrollWidth / 2;
+    // scrollWidth forces a layout; cache it instead of reading it per frame
+    let half = track.scrollWidth / 2;
+    const ro = new ResizeObserver(() => {
+      half = track.scrollWidth / 2;
+    });
+    ro.observe(track);
 
     const onDown = (e: PointerEvent) => {
       dragging = true;
@@ -78,7 +83,6 @@ export function TechCarouselV4() {
         velocity += (-0.6 - velocity) * 0.035;
         offset += velocity;
       }
-      const half = halfWidth();
       if (half > 0) {
         // wrap into (-half, 0]
         offset = ((offset % half) + half) % half;
@@ -86,10 +90,23 @@ export function TechCarouselV4() {
       }
       raf = requestAnimationFrame(tick);
     };
-    raf = requestAnimationFrame(tick);
+
+    // the belt only moves while someone can see it
+    const io = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && !raf) {
+        lastScrollY = window.scrollY;
+        raf = requestAnimationFrame(tick);
+      } else if (!entry.isIntersecting && raf) {
+        cancelAnimationFrame(raf);
+        raf = 0;
+      }
+    });
+    io.observe(wrap);
 
     return () => {
       cancelAnimationFrame(raf);
+      io.disconnect();
+      ro.disconnect();
       wrap.removeEventListener("pointerdown", onDown);
       wrap.removeEventListener("pointermove", onMoveP);
       wrap.removeEventListener("pointerup", onUp);

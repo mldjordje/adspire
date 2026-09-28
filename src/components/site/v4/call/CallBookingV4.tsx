@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 
 import { trackLeadSubmitted } from "@/lib/analytics/events";
 import { asapPromise, callEnd, CALL_MINUTES, type CallDay } from "@/lib/calls/slots";
-import { CALL_TOPICS, TOPIC_LABELS, type CallChannel, type CallTopic } from "@/lib/calls/types";
+import { CALL_TOPICS, TOPIC_LABELS, type CallChannel, type CallTopic } from "@/lib/calls/topics";
 import { captureFirstTouch, createRequestId, getSubmissionAttribution } from "@/lib/crm/clientAttribution";
 import { belgradeToUtc } from "@/lib/education/ics";
 import { weekday } from "@/lib/education/slots";
