@@ -107,6 +107,7 @@ export function PreloaderV4() {
   return (
     <div ref={rootRef} className={styles.preloader} aria-hidden="true">
       <span ref={ledRef} className={styles.preloaderLed} />
+      <span className={styles.preloaderRing} />
       <div className={styles.preloaderMeta}>
         <span className={styles.preloaderBrand}>ADSPIRE</span>
         <span ref={countRef} className={styles.preloaderCount}>

@@ -391,8 +391,12 @@ export function NanobotSwarmV4({
     }
 
     const mobile = window.matchMedia("(max-width: 767px)").matches;
+    // Low tier gets its own, smaller lattice (sampled at that count, so every
+    // arm still finds a neighbour) — never a thinned-out big one
+    const nav = navigator as Navigator & { deviceMemory?: number };
+    const lowEnd = mobile && ((nav.deviceMemory ?? 8) <= 4 || (navigator.hardwareConcurrency ?? 8) <= 4);
     const qn = Number(new URLSearchParams(location.search).get("n"));
-    const N = qn > 0 ? Math.min(qn, 16000) : mobile ? 2500 : 6000;
+    const N = qn > 0 ? Math.min(qn, 16000) : lowEnd ? 1500 : mobile ? 2500 : 6000;
 
     // shapes are built in a worker, in parallel with the three.js download;
     // the main-thread build stays as a fallback (old browsers, worker errors)
@@ -426,7 +430,7 @@ export function NanobotSwarmV4({
         alpha: landing,
         powerPreference: "high-performance",
       });
-      const basePR = Math.min(window.devicePixelRatio, mobile ? 1.25 : 1.5);
+      const basePR = Math.min(window.devicePixelRatio, lowEnd ? 1 : mobile ? 1.25 : 1.5);
       renderer.setPixelRatio(basePR);
       renderer.setSize(canvas.clientWidth, canvas.clientHeight, false);
       renderer.setClearColor(0x000000, landing ? 0 : 1);
@@ -1507,6 +1511,54 @@ export function NanobotSwarmV4({
       };
       window.addEventListener("resize", onResize);
 
+      // ── adaptive quality ────────────────────────────────────────────────
+      // Frame time is judged over 2 s windows. Two slow windows in a row drop
+      // one step (MSAA first, then resolution); a step comes back only after
+      // 12 s of clearly fast frames, so quality never oscillates.
+      const maxMS = Math.min(renderer.capabilities.maxSamples, mobile ? 2 : 4);
+      const qSteps = [
+        { pr: basePR, ms: maxMS },
+        { pr: basePR, ms: Math.min(maxMS, mobile ? 0 : 2) },
+        { pr: Math.max(0.85, basePR - 0.25), ms: 0 },
+        { pr: Math.max(0.75, basePR - 0.5), ms: 0 },
+      ];
+      let qLevel = 0;
+      let winT = 0;
+      let winN = 0;
+      let slowWins = 0;
+      let lastUnrest = performance.now();
+      const adapt = (dt: number, now: number) => {
+        winT += dt;
+        winN++;
+        if (winT < 2) return;
+        const avg = winT / winN;
+        winT = 0;
+        winN = 0;
+        if (avg > 1 / 42) {
+          slowWins++;
+          lastUnrest = now;
+          if (slowWins < 2 || qLevel === qSteps.length - 1) return;
+          qLevel++;
+          slowWins = 0;
+        } else {
+          slowWins = 0;
+          if (!(avg < 1 / 57 && qLevel > 0 && now - lastUnrest > 12000)) return;
+          qLevel--;
+          lastUnrest = now;
+        }
+        renderer.setPixelRatio(qSteps[qLevel].pr);
+        composer.multisampling = qSteps[qLevel].ms;
+        onResize();
+      };
+
+      // the GPU may drop the context (backgrounded tab, driver reset): fall
+      // back to the static void instead of leaving a dead canvas
+      const onLost = (e: Event) => {
+        e.preventDefault();
+        setStaticFallback(true);
+      };
+      canvas.addEventListener("webglcontextlost", onLost);
+
       const render: Api["render"] = (p, t, opts = {}) => {
         U.uP.value = p;
         U.uTime.value = t;
@@ -2011,6 +2063,7 @@ export function NanobotSwarmV4({
         const dt = Math.min((now - last) / 1000, 0.05);
         last = now;
         if (scroll) {
+          if (landing) adapt(dt, now);
           driveScroll(now, dt);
           raf = requestAnimationFrame(loop);
           return;
@@ -2048,6 +2101,7 @@ export function NanobotSwarmV4({
         window.removeEventListener("resize", onResize);
         window.removeEventListener("v4:ready", onSceneReady);
         window.removeEventListener("v4:morph", onMorph);
+        canvas.removeEventListener("webglcontextlost", onLost);
         window.removeEventListener("pointerdown", onGrabStart);
         window.removeEventListener("pointermove", onGrabMove);
         window.removeEventListener("pointerup", onGrabEnd);
