@@ -401,15 +401,19 @@ export function NanobotSwarmV4({
         antialias: false,
         // only the lab's shot() reads pixels back; the landing skips the cost
         preserveDrawingBuffer: !landing,
+        // landing: transparent, like SceneV4 — the hero title sits BEHIND the
+        // swarm (z-index -1) and the void is painted by `.sceneBackdrop`
+        alpha: landing,
         powerPreference: "high-performance",
       });
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, mobile ? 1.25 : 1.5));
+      const basePR = Math.min(window.devicePixelRatio, mobile ? 1.25 : 1.5);
+      renderer.setPixelRatio(basePR);
       renderer.setSize(canvas.clientWidth, canvas.clientHeight, false);
-      renderer.setClearColor(0x000000, 1);
+      renderer.setClearColor(0x000000, landing ? 0 : 1);
       renderer.toneMapping = THREE.NoToneMapping;
 
       const scene = new THREE.Scene();
-      scene.background = new THREE.Color(0x000000);
+      scene.background = landing ? null : new THREE.Color(0x000000);
       const camera = new THREE.PerspectiveCamera(30, canvas.clientWidth / canvas.clientHeight, 0.1, 80);
       camera.position.set(0, 0.3, mobile ? 10 : 7.2);
       camera.lookAt(0, 0, 0);
@@ -434,6 +438,63 @@ export function NanobotSwarmV4({
       const envTex = pmrem.fromScene(envScene, 0.015).texture;
       scene.environment = envTex;
       scene.environmentIntensity = 2.1;
+
+      // ── starfield: the void's own stars, same look as SceneV4 ────────────
+      const STARS = landing ? (mobile ? 720 : 1100) : 0;
+      const starPos = new Float32Array(STARS * 3);
+      const starTw = new Float32Array(STARS);
+      {
+        let s = 7777;
+        const r = () => ((s = (s * 16807) % 2147483647) / 2147483647);
+        for (let i = 0; i < STARS; i++) {
+          starPos[i * 3] = (r() - 0.5) * 34;
+          starPos[i * 3 + 1] = (r() - 0.5) * 24;
+          starPos[i * 3 + 2] = (r() - 0.5) * 18 - 8;
+          starTw[i] = r();
+        }
+      }
+      const starGeo = new THREE.BufferGeometry();
+      starGeo.setAttribute("position", new THREE.BufferAttribute(starPos, 3));
+      starGeo.setAttribute("aTw", new THREE.BufferAttribute(starTw, 1));
+      const starMat = new THREE.ShaderMaterial({
+        uniforms: { uTime: { value: 0 }, uPR: { value: basePR }, uFade: { value: 0 } },
+        transparent: true,
+        depthWrite: false,
+        blending: THREE.AdditiveBlending,
+        vertexShader: /* glsl */ `
+          attribute float aTw;
+          uniform float uTime;
+          uniform float uPR;
+          varying float vA;
+          varying float vTw;
+          void main() {
+            vTw = aTw;
+            vA = 0.28 + 0.42 * (0.5 + 0.5 * sin(uTime * (0.5 + aTw * 1.3) + aTw * 41.0));
+            gl_PointSize = (1.6 + aTw * aTw * 4.0) * uPR;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+          }
+        `,
+        fragmentShader: /* glsl */ `
+          uniform float uFade;
+          varying float vA;
+          varying float vTw;
+          void main() {
+            float d = distance(gl_PointCoord, vec2(0.5));
+            if (d > 0.5) discard;
+            float halo = exp(-d * d * 11.0);
+            float core = smoothstep(0.14, 0.0, d);
+            // diffraction spikes on the brightest stars
+            float spike = (pow(max(0.0, 1.0 - abs(gl_PointCoord.x - 0.5) * 2.0), 16.0)
+              + pow(max(0.0, 1.0 - abs(gl_PointCoord.y - 0.5) * 2.0), 16.0)) * step(0.7, vTw);
+            vec3 col = vec3(0.72, 0.84, 1.0) + vec3(0.22, 0.14, 0.06) * core;
+            float a = (halo * 0.55 + core + spike * 0.6) * vA * uFade * 0.72;
+            gl_FragColor = vec4(col + spike * 0.35, a);
+          }
+        `,
+      });
+      const stars = new THREE.Points(starGeo, starMat);
+      stars.frustumCulled = false;
+      if (STARS) scene.add(stars);
 
       const { shapes: spots, sheet } = buildShapes(THREE, { mergeGeometries }, MeshSurfaceSampler, N);
       if (landing) prog(0.75);
@@ -1001,6 +1062,9 @@ export function NanobotSwarmV4({
         U.uIntro.value = t;
         // lights come up from black as the chain reaction spreads
         scene.environmentIntensity = 0.12 + 1.98 * ease(clamp01((t - 0.3) / 0.9));
+        // the void fills with stars as the camera pulls back off the macro
+        starMat.uniforms.uFade.value = ease(clamp01((t - 1.2) / 2.2));
+        starMat.uniforms.uTime.value = t;
 
         // hero: heartbeat, unfold, link flash
         const beat = Math.max(Math.exp(-Math.pow((t - 0.2) / 0.06, 2)), Math.exp(-Math.pow((t - 0.44) / 0.06, 2)));
@@ -1053,6 +1117,7 @@ export function NanobotSwarmV4({
         U.uHeroShow.value = 1;
         hero.visible = false;
         scene.environmentIntensity = 2.1;
+        starMat.uniforms.uFade.value = 1;
         camera.fov = 30;
         camera.near = 0.1;
         camera.position.copy(wideTarget).addScaledVector(camDirWide, WIDE);
@@ -1123,6 +1188,116 @@ export function NanobotSwarmV4({
       pointerTarget.addEventListener("pointermove", onMove);
       pointerTarget.addEventListener("pointerleave", onLeave);
       pointerTarget.addEventListener("pointerup", onUp);
+
+      // ── landing: turntable + grab to spin (same feel as SceneV4) ──────────
+      // The form turns on its own; a drag adds spin with momentum and tilts
+      // it. Drags that start on a link, button or field are left to the page.
+      let spinAngle = 0;
+      let spinVel = 0;
+      let pitch = 0;
+      let pitchTarget = 0;
+      let dragging = false;
+      let dragLastX = 0;
+      let dragLastY = 0;
+      let grabbedOnce = false;
+      // pointer position in -1..1, for a touch of camera parallax
+      let mx = 0;
+      let my = 0;
+      let mxS = 0;
+      let myS = 0;
+      const INTERACTIVE = "a,button,input,textarea,select,label,[role='button'],[contenteditable]";
+      const grab = (dx: number, dy: number, k: number, kp: number) => {
+        if (Math.abs(dx) + Math.abs(dy) > 2 && !grabbedOnce) {
+          grabbedOnce = true;
+          window.dispatchEvent(new CustomEvent("v4:grabbed"));
+        }
+        spinAngle += dx * k;
+        spinVel = spinVel * 0.6 + dx * k * 24;
+        pitchTarget = Math.max(-0.45, Math.min(0.45, pitchTarget + dy * kp));
+      };
+      const onGrabStart = (e: PointerEvent) => {
+        if (e.pointerType !== "mouse" || e.button !== 0) return;
+        const el = e.target as HTMLElement | null;
+        if (el?.closest?.(INTERACTIVE)) return;
+        dragging = true;
+        dragLastX = e.clientX;
+        dragLastY = e.clientY;
+      };
+      const onGrabMove = (e: PointerEvent) => {
+        if (e.pointerType !== "mouse") return;
+        mx = (e.clientX / window.innerWidth - 0.5) * 2;
+        my = (e.clientY / window.innerHeight - 0.5) * 2;
+        if (!dragging) return;
+        const dx = e.clientX - dragLastX;
+        const dy = e.clientY - dragLastY;
+        dragLastX = e.clientX;
+        dragLastY = e.clientY;
+        grab(dx, dy, 0.0075, 0.003);
+        document.documentElement.classList.add("v4-dragging");
+      };
+      const onGrabEnd = () => {
+        dragging = false;
+        document.documentElement.classList.remove("v4-dragging");
+      };
+      // Touch: pointer events get cancelled the moment the page starts to
+      // scroll, touch events keep coming — every swipe also turns the form
+      let touchX: number | null = null;
+      let touchY: number | null = null;
+      const onTouchStart = (e: TouchEvent) => {
+        const t = e.touches[0];
+        if (!t) return;
+        touchX = t.clientX;
+        touchY = t.clientY;
+        dragging = true;
+      };
+      const onTouchMove = (e: TouchEvent) => {
+        const t = e.touches[0];
+        if (!t || touchX === null || touchY === null) return;
+        grab(t.clientX - touchX, t.clientY - touchY, 0.006, 0.0012);
+        touchX = t.clientX;
+        touchY = t.clientY;
+      };
+      const onTouchEnd = () => {
+        touchX = null;
+        touchY = null;
+        dragging = false;
+      };
+      if (landing) {
+        window.addEventListener("pointerdown", onGrabStart, { passive: true });
+        window.addEventListener("pointermove", onGrabMove, { passive: true });
+        window.addEventListener("pointerup", onGrabEnd, { passive: true });
+        window.addEventListener("pointercancel", onGrabEnd, { passive: true });
+        window.addEventListener("touchstart", onTouchStart, { passive: true });
+        window.addEventListener("touchmove", onTouchMove, { passive: true });
+        window.addEventListener("touchend", onTouchEnd, { passive: true });
+        window.addEventListener("touchcancel", onTouchEnd, { passive: true });
+      }
+      const AUTO_SPIN = 0.16;
+      const stepSpin = (dt: number) => {
+        if (!dragging) {
+          spinAngle += (AUTO_SPIN + spinVel) * dt;
+          spinVel *= Math.exp(-dt * 1.6);
+          pitchTarget *= Math.exp(-dt * 0.7);
+        }
+        pitch += (pitchTarget - pitch) * (1 - Math.exp(-dt * 5));
+        mxS += (mx - mxS) * (1 - Math.exp(-dt * 2.5));
+        myS += (my - myS) * (1 - Math.exp(-dt * 2.5));
+      };
+
+      // idle life: every few seconds a pulse runs through the lattice from a
+      // random bot, so the formed shape is never a still
+      const pulseV = new THREE.Vector3();
+      let nextPulse = 2.2;
+      let shownShape = spots.length - 1;
+      const autoPulse = (tsec: number) => {
+        if (tsec < nextPulse) return;
+        nextPulse = tsec + 2.6 + Math.random() * 2.2;
+        const sp = spots[shownShape];
+        const i = Math.floor(Math.random() * N);
+        pulseV.fromArray(sp.pos, i * 3).applyMatrix4(rig.matrixWorld);
+        U.uRip.value[ripSlot].set(pulseV.x, pulseV.y, 0, clock);
+        ripSlot = (ripSlot + 1) % 3;
+      };
 
       const onResize = () => {
         const w = canvas.clientWidth;
@@ -1248,6 +1423,7 @@ export function NanobotSwarmV4({
       const flyY = new THREE.Vector3();
       const flyZ = new THREE.Vector3();
       const flyBasis = new THREE.Matrix4();
+      const rigInv = new THREE.Matrix4();
       // Fly-by: in the middle of each pass one detailed bot crosses the frame
       // close to the lens, wings swept back — the reminder, at full detail,
       // that the whole swarm is made of real machines.
@@ -1270,6 +1446,8 @@ export function NanobotSwarmV4({
         flyX.crossVectors(flyY, flyZ).normalize();
         flyBasis.makeBasis(flyX, flyY, flyZ);
         hero.matrix.copy(flyBasis).scale(new THREE.Vector3(sc, sc, sc)).setPosition(flyPos);
+        // placed in world space, but it lives inside the turning rig
+        hero.matrix.premultiply(rigInv.copy(rig.matrixWorld).invert());
         for (const o of hero.children) {
           if (o.name === "ring") {
             ((o as InstanceType<typeof THREE.Mesh>).material as InstanceType<typeof THREE.MeshBasicMaterial>).color
@@ -1324,6 +1502,7 @@ export function NanobotSwarmV4({
           const [b, peelMode, flightMode] = rest.split(":");
           set(Number(a), Number(b), peelMode === "x" ? "x" : "y", flightMode === "implode" ? "implode" : "flight");
           setCurrent(Number(b));
+          shownShape = Number(b);
         }
         // Rail: framing A → a close pass beside the swarm → framing B on a
         // centripetal Catmull-Rom, so the move has no corners. Position and
@@ -1384,13 +1563,30 @@ export function NanobotSwarmV4({
         camera.position.copy(camPos);
         camera.position.x += Math.sin(tsec * 0.7) * 0.03;
         camera.position.y += Math.sin(tsec * 0.9 + 1) * 0.025;
+        if (landing) {
+          // the pointer leans the camera a little: the scene answers the hand
+          stepSpin(dt);
+          camera.position.x += mxS * 0.35;
+          camera.position.y -= myS * 0.22;
+        }
         camera.fov = camFov;
         camera.near = 0.05;
         camera.updateProjectionMatrix();
         camera.lookAt(camLook);
         camera.rotateZ(camRoll);
         flyBy((k - 0.3) / 0.4, U.uScale.value, tsec);
-        rig.rotation.y = Math.sin(tsec * 0.18) * 0.1;
+        if (landing) {
+          rig.rotation.y = spinAngle;
+          rig.rotation.x = pitch;
+          rig.updateMatrixWorld();
+          starMat.uniforms.uTime.value = tsec;
+          // stars drift slower than the form: depth without a second scene
+          stars.rotation.y = tsec * 0.008 + spinAngle * 0.04;
+          stars.position.y = (smoothY / span) * 4;
+          if (p >= 1.3) autoPulse(tsec);
+        } else {
+          rig.rotation.y = Math.sin(tsec * 0.18) * 0.1;
+        }
         U.uHoverAmt.value += (hoverTarget - U.uHoverAmt.value) * (hoverTarget > U.uHoverAmt.value ? 0.12 : 0.04);
         U.uP.value = p;
         U.uTime.value = tsec;
@@ -1490,6 +1686,17 @@ export function NanobotSwarmV4({
         window.removeEventListener("keydown", onRush);
         window.removeEventListener("resize", onResize);
         window.removeEventListener("v4:ready", onSceneReady);
+        window.removeEventListener("pointerdown", onGrabStart);
+        window.removeEventListener("pointermove", onGrabMove);
+        window.removeEventListener("pointerup", onGrabEnd);
+        window.removeEventListener("pointercancel", onGrabEnd);
+        window.removeEventListener("touchstart", onTouchStart);
+        window.removeEventListener("touchmove", onTouchMove);
+        window.removeEventListener("touchend", onTouchEnd);
+        window.removeEventListener("touchcancel", onTouchEnd);
+        document.documentElement.classList.remove("v4-dragging");
+        starGeo.dispose();
+        starMat.dispose();
         composer.dispose();
         pmrem.dispose();
         envTex.dispose();
@@ -1574,7 +1781,7 @@ export function NanobotSwarmV4({
         style={
           landing
             ? // same layer as SceneV4's `.scene`: under the copy, never eats taps or scroll
-              { position: "fixed", inset: 0, width: "100%", height: "100%", zIndex: 0, pointerEvents: "none", background: "#000" }
+              { position: "fixed", inset: 0, width: "100%", height: "100%", zIndex: 0, pointerEvents: "none" }
             : { position: "fixed", inset: 0, width: "100vw", height: "100vh", background: "#000", touchAction: "none" }
         }
       />

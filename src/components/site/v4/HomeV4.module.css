@@ -227,113 +227,87 @@
 
 /* ─── Preloader ────────────────────────────────────────────── */
 
+/* registered so the glow can animate, not just step */
+@property --led {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0.3;
+}
+
 .preloader {
   position: fixed;
   inset: 0;
   z-index: 200;
-  /* Fully opaque. A half-built scene showing through the loader is the one
-     thing that makes the whole intro read as an accident — the visitor must
-     see the formation BUILD after the curtain lifts, not catch it mid-pose. */
-  background:
-    radial-gradient(circle at 50% 42%, rgba(24, 33, 74, 0.5), transparent 62%),
-    var(--bg);
-  display: flex;
-  align-items: flex-end;
-  transition: transform 0.72s cubic-bezier(0.76, 0, 0.24, 1);
+  /* Opaque black: the half-built scene must never show through. It
+     dissolves (never slides) so the LED reads as the hero bot's own LED. */
+  background: #000;
+  display: grid;
+  place-items: center;
+  transition: background-color 0.5s ease 0.2s;
 }
 
-.preloaderLift {
-  transform: translateY(-100%);
-}
-
-.preloaderInner {
-  width: 100%;
-  padding: clamp(20px, 4vw, 56px);
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-
-.preloaderBrand {
-  display: flex;
-  overflow: hidden;
-  font-family: var(--font-d);
-  font-weight: 800;
-  font-size: clamp(44px, 10vw, 140px);
-  line-height: 0.95;
-  letter-spacing: -0.02em;
-}
-
-.preloaderChar {
-  display: inline-block;
-  transform: translateY(110%);
-  animation: preChar 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}
-
-@keyframes preChar {
-  to { transform: translateY(0); }
-}
-
+/* one LED, at the exact centre the intro's macro shot starts on */
 .preloaderLed {
-  align-self: center;
-  width: clamp(8px, 1vw, 12px);
-  height: clamp(8px, 1vw, 12px);
-  margin-right: clamp(10px, 1.6vw, 18px);
+  --led: 0.3;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  margin: -6px 0 0 -6px;
   border-radius: 50%;
-  background: var(--accent);
-  box-shadow: 0 0 0 0 rgba(47, 107, 255, 0.55);
-  animation: preLedPulse 1.1s ease-in-out infinite;
-}
-
-@keyframes preLedPulse {
-  0%, 100% { opacity: 0.35; box-shadow: 0 0 0 0 rgba(47, 107, 255, 0.45); }
-  50% { opacity: 1; box-shadow: 0 0 14px 3px rgba(47, 107, 255, 0.55); }
-}
-
-.preloaderLedFinish {
-  animation: preLedLatch 0.6s ease-out 2;
-}
-
-@keyframes preLedLatch {
-  0% { opacity: 0.4; box-shadow: 0 0 0 0 rgba(47, 107, 255, 0.4); }
-  35% { opacity: 1; box-shadow: 0 0 20px 5px rgba(47, 107, 255, 0.75); }
-  100% { opacity: 0.85; box-shadow: 0 0 8px 2px rgba(47, 107, 255, 0.5); }
+  background: #8fb0ff;
+  opacity: calc(0.25 + var(--led) * 0.75);
+  box-shadow:
+    0 0 calc(4px + var(--led) * 18px) calc(var(--led) * 4px) rgba(111, 149, 255, calc(0.35 + var(--led) * 0.5)),
+    0 0 calc(var(--led) * 60px) calc(var(--led) * 10px) rgba(47, 107, 255, calc(var(--led) * 0.35));
 }
 
 .preloaderMeta {
+  position: absolute;
+  left: 50%;
+  top: calc(50% + 44px);
+  transform: translateX(-50%);
   display: flex;
-  justify-content: space-between;
+  gap: 14px;
   align-items: baseline;
-  border-top: 1px solid var(--line);
-  padding-top: 14px;
+  font-size: 11px;
+  letter-spacing: 0.34em;
+  color: var(--ink-dim);
+  transition: opacity 0.25s ease;
 }
 
-.preloaderLabel {
-  font-size: 11px;
-  letter-spacing: 0.3em;
-  color: var(--ink-dim);
+.preloaderBrand {
+  font-family: var(--font-d);
+  font-weight: 700;
 }
 
 .preloaderCount {
-  font-family: var(--font-d);
-  font-weight: 700;
-  font-size: clamp(20px, 3vw, 34px);
-  color: var(--accent);
+  min-width: 2.2em;
   font-variant-numeric: tabular-nums;
+  color: #8fb0ff;
 }
 
-.preloaderTrack {
-  height: 2px;
-  background: rgba(242, 241, 236, 0.08);
-  overflow: hidden;
+/* ready: two taps in time with the hero bot's heartbeat, then the black
+   dissolves into the scene */
+.preloaderDone {
+  background-color: transparent;
 }
 
-.preloaderFill {
-  display: block;
-  height: 100%;
-  background: linear-gradient(90deg, var(--accent), var(--accent-2));
-  transform-origin: left center;
-  transform: scaleX(0); /* driven by JS from real scene-load progress */
+.preloaderDone .preloaderMeta {
+  opacity: 0;
+}
+
+.preloaderDone .preloaderLed {
+  animation: preLedTaps 0.75s linear forwards;
+}
+
+@keyframes preLedTaps {
+  0% { --led: 0.3; opacity: 0.4; transform: scale(1); }
+  26.7% { --led: 1; opacity: 1; transform: scale(1.5); }
+  42% { --led: 0.35; opacity: 0.5; transform: scale(1); }
+  58.7% { --led: 1; opacity: 1; transform: scale(1.5); }
+  100% { --led: 0; opacity: 0; transform: scale(0.6); }
 }
 
 /* ─── Nav ──────────────────────────────────────────────────── */
