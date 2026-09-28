@@ -161,10 +161,14 @@ const HEAD = /* glsl */ `
     vec3 spine = ie2 * ie * aSpine0 + 3.0 * ie2 * e * aStream + 3.0 * ie * e2 * aSpine2 + e2 * e * aSpine3;
     vec3 spineVel = 3.0 * ie2 * (aStream - aSpine0) + 6.0 * ie * e * (aSpine2 - aStream) + 3.0 * e2 * (aSpine3 - aSpine2);
     vec3 tng = normalize(spineVel + vec3(1e-4, 0.0, 0.0));
-    vec3 o1 = normalize(cross(tng, vec3(0.31, 0.83, 0.47)));
+    // frame from the axis least parallel to the path, so it never flips
+    // mid-flight; lanes sit well apart so the braid reads from the far
+    // camera too (near lanes then grow visibly larger in projection)
+    vec3 ref = abs(tng.y) < 0.8 ? vec3(0.0, 1.0, 0.0) : vec3(1.0, 0.0, 0.0);
+    vec3 o1 = normalize(cross(tng, ref));
     vec3 o2 = cross(tng, o1);
-    float laneAng = aRnd.x * 6.2831 + e * 7.0;
-    float laneR = 0.04 + aRnd.y * 0.06;
+    float laneAng = floor(aRnd.x * 5.0) * 1.2566 + e * 9.0;
+    float laneR = 0.14 + aRnd.y * 0.12;
     vec3 lane = spine + (o1 * cos(laneAng) + o2 * sin(laneAng)) * laneR;
     float tube = smoothstep(0.06, 0.3, e) * (1.0 - smoothstep(0.7, 0.94, e));
     pos = mix(pos, lane, tube);
@@ -293,8 +297,11 @@ const HEAD = /* glsl */ `
     float swim;
     float beat = 0.0;
     if (uFold > 0.5) {
-      // the fold keeps its grip the whole way
-      pose = mix(mix(linked, vec3(0.0, 0.0, 1.0), leave), aArmTo, land);
+      // A sheet's links can't survive a fold without stretching through the
+      // form, so they visibly let go as it starts to curl, ride tucked, and
+      // latch onto the new neighbours as the A seats — release, reconnect
+      float letGo = smoothstep(0.04, 0.26, e);
+      pose = mix(mix(linked, vec3(0.0, -1.25, 0.42), letGo), aArmTo, clamp(latch, 0.0, 1.1));
       swim = 0.0;
     } else {
       // release: let go of the neighbours; flight: wings swept back with a
@@ -715,12 +722,17 @@ export function NanobotSwarmV4({
           // bot darkens its own underside instead: the side facing into the
           // form, where neighbours and the core block the light.
           sh.fragmentShader =
-            "varying float vNbDepth;\n" +
+            "varying float vNbDepth;\nvarying float vLed;\n" +
             sh.fragmentShader.replace(
               "#include <opaque_fragment>",
               // only the socket side goes dark; exposed faces keep their
               // reflections (a broad multiply here killed the machining)
-              "outgoingLight *= mix(0.5, 1.0, smoothstep(-0.3, -0.04, vNbDepth));\n#include <opaque_fragment>",
+              "outgoingLight *= mix(0.5, 1.0, smoothstep(-0.3, -0.04, vNbDepth));\n" +
+                // the LED lights its own metal: when a bot latches the blue
+                // washes over its body, so the chain reaction carries light
+                // through the mechanism instead of the whole scene brightening
+                "outgoingLight += vec3(0.2, 0.34, 1.0) * max(vLed - 0.12, 0.0) * 0.06;\n" +
+                "#include <opaque_fragment>",
             );
         };
       };
@@ -1200,13 +1212,17 @@ export function NanobotSwarmV4({
       };
 
       // intro timeline (seconds)
+      // One dominant event per beat: recognition (0–0.55), the first
+      // connection (0.55–1.3), its consequence running into depth (1.3–2.15),
+      // scale (2.15–3.25), identity — the A readable by ~4.1 s — and a held
+      // poster frame; the camera is still by ~5.2 s.
       const T = {
-        heroUnfold: 0.7,
-        linkStart: 1.25,
-        pullStart: 1.7,
-        pullLen: 2.8,
-        foldStart: 3.2,
-        foldLen: 2.3,
+        heroUnfold: 0.6,
+        linkStart: 1.3,
+        pullStart: 1.35,
+        pullLen: 3.8,
+        foldStart: 3.25,
+        foldLen: 1.5,
         title: 4.4,
       };
       const INTRO_END = 5.9;
@@ -1228,7 +1244,9 @@ export function NanobotSwarmV4({
       const introFrame = (t: number) => {
         U.uIntro.value = t;
         // lights come up from black as the chain reaction spreads
-        scene.environmentIntensity = 0.12 + (ENV_I - 0.12) * ease(clamp01((t - 0.3) / 0.9));
+        // the room stays dim; the latch front carries the light (LED wash in
+        // the lit shader), the key only comes up as the scale is revealed
+        scene.environmentIntensity = 0.3 + (ENV_I - 0.3) * ease(clamp01((t - 1.6) / 1.8));
         // the void fills with stars as the camera pulls back off the macro
         starMat.uniforms.uFade.value = ease(clamp01((t - 1.2) / 2.2));
         starMat.uniforms.uTime.value = t;
@@ -1657,13 +1675,28 @@ export function NanobotSwarmV4({
           return;
         }
         hero.visible = true;
-        const eu = ease(u);
+        const eu = landing ? u : ease(u);
         camUp.crossVectors(camRight, camFwd).normalize();
-        flyPos
-          .copy(camPos)
-          .addScaledVector(camFwd, 0.55 + 0.3 * eu)
-          .addScaledVector(camRight, -0.55 + 1.1 * eu)
-          .addScaledVector(camUp, 0.1 - 0.18 * eu);
+        if (landing) {
+          // one readable crossing through the inner frame: ~20% of the
+          // viewport tall, entering and leaving past the edges, with the far
+          // ribbon still visible behind it
+          const dist = 0.75;
+          const halfH = Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2) * dist;
+          const halfW = halfH * camera.aspect;
+          sc = (0.4 * halfH) / 1.35;
+          flyPos
+            .copy(camPos)
+            .addScaledVector(camFwd, dist)
+            .addScaledVector(camRight, THREE.MathUtils.lerp(-1.25, 1.25, eu) * halfW)
+            .addScaledVector(camUp, (0.12 - 0.2 * eu) * halfH);
+        } else {
+          flyPos
+            .copy(camPos)
+            .addScaledVector(camFwd, 0.55 + 0.3 * eu)
+            .addScaledVector(camRight, -0.55 + 1.1 * eu)
+            .addScaledVector(camUp, 0.1 - 0.18 * eu);
+        }
         // flying along +right: tail (+Z) points back, wings level, a bank
         flyZ.copy(camRight).negate();
         flyY.copy(camUp).applyAxisAngle(flyZ, Math.sin(u * Math.PI) * 0.35);
@@ -1727,6 +1760,9 @@ export function NanobotSwarmV4({
         morphWant = d?.swarm ? shapeIdx(d.swarm) : null;
       };
       if (landing) window.addEventListener("v4:morph", onMorph);
+      const endNode = landing ? CH[CH.length - 1].node : null;
+      const diveLook = new THREE.Vector3();
+      let lastOpacity = "";
       const smooth01 = (a: number, b: number, v: number) => {
         const k = clamp01((v - a) / (b - a));
         return k * k * (3 - 2 * k);
@@ -1861,12 +1897,26 @@ export function NanobotSwarmV4({
           camera.position.x += mxS * 0.35;
           camera.position.y -= myS * 0.22;
         }
-        camera.fov = camFov;
+        // Ending: as the closing section rises the camera dives into the A —
+        // the lattice rushes past the lens — and the swarm dissolves into the
+        // footer's black hole, which then owns the screen alone
+        let dive = 0;
+        if (landing && endNode) {
+          const top = endNode.getBoundingClientRect().top;
+          // the A arrives while the section rises (85%→25%), then the dive
+          dive = clamp01((window.innerHeight * 0.2 - top) / (window.innerHeight * 0.7));
+        }
+        const dk = ease(dive);
+        diveLook.copy(camLook).lerp(ORIGIN, dk);
+        if (dk > 0) camera.position.lerp(ORIGIN, dk * 0.93);
+        camera.fov = camFov + dk * 12;
         camera.near = 0.05;
         camera.updateProjectionMatrix();
-        camera.lookAt(camLook);
+        camera.lookAt(diveLook);
         camera.rotateZ(camRoll);
-        flyBy((k - 0.3) / 0.4, U.uScale.value, tsec);
+        // landing: the close crossing happens once, leaving the manifesto —
+        // a spectacle repeated on every transition stops being one
+        flyBy(landing ? (seg === 1 && !holding ? (k - 0.2) / 0.6 : -1) : (k - 0.3) / 0.4, U.uScale.value, tsec);
         if (landing) {
           rig.rotation.y = spinAngle;
           rig.rotation.x = pitch;
@@ -1886,6 +1936,21 @@ export function NanobotSwarmV4({
         clock = tsec;
         // the hero headline leaves with the first scroll
         if (titleRef.current) titleRef.current.style.opacity = String(1 - smooth01(0.05, 0.3, P));
+        if (landing) {
+          // quiet sections (projects, FAQ) keep the swarm dim at the edge:
+          // it yields to the content instead of competing with it
+          const qA = CH[seg].quiet ? 1 : 0;
+          const qB = CH[Math.min(seg + 1, CH.length - 1)].quiet ? 1 : 0;
+          const quietK = holding ? (CH[holdIdx].quiet ? 1 : 0) : THREE.MathUtils.lerp(qA, qB, tt);
+          const op = (1 - 0.6 * quietK) * (1 - smooth01(0.55, 0.95, dive));
+          const opS = op.toFixed(3);
+          if (opS !== lastOpacity) {
+            lastOpacity = opS;
+            canvas.style.opacity = opS;
+          }
+          // fully handed over: stop drawing, the footer renderer has the GPU
+          if (op < 0.005) return;
+        }
         composer.render();
       };
 
