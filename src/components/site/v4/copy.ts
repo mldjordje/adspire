@@ -34,6 +34,14 @@ export type V4Copy = {
   };
   marquee: string;
   manifesto: string;
+  /** manifesto as a scroll story: lead + crossed-out phrase, then three
+   *  outcomes [plain part, keyword that decodes]. `manifesto` stays the
+   *  single readable sentence for screen readers. */
+  manifestoStory: {
+    lead: string;
+    struck: string;
+    outcomes: [string, string][]; // 3
+  };
   value: {
     eyebrow: string;
     title: string;
@@ -106,6 +114,11 @@ const sr: V4Copy = {
   marquee: "WEB · APLIKACIJE · E-COMMERCE · AI · WEBGL · DIZAJN · ",
   manifesto:
     "Tvoj posao zaslužuje više od lepog sajta. Više upita, lakšu prodaju i manje ručnog rada.",
+  manifestoStory: {
+    lead: "Tvoj posao zaslužuje više od",
+    struck: "lepog sajta",
+    outcomes: [["Više", "upita."], ["Lakša", "prodaja."], ["Manje ručnog", "rada."]],
+  },
   value: {
     eyebrow: "Kreni od svog cilja",
     title: "ŠTA TI TREBA?",
@@ -256,6 +269,11 @@ const en: V4Copy = {
   marquee: "WEB · APPS · E-COMMERCE · AI · WEBGL · DESIGN · ",
   manifesto:
     "Your business deserves more than a good-looking website. More enquiries, easier sales and less manual work.",
+  manifestoStory: {
+    lead: "Your business deserves more than",
+    struck: "a good-looking website",
+    outcomes: [["More", "enquiries."], ["Easier", "sales."], ["Less manual", "work."]],
+  },
   value: {
     eyebrow: "Start with your goal",
     title: "WHAT DO YOU NEED?",
@@ -406,6 +424,11 @@ const de: V4Copy = {
   marquee: "WEB · APPS · E-COMMERCE · KI · WEBGL · DESIGN · ",
   manifesto:
     "Ihr Unternehmen verdient mehr als eine schöne Website. Mehr Anfragen, einfacheren Verkauf und weniger Handarbeit.",
+  manifestoStory: {
+    lead: "Ihr Unternehmen verdient mehr als",
+    struck: "eine schöne Website",
+    outcomes: [["Mehr", "Anfragen."], ["Leichterer", "Verkauf."], ["Weniger", "Handarbeit."]],
+  },
   value: {
     eyebrow: "Ihr Ziel ist der Anfang",
     title: "WAS BRAUCHEN SIE?",

@@ -879,3 +879,42 @@ preview, Đorđe gleda na telefonu i desktopu. Browser panel ne vrti rAF (nalaz
    merenje u `/os/analitika` (dubina skrola, klik na CTA)?
 4. „CTA privlači svetlo" (3.3) i „forma = fokus" (Aurora 3) menjaju utisak
    money strana — probati na preview-u pa odlučiti?
+
+---
+
+## Predlog 28.09.2026 — manifesto sekcija na `/` („Tvoj posao zaslužuje više od lepog sajta…")
+
+Đorđe traži više pokreta, „wow" na telefonu i desktopu. Sada: `.manifesto` u
+`HomeV4.tsx` (≈ linija 957), jedini efekat je `opacity 0.3 → 1` po reči na
+scrub (≈ linija 316). Na telefonu sekcija je 100vh, pa ima previše praznog.
+
+**Prototip svih pet predloga + kontrola: `/dev/manifesto-lab`** (samo dev,
+404 na produ). Kod: `src/components/site/v4/lab/ManifestoLabV4.tsx` +
+`.module.css`. Svaki ScrollTrigger ima `id` sa prefiksom koncepta, a
+`window.__ml.seek(id, 0..1)` zamrzne kadar za snimak (panel nema rAF).
+Snimci su pravljeni headless Chromeom (Playwright, kanal `chrome`),
+1440×900 i 390×844. Svih pet radi, bez grešaka u konzoli.
+
+| # | Koncept | Dominantan pokret | Telefon |
+|---|---|---|---|
+| 1 | Precrtaj lepi sajt | rečenica se upali, plavi SVG potez (`pathLength=1`, dashoffset) precrta „lepog sajta", pa „Više upita. / Lakša prodaja. / Manje ručnog rada." izlaze iz maske (`yPercent 112, rotate 5 → 0`) | krupne reči 10.5vw, jedna ispod druge, bez kačenja |
+| 2 | Redovi iz maske | SplitType `lines, words`, svaki red u `overflow:hidden` maski, `yPercent 110 + blur 8px → 0`; ključne reči dobiju plavo podvlačenje (`background-size 0% → 100%`) | blur samo na redovima (3–6 elemenata); split se ponovo gradi kad se promeni širina |
+| 3 | Reči postaju kartice | „upita / prodaju / ručnog rada" poplave i odlete u tri kartice (putanja iz `offsetLeft/Top`, ne `getBoundingClientRect`, da transform ne kvari merenje) | tri kompaktne kartice u redu, bez opisa |
+| 4 | Kinetička traka | desktop: pin, traka Syne 800 klizi ulevo (2:1 u odnosu na skrol, inače pin traje 12 ekrana) | bez pina: tri reda klize u suprotnim smerovima |
+| 5 | Scramble | „sajt koji lepo izgleda" se dekodira u „sajt koji prodaje" (scrub, šum od 4 znaka ispred) | isto |
+
+Preporuka: **1 kao osnova + podvlačenje iz 2**. Najjasnije pokazuje poentu, a
+na telefonu izgleda najjače. 4 je najviše „wow" na desktopu, ali pin je
+suprotan komentaru u kodu („page never locks here"). 5 menja tekst (SR/EN/DE
++ humanizer).
+
+Pri prenosu u `HomeV4`:
+- Tekst ide iz `copy.ts` (`manifesto`), a za 1 i 3 treba podela na
+  rečenicu + tri ishoda po jeziku (`manifestoOutcomes`), ne hardkod.
+- Razmak između reči mora biti **van** `inline-block` spana, inače nestaje
+  (u labu je to bio bag).
+- Ne stavljati CSS `transform` na element kojem GSAP radi `yPercent`: GSAP ga
+  pročita kao `y` u px i sabere, pa element ostane skriven (i to je bio bag u labu).
+- `SHAPES[1]` (manifesto: lattice wall) ostaje. Novi pokret je u tekstu, scena
+  se ne dira.
+- Kod: typecheck + test + build, pa grana + Vercel preview; Đorđe gleda na telefonu pre `main`.

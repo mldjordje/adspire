@@ -1222,20 +1222,128 @@
   pointer-events: none;
 }
 
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.manifestoInner {
+  position: relative;
+  width: 100%;
+  max-width: 1100px;
+}
+
 .manifestoText {
   position: relative;
   max-width: 980px;
   font-family: var(--font-d);
   font-weight: 600;
   font-size: clamp(26px, 3.8vw, 52px);
-  line-height: 1.34;
+  line-height: 1.3;
   letter-spacing: -0.01em;
   margin: 0;
   text-shadow: var(--txt-shadow);
 }
 
+/* word masks: same vertical-align everywhere so an overflow:hidden
+   inline-block (baseline = bottom edge) can't knock lines out of step */
+.manifestoMask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding-bottom: 0.14em;
+  margin-bottom: -0.14em;
+}
+
 .manifestoWord {
-  opacity: 0.3;
+  display: inline-block;
+  transform-origin: 0 100%;
+  will-change: transform;
+}
+
+.manifestoStruck {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  white-space: nowrap;
+}
+
+.manifestoStrike {
+  position: absolute;
+  left: -4%;
+  width: 108%;
+  top: 50%;
+  height: 0.5em;
+  transform: translateY(-30%);
+  overflow: visible;
+  pointer-events: none;
+}
+
+.manifestoStrikePath {
+  fill: none;
+  stroke: #2f6bff;
+  stroke-width: 3.5;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  filter: drop-shadow(0 0 8px rgba(47, 107, 255, 0.65));
+}
+
+.manifestoOutcomes {
+  display: flex;
+  flex-direction: column;
+  margin-top: clamp(40px, 9vh, 110px);
+}
+
+.manifestoOutcome {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.1em;
+}
+
+.manifestoOutcomeLine {
+  display: block;
+  font-family: var(--font-d);
+  font-weight: 800;
+  font-size: clamp(38px, 5.6vw, 96px);
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+  text-shadow: var(--txt-shadow);
+  transform-origin: 0 100%;
+  will-change: transform;
+}
+
+.manifestoKey {
+  position: relative;
+  display: inline-block;
+}
+
+/* gradient text can't carry a text-shadow, it would show through */
+.manifestoKeyText {
+  background: linear-gradient(90deg, #2f6bff, #9fb4ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: none;
+}
+
+.manifestoRule {
+  position: absolute;
+  left: 0;
+  right: 0.3em;
+  bottom: 0.02em;
+  height: max(3px, 0.045em);
+  border-radius: 2px;
+  background: linear-gradient(90deg, #2f6bff, #9fb4ff);
+  box-shadow: 0 0 18px rgba(47, 107, 255, 0.6);
+  transform-origin: 0 50%;
 }
 
 /* ─── Projects — horizontal cinema ─────────────────────────── */
@@ -2453,6 +2561,16 @@
 /* ─── Mobile ───────────────────────────────────────────────── */
 
 @media (max-width: 767px) {
+  .manifesto {
+    min-height: 0;
+    padding-top: 16svh;
+    padding-bottom: 18svh;
+  }
+
+  .manifestoOutcomeLine {
+    font-size: clamp(38px, 11vw, 64px);
+  }
+
   .hero {
     padding-top: 84px;
   }
@@ -2683,9 +2801,13 @@
     justify-content: flex-end;
   }
 
-  .manifestoText {
-    max-width: 700px;
+  .manifestoInner {
+    max-width: min(1100px, 72vw);
     margin-right: clamp(0px, 3vw, 64px);
+  }
+
+  .manifestoText {
+    max-width: 760px;
   }
 
   .manifesto::before {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import gsap from "gsap";
@@ -311,26 +311,74 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
         });
       });
 
-      // ── Manifesto: free scroll-through word-fill (no pin — the page never
-      // locks here, so the visitor scrubs the background freely) ───────────
-      const manifestoWords = q<HTMLElement>(`.${styles.manifestoWord}`);
-      if (manifestoWords.length) {
+      // ── Manifesto: a three-beat scroll story, still no pin — the page
+      // never locks here, so the visitor scrubs the background freely.
+      // 1) lead words rise out of their masks, 2) a blue stroke crosses out
+      // "a pretty site", 3) each outcome rises and its keyword decodes out
+      // of glyph noise before the underline sweeps under it ─────────────────
+      const manifestoLead = q<HTMLElement>(`.${styles.manifestoText}`)[0];
+      if (manifestoLead) {
         gsap.fromTo(
-          manifestoWords,
-          { opacity: 0.3 },
+          q<HTMLElement>(`.${styles.manifestoWord}`),
+          { yPercent: 110, rotate: 4, opacity: 0, filter: "blur(6px)" },
           {
+            yPercent: 0,
+            rotate: 0,
             opacity: 1,
-            stagger: 0.06,
-            ease: "none",
-            scrollTrigger: {
-              trigger: q(`.${styles.manifesto}`)[0],
-              start: "top 80%",
-              end: "bottom 55%",
-              scrub: 0.4,
-            },
+            filter: "blur(0px)",
+            stagger: 0.08,
+            ease: "power3.out",
+            scrollTrigger: { trigger: manifestoLead, start: "top 85%", end: "top 45%", scrub: 0.5 },
           },
         );
+        // the stroke lands only after the sentence is fully up, so it reads
+        // as a correction of what was just said
+        gsap
+          .timeline({ scrollTrigger: { trigger: manifestoLead, start: "top 45%", end: "top 22%", scrub: 0.5 } })
+          .fromTo(q(`.${styles.manifestoStrikePath}`), { strokeDashoffset: 1 }, { strokeDashoffset: 0, ease: "power2.inOut" })
+          .fromTo(q(`.${styles.manifestoStruckText}`), { opacity: 1 }, { opacity: 0.38, ease: "none" }, 0.2);
       }
+
+      const GLYPHS = "abcdefghijklmnoprstuvzčšžABCDEFGHKMNPRSTVZ#%&*/<>";
+      q<HTMLElement>(`.${styles.manifestoOutcome}`).forEach((mask) => {
+        const keyText = mask.querySelector<HTMLElement>(`.${styles.manifestoKeyText}`);
+        const final = keyText?.dataset.text ?? "";
+        const decode = { p: 0 };
+        gsap
+          .timeline({ scrollTrigger: { trigger: mask, start: "top 96%", end: "top 58%", scrub: 0.5 } })
+          .fromTo(mask.firstElementChild, { yPercent: 112, rotate: 5 }, { yPercent: 0, rotate: 0, ease: "power3.out", duration: 1 })
+          .fromTo(
+            decode,
+            { p: 0 },
+            {
+              p: 1,
+              ease: "none",
+              duration: 0.8,
+              // characters lock left to right; a 4-char band of noise runs
+              // ahead of the locked part so it reads as decoding
+              onUpdate: () => {
+                if (!keyText) return;
+                if (decode.p >= 1) {
+                  keyText.textContent = final;
+                  return;
+                }
+                const front = decode.p * (final.length + 4);
+                let out = "";
+                for (let i = 0; i < final.length; i++) {
+                  out += i < front - 4 || final[i] === "." ? final[i] : GLYPHS[(Math.random() * GLYPHS.length) | 0];
+                }
+                keyText.textContent = out;
+              },
+            },
+            0.15,
+          )
+          .fromTo(
+            mask.querySelector(`.${styles.manifestoRule}`),
+            { scaleX: 0 },
+            { scaleX: 1, ease: "power2.inOut", duration: 0.45 },
+            ">-0.1",
+          );
+      });
 
       // ── Projects: pinned horizontal scroll ──────────────────────────
       const track = q<HTMLElement>(`.${styles.projectsTrack}`)[0];
@@ -955,13 +1003,53 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
 
         {/* ── 03 · Manifesto ── */}
         <section className={styles.manifesto}>
-          <p className={styles.manifestoText} aria-label={t.manifesto}>
-            {t.manifesto.split(" ").map((w, i) => (
-              <span key={i} className={styles.manifestoWord} aria-hidden="true">
-                {w}{" "}
+          <p className={styles.srOnly}>{t.manifesto}</p>
+          <div className={styles.manifestoInner} aria-hidden="true">
+            {/* each word sits in its own mask; the space stays outside the
+                inline-block, which would otherwise swallow it */}
+            <p className={styles.manifestoText}>
+              {t.manifestoStory.lead.split(" ").map((w, i) => (
+                <Fragment key={i}>
+                  <span className={styles.manifestoMask}>
+                    <span className={styles.manifestoWord}>{w}</span>
+                  </span>{" "}
+                </Fragment>
+              ))}
+              <span className={styles.manifestoStruck}>
+                <span className={styles.manifestoStruckText}>
+                  {t.manifestoStory.struck.split(" ").map((w, i, all) => (
+                    <Fragment key={i}>
+                      <span className={styles.manifestoMask}>
+                        <span className={styles.manifestoWord}>{w}</span>
+                      </span>
+                      {i < all.length - 1 ? " " : null}
+                    </Fragment>
+                  ))}
+                </span>
+                <svg className={styles.manifestoStrike} viewBox="0 0 300 20" preserveAspectRatio="none">
+                  <path className={styles.manifestoStrikePath} pathLength={1} d="M3 13 C 60 5, 120 16, 180 9 S 262 6, 297 11" />
+                </svg>
               </span>
-            ))}
-          </p>
+              <span className={styles.manifestoMask}>
+                <span className={styles.manifestoWord}>.</span>
+              </span>
+            </p>
+            <div className={styles.manifestoOutcomes}>
+              {t.manifestoStory.outcomes.map(([plain, key]) => (
+                <span key={key} className={styles.manifestoOutcome}>
+                  <span className={styles.manifestoOutcomeLine}>
+                    {plain}{" "}
+                    <span className={styles.manifestoKey}>
+                      <span className={styles.manifestoKeyText} data-text={key}>
+                        {key}
+                      </span>
+                      <span className={styles.manifestoRule} />
+                    </span>
+                  </span>
+                </span>
+              ))}
+            </div>
+          </div>
         </section>
 
         <ClientLogosV4 locale={locale} />
