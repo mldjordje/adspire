@@ -16,12 +16,14 @@ export function PreloaderV4() {
   const rootRef = useRef<HTMLDivElement>(null);
   const countRef = useRef<HTMLSpanElement>(null);
   const fillRef = useRef<HTMLSpanElement>(null);
+  const ledRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     const root = rootRef.current;
     const count = countRef.current;
     const fill = fillRef.current;
-    if (!root || !count || !fill) return;
+    const led = ledRef.current;
+    if (!root || !count || !fill || !led) return;
     const isBot =
       typeof navigator !== "undefined" &&
       /bot|crawler|spider|crawling|google|bing|duckduck|baidu|yandex|facebookexternalhit|whatsapp|slack|twitter|perplexity|gptbot/i.test(
@@ -41,6 +43,9 @@ export function PreloaderV4() {
       fired = true;
       count.textContent = "100";
       fill.style.transform = "scaleX(1)";
+      // the LED taps twice — the same latch signature the swarm/scene uses
+      // when a bot locks in — then hands off to the real intro
+      led.classList.add(styles.preloaderLedFinish);
       window.dispatchEvent(new CustomEvent("v4:ready"));
       root.classList.add(styles.preloaderLift);
       window.setTimeout(() => {
@@ -80,6 +85,8 @@ export function PreloaderV4() {
 
       count.textContent = String(Math.round(disp * 100)).padStart(3, "0");
       fill.style.transform = `scaleX(${disp})`;
+      // pulse quickens as load climbs: ~1.1s idle down to ~0.32s near-ready
+      led.style.animationDuration = `${1.1 - disp * 0.78}s`;
 
       if (real >= 1 && disp > 0.99 && elapsed >= MIN_SHOW) {
         finish();
@@ -102,6 +109,7 @@ export function PreloaderV4() {
     <div ref={rootRef} className={styles.preloader} aria-hidden="true">
       <div className={styles.preloaderInner}>
         <div className={styles.preloaderBrand}>
+          <span ref={ledRef} className={styles.preloaderLed} aria-hidden="true" />
           {"ADSPIRE".split("").map((ch, i) => (
             <span
               key={i}
