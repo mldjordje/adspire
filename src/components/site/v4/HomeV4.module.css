@@ -27,11 +27,13 @@
   min-height: 100vh;
   overflow-x: clip;
   -webkit-font-smoothing: antialiased;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
-.root ::selection {
-  background: var(--accent);
-  color: #04070a;
+.root :where(input, textarea, [contenteditable]) {
+  user-select: text;
+  -webkit-user-select: text;
 }
 
 :global(html.v4-locked) {
@@ -234,16 +236,46 @@
   initial-value: 0.3;
 }
 
+@property --portal-open {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
 .preloader {
   position: fixed;
   inset: 0;
   z-index: 200;
-  /* Opaque black: the half-built scene must never show through. It
-     dissolves (never slides) so the LED reads as the hero bot's own LED. */
-  background: #000;
+  --load-angle: 0deg;
+  background: transparent;
   display: grid;
   place-items: center;
-  transition: background-color 0.5s ease 0.2s;
+  pointer-events: auto;
+}
+
+.preloaderVeil {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at center, #060a19 0, #010207 46%, #000 100%);
+  -webkit-mask-image: radial-gradient(circle at center, transparent var(--portal-open), #000 calc(var(--portal-open) + 2px));
+  mask-image: radial-gradient(circle at center, transparent var(--portal-open), #000 calc(var(--portal-open) + 2px));
+}
+
+.preloaderGauge {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 96px;
+  height: 96px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: conic-gradient(from -90deg, #9db9ff var(--load-angle), rgba(117, 145, 222, 0.2) var(--load-angle));
+  -webkit-mask: radial-gradient(transparent 45px, #000 46px);
+  mask: radial-gradient(transparent 45px, #000 46px);
+  opacity: 0.85;
+  box-shadow: 0 0 35px rgba(97, 133, 245, 0.13);
+  transition: opacity 0.25s ease;
 }
 
 /* one LED, at the exact centre the intro's macro shot starts on */
@@ -266,13 +298,13 @@
 .preloaderMeta {
   position: absolute;
   left: 50%;
-  top: calc(50% + 44px);
+  top: calc(50% + 77px);
   transform: translateX(-50%);
   display: flex;
-  gap: 14px;
+  gap: 12px;
   align-items: baseline;
   font-size: 11px;
-  letter-spacing: 0.34em;
+  letter-spacing: 0.18em;
   color: var(--ink-dim);
   transition: opacity 0.25s ease;
 }
@@ -280,6 +312,19 @@
 .preloaderBrand {
   font-family: var(--font-d);
   font-weight: 700;
+}
+
+.preloaderDivider {
+  align-self: center;
+  width: 1px;
+  height: 12px;
+  background: rgba(143, 176, 255, 0.45);
+}
+
+.preloaderStatus {
+  white-space: nowrap;
+  font-size: 9px;
+  color: rgba(184, 197, 255, 0.58);
 }
 
 .preloaderCount {
@@ -291,7 +336,15 @@
 /* ready: two taps in time with the hero bot's heartbeat, then the black
    dissolves into the scene */
 .preloaderDone {
-  background-color: transparent;
+  pointer-events: none;
+}
+
+.preloaderDone .preloaderVeil {
+  animation: prePortalReveal 0.95s cubic-bezier(0.7, 0, 0.2, 1) forwards;
+}
+
+.preloaderDone .preloaderGauge {
+  opacity: 0;
 }
 
 .preloaderDone .preloaderMeta {
@@ -338,6 +391,18 @@
   42% { --led: 0.35; opacity: 0.5; transform: scale(1); }
   58.7% { --led: 1; opacity: 1; transform: scale(1.5); }
   100% { --led: 0; opacity: 0; transform: scale(0.6); }
+}
+
+@keyframes prePortalReveal {
+  0% { --portal-open: 0px; }
+  18% { --portal-open: 0px; }
+  52% { --portal-open: 12vh; }
+  100% { --portal-open: 150vmax; }
+}
+
+@media (max-width: 480px) {
+  .preloaderMeta { gap: 9px; font-size: 10px; }
+  .preloaderStatus { font-size: 8px; }
 }
 
 /* ─── Nav ──────────────────────────────────────────────────── */

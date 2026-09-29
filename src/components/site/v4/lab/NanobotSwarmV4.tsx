@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 
 import type { ShapeSpots } from "./nanoShapes";
+import { wormholeFragment } from "./wormholeShader";
 
 /**
  * Step 2 of the home-scene rework: a swarm of LINK micro-bots (fixed ball
@@ -20,6 +21,12 @@ import type { ShapeSpots } from "./nanoShapes";
 
 type Api = {
   names: string[];
+  variant?: (name: "baseline" | "titanium" | "pearl") => void;
+  skyMode?: (name: "baseline" | "sharp") => void;
+  hideBots?: (hidden: boolean) => void;
+  metrics?: () => { variant: string; dpr: number; buffer: [number, number]; canvas: [number, number]; quality: number; framesMs: number; textures: Record<string, [number, number] | null> };
+  /** Development inspector: suspend live playback while inspecting a frame. */
+  pause?: (paused: boolean) => void;
   /** render the intro at `t` seconds (stills for the in-app browser) */
   intro: (t: number) => void;
   /** jump the scroll story to chapter position P and let the camera settle */
@@ -68,10 +75,13 @@ const HEAD = /* glsl */ `
   uniform vec4 uRip[3];
   // intro: the sheet links up in a wave that starts at one hero bot
   uniform float uIntro;
+  uniform float uIdleBlend;
   uniform float uLinkT0;
   uniform vec3 uHeroPos;
   uniform float uHeroId;
   uniform float uHeroShow;
+  uniform vec3 uMacroPos;
+  uniform float uMacroFocus;
   // 1 = fold the sheet into the form like paper instead of flying in streams
   uniform float uFold;
   // flight shape: 1 = every path passes through one tight spinning core
@@ -227,7 +237,7 @@ const HEAD = /* glsl */ `
     vec3 fv = normalize(vel);
     vec3 fw = normalize(cross(fv, normalize(aRnd.yzx - 0.5 + 1e-3)));
     vec3 fb = normalize(cross(fw, fv));
-    mat3 F = mat3(fw, fb, cross(fw, fb)) * nbRot(vec3(0.0, 0.0, 1.0), sin(uTime * 1.3 + aRnd.x * 6.2831) * 0.35);
+    mat3 F = mat3(fw, fb, cross(fw, fb)) * nbRot(vec3(0.0, 0.0, 1.0), sin(uTime * 0.7 + aRnd.x * 6.2831) * 0.16);
     float leave = smoothstep(0.0, 0.18, lp);
     float land = smoothstep(0.72, 1.0, lp);
     // (the fold below reassigns leave/land: arms keep their grip throughout)
@@ -253,13 +263,15 @@ const HEAD = /* glsl */ `
     // lock-in: a small overshoot as the bot seats itself
     float seat = clamp((raw - 0.85) / 0.3, 0.0, 1.0);
     float pop = sin(seat * 3.14159);
-    s = mix(uScaleFrom, uScale, e) * (1.0 - 0.14 * sin(3.14159 * e) + pop * 0.16);
+    s = mix(uScaleFrom, uScale, e) * (1.0 - 0.14 * sin(3.14159 * e) + pop * 0.065);
 
     // approach: hold a few bot-lengths above the spot, then drop in along
     // the normal — a landing, not a collision
     if (uFold < 0.5) {
       float hoverH = smoothstep(0.45, 0.78, lp) * (1.0 - smoothstep(0.8, 0.97, lp));
-      pos += bNTo * s * 3.2 * hoverH;
+      pos += bNTo * s * 2.4 * hoverH;
+      float impact = max(raw - 1.0, 0.0);
+      pos += bNTo * s * sin(impact * 32.0) * exp(-impact * 18.0) * 0.22;
     }
 
     float docked = step(1.0, raw);
@@ -280,6 +292,10 @@ const HEAD = /* glsl */ `
     float nbId = float(gl_InstanceID);
     #endif
     if (abs(nbId - uHeroId) < 0.5) s *= uHeroShow;
+    // Open a pocket around the one detailed bot during the macro shot.
+    // Its neighbours otherwise become a wall of metal against the lens.
+    float macroPocket = 1.0 - smoothstep(0.65, 1.9, length(fFrom - uMacroPos));
+    s *= 1.0 - uMacroFocus * macroPocket * 0.985;
 
     // intro chain reaction: each bot links when the wave from the hero
     // reaches it — arms unfold, the LED fires. Outside the intro uIntro is
@@ -327,7 +343,7 @@ const HEAD = /* glsl */ `
     // lift and turn, a beat, then snap home with a flash. ~10% of bots, each
     // on its own 7 s clock; the silhouette never moves.
     float mT = fract(uTime / 7.0 + aRnd.z * 13.7);
-    float mOn = step(fract(aRnd.y * 7.31), 0.1) * docked * (1.0 - uFold) * step(1e3, uIntro);
+    float mOn = step(fract(aRnd.y * 7.31), 0.1) * docked * (1.0 - uFold) * uIdleBlend;
     float mOpen = mOn * smoothstep(0.0, 0.045, mT) * (1.0 - smoothstep(0.085, 0.095, mT));
     float mFlash = mT > 0.095 ? mOn * exp(-(mT - 0.095) * 60.0) : 0.0;
 
@@ -358,10 +374,10 @@ const HEAD = /* glsl */ `
       vec3 wing = vec3(-0.55 * aSide, 0.12, 0.8);
       pose = mix(mix(linked, wing, rel), aArmTo, clamp(latch, 0.0, 1.1));
       swim = 0.0;
-      beat = sin(uTime * 10.0 + aRnd.z * 6.2831) * 0.2 * (1.0 - clamp(latch, 0.0, 1.0)) * rel;
+      beat = sin(uTime * 5.0 + aRnd.z * 6.2831) * 0.07 * (1.0 - clamp(latch, 0.0, 1.0)) * rel;
     }
     // arms flare up and out as the lift passes through the bot
-    float pitch = pose.y + beat + 0.04 * breath * land + (uFold > 0.5 ? pop * 0.3 : 0.0) + w * 0.55 + mOpen * 0.85;
+    float pitch = pose.y + beat + 0.015 * breath * land + (uFold > 0.5 ? pop * 0.3 : 0.0) + w * 0.55 + mOpen * 0.85;
     st = mix(pose.z, 0.7, mOpen);
     A = nbRot(vec3(0.0, 1.0, 0.0), pose.x + swim + w * 0.25 * aSide + mOpen * 0.55 * aSide) * nbRot(vec3(0.0, 0.0, 1.0), pitch * aSide);
     #endif
@@ -371,14 +387,14 @@ const HEAD = /* glsl */ `
       ? (raw >= 1.0 ? exp(-(raw - 1.0) * 7.0) : 0.0)
       : (latchT > 0.65 ? exp(-(latchT - 0.65) * 3.0) : 0.0);
     float wave = pow(max(0.0, sin(uTime * 1.1 - bTo.y * 2.4 - bTo.x * 0.6)), 18.0);
-    vLed = 0.3 + arrive * 3.0 + wave * 1.8 * max(docked, 1.0 - rel) + hover * 1.6 + rip * 3.2 + ie * 0.35 * rel;
+    vLed = 0.16 + arrive * 3.0 + wave * 1.1 * max(docked, 1.0 - rel) + hover * 1.6 + rip * 3.2 + ie * 0.35 * rel;
     // an unlinked bot is dark; linking fires its LED once
     vLed = vLed * max(link, leave) + linkFlash * 3.0 * (1.0 - leave);
     if (uFold < 0.5) vLed *= 1.0 - 0.55 * rel * (1.0 - clamp(latch, 0.0, 1.0));
     if (uImplode > 0.5) vLed += smoothstep(0.3, 0.45, lp) * (1.0 - smoothstep(0.6, 0.7, lp)) * 1.4 + burst * 4.0;
     // flying LEDs burn a little hotter: stretched by the streak they read as
     // light trails; a re-seated bot flashes on the snap
-    vLed += flying * 0.9 + mFlash * 3.0;
+    vLed += flying * (0.4 + 0.5 * pow(aRnd.x, 4.0)) + mFlash * 2.4;
   }
 `;
 
@@ -413,6 +429,7 @@ export function NanobotSwarmV4({
     const canvas = canvasRef.current;
     if (!canvas) return;
     let disposed = false;
+    let previewPaused = false;
     let raf = 0;
     let cleanup = () => {};
 
@@ -504,9 +521,9 @@ export function NanobotSwarmV4({
         m.lookAt(0, 0, 0);
         envScene.add(m);
       };
-      softbox(9, 2.4, [0, 7, 1.5], "#ffffff", 5);
-      softbox(0.7, 7, [6, 0.8, 3.5], "#ffffff", 9);
-      softbox(1.4, 6, [-6.5, 0.5, 2], "#5b82ff", 5);
+      softbox(8, 3.2, [0, 7, 2.5], "#f2f4ff", 3.6);
+      softbox(0.55, 7, [6, 0.8, 3.5], "#fff4e1", 6.5);
+      softbox(1.8, 6, [-6.5, 0.5, 2], "#91acff", 3.2);
       softbox(7, 0.8, [0, 1.2, -7], "#dfe6ff", 4);
       softbox(3, 3, [-2, 3, 6], "#ffffff", 1.2);
       // backlight from the wormhole's side: dark bots pick up bright rims
@@ -516,8 +533,16 @@ export function NanobotSwarmV4({
       const pmrem = new THREE.PMREMGenerator(renderer);
       const envTex = pmrem.fromScene(envScene, 0.015).texture;
       scene.environment = envTex;
-      const ENV_I = 2.1;
+      const ENV_I = 1.65;
       scene.environmentIntensity = ENV_I;
+      // A shared key gives the assembled sculpture one continuous light
+      // direction; the softboxes then describe the individual metal parts.
+      const keyLight = new THREE.DirectionalLight(0xe4ebff, 2.4);
+      keyLight.position.set(3, 5, 4);
+      scene.add(keyLight);
+      const rimLight = new THREE.DirectionalLight(0xffdfb4, 1.5);
+      rimLight.position.set(-4, 1, -3);
+      scene.add(rimLight);
 
       // ── dust: fine motes in the space around the form. The far sky is the
       // backdrop below; these are near, so the camera's movement produces real
@@ -581,8 +606,8 @@ export function NanobotSwarmV4({
 
       // ── the void: far sky behind everything ─────────────────────────────
       // ── the void: a wormhole, after Interstellar ────────────────────────
-      // Done the way DNEG did it (Thorne et al., "Visualizing Interstellar's
-      // Wormhole"): real skies bent through a lens. Our side is NASA's Deep
+      // An art-directed approximation of a lensed wormhole, using real skies.
+      // Our side is NASA's Deep
       // Star Maps 2020 (Hipparcos/Tycho/Gaia stars with true colours and
       // dust); the universe through the throat is ESO's all-sky Milky Way
       // photograph (S. Brunier). Both are equirectangular, in galactic
@@ -627,10 +652,12 @@ export function NanobotSwarmV4({
         // fast right now (slit-scan streak length)
         uTravel: { value: 0 },
         uSpeed: { value: 0 },
+        uCharge: { value: 0 },
         uOur: { value: blank as InstanceType<typeof THREE.Texture> },
         uFar: { value: blank as InstanceType<typeof THREE.Texture> },
         uOurOn: { value: 0 },
         uFarOn: { value: 0 },
+        uSharp: { value: 1 },
       };
       loadSky(big ? "/images/space/nasa-starmap-3840.webp" : "/images/space/nasa-starmap-2048.webp", (t) => {
         skyUniforms.uOur.value = t;
@@ -650,215 +677,8 @@ export function NanobotSwarmV4({
           vertexShader: /* glsl */ `
             void main() { gl_Position = vec4(position.xy, 0.999, 1.0); }
           `,
-          fragmentShader: /* glsl */ `
-            uniform mat4 uInvProj;
-            uniform mat4 uCamWorld;
-            uniform vec2 uRes;
-            uniform float uPx;
-            uniform float uTime;
-            uniform float uFade;
-            uniform vec3 uGlow;
-            uniform vec3 uHoleDir;
-            uniform float uHoleR;
-            uniform float uEnter;
-            uniform float uTravel;
-            uniform float uSpeed;
-            uniform sampler2D uOur;
-            uniform sampler2D uFar;
-            uniform float uOurOn;
-            uniform float uFarOn;
-
-            float hash(vec2 p) {
-              p = fract(p * vec2(123.34, 456.21));
-              p += dot(p, p + 45.32);
-              return fract(p.x * p.y);
-            }
-            vec3 hash33(vec3 p) {
-              p = fract(p * vec3(0.1031, 0.1030, 0.0973));
-              p += dot(p, p.yxz + 33.33);
-              return fract((p.xxy + p.yxx) * p.zyx);
-            }
-            vec3 rotAxis(vec3 v, vec3 k, float a) {
-              return v * cos(a) + cross(k, v) * sin(a) + k * dot(k, v) * (1.0 - cos(a));
-            }
-            // a few crisp sparkles on top of the photographic stars
-            vec3 sparkle(vec3 d, float px) {
-              vec3 id = floor(d * 45.0);
-              vec3 r = hash33(id);
-              if (r.x > 0.045) return vec3(0.0);
-              vec3 sp = normalize((id + 0.2 + 0.6 * hash33(id + 17.0)) / 45.0);
-              vec3 dd = d - sp;
-              float size = px * (0.45 + 0.35 * r.z);
-              float b = exp(-dot(dd, dd) / (size * size));
-              float tw = 0.75 + 0.25 * sin(uTime * (0.6 + 1.8 * r.y) + r.z * 40.0);
-              return mix(vec3(1.0, 0.9, 0.78), vec3(1.0), r.y) * b * tw * (0.15 + pow(r.z, 5.0) * 1.2);
-            }
-            // equirect lookup; the band is tilted for a diagonal composition
-            vec2 equi(vec3 d) {
-              const float c = 0.906;
-              const float s = 0.423;
-              d = vec3(c * d.x - s * d.y, s * d.x + c * d.y, d.z);
-              return vec2(atan(d.x, -d.z) / 6.2831853 + 0.5, asin(clamp(d.y, -1.0, 1.0)) / 3.14159265 + 0.5);
-            }
-            // our side: NASA's map, lifted — it is exposed for print, not film
-            vec3 ours(vec3 d) {
-              vec3 c = texture2D(uOur, equi(d)).rgb;
-              c = pow(c, vec3(1.18)) * 1.35;
-              float l = dot(c, vec3(0.3, 0.55, 0.15));
-              return max(mix(vec3(l), c, 1.35), 0.0) * uOurOn;
-            }
-            // the far side: ESO's photograph, graded warm (blue pulled back)
-            vec3 fars(vec3 d) {
-              vec3 c = pow(texture2D(uFar, equi(d)).rgb, vec3(1.12)) * 1.25 * uFarOn;
-              float l = dot(c, vec3(0.3, 0.55, 0.15));
-              c = mix(vec3(l), c, 1.25);
-              return c * vec3(1.06, 0.99, 0.86);
-            }
-
-            void main() {
-              vec2 ndc = gl_FragCoord.xy / uRes * 2.0 - 1.0;
-              vec4 v = uInvProj * vec4(ndc, 1.0, 1.0);
-              vec3 dir = normalize(mat3(uCamWorld) * (v.xyz / v.w));
-
-              float cosT = clamp(dot(dir, uHoleDir), -1.0, 1.0);
-              float th = acos(cosT);
-              float R = uHoleR;
-              float edge = max(fwidth(th), 1e-5);
-              vec3 t1 = normalize(cross(uHoleDir, vec3(0.0, 1.0, 0.0)));
-              vec3 t2 = cross(uHoleDir, t1);
-              vec3 pr = dir - uHoleDir * cosT;
-              vec2 dn = vec2(dot(pr, t1), dot(pr, t2));
-              dn /= max(length(dn), 1e-5);
-              vec3 wh = vec3(1.0, 0.96, 0.9);
-
-              // ── outside: an Einstein-ring lens over the real sky. Grazing
-              // rays come from far round the back; the inner field turns
-              // faster than the outer, so stars stream round the mouth.
-              float thS = th - R * R * 1.15 / max(th, R * 0.5);
-              vec3 axis = normalize(cross(uHoleDir, dir) + vec3(1e-6));
-              vec3 src = rotAxis(dir, axis, thS - th);
-              float near = R / max(th, R);
-              src = rotAxis(src, uHoleDir, uTime * 0.006 + near * near * uTime * 0.04);
-              float px = max(length(fwidth(src)), uPx * 0.5);
-              // the lens smears starlight into concentric arcs near the rim
-              float arc = 0.05 * near * near * near;
-              vec3 outside = vec3(0.0);
-              for (int j = 0; j < 5; j++) {
-                outside += ours(rotAxis(src, uHoleDir, (float(j) / 4.0 - 0.5) * arc));
-              }
-              outside /= 5.0;
-              outside += sparkle(src, px);
-              outside *= 1.0 + 0.7 * near * near;
-
-              // ── inside: the whole far sky is packed into the ball — straight
-              // through at the centre, then ever further round toward the rim,
-              // where it compresses into thin flipped rings as in the film
-              float u = th / R;
-              vec3 F = normalize(vec3(sin(uTime * 0.01) * 0.3, 0.05, -1.0));
-              vec3 f1 = normalize(cross(F, vec3(0.0, 1.0, 0.0)));
-              vec3 f2 = cross(F, f1);
-              float thF = 3.0 * pow(u, 1.6);
-              vec3 fdir = cos(thF) * F + sin(thF) * (dn.x * f1 + dn.y * f2);
-              vec3 inside = fars(fdir);
-              inside += sparkle(fdir, max(length(fwidth(fdir)), 1e-5)) * 0.8;
-              // the glass: crescents where the light from the upper right
-              // catches the rim, a faint sheen across the ball
-              vec2 L = normalize(vec2(0.75, 0.55));
-              float lit = pow(max(dot(dn, L), 0.0), 3.0) + 0.45 * pow(max(-dot(dn, L), 0.0), 6.0);
-              float rim = smoothstep(0.84, 0.995, u);
-              inside += wh * rim * rim * (0.03 + 0.8 * lit);
-              inside *= mix(1.0, 0.8, smoothstep(0.9, 1.0, u));
-
-              vec3 col = mix(outside, inside, 1.0 - smoothstep(R - edge, R + edge, th));
-              col += wh * exp(-pow((th - R) / (edge * 1.0 + R * 0.002), 2.0)) * (0.08 + 0.5 * lit);
-
-              // ── THE INTERIOR. After the film (DNEG: a ray-traced throat
-              // plus a rushing landscape from aerial plates, slit-scan as the
-              // reference): three nested shells of glass, each the far sky
-              // slit-scanned into streaks along the travel, a warm rushing
-              // "ground" of light below, glass rings coming at us with a
-              // prismatic edge, sparks stretching with speed, the exit ahead.
-              if (uEnter > 0.001) {
-                float phi = atan(dn.y, dn.x) + uTime * 0.035;
-                float rr = max(tan(th), 0.012);
-                vec3 tun = vec3(0.0);
-                float cover = 0.0;
-                for (int i = 2; i >= 0; i--) {
-                  float fi = float(i);
-                  // shell radius: the inner shells are nearer, so the same
-                  // travel sweeps them past faster — real parallax
-                  float k = 0.55 + fi * 0.6;
-                  float z = k / rr;
-                  float zt = z + uTravel;
-                  // thick glass: the wall wobbles and the throat twists
-                  float ph = phi + zt * (0.03 - fi * 0.02)
-                    + 0.05 * sin(zt * 1.7 + fi * 2.1)
-                    + 0.07 * sin(zt * 0.43 + phi * 2.0 + fi);
-                  // slit-scan: the texture barely changes along the travel,
-                  // so every feature smears into a streak rushing past
-                  vec3 c = vec3(0.0);
-                  float strk = 0.4 + uSpeed * 3.0;
-                  for (int j = 0; j < 3; j++) {
-                    float zz = zt - float(j) * strk;
-                    vec2 uv = vec2(
-                      fract(ph / 6.2831853 + fi * 0.27 + zz * 0.006),
-                      0.5 + 0.1 * sin(ph + fi * 1.3) + 0.04 * sin(zz * 0.05 + fi));
-                    c += texture2D(uFar, uv).rgb;
-                  }
-                  c = pow(c / 3.0, vec3(1.1)) * 1.7 * uFarOn;
-                  // the throat's light is warm: amber and gold sheets giving
-                  // way to rose, drifting as we travel (no added blue)
-                  float hueK = 0.5 + 0.5 * sin(ph * 2.0 + zt * 0.09 + fi * 1.9);
-                  vec3 tint = mix(vec3(1.25, 0.9, 0.6), vec3(1.15, 0.78, 0.84), hueK);
-                  float lum = dot(c, vec3(0.3, 0.55, 0.15));
-                  c = mix(vec3(lum), c, 1.3) * tint;
-                  // the rushing ground: the lower wall carries a warm,
-                  // bright landscape of light
-                  float ground = smoothstep(0.15, -0.85, sin(ph));
-                  c *= 1.0 + ground * 3.2;
-                  c = mix(c, c * vec3(1.18, 0.98, 0.8), ground);
-                  // deeper is darker; far down the throat melts into black
-                  c *= exp(-z * 0.05) * (1.6 - fi * 0.3);
-                  // glass rings coming at us, prismatic at the edge
-                  float rq = zt * 0.45 + fi * 0.37 + 0.06 * sin(ph * 3.0 + zt) + 0.04 * sin(ph * 7.0 - zt * 0.7);
-                  float rid = floor(rq);
-                  float rOn = step(0.62, hash(vec2(rid, fi * 3.7)));
-                  float rArc = smoothstep(0.2, 0.9, 0.5 + 0.5 * sin(ph * (1.0 + fi) + rid * 2.3));
-                  float rf = fract(rq);
-                  vec3 ring = vec3(
-                    exp(-pow((rf - 0.5 - 0.012) / 0.012, 2.0)),
-                    exp(-pow((rf - 0.5) / 0.012, 2.0)),
-                    exp(-pow((rf - 0.5 + 0.012) / 0.012, 2.0)));
-                  c += ring * vec3(1.0, 0.95, 0.88) * rOn * rArc * (0.35 + 0.6 * ground) * exp(-z * 0.07);
-                  // sparks riding the walls, stretched by speed
-                  vec2 g = vec2(ph * 9.0, zt * 1.2);
-                  vec2 gi = floor(g);
-                  float sh = hash(gi + fi * 17.0);
-                  vec2 gf = fract(g) - 0.5;
-                  float len = 0.35 + uSpeed * 1.6;
-                  float spark = step(0.93, sh) * exp(-pow(gf.x / 0.025, 2.0)) * smoothstep(len, 0.0, abs(gf.y));
-                  c += vec3(1.0, 0.94, 0.86) * spark * (0.4 + 0.9 * sh) * exp(-z * 0.06);
-                  // glass sheets: the inner shells only partly cover the next
-                  float a = i == 2 ? 1.0 : smoothstep(0.35, 0.95, 0.5 + 0.5 * sin(ph * 3.0 + zt * 0.55 + fi * 4.0)) * 0.8;
-                  tun = mix(tun, c, a);
-                  cover = max(cover, a);
-                }
-                // the exit: light at the end of the throat, a lensed ring
-                tun += vec3(1.0, 0.9, 0.78) * (exp(-th / 0.018) * 1.3 + exp(-th / 0.09) * 0.12);
-                tun += vec3(1.0, 0.95, 0.9) * exp(-pow((th - 0.055) / 0.005, 2.0)) * 0.35;
-                col = mix(col, tun, uEnter);
-              }
-
-              vec2 gd = (ndc - uGlow.xy) * vec2(uRes.x / uRes.y, 1.0);
-              col += vec3(0.05, 0.05, 0.05) * exp(-dot(gd, gd) / 0.55) * uGlow.z * 0.4;
-
-              col *= uFade;
-              col += (hash(gl_FragCoord.xy + fract(uTime)) - 0.5) / 400.0;
-              col = max(col, 0.0);
-              float a = clamp(max(col.r, max(col.g, col.b)) * 1.5, 0.0, 1.0);
-              gl_FragColor = vec4(col, a);
-            }
-          `,
+          defines: { WORMHOLE_LAYERS: mobile ? 2 : 3 },
+          fragmentShader: wormholeFragment,
         }),
       );
       sky.frustumCulled = false;
@@ -900,7 +720,7 @@ export function NanobotSwarmV4({
         const rate = dt > 0 ? Math.abs(progress - skyPrevP) / dt : 0;
         skyPrevP = progress;
         skySpeed += (Math.min(rate, 3) - skySpeed) * (1 - Math.exp(-dt * 5));
-        skyUniforms.uTravel.value = progress * 22 + t * 0.35;
+        skyUniforms.uTravel.value = progress * 18 + t * 0.09;
         skyUniforms.uSpeed.value = skySpeed;
         renderer.getDrawingBufferSize(skyRes);
         skyUniforms.uRes.value.copy(skyRes);
@@ -942,10 +762,13 @@ export function NanobotSwarmV4({
         uHoverAmt: { value: 0 },
         uRip: { value: [new THREE.Vector4(0, 0, 0, -99), new THREE.Vector4(0, 0, 0, -99), new THREE.Vector4(0, 0, 0, -99)] },
         uIntro: { value: 1e4 },
+        uIdleBlend: { value: intro ? 0 : 1 },
         uLinkT0: { value: 0.95 },
         uHeroPos: { value: new THREE.Vector3() },
         uHeroId: { value: -1 },
         uHeroShow: { value: 1 },
+        uMacroPos: { value: new THREE.Vector3() },
+        uMacroFocus: { value: 0 },
         uFold: { value: 0 },
         uImplode: { value: 0 },
         uMid: { value: new THREE.Vector3() },
@@ -954,6 +777,7 @@ export function NanobotSwarmV4({
         uSpinFrom: { value: 0 },
         uSpinAxis: { value: new THREE.Vector3(0, 0, 1) },
         uFlow: { value: 0 },
+        uFormShadeStrength: { value: 0 },
       };
 
       type AnyMat = InstanceType<typeof THREE.Material> & { defines?: Record<string, unknown> };
@@ -962,7 +786,7 @@ export function NanobotSwarmV4({
         m.onBeforeCompile = (sh) => {
           Object.assign(sh.uniforms, U);
           sh.vertexShader =
-            HEAD +
+            HEAD + "\nvarying vec4 vNbSurface;\nvarying float vNbFormShade;\n" +
             sh.vertexShader
               .replace(
                 "#include <beginnormal_vertex>",
@@ -986,17 +810,37 @@ export function NanobotSwarmV4({
                  nbRel += nbVDir * dot(nbRel, nbVDir) * nbStretch;
                  vec3 transformed = nbRel + nbPos;
                  // model-space height above the bot's docking plane
-                 vNbDepth = dot(nbA * nbP, vec3(0.0, 1.0, 0.0));`,
+                 vNbDepth = dot(nbA * nbP, vec3(0.0, 1.0, 0.0));
+                 vNbSurface = vec4(position, aRnd.x);
+                 // One broad light field follows the assembled form's
+                 // coordinates, so its volume reads before individual facets.
+                 vec3 formPos = mix(aFrom, aTo, smoothstep(0.0, 1.3, uP));
+                 float formLight = smoothstep(-2.8, 2.8,
+                   dot(formPos, vec3(-0.52, 0.64, 0.22)));
+                 vNbFormShade = mix(0.4, 1.0, formLight);`,
               );
           // Fake contact occlusion. A screen-space AO pass would redraw the
           // scene with its own material and miss the shader animation, so the
           // bot darkens its own underside instead: the side facing into the
           // form, where neighbours and the core block the light.
           sh.fragmentShader =
-            "varying float vNbDepth;\nvarying float vLed;\n" +
-            sh.fragmentShader.replace(
+            "varying float vNbDepth;\nvarying float vLed;\nvarying vec4 vNbSurface;\nvarying float vNbFormShade;\nuniform float uFormShadeStrength;\n" +
+            sh.fragmentShader
+            .replace(
+              "#include <roughnessmap_fragment>",
+              `#include <roughnessmap_fragment>
+               // Machining resolves only in a close shot. Pixel footprint
+               // filters the grooves away at swarm distance (no shimmer).
+               float grainCoord = vNbSurface.y * 190.0 + vNbSurface.z * 65.0;
+               float grainAA = 1.0 - smoothstep(0.3, 1.5, fwidth(grainCoord));
+               float grain = sin(grainCoord) * sin(grainCoord * 0.37);
+               roughnessFactor = clamp(roughnessFactor + grain * grainAA * 0.035
+                 + (vNbSurface.w - 0.5) * 0.045, 0.18, 0.65);`,
+            )
+            .replace(
               "#include <opaque_fragment>",
               "outgoingLight *= mix(0.22, 1.0, smoothstep(-0.26, 0.14, vNbDepth));\n" +
+                "outgoingLight *= mix(1.0, vNbFormShade, uFormShadeStrength);\n" +
                 // the LED lights its own metal: when a bot latches the blue
                 // washes over its body, so the chain reaction carries light
                 // through the mechanism instead of the whole scene brightening
@@ -1032,18 +876,23 @@ export function NanobotSwarmV4({
       // lines. (A mid-grey "machined" substrate was tried and read as flat,
       // bright plastic on real screens.)
       const ballMat = new THREE.MeshPhysicalMaterial({
-        color: 0x1b1d23, metalness: 1, roughness: 0.3, clearcoat: 0.6, clearcoatRoughness: 0.18,
+        color: 0x20242b, metalness: 1, roughness: 0.32, clearcoat: 0.32, clearcoatRoughness: 0.23,
       });
       const armMat = new THREE.MeshPhysicalMaterial({
-        color: 0x2c3038, metalness: 0.9, roughness: 0.24, clearcoat: 0.7, clearcoatRoughness: 0.1, flatShading: true,
+        color: 0x414854, metalness: 1, roughness: 0.36, clearcoat: 0.24, clearcoatRoughness: 0.2, flatShading: true,
       });
       // satin, not mirror: at swarm scale polished tips sparkle into fireflies
-      const tipMat = new THREE.MeshPhysicalMaterial({ color: 0xaeb4bf, metalness: 1, roughness: 0.4, flatShading: true });
+      const tipMat = new THREE.MeshPhysicalMaterial({ color: 0x9da5b2, metalness: 1, roughness: 0.42, flatShading: true });
       const ringMat = new THREE.MeshBasicMaterial({ color: new THREE.Color(0x6f95ff).multiplyScalar(4.5) });
       patchLit(ballMat, false);
       patchLit(armMat, true);
       patchLit(tipMat, true);
       patchGlow(ringMat);
+      const heroMaterials: InstanceType<typeof THREE.MeshPhysicalMaterial>[] = [];
+      let heroGroove: InstanceType<typeof THREE.MeshPhysicalMaterial> | null = null;
+      let chosenVariant: "baseline" | "titanium" | "pearl" = "baseline";
+      let keyTarget = 2.4;
+      let rimTarget = 1.5;
 
       // ── geometry ────────────────────────────────────────────────────────
       const v2 = (pts: number[][]) => pts.map(([x, y]) => new THREE.Vector2(x, y));
@@ -1062,7 +911,7 @@ export function NanobotSwarmV4({
       // the arm root sits inside the ball: the pivot is the ball centre
       armBase.translate(0.2, 0, 0);
       // fuller ball, fewer triangles: twice the bots at the same budget
-      const ballBase = new THREE.SphereGeometry(0.27, 14, 10);
+      const ballBase = new THREE.SphereGeometry(0.27, mobile ? 14 : 20, mobile ? 10 : 14);
       // thick enough that MSAA does not average it below the bloom threshold
       const ringBase = new THREE.TorusGeometry(0.278, 0.02, 4, 28);
       ringBase.rotateY(Math.PI / 2);
@@ -1226,8 +1075,10 @@ export function NanobotSwarmV4({
         return order;
       };
 
-      // fewer, fuller streams: more air between the cables
-      const STREAM = 60;
+      // The spots are sorted along the form's vertical axis. Group adjacent
+      // spots into a small number of broad rivers; a hundred tiny streams
+      // overlapped into a visual cloud once the camera entered the flight.
+      const STREAM = Math.ceil(N / (mobile ? 9 : 14));
       // link direction as an angle about the normal (matches nbDir in GLSL)
       const angOf = (sp: { nrm: Float32Array; dir: Float32Array }, i: number) => {
         const nx = sp.nrm[i * 3];
@@ -1273,13 +1124,13 @@ export function NanobotSwarmV4({
         const streamLag: number[] = [];
         let s2 = 97 + to * 13;
         const r2 = () => ((s2 = (s2 * 16807) % 2147483647) / 2147483647);
-        // organised, not random: streams wind round one shared axis in a
-        // three-turn helix, so the swarm reads as a choreographed ribbon
-        const nStreams = Math.ceil(N / STREAM) + 1;
+        // One twisted route shared by a handful of coherent bands. Each band
+        // begins at a distinct height on the source silhouette.
+        const nStreams = Math.ceil(N / STREAM);
         for (let k = 0; k < nStreams; k++) {
           const u = k / nStreams;
-          const th = u * Math.PI * 2 * 3 + r2() * 0.4;
-          const r = 1.25 + r2() * 0.35;
+          const th = u * Math.PI * 2 * 1.65 + r2() * 0.12;
+          const r = 1.35 + r2() * 0.22;
           streamBend.push([Math.cos(th) * r, (u - 0.5) * 1.3, Math.sin(th) * r]);
           streamLag.push(r2());
         }
@@ -1421,14 +1272,33 @@ export function NanobotSwarmV4({
         // the close-up bot carries the machining: brushed along the arm and
         // around the ball, so highlights stretch in a manufacturing direction
         const heroBall = new THREE.MeshPhysicalMaterial({
-          color: 0x1b1d23, metalness: 1, roughness: 0.3, clearcoat: 0.6, clearcoatRoughness: 0.18,
+          color: 0x20242b, metalness: 1, roughness: 0.32, clearcoat: 0.32, clearcoatRoughness: 0.23,
         });
         const heroArm = new THREE.MeshPhysicalMaterial({
-          color: 0x2c3038, metalness: 0.9, roughness: 0.24, clearcoat: 0.7, clearcoatRoughness: 0.1, flatShading: true,
+          color: 0x414854, metalness: 1, roughness: 0.36, clearcoat: 0.24, clearcoatRoughness: 0.2, flatShading: true,
         });
-        const heroTip = new THREE.MeshPhysicalMaterial({ color: 0xaeb4bf, metalness: 1, roughness: 0.4, flatShading: true });
+        const heroTip = new THREE.MeshPhysicalMaterial({ color: 0x9da5b2, metalness: 1, roughness: 0.42, flatShading: true });
         const groove = new THREE.MeshPhysicalMaterial({ color: 0x33363d, metalness: 1, roughness: 0.34 });
         const slot = new THREE.MeshPhysicalMaterial({ color: 0x07080b, metalness: 0.1, roughness: 0.22, clearcoat: 1 });
+        heroMaterials.push(heroBall, heroArm, heroTip);
+        heroGroove = groove;
+        // The macro mesh has its own filtered machining, without adding any
+        // attributes to the instanced swarm (the arms already use the limit).
+        for (const material of [heroBall, heroArm, heroTip]) {
+          material.onBeforeCompile = (shader) => {
+            shader.vertexShader = "varying vec3 vMachined;\n" + shader.vertexShader.replace(
+              "#include <begin_vertex>",
+              "#include <begin_vertex>\nvMachined = position;",
+            );
+            shader.fragmentShader = "varying vec3 vMachined;\n" + shader.fragmentShader.replace(
+              "#include <roughnessmap_fragment>",
+              `#include <roughnessmap_fragment>
+               float cut = vMachined.y * 280.0 + vMachined.z * 85.0;
+               float visibleCut = 1.0 - smoothstep(0.3, 1.5, fwidth(cut));
+               roughnessFactor += sin(cut) * sin(cut * 0.31) * visibleCut * 0.045;`,
+            );
+          };
+        }
         hero.add(new THREE.Mesh(new THREE.SphereGeometry(0.27, 64, 32), heroBall));
         for (const x of [-0.08, 0.08]) {
           const g = new THREE.Mesh(new THREE.TorusGeometry(0.262, 0.011, 10, 96), groove);
@@ -1440,6 +1310,20 @@ export function NanobotSwarmV4({
         ring.rotation.y = Math.PI / 2;
         ring.name = "ring";
         hero.add(ring);
+        // Recessed segmented bezel around the luminous centre. These are
+        // mechanical parts, not more emissive rings: the strip light reveals
+        // their chamfers during the macro orbit.
+        for (const side of [-1, 1]) {
+          for (let i = 0; i < 12; i++) {
+            const theta = (i / 12) * Math.PI * 2;
+            const bezel = new THREE.Mesh(
+              new THREE.TorusGeometry(0.257, 0.008, 6, 8, Math.PI / 8), heroTip,
+            );
+            bezel.rotation.set(theta, Math.PI / 2, 0);
+            bezel.position.x = side * 0.105;
+            hero.add(bezel);
+          }
+        }
         for (const side of [1, -1]) {
           const pivot = new THREE.Group();
           pivot.rotation.order = "YZX";
@@ -1450,6 +1334,22 @@ export function NanobotSwarmV4({
           stretch.name = "stretch";
           const armMesh = new THREE.Mesh(armBase, [heroArm, heroTip]);
           stretch.add(armMesh);
+          // Telescoping sleeve seams, inset fasteners and a narrow polished
+          // spine. Only the one close-up bot pays for this geometry.
+          for (const x of [0.44, 0.52]) {
+            const collar = new THREE.Mesh(new THREE.CylinderGeometry(0.187, 0.192, 0.018, 6), groove);
+            collar.rotation.z = Math.PI / 2;
+            collar.position.x = x;
+            stretch.add(collar);
+          }
+          for (const z of [-0.082, 0.082]) {
+            const bolt = new THREE.Mesh(new THREE.CylinderGeometry(0.022, 0.022, 0.012, 6), heroTip);
+            bolt.position.set(0.36, 0.215, z);
+            stretch.add(bolt);
+            const socket = new THREE.Mesh(new THREE.CylinderGeometry(0.01, 0.01, 0.013, 6), slot);
+            socket.position.copy(bolt.position).y += 0.003;
+            stretch.add(socket);
+          }
           for (const [y, z] of [[0.2, 0.06], [0.2, -0.06], [0.06, 0.21]]) {
             const cut = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.02, 0.035), slot);
             cut.position.set(0.5, y, z);
@@ -1462,6 +1362,52 @@ export function NanobotSwarmV4({
         hero.matrixAutoUpdate = false;
         rig.add(hero);
       }
+      const setFinish = (material: InstanceType<typeof THREE.MeshPhysicalMaterial>,
+        color: number, metalness: number, roughness: number, clearcoat: number) => {
+        material.color.setHex(color);
+        material.metalness = metalness;
+        material.roughness = roughness;
+        material.clearcoat = clearcoat;
+      };
+      const setVariant = (name: "baseline" | "titanium" | "pearl") => {
+        const previousKey = keyTarget;
+        const previousRim = rimTarget;
+        chosenVariant = name;
+        const body = [ballMat, heroMaterials[0]];
+        const arms = [armMat, heroMaterials[1]];
+        const tips = [tipMat, heroMaterials[2]];
+        if (name === "baseline") {
+          for (const m of body) setFinish(m, 0x20242b, 1, 0.32, 0.32);
+          for (const m of arms) setFinish(m, 0x414854, 1, 0.36, 0.24);
+          for (const m of tips) setFinish(m, 0x9da5b2, 1, 0.42, 0);
+          keyTarget = 2.4; rimTarget = 1.5;
+          U.uFormShadeStrength.value = 0;
+        } else if (name === "titanium") {
+          // The close hero keeps its polished watch finish; thousands of
+          // distant links use quieter satin planes to reveal the whole form.
+          setFinish(body[0], 0x798999, 0.72, 0.53, 0.08);
+          setFinish(arms[0], 0x9dacb9, 0.75, 0.55, 0.06);
+          setFinish(tips[0], 0x718091, 0.8, 0.57, 0);
+          setFinish(body[1], 0x9caab8, 0.85, 0.4, 0.16);
+          setFinish(arms[1], 0xc4cdd6, 0.86, 0.42, 0.12);
+          setFinish(tips[1], 0x828e9d, 0.9, 0.46, 0);
+          keyTarget = 2.1; rimTarget = 0.7;
+          U.uFormShadeStrength.value = 0.85;
+        } else {
+          for (const m of body) setFinish(m, 0xdfded8, 0.24, 0.35, 0.38);
+          for (const m of arms) setFinish(m, 0xc4c8ca, 0.3, 0.4, 0.28);
+          for (const m of tips) setFinish(m, 0x92979b, 0.72, 0.46, 0);
+          keyTarget = 1.8; rimTarget = 0.65;
+          U.uFormShadeStrength.value = 0;
+        }
+        if (heroGroove) heroGroove.color.setHex(name === "baseline" ? 0x33363d : 0x303741);
+        keyLight.color.setHex(name === "pearl" ? 0xffe9cb : 0xe4ebff);
+        rimLight.color.setHex(name === "titanium" ? 0xa4c9ff : 0xffdfb4);
+        // Preserve the intro light ramp at a paused macro frame.
+        keyLight.intensity *= keyTarget / previousKey;
+        rimLight.intensity *= rimTarget / previousRim;
+        composer.render();
+      };
       const heroBasis = new THREE.Matrix4().makeBasis(heroX, heroN, heroZ);
       const setHero = (armK: number, led: number) => {
         hero.matrix
@@ -1505,7 +1451,7 @@ export function NanobotSwarmV4({
       const INTRO_END = 5.9;
       U.uLinkT0.value = T.linkStart;
       // desktop: the A stands right of the headline; phone: above it
-      const wideTarget = mobile ? new THREE.Vector3(0, -1.5, 0) : new THREE.Vector3(-1.35, 0.1, 0);
+      const wideTarget = mobile ? new THREE.Vector3(0, -0.4, 0) : new THREE.Vector3(-1.35, 0.1, 0);
       const ease = (x: number) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
       const clamp01 = (x: number) => Math.min(1, Math.max(0, x));
       const camDirMacro = new THREE.Vector3()
@@ -1516,12 +1462,15 @@ export function NanobotSwarmV4({
       const camDirWide = new THREE.Vector3(0, 0.04, 1).normalize();
       const tgt = new THREE.Vector3();
       const cdir = new THREE.Vector3();
-      const WIDE = mobile ? 10 : 7.2;
+      const WIDE = mobile ? 13.3 : 7.2;
       // returns the build progress p for the swarm at intro time t
       const introFrame = (t: number) => {
         U.uIntro.value = t;
+        U.uIdleBlend.value = 0;
         // lights come up from black as the chain reaction spreads
         scene.environmentIntensity = 0.12 + (ENV_I - 0.12) * ease(clamp01((t - 0.3) / 0.9));
+        keyLight.intensity = keyTarget * ease(clamp01((t - 0.3) / 0.9));
+        rimLight.intensity = rimTarget * ease(clamp01((t - 0.5) / 0.8));
         // the void fills with stars as the camera pulls back off the macro
         starMat.uniforms.uFade.value = ease(clamp01((t - 1.2) / 2.2));
         starMat.uniforms.uTime.value = t;
@@ -1582,17 +1531,22 @@ export function NanobotSwarmV4({
         if (titleRef.current) titleRef.current.style.opacity = String(clamp01((t - T.title) / 0.7));
         return clamp01((t - T.foldStart) / T.foldLen) * 1.3;
       };
-      const endIntro = () => {
+      const endIntro = (preserveCamera = false) => {
         U.uIntro.value = 1e4;
+        U.uIdleBlend.value = 1;
         U.uHeroShow.value = 1;
         hero.visible = false;
         scene.environmentIntensity = ENV_I;
+        keyLight.intensity = keyTarget;
+        rimLight.intensity = rimTarget;
         starMat.uniforms.uFade.value = 1;
-        camera.fov = 30;
-        camera.near = 0.1;
-        camera.position.copy(wideTarget).addScaledVector(camDirWide, WIDE);
-        camera.updateProjectionMatrix();
-        camera.lookAt(wideTarget);
+        if (!preserveCamera) {
+          camera.fov = 30;
+          camera.near = 0.1;
+          camera.position.copy(wideTarget).addScaledVector(camDirWide, WIDE);
+          camera.updateProjectionMatrix();
+          camera.lookAt(wideTarget);
+        }
         if (titleRef.current) titleRef.current.style.opacity = "1";
       };
       if (!intro) {
@@ -1613,13 +1567,14 @@ export function NanobotSwarmV4({
       composer.addPass(
         new PP.EffectPass(
           camera,
-          new PP.BloomEffect({ intensity: 1.1, luminanceThreshold: 0.9, luminanceSmoothing: 0.25, mipmapBlur: true }),
+          new PP.BloomEffect({ intensity: 0.72, luminanceThreshold: 1.15, luminanceSmoothing: 0.3, mipmapBlur: true }),
           new PP.ToneMappingEffect({ mode: PP.ToneMappingMode.AGX }),
           new PP.VignetteEffect({ darkness: 0.55, offset: 0.3 }),
         ),
       );
       composer.addPass(new PP.EffectPass(camera, new PP.SMAAEffect({ preset: PP.SMAAPreset.HIGH })));
       composer.setSize(canvas.clientWidth, canvas.clientHeight);
+      setVariant("titanium");
 
       // ── pointer: hover lifts the lattice, a tap sends a ripple across it ──
       const ray = new THREE.Raycaster();
@@ -1714,6 +1669,8 @@ export function NanobotSwarmV4({
       let touchX: number | null = null;
       let touchY: number | null = null;
       const onTouchStart = (e: TouchEvent) => {
+        const el = e.target as HTMLElement | null;
+        if (el?.closest?.(INTERACTIVE)) return;
         const t = e.touches[0];
         if (!t) return;
         touchX = t.clientX;
@@ -1782,6 +1739,11 @@ export function NanobotSwarmV4({
         camera.updateProjectionMatrix();
         renderer.setSize(w, h, false);
         composer.setSize(w, h);
+        if (previewPaused) {
+          renderer.getDrawingBufferSize(skyRes);
+          skyUniforms.uRes.value.copy(skyRes);
+          composer.render();
+        }
       };
       window.addEventListener("resize", onResize);
 
@@ -1797,6 +1759,7 @@ export function NanobotSwarmV4({
         { pr: Math.max(0.75, basePR - 0.5), ms: 0 },
       ];
       let qLevel = 0;
+      let frameAvgMs = 0;
       let winT = 0;
       let winN = 0;
       let slowWins = 0;
@@ -1806,6 +1769,7 @@ export function NanobotSwarmV4({
         winN++;
         if (winT < 2) return;
         const avg = winT / winN;
+        frameAvgMs = avg * 1000;
         winT = 0;
         winN = 0;
         if (avg > 1 / 42) {
@@ -1848,7 +1812,7 @@ export function NanobotSwarmV4({
         composer.render();
       };
 
-      window.__swarm = {
+      const swarmApi: Api = {
         names: spots.map((s) => s.name),
         intro: (t) => {
           set(-2, spots.length - 1);
@@ -1866,6 +1830,28 @@ export function NanobotSwarmV4({
             body: JSON.stringify({ name, dir, dataUrl: canvas.toDataURL("image/png") }),
           }).then((r) => r.json()),
       };
+      window.__swarm = swarmApi;
+      if (process.env.NODE_ENV === "development") {
+        window.__swarm.variant = setVariant;
+        window.__swarm.skyMode = (name) => { skyUniforms.uSharp.value = name === "sharp" ? 1 : 0; composer.render(); };
+        window.__swarm.hideBots = (hidden) => { rig.visible = !hidden; composer.render(); };
+        window.__swarm.metrics = () => {
+          renderer.getDrawingBufferSize(skyRes);
+          const dims = (t: InstanceType<typeof THREE.Texture>): [number, number] | null => {
+            const img = t.image as { width?: number; height?: number } | undefined;
+            return img?.width && img?.height ? [img.width, img.height] : null;
+          };
+          return {
+            variant: chosenVariant,
+            dpr: renderer.getPixelRatio(),
+            buffer: [skyRes.x, skyRes.y],
+            canvas: [canvas.clientWidth, canvas.clientHeight],
+            quality: qLevel,
+            framesMs: frameAvgMs,
+            textures: { nasa: dims(skyUniforms.uOur.value), eso: dims(skyUniforms.uFar.value) },
+          };
+        };
+      }
 
       setShapes(spots.map((s) => ({ name: s.name, label: s.label })));
       setCount(N);
@@ -1881,6 +1867,9 @@ export function NanobotSwarmV4({
       set(cur, next);
       setCurrent(next);
       const start = performance.now();
+      // Keep shader and sky time on the intro clock when playback hands off to
+      // scroll. Wall time also includes loading and the preloader curtain.
+      let sceneTimeShift = 0;
       let segStart = start;
       let last = start;
       let rot = -0.35;
@@ -1903,6 +1892,7 @@ export function NanobotSwarmV4({
         spinIn = 0;
       };
       if (landing && intro) window.addEventListener("v4:ready", onSceneReady, { once: true });
+      if (landing && intro && document.documentElement.dataset.v4Ready === "true") onSceneReady();
 
       // ── scroll story ─────────────────────────────────────────────────────
       // Scroll position is a chapter index. Each chapter holds its form while
@@ -1958,7 +1948,7 @@ export function NanobotSwarmV4({
                 ? -0.95
                 : -1.35
               : 1.45,
-        y: mobile ? (ch.quiet ? -2.6 : -1.5) : 0.1,
+        y: mobile ? (ch.quiet ? -1.2 : -0.4) : 0.1,
         az: ch.az,
         el: ch.el,
         d: WIDE + ch.dd,
@@ -2270,7 +2260,10 @@ export function NanobotSwarmV4({
           set(Number(a), Number(b), peelMode === "x" ? "x" : "y", flightMode === "implode" ? "implode" : "flight");
           setCurrent(Number(b));
           shownShape = Number(b);
-          macroOn = landing && rest.includes(":x:") && Number(a) >= 0;
+          // Reserve the full macro for the signature A departure. The AI
+          // implosion needs a wide view of the entire field collapsing.
+          macroOn = landing && rest.includes(":x:") && Number(a) >= 0
+            && CH[seg].shape === "monogram";
           if (macroOn) pickMacro();
         }
         // Rail: framing A → a close pass beside the swarm → framing B on a
@@ -2315,12 +2308,14 @@ export function NanobotSwarmV4({
           const ek = ease(k);
           const sk = Math.sin(Math.PI * k);
           const pre = k < 0.22 ? Math.sin(Math.PI * (k / 0.22)) : 0;
-          const orbit = toImplode ? 0.35 : 1.15;
+          const nextShape = CH[Math.min(seg + 1, CH.length - 1)].shape;
+          const orbit = toImplode ? 0.28 : nextShape === "globe" || nextShape === "gear" ? -0.8 : 1.05;
           const az = THREE.MathUtils.lerp(A0.az, B0.az, ek) + orbit * sk;
-          const el = THREE.MathUtils.lerp(A0.el, B0.el, ek) + 0.3 * sk;
+          const crane = nextShape === "gear" ? -0.12 : toImplode ? 0.08 : 0.25;
+          const el = THREE.MathUtils.lerp(A0.el, B0.el, ek) + crane * sk;
           const d =
             THREE.MathUtils.lerp(A0.d, B0.d, ek) *
-            (1 - (toImplode ? 0.38 : 0.5) * Math.pow(sk, 1.2)) *
+            (toImplode ? 1 + 0.22 * Math.pow(sk, 1.2) : 1 - 0.5 * Math.pow(sk, 1.2)) *
             (1 - 0.05 * pre);
           const tx = THREE.MathUtils.lerp(A0.x, B0.x, ek) * (1 - 0.85 * sk);
           const ty = THREE.MathUtils.lerp(A0.y, B0.y, ek) * (1 - 0.6 * sk);
@@ -2370,6 +2365,9 @@ export function NanobotSwarmV4({
           const raw = (p - 0.15 - macroDelay * 0.5) / 0.5;
           const endK = Math.min(0.45, (0.175 + macroDelay * 0.5) / 1.3);
           macroW = smooth01(0, 0.1, k) * (1 - smooth01(endK, endK + 0.16, k));
+          // Begin the pull-back as the lead bot leaves its socket. The macro
+          // mesh is only a stand-in for that socket, not the later flight.
+          macroW *= 1 - smooth01(-0.02, 0.1, raw);
           const rel = smooth01(-0.16, 0, raw);
           const crouch = Math.sin(Math.PI * clamp01((raw + 0.3) / 0.16));
           macroLocal.copy(macroPos).addScaledVector(macroN, macroScale * (1.4 * rel - 0.45 * crouch));
@@ -2393,6 +2391,8 @@ export function NanobotSwarmV4({
         } else if (macroShown) {
           macroHide();
         }
+        U.uMacroPos.value.copy(macroPos);
+        U.uMacroFocus.value = macroW;
         camPos.lerp(goalPos, 1 - Math.exp(-dt * (2.8 + 7 * macroW)));
         camLook.lerp(goalLook, 1 - Math.exp(-dt * (1.9 + 8 * macroW)));
         camFov += (goalFov - camFov) * (1 - Math.exp(-dt * 2.5));
@@ -2407,7 +2407,7 @@ export function NanobotSwarmV4({
         camRoll += (rollGoal - camRoll) * (1 - Math.exp(-dt * 3));
 
         // a breath of hand-held motion, never still
-        const tsec = (now - start) / 1000;
+        const tsec = (now - start) / 1000 - sceneTimeShift;
         camera.position.copy(camPos);
         if (!landing) {
           camera.position.x += Math.sin(tsec * 0.7) * 0.03;
@@ -2451,12 +2451,16 @@ export function NanobotSwarmV4({
           rig.rotation.y = spinAngle + Math.sin(swayT * 0.16) * 0.3;
           rig.rotation.x = pitch;
           rig.updateMatrixWorld();
+          skyUniforms.uCharge.value = toImplode
+            ? Math.exp(-Math.pow((p - 0.52) / 0.16, 2))
+              + 0.85 * Math.exp(-Math.pow((p - 0.82) / 0.09, 2))
+            : 0;
           updateSky(tsec, 1, P);
           // inside the throat the near dust would read as blobs: let it go
           starMat.uniforms.uFade.value = 1 - 0.9 * skyUniforms.uEnter.value;
           starMat.uniforms.uTime.value = tsec;
           // stars drift slower than the form: depth without a second scene
-          stars.rotation.y = tsec * 0.008 + spinAngle * 0.04;
+          stars.rotation.y = tsec * 0.004 + spinAngle * 0.04;
           stars.position.y = (smoothY / span) * 4;
           if (p >= 1.3) autoPulse(tsec);
         } else {
@@ -2490,6 +2494,13 @@ export function NanobotSwarmV4({
         window.__swarm.story = (P: number) => {
           introStart = -1;
           endIntro();
+          // A seek starts from the chapter being inspected, independent of
+          // whichever frame the inspector showed previously.
+          const seekChapter = Math.min(Math.floor(Math.max(P, 0)), CH.length - 1);
+          morphShown = chapterShape[seekChapter];
+          morphFrom = -1;
+          leaveSeg = -1;
+          activeSet = "";
           let y = P * window.innerHeight * (CHAPTER_VH / 100);
           if (landing) {
             // landing: find the scroll position whose story position is P
@@ -2507,7 +2518,9 @@ export function NanobotSwarmV4({
           }
           pinnedY = y;
           smoothY = y;
-          const t0 = performance.now();
+          // Use the same clock for every inspected chapter so materials,
+          // lighting and sky compare at an identical camera and phase.
+          const t0 = start + 12000;
           for (let i = 0; i < 90; i++) driveScroll(t0 + i * 50, 0.05);
         };
       }
@@ -2515,6 +2528,10 @@ export function NanobotSwarmV4({
       let firstFrame = true;
       const loop = (now: number) => {
         if (disposed) return;
+        if (previewPaused) {
+          raf = requestAnimationFrame(loop);
+          return;
+        }
         if (firstFrame) {
           firstFrame = false;
           if (landing) prog(1);
@@ -2543,19 +2560,33 @@ export function NanobotSwarmV4({
           if (it < INTRO_END && !bailOut) {
             rig.rotation.y = 0;
             U.uP.value = introFrame(it);
-            U.uTime.value = (now - start) / 1000;
+            U.uTime.value = it;
             composer.render();
             raf = requestAnimationFrame(loop);
             return;
           }
           // hand over: hold the A, ease the turntable in
-          endIntro();
+          endIntro(bailOut);
           introStart = -1;
+          // The settled swarm's small idle motions fade in after the last
+          // intro frame instead of switching on for a tenth of the bots.
+          U.uIdleBlend.value = 0;
+          // The intro ends at the frontal hero framing. The scroll camera's
+          // initial rail position is offset from that frame; seed its springs
+          // from the frame actually on screen so the first scroll frame moves
+          // toward the rail instead of cutting to an unrelated position.
+          camPos.copy(camera.position);
+          camLook.copy(bailOut ? tgt : wideTarget);
+          camPrev.copy(camPos);
+          camFov = camera.fov;
+          camRoll = 0;
+          sceneTimeShift = (now - start) / 1000 - it;
           segStart = now - (BUILD / 1.3) * 1000 * 1.3;
           rot = 0;
         }
         const dt = Math.min((now - last) / 1000, 0.05);
         last = now;
+        U.uIdleBlend.value = Math.min(1, U.uIdleBlend.value + dt * 1.5);
         // the gear turns only while it is held; frozen through transitions
         if (U.uSpinTo.value > 0.5 && (!scroll || gearHold)) U.uSpinAng.value += dt * 0.35;
         if (scroll) {
@@ -2583,6 +2614,15 @@ export function NanobotSwarmV4({
         render(p, (now - start) / 1000, { rot: (-0.35 + Math.sin(rot) * 0.55) * ease(spinIn) });
         raf = requestAnimationFrame(loop);
       };
+      if (process.env.NODE_ENV === "development" && window.__swarm) {
+        window.__swarm.pause = (paused) => {
+          previewPaused = paused;
+          if (!paused) {
+            pinnedY = null;
+            last = performance.now();
+          }
+        };
+      }
       raf = requestAnimationFrame(loop);
 
       cleanup = () => {
@@ -2612,12 +2652,24 @@ export function NanobotSwarmV4({
         sky.geometry.dispose();
         sky.material.dispose();
         for (const t of skyTextures) t.dispose();
+        // Includes the macro bot's sleeves, bezels and inset fasteners.
+        const detailGeometries = new Set<InstanceType<typeof THREE.BufferGeometry>>();
+        const detailMaterials = new Set<InstanceType<typeof THREE.Material>>();
+        for (const group of [rig, envScene]) group.traverse((object) => {
+          if (!(object instanceof THREE.Mesh)) return;
+          detailGeometries.add(object.geometry);
+          for (const material of Array.isArray(object.material) ? object.material : [object.material]) {
+            detailMaterials.add(material);
+          }
+        });
+        for (const geometry of [ballBase, ringBase, armBase, arm, tip]) detailGeometries.add(geometry);
+        detailGeometries.forEach((geometry) => geometry.dispose());
+        detailMaterials.forEach((material) => material.dispose());
         composer.dispose();
         pmrem.dispose();
         envTex.dispose();
-        for (const g of [ballGeo, ringGeo, armGeo, ballBase, ringBase, armBase]) g.dispose();
         renderer.dispose();
-        delete window.__swarm;
+        if (window.__swarm === swarmApi) delete window.__swarm;
       };
     })();
 

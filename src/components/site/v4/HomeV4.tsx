@@ -271,7 +271,10 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
         intro.play();
       };
       window.addEventListener("v4:ready", playIntro, { once: true });
-      const introFallback = window.setTimeout(playIntro, 2600);
+      if (document.documentElement.dataset.v4Ready === "true") playIntro();
+      const introFallback = window.setTimeout(() => {
+        if (!document.documentElement.classList.contains("v4-locked")) playIntro();
+      }, 2600);
 
       // The hero exits as one composed frame so the particle scene keeps focus.
       // Driven on the children, not on `.heroInner`: a transform there would
@@ -796,7 +799,7 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
 
   return (
     <div ref={rootRef} className={styles.root} data-standalone-page="v4">
-      <PreloaderV4 />
+      <PreloaderV4 locale={locale} />
       <CursorV4 />
       {/* the void, graded per section by SceneV4 via `--v4-void` */}
       <div className={styles.sceneBackdrop} aria-hidden="true" />

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import type { LocaleCode } from "@/lib/site-config";
 import styles from "./HomeV4.module.css";
 
 /**
@@ -12,13 +13,14 @@ import styles from "./HomeV4.module.css";
  * dissolves into the scene instead of lifting away. Dispatches "v4:ready"
  * on the first tap, which is t = 0 of the intro.
  */
-export function PreloaderV4() {
+export function PreloaderV4({ locale }: { locale: LocaleCode }) {
   const [gone, setGone] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
   const countRef = useRef<HTMLSpanElement>(null);
   const ledRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
+    delete document.documentElement.dataset.v4Ready;
     const root = rootRef.current;
     const count = countRef.current;
     const led = ledRef.current;
@@ -40,6 +42,7 @@ export function PreloaderV4() {
       if (fired) return;
       fired = true;
       count.textContent = "100";
+      document.documentElement.dataset.v4Ready = "true";
       window.dispatchEvent(new CustomEvent("v4:ready"));
       if (instant) {
         document.documentElement.classList.remove("v4-locked");
@@ -81,6 +84,7 @@ export function PreloaderV4() {
       const target = real >= 1 ? 1 : Math.min(Math.max(creep, real * 0.97), 0.97);
       disp += (target - disp) * 0.09;
       count.textContent = String(Math.round(disp * 100)).padStart(2, "0");
+      root.style.setProperty("--load-angle", `${(disp * 360).toFixed(1)}deg`);
 
       // a heartbeat that quickens with load: ~0.9 Hz idle → ~2.6 Hz near ready
       phase += dt * (0.9 + disp * 1.7);
@@ -106,10 +110,16 @@ export function PreloaderV4() {
 
   return (
     <div ref={rootRef} className={styles.preloader} aria-hidden="true">
+      <span className={styles.preloaderVeil} />
+      <span className={styles.preloaderGauge} />
       <span ref={ledRef} className={styles.preloaderLed} />
       <span className={styles.preloaderRing} />
       <div className={styles.preloaderMeta}>
         <span className={styles.preloaderBrand}>ADSPIRE</span>
+        <span className={styles.preloaderDivider} />
+        <span className={styles.preloaderStatus}>
+          {locale === "en" ? "ESTABLISHING LINK" : locale === "de" ? "VERBINDUNG WIRD HERGESTELLT" : "USPOSTAVLJANJE VEZE"}
+        </span>
         <span ref={countRef} className={styles.preloaderCount}>
           00
         </span>
