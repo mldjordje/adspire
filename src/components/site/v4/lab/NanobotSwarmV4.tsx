@@ -78,7 +78,11 @@ const HEAD = /* glsl */ `
   uniform float uImplode;
   uniform vec3 uMid;
   // a docked form that turns (the process gear): rad/s about uSpinAxis
-  uniform float uSpin;
+  // the gear's turn: an angle integrated on the CPU (only while it is held),
+  // applied to whichever side of the transition is the gear
+  uniform float uSpinAng;
+  uniform float uSpinTo;
+  uniform float uSpinFrom;
   uniform vec3 uSpinAxis;
   // how fast the story progress is moving right now (dp/dt): real speed of
   // a flying bot, so the motion streak follows the viewer's own scroll
@@ -131,11 +135,20 @@ const HEAD = /* glsl */ `
     vec3 bTo = aTo;
     vec3 bNTo = aNTo;
     vec3 bDTo = aDTo;
-    if (uSpin != 0.0) {
-      mat3 Sr = nbRot(uSpinAxis, uTime * uSpin);
-      bTo = uMid + Sr * (aTo - uMid);
-      bNTo = Sr * aNTo;
-      bDTo = Sr * aDTo;
+    vec3 fFrom = aFrom;
+    vec3 fNFrom = aNFrom;
+    if (uSpinTo > 0.5 || uSpinFrom > 0.5) {
+      mat3 Sr = nbRot(uSpinAxis, uSpinAng);
+      if (uSpinTo > 0.5) {
+        bTo = uMid + Sr * (aTo - uMid);
+        bNTo = Sr * aNTo;
+        bDTo = Sr * aDTo;
+      }
+      if (uSpinFrom > 0.5) {
+        fFrom = uMid + Sr * (aFrom - uMid);
+        fNFrom = Sr * aNFrom;
+        aDFrom = Sr * aDFrom;
+      }
     }
 
     // Per-bot timeline outside the intro fold: a release pre-roll (raw
@@ -154,7 +167,7 @@ const HEAD = /* glsl */ `
     // around the shared axis in a ribbon with its stream, come down along
     // the new normal. Implode: every path runs through one tight core.
     float liftH = 0.9 + aRnd.w * 0.5;
-    vec3 P0 = aFrom + aNFrom * uScaleFrom * (1.4 * rel - 0.45 * crouch);
+    vec3 P0 = fFrom + fNFrom * uScaleFrom * (1.4 * rel - 0.45 * crouch);
     vec3 P3 = bTo;
     float ie2 = ie * ie;
     float e2 = e * e;
@@ -218,7 +231,7 @@ const HEAD = /* glsl */ `
     float leave = smoothstep(0.0, 0.18, lp);
     float land = smoothstep(0.72, 1.0, lp);
     // (the fold below reassigns leave/land: arms keep their grip throughout)
-    R = nbMix(nbMix(nbFrame(aNFrom, aDFrom), F, leave), nbFrame(bNTo, bDTo), land);
+    R = nbMix(nbMix(nbFrame(fNFrom, aDFrom), F, leave), nbFrame(bNTo, bDTo), land);
 
     // fold: the sheet closes towards the camera like a book, its top and
     // bottom curl, and the curled sheet settles into the form — one surface
@@ -240,7 +253,7 @@ const HEAD = /* glsl */ `
     // lock-in: a small overshoot as the bot seats itself
     float seat = clamp((raw - 0.85) / 0.3, 0.0, 1.0);
     float pop = sin(seat * 3.14159);
-    s = mix(uScaleFrom, uScale, e) * (0.86 + 0.14 * e + pop * 0.16);
+    s = mix(uScaleFrom, uScale, e) * (1.0 - 0.14 * sin(3.14159 * e) + pop * 0.16);
 
     // approach: hold a few bot-lengths above the spot, then drop in along
     // the normal — a landing, not a collision
@@ -358,7 +371,7 @@ const HEAD = /* glsl */ `
       ? (raw >= 1.0 ? exp(-(raw - 1.0) * 7.0) : 0.0)
       : (latchT > 0.65 ? exp(-(latchT - 0.65) * 3.0) : 0.0);
     float wave = pow(max(0.0, sin(uTime * 1.1 - bTo.y * 2.4 - bTo.x * 0.6)), 18.0);
-    vLed = 0.3 + arrive * 3.0 + wave * 1.8 * docked + hover * 1.6 + rip * 3.2 + ie * 0.35;
+    vLed = 0.3 + arrive * 3.0 + wave * 1.8 * max(docked, 1.0 - rel) + hover * 1.6 + rip * 3.2 + ie * 0.35 * rel;
     // an unlinked bot is dark; linking fires its LED once
     vLed = vLed * max(link, leave) + linkFlash * 3.0 * (1.0 - leave);
     if (uFold < 0.5) vLed *= 1.0 - 0.55 * rel * (1.0 - clamp(latch, 0.0, 1.0));
@@ -567,15 +580,131 @@ export function NanobotSwarmV4({
       if (STARS) scene.add(stars);
 
       // ── the void: far sky behind everything ─────────────────────────────
-      // A wormhole behind the form, after Interstellar (Thorne & DNEG,
-      // "Visualizing Interstellar's Wormhole"): a crystal ball showing another
-      // universe — a slowly turning galaxy — whose image repeats in thin
-      // lenticular rings at the rim; outside it our starfield (the footer's
-      // event-horizon star, one per hashed cell) is bent by an Einstein-ring
-      // lens, so every camera move makes stars stream around the mouth. The
-      // mouth grows as the page goes on. Neutral whites only: the contrast
-      // with the dark bots comes from light behind them, not from colour.
-      // Drawn first, with alpha over the CSS void, so the hero title stays.
+      // ── the void: a wormhole, after Interstellar ────────────────────────
+      // (Thorne & DNEG, "Visualizing Interstellar's Wormhole"). Built like a
+      // VFX plate, not a doodle: the slow, rich parts — our sky's galactic
+      // band with dust lanes and haze, and the galaxy on the far side — are
+      // baked ONCE into mipmapped textures with 8-octave domain-warped noise.
+      // Each frame only bends them through the lens and adds crisp procedural
+      // stars, whose footprint follows the lens (near the rim they smear into
+      // arcs, as real lensed starlight does). Neutral whites only.
+      const NOISE = /* glsl */ `
+        float h3(vec3 p) {
+          p = fract(p * 0.3183099 + 0.1);
+          p *= 17.0;
+          return fract(p.x * p.y * p.z * (p.x + p.y + p.z));
+        }
+        float n3(vec3 x) {
+          vec3 i = floor(x);
+          vec3 f = fract(x);
+          f = f * f * (3.0 - 2.0 * f);
+          return mix(
+            mix(mix(h3(i), h3(i + vec3(1.0, 0.0, 0.0)), f.x), mix(h3(i + vec3(0.0, 1.0, 0.0)), h3(i + vec3(1.0, 1.0, 0.0)), f.x), f.y),
+            mix(mix(h3(i + vec3(0.0, 0.0, 1.0)), h3(i + vec3(1.0, 0.0, 1.0)), f.x), mix(h3(i + vec3(0.0, 1.0, 1.0)), h3(i + vec3(1.0, 1.0, 1.0)), f.x), f.y),
+            f.z);
+        }
+        float fbm3(vec3 p) {
+          float v = 0.0;
+          float a = 0.5;
+          for (int i = 0; i < 8; i++) {
+            v += a * n3(p);
+            p = p * 2.02 + vec3(1.7, 9.2, 3.1);
+            a *= 0.5;
+          }
+          return v;
+        }
+        vec4 enc(vec3 c, float extra) { return vec4(sqrt(clamp(c / 4.0, 0.0, 1.0)), extra); }
+      `;
+      const baked: InstanceType<typeof THREE.WebGLRenderTarget>[] = [];
+      const bake = (w: number, h: number, frag: string, wrapS: number) => {
+        const rt = new THREE.WebGLRenderTarget(w, h, {
+          generateMipmaps: true,
+          minFilter: THREE.LinearMipmapLinearFilter,
+          magFilter: THREE.LinearFilter,
+          wrapS: wrapS as never,
+          wrapT: THREE.ClampToEdgeWrapping,
+          depthBuffer: false,
+        });
+        const mat = new THREE.ShaderMaterial({
+          vertexShader: "varying vec2 vUv; void main() { vUv = uv; gl_Position = vec4(position.xy, 0.0, 1.0); }",
+          fragmentShader: "varying vec2 vUv;\n" + NOISE + frag,
+          depthTest: false,
+          depthWrite: false,
+        });
+        const quad = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), mat);
+        const bs = new THREE.Scene();
+        bs.add(quad);
+        const prev = renderer.getRenderTarget();
+        renderer.setRenderTarget(rt);
+        renderer.render(bs, new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1));
+        renderer.setRenderTarget(prev);
+        mat.dispose();
+        quad.geometry.dispose();
+        baked.push(rt);
+        return rt.texture;
+      };
+      const skyW = !landing ? 4 : lowEnd ? 512 : mobile ? 1024 : 2048;
+      // our sky, equirectangular: a galactic band with warped dust lanes,
+      // soft haze and wisps; alpha carries the band (stars crowd into it)
+      const ourTex = bake(
+        skyW,
+        skyW / 2,
+        /* glsl */ `
+        void main() {
+          float lon = (vUv.x - 0.5) * 6.2831853;
+          float lat = (vUv.y - 0.5) * 3.14159265;
+          vec3 d = vec3(sin(lon) * cos(lat), sin(lat), -cos(lon) * cos(lat));
+          vec3 nb = normalize(vec3(0.42, 1.0, 0.22));
+          vec3 w = vec3(fbm3(d * 2.2), fbm3(d * 2.2 + 5.2), fbm3(d * 2.2 + 9.7)) - 0.5;
+          float b = dot(d, nb) + w.x * 0.22;
+          float band = exp(-pow(b / 0.2, 2.0));
+          float core = exp(-pow(b / 0.07, 2.0));
+          float cloud = fbm3(d * 4.5 + w * 2.4);
+          float glow = band * (0.3 + 0.7 * cloud) + core * 0.6 * cloud;
+          // dark dust lanes threading the band
+          float lanes = smoothstep(0.48, 0.72, fbm3(d * 8.0 + w * 3.0)) * band;
+          float wisp = pow(fbm3(d * 3.0 + w * 3.5), 3.2);
+          vec3 c = vec3(0.96, 0.94, 0.9) * glow * 0.13 * (1.0 - 0.9 * lanes);
+          c += vec3(0.82, 0.82, 0.84) * wisp * 0.035;
+          // far galaxies as faint smudges
+          vec3 g = floor(d * 9.0);
+          float gh = h3(g + 7.0);
+          vec3 gp = (g + 0.5) / 9.0;
+          c += vec3(0.9) * step(0.93, gh) * exp(-pow(length(d - normalize(gp)) / 0.012, 2.0)) * 0.12;
+          gl_FragColor = enc(c, band);
+        }`,
+        THREE.RepeatWrapping,
+      );
+      const farW = !landing ? 4 : lowEnd ? 512 : mobile ? 768 : 1024;
+      // the other universe, as the film shows it through the throat: mostly
+      // dark, dense fine stars, a few glowing nebula clumps and filaments
+      const farTex = bake(
+        farW,
+        farW,
+        /* glsl */ `
+        void main() {
+          vec2 p = vUv * 2.0 - 1.0;
+          vec3 q = vec3(p * 2.2, 0.0);
+          vec3 w = vec3(fbm3(q), fbm3(q + 4.3), fbm3(q + 8.1)) - 0.5;
+          float cl = fbm3(vec3(p * 3.0, 1.0) + w * 2.2);
+          float clumps = pow(smoothstep(0.52, 0.8, cl), 2.0);
+          float veil = pow(fbm3(vec3(p * 1.6, 3.0) + w * 1.5), 3.0);
+          float fil = smoothstep(0.6, 0.72, fbm3(vec3(p * 7.0, 5.0) + w * 3.0));
+          vec3 warm = vec3(1.0, 0.9, 0.84);
+          vec3 c = vec3(0.012, 0.012, 0.014);
+          c += mix(vec3(0.85, 0.86, 0.88), warm, cl) * veil * 0.09;
+          c += warm * clumps * 0.9 * (0.6 + 0.4 * fbm3(vec3(p * 18.0, 7.0)));
+          c *= 1.0 - fil * 0.7;
+          // hot knots inside the brightest clumps
+          vec2 kc = floor(p * 40.0);
+          float kh = h3(vec3(kc, 2.0));
+          vec2 kp = (kc + 0.5) / 40.0;
+          c += vec3(1.0, 0.95, 0.9) * step(0.8, kh) * clumps * exp(-pow(length(p - kp) / 0.006, 2.0)) * 3.0;
+          gl_FragColor = enc(c, clumps);
+        }`,
+        THREE.ClampToEdgeWrapping,
+      );
+
       const skyUniforms = {
         uInvProj: { value: camera.projectionMatrixInverse },
         uCamWorld: { value: camera.matrixWorld },
@@ -585,7 +714,10 @@ export function NanobotSwarmV4({
         uFade: { value: 0 },
         uGlow: { value: new THREE.Vector3(0, 0, 1) },
         uHoleDir: { value: new THREE.Vector3(0.2, 0.08, -1).normalize() },
-        uHoleR: { value: 0.14 },
+        uHoleR: { value: 0.04 },
+        uEnter: { value: 0 },
+        uOur: { value: ourTex },
+        uFar: { value: farTex },
       };
       const sky = new THREE.Mesh(
         new THREE.PlaneGeometry(2, 2),
@@ -607,81 +739,41 @@ export function NanobotSwarmV4({
             uniform vec3 uGlow;
             uniform vec3 uHoleDir;
             uniform float uHoleR;
+            uniform sampler2D uOur;
+            uniform sampler2D uFar;
+            uniform float uEnter;
 
             float hash(vec2 p) {
               p = fract(p * vec2(123.34, 456.21));
               p += dot(p, p + 45.32);
               return fract(p.x * p.y);
             }
-            float vnoise(vec2 p) {
-              vec2 i = floor(p);
-              vec2 f = fract(p);
-              vec2 u = f * f * (3.0 - 2.0 * f);
-              return mix(mix(hash(i), hash(i + vec2(1.0, 0.0)), u.x),
-                         mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), u.x), u.y);
+            vec3 hash33(vec3 p) {
+              p = fract(p * vec3(0.1031, 0.1030, 0.0973));
+              p += dot(p, p.yxz + 33.33);
+              return fract((p.xxy + p.yxx) * p.zyx);
             }
-            float fbm(vec2 p) {
-              float v = 0.0;
-              float a = 0.5;
-              for (int i = 0; i < 4; i++) {
-                v += a * vnoise(p);
-                p = p * 2.03 + vec2(0.0, 7.1);
-                a *= 0.5;
-              }
-              return v;
-            }
-            // same star as EventHorizonV4: one per cell, gaussian, twinkling
-            vec3 stars(vec2 p, float scale, float seed, float px) {
-              vec2 g = p * scale;
-              vec2 id = floor(g);
-              vec2 f = fract(g);
-              float h = hash(id + seed);
-              float h2 = hash(id * 1.37 + seed + 3.1);
-              float h3 = hash(id * 0.71 + seed + 9.4);
-              vec2 o = 0.2 + 0.6 * vec2(h2, h3);
-              vec2 d = (f - o) / scale;
-              float size = px * mix(0.6, 1.7, h2 * h2 * h2);
-              float b = exp(-dot(d, d) / (size * size));
-              float on = step(0.8, h);
-              float tw = 0.6 + 0.4 * sin(uTime * (0.8 + 2.6 * h3) + h2 * 40.0);
-              vec3 tint = mix(vec3(0.86, 0.88, 0.92), vec3(1.0, 0.98, 0.95), h3);
-              return tint * b * on * tw * mix(0.4, 1.5, pow(max(h - 0.8, 0.0) * 5.0, 3.0));
-            }
+            vec3 dec(vec4 t) { return t.rgb * t.rgb * 4.0; }
             vec3 rotAxis(vec3 v, vec3 k, float a) {
               return v * cos(a) + cross(k, v) * sin(a) + k * dot(k, v) * (1.0 - cos(a));
             }
-
-            // our side: stars and a faint neutral dust band
-            vec3 ourSky(vec3 d) {
-              vec3 n = vec3(d.x, d.y, -d.z);
-              n /= abs(n.x) + abs(n.y) + abs(n.z);
-              vec2 p = n.z >= 0.0 ? n.xy : (1.0 - abs(n.yx)) * sign(n.xy);
-              vec3 c = stars(p, 70.0, 1.0, uPx * 1.1) * 0.5;
-              c += stars(p * 1.03, 140.0, 7.0, uPx) * 0.65;
-              c += stars(p * 1.07, 280.0, 13.0, uPx * 0.9) * 0.5;
-              vec2 q = p * 3.2 + vec2(uTime * 0.004, 0.0);
-              float neb = fbm(q + fbm(q * 0.7 + 3.3) * 1.2);
-              float band = exp(-pow((p.y * 0.85 + p.x * 0.4 - 0.05) / 0.32, 2.0));
-              c += vec3(0.03, 0.03, 0.033) * pow(neb, 2.2) * (0.5 + band * 1.5);
-              return c;
+            // stars hashed in 3D direction space; px = the pixel's footprint
+            // in that space, so lensing smears them as much as it should
+            vec3 stars3(vec3 d, float S, float on, float px, float gain) {
+              vec3 id = floor(d * S);
+              vec3 r = hash33(id);
+              if (r.x > on) return vec3(0.0);
+              vec3 sp = normalize((id + 0.2 + 0.6 * hash33(id + 17.0)) / S);
+              vec3 dd = d - sp;
+              float size = px * (0.75 + 0.9 * r.z);
+              float b = exp(-dot(dd, dd) / (size * size));
+              float lum = 0.25 + pow(hash33(id + 5.0).y, 9.0) * 7.0;
+              float tw = 0.82 + 0.18 * sin(uTime * (0.7 + 2.0 * r.y) + r.z * 40.0);
+              vec3 tint = mix(vec3(1.0, 0.95, 0.9), vec3(0.95, 0.96, 0.98), r.y);
+              return tint * b * lum * tw * gain;
             }
-
-            // the far side: an inclined spiral galaxy, turning slowly
-            vec3 farSide(vec2 uv) {
-              float t = uTime * 0.045;
-              vec2 g = mat2(cos(t), -sin(t), sin(t), cos(t)) * uv;
-              g.y *= 1.8;
-              float r = length(g);
-              float a = atan(g.y, g.x);
-              float arms = 0.5 + 0.5 * sin(a * 2.0 - log(r + 0.03) * 5.5 + fbm(g * 3.5) * 2.2);
-              float dust = fbm(g * 9.0 + t * 2.0);
-              float disk = exp(-r * 3.0) * (0.3 + 0.7 * arms) * (0.55 + 0.45 * dust);
-              float core = exp(-r * r * 70.0) * 1.8 + exp(-r * r * 12.0) * 0.4;
-              vec3 c = vec3(1.0, 0.97, 0.92) * (disk * 1.2 + core);
-              c += stars(uv * 0.6, 60.0, 21.0, uPx * 2.4) * 1.1;
-              // the other universe is brighter than ours: the ball glows
-              c += vec3(0.07, 0.07, 0.075) * (0.6 + 0.4 * fbm(uv * 2.0 - t));
-              return c;
+            vec2 equi(vec3 d) {
+              return vec2(atan(d.x, -d.z) / 6.2831853 + 0.5, asin(clamp(d.y, -1.0, 1.0)) / 3.14159265 + 0.5);
             }
 
             void main() {
@@ -692,42 +784,90 @@ export function NanobotSwarmV4({
               float cosT = clamp(dot(dir, uHoleDir), -1.0, 1.0);
               float th = acos(cosT);
               float R = uHoleR;
-              vec3 col;
-              if (th < R) {
-                // inside the mouth: the far side fills the ball; toward the
-                // rim its image repeats in thin, flipped lenticular rings
-                vec3 t1 = normalize(cross(uHoleDir, vec3(0.0, 1.0, 0.0)));
-                vec3 t2 = cross(uHoleDir, t1);
-                vec3 pr = dir - uHoleDir * cosT;
-                vec2 ang = vec2(dot(pr, t1), dot(pr, t2));
-                vec2 dn = ang / max(length(ang), 1e-5);
-                float u = th / R;
-                float inner = 0.8;
-                float ring = fract((u - inner) / 0.065);
-                vec2 uv = u < inner ? dn * (u / inner) : -dn * (1.0 - ring * 0.35);
-                col = farSide(uv) * (u < inner ? 1.0 : 0.5 + 0.2 * sin(ring * 3.14159));
-                // limb: the ball darkens slightly into its rim
-                col *= mix(1.0, 0.7, smoothstep(0.9, 1.0, u));
-              } else {
-                // outside: an Einstein-ring lens bends our sky around the
-                // mouth (rays grazing the rim come from far behind it), and
-                // the whole field slowly orbits the axis
-                float thS = th - R * R * 1.15 / th;
-                vec3 axis = normalize(cross(uHoleDir, dir) + vec3(1e-6));
-                vec3 src = rotAxis(dir, axis, thS - th);
-                src = rotAxis(src, uHoleDir, uTime * 0.012);
-                col = ourSky(src);
-                // lensing magnifies: brighter toward the rim
-                col *= 1.0 + 1.8 * exp(-(th - R) / (R * 0.22));
-                // the Einstein ring: a crisp bright circle hugging the mouth
-                float w = uPx * 1.6 + R * 0.006;
-                col += vec3(1.0, 0.98, 0.95) * exp(-pow((th - R * 1.015) / w, 2.0)) * 1.3;
-                col += vec3(0.9, 0.9, 0.92) * exp(-(th - R) / (R * 0.16)) * 0.09;
+              float edge = max(fwidth(th), 1e-5);
+              vec3 t1 = normalize(cross(uHoleDir, vec3(0.0, 1.0, 0.0)));
+              vec3 t2 = cross(uHoleDir, t1);
+              vec3 pr = dir - uHoleDir * cosT;
+              vec2 dn = vec2(dot(pr, t1), dot(pr, t2));
+              dn /= max(length(dn), 1e-5);
+              vec3 wh = vec3(1.0, 0.97, 0.93);
+
+              // ── outside: Einstein-ring lens, plus differential rotation
+              // (inner field turns faster) so stars stream round the mouth
+              float thS = th - R * R * 1.15 / max(th, R * 0.5);
+              vec3 axis = normalize(cross(uHoleDir, dir) + vec3(1e-6));
+              vec3 src = rotAxis(dir, axis, thS - th);
+              float near = R / max(th, R);
+              float swirl = uTime * 0.01 + near * near * uTime * 0.05;
+              src = rotAxis(src, uHoleDir, swirl);
+              float px = max(length(fwidth(src)), uPx * 0.5);
+              vec4 neb = texture2D(uOur, equi(src));
+              vec3 outside = dec(neb);
+              float dens = neb.a;
+              outside += stars3(src, 80.0, 0.3, px, 0.5);
+              outside += stars3(src, 430.0, 0.14 + dens * 0.3, px, 0.22);
+              // the middle layer drawn as arcs: tangentially smeared by the
+              // lens, strongest near the mouth — the concentric streaks
+              float arc = 0.035 * near * near;
+              vec3 streak = vec3(0.0);
+              for (int j = 0; j < 6; j++) {
+                float o = (float(j) / 5.0 - 0.5) * arc;
+                streak += stars3(rotAxis(src, uHoleDir, o), 190.0, 0.22, px, 0.32);
+              }
+              outside += streak / (1.0 + 2.0 * step(0.002, arc));
+              outside *= 1.0 + 1.2 * near * near;
+
+              // ── inside: a dark glass ball onto another universe; its rim
+              // gathers light into crescents, and a thin flipped secondary
+              // image of our sky wraps round the edge
+              float u = th / R;
+              float ga = uTime * 0.02;
+              mat2 G = mat2(cos(ga), -sin(ga), sin(ga), cos(ga));
+              vec2 fuv = G * (dn * (u * 0.9));
+              vec3 inside = dec(texture2D(uFar, fuv * 0.5 + 0.5));
+              vec3 fdir = normalize(vec3(fuv * 1.3, 1.0));
+              float fpx = max(length(fwidth(fdir)), 1e-5);
+              inside += stars3(fdir, 260.0, 0.35, fpx, 0.4);
+              inside += stars3(fdir, 90.0, 0.2, fpx, 0.6);
+              // secondary image: our sky, squeezed and flipped into the rim
+              vec3 rimSrc = rotAxis(uHoleDir, normalize(cross(uHoleDir, -pr) + vec3(1e-6)), 3.14159 - 2.6 * smoothstep(0.8, 1.0, u));
+              vec3 rimSky = dec(texture2D(uOur, equi(rimSrc))) * 3.0 + stars3(rimSrc, 190.0, 0.3, fpx * 4.0, 0.5);
+              float rimK = smoothstep(0.78, 0.98, u);
+              inside = mix(inside, rimSky, rimK * 0.8);
+              // glass crescents: light from the upper right catches the rim
+              vec2 L = normalize(vec2(0.75, 0.55));
+              float lit = pow(max(dot(dn, L), 0.0), 3.0) + 0.5 * pow(max(-dot(dn, L), 0.0), 6.0);
+              inside += wh * smoothstep(0.86, 0.995, u) * (0.08 + 1.4 * lit) * (0.7 + 0.3 * sin(atan(dn.y, dn.x) * 23.0 + uTime * 0.3));
+
+              vec3 col = mix(outside, inside, 1.0 - smoothstep(R - edge, R + edge, th));
+              // a thin bright edge where the two images meet
+              col += wh * exp(-pow((th - R) / (edge * 1.2 + R * 0.004), 2.0)) * (0.25 + 0.9 * lit);
+
+              // ── through the throat: a tunnel whose glassy walls rush past
+              if (uEnter > 0.0) {
+                float phi = atan(dn.y, dn.x);
+                float depth = 0.3 / max(tan(th), 0.015);
+                float z = depth + uTime * 1.6;
+                vec2 wuv = vec2(phi / 6.2831853 * 2.0, z * 0.05);
+                vec3 wall = dec(texture2D(uFar, fract(wuv))) * 2.2;
+                wall += dec(texture2D(uOur, vec2(fract(wuv.x), fract(z * 0.013)))) * 1.5;
+                // streaks of light flowing along the walls
+                float lane = floor(phi * 40.0);
+                float sh = hash(vec2(lane, 3.1));
+                float streakT = fract(z * 0.08 + sh * 13.0);
+                float streakL = step(0.72, sh) * smoothstep(0.0, 0.05, streakT) * (1.0 - smoothstep(0.05, 0.35, streakT));
+                wall += wh * streakL * 1.3 * smoothstep(0.02, 0.2, th);
+                // glassy ribs of the throat
+                wall += wh * pow(0.5 + 0.5 * sin(z * 3.0 + phi * 2.0), 18.0) * 0.12;
+                // the far mouth ahead, and dark toward the walls' depth
+                wall *= smoothstep(0.0, 0.25, th) * 0.9 + 0.1;
+                wall += wh * exp(-th / 0.04) * 1.6;
+                col = mix(col, wall, uEnter);
               }
 
               // the space the form occupies holds a little light
               vec2 gd = (ndc - uGlow.xy) * vec2(uRes.x / uRes.y, 1.0);
-              col += vec3(0.06, 0.06, 0.065) * exp(-dot(gd, gd) / 0.55) * uGlow.z * 0.5;
+              col += vec3(0.05, 0.05, 0.055) * exp(-dot(gd, gd) / 0.55) * uGlow.z * 0.5;
 
               col *= uFade;
               col += (hash(gl_FragCoord.xy + fract(uTime)) - 0.5) / 400.0;
@@ -750,8 +890,10 @@ export function NanobotSwarmV4({
         skyUniforms.uPx.value = ((2 * Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2)) / skyRes.y) * 0.75;
         skyUniforms.uTime.value = t;
         skyUniforms.uFade.value = fade;
-        // the mouth grows as the story goes on: we are travelling toward it
-        skyUniforms.uHoleR.value = 0.13 + 0.13 * progress;
+        // far away at the top of the page; we travel toward it as we read,
+        // slowly then faster, and near the end go through the throat
+        skyUniforms.uHoleR.value = 0.035 + 0.55 * Math.pow(progress, 2.4);
+        skyUniforms.uEnter.value = smooth01(0.82, 0.97, progress);
         glowV.set(0, 0, 0).project(camera);
         skyUniforms.uGlow.value.set(glowV.x, glowV.y, 1);
       };
@@ -792,7 +934,9 @@ export function NanobotSwarmV4({
         uFold: { value: 0 },
         uImplode: { value: 0 },
         uMid: { value: new THREE.Vector3() },
-        uSpin: { value: 0 },
+        uSpinAng: { value: 0 },
+        uSpinTo: { value: 0 },
+        uSpinFrom: { value: 0 },
         uSpinAxis: { value: new THREE.Vector3(0, 0, 1) },
         uFlow: { value: 0 },
       };
@@ -1095,7 +1239,8 @@ export function NanobotSwarmV4({
       const set = (from: number, to: number, peel: "y" | "x" = "y", mode: "flight" | "implode" = "flight") => {
         U.uImplode.value = mode === "implode" ? 1 : 0;
         // the process gear keeps turning once it is built
-        U.uSpin.value = spots[to].name === "gear" ? 0.35 : 0;
+        U.uSpinTo.value = spots[to].name === "gear" ? 1 : 0;
+        U.uSpinFrom.value = from >= 0 && spots[from].name === "gear" ? 1 : 0;
         // the intro sheet folds into its form; everything else flies
         U.uFold.value = from === -2 ? 1 : 0;
         const A = from === -2 ? sheet : from < 0 ? cloud : spots[from];
@@ -1936,6 +2081,7 @@ export function NanobotSwarmV4({
       let leaveFrom = -1;
       let flowKey = "";
       let flowP = 0;
+      let gearHold = true;
 
       // ── transition close-up state ──
       let macroOn = false;
@@ -2065,6 +2211,7 @@ export function NanobotSwarmV4({
         const atEnd = P >= CH.length - 1;
         const holding = f < H || atEnd;
         const holdIdx = atEnd ? CH.length - 1 : seg;
+        gearHold = holding;
         // which transition the swarm is on, and how far along it is
         let key: string;
         let p: number;
@@ -2284,7 +2431,7 @@ export function NanobotSwarmV4({
           rig.rotation.y = spinAngle;
           rig.rotation.x = pitch;
           rig.updateMatrixWorld();
-          updateSky(tsec, 1, P / Math.max(CH.length - 1, 1));
+          updateSky(tsec, 1, clamp01(smoothY / span));
           starMat.uniforms.uTime.value = tsec;
           // stars drift slower than the form: depth without a second scene
           stars.rotation.y = tsec * 0.008 + spinAngle * 0.04;
@@ -2373,6 +2520,8 @@ export function NanobotSwarmV4({
         }
         const dt = Math.min((now - last) / 1000, 0.05);
         last = now;
+        // the gear turns only while it is held; frozen through transitions
+        if (U.uSpinTo.value > 0.5 && (!scroll || gearHold)) U.uSpinAng.value += dt * 0.35;
         if (scroll) {
           if (landing) adapt(dt, now);
           driveScroll(now, dt);
@@ -2426,6 +2575,7 @@ export function NanobotSwarmV4({
         starMat.dispose();
         sky.geometry.dispose();
         sky.material.dispose();
+        for (const rt of baked) rt.dispose();
         composer.dispose();
         pmrem.dispose();
         envTex.dispose();
