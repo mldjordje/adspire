@@ -623,6 +623,10 @@ export function NanobotSwarmV4({
         uHoleDir: { value: new THREE.Vector3(-0.12, 0.18, -1).normalize() },
         uHoleR: { value: 0.04 },
         uEnter: { value: 0 },
+        // how far we have travelled down the throat (scroll-driven), and how
+        // fast right now (slit-scan streak length)
+        uTravel: { value: 0 },
+        uSpeed: { value: 0 },
         uOur: { value: blank as InstanceType<typeof THREE.Texture> },
         uFar: { value: blank as InstanceType<typeof THREE.Texture> },
         uOurOn: { value: 0 },
@@ -657,6 +661,8 @@ export function NanobotSwarmV4({
             uniform vec3 uHoleDir;
             uniform float uHoleR;
             uniform float uEnter;
+            uniform float uTravel;
+            uniform float uSpeed;
             uniform sampler2D uOur;
             uniform sampler2D uFar;
             uniform float uOurOn;
@@ -766,28 +772,81 @@ export function NanobotSwarmV4({
               vec3 col = mix(outside, inside, 1.0 - smoothstep(R - edge, R + edge, th));
               col += wh * exp(-pow((th - R) / (edge * 1.0 + R * 0.002), 2.0)) * (0.08 + 0.5 * lit);
 
-              // ── through the throat: a dark glass tube; its walls carry the
-              // far sky wrapped round it, rippling like thick glass, stars
-              // streaking along the travel, faint rings of glass passing
-              if (uEnter > 0.0) {
-                float phi = atan(dn.y, dn.x);
-                float z = 0.3 / max(tan(th), 0.015) + uTime * 0.9;
-                float ph2 = phi + 0.06 * sin(z * 4.0 + phi * 3.0) + z * 0.04;
-                vec3 wall = vec3(0.0);
-                for (int j = 0; j < 4; j++) {
-                  float zz = z - float(j) * 0.05;
-                  vec3 wdir = normalize(vec3(cos(ph2), sin(ph2), 0.55));
-                  wall += fars(rotAxis(wdir, vec3(0.0, 0.0, 1.0), zz * 0.12));
+              // ── THE INTERIOR. After the film (DNEG: a ray-traced throat
+              // plus a rushing landscape from aerial plates, slit-scan as the
+              // reference): three nested shells of glass, each the far sky
+              // slit-scanned into streaks along the travel, a warm rushing
+              // "ground" of light below, glass rings coming at us with a
+              // prismatic edge, sparks stretching with speed, the exit ahead.
+              if (uEnter > 0.001) {
+                float phi = atan(dn.y, dn.x) + uTime * 0.035;
+                float rr = max(tan(th), 0.012);
+                vec3 tun = vec3(0.0);
+                float cover = 0.0;
+                for (int i = 2; i >= 0; i--) {
+                  float fi = float(i);
+                  // shell radius: the inner shells are nearer, so the same
+                  // travel sweeps them past faster — real parallax
+                  float k = 0.55 + fi * 0.6;
+                  float z = k / rr;
+                  float zt = z + uTravel;
+                  // thick glass: the wall wobbles and the throat twists
+                  float ph = phi + zt * (0.03 - fi * 0.02)
+                    + 0.05 * sin(zt * 1.7 + fi * 2.1)
+                    + 0.07 * sin(zt * 0.43 + phi * 2.0 + fi);
+                  // slit-scan: the texture barely changes along the travel,
+                  // so every feature smears into a streak rushing past
+                  vec3 c = vec3(0.0);
+                  float strk = 0.4 + uSpeed * 3.0;
+                  for (int j = 0; j < 3; j++) {
+                    float zz = zt - float(j) * strk;
+                    vec2 uv = vec2(
+                      fract(ph / 6.2831853 + fi * 0.27 + zz * 0.006),
+                      0.5 + 0.1 * sin(ph + fi * 1.3) + 0.04 * sin(zz * 0.05 + fi));
+                    c += texture2D(uFar, uv).rgb;
+                  }
+                  c = pow(c / 3.0, vec3(1.1)) * 1.7 * uFarOn;
+                  // the throat's light is warm: amber and gold sheets giving
+                  // way to rose, drifting as we travel (no added blue)
+                  float hueK = 0.5 + 0.5 * sin(ph * 2.0 + zt * 0.09 + fi * 1.9);
+                  vec3 tint = mix(vec3(1.25, 0.9, 0.6), vec3(1.15, 0.78, 0.84), hueK);
+                  float lum = dot(c, vec3(0.3, 0.55, 0.15));
+                  c = mix(vec3(lum), c, 1.3) * tint;
+                  // the rushing ground: the lower wall carries a warm,
+                  // bright landscape of light
+                  float ground = smoothstep(0.15, -0.85, sin(ph));
+                  c *= 1.0 + ground * 3.2;
+                  c = mix(c, c * vec3(1.18, 0.98, 0.8), ground);
+                  // deeper is darker; far down the throat melts into black
+                  c *= exp(-z * 0.05) * (1.6 - fi * 0.3);
+                  // glass rings coming at us, prismatic at the edge
+                  float rq = zt * 0.45 + fi * 0.37 + 0.06 * sin(ph * 3.0 + zt) + 0.04 * sin(ph * 7.0 - zt * 0.7);
+                  float rid = floor(rq);
+                  float rOn = step(0.62, hash(vec2(rid, fi * 3.7)));
+                  float rArc = smoothstep(0.2, 0.9, 0.5 + 0.5 * sin(ph * (1.0 + fi) + rid * 2.3));
+                  float rf = fract(rq);
+                  vec3 ring = vec3(
+                    exp(-pow((rf - 0.5 - 0.012) / 0.012, 2.0)),
+                    exp(-pow((rf - 0.5) / 0.012, 2.0)),
+                    exp(-pow((rf - 0.5 + 0.012) / 0.012, 2.0)));
+                  c += ring * vec3(1.0, 0.95, 0.88) * rOn * rArc * (0.35 + 0.6 * ground) * exp(-z * 0.07);
+                  // sparks riding the walls, stretched by speed
+                  vec2 g = vec2(ph * 9.0, zt * 1.2);
+                  vec2 gi = floor(g);
+                  float sh = hash(gi + fi * 17.0);
+                  vec2 gf = fract(g) - 0.5;
+                  float len = 0.35 + uSpeed * 1.6;
+                  float spark = step(0.93, sh) * exp(-pow(gf.x / 0.025, 2.0)) * smoothstep(len, 0.0, abs(gf.y));
+                  c += vec3(1.0, 0.94, 0.86) * spark * (0.4 + 0.9 * sh) * exp(-z * 0.06);
+                  // glass sheets: the inner shells only partly cover the next
+                  float a = i == 2 ? 1.0 : smoothstep(0.35, 0.95, 0.5 + 0.5 * sin(ph * 3.0 + zt * 0.55 + fi * 4.0)) * 0.8;
+                  tun = mix(tun, c, a);
+                  cover = max(cover, a);
                 }
-                wall *= 0.25 * 0.9;
-                // glass: ribs of light where the tube's rings pass
-                float ribs = pow(0.5 + 0.5 * sin(z * 2.2), 30.0);
-                wall += wh * ribs * 0.05 * (0.4 + lit);
-                // depth: the throat darkens away from the walls
-                wall *= smoothstep(0.02, 0.3, th);
-                // a small warm light at the far end
-                wall += vec3(1.0, 0.88, 0.72) * exp(-th / 0.025) * 0.9;
-                col = mix(col, wall, uEnter);
+                // the exit: light at the end of the throat, a lensed ring
+                tun += vec3(1.0, 0.9, 0.78) * (exp(-th / 0.018) * 1.3 + exp(-th / 0.09) * 0.12);
+                tun += vec3(1.0, 0.95, 0.9) * exp(-pow((th - 0.055) / 0.005, 2.0)) * 0.35;
+                col = mix(col, tun, uEnter);
               }
 
               vec2 gd = (ndc - uGlow.xy) * vec2(uRes.x / uRes.y, 1.0);
@@ -806,18 +865,50 @@ export function NanobotSwarmV4({
       sky.renderOrder = -10;
       if (landing) scene.add(sky);
       const skyRes = new THREE.Vector2();
+      const UP_W = new THREE.Vector3(0, 1, 0);
       const glowV = new THREE.Vector3();
+      // the mouth (and later the throat's axis) rides the camera's gaze with
+      // a lag: it is always in frame, and when the camera swings the walls
+      // visibly sweep round us before the axis catches up
+      const holeDir = new THREE.Vector3(-0.12, 0.18, -1).normalize();
+      const holeGoal = new THREE.Vector3();
+      const gazeF = new THREE.Vector3();
+      const gazeR = new THREE.Vector3();
+      const gazeU = new THREE.Vector3();
+      let skyT = 0;
+      let skySpeed = 0;
+      let skyPrevP = 0;
       const updateSky = (t: number, fade: number, progress = 0) => {
+        const dt = Math.min(Math.max(t - skyT, 0), 0.05);
+        skyT = t;
         camera.updateMatrixWorld();
+        camera.getWorldDirection(gazeF);
+        gazeR.crossVectors(gazeF, UP_W).normalize();
+        gazeU.crossVectors(gazeR, gazeF).normalize();
+        // `progress` is the story position P (chapters): the hero sits in
+        // front of the mouth; the first transition takes us through it
+        const enter = smooth01(0.2, 0.95, progress);
+        // outside: up and a little left of centre; inside: straight ahead
+        holeGoal
+          .copy(gazeF)
+          .addScaledVector(gazeU, 0.2 * (1 - enter))
+          .addScaledVector(gazeR, -0.1 * (1 - enter))
+          .normalize();
+        holeDir.lerp(holeGoal, 1 - Math.exp(-dt * 1.4)).normalize();
+        skyUniforms.uHoleDir.value.copy(holeDir);
+        // travel is tied to the story: scrolling back flies back
+        const rate = dt > 0 ? Math.abs(progress - skyPrevP) / dt : 0;
+        skyPrevP = progress;
+        skySpeed += (Math.min(rate, 3) - skySpeed) * (1 - Math.exp(-dt * 5));
+        skyUniforms.uTravel.value = progress * 22 + t * 0.35;
+        skyUniforms.uSpeed.value = skySpeed;
         renderer.getDrawingBufferSize(skyRes);
         skyUniforms.uRes.value.copy(skyRes);
         skyUniforms.uPx.value = ((2 * Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2)) / skyRes.y) * 0.75;
         skyUniforms.uTime.value = t;
         skyUniforms.uFade.value = fade;
-        // far away at the top of the page; we travel toward it as we read,
-        // slowly then faster, and near the end go through the throat
-        skyUniforms.uHoleR.value = 0.06 + 0.5 * Math.pow(progress, 1.4);
-        skyUniforms.uEnter.value = smooth01(0.5, 0.72, progress);
+        skyUniforms.uHoleR.value = 0.08 + 0.6 * smooth01(0.0, 0.9, progress);
+        skyUniforms.uEnter.value = enter;
         glowV.set(0, 0, 0).project(camera);
         skyUniforms.uGlow.value.set(glowV.x, glowV.y, 1);
       };
@@ -1974,7 +2065,8 @@ export function NanobotSwarmV4({
       const measure = (now: number) => {
         if (!landing || now - measuredAt < 500) return;
         measuredAt = now;
-        const y = scrollTop();
+        // page coordinates come from the real scroll, never a pinned one
+        const y = window.scrollY || document.documentElement.scrollTop;
         const vh = window.innerHeight;
         const tops = CH.map((c) => {
           const n = c.node!;
@@ -2359,7 +2451,9 @@ export function NanobotSwarmV4({
           rig.rotation.y = spinAngle + Math.sin(swayT * 0.16) * 0.3;
           rig.rotation.x = pitch;
           rig.updateMatrixWorld();
-          updateSky(tsec, 1, clamp01(smoothY / span));
+          updateSky(tsec, 1, P);
+          // inside the throat the near dust would read as blobs: let it go
+          starMat.uniforms.uFade.value = 1 - 0.9 * skyUniforms.uEnter.value;
           starMat.uniforms.uTime.value = tsec;
           // stars drift slower than the form: depth without a second scene
           stars.rotation.y = tsec * 0.008 + spinAngle * 0.04;
@@ -2396,7 +2490,21 @@ export function NanobotSwarmV4({
         window.__swarm.story = (P: number) => {
           introStart = -1;
           endIntro();
-          const y = P * window.innerHeight * (CHAPTER_VH / 100);
+          let y = P * window.innerHeight * (CHAPTER_VH / 100);
+          if (landing) {
+            // landing: find the scroll position whose story position is P
+            pinnedY = 0;
+            measuredAt = -1e9;
+            measure(performance.now());
+            let lo = 0;
+            let hi = document.documentElement.scrollHeight;
+            for (let i = 0; i < 40; i++) {
+              const mid = (lo + hi) / 2;
+              if (landingP(mid) < P) lo = mid;
+              else hi = mid;
+            }
+            y = hi;
+          }
           pinnedY = y;
           smoothY = y;
           const t0 = performance.now();
