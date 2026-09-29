@@ -1892,7 +1892,6 @@ export function NanobotSwarmV4({
         spinIn = 0;
       };
       if (landing && intro) window.addEventListener("v4:ready", onSceneReady, { once: true });
-      if (landing && intro && document.documentElement.dataset.v4Ready === "true") onSceneReady();
 
       // ── scroll story ─────────────────────────────────────────────────────
       // Scroll position is a chapter index. Each chapter holds its form while
@@ -2623,6 +2622,11 @@ export function NanobotSwarmV4({
           }
         };
       }
+      // On a slow device the preloader may have lifted while the geometry was
+      // still building. Replay its ready signal only after the story state is
+      // initialized; calling onSceneReady earlier hits temporal-dead-zone
+      // bindings such as activeSet.
+      if (landing && intro && document.documentElement.dataset.v4Ready === "true") onSceneReady();
       raf = requestAnimationFrame(loop);
 
       cleanup = () => {
