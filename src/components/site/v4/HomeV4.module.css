@@ -2527,6 +2527,22 @@
   color: var(--ink-faint);
 }
 
+.skyCredit {
+  position: relative;
+  margin: 0;
+  padding: 10px clamp(16px, 4vw, 56px) 18px;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: var(--ink-dim);
+  opacity: 0.55;
+}
+
+.skyCredit a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
 .ctaNote {
   max-width: 440px;
   margin: 0;

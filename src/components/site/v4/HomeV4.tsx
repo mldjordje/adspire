@@ -1258,6 +1258,18 @@ export function HomeV4({ locale = defaultLocale }: { locale?: LocaleCode } = {})
             </span>
           </div>
           <FooterV4 locale={locale} href={(path) => shellPath(path, locale)} />
+          {/* required by the licences of the two sky photographs in the scene */}
+          <p className={styles.skyCredit}>
+            {locale === "de" ? "Himmel" : locale === "en" ? "Sky" : "Nebo"}: NASA/Goddard SVS, ESA/Gaia/DPAC ·{" "}
+            <a href="https://www.eso.org/public/images/eso0932a/" rel="noopener" target="_blank">
+              ESO/S. Brunier
+            </a>{" "}
+            (
+            <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener license" target="_blank">
+              CC BY 4.0
+            </a>
+            )
+          </p>
         </section>
       </main>
       <CallDrawerV4 locale={locale} />
