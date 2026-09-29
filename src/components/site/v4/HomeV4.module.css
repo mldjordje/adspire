@@ -27,11 +27,13 @@
   min-height: 100vh;
   overflow-x: clip;
   -webkit-font-smoothing: antialiased;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
-.root ::selection {
-  background: var(--accent);
-  color: #04070a;
+.root :where(input, textarea, [contenteditable]) {
+  user-select: text;
+  -webkit-user-select: text;
 }
 
 :global(html.v4-locked) {
@@ -227,87 +229,180 @@
 
 /* ─── Preloader ────────────────────────────────────────────── */
 
+/* registered so the glow can animate, not just step */
+@property --led {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0.3;
+}
+
+@property --portal-open {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
 .preloader {
   position: fixed;
   inset: 0;
   z-index: 200;
-  /* Fully opaque. A half-built scene showing through the loader is the one
-     thing that makes the whole intro read as an accident — the visitor must
-     see the formation BUILD after the curtain lifts, not catch it mid-pose. */
+  --load-angle: 0deg;
+  background: transparent;
+  display: grid;
+  place-items: center;
+  pointer-events: auto;
+}
+
+.preloaderVeil {
+  position: absolute;
+  inset: 0;
   background:
-    radial-gradient(circle at 50% 42%, rgba(24, 33, 74, 0.5), transparent 62%),
-    var(--bg);
-  display: flex;
-  align-items: flex-end;
-  transition: transform 0.72s cubic-bezier(0.76, 0, 0.24, 1);
+    radial-gradient(circle at center, #060a19 0, #010207 46%, #000 100%);
+  -webkit-mask-image: radial-gradient(circle at center, transparent var(--portal-open), #000 calc(var(--portal-open) + 2px));
+  mask-image: radial-gradient(circle at center, transparent var(--portal-open), #000 calc(var(--portal-open) + 2px));
 }
 
-.preloaderLift {
-  transform: translateY(-100%);
+.preloaderGauge {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 96px;
+  height: 96px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: conic-gradient(from -90deg, #9db9ff var(--load-angle), rgba(117, 145, 222, 0.2) var(--load-angle));
+  -webkit-mask: radial-gradient(transparent 45px, #000 46px);
+  mask: radial-gradient(transparent 45px, #000 46px);
+  opacity: 0.85;
+  box-shadow: 0 0 35px rgba(97, 133, 245, 0.13);
+  transition: opacity 0.25s ease;
 }
 
-.preloaderInner {
-  width: 100%;
-  padding: clamp(20px, 4vw, 56px);
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-
-.preloaderBrand {
-  display: flex;
-  overflow: hidden;
-  font-family: var(--font-d);
-  font-weight: 800;
-  font-size: clamp(44px, 10vw, 140px);
-  line-height: 0.95;
-  letter-spacing: -0.02em;
-}
-
-.preloaderChar {
-  display: inline-block;
-  transform: translateY(110%);
-  animation: preChar 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}
-
-@keyframes preChar {
-  to { transform: translateY(0); }
+/* one LED, at the exact centre the intro's macro shot starts on */
+.preloaderLed {
+  --led: 0.3;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  margin: -6px 0 0 -6px;
+  border-radius: 50%;
+  background: #8fb0ff;
+  opacity: calc(0.25 + var(--led) * 0.75);
+  box-shadow:
+    0 0 calc(4px + var(--led) * 18px) calc(var(--led) * 4px) rgba(111, 149, 255, calc(0.35 + var(--led) * 0.5)),
+    0 0 calc(var(--led) * 60px) calc(var(--led) * 10px) rgba(47, 107, 255, calc(var(--led) * 0.35));
 }
 
 .preloaderMeta {
+  position: absolute;
+  left: 50%;
+  top: calc(50% + 77px);
+  transform: translateX(-50%);
   display: flex;
-  justify-content: space-between;
+  gap: 12px;
   align-items: baseline;
-  border-top: 1px solid var(--line);
-  padding-top: 14px;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--ink-dim);
+  transition: opacity 0.25s ease;
 }
 
-.preloaderLabel {
-  font-size: 11px;
-  letter-spacing: 0.3em;
-  color: var(--ink-dim);
+.preloaderBrand {
+  font-family: var(--font-d);
+  font-weight: 700;
+}
+
+.preloaderDivider {
+  align-self: center;
+  width: 1px;
+  height: 12px;
+  background: rgba(143, 176, 255, 0.45);
+}
+
+.preloaderStatus {
+  white-space: nowrap;
+  font-size: 9px;
+  color: rgba(184, 197, 255, 0.58);
 }
 
 .preloaderCount {
-  font-family: var(--font-d);
-  font-weight: 700;
-  font-size: clamp(20px, 3vw, 34px);
-  color: var(--accent);
+  min-width: 2.2em;
   font-variant-numeric: tabular-nums;
+  color: #8fb0ff;
 }
 
-.preloaderTrack {
-  height: 2px;
-  background: rgba(242, 241, 236, 0.08);
-  overflow: hidden;
+/* ready: two taps in time with the hero bot's heartbeat, then the black
+   dissolves into the scene */
+.preloaderDone {
+  pointer-events: none;
 }
 
-.preloaderFill {
-  display: block;
-  height: 100%;
-  background: linear-gradient(90deg, var(--accent), var(--accent-2));
-  transform-origin: left center;
-  transform: scaleX(0); /* driven by JS from real scene-load progress */
+.preloaderDone .preloaderVeil {
+  animation: prePortalReveal 0.95s cubic-bezier(0.7, 0, 0.2, 1) forwards;
+}
+
+.preloaderDone .preloaderGauge {
+  opacity: 0;
+}
+
+.preloaderDone .preloaderMeta {
+  opacity: 0;
+}
+
+.preloaderDone .preloaderLed {
+  animation: preLedTaps 0.75s linear forwards;
+}
+
+/* On the first tap the dot opens into a ring the size the hero bot's LED
+   ring has in the intro's first frame (radius 0.276 at 3.4 units through a
+   38° lens ≈ 23.6% of the viewport height), then hands over to it. */
+.preloaderRing {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  border: 1.5px solid rgba(143, 176, 255, 0.9);
+  border-radius: 50%;
+  box-shadow:
+    0 0 14px rgba(111, 149, 255, 0.55),
+    inset 0 0 14px rgba(111, 149, 255, 0.35);
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.preloaderDone .preloaderRing {
+  animation: preRingOpen 0.75s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes preRingOpen {
+  0% { width: 12px; height: 12px; opacity: 0; }
+  24% { width: 12px; height: 12px; opacity: 1; }
+  52% { width: 23.6vh; height: 23.6vh; opacity: 1; }
+  100% { width: 23.6vh; height: 23.6vh; opacity: 0; }
+}
+
+@keyframes preLedTaps {
+  0% { --led: 0.3; opacity: 0.4; transform: scale(1); }
+  26.7% { --led: 1; opacity: 1; transform: scale(1.5); }
+  42% { --led: 0.35; opacity: 0.5; transform: scale(1); }
+  58.7% { --led: 1; opacity: 1; transform: scale(1.5); }
+  100% { --led: 0; opacity: 0; transform: scale(0.6); }
+}
+
+@keyframes prePortalReveal {
+  0% { --portal-open: 0px; }
+  18% { --portal-open: 0px; }
+  52% { --portal-open: 12vh; }
+  100% { --portal-open: 150vmax; }
+}
+
+@media (max-width: 480px) {
+  .preloaderMeta { gap: 9px; font-size: 10px; }
+  .preloaderStatus { font-size: 8px; }
 }
 
 /* ─── Nav ──────────────────────────────────────────────────── */
@@ -2495,6 +2590,22 @@
 
 .ctaAltSep {
   color: var(--ink-faint);
+}
+
+.skyCredit {
+  position: relative;
+  margin: 0;
+  padding: 10px clamp(16px, 4vw, 56px) 18px;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: var(--ink-dim);
+  opacity: 0.55;
+}
+
+.skyCredit a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 .ctaNote {
