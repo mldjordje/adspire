@@ -496,6 +496,10 @@ export function NanobotSwarmV4({
       softbox(1.4, 6, [-6.5, 0.5, 2], "#5b82ff", 5);
       softbox(7, 0.8, [0, 1.2, -7], "#dfe6ff", 4);
       softbox(3, 3, [-2, 3, 6], "#ffffff", 1.2);
+      // backlight from the wormhole's side: dark bots pick up bright rims
+      // at their silhouettes, so the form separates from the void by light,
+      // not by adding colour
+      if (landing) softbox(6, 6, [1.8, 0.7, -9], "#f4f1ec", 2.6);
       const pmrem = new THREE.PMREMGenerator(renderer);
       const envTex = pmrem.fromScene(envScene, 0.015).texture;
       scene.environment = envTex;
@@ -552,7 +556,7 @@ export function NanobotSwarmV4({
             if (d > 0.5) discard;
             float halo = exp(-d * d * 14.0);
             float core = smoothstep(0.18, 0.0, d);
-            vec3 col = mix(vec3(0.62, 0.74, 1.0), vec3(0.95, 0.96, 1.0), vTw);
+            vec3 col = mix(vec3(0.8, 0.8, 0.82), vec3(0.97, 0.96, 0.95), vTw);
             float a = (halo * 0.5 + core * 0.7) * vA * uFade * 0.42;
             gl_FragColor = vec4(col, a);
           }
@@ -563,11 +567,15 @@ export function NanobotSwarmV4({
       if (STARS) scene.add(stars);
 
       // ── the void: far sky behind everything ─────────────────────────────
-      // The footer's event-horizon star look (one hashed star per cell,
-      // three layers) mapped onto the camera's view DIRECTION, so the sky
-      // really turns as the camera moves — plus a dim blue nebula and a soft
-      // light volume behind the form. Drawn first, with alpha, over the CSS
-      // void: the hero title behind the canvas stays readable.
+      // A wormhole behind the form, after Interstellar (Thorne & DNEG,
+      // "Visualizing Interstellar's Wormhole"): a crystal ball showing another
+      // universe — a slowly turning galaxy — whose image repeats in thin
+      // lenticular rings at the rim; outside it our starfield (the footer's
+      // event-horizon star, one per hashed cell) is bent by an Einstein-ring
+      // lens, so every camera move makes stars stream around the mouth. The
+      // mouth grows as the page goes on. Neutral whites only: the contrast
+      // with the dark bots comes from light behind them, not from colour.
+      // Drawn first, with alpha over the CSS void, so the hero title stays.
       const skyUniforms = {
         uInvProj: { value: camera.projectionMatrixInverse },
         uCamWorld: { value: camera.matrixWorld },
@@ -576,6 +584,8 @@ export function NanobotSwarmV4({
         uTime: { value: 0 },
         uFade: { value: 0 },
         uGlow: { value: new THREE.Vector3(0, 0, 1) },
+        uHoleDir: { value: new THREE.Vector3(0.2, 0.08, -1).normalize() },
+        uHoleR: { value: 0.14 },
       };
       const sky = new THREE.Mesh(
         new THREE.PlaneGeometry(2, 2),
@@ -595,6 +605,8 @@ export function NanobotSwarmV4({
             uniform float uTime;
             uniform float uFade;
             uniform vec3 uGlow;
+            uniform vec3 uHoleDir;
+            uniform float uHoleR;
 
             float hash(vec2 p) {
               p = fract(p * vec2(123.34, 456.21));
@@ -632,34 +644,90 @@ export function NanobotSwarmV4({
               float b = exp(-dot(d, d) / (size * size));
               float on = step(0.8, h);
               float tw = 0.6 + 0.4 * sin(uTime * (0.8 + 2.6 * h3) + h2 * 40.0);
-              vec3 tint = mix(vec3(0.6, 0.72, 1.0), vec3(1.0, 0.97, 0.93), h3);
+              vec3 tint = mix(vec3(0.86, 0.88, 0.92), vec3(1.0, 0.98, 0.95), h3);
               return tint * b * on * tw * mix(0.4, 1.5, pow(max(h - 0.8, 0.0) * 5.0, 3.0));
+            }
+            vec3 rotAxis(vec3 v, vec3 k, float a) {
+              return v * cos(a) + cross(k, v) * sin(a) + k * dot(k, v) * (1.0 - cos(a));
+            }
+
+            // our side: stars and a faint neutral dust band
+            vec3 ourSky(vec3 d) {
+              vec3 n = vec3(d.x, d.y, -d.z);
+              n /= abs(n.x) + abs(n.y) + abs(n.z);
+              vec2 p = n.z >= 0.0 ? n.xy : (1.0 - abs(n.yx)) * sign(n.xy);
+              vec3 c = stars(p, 70.0, 1.0, uPx * 1.1) * 0.5;
+              c += stars(p * 1.03, 140.0, 7.0, uPx) * 0.65;
+              c += stars(p * 1.07, 280.0, 13.0, uPx * 0.9) * 0.5;
+              vec2 q = p * 3.2 + vec2(uTime * 0.004, 0.0);
+              float neb = fbm(q + fbm(q * 0.7 + 3.3) * 1.2);
+              float band = exp(-pow((p.y * 0.85 + p.x * 0.4 - 0.05) / 0.32, 2.0));
+              c += vec3(0.03, 0.03, 0.033) * pow(neb, 2.2) * (0.5 + band * 1.5);
+              return c;
+            }
+
+            // the far side: an inclined spiral galaxy, turning slowly
+            vec3 farSide(vec2 uv) {
+              float t = uTime * 0.045;
+              vec2 g = mat2(cos(t), -sin(t), sin(t), cos(t)) * uv;
+              g.y *= 1.8;
+              float r = length(g);
+              float a = atan(g.y, g.x);
+              float arms = 0.5 + 0.5 * sin(a * 2.0 - log(r + 0.03) * 5.5 + fbm(g * 3.5) * 2.2);
+              float dust = fbm(g * 9.0 + t * 2.0);
+              float disk = exp(-r * 3.0) * (0.3 + 0.7 * arms) * (0.55 + 0.45 * dust);
+              float core = exp(-r * r * 70.0) * 1.8 + exp(-r * r * 12.0) * 0.4;
+              vec3 c = vec3(1.0, 0.97, 0.92) * (disk * 1.2 + core);
+              c += stars(uv * 0.6, 60.0, 21.0, uPx * 2.4) * 1.1;
+              // the other universe is brighter than ours: the ball glows
+              c += vec3(0.07, 0.07, 0.075) * (0.6 + 0.4 * fbm(uv * 2.0 - t));
+              return c;
             }
 
             void main() {
               vec2 ndc = gl_FragCoord.xy / uRes * 2.0 - 1.0;
               vec4 v = uInvProj * vec4(ndc, 1.0, 1.0);
               vec3 dir = normalize(mat3(uCamWorld) * (v.xyz / v.w));
-              // octahedral map with the unfolded half facing the scene (-z),
-              // so the seam sits behind the camera
-              vec3 n = vec3(dir.x, dir.y, -dir.z);
-              n /= abs(n.x) + abs(n.y) + abs(n.z);
-              vec2 p = n.z >= 0.0 ? n.xy : (1.0 - abs(n.yx)) * sign(n.xy);
 
-              vec3 col = vec3(0.0);
-              col += stars(p, 70.0, 1.0, uPx * 1.1) * 0.5;
-              col += stars(p * 1.03, 140.0, 7.0, uPx) * 0.65;
-              col += stars(p * 1.07, 280.0, 13.0, uPx * 0.9) * 0.5;
-
-              // a faint band of deep blue nebula across the sky
-              vec2 q = p * 3.2 + vec2(uTime * 0.004, 0.0);
-              float neb = fbm(q + fbm(q * 0.7 + 3.3) * 1.2);
-              float band = exp(-pow((p.y * 0.85 + p.x * 0.4 - 0.05) / 0.32, 2.0));
-              col += vec3(0.016, 0.03, 0.085) * pow(neb, 2.4) * (0.5 + band * 1.6);
+              float cosT = clamp(dot(dir, uHoleDir), -1.0, 1.0);
+              float th = acos(cosT);
+              float R = uHoleR;
+              vec3 col;
+              if (th < R) {
+                // inside the mouth: the far side fills the ball; toward the
+                // rim its image repeats in thin, flipped lenticular rings
+                vec3 t1 = normalize(cross(uHoleDir, vec3(0.0, 1.0, 0.0)));
+                vec3 t2 = cross(uHoleDir, t1);
+                vec3 pr = dir - uHoleDir * cosT;
+                vec2 ang = vec2(dot(pr, t1), dot(pr, t2));
+                vec2 dn = ang / max(length(ang), 1e-5);
+                float u = th / R;
+                float inner = 0.8;
+                float ring = fract((u - inner) / 0.065);
+                vec2 uv = u < inner ? dn * (u / inner) : -dn * (1.0 - ring * 0.35);
+                col = farSide(uv) * (u < inner ? 1.0 : 0.5 + 0.2 * sin(ring * 3.14159));
+                // limb: the ball darkens slightly into its rim
+                col *= mix(1.0, 0.7, smoothstep(0.9, 1.0, u));
+              } else {
+                // outside: an Einstein-ring lens bends our sky around the
+                // mouth (rays grazing the rim come from far behind it), and
+                // the whole field slowly orbits the axis
+                float thS = th - R * R * 1.15 / th;
+                vec3 axis = normalize(cross(uHoleDir, dir) + vec3(1e-6));
+                vec3 src = rotAxis(dir, axis, thS - th);
+                src = rotAxis(src, uHoleDir, uTime * 0.012);
+                col = ourSky(src);
+                // lensing magnifies: brighter toward the rim
+                col *= 1.0 + 1.8 * exp(-(th - R) / (R * 0.22));
+                // the Einstein ring: a crisp bright circle hugging the mouth
+                float w = uPx * 1.6 + R * 0.006;
+                col += vec3(1.0, 0.98, 0.95) * exp(-pow((th - R * 1.015) / w, 2.0)) * 1.3;
+                col += vec3(0.9, 0.9, 0.92) * exp(-(th - R) / (R * 0.16)) * 0.09;
+              }
 
               // the space the form occupies holds a little light
               vec2 gd = (ndc - uGlow.xy) * vec2(uRes.x / uRes.y, 1.0);
-              col += vec3(0.05, 0.08, 0.2) * exp(-dot(gd, gd) / 0.55) * uGlow.z * 0.55;
+              col += vec3(0.06, 0.06, 0.065) * exp(-dot(gd, gd) / 0.55) * uGlow.z * 0.5;
 
               col *= uFade;
               col += (hash(gl_FragCoord.xy + fract(uTime)) - 0.5) / 400.0;
@@ -675,13 +743,15 @@ export function NanobotSwarmV4({
       if (landing) scene.add(sky);
       const skyRes = new THREE.Vector2();
       const glowV = new THREE.Vector3();
-      const updateSky = (t: number, fade: number) => {
+      const updateSky = (t: number, fade: number, progress = 0) => {
         camera.updateMatrixWorld();
         renderer.getDrawingBufferSize(skyRes);
         skyUniforms.uRes.value.copy(skyRes);
         skyUniforms.uPx.value = ((2 * Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2)) / skyRes.y) * 0.75;
         skyUniforms.uTime.value = t;
         skyUniforms.uFade.value = fade;
+        // the mouth grows as the story goes on: we are travelling toward it
+        skyUniforms.uHoleR.value = 0.13 + 0.13 * progress;
         glowV.set(0, 0, 0).project(camera);
         skyUniforms.uGlow.value.set(glowV.x, glowV.y, 1);
       };
@@ -1017,6 +1087,11 @@ export function NanobotSwarmV4({
         const d = [sp.dir[i * 3], sp.dir[i * 3 + 1], sp.dir[i * 3 + 2]];
         return Math.atan2(d[0] * b0[0] + d[1] * b0[1] + d[2] * b0[2], d[0] * x0[0] + d[1] * x0[1] + d[2] * x0[2]);
       };
+      // per-bot launch delay and the form of the current transition, for
+      // the close-up that opens each scroll transition
+      const lastDelay = new Float32Array(N);
+      let lastFrom: { pos: Float32Array; nrm: Float32Array; dir: Float32Array; reach: Float32Array | null } = cloud;
+      let lastFromScale = 1;
       const set = (from: number, to: number, peel: "y" | "x" = "y", mode: "flight" | "implode" = "flight") => {
         U.uImplode.value = mode === "implode" ? 1 : 0;
         // the process gear keeps turning once it is built
@@ -1120,6 +1195,7 @@ export function NanobotSwarmV4({
                   : order
                     ? trainDelay[i]
                     : Math.min(1, Math.max(0, h * 0.72 + streamLag[st] * 0.06 + rndArr[i * 4 + 1] * 0.03));
+            if (copies === 1) lastDelay[i] = delay;
             const angA = angOf(A, i);
             const angB = angOf(B, i);
             for (let c = 0; c < copies; c++) {
@@ -1153,6 +1229,8 @@ export function NanobotSwarmV4({
         armTo.needsUpdate = true;
         U.uScaleFrom.value = fromScale;
         U.uScale.value = scaleOf(B);
+        lastFrom = A;
+        lastFromScale = fromScale;
       };
 
       // ── intro ───────────────────────────────────────────────────────────
@@ -1858,6 +1936,100 @@ export function NanobotSwarmV4({
       let leaveFrom = -1;
       let flowKey = "";
       let flowP = 0;
+
+      // ── transition close-up state ──
+      let macroOn = false;
+      let macroShown = false;
+      let macroId = 0;
+      let macroDelay = 0;
+      let macroScale = 1;
+      const macroPos = new THREE.Vector3();
+      const macroN = new THREE.Vector3();
+      const macroX = new THREE.Vector3();
+      const macroLocal = new THREE.Vector3();
+      const macroWorld = new THREE.Vector3();
+      const macroNW = new THREE.Vector3();
+      const macroDir = new THREE.Vector3();
+      const macroCam = new THREE.Vector3();
+      let macroPose = new Float32Array(6);
+      const mTmp = new THREE.Vector3();
+      const mTmpN = new THREE.Vector3();
+      // the lead bot: facing the camera and launching a beat after the first
+      // wave, so the camera has arrived before it crouches and its
+      // neighbours are already streaming away behind it
+      const pickMacro = () => {
+        const A = lastFrom;
+        rig.updateMatrixWorld();
+        let best = Infinity;
+        let id = -1;
+        for (let i = 0; i < N; i += 2) {
+          mTmp.fromArray(A.pos, i * 3).applyMatrix4(rig.matrixWorld);
+          mTmpN.fromArray(A.nrm, i * 3).transformDirection(rig.matrixWorld);
+          const toCam = macroCam.copy(camera.position).sub(mTmp).normalize();
+          const facing = mTmpN.dot(toCam);
+          if (facing < 0.55) continue;
+          const score = Math.abs(lastDelay[i] - 0.3) - facing * 0.25 + Math.hypot(A.pos[i * 3], A.pos[i * 3 + 1]) * 0.04;
+          if (score < best) {
+            best = score;
+            id = i;
+          }
+        }
+        if (id < 0 || !A.reach) {
+          macroOn = false;
+          return;
+        }
+        macroId = id;
+        macroDelay = lastDelay[id];
+        macroScale = lastFromScale;
+        macroPos.fromArray(A.pos, id * 3);
+        macroN.fromArray(A.nrm, id * 3).normalize();
+        macroX.fromArray(A.dir, id * 3).normalize();
+        macroPose = armPoses(A, lastFromScale).slice(id * 6, id * 6 + 6);
+      };
+      const heroBasisM = new THREE.Matrix4();
+      const heroZ2 = new THREE.Vector3();
+      const heroS = new THREE.Vector3();
+      // the detailed model on the lead bot: docked grip → wings as it lets go,
+      // LED flaring on the kick
+      const poseHero = (
+        at: InstanceType<typeof THREE.Vector3>,
+        n: InstanceType<typeof THREE.Vector3>,
+        x: InstanceType<typeof THREE.Vector3>,
+        sc: number,
+        pose: Float32Array,
+        rel: number,
+        raw: number,
+      ) => {
+        heroZ2.crossVectors(x, n);
+        heroBasisM.makeBasis(x, n, heroZ2);
+        hero.matrix.copy(heroBasisM).scale(heroS.set(sc, sc, sc)).setPosition(at);
+        hero.visible = true;
+        macroShown = true;
+        const kick = raw > -0.02 ? Math.exp(-(raw + 0.02) * 30) : 0;
+        for (const o of hero.children) {
+          if (o.name === "ring") {
+            ((o as InstanceType<typeof THREE.Mesh>).material as InstanceType<typeof THREE.MeshBasicMaterial>).color
+              .setHex(0x6f95ff)
+              .multiplyScalar(4.5 * (0.35 + kick * 1.6));
+          }
+          if (o.name !== "armR" && o.name !== "armL") continue;
+          const a = o.name === "armR" ? 0 : 3;
+          const side = o.name === "armR" ? 1 : -1;
+          const yaw = THREE.MathUtils.lerp(pose[a], -0.55 * side, rel);
+          const pitch = THREE.MathUtils.lerp(pose[a + 1], 0.12, rel);
+          const st = THREE.MathUtils.lerp(pose[a + 2], 0.8, rel);
+          o.rotation.set(0, yaw, pitch * side);
+          const sg = o.children[0].children[0];
+          sg.scale.set(st, 1.22, 1.22);
+          sg.position.x = 0.2 * (1 - st);
+        }
+      };
+      const macroHide = () => {
+        if (!macroShown) return;
+        macroShown = false;
+        hero.visible = false;
+        U.uHeroShow.value = 1;
+      };
       const onMorph = (e: Event) => {
         const d = (e as CustomEvent<{ swarm?: string } | null>).detail;
         morphWant = d?.swarm ? shapeIdx(d.swarm) : null;
@@ -1932,6 +2104,8 @@ export function NanobotSwarmV4({
           set(Number(a), Number(b), peelMode === "x" ? "x" : "y", flightMode === "implode" ? "implode" : "flight");
           setCurrent(Number(b));
           shownShape = Number(b);
+          macroOn = landing && rest.includes(":x:") && Number(a) >= 0;
+          if (macroOn) pickMacro();
         }
         // Rail: framing A → a close pass beside the swarm → framing B on a
         // centripetal Catmull-Rom, so the move has no corners. Position and
@@ -2021,8 +2195,40 @@ export function NanobotSwarmV4({
         }
         flowP = p;
 
-        camPos.lerp(goalPos, 1 - Math.exp(-dt * 2.8));
-        camLook.lerp(goalLook, 1 - Math.exp(-dt * 1.9));
+        // Close-up: each scroll transition opens on its lead bot, the way
+        // the intro opens — the camera snaps in while it crouches, holds
+        // on the kick-off, then pulls back to ride the river
+        let macroW = 0;
+        let macroNear = 0.05;
+        if (landing && macroOn && !holding) {
+          const raw = (p - 0.15 - macroDelay * 0.5) / 0.5;
+          const endK = Math.min(0.45, (0.175 + macroDelay * 0.5) / 1.3);
+          macroW = smooth01(0, 0.1, k) * (1 - smooth01(endK, endK + 0.16, k));
+          const rel = smooth01(-0.16, 0, raw);
+          const crouch = Math.sin(Math.PI * clamp01((raw + 0.3) / 0.16));
+          macroLocal.copy(macroPos).addScaledVector(macroN, macroScale * (1.4 * rel - 0.45 * crouch));
+          macroWorld.copy(macroLocal).applyMatrix4(rig.matrixWorld);
+          macroNW.copy(macroN).transformDirection(rig.matrixWorld);
+          if (raw < 0.06 && macroW > 0.01) {
+            poseHero(macroLocal, macroN, macroX, macroScale * 0.86, macroPose, rel, raw);
+            U.uHeroId.value = macroId;
+            U.uHeroShow.value = 0;
+          } else {
+            macroHide();
+          }
+          if (macroW > 0) {
+            macroDir.copy(goalPos).sub(macroWorld).normalize().multiplyScalar(0.65).addScaledVector(macroNW, 0.75).normalize();
+            const md = macroScale * 4.2;
+            macroNear = Math.max(0.004, md * 0.08);
+            goalPos.lerp(macroCam.copy(macroWorld).addScaledVector(macroDir, md), macroW);
+            goalLook.lerp(macroWorld, macroW);
+            goalFov = THREE.MathUtils.lerp(goalFov, 36, macroW);
+          }
+        } else if (macroShown) {
+          macroHide();
+        }
+        camPos.lerp(goalPos, 1 - Math.exp(-dt * (2.8 + 7 * macroW)));
+        camLook.lerp(goalLook, 1 - Math.exp(-dt * (1.9 + 8 * macroW)));
         camFov += (goalFov - camFov) * (1 - Math.exp(-dt * 2.5));
         // bank into lateral motion, a degree and a half at most
         camVel.copy(camPos).sub(camPrev).divideScalar(Math.max(dt, 1e-3));
@@ -2065,18 +2271,20 @@ export function NanobotSwarmV4({
         diveLook.copy(camLook).lerp(ORIGIN, dk);
         if (dk > 0) camera.position.lerp(ORIGIN, dk * 0.93);
         camera.fov = camFov + dk * 12;
-        camera.near = 0.05;
+        camera.near = THREE.MathUtils.lerp(0.05, macroNear, macroW);
         camera.updateProjectionMatrix();
         camera.lookAt(diveLook);
         camera.rotateZ(camRoll);
         // landing: the close crossing happens once, leaving the manifesto —
         // a spectacle repeated on every transition stops being one
-        flyBy(landing ? (seg === 1 && !holding ? (k - 0.2) / 0.6 : -1) : (k - 0.3) / 0.4, U.uScale.value, tsec);
+        if (!(landing && macroShown)) {
+          flyBy(landing ? (seg === 1 && !holding ? (k - 0.5) / 0.45 : -1) : (k - 0.3) / 0.4, U.uScale.value, tsec);
+        }
         if (landing) {
           rig.rotation.y = spinAngle;
           rig.rotation.x = pitch;
           rig.updateMatrixWorld();
-          updateSky(tsec, 1);
+          updateSky(tsec, 1, P / Math.max(CH.length - 1, 1));
           starMat.uniforms.uTime.value = tsec;
           // stars drift slower than the form: depth without a second scene
           stars.rotation.y = tsec * 0.008 + spinAngle * 0.04;
