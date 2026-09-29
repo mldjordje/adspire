@@ -767,7 +767,7 @@ export function NanobotSwarmV4({
               vec3 dd = d - sp;
               float size = px * (0.75 + 0.9 * r.z);
               float b = exp(-dot(dd, dd) / (size * size));
-              float lum = 0.25 + pow(hash33(id + 5.0).y, 9.0) * 7.0;
+              float lum = 0.1 + pow(hash33(id + 5.0).y, 9.0) * 6.0;
               float tw = 0.82 + 0.18 * sin(uTime * (0.7 + 2.0 * r.y) + r.z * 40.0);
               vec3 tint = mix(vec3(1.0, 0.95, 0.9), vec3(0.95, 0.96, 0.98), r.y);
               return tint * b * lum * tw * gain;
@@ -804,15 +804,15 @@ export function NanobotSwarmV4({
               vec4 neb = texture2D(uOur, equi(src));
               vec3 outside = dec(neb);
               float dens = neb.a;
-              outside += stars3(src, 80.0, 0.3, px, 0.5);
-              outside += stars3(src, 430.0, 0.14 + dens * 0.3, px, 0.22);
+              outside += stars3(src, 60.0, 0.14, px, 0.45);
+              // (no dense third layer: fewer, better stars)
               // the middle layer drawn as arcs: tangentially smeared by the
               // lens, strongest near the mouth — the concentric streaks
               float arc = 0.035 * near * near;
               vec3 streak = vec3(0.0);
               for (int j = 0; j < 6; j++) {
                 float o = (float(j) / 5.0 - 0.5) * arc;
-                streak += stars3(rotAxis(src, uHoleDir, o), 190.0, 0.22, px, 0.32);
+                streak += stars3(rotAxis(src, uHoleDir, o), 150.0, 0.08 + dens * 0.1, px, 0.25);
               }
               outside += streak / (1.0 + 2.0 * step(0.002, arc));
               outside *= 1.0 + 1.2 * near * near;
@@ -827,8 +827,8 @@ export function NanobotSwarmV4({
               vec3 inside = dec(texture2D(uFar, fuv * 0.5 + 0.5));
               vec3 fdir = normalize(vec3(fuv * 1.3, 1.0));
               float fpx = max(length(fwidth(fdir)), 1e-5);
-              inside += stars3(fdir, 260.0, 0.35, fpx, 0.4);
-              inside += stars3(fdir, 90.0, 0.2, fpx, 0.6);
+              inside += stars3(fdir, 200.0, 0.12, fpx, 0.25);
+              inside += stars3(fdir, 70.0, 0.1, fpx, 0.45);
               // secondary image: our sky, squeezed and flipped into the rim
               vec3 rimSrc = rotAxis(uHoleDir, normalize(cross(uHoleDir, -pr) + vec3(1e-6)), 3.14159 - 2.6 * smoothstep(0.8, 1.0, u));
               vec3 rimSky = dec(texture2D(uOur, equi(rimSrc))) * 3.0 + stars3(rimSrc, 190.0, 0.3, fpx * 4.0, 0.5);
@@ -892,8 +892,8 @@ export function NanobotSwarmV4({
         skyUniforms.uFade.value = fade;
         // far away at the top of the page; we travel toward it as we read,
         // slowly then faster, and near the end go through the throat
-        skyUniforms.uHoleR.value = 0.035 + 0.55 * Math.pow(progress, 2.4);
-        skyUniforms.uEnter.value = smooth01(0.82, 0.97, progress);
+        skyUniforms.uHoleR.value = 0.05 + 0.5 * Math.pow(progress, 1.4);
+        skyUniforms.uEnter.value = smooth01(0.5, 0.72, progress);
         glowV.set(0, 0, 0).project(camera);
         skyUniforms.uGlow.value.set(glowV.x, glowV.y, 1);
       };
