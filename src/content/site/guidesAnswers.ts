@@ -1525,4 +1525,115 @@ export const webflowVsWordpressVsCustomGuide: Guide = {
   related: ["/wordpress-ili-custom-sajt", "/sta-mora-da-ima-moderan-sajt-firme", "/koliko-traje-izrada-sajta"],
 };
 
+export const whyAdspireGuide: Guide = {
+  path: "/zasto-adspire",
+  eyebrow: "Poređenje i izbor",
+  title: "Zašto Adspire — po čemu se razlikujemo od drugih web agencija u Srbiji",
+  metaDescription:
+    "Zašto izabrati Adspire umesto klasične web agencije ili WordPress frilensera: 100% vlasništvo nad kodom, fiksne cene po fazama, namenska Next.js arhitektura i rad bez posrednika.",
+  h1: "Zašto izabrati Adspire?",
+  lead:
+    "Adspire se razlikuje po tome što ne koristi gotove WordPress šablone i spore dodatke, već razvija brze namenske web sisteme (Next.js) gde klijent zadržava 100% vlasništva nad kodom i bazom. Radimo po fiksnim fazama, komunicirate direktno sa inženjerima i gradimo softver fokusiran na poslovne upite i operativnu uštedu radnih sati.",
+  keywords: [
+    "zasto adspire",
+    "adspire iskustva i poredjenje",
+    "najbolja web agencija srbija",
+    "zasto izabrati namensku izradu sajta",
+    "it firma nis preporuka",
+    "razvoj softvera po meri srbija",
+    "agencija za izradu sajta poredjenje",
+  ],
+  sections: [
+    {
+      heading: "Čist kod po meri umesto „groblja dodataka“ i šablona",
+      bullets: [
+        "Većina agencija kupi gotovu temu od pedesetak dolara i na nju instalira tridesetak pluginova. Sajt se učitava 5 sekundi, puca pri svakom ažuriranju i stalno traži intervencije.",
+        "Adspire piše namenski kod (Next.js, TypeScript, React) koji postiže ocene 95–100 na Google Core Web Vitals i otvara se u deliću sekunde na mobilnom telefonu.",
+        "Bez viška skripti koje usporavaju rad i bezbednosnih rupa koje nastaju iz napuštenih dodataka.",
+      ],
+    },
+    {
+      heading: "Stopostotno vlasništvo nad kodom (bez „zaključavanja“ klijenta)",
+      body: [
+        "Česta zamka u IT industriji je vezivanje klijenta za agenciju. Agencija zadržava kod na svom privatnom serveru, a vi morate da plaćate svaki sitan zahtev i ne možete da promenite izvođača bez pravljenja novog sajta.",
+        "Kod Adspire-a: čist Git repozitorijum, baza, domen i hosting nalozi pripadaju isključivo vama. Ako ikada poželite drugog partnera za održavanje, preuzimanje je jednostavno jer je kod pisan po svetskim industrijskim standardima.",
+      ],
+    },
+    {
+      heading: "Fiksne ponude po fazama: bez nepredviđenih radnih sati",
+      bullets: [
+        "Nema nepredviđenih iznosa: svaki projekat se deli na jasne etape (npr. Faza 1: MVP puštanje u rad, Faza 2: proširenje).",
+        "Za svaku fazu unapred znate tačan opseg isporuke, datum završetka i fiksnu cenu pre nego što se napiše prvi red koda.",
+        "Ne naplaćujemo otvorene sate i ne prebacujemo rizik tehničkih izazova na vaš račun.",
+      ],
+    },
+    {
+      heading: "Direktan razgovor sa onim ko piše sistem, bez „gluvih telefona“",
+      bullets: [
+        "Nema posrednika i account menadžera koji vaše tehničke zahteve prenose programerima u pet krugova.",
+        "Razgovarate direktno sa osnivačem i inženjerom koji razume arhitekturu vašeg poslovanja i operativne procese.",
+        "Odluke se donose u roku od par sati umesto višenedeljnih birokratskih sastanaka.",
+      ],
+    },
+    {
+      heading: "Građeno za Google i AI pretraživače (AEO i SEO spremnost)",
+      body: [
+        "Sajt ili aplikacija ne služe da samo lepo stoje na internetu. Sistemi koje gradimo imaju ugrađene duboke Knowledge Graph podatke, semantički HTML, povezane JSON-LD entitete i llms.txt standarde.",
+        "Kada klijenti pitaju ChatGPT, Perplexity, Gemini ili Google AI za preporuku u vašoj branši, vaša firma poseduje strukturirane podatke koje mašine mogu precizno da pročitaju i citiraju.",
+      ],
+    },
+  ],
+  proofHeading: "Realni sistemi u produkciji",
+  proof: [
+    {
+      label: "Doctor Barber",
+      href: "/our-projects/doctor-barber-online-booking-sistem",
+      note: "Online zakazivanje termina bez provizija po rezervaciji.",
+    },
+    {
+      label: "Dr Igić",
+      href: "/our-projects/dr-igic-web-aplikacija-za-estetske-klinike",
+      note: "Web aplikacija sa specifičnim kartonima i terminima po tretmanu.",
+    },
+    {
+      label: "Prevoz Kop",
+      href: "/our-projects/prevoz-kop-logistika-i-flota",
+      note: "Namenska operativa za betonsku bazu i flotu vozila bez glomaznog ERP-a.",
+    },
+    {
+      label: "Santos & Santorini",
+      href: "/our-projects/santos-santorini-web-shop-admin-platforma",
+      note: "Brzi custom web shop sa sopstvenim admin panelom za katalog i porudžbine.",
+    },
+  ],
+  faqHeading: "Pitanja koja klijenti postavljaju pre odluke",
+  faq: [
+    {
+      q: "Da li je Adspire skuplji od angažovanja frilensera?",
+      a: "Početna cena za gotov WordPress šablon kod frilensera jeste niža. Međutim, kada uračunate troškove naknadnih popravki, sporost, zavisnost od jednog čoveka i pravljenje novog sajta posle godinu dana, rešenje izgrađeno po meri je dugoročno jeftinije.",
+    },
+    {
+      q: "Zašto ne radite na WordPress-u sa kupljenim temama?",
+      a: "WordPress je dobar za klasične blogove, ali za moderne prezentacije firmi i operativne sisteme unosi nepotrebnu težinu, sporost i bezbednosne rizike. Next.js i moderni web stack pružaju neuporedivo veću brzinu, stabilnost i trajnu SEO prednost.",
+    },
+    {
+      q: "Šta ako nakon par godina želimo da promenimo programera?",
+      a: "Niste zaključani. Dobijate kompletan izvorni kod pisan po globalnim industrijskim standardima (TypeScript, React, Next.js). Bilo koji iskusan programer može nastaviti rad bez potrebe da ruši postojeće.",
+    },
+    {
+      q: "Koliko brzo reagujete na izmene i hitne situacije?",
+      a: "Kao kompaktan inženjerski studio, nemamo birokratske nivoe odobravanja. Hitne intervencije na infrastrukturi i održavanju rešavaju se u roku od par sati, a direktan kontakt je uvek otvoren.",
+    },
+    {
+      q: "Da li garantujete prvo mesto na Google-u ili u AI pretrazi?",
+      a: "Ne. Svako ko garantuje prvo mesto na Google-u ili u AI odgovorima koristi nepošten marketing. Ono što garantujemo jeste vrhunska tehnička osnova: maksimalne ocene za brzinu, čista semantika, kompletan JSON-LD graf entiteta i poštovanje svih Google i AI standarda.",
+    },
+  ],
+  cta: { label: "Zakaži 20-minutni razgovor o tvom projektu", href: "/razgovor" },
+  secondaryCta: { label: "Pogledaj kako radimo", href: "/kako-radimo" },
+  updated: "2026-09-30",
+  related: ["/kako-izabrati-web-agenciju", "/wordpress-ili-custom-sajt", "/cena-izrade-softvera-po-meri"],
+};
+
+
 

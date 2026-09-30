@@ -17,6 +17,7 @@ import {
   sefInvoicesGuide,
   webflowVsWordpressVsCustomGuide,
   webShopLegalGuide,
+  whyAdspireGuide,
 } from "../guidesAnswers";
 import {
   appointmentNoShowGuide,
@@ -91,6 +92,7 @@ const answerGuides = [
   accountingApiIntegrationGuide,
   customSoftwarePricingGuide,
   webflowVsWordpressVsCustomGuide,
+  whyAdspireGuide,
 ];
 
 describe("guides", () => {

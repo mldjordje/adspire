@@ -16,6 +16,7 @@ import {
   sefInvoicesGuide,
   webflowVsWordpressVsCustomGuide,
   webShopLegalGuide,
+  whyAdspireGuide,
 } from "./guidesAnswers";
 import {
   appointmentNoShowGuide,
@@ -807,6 +808,7 @@ export const guides = [
   accountingApiIntegrationGuide,
   customSoftwarePricingGuide,
   webflowVsWordpressVsCustomGuide,
+  whyAdspireGuide,
 ] as const;
 
 export const bookingSystemsGuide = bookingGuide;
@@ -828,6 +830,7 @@ export {
   instagramOrSiteGuide,
   sefInvoicesGuide,
   webflowVsWordpressVsCustomGuide,
+  whyAdspireGuide,
   appOrWebAppGuide,
   appointmentReminderGuide,
   bookingPlatformChoiceGuide,
