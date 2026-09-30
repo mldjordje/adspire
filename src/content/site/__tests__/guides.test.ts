@@ -1,15 +1,21 @@
 import { describe, expect, it } from "vitest";
 import { guides } from "../guides";
 import {
+  accountingApiIntegrationGuide,
   adsOrSeoGuide,
   aiClientDataGuide,
   appOrWebAppGuide,
   appointmentReminderGuide,
+  b2bPortalGuide,
   bookingPlatformChoiceGuide,
   cardPaymentsGuide,
+  customSoftwarePricingGuide,
+  customSoftwareVsErpGuide,
+  fiscalizationWebShopGuide,
   portalCmsGuide,
   instagramOrSiteGuide,
   sefInvoicesGuide,
+  webflowVsWordpressVsCustomGuide,
   webShopLegalGuide,
 } from "../guidesAnswers";
 import {
@@ -79,6 +85,12 @@ const answerGuides = [
   restaurantTimeSavingGuide,
   hotelTimeSavingGuide,
   websiteMaintenanceCostGuide,
+  fiscalizationWebShopGuide,
+  b2bPortalGuide,
+  customSoftwareVsErpGuide,
+  accountingApiIntegrationGuide,
+  customSoftwarePricingGuide,
+  webflowVsWordpressVsCustomGuide,
 ];
 
 describe("guides", () => {

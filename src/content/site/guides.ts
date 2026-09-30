@@ -1,14 +1,20 @@
 import { cooperationGuide, migrationGuide, timelineGuide } from "./guidesExtra";
 import {
+  accountingApiIntegrationGuide,
   adsOrSeoGuide,
   aiClientDataGuide,
   appOrWebAppGuide,
   appointmentReminderGuide,
+  b2bPortalGuide,
   bookingPlatformChoiceGuide,
   cardPaymentsGuide,
+  customSoftwarePricingGuide,
+  customSoftwareVsErpGuide,
+  fiscalizationWebShopGuide,
   portalCmsGuide,
   instagramOrSiteGuide,
   sefInvoicesGuide,
+  webflowVsWordpressVsCustomGuide,
   webShopLegalGuide,
 } from "./guidesAnswers";
 import {
@@ -795,6 +801,12 @@ export const guides = [
   restaurantTimeSavingGuide,
   hotelTimeSavingGuide,
   websiteMaintenanceCostGuide,
+  fiscalizationWebShopGuide,
+  b2bPortalGuide,
+  customSoftwareVsErpGuide,
+  accountingApiIntegrationGuide,
+  customSoftwarePricingGuide,
+  webflowVsWordpressVsCustomGuide,
 ] as const;
 
 export const bookingSystemsGuide = bookingGuide;
@@ -806,10 +818,16 @@ export const aiChatbotGuide = chatbotGuide;
 export const webShopHowToGuide = webShopGuide;
 export const workingFromSerbiaGuide = cooperationGuide;
 export {
+  accountingApiIntegrationGuide,
   adsOrSeoGuide,
   aiClientDataGuide,
+  b2bPortalGuide,
+  customSoftwarePricingGuide,
+  customSoftwareVsErpGuide,
+  fiscalizationWebShopGuide,
   instagramOrSiteGuide,
   sefInvoicesGuide,
+  webflowVsWordpressVsCustomGuide,
   appOrWebAppGuide,
   appointmentReminderGuide,
   bookingPlatformChoiceGuide,

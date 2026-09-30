@@ -921,3 +921,608 @@ export const instagramOrSiteGuide: Guide = {
   updated: "2026-09-22",
   related: ["/sajt-ne-donosi-upite", "/google-oglasi-ili-seo", "/wordpress-ili-custom-sajt"],
 };
+
+export const fiscalizationWebShopGuide: Guide = {
+  path: "/fiskalizacija-web-shop-srbija",
+  eyebrow: "E-commerce i propisi",
+  title: "Fiskalizacija za web shop u Srbiji — kada treba kasa, a kada automatski račun",
+  metaDescription:
+    "Kada je fiskalni račun obavezan za web shop u Srbiji: razlika između plaćanja karticom, pouzećem i virmanom, kako radi virtuelni procesor (V-PFR) i kako kupac dobija račun.",
+  h1: "Fiskalizacija za web shop u Srbiji",
+  lead:
+    "Za prodaju pouzećem kurirskom službom ili uplatom na račun po zakonu nije neophodna fiskalna kasa već otpremnica ili faktura. Ako kupac na sajtu plaća karticom, fiskalni račun je zakonska obaveza u sekundi naplate. Izdaje se automatski preko virtuelnog procesora fiskalnih računa (V-PFR) i šalje kupcu na mejl kao PDF sa QR kodom.",
+  keywords: [
+    "fiskalizacija web shop srbija",
+    "fiskalni racun internet prodaja",
+    "da li treba fiskalna kasa za online prodaju",
+    "v-pfr fiskalizacija srbija",
+    "fiskalizacija placanje karticom sajt",
+    "prodaja pouzecem fiskalni racun",
+    "e-fiskalizacija za internet prodavnicu",
+  ],
+  sections: [
+    {
+      heading: "Koji način plaćanja traži fiskalni račun, a koji ne",
+      bullets: [
+        "Plaćanje platnom karticom na sajtu: fiskalni račun je obavezan u momentu autorizacije transakcije. Zakon o fiskalizaciji ovo tretira kao maloprodaju fizičkom licu.",
+        "Plaćanje pouzećem (gotovinom kuriru): kurirska služba preuzima novac i uplaćuje ga na vaš račun, a pošiljku prati račun/otpremnica. Fizička fiskalna kasa nije zakonski uslov ako kurirska služba ima ugovor o posredovanju u naplati.",
+        "Uplata na tekući račun (e-banking / virman): kada kupac sam nalogom uplaćuje na vaš račun, transakcija ide preko bankarskog izvoda i dokumentuje se fakturom.",
+        "B2B prodaja pravnim licima: evidentira se kroz elektronsku fakturu na SEF portalu, bez fiskalnog računa.",
+      ],
+    },
+    {
+      heading: "Kako radi virtuelna kasa (V-PFR) bez fizičkog uređaja",
+      body: [
+        "Za internet prodavnicu nije potrebno kupovati metalnu kasu sa tastaturom i trakom koja stoji u kancelariji. Zakon dozvoljava korišćenje virtuelnog procesora fiskalnih računa (V-PFR) i softverskog lokalnog procesora (LPFR).",
+        "V-PFR je servis Poreske uprave koji kroz bezbedan digitalni sertifikat (smart kartica ili softverski fajl) potpisuje račun u sekundi kada web shop primi uplatu. Račun dobija zvanični PFR broj i verifikacioni QR kod direktno sa servera Poreske uprave.",
+      ],
+    },
+    {
+      heading: "Šta fiskalni račun na internetu mora da sadrži",
+      bullets: [
+        "Zvanični naziv, PIB i adresu firme (ili preduzetnika).",
+        "Punu specifikaciju artikala sa poreskim stopama (20% opšta, 10% posebna).",
+        "Iznos troška dostave, ako se naplaćuje kupcu (i na njega se obračunava PDV).",
+        "Vreme i datum transakcije usklađeni sa potvrdom bankarskog payment gateway-a.",
+        "QR kod i link na portal Poreske uprave gde kupac jednim klikom proverava validnost računa.",
+      ],
+    },
+    {
+      heading: "Kako izgleda automatsko slanje računa kupcu",
+      body: [
+        "Ručno kucanje računa u kasi za svaku online porudžbinu funkcioniše dok imate dve porudžbine dnevno. Čim obim poraste, ručni rad pravi kašnjenja i greške u poreskim stopama.",
+      ],
+      bullets: [
+        "Kupac završi plaćanje karticom na sajtu.",
+        "Payment gateway (npr. Banca Intesa, ChipCard, Corvus, Stripe) javi web shopu da je novac rezervisan.",
+        "Web shop automatski šalje podatke porudžbine na V-PFR API.",
+        "V-PFR vraća potpisan račun, a sajt odmah generiše PDF sa QR kodom i šalje ga kupcu na mejl uz potvrdu porudžbine.",
+      ],
+    },
+    {
+      heading: "Česte greške trgovaca i troškovi koji se mogu izbeći",
+      bullets: [
+        "Kupovina nepotrebnih fizičkih terminala za sajt koji prodaje samo online.",
+        "Izdavanje računa sa pogrešnom poreskom stopom za poštarinu i pakovanje.",
+        "Ignorisanje automatizacije: ručno kucanje stotina online računa u maloprodajnu kasu krajem radnog dana.",
+        "Nepovezanost sa stanjem zaliha: izdavanje računa za artikal koga nema u magacinu.",
+      ],
+    },
+  ],
+  proofHeading: "Sistemi za obradu porudžbina",
+  proof: [
+    {
+      label: "Santos & Santorini",
+      href: "/our-projects/santos-santorini-web-shop-admin-platforma",
+      note: "Sopstveni admin za obradu narudžbina, statusa isporuke i dokumentacije.",
+    },
+  ],
+  faqHeading: "Česta pitanja",
+  faq: [
+    {
+      q: "Da li mi zaista treba fiskalna kasa ako prodajem samo online?",
+      a: "Ako primate uplate karticom na sajtu, zakonski morate izdati fiskalni račun, ali vam ne treba fizička kasa sa trakom. Dovoljan je virtuelni procesor (V-PFR) integrisan u web shop.",
+    },
+    {
+      q: "Da li za plaćanje pouzećem mora fiskalni račun?",
+      a: "Ako kurirska služba ima ugovor o naplati i novac vam uplaćuje zbirno na račun, pošiljka se šalje uz otpremnicu i račun. Proverite model ugovora sa kurirskom službom i vašim knjigovođom.",
+    },
+    {
+      q: "Kako kupac dobija fiskalni račun ako nema papirnog isečka?",
+      a: "Zakon o fiskalizaciji izričito dozvoljava dostavu fiskalnog računa elektronskim putem. Kupac račun dobija u PDF formatu na mejl ili SMS porukom sa linkom do zvanične provere Poreske uprave.",
+    },
+    {
+      q: "Koliko košta uvođenje automatske e-fiskalizacije na sajt?",
+      a: "Zavisi od platforme web shopa i izabranog fiskalnog provajdera. Pored cene integracije, provajderi softverskog procesora obično naplaćuju fiksnu mesečnu pretplatu ili mali iznos po izdatom računu.",
+    },
+    {
+      q: "Da li paušalac koji prodaje preko web shopa mora da se fiskalizuje?",
+      a: "Ukoliko se bavi trgovinom na malo putem interneta, paušalac podleže obavezi fiskalizacije za transakcije prema fizičkim licima, bez obzira na paušalno oporezivanje.",
+    },
+  ],
+  cta: { label: "Opiši kako prodaješ i naplaćuješ", href: "/upit" },
+  secondaryCta: { label: "Usluga: e-commerce i web shop", href: "/our-services/e-commerce-web-shop" },
+  updated: "2026-09-30",
+  related: ["/placanje-karticom-na-sajtu-srbija", "/sta-mora-da-ima-web-shop-u-srbiji", "/e-fakture-sef-automatski"],
+};
+
+export const b2bPortalGuide: Guide = {
+  path: "/b2b-portal-za-veleprodaju",
+  eyebrow: "Veleprodaja i B2B",
+  title: "B2B portal za veleprodaju — kako prebaciti naručivanje sa Vibera i telefona u sistem",
+  metaDescription:
+    "Kako izgleda B2B portal za veleprodaju i distributere: ugovorene cene i rabati po kupcu, minimalna pakovanja, sinhronizacija zaliha i prebacivanje porudžbina iz poruka u sistem.",
+  h1: "B2B portal za veleprodaju i distributere",
+  lead:
+    "B2B portal nije običan web shop, već zatvorena platforma gde registrovani partneri vide svoje ugovorene rabate, valute plaćanja i lager u realnom vremenu. Naručivanje kroz portal ukida celodnevno prekucavanje porudžbina iz Vibera i poruka, sprečava greške u količinama i automatski kreira nalog u magacinu.",
+  keywords: [
+    "b2b portal veleprodaja",
+    "softver za b2b narucivanje",
+    "veleprodaja web shop srbija",
+    "portal za distributere",
+    "rabatne skale b2b softver",
+    "sinhronizacija lagera veleprodaja",
+    "digitalizacija veleprodaje",
+  ],
+  sections: [
+    {
+      heading: "Zašto običan web shop (B2C) ne odgovara veleprodaji",
+      bullets: [
+        "Različite cene po partneru: u veleprodaji retko ko plaća istu cenu. Svaki distributer ima svoj ugovoreni rabat ili komisioni cenovnik.",
+        "Pakovanja umesto komada: roba se naručuje na palete, transportne kutije ili setove sa definisanim minimalnim količinama.",
+        "Plaćanje na odloženo (valuta): partneri retko plaćaju karticom u korpi. Porudžbina se evidentira sa definisanim rokom plaćanja (30, 60 ili 90 dana) i limitom zaduženja.",
+        "Zatvoren pristup: cene i lager često nisu javni posetiocima sa interneta već samo odobrenim pravnim licima.",
+      ],
+    },
+    {
+      heading: "Gde distributeri gube vreme bez portala",
+      body: [
+        "Tipičan dan komercijaliste u veleprodaji sastoji se od dešifrovanja slika rukom pisanih spiskova sa Vibera, telefonskih poziva sa pitanjem „imate li ovo na stanju“ i prekucavanja stavki u knjigovodstveni program.",
+        "Ovaj ručni tok rada ne samo da troši sate komercijalista već neminovno pravi greške: pogrešno uneta šifra artikla, poslata pogrešna dimenzija, ili obećana roba koja je sat vremena ranije prodata drugom kupcu.",
+      ],
+    },
+    {
+      heading: "Šta partner mora da vidi kada se prijavi na portal",
+      bullets: [
+        "Svoje neto cene sa automatski obračunatim rabatom.",
+        "Tačno stanje zaliha u realnom vremenu (ili indikator „na stanju / očekuje se“).",
+        "Brzu pretragu po kataloškoj šifri, barkodu ili fabričkom nazivu artikla.",
+        "Preuzimanje faktura, otpremnica i specifikacija u PDF-u bez zvanja računovodstva.",
+        "Pregled trenutnog duga i raspoloživog kreditnog limita.",
+      ],
+    },
+    {
+      heading: "Kako magacin i komercijala dobijaju tačne naloge",
+      bullets: [
+        "Čim partner potvrdi porudžbinu, roba se automatski rezerviše u sistemu.",
+        "Magacioner na svom terminalu ili tabletu odmah dobija digitalni nalog za pakovanje sa redosledom polica i tačnim šiframa.",
+        "Komercijalista više nije daktilograf koji prekucava stavke, već ima vremena da obilazi kupce i otvara nova partnerstva.",
+      ],
+    },
+    {
+      heading: "Sinhronizacija sa knjigovodstvom i ERP-om",
+      body: [
+        "B2B portal ne zamenjuje postojeći ERP ili finansijski softver firme. On je digitalni šalter koji je povezan sa bazom: artikli, cene i zalihe se sinhronizuju iz poslovnog programa, a zaključene porudžbine automatski ulaze kao profakture ili nalozi za izdavanje.",
+      ],
+    },
+  ],
+  proofHeading: "Sistemi za operativu i administraciju",
+  proof: [
+    {
+      label: "Prevoz Kop",
+      href: "/our-projects/prevoz-kop-logistika-i-flota",
+      note: "Dispečerski sistem i nalozi za operativu i isporuke materijala.",
+    },
+    {
+      label: "Santos & Santorini",
+      href: "/our-projects/santos-santorini-web-shop-admin-platforma",
+      note: "Admin platforma sa kontrolom stanja i obradom narudžbina.",
+    },
+  ],
+  faqHeading: "Česta pitanja",
+  faq: [
+    {
+      q: "Da li partneri moraju da plate karticom na portalu?",
+      a: "Ne. U B2B sistemu porudžbina se evidentira na ugovorenu valutu plaćanja, avansni račun ili virman, uz automatsku proveru kreditnog limita kupca.",
+    },
+    {
+      q: "Da li svaki kupac može da ima svoj jedinstveni cenovnik?",
+      a: "Da. B2B portal podržava ugovorene rabatne skale po kupcu, po kategoriji artikala ili fiksne ugovorne cene za strateške partnere.",
+    },
+    {
+      q: "Šta se dešava ako partner probije kreditni limit ili rok plaćanja?",
+      a: "Sistem može automatski da blokira novo naručivanje na valutu ili da nalog pošalje direktoru na ručno odobrenje, uz jasno obaveštenje kupcu o dospelom dugu.",
+    },
+    {
+      q: "Kako povezati B2B portal sa našim knjigovodstvenim programom?",
+      a: "Povezivanje se vrši preko API-ja ili automatske razmene podataka (CSV, XML, JSON). Cene i zalihe se redovno osvežavaju, a porudžbine automatski upisuju u knjigovodstvo.",
+    },
+    {
+      q: "Koliko traje izrada B2B portala za veleprodaju?",
+      a: "Osnovni B2B portal sa autorizacijom kupaca, rabatima i katalogom se obično isporučuje za 4 do 8 nedelja, dok kompleksne integracije sa više magacina traju duže.",
+    },
+  ],
+  cta: { label: "Opiši kako danas primaš porudžbine partnera", href: "/upit" },
+  secondaryCta: { label: "Usluga: interne aplikacije", href: "/our-services/interne-poslovne-aplikacije" },
+  updated: "2026-09-30",
+  related: ["/interni-softver-umesto-excel-tabela", "/kako-interni-softver-stedi-vreme-vlasniku", "/e-fakture-sef-automatski"],
+};
+
+export const customSoftwareVsErpGuide: Guide = {
+  path: "/gotov-erp-crm-ili-softver-po-meri",
+  eyebrow: "Izbor tehnologije",
+  title: "Gotov ERP i CRM ili softver po meri — gde firme u Srbiji gube novac",
+  metaDescription:
+    "Odoo, Pantheon ili softver po meri: gde firme u Srbiji gube novac na gotovim ERP i CRM programima, kada se isplati prilagođavanje, a kada je namenski sistem brži i jeftiniji.",
+  h1: "Gotov ERP/CRM ili softver po meri?",
+  lead:
+    "Gotov ERP poput Odoo-a ili Pantheona isplati se kada su procesi standardni i treba gotovo zakonsko računovodstvo. Softver po meri isplati se kada specifična operativa firme (proizvodnja, nalozi, teren, posebni cenovnici) traži višemesečne skupe dorade gotovog programa čija licenca i održavanje brzo premaše cenu namenskog alata.",
+  keywords: [
+    "gotov erp ili softver po meri",
+    "odoo srbija implementacija cena",
+    "pantheon alternativa",
+    "crm po meri ili gotov crm",
+    "kada praviti softver po meri",
+    "razvoj internog softvera za firmu",
+    "poslovni softver za srednja preduzeca",
+  ],
+  sections: [
+    {
+      heading: "Gde gotovi programi rade odlično",
+      bullets: [
+        "Finansijsko računovodstvo, PDV prijave i završni računi.",
+        "Obračun zarada i zakonska kadrovska evidencija.",
+        "Standardna veleprodaja i maloprodaja sa uobičajenim tokovima dokumenata.",
+        "Kada firma nema specifične procese i spremna je da rad prilagodi fabričkim procedurama programa.",
+      ],
+    },
+    {
+      heading: "Skriveni troškovi implementacije gotovih sistema",
+      body: [
+        "Mnogi vlasnici firmi kupe licencu za Odoo, Salesforce ili Pantheon verujući da je posao gotov. Zatim saznaju da program u startu ne radi onako kako njihova operativa funkcioniše.",
+        "Tada počinje faza prilagođavanja (customization) gde eksterni konsultanti naplaćuju stotine radnih sati. Implementacija se često oduži na 12 ili 18 meseci, a konačni trošak bude tri do pet puta veći od početne procene.",
+      ],
+      bullets: [
+        "Plaćanje licenci po korisniku svakog meseca, čak i za radnike u magacinu koji koriste samo jednu funkciju.",
+        "Zavisnost od spoljnih integratora za svaku izmenu izveštaja ili polja u formi.",
+        "Stotine opcija i menija u programu koje 90% zaposlenih zbunjuju i usporavaju.",
+      ],
+    },
+    {
+      heading: "Kada softver po meri košta manje kroz 3 godine",
+      bullets: [
+        "Nema mesečnih licenci po zaposlenom: softver je vaše vlasništvo i u njega možete dodati 5 ili 50 radnika bez skoka mesečne pretplate.",
+        "Ekran bez viška dugmića: radnik u proizvodnji ili vozač na terenu vidi samo svoja tri dugmeta, bez polja koja ne razume.",
+        "Softver prati vaš proces, a ne obrnuto: ne morate menjati organizaciju rada u firmi da biste se uklopili u šablon softverskog giganta.",
+      ],
+    },
+    {
+      heading: "Pravilo jednog ekrana: zašto zaposleni odbijaju glomazne ERP-ove",
+      body: [
+        "Najskuplji softver je onaj koji zaposleni izbegavaju da koriste. Kada radnik na terenu ili u magacinu mora da popuni deset padajućih menija i potvrdi tri dijaloga da bi zabeležio jednu operaciju, on se tiho vrati svesci i papiru.",
+        "Namenski softver se pravi oko stvarnih pokreta radnika: jedno dugme za start naloga, jedna slika sa telefona, jedan potpis. Podaci su uneti u sekundi jer nema otpora pri korišćenju.",
+      ],
+    },
+    {
+      heading: "Hibridni model: softver po meri za operativu uz vezu sa knjigovodstvom",
+      body: [
+        "Najbolja praksa za rastuće firme nije izmišljanje tople vode u računovodstvu. Za finansije i poreze zadržava se postojeći knjigovodstveni program, a po meri se razvija samo operativni deo: proizvodnja, nalozi, dispečing ili komunikacija sa klijentima.",
+        "Dva sistema se povežu preko API-ja, pa firma dobija maksimalnu brzinu u radu bez narušavanja zakonskog knjigovodstva.",
+      ],
+    },
+  ],
+  proofHeading: "Namenski operativni sistemi",
+  proof: [
+    {
+      label: "Prevoz Kop",
+      href: "/our-projects/prevoz-kop-logistika-i-flota",
+      note: "Namenski operativni sistem za vozila, betonsku bazu i naloge bez glomaznog ERP-a.",
+    },
+    {
+      label: "Dr Igić",
+      href: "/our-projects/dr-igic-web-aplikacija-za-estetske-klinike",
+      note: "Web aplikacija prilagođena specifičnom protokolu tretmana i kartonima.",
+    },
+  ],
+  faqHeading: "Česta pitanja",
+  faq: [
+    {
+      q: "Da li softver po meri mora da pokrije i knjigovodstvo?",
+      a: "Ne preporučujemo. Knjigovodstvo i obračun poreza je najbolje ostaviti proverenim lokalnim programima, a po meri razviti operativu (naloge, magacin, proizvodnju) i povezati ih putem API-ja.",
+    },
+    {
+      q: "Šta se dešava ako programerska firma prestane da održava softver?",
+      a: "Izvorni kod i baza podataka ostaju u vašem vlasništvu. Ako se piše na modernim, standardnim tehnologijama (Next.js, Node, PostgreSQL), bilo koji iskusan tim može preuzeti održavanje.",
+    },
+    {
+      q: "Koliko košta izrada operativnog softvera po meri?",
+      a: "Namenske web aplikacije za operativu se u proseku kreću od 3.000 do 9.000 €, u zavisnosti od broja modula i integracija. Nakon izrade nema mesečnih licenci po korisniku.",
+    },
+    {
+      q: "Zašto firme odustaju od Odoo-a ili sličnih gotovih rešenja?",
+      a: "Najčešće zbog cene prilagođavanja (consulting fees) koja višestruko premaši očekivanja, i zbog prevelike složenosti interfejsa koja stvara otpor kod zaposlenih.",
+    },
+    {
+      q: "Koliko traje razvoj softvera po meri za internu upotrebu?",
+      a: "Prva funkcionalna verzija (MVP) sa ključnim modulima se obično pušta u rad za 4 do 8 nedelja, nakon čega se sistem postepeno nadograđuje na osnovu povratnih informacija radnika.",
+    },
+  ],
+  cta: { label: "Opiši gde gotov softver pravi problem u firmi", href: "/upit" },
+  secondaryCta: { label: "Usluga: interne poslovne aplikacije", href: "/our-services/interne-poslovne-aplikacije" },
+  updated: "2026-09-30",
+  related: ["/interni-softver-umesto-excel-tabela", "/mobilna-aplikacija-ili-web-aplikacija", "/kako-interni-softver-stedi-vreme-vlasniku"],
+};
+
+export const accountingApiIntegrationGuide: Guide = {
+  path: "/povezivanje-sajta-sa-knjigovodstvom-api",
+  eyebrow: "Integracije i automatizacija",
+  title: "Povezivanje sajta sa knjigovodstvenim programom — API, lager i nalozi",
+  metaDescription:
+    "Kako povezati web shop ili aplikaciju sa knjigovodstvom (Pantheon, BizniSoft, Wings): automatska sinhronizacija zaliha i cena preko API-ja ili fajlova, bez ručnog prekucavanja.",
+  h1: "Povezivanje sajta sa knjigovodstvenim programom",
+  lead:
+    "Sinhronizacija sajta i poslovnog programa radi se preko API-ja ili automatske razmene podataka (JSON, XML ili CSV). Sistem u zadatim intervalima preuzima ažurne cene i stanje zaliha iz knjigovodstva, dok svaku novu porudžbinu sa sajta automatski upisuje kao nalog za izdavanje ili profakturu, bez ručnog prekucavanja stavki.",
+  keywords: [
+    "povezivanje sajta sa knjigovodstvom",
+    "api sinhronizacija web shop knjigovodstvo",
+    "pantheon integracija sajt",
+    "automatska sinhronizacija lagera",
+    "sinhronizacija cena i zaliha",
+    "povezivanje internet prodavnice i erp",
+  ],
+  sections: [
+    {
+      heading: "Dva načina povezivanja: direktan API ili periodična razmena fajlova",
+      bullets: [
+        "Direktan REST API: web shop u realnom vremenu šalje upit bazi knjigovodstva i u sekundi dobija tačno stanje zaliha. Kada kupac završi porudžbinu, ona odmah ulazi u program.",
+        "Automatska razmena fajlova (XML/CSV): knjigovodstveni program u zadatim intervalima (npr. na svakih 15 minuta) izvozi stanje na bezbedan server, a sajt preuzima podatke i ažurira katalog.",
+        "Webhooks: kada se u magacinu primi nova roba i proknjiži prijemnica, program sam pošalje signal sajtu da podigne stanje lagera.",
+      ],
+    },
+    {
+      heading: "Gde firme gube vreme u ručnoj evidenciji",
+      body: [
+        "Kada sajt i knjigovodstvo ne pričaju, zaposleni rade dvostruki posao. Svaka promena cene u nabavci mora ručno da se unese i u web shop. Svaka online porudžbina mora da se prekuca stavku po stavku u knjigovodstveni program da bi se izdala otpremnica.",
+        "Ovaj ručni rad je glavni razlog što sajtovi prodaju artikle kojih zapravo nema na lageru, što dovodi do neprijatnih poziva kupcima, otkazivanja i gubitka poverenja.",
+      ],
+    },
+    {
+      heading: "Kako se rešava problem duple prodaje (rezervacija lagera)",
+      bullets: [
+        "U trenutku kada kupac stavi artikal u korpu ili potvrdi porudžbinu, sistem privremeno rezerviše količinu.",
+        "Zaliha na sajtu i u magacinu se odmah umanjuje za tu količinu, tako da drugi kupac u radnji ili online ne može kupiti isti poslednji komad.",
+        "Ako porudžbina ne bude plaćena u definisanom roku, rezervacija se automatski oslobađa i vraća na stanje.",
+      ],
+    },
+    {
+      heading: "Šta je potrebno pripremiti pre početka integracije",
+      bullets: [
+        "Tačne kataloške šifre (SKU): svaki artikal u knjigovodstvu mora imati jedinstvenu šifru ili barkod koji se podudara sa šifrom na sajtu.",
+        "Definisanje glavnog izvora istine (source of truth): uobičajeno pravilo je da knjigovodstvo diktira cene i osnovne zalihe, dok sajt upravlja opisima, slikama i marketinškim nazivima.",
+        "Tehničku dokumentaciju API-ja ili pristup bazi programa od strane vašeg softverskog provajdera.",
+      ],
+    },
+    {
+      heading: "Troškovi i održavanje veze dva sistema",
+      body: [
+        "Integracija nije samo pisanje koda već i stalna provera usklađenosti. Programi s vremena na vreme ažuriraju svoje baze ili menjaju formate polja. Dobro napravljena integracija ima automatski log grešaka koji odmah javlja administratoru ako neki artikal nije mogao da se sinhronizuje.",
+      ],
+    },
+  ],
+  proofHeading: "Sistemi za administraciju zaliha",
+  proof: [
+    {
+      label: "Santos & Santorini",
+      href: "/our-projects/santos-santorini-web-shop-admin-platforma",
+      note: "Sopstveni admin za evidenciju kataloga, zaliha i statusa obrade porudžbina.",
+    },
+  ],
+  faqHeading: "Česta pitanja",
+  faq: [
+    {
+      q: "Može li se svaki knjigovodstveni program povezati sa sajtom?",
+      a: "Skoro svaki moderniji program (Pantheon, BizniSoft, Wings, MiniMax, itd.) ima modul za API razmenu ili mogućnost automatskog izvoza i uvoza XML/CSV fajlova.",
+    },
+    {
+      q: "Koliko često se osvežavaju cene i zalihe na sajtu?",
+      a: "Kod direktne API veze osvežavanje je trenutno ili na svakih nekoliko minuta, u zavisnosti od podešavanja i opterećenja servera knjigovodstva.",
+    },
+    {
+      q: "Šta se dešava ako pukne internet u firmi ili padne server knjigovodstva?",
+      a: "Sajt pamti poslednje stabilno stanje zaliha i čuva nove porudžbine u svojoj bazi. Čim se veza ponovo uspostavi, sistem automatski šalje sve nakupljene porudžbine na obradu.",
+    },
+    {
+      q: "Da li knjigovođa mora ručno da odobrava svaku porudžbinu?",
+      a: "Ne mora. Porudžbina može automatski ući u status profakture ili naloga za pakovanje, a zaposleni u magacinu odmah dobija nalog za pripremu robe.",
+    },
+    {
+      q: "Koliko traje izrada integracije sajta i knjigovodstva?",
+      a: "Standardna integracija preko gotovog API-ja obično traje 2 do 4 nedelje, uključujući detaljno testiranje prenosa cena, popusta i stanja zaliha.",
+    },
+  ],
+  cta: { label: "Opiši koji poslovni program koristiš", href: "/upit" },
+  secondaryCta: { label: "Usluga: interne aplikacije", href: "/our-services/interne-poslovne-aplikacije" },
+  updated: "2026-09-30",
+  related: ["/b2b-portal-za-veleprodaju", "/fiskalizacija-web-shop-srbija", "/e-fakture-sef-automatski"],
+};
+
+export const customSoftwarePricingGuide: Guide = {
+  path: "/cena-izrade-softvera-po-meri",
+  eyebrow: "Troškovi i investicija",
+  title: "Koliko košta izrada softvera po meri — fiksna cena, faze i realni troškovi",
+  metaDescription:
+    "Realne cene izrade namenskog softvera i poslovnih aplikacija u Srbiji: rasponi od MVP-a do složenih sistema, fiksna cena naspram satnice, i šta utiče na konačan budžet.",
+  h1: "Koliko košta izrada softvera po meri?",
+  lead:
+    "Izrada manjeg namenskog softvera (MVP) u Srbiji kreće se od 2.500 do 5.000 €, dok kompleksniji interni sistemi i web aplikacije iznose od 6.000 do 15.000 € i više. Ključno je raditi u fazama sa definisanim fiksnim opsegom, kako se novac ne bi rasipao na funkcije koje praksa ne traži.",
+  keywords: [
+    "cena izrade softvera po meri",
+    "koliko kosta izrada programa za firmu",
+    "razvoj web aplikacije cena srbija",
+    "izrada mvp cena",
+    "poslovni softver po meri troskovi",
+    "fiksna cena ili satnica za softver",
+  ],
+  sections: [
+    {
+      heading: "Rasponi cena po složenosti projekta",
+      bullets: [
+        "Jednostavan interni alat ili MVP (2.500–5.000 €): automatizacija jednog toka rada, evidencija klijenata i naloga, digitalni unos sa terena bez viška funkcija.",
+        "Kompleksna web aplikacija (6.000–12.000 €): više uloga zaposlenih (magacin, prodaja, uprava), povezivanje sa knjigovodstvom, slanje SMS/Viber notifikacija i napredni izveštaji.",
+        "Složena platforma ili SaaS sistem (12.000–25.000+ €): višekorisnički pristup, naplata pretplata, obrada velikog broja podataka u realnom vremenu i namenske integracije.",
+      ],
+    },
+    {
+      heading: "Fiksna cena ili satnica: gde klijenti gube kontrolu",
+      body: [
+        "Plaćanje po utrošenom satu (time & material) zvuči fleksibilno, ali prebacuje sav rizik probijanja budžeta na firmu koja naručuje softver. Ako programeri naiđu na neočekivani problem, račun se uvećava.",
+        "Zato se uvek preporučuje fiksna cena po jasno definisanoj fazi: tačno se zna šta se isporučuje, kog datuma i koliko to košta. Svaka naknadna želja procenjuje se posebno pre početka rada.",
+      ],
+    },
+    {
+      heading: "Zašto se počinje od MVP verzije umesto od „savršenog sistema“",
+      bullets: [
+        "MVP (Minimum Viable Product) pokriva samo one funkcije bez kojih firma danas ne može da radi.",
+        "Sistem se pušta u rad za 4–6 nedelja umesto da se čeka godinu dana.",
+        "Stvarni radnici odmah daju povratne informacije, pa se druga faza gradi na osnovu realnih potreba, a ne pretpostavki iz kancelarije.",
+      ],
+    },
+    {
+      heading: "Skriveni troškovi o kojima se retko priča pre ugovora",
+      bullets: [
+        "Server i infrastruktura: baze podataka i hosting (uglavnom 20–80 € mesečno za manji sistem).",
+        "Troškovi eksternih servisa: SMS provajderi, WhatsApp Business poruke, servisi za digitalne račune ili mape.",
+        "Obuka i prilagođavanje zaposlenih: vreme potrebno da tim prestane da vodi paralelne papire.",
+      ],
+    },
+    {
+      heading: "Mesečno održavanje i podrška: šta se plaća nakon puštanja",
+      body: [
+        "Softver je živa stvar. Nakon puštanja u rad menjaju se verzije pretraživača, sigurnosni protokoli i poslovne potrebe. Održavanje garantuje redovan backup baze, hitne ispravke ako nešto stane i sitna prilagođavanja kako firma raste.",
+      ],
+    },
+  ],
+  proofHeading: "Sistemi razvijani u fazama",
+  proof: [
+    {
+      label: "Prevoz Kop",
+      href: "/our-projects/prevoz-kop-logistika-i-flota",
+      note: "Namenski dispečerski i prodajni sistem izgrađen po fazama.",
+    },
+    {
+      label: "Dr Igić",
+      href: "/our-projects/dr-igic-web-aplikacija-za-estetske-klinike",
+      note: "Specijalizovana web aplikacija za kliniku sa etapnim razvojem funkcija.",
+    },
+  ],
+  faqHeading: "Česta pitanja",
+  faq: [
+    {
+      q: "Šta tačno ulazi u cenu prve verzije (MVP)?",
+      a: "Arhitektura baze, dizajn prilagođen telefonima i računarima, ključne funkcionalnosti za rad, uvoz postojećih podataka i obuka tima za korišćenje.",
+    },
+    {
+      q: "Zašto je fiksna cena sigurnija za firmu od plaćanja po satu?",
+      a: "Zato što unapred znate konačan iznos pre nego što uložite prvi evro. Rizik sporijeg rada ili komplikacija snosi izvođač, a ne vi.",
+    },
+    {
+      q: "Ko je vlasnik izvornog koda i baze podataka?",
+      a: "Nakon isplate svih faza, firma koja je naručila softver postaje puni vlasnik izvornog koda i svih prikupljenih podataka, bez ugovornog vezivanja za jednu agenciju.",
+    },
+    {
+      q: "Koliko košta mesečno održavanje softvera nakon izrade?",
+      a: "Mesečno održavanje se obično kreće od 100 do 350 € u zavisnosti od obima podrške, brzine odziva i serverske infrastrukture.",
+    },
+    {
+      q: "Šta ako u toku razvoja poželimo nove funkcije?",
+      a: "Nove ideje se evidentiraju i procenjuju kao sledeća faza ili aneks ugovora sa fiksnom cenom, kako se ne bi ugrozio rok i budžet osnovnog sistema.",
+    },
+  ],
+  cta: { label: "Opiši šta softver treba da radi", href: "/upit" },
+  secondaryCta: { label: "Usluga: interne poslovne aplikacije", href: "/our-services/interne-poslovne-aplikacije" },
+  updated: "2026-09-30",
+  related: ["/interni-softver-umesto-excel-tabela", "/gotov-erp-crm-ili-softver-po-meri", "/koliko-traje-izrada-sajta"],
+};
+
+export const webflowVsWordpressVsCustomGuide: Guide = {
+  path: "/webflow-ili-wordpress-ili-custom-sajt",
+  eyebrow: "Izbor CMS platforme",
+  title: "Webflow, WordPress ili Custom sajt — šta izabrati za firmu u 2026.",
+  metaDescription:
+    "Poređenje Webflow, WordPress i Custom koda (Next.js): skriveni troškovi Webflow pretplata, bezbednost i dodaci na WordPress-u, i kada se isplati čist kod po meri.",
+  h1: "Webflow, WordPress ili Custom sajt?",
+  lead:
+    "Webflow je odličan za dizajnerske sajtove sa brzim vizuelnim promenama ako ste spremni na mesečnu pretplatu u dolarima. WordPress je dobar za blogove i uobičajene prezentacije sa domaćim hostingom. Custom sajt (Next.js) isplati se kada tražite maksimalnu brzinu, vrhunski SEO, potpunu bezbednost i bazu bez zavisnosti od tuđih platformi.",
+  keywords: [
+    "webflow ili wordpress",
+    "webflow ili custom sajt",
+    "da li se isplati webflow srbija",
+    "wordpress alternative za firmu",
+    "nextjs sajt prednosti",
+    "koja platforma za sajt firme",
+  ],
+  sections: [
+    {
+      heading: "Kako naplaćuje Webflow i gde su skriveni limiti",
+      bullets: [
+        "Mesečna pretplata u dolarima po sajtu (Workspace plan + Site plan), što kroz godine iznosi stotine evra godišnje samo za prisustvo.",
+        "Stroga ograničenja CMS stavki (npr. limit od 2.000 ili 10.000 unosa u zavisnosti od paketa).",
+        "Ograničene mogućnosti za domaće platne procesore (kartice srpskih banaka) i specifične lokalne integracije.",
+        "Sav sadržaj i kod nalaze se na njihovim serverima; u slučaju promene politike cena nemate gde da prebacite sajt jednim klikom.",
+      ],
+    },
+    {
+      heading: "WordPress prednosti i gde nastaju bezbednosni problemi",
+      bullets: [
+        "Ogromna zajednica i jeftin početak: možete koristiti bilo koji hosting i instalirati ga besplatno.",
+        "Problem „groblja dodataka“: prosečan WordPress sajt posle dve godine ima 30+ pluginova različitih autora koji usporavaju učitavanje i stalno otvaraju bezbednosne rupe.",
+        "Potreba za stalnim ažuriranjima: ako ne ažurirate redovno, sajt biva hakovan; ako ažurirate bez provere, tema ili forma mogu da puknu.",
+      ],
+    },
+    {
+      heading: "Kada se custom kod isplati kroz brzinu i SEO",
+      body: [
+        "Custom sajt izgrađen na modernim tehnologijama (Next.js, TypeScript) servira čiste statičke stranice i optimizovane slike bez baze koja se vrti pri svakoj poseti. To donosi maksimalne ocene na Google Core Web Vitals (brzina odziva ispod jedne sekunde).",
+        "AI pretraživači i Google crawler-i daju prioritet brzim, čistim stranicama sa semantičkim HTML-om i preciznim strukturiranim podacima, što custom arhitektura omogućava bez kompromisa.",
+      ],
+    },
+    {
+      heading: "Poređenje troškova kroz 3 godine: pretplate vs održavanje",
+      bullets: [
+        "Webflow: umerena cena izrade, ali visoke fiksne pretplate svakog meseca koje nikada ne prestaju.",
+        "WordPress: niska početna cena, ali česti nepredviđeni troškovi popravki, bagova nakon ažuriranja i plaćenih dodataka.",
+        "Custom kod: viša početna investicija u izradu, ali stabilan rad bez zavisnosti od mesečnih pretplata na platforme i bezbednost bez virusa.",
+      ],
+    },
+    {
+      heading: "Kriterijumi za izbor prema tipu vašeg biznisa",
+      bullets: [
+        "Izaberite Webflow: ako ste marketinška agencija ili dizajner koji želi samostalno da pomera elemente svaki dan i ne treba vam kompleksna baza.",
+        "Izaberite WordPress: ako imate standardan sajt sa redovnim blog tekstovima i umerenim zahtevima za brzinom.",
+        "Izaberite Custom sajt: ako sajt treba da donosi ozbiljne upite, integriše se sa internim sistemima, ima visoke zahteve za brzinom i trajnu bezbednost.",
+      ],
+    },
+  ],
+  proofHeading: "Sistemi bez kompromisa u brzini",
+  proof: [
+    {
+      label: "Santos & Santorini",
+      href: "/our-projects/santos-santorini-web-shop-admin-platforma",
+      note: "Custom arhitektura bez ograničenja gotovih tema i CMS platformi.",
+    },
+    {
+      label: "Doctor Barber",
+      href: "/our-projects/doctor-barber-online-booking-sistem",
+      note: "Čist custom kod sa brzim učitavanjem na mobilnim telefonima.",
+    },
+  ],
+  faqHeading: "Česta pitanja",
+  faq: [
+    {
+      q: "Da li je Webflow skuplji od WordPress-a?",
+      a: "Kroz period od dve do tri godine Webflow često ispadne skuplji zbog mesečnih licenci po sajtu i po korisniku u dolarima, dok WordPress ima samo trošak hostinga i domena.",
+    },
+    {
+      q: "Mogu li u Webflow-u da imam domaće plaćanje karticama?",
+      a: "Veoma teško bez zaobilaznih skupih skripti i servisa treće strane, jer Webflow E-commerce izvorno podržava samo Stripe i PayPal koji u Srbiji imaju zakonska ograničenja.",
+    },
+    {
+      q: "Da li Google daje prednost custom sajtovima u odnosu na WordPress?",
+      a: "Google ne nagrađuje tehnologiju direktno, već brzinu učitavanja, Core Web Vitals metrike i čistu strukturu koda — oblasti u kojima moderan custom sajt redovno pobeđuje WordPress.",
+    },
+    {
+      q: "Da li na custom sajtu klijent može sam da menja tekstove i slike?",
+      a: "Da. Klijent dobija jednostavan admin panel ili headless CMS prilagođen njegovim tačnim poljima, bez rizika da slučajno pokvari dizajn ili raspored na telefonu.",
+    },
+    {
+      q: "Šta se dešava ako Webflow podigne cene ili ugasi nalog?",
+      a: "Kod Webflow-a ste zaključani u njihovom ekosistemu. Kod custom sajta ili WordPress-a, vi posedujete kod i bazu i možete promeniti hosting provajdera bilo kada.",
+    },
+  ],
+  cta: { label: "Opiši potrebe sajta za tvoju firmu", href: "/upit" },
+  secondaryCta: { label: "Usluga: web prezentacije", href: "/our-services/web-prezentacije" },
+  updated: "2026-09-30",
+  related: ["/wordpress-ili-custom-sajt", "/sta-mora-da-ima-moderan-sajt-firme", "/koliko-traje-izrada-sajta"],
+};
+
+
